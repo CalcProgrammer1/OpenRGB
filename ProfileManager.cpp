@@ -27,6 +27,11 @@
 #define OPENRGB_PROFILE_HEADER  "OPENRGB_PROFILE"
 #define OPENRGB_PROFILE_VERSION OPENRGB_SDK_PROTOCOL_VERSION
 
+/*---------------------------------------------------------*\
+| ProfileManager name for log entries                       |
+\*---------------------------------------------------------*/
+const char* PROFILEMANAGER = "ProfileManager";
+
 ProfileManager::ProfileManager(const filesystem::path& config_dir)
 {
     /*-----------------------------------------------------*\
@@ -94,6 +99,16 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
 ProfileManager::~ProfileManager()
 {
 
+}
+
+void ProfileManager::ClearActiveProfile()
+{
+    if(ResourceManager::get()->IsLocalClient() && ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI())
+    {
+        ResourceManager::get()->GetLocalClient()->ProfileManager_ClearActiveProfile();
+    }
+
+    SetActiveProfile("");
 }
 
 void ProfileManager::DeleteProfile(std::string profile_name)
@@ -243,11 +258,6 @@ bool ProfileManager::LoadProfile(std::string profile_name)
 
         success = LoadProfileWithOptions(profile_name, false, true);
 
-        if(success)
-        {
-            ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ActiveProfileChanged(profile_name);
-        }
-
         return(success);
     }
 }
@@ -264,7 +274,7 @@ void ProfileManager::OnProfileAboutToLoad()
         plugin_manager->OnProfileAboutToLoad();
     }
 
-    ResourceManager::get()->GetServer()->ProfileManager_ProfileAboutToLoad();
+    SignalProfileManagerUpdate(PROFILEMANAGER_UPDATE_REASON_PROFILE_ABOUT_TO_LOAD);
 }
 
 void ProfileManager::OnProfileLoaded(std::string profile_json_string)
@@ -282,6 +292,48 @@ void ProfileManager::OnProfileLoaded(std::string profile_json_string)
     {
         plugin_manager->OnProfileLoad(profile_json["plugins"]);
     }
+}
+
+void ProfileManager::RegisterProfileManagerCallback(ProfileManagerCallback new_callback, void * new_callback_arg)
+{
+    ProfileManagerCallbackMutex.lock();
+
+    for(size_t idx = 0; idx < ProfileManagerCallbacks.size(); idx++)
+    {
+        if(ProfileManagerCallbacks[idx] == new_callback && ProfileManagerCallbackArgs[idx] == new_callback_arg)
+        {
+            ProfileManagerCallbackMutex.unlock();
+
+            LOG_TRACE("[%s] Tried to register an already registered ProfileManager callback, skipping.  Total callbacks registered: %d", PROFILEMANAGER, ProfileManagerCallbacks.size());
+
+            return;
+        }
+    }
+
+    ProfileManagerCallbacks.push_back(new_callback);
+    ProfileManagerCallbackArgs.push_back(new_callback_arg);
+
+    ProfileManagerCallbackMutex.unlock();
+
+    LOG_TRACE("[%s] Registered ProfileManager callback.  Total callbacks registered: %d", PROFILEMANAGER, ProfileManagerCallbacks.size());
+}
+
+void ProfileManager::UnregisterProfileManagerCallback(ProfileManagerCallback callback, void * callback_arg)
+{
+    ProfileManagerCallbackMutex.lock();
+
+    for(size_t idx = 0; idx < ProfileManagerCallbacks.size(); idx++)
+    {
+        if(ProfileManagerCallbacks[idx] == callback && ProfileManagerCallbackArgs[idx] == callback_arg)
+        {
+            ProfileManagerCallbacks.erase(ProfileManagerCallbacks.begin() + idx);
+            ProfileManagerCallbackArgs.erase(ProfileManagerCallbackArgs.begin() + idx);
+        }
+    }
+
+    ProfileManagerCallbackMutex.unlock();
+
+    LOG_TRACE("[%s] Unregistered ProfileManager callback.  Total callbacks registered: %d", PROFILEMANAGER, ProfileManagerCallbackArgs.size());
 }
 
 nlohmann::json ProfileManager::ReadProfileJSON(std::string profile_name)
@@ -360,11 +412,6 @@ bool ProfileManager::SaveProfile(std::string profile_name)
             | Upload the profile to the server              |
             \*---------------------------------------------*/
             ResourceManager::get()->GetLocalClient()->ProfileManager_UploadProfile(profile_json.dump());
-
-            /*---------------------------------------------*\
-            | Update the profile list                       |
-            \*---------------------------------------------*/
-            UpdateProfileList();
         }
         else
         {
@@ -410,6 +457,8 @@ bool ProfileManager::SaveProfileFromJSON(nlohmann::json profile_json)
         | Update the profile list                           |
         \*-------------------------------------------------*/
         UpdateProfileList();
+
+        SetActiveProfile(profile_json["profile_name"]);
 
         return(true);
     }
@@ -475,6 +524,10 @@ bool ProfileManager::SaveSizes()
 void ProfileManager::SetActiveProfile(std::string profile_name)
 {
     active_profile = profile_name;
+
+    ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ActiveProfileChanged(active_profile);
+
+    SignalProfileManagerUpdate(PROFILEMANAGER_UPDATE_REASON_ACTIVE_PROFILE_CHANGED);
 }
 
 void ProfileManager::SetConfigurationDirectory(const filesystem::path& directory)
@@ -516,24 +569,37 @@ void ProfileManager::SetProfileListFromDescription(char * data_buf)
         profile_list.push_back((char *)&data_buf[data_ptr]);
         data_ptr += name_len;
     }
+
+    SignalProfileManagerUpdate(PROFILEMANAGER_UPDATE_REASON_PROFILE_LIST_UPDATED);
+}
+
+void ProfileManager::SignalProfileManagerUpdate(unsigned int update_reason)
+{
+    ResourceManager::get()->GetServer()->SignalProfileManagerUpdate(update_reason);
+
+    ProfileManagerCallbackMutex.lock();
+
+    for(std::size_t callback_idx = 0; callback_idx < ProfileManagerCallbacks.size(); callback_idx++)
+    {
+        ProfileManagerCallbacks[callback_idx](ProfileManagerCallbackArgs[callback_idx], update_reason);
+    }
+
+    ProfileManagerCallbackMutex.unlock();
+
+    LOG_TRACE("[%s] ProfileManager update signalled: %d", PROFILEMANAGER, update_reason);
 }
 
 void ProfileManager::UpdateProfileList()
 {
-    profile_list.clear();
-
     if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
     {
-        char * profile_data = ResourceManager::get()->GetLocalClient()->ProfileManager_GetProfileList();
-
-        if(profile_data != NULL)
-        {
-            SetProfileListFromDescription(profile_data);
-            delete[] profile_data;
-        }
+        ResourceManager::get()->GetLocalClient()->ProfileManager_GetProfileList();
+        ResourceManager::get()->GetLocalClient()->ProfileManager_GetActiveProfile();
     }
     else
     {
+        profile_list.clear();
+
         /*-------------------------------------------------*\
         | Load profiles by looking for .json files in       |
         | profile directory                                 |
@@ -560,6 +626,8 @@ void ProfileManager::UpdateProfileList()
                 }
             }
         }
+
+        SignalProfileManagerUpdate(PROFILEMANAGER_UPDATE_REASON_PROFILE_LIST_UPDATED);
     }
 }
 
@@ -876,6 +944,13 @@ bool ProfileManager::LoadProfileWithOptions
     | Notify local client                               |
     \*-------------------------------------------------*/
     ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ProfileLoaded(profile_json.dump());
+
+    /*-------------------------------------------------*\
+    | Update active profile                             |
+    \*-------------------------------------------------*/
+    SetActiveProfile(profile_name);
+
+    ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ActiveProfileChanged(active_profile);
 
     return(ret_val);
 }

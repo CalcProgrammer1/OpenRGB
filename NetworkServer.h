@@ -104,7 +104,8 @@ public:
     /*-----------------------------------------------------*\
     | Functions for forwarding callback sigals over network |
     \*-----------------------------------------------------*/
-    void                                SignalResourceManagerUpdate(unsigned int );
+    void                                SignalProfileManagerUpdate(unsigned int update_reason);
+    void                                SignalResourceManagerUpdate(unsigned int update_reason);
 
     /*-----------------------------------------------------*\
     | Server Configuration functions                        |
@@ -203,11 +204,13 @@ private:
     /*-----------------------------------------------------*\
     | Server callback signal functions                      |
     \*-----------------------------------------------------*/
+    void                                SignalActiveProfileChanged();
     void                                SignalClientInfoChanged();
     void                                SignalDetectionCompleted();
     void                                SignalDetectionProgress();
     void                                SignalDetectionStarted();
     void                                SignalDeviceListUpdated();
+    void                                SignalProfileListUpdated();
     void                                SignalServerListeningChanged();
 
     /*-----------------------------------------------------*\
@@ -226,6 +229,7 @@ private:
     void                                ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
     void                                ProcessRequest_RescanDevices();
 
+    void                                ProcessRequest_ProfileManager_ClearActiveProfile();
     void                                ProcessRequest_ProfileManager_DeleteProfile(unsigned int data_size, char * data);
     void                                ProcessRequest_ProfileManager_DownloadProfile(SOCKET client_sock, unsigned int data_size, char * data);
     void                                ProcessRequest_ProfileManager_GetActiveProfile(SOCKET client_sock);
@@ -258,7 +262,9 @@ private:
     void                                SendRequest_DetectionStarted(SOCKET client_sock, unsigned int protocol_version);
     void                                SendRequest_DeviceListChanged(SOCKET client_sock);
 
+    void                                SendRequest_ProfileManager_ActiveProfileChanged(SOCKET client_sock, std::string active_profile);
     void                                SendRequest_ProfileManager_ProfileAboutToLoad();
+    void                                SendRequest_ProfileManager_ProfileListChanged(SOCKET client_sock, unsigned char *profile_list_description);
 
     /*-----------------------------------------------------*\
     | Private helper functions                              |

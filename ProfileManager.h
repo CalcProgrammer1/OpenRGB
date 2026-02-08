@@ -14,9 +14,26 @@
 #include "RGBController.h"
 #include "filesystem.h"
 
+/*---------------------------------------------------------*\
+| Callback Types                                            |
+\*---------------------------------------------------------*/
+typedef void (*ProfileManagerCallback)(void *, unsigned int);
+
+/*---------------------------------------------------------*\
+| ProfileManager Update Reason Codes                        |
+\*---------------------------------------------------------*/
+enum
+{
+    PROFILEMANAGER_UPDATE_REASON_PROFILE_LIST_UPDATED,          /* Profile list updated             */
+    PROFILEMANAGER_UPDATE_REASON_ACTIVE_PROFILE_CHANGED,        /* Active profile changed           */
+    PROFILEMANAGER_UPDATE_REASON_PROFILE_ABOUT_TO_LOAD,         /* Profile about to load            */
+};
+
 class ProfileManagerInterface
 {
 public:
+    virtual void                        ClearActiveProfile()                                            = 0;
+
     virtual void                        DeleteProfile(std::string profile_name)                         = 0;
 
     virtual std::string                 GetActiveProfile()                                              = 0;
@@ -58,6 +75,8 @@ public:
     ProfileManager(const filesystem::path& config_dir);
     ~ProfileManager();
 
+    void                        ClearActiveProfile();
+
     void                        DeleteProfile(std::string profile_name);
 
     std::string                 GetActiveProfile();
@@ -85,6 +104,13 @@ public:
     void                        OnProfileAboutToLoad();
     void                        OnProfileLoaded(std::string profile_json_string);
 
+    /*-----------------------------------------------------*\
+    | Callback Registration Functions                       |
+    \*-----------------------------------------------------*/
+    void                        RegisterProfileManagerCallback(ProfileManagerCallback new_callback, void * new_callback_arg);
+    void                        UnregisterProfileManagerCallback(ProfileManagerCallback callback, void * callback_arg);
+
+
     nlohmann::json              ReadProfileJSON(std::string profile_name);
 
     bool                        SaveProfile(std::string profile_name);
@@ -95,6 +121,8 @@ public:
     void                        SetConfigurationDirectory(const filesystem::path& directory);
 
     void                        SetProfileListFromDescription(char * data_buf);
+
+    void                        SignalProfileManagerUpdate(unsigned int update_reason);
 
     void                        UpdateProfileList();
 
@@ -114,6 +142,13 @@ private:
     \*-----------------------------------------------------*/
     filesystem::path            configuration_directory;
     filesystem::path            profile_directory;
+
+    /*-----------------------------------------------------*\
+    | ProfileManager Callbacks                              |
+    \*-----------------------------------------------------*/
+    std::vector<ProfileManagerCallback>         ProfileManagerCallbacks;
+    std::vector<void *>                         ProfileManagerCallbackArgs;
+    std::mutex                                  ProfileManagerCallbackMutex;
 
     /*-----------------------------------------------------*\
     | Private functions                                     |
