@@ -106,7 +106,7 @@ RGBController_RGBFusion2BlackwellGPU::RGBController_RGBFusion2BlackwellGPU(RGBFu
     SpectrumCycle.brightness        = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
     modes.push_back(SpectrumCycle);
 
-    if(led_layout == RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT || led_layout == RGB_FUSION2_BLACKWELL_GPU_WATERFORCE_LAYOUT || led_layout == RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT)
+    if(led_layout != RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE)
     {
         mode Wave;
         Wave.name                   = "Wave";
@@ -150,26 +150,53 @@ RGBController_RGBFusion2BlackwellGPU::RGBController_RGBFusion2BlackwellGPU(RGBFu
         ColorShift.brightness       = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
         modes.push_back(ColorShift);
 
-        /* Disabled Dazzle as it seems to only execute once, would need to loop it maybe?
-        *  Not for Waterforce
-        mode Dazzle;
-        Dazzle.name                 = "Dazzle";
-        Dazzle.value                = RGB_FUSION2_BLACKWELL_GPU_MODE_DAZZLE;
-        Dazzle.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
-        Dazzle.speed_min            = RGB_FUSION2_BLACKWELL_GPU_SPEED_SLOWEST;
-        Dazzle.speed_max            = RGB_FUSION2_BLACKWELL_GPU_SPEED_FASTEST;
-        Dazzle.speed                = RGB_FUSION2_BLACKWELL_GPU_SPEED_NORMAL;
-        Dazzle.color_mode           = MODE_COLORS_MODE_SPECIFIC;
-        Dazzle.colors_min           = 1;
-        Dazzle.colors_max           = 8;
-        Dazzle.colors.resize(8);
-        Dazzle.brightness_min       = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
-        Dazzle.brightness_max       = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
-        Dazzle.brightness           = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
-        modes.push_back(Dazzle);*/
+        if(led_layout != RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT)
+        {
+            mode Dazzle;
+            Dazzle.name                 = "Dazzle";
+            Dazzle.value                = RGB_FUSION2_BLACKWELL_GPU_MODE_DAZZLE;
+            Dazzle.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+            Dazzle.speed_min            = RGB_FUSION2_BLACKWELL_GPU_SPEED_SLOWEST;
+            Dazzle.speed_max            = RGB_FUSION2_BLACKWELL_GPU_SPEED_FASTEST;
+            Dazzle.speed                = RGB_FUSION2_BLACKWELL_GPU_SPEED_NORMAL;
+            Dazzle.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+            Dazzle.colors_min           = 1;
+            Dazzle.colors_max           = 8;
+            Dazzle.colors.resize(8);
+            Dazzle.brightness_min       = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
+            Dazzle.brightness_max       = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+            Dazzle.brightness           = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+            modes.push_back(Dazzle);
+        }
     }
 
-    SetupZones();
+    if(led_layout == RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5080_LAYOUT)
+    {
+        mode Claws;
+        Claws.name           = "Claws";
+        Claws.value          = RGB_FUSION2_BLACKWELL_GPU_MODE_CLAWS;
+        Claws.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+        Claws.speed_min      = RGB_FUSION2_BLACKWELL_GPU_SPEED_SLOWEST;
+        Claws.speed_max      = RGB_FUSION2_BLACKWELL_GPU_SPEED_FASTEST;
+        Claws.speed          = RGB_FUSION2_BLACKWELL_GPU_SPEED_NORMAL;
+        Claws.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+        Claws.brightness_min = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
+        Claws.brightness_max = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        Claws.brightness     = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        modes.push_back(Claws);
+
+        for(size_t i = 0; i < modes.size(); i++)
+        {
+            if(modes[i].color_mode == MODE_COLORS_PER_LED)
+            {
+                modes[i].colors_min = 1;
+                modes[i].colors_max = RGB_FUSION_2_BLACKWELL_AORUS_MASTER_FAN_LEDS;
+                modes[i].colors.resize(RGB_FUSION_2_BLACKWELL_AORUS_MASTER_FAN_LEDS);
+            }
+        }
+    }
+
+    RGBController_RGBFusion2BlackwellGPU::SetupZones();
 }
 
 RGBController_RGBFusion2BlackwellGPU::~RGBController_RGBFusion2BlackwellGPU()
@@ -322,6 +349,56 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
             zones.push_back(new_zone);
         }
     }
+    else if(gpu_layout == RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5080_LAYOUT)
+    {
+        const char * fan_names[] = { "Right Fan", "Left Fan", "Middle Fan" };
+        for(int i = 0; i < 3; i++)
+        {
+            zone fan_zone;
+            fan_zone.name           = fan_names[i];
+            fan_zone.type           = ZONE_TYPE_LINEAR;
+            fan_zone.leds_min       = RGB_FUSION_2_BLACKWELL_AORUS_MASTER_FAN_LEDS;
+            fan_zone.leds_max       = RGB_FUSION_2_BLACKWELL_AORUS_MASTER_FAN_LEDS;
+            fan_zone.leds_count     = RGB_FUSION_2_BLACKWELL_AORUS_MASTER_FAN_LEDS;
+            fan_zone.matrix_map     = NULL;
+            zones.push_back(fan_zone);
+
+            for(unsigned int led_idx = 0; led_idx < fan_zone.leds_count; led_idx++)
+            {
+                led new_led;
+                new_led.name = fan_names[i];
+                new_led.name.append(" LED ");
+                new_led.name.append(std::to_string(led_idx + 1));
+                leds.push_back(new_led);
+            }
+        }
+
+        zone side_logo;
+        side_logo.name          = "Side Logo";
+        side_logo.type          = ZONE_TYPE_SINGLE;
+        side_logo.leds_min      = 1;
+        side_logo.leds_max      = 1;
+        side_logo.leds_count    = 1;
+        side_logo.matrix_map    = NULL;
+        zones.push_back(side_logo);
+
+        led logo_led;
+        logo_led.name = "Side Logo";
+        leds.push_back(logo_led);
+
+        zone top_logo;
+        top_logo.name           = "Top Logo";
+        top_logo.type           = ZONE_TYPE_SINGLE;
+        top_logo.leds_min       = 1;
+        top_logo.leds_max       = 1;
+        top_logo.leds_count     = 1;
+        top_logo.matrix_map     = NULL;
+        zones.push_back(top_logo);
+
+        led top_led;
+        top_led.name = "Top Logo";
+        leds.push_back(top_led);
+    }
 
     SetupColors();
 }
@@ -336,7 +413,6 @@ void RGBController_RGBFusion2BlackwellGPU::ResizeZone(int /*zone*/, int /*new_si
 void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
 {
     fusion2_config zone_config;
-
     zone_config.brightness      = modes[active_mode].brightness;
     zone_config.speed           = modes[active_mode].speed;
     zone_config.direction       = modes[active_mode].direction;
@@ -366,6 +442,10 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
             gpu_zones = 5; // Hardware zones 0-4, but zone 0 is skipped
             break;
 
+        case RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5080_LAYOUT:
+            gpu_zones = 6; // Zones 4 and 5 refer to ui zone 4
+            break;
+
         default:
             LOG_TRACE("[%s] Invalid GPU layout (%d) when updating LEDs.", name.c_str(), gpu_layout);
             return; // should not happen
@@ -392,19 +472,51 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
             }
             ui_zone_idx = zone_idx - 1; // Map: HW zone 1->UI zone 0, HW zone 2->UI zone 1, HW zone 3->UI zone 2, HW zone 4->UI zone 3
         }
+        else if(gpu_layout == RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5080_LAYOUT)
+        {
+            if(zone_idx == 5)
+            {
+                ui_zone_idx = zone_idx - 1;  // Map: HW zone 5->UI zone 4
+            }
+        }
 
         if(ui_zone_idx >= zones.size())
         {
-            zone_config.colors[hardware_zone_idx] = colors.back();
+            zone_config.colors[0] = colors.back();
         }
         else
         {
-            zone_config.colors[hardware_zone_idx] = colors[ui_zone_idx];
+            /*---------------------------------------------------------*\
+            | Equivalent of:                                            |
+            |   zone_config.colors[0] = colors[ui_zone_idx];            |
+            | when all zones have 1 led.                                |
+            \*---------------------------------------------------------*/
+            uint8_t led_start = 0;
+            for(uint8_t i = 0; i < ui_zone_idx; i++)
+            {
+                led_start += zones[i].leds_count;
+            }
+            for(unsigned int i = 0; i < zones[ui_zone_idx].leds_count; i++)
+            {
+                zone_config.colors[i] = colors[led_start + i];
+            }
+
+            /*---------------------------------------------------------*\
+            | If not all led are the same color, then we must pass all  |
+            | led colors in the i2c write.                              |
+            \*---------------------------------------------------------*/
+            if(!std::all_of(zone_config.colors, zone_config.colors + zones[ui_zone_idx].leds_count, [first = zone_config.colors[0]](RGBColor x) { return x == first; }))
+            {
+                zone_config.numberOfColors = zones[ui_zone_idx].leds_count;
+            }
         }
 
-        for(uint8_t i = 0; i < zone_config.numberOfColors; i++) // specific for MODE_COLORS_MODE_SPECIFIC
+        if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
         {
-            zone_config.colors[i] = modes[active_mode].colors[i];
+            for(uint8_t i = 0; i < zone_config.numberOfColors; i++) // specific for MODE_COLORS_MODE_SPECIFIC
+            {
+                zone_config.colors[i] = modes[active_mode].colors[i];
+            }
         }
 
         controller->SetZone(hardware_zone_idx, modes[active_mode].value, zone_config);
