@@ -466,6 +466,19 @@ void ResourceManager::UpdateDeviceList()
     }
 
     /*-----------------------------------------------------*\
+    | Insert plugin controllers into controller list        |
+    \*-----------------------------------------------------*/
+    if(plugin_manager)
+    {
+        std::vector<RGBController*> rgb_controllers_plugins = plugin_manager->GetRGBControllers();
+
+        for(std::size_t rgb_controller_idx = 0; rgb_controller_idx < rgb_controllers_plugins.size(); rgb_controller_idx++)
+        {
+            rgb_controllers.push_back(rgb_controllers_plugins[rgb_controller_idx]);
+        }
+    }
+
+    /*-----------------------------------------------------*\
     | Insert client controllers into controller list        |
     \*-----------------------------------------------------*/
     for(std::size_t client_idx = 0; client_idx < clients.size(); client_idx++)

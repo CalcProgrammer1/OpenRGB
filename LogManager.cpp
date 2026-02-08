@@ -239,8 +239,10 @@ void LogManager::flush()
     _flush();
 }
 
-void LogManager::_append(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
+void LogManager::append_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
 {
+    std::lock_guard<std::recursive_mutex> grd(entry_mutex);
+
     /*-----------------------------------------------------*\
     | If a critical message occurs, enable source           |
     | printing and set loglevel and verbosity to highest    |
@@ -333,8 +335,7 @@ void LogManager::append(const char* filename, int line, unsigned int level, cons
     va_list va;
     va_start(va, fmt);
 
-    std::lock_guard<std::recursive_mutex> grd(entry_mutex);
-    _append(filename, line, level, fmt, va);
+    append_va(filename, line, level, fmt, va);
 
     va_end(va);
 }
