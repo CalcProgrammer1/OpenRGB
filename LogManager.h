@@ -85,9 +85,6 @@ private:
     //Clock from LogManager creation
     std::chrono::time_point<std::chrono::steady_clock> base_clock;
 
-    // A non-guarded append()
-    void _append(const char* filename, int line, unsigned int level, const char* fmt, va_list va);
-
     // A non-guarded flush()
     void _flush();
 
@@ -98,6 +95,7 @@ public:
     void configure(json config, const filesystem::path & defaultDir);
     void flush();
     void append(const char* filename, int line, unsigned int level, const char* fmt, ...);
+    void append_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va);
     void setLoglevel(unsigned int);
     void setVerbosity(unsigned int);
     void setPrintSource(bool);
