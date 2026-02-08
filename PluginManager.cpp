@@ -10,7 +10,7 @@
 #include "LogManager.h"
 #include "filesystem.h"
 #include "PluginManager.h"
-#include "OpenRGBThemeManager.h"
+#include "OpenRGBPluginAPI.h"
 #include "SettingsManager.h"
 #include "ResourceManager.h"
 
@@ -18,22 +18,51 @@
 #include <Windows.h>
 #endif
 
+void PluginManagerProfileManagerCallback(void * this_ptr, unsigned int update_reason)
+{
+    PluginManager * this_obj = (PluginManager *)this_ptr;
+
+    this_obj->ProfileManagerCallback(update_reason);
+}
+
+void PluginManagerResourceManagerCallback(void * this_ptr, unsigned int update_reason)
+{
+    PluginManager * this_obj = (PluginManager *)this_ptr;
+
+    this_obj->ResourceManagerCallback(update_reason);
+}
+
 PluginManager::PluginManager()
 {
-    /*---------------------------------------------------------*\
-    | Initialize plugin manager class variables                 |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Initialize plugin manager class variables             |
+    \*-----------------------------------------------------*/
     AddPluginCallbackVal    = nullptr;
     AddPluginCallbackArg    = nullptr;
     RemovePluginCallbackVal = nullptr;
     RemovePluginCallbackArg = nullptr;
 
-    /*-------------------------------------------------------------------------*\
-    | Create OpenRGB plugins directory                                          |
-    \*-------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Create OpenRGB plugins directory                      |
+    \*-----------------------------------------------------*/
     filesystem::path plugins_dir = ResourceManager::get()->GetConfigurationDirectory() / plugins_path;
 
     filesystem::create_directories(plugins_dir);
+
+    /*-----------------------------------------------------*\
+    | Register callbacks                                    |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->GetProfileManager()->RegisterProfileManagerCallback(PluginManagerProfileManagerCallback, this);
+    ResourceManager::get()->RegisterResourceManagerCallback(PluginManagerResourceManagerCallback, this);
+}
+
+PluginManager::~PluginManager()
+{
+    /*-----------------------------------------------------*\
+    | Unegister callbacks                                   |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->GetProfileManager()->RegisterProfileManagerCallback(PluginManagerProfileManagerCallback, this);
+    ResourceManager::get()->RegisterResourceManagerCallback(PluginManagerResourceManagerCallback, this);
 }
 
 void PluginManager::RegisterAddPluginCallback(AddPluginCallback new_callback, void * new_callback_arg)
@@ -268,6 +297,7 @@ void PluginManager::AddPlugin(const filesystem::path& path, bool is_system)
 
                     entry.info          = info;
                     entry.plugin        = plugin;
+                    entry.api           = new OpenRGBPluginAPI(entry.controllers);
                     entry.loader        = loader;
                     entry.path          = path_string;
                     entry.enabled       = enabled;
@@ -304,6 +334,7 @@ void PluginManager::AddPlugin(const filesystem::path& path, bool is_system)
 
                     entry.info          = info;
                     entry.plugin        = plugin;
+                    entry.api           = new OpenRGBPluginAPI(entry.controllers);
                     entry.loader        = loader;
                     entry.path          = path_string;
                     entry.enabled       = false;
@@ -435,7 +466,7 @@ void PluginManager::LoadPlugin(OpenRGBPluginEntry* plugin_entry)
                 {
                     plugin_entry->plugin = plugin;
 
-                    plugin->Load(ResourceManager::get());
+                    plugin->Load(plugin_entry->api);
 
                     /*-------------------------------------------------*\
                     | Call the Add Plugin callback                      |
@@ -600,6 +631,34 @@ unsigned char * PluginManager::OnSDKCommand(unsigned int plugin_idx, unsigned in
     return(out_data);
 }
 
+/*---------------------------------------------------------*\
+| Callback functions                                        |
+\*---------------------------------------------------------*/
+void PluginManager::ProfileManagerCallback(unsigned int update_reason)
+{
+    for(std::size_t plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            ActivePlugins[plugin_idx].plugin->ProfileManagerUpdated(update_reason);
+        }
+    }
+}
+
+void PluginManager::ResourceManagerCallback(unsigned int update_reason)
+{
+    for(std::size_t plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            ActivePlugins[plugin_idx].plugin->ResourceManagerUpdated(update_reason);
+        }
+    }
+}
+
+/*---------------------------------------------------------*\
+| Plugin Information                                        |
+\*---------------------------------------------------------*/
 unsigned int PluginManager::GetPluginCount()
 {
     return(ActivePlugins.size());
@@ -655,4 +714,22 @@ std::string PluginManager::GetPluginVersion(unsigned int plugin_idx)
     }
 
     return("");
+}
+
+/*---------------------------------------------------------*\
+| Plugin-Created RGBControllers                             |
+\*---------------------------------------------------------*/
+std::vector<RGBController *> PluginManager::GetRGBControllers()
+{
+    std::vector<RGBController *> plugin_controllers;
+
+    for(std::size_t plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            // build list of plugin-provided controllers here
+        }
+    }
+
+    return(plugin_controllers);
 }

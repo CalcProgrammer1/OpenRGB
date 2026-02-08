@@ -22,6 +22,8 @@ struct OpenRGBPluginEntry
 {
     OpenRGBPluginInfo           info;
     OpenRGBPluginInterface*     plugin;
+    OpenRGBPluginAPIInterface*  api;
+    std::vector<RGBController*> controllers;
     QPluginLoader*              loader;
     QWidget*                    widget;
     QMenu*                      traymenu;
@@ -39,18 +41,33 @@ class PluginManager : public PluginManagerInterface
 {
 public:
     PluginManager();
+    ~PluginManager();
 
-    unsigned int    GetPluginCount();
-    std::string     GetPluginDescription(unsigned int plugin_idx);
-    std::string     GetPluginName(unsigned int plugin_idx);
-    unsigned int    GetPluginProtocolVersion(unsigned int plugin_idx);
-    std::string     GetPluginVersion(unsigned int plugin_idx);
+    /*-----------------------------------------------------*\
+    | Plugin Information                                    |
+    \*-----------------------------------------------------*/
+    unsigned int                    GetPluginCount();
+    std::string                     GetPluginDescription(unsigned int plugin_idx);
+    std::string                     GetPluginName(unsigned int plugin_idx);
+    unsigned int                    GetPluginProtocolVersion(unsigned int plugin_idx);
+    std::string                     GetPluginVersion(unsigned int plugin_idx);
 
+    /*-----------------------------------------------------*\
+    | Plugin-Created RGBControllers                         |
+    \*-----------------------------------------------------*/
+    std::vector<RGBController *>    GetRGBControllers();
+
+    /*-----------------------------------------------------*\
+    | PluginManager Callback Registration                   |
+    \*-----------------------------------------------------*/
     void RegisterAddPluginCallback(AddPluginCallback new_callback, void * new_callback_arg);
     void RegisterRemovePluginCallback(RemovePluginCallback new_callback, void * new_callback_arg);
 
     void ScanAndLoadPlugins();
 
+    /*-----------------------------------------------------*\
+    | Plugin Management                                     |
+    \*-----------------------------------------------------*/
     void AddPlugin(const filesystem::path& path, bool is_system);
     void RemovePlugin(const filesystem::path& path);
 
@@ -60,10 +77,23 @@ public:
     void LoadPlugins();
     void UnloadPlugins();
 
+    /*-----------------------------------------------------*\
+    | Plugin Profile Integration                            |
+    \*-----------------------------------------------------*/
     void OnProfileAboutToLoad();
     void OnProfileLoad(nlohmann::json profile_data);
     nlohmann::json OnProfileSave();
+
+    /*-----------------------------------------------------*\
+    | Plugin SDK Integration                                |
+    \*-----------------------------------------------------*/
     unsigned char * OnSDKCommand(unsigned int plugin_idx, unsigned int pkt_id, unsigned char * pkt_data, unsigned int * pkt_size);
+
+    /*-----------------------------------------------------*\
+    | Callback functions                                    |
+    \*-----------------------------------------------------*/
+    void ProfileManagerCallback(unsigned int update_reason);
+    void ResourceManagerCallback(unsigned int update_reason);
 
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 
