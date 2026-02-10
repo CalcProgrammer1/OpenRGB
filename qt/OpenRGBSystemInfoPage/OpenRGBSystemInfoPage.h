@@ -38,5 +38,5 @@ private slots:
 
 private:
     Ui::OpenRGBSystemInfoPage *ui;
-    std::vector<i2c_smbus_interface *>& busses;
+    std::vector<i2c_smbus_interface *>& buses;
 };
