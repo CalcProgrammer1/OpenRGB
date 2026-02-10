@@ -27,7 +27,7 @@ static void OpenRGBSystemInfoPageResourceManagerCallback(void * this_ptr, unsign
 OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>& bus, QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OpenRGBSystemInfoPage),
-    busses(bus)
+    buses(bus)
 {
     ui->setupUi(this);
 
@@ -81,9 +81,9 @@ void OpenRGBSystemInfoPage::UpdateBusList()
     \*-----------------------------------------------------*/
     ui->SMBusAdaptersBox->clear();
 
-    for (std::size_t i = 0; i < busses.size(); i++)
+    for (std::size_t i = 0; i < buses.size(); i++)
     {
-        ui->SMBusAdaptersBox->addItem(busses[i]->device_name);
+        ui->SMBusAdaptersBox->addItem(buses[i]->device_name);
     }
 
     ui->SMBusAdaptersBox->setCurrentIndex(0);
@@ -98,9 +98,9 @@ void OpenRGBSystemInfoPage::on_DetectButton_clicked()
         current_index = 0;
     }
 
-    if((int)(busses.size()) > current_index)
+    if((int)(buses.size()) > current_index)
     {
-        i2c_smbus_interface* bus = busses[current_index];
+        i2c_smbus_interface* bus = buses[current_index];
 
         switch(ui->SMBusDetectionModeBox->currentIndex())
         {
@@ -132,9 +132,9 @@ void OpenRGBSystemInfoPage::on_DumpButton_clicked()
         current_index = 0;
     }
 
-    if((int)(busses.size()) > current_index)
+    if((int)(buses.size()) > current_index)
     {
-        i2c_smbus_interface* bus = busses[current_index];
+        i2c_smbus_interface* bus = buses[current_index];
         unsigned char address = ui->DumpAddressBox->value();
 
         ui->SMBusDataText->setPlainText(i2c_dump(bus, address).c_str());
@@ -150,9 +150,9 @@ void OpenRGBSystemInfoPage::on_ReadButton_clicked()
         current_index = 0;
     }
 
-    if((int)(busses.size()) > current_index)
+    if((int)(buses.size()) > current_index)
     {
-        i2c_smbus_interface* bus = busses[current_index];
+        i2c_smbus_interface* bus = buses[current_index];
         unsigned char address = ui->ReadAddressBox->value();
         unsigned char regaddr = ui->ReadRegisterBox->value();
         unsigned char size    = ui->ReadSizeBox->value();

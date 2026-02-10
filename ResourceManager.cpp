@@ -224,7 +224,7 @@ filesystem::path ResourceManager::GetConfigurationDirectory()
     return(config_dir);
 }
 
-std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBusses()
+std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBuses()
 {
     return DetectionManager::get()->GetI2CBuses();
 }
