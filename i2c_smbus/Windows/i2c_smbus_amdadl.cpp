@@ -304,6 +304,6 @@ bool i2c_smbus_amdadl_detect()
     }
 
     return(true);
-}   /* DetectAMDADLI2CBusses() */
+}   /* DetectAMDADLI2CBuses() */
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_amdadl_detect);

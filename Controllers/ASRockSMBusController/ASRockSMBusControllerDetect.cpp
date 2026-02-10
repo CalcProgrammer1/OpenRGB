@@ -85,31 +85,31 @@ uint16_t GetFirmwareVersion(i2c_smbus_interface* bus, uint8_t address)
     }
 }
 
-DetectedControllers DetectASRockSMBusControllers(std::vector<i2c_smbus_interface*>& busses)
+DetectedControllers DetectASRockSMBusControllers(std::vector<i2c_smbus_interface*>& buses)
 {
     DetectedControllers detected_controllers;
 
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
-        IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+        IF_MOBO_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
         {
-            if(busses[bus]->pci_subsystem_vendor == ASROCK_SUB_VEN)
+            if(buses[bus]->pci_subsystem_vendor == ASROCK_SUB_VEN)
             {
                 LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, ASROCK_DETECTOR_NAME, bus, VENDOR_NAME, SMBUS_ADDRESS);
                 // Check for Polychrome controller at 0x6A
-                if(TestForPolychromeSMBusController(busses[bus], SMBUS_ADDRESS))
+                if(TestForPolychromeSMBusController(buses[bus], SMBUS_ADDRESS))
                 {
                     LOG_DEBUG("[%s] Detected a device at address 0x%02X, testing for a known controller",  ASROCK_DETECTOR_NAME, SMBUS_ADDRESS);
 
                     u16_to_u8 version;
-                    version.u16 = GetFirmwareVersion(busses[bus], SMBUS_ADDRESS);
+                    version.u16 = GetFirmwareVersion(buses[bus], SMBUS_ADDRESS);
 
                     switch(version.msb)
                     {
                         case ASROCK_TYPE_ASRLED:
                             {
                                 LOG_DEBUG("[%s] Found a ASR RGB LED Controller", ASROCK_DETECTOR_NAME);
-                                ASRockASRRGBSMBusController* controller = new ASRockASRRGBSMBusController(busses[bus], SMBUS_ADDRESS);
+                                ASRockASRRGBSMBusController* controller = new ASRockASRRGBSMBusController(buses[bus], SMBUS_ADDRESS);
                                 controller-> fw_version = version.u16;
                                 RGBController_ASRockASRRGBSMBus* rgb_controller = new RGBController_ASRockASRRGBSMBus(controller);
                                 detected_controllers.push_back(rgb_controller);
@@ -119,7 +119,7 @@ DetectedControllers DetectASRockSMBusControllers(std::vector<i2c_smbus_interface
                             case ASROCK_TYPE_POLYCHROME_V1:
                             {
                                 LOG_DEBUG("[%s] Found a Polychrome v1 Controller", ASROCK_DETECTOR_NAME);
-                                ASRockPolychromeV1SMBusController* controller = new ASRockPolychromeV1SMBusController(busses[bus], SMBUS_ADDRESS);
+                                ASRockPolychromeV1SMBusController* controller = new ASRockPolychromeV1SMBusController(buses[bus], SMBUS_ADDRESS);
                                 controller-> fw_version = version.u16;
                                 RGBController_ASRockPolychromeV1SMBus* rgb_controller = new RGBController_ASRockPolychromeV1SMBus(controller);
                                 detected_controllers.push_back(rgb_controller);
@@ -129,7 +129,7 @@ DetectedControllers DetectASRockSMBusControllers(std::vector<i2c_smbus_interface
                             case ASROCK_TYPE_POLYCHROME_V2:
                             {
                                 LOG_DEBUG("[%s] Found a Polychrome v2 Controller", ASROCK_DETECTOR_NAME);
-                                ASRockPolychromeV2SMBusController* controller = new ASRockPolychromeV2SMBusController(busses[bus], SMBUS_ADDRESS);
+                                ASRockPolychromeV2SMBusController* controller = new ASRockPolychromeV2SMBusController(buses[bus], SMBUS_ADDRESS);
                                 controller-> fw_version = version.u16;
                                 RGBController_ASRockPolychromeV2SMBus* rgb_controller = new RGBController_ASRockPolychromeV2SMBus(controller);
                                 detected_controllers.push_back(rgb_controller);

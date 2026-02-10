@@ -137,19 +137,19 @@ void CrucialRegisterWrite(i2c_smbus_interface* bus, unsigned char dev, unsigned 
     bus->i2c_smbus_write_byte_data(dev, 0x01, val);
 }
 
-DetectedControllers DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
+DetectedControllers DetectCrucialControllers(std::vector<i2c_smbus_interface*> &buses)
 {
     DetectedControllers detected_controllers;
 
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
         int address_list_idx = -1;
 
-        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+        IF_DRAM_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
         {
             for(unsigned int slot = 0; slot < 4; slot++)
             {
-                int res = busses[bus]->i2c_smbus_write_quick(0x27, I2C_SMBUS_WRITE);
+                int res = buses[bus]->i2c_smbus_write_quick(0x27, I2C_SMBUS_WRITE);
 
                 if(res < 0)
                 {
@@ -163,7 +163,7 @@ DetectedControllers DetectCrucialControllers(std::vector<i2c_smbus_interface*> &
 
                     if(address_list_idx < CRUCIAL_ADDRESS_COUNT)
                     {
-                        res = busses[bus]->i2c_smbus_write_quick(crucial_addresses[address_list_idx], I2C_SMBUS_WRITE);
+                        res = buses[bus]->i2c_smbus_write_quick(crucial_addresses[address_list_idx], I2C_SMBUS_WRITE);
                     }
                     else
                     {
@@ -174,24 +174,24 @@ DetectedControllers DetectCrucialControllers(std::vector<i2c_smbus_interface*> &
                 if(address_list_idx < CRUCIAL_ADDRESS_COUNT)
                 {
                     LOG_DEBUG("[%s] Remapping slot %d to address %02X", CRUCIAL_CONTROLLER_NAME, slot, crucial_addresses[address_list_idx]);
-                    CrucialRegisterWrite(busses[bus], 0x27, 0x82EE, slot);
-                    CrucialRegisterWrite(busses[bus], 0x27, 0x82EF, (crucial_addresses[address_list_idx] << 1));
-                    CrucialRegisterWrite(busses[bus], 0x27, 0x82F0, 0xF0);
+                    CrucialRegisterWrite(buses[bus], 0x27, 0x82EE, slot);
+                    CrucialRegisterWrite(buses[bus], 0x27, 0x82EF, (crucial_addresses[address_list_idx] << 1));
+                    CrucialRegisterWrite(buses[bus], 0x27, 0x82F0, 0xF0);
                 }
 
                 std::this_thread::sleep_for(1ms);
             }
 
-            LOG_DEBUG("[%s] In bus: %02X:%02X looking for devices at [%s]", CRUCIAL_CONTROLLER_NAME, busses[bus]->pci_vendor, busses[bus]->pci_device, TESTING_ADDRESSES);
+            LOG_DEBUG("[%s] In bus: %02X:%02X looking for devices at [%s]", CRUCIAL_CONTROLLER_NAME, buses[bus]->pci_vendor, buses[bus]->pci_device, TESTING_ADDRESSES);
 
             // Add Crucial controllers
             for(unsigned int address_list_idx = 0; address_list_idx < CRUCIAL_ADDRESS_COUNT; address_list_idx++)
             {
                 LOG_DEBUG("[%s] Testing address %02X to see if there is a device there", CRUCIAL_CONTROLLER_NAME, crucial_addresses[address_list_idx]);
 
-                if(TestForCrucialController(busses[bus], crucial_addresses[address_list_idx]))
+                if(TestForCrucialController(buses[bus], crucial_addresses[address_list_idx]))
                 {
-                    CrucialController*     controller     = new CrucialController(busses[bus], crucial_addresses[address_list_idx]);
+                    CrucialController*     controller     = new CrucialController(buses[bus], crucial_addresses[address_list_idx]);
                     RGBController_Crucial* rgb_controller = new RGBController_Crucial(controller);
 
                     detected_controllers.push_back(rgb_controller);
