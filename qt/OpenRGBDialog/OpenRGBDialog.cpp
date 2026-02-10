@@ -838,7 +838,7 @@ void OpenRGBDialog::AddI2CToolsPage()
     /*-----------------------------------------------------*\
     | Create the I2C Tools page if it doesn't exist yet     |
     \*-----------------------------------------------------*/
-    SMBusToolsPage = new OpenRGBSystemInfoPage(ResourceManager::get()->GetI2CBusses());
+    SMBusToolsPage = new OpenRGBSystemInfoPage(ResourceManager::get()->GetI2CBuses());
 
     /*-----------------------------------------------------*\
     | Create the I2C Tools tab in the Information bar       |

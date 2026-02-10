@@ -74,7 +74,7 @@ bool TestForGigabyteRGBFusion2SMBusController(i2c_smbus_interface* bus, unsigned
     return(pass);
 }
 
-DetectedControllers DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses)
+DetectedControllers DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& buses)
 {
     DetectedControllers                 detected_controllers;
     SettingsManager*                    set_man = ResourceManager::get()->GetSettingsManager();
@@ -112,18 +112,18 @@ DetectedControllers DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smb
     if(found)
     {
         LOG_DEBUG(GIGABYTE_FOUND_MB_MESSAGE_EN, DETECTOR_NAME, dmi.getMainboard().c_str());
-        for(unsigned int bus = 0; bus < busses.size(); bus++)
+        for(unsigned int bus = 0; bus < buses.size(); bus++)
         {
-            IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+            IF_MOBO_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
             {
-                if(busses[bus]->pci_subsystem_vendor == GIGABYTE_SUB_VEN)
+                if(buses[bus]->pci_subsystem_vendor == GIGABYTE_SUB_VEN)
                 {
                     /*-------------------------------------*\
                     | TODO - Is this necessary? Or an       |
                     | artifact of my own system?  Skip dmcd |
                     | devices                               |
                     \*-------------------------------------*/
-                    std::string device_name = std::string(busses[bus]->device_name);
+                    std::string device_name = std::string(buses[bus]->device_name);
 
                     if(device_name.find("dmdc") == std::string::npos)
                     {
@@ -133,9 +133,9 @@ DetectedControllers DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smb
                         | Check for RGB Fusion 2 controller |
                         | at 0x68                           |
                         \*---------------------------------*/
-                        if(TestForGigabyteRGBFusion2SMBusController(busses[bus], SMBUS_ADDRESS))
+                        if(TestForGigabyteRGBFusion2SMBusController(buses[bus], SMBUS_ADDRESS))
                         {
-                            RGBFusion2SMBusController*     controller     = new RGBFusion2SMBusController(busses[bus], SMBUS_ADDRESS, dmi.getMainboard() );
+                            RGBFusion2SMBusController*     controller     = new RGBFusion2SMBusController(buses[bus], SMBUS_ADDRESS, dmi.getMainboard() );
                             RGBController_RGBFusion2SMBus* rgb_controller = new RGBController_RGBFusion2SMBus(controller);
 
                             detected_controllers.push_back(rgb_controller);
