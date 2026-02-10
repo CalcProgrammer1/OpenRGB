@@ -53,13 +53,13 @@ bool TestForCorsairDRAMController(i2c_smbus_interface *bus, unsigned char addres
     return true;
 }
 
-DetectedControllers DetectCorsairDRAMControllers(std::vector<i2c_smbus_interface *> &busses)
+DetectedControllers DetectCorsairDRAMControllers(std::vector<i2c_smbus_interface *> &buses)
 {
     DetectedControllers detected_controllers;
 
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
-        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+        IF_DRAM_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
         {
             LOG_DEBUG("[%s] Testing bus %d", CORSAIR_DRAM_NAME, bus);
 
@@ -77,9 +77,9 @@ DetectedControllers DetectCorsairDRAMControllers(std::vector<i2c_smbus_interface
 
             for(unsigned char addr : addresses)
             {
-                if(TestForCorsairDRAMController(busses[bus], addr))
+                if(TestForCorsairDRAMController(buses[bus], addr))
                 {
-                    CorsairDRAMController*     controller     = new CorsairDRAMController(busses[bus], addr);
+                    CorsairDRAMController*     controller     = new CorsairDRAMController(buses[bus], addr);
                     RGBController_CorsairDRAM* rgb_controller = new RGBController_CorsairDRAM(controller);
 
                     detected_controllers.push_back(rgb_controller);

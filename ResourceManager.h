@@ -53,7 +53,7 @@ public:
     std::vector<NetworkClient*>&        GetClients();
     filesystem::path                    GetConfigurationDirectory();
     LogManager*                         GetLogManager();
-    std::vector<i2c_smbus_interface*>&  GetI2CBusses();
+    std::vector<i2c_smbus_interface*>&  GetI2CBuses();
     PluginManagerInterface*             GetPluginManager();
     ProfileManager*                     GetProfileManager();
     std::vector<RGBController*>&        GetRGBControllers();
