@@ -47,7 +47,7 @@ public:
     \*-----------------------------------------------------*/
     virtual filesystem::path                    GetConfigurationDirectory()                                                                         = 0;
     virtual LogManager*                         GetLogManager()                                                                                     = 0;
-    virtual std::vector<i2c_smbus_interface*> & GetI2CBusses()                                                                                      = 0;
+    virtual std::vector<i2c_smbus_interface*> & GetI2CBuses()                                                                                      = 0;
     virtual PluginManagerInterface*             GetPluginManager()                                                                                  = 0;
     virtual ProfileManager*                     GetProfileManager()                                                                                 = 0;
     virtual std::vector<RGBController*> &       GetRGBControllers()                                                                                 = 0;

@@ -199,6 +199,6 @@ bool i2c_smbus_nvapi_detect()
     }
 
     return(true);
-}   /* DetectNvAPII2CBusses() */
+}   /* DetectNvAPII2CBuses() */
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_nvapi_detect);

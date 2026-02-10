@@ -146,21 +146,21 @@ bool TestForENESMBusController(i2c_smbus_interface* bus, unsigned char address)
     return(pass);
 }
 
-DetectedControllers DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
+DetectedControllers DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &buses)
 {
     DetectedControllers detected_controllers;
 
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
         int address_list_idx = -1;
 
-        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+        IF_DRAM_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
         {
             LOG_DEBUG("[ENE SMBus DRAM] Remapping ENE SMBus RAM modules on 0x77");
 
             for(unsigned int slot = 0; slot < 8; slot++)
             {
-                int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
+                int res = buses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
 
                 if(res < 0)
                 {
@@ -176,7 +176,7 @@ DetectedControllers DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interfac
                     {
                         LOG_DEBUG("[ENE SMBus DRAM] Testing address %02X to see if there is a device there", ene_ram_addresses[address_list_idx]);
 
-                        res = busses[bus]->i2c_smbus_write_quick(ene_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
+                        res = buses[bus]->i2c_smbus_write_quick(ene_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
                     }
                     else
                     {
@@ -188,17 +188,17 @@ DetectedControllers DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interfac
                 {
                     LOG_DEBUG("[ENE SMBus DRAM] Remapping slot %d to address %02X", slot, ene_ram_addresses[address_list_idx]);
 
-                    ENERegisterWrite(busses[bus], 0x77, ENE_REG_SLOT_INDEX, slot);
-                    ENERegisterWrite(busses[bus], 0x77, ENE_REG_I2C_ADDRESS, (ene_ram_addresses[address_list_idx] << 1));
+                    ENERegisterWrite(buses[bus], 0x77, ENE_REG_SLOT_INDEX, slot);
+                    ENERegisterWrite(buses[bus], 0x77, ENE_REG_I2C_ADDRESS, (ene_ram_addresses[address_list_idx] << 1));
                 }
             }
 
             // Add ENE controllers at their remapped addresses
             for(unsigned int address_list_idx = 0; address_list_idx < ENE_RAM_ADDRESS_COUNT; address_list_idx++)
             {
-                if(TestForENESMBusController(busses[bus], ene_ram_addresses[address_list_idx]))
+                if(TestForENESMBusController(buses[bus], ene_ram_addresses[address_list_idx]))
                 {
-                    ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(busses[bus]);
+                    ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(buses[bus]);
                     ENESMBusController*          controller     = new ENESMBusController(interface, ene_ram_addresses[address_list_idx], "ENE DRAM", DEVICE_TYPE_DRAM);
                     RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
@@ -213,26 +213,26 @@ DetectedControllers DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interfac
     return(detected_controllers);
 }
 
-DetectedControllers DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &busses)
+DetectedControllers DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &buses)
 {
     DetectedControllers detected_controllers;
 
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
         // Add ENE (ASUS Aura) motherboard controllers
-        IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+        IF_MOBO_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
         {
-            if(busses[bus]->pci_subsystem_vendor == ASUS_SUB_VEN || busses[bus]->pci_subsystem_vendor == 0 || busses[bus]->pci_subsystem_vendor == 0xFFFF)
+            if(buses[bus]->pci_subsystem_vendor == ASUS_SUB_VEN || buses[bus]->pci_subsystem_vendor == 0 || buses[bus]->pci_subsystem_vendor == 0xFFFF)
             {
                 for(unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
                 {
                     LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, aura_mobo_addresses[address_list_idx]);
 
-                    if(TestForENESMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
+                    if(TestForENESMBusController(buses[bus], aura_mobo_addresses[address_list_idx]))
                     {
                         DMIInfo dmi;
 
-                        ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(busses[bus]);
+                        ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(buses[bus]);
                         ENESMBusController*          controller     = new ENESMBusController(interface, aura_mobo_addresses[address_list_idx], "ASUS " + dmi.getMainboard(), DEVICE_TYPE_MOTHERBOARD);
                         RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 

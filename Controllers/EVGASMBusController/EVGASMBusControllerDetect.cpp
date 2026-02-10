@@ -40,21 +40,21 @@ bool TestForAcx30SMBusController(i2c_smbus_interface *bus, uint8_t address)
     return(pass);
 }
 
-DetectedControllers DetectAcx30SMBusControllers(std::vector<i2c_smbus_interface *> &busses)
+DetectedControllers DetectAcx30SMBusControllers(std::vector<i2c_smbus_interface *> &buses)
 {
     DetectedControllers detected_controllers;
 
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
-        IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+        IF_MOBO_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
         {
-            if(busses[bus]->pci_subsystem_vendor == EVGA_SUB_VEN)
+            if(buses[bus]->pci_subsystem_vendor == EVGA_SUB_VEN)
             {
                 LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, EVGA_DETECTOR_NAME, bus, VENDOR_NAME, SMBUS_ADDRESS);
                 // Check for ACX 30 controller at 0x28
-                if(TestForAcx30SMBusController(busses[bus], SMBUS_ADDRESS))
+                if(TestForAcx30SMBusController(buses[bus], SMBUS_ADDRESS))
                 {
-                    EVGAACX30SMBusController *     controller     = new EVGAACX30SMBusController(busses[bus], SMBUS_ADDRESS);
+                    EVGAACX30SMBusController *     controller     = new EVGAACX30SMBusController(buses[bus], SMBUS_ADDRESS);
                     RGBController_EVGAACX30SMBus * rgb_controller = new RGBController_EVGAACX30SMBus(controller);
 
                     detected_controllers.push_back(rgb_controller);

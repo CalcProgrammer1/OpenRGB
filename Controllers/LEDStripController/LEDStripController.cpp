@@ -102,13 +102,13 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
 
 void LEDStripController::InitializeI2C(char* i2cname)
 {
-    for(unsigned int i2c_idx = 0; i2c_idx < ResourceManager::get()->GetI2CBusses().size(); i2c_idx++)
+    for(unsigned int i2c_idx = 0; i2c_idx < ResourceManager::get()->GetI2CBuses().size(); i2c_idx++)
     {
-        if(ResourceManager::get()->GetI2CBusses()[i2c_idx]->device_name == std::string(i2cname))
+        if(ResourceManager::get()->GetI2CBuses()[i2c_idx]->device_name == std::string(i2cname))
         {
             if(i2c_addr < 128)
             {
-                i2cport = ResourceManager::get()->GetI2CBusses()[i2c_idx];
+                i2cport = ResourceManager::get()->GetI2CBuses()[i2c_idx];
                 break;
             }
         }
