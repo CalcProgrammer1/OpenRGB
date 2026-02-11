@@ -734,7 +734,7 @@
 #define GIGABYTE_RX7900XT_GAMING_OC_20G_SUB_DEV         0x240C
 #define GIGABYTE_RX7600_GAMING_OC_8G_SUB_DEV            0x240B
 #define GIGABYTE_RX7600_GAMING_OC_8G_SUB_DEV2           0x242B
-
+#define GIGABYTE_AORUS_RX6800_XT_MASTER_16G             0x232a
 /*-----------------------------------------------------*\
 | MSI Sub-Device IDs                                    |
 \*-----------------------------------------------------*/
