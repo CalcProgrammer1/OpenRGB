@@ -11,6 +11,8 @@
 
 #include "RGBController_ClevoKeyboard.h"
 #include "KeyboardLayoutManager.h"
+#include <unordered_map>
+#include <string>
 
 /**------------------------------------------------------------------*\
     @name CLEVO Keyboard
@@ -253,12 +255,14 @@ void RGBController_ClevoKeyboard::SetupZones()
         led new_led;
 
         new_led.name    = new_kb.GetKeyNameAt(led_idx);
-        new_led.value   = new_kb.GetKeyValueAt(led_idx);
+
+        new_led.value   = GetCorrectHWValue(new_led.name);
 
         leds.push_back(new_led);
     }
 
-    SetupColors();
+
+        SetupColors();
 
     /*---------------------------------------------------------*\
     | Create buffer map to translate OpenRGB LED order to       |
@@ -273,6 +277,66 @@ void RGBController_ClevoKeyboard::SetupZones()
         buffer_map[leds[led_idx].value] = &colors[led_idx];
     }
 }
+
+unsigned int RGBController_ClevoKeyboard::GetCorrectHWValue(const std::string& key_name)
+{
+    static const std::unordered_map<std::string, unsigned int> hw_value_map = {
+        // F-row
+        {"Key: Escape", 105},
+        {"Key: F1", 106}, {"Key: F2", 107}, {"Key: F3", 108}, {"Key: F4", 109},
+        {"Key: F5", 110}, {"Key: F6", 111}, {"Key: F7", 112}, {"Key: F8", 113},
+        {"Key: F9", 114}, {"Key: F10", 115}, {"Key: F11", 116}, {"Key: F12", 117},
+        {"Key: Print Screen", 118},
+        // Number row
+        {"Key: `", 84},
+        {"Key: 1", 85}, {"Key: 2", 86}, {"Key: 3", 87}, {"Key: 4", 88},
+        {"Key: 5", 89}, {"Key: 6", 90}, {"Key: 7", 91}, {"Key: 8", 92},
+        {"Key: 9", 93}, {"Key: 0", 94},
+        {"Key: -", 95}, {"Key: =", 96}, {"Key: Backspace", 98},
+        {"Key: Insert", 119}, {"Key: Home", 121}, {"Key: Page Up", 123},
+        {"Key: Delete", 120}, {"Key: End", 122}, {"Key: Page Down", 124},
+        // QWERTY row
+        {"Key: Tab", 63},
+        {"Key: Q", 65}, {"Key: W", 66}, {"Key: E", 67}, {"Key: R", 68},
+        {"Key: T", 69}, {"Key: Y", 70}, {"Key: U", 71}, {"Key: I", 72},
+        {"Key: O", 73}, {"Key: P", 74},
+        {"Key: [", 75}, {"Key: ]", 76},
+        // ASDF row
+        {"Key: Caps Lock", 42},
+        {"Key: A", 44}, {"Key: S", 45}, {"Key: D", 46}, {"Key: F", 47},
+        {"Key: G", 48}, {"Key: H", 49}, {"Key: J", 50}, {"Key: K", 51},
+        {"Key: L", 52}, {"Key: ;", 53}, {"Key: '", 54}, {"Key: #", 55},
+        {"Key: Enter", 77},
+        // ZXCV row
+        {"Key: Left Shift", 22},
+        {"Key: \\ (ISO)", 23},
+        {"Key: Z", 24}, {"Key: X", 25}, {"Key: C", 26}, {"Key: V", 27},
+        {"Key: B", 28}, {"Key: N", 29}, {"Key: M", 30},
+        {"Key: ,", 31}, {"Key: .", 32}, {"Key: /", 33},
+        {"Key: Right Shift", 35},
+        // Modifiers
+        {"Key: Left Control", 0}, {"Key: Left Fn", 2}, {"Key: Left Windows", 3},
+        {"Key: Left Alt", 4}, {"Key: Space", 7}, {"Key: Right Alt", 10},
+        {"Key: Right Control", 12},
+        // Arrows
+        {"Key: Up Arrow", 14}, {"Key: Left Arrow", 13},
+        {"Key: Down Arrow", 18}, {"Key: Right Arrow", 15},
+        // Numpad
+        {"Key: Num Lock", 99},
+        {"Key: Number Pad /", 100}, {"Key: Number Pad *", 101}, {"Key: Number Pad -", 102},
+        {"Key: Number Pad +", 81},
+        {"Key: Number Pad 7", 78}, {"Key: Number Pad 8", 79}, {"Key: Number Pad 9", 80},
+        {"Key: Number Pad 6", 59},
+        {"Key: Number Pad 4", 57}, {"Key: Number Pad 5", 58},
+        {"Key: Number Pad 1", 36}, {"Key: Number Pad 2", 37}, {"Key: Number Pad 3", 38},
+        {"Key: Number Pad Enter", 39},
+        {"Key: Number Pad 0", 16}, {"Key: Number Pad .", 17}
+    };
+
+    auto it = hw_value_map.find(key_name);
+    return (it != hw_value_map.end()) ? it->second : 0;
+}
+
 
 void RGBController_ClevoKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 {
@@ -375,3 +439,4 @@ void RGBController_ClevoKeyboard::DeviceUpdateMode()
 
     controller->SetMode(mode_value, brightness, speed, behaviour);
 }
+
