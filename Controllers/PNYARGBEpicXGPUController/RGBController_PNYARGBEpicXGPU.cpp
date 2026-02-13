@@ -28,23 +28,114 @@
 
 RGBController_PNYARGBEpicXGPU::RGBController_PNYARGBEpicXGPU(PNYARGBEpicXGPUController* controller_ptr)
 {
-    controller              = controller_ptr;
+    controller                  = controller_ptr;
 
-    name                    = controller->GetDeviceName();
-    vendor                  = "PNY";
-    description             = "PNY ARGB Epic-X GPU Device";
-    location                = controller->GetDeviceLocation();
-    type                    = DEVICE_TYPE_GPU;
+    name                        = controller->GetDeviceName();
+    vendor                      = "PNY";
+    description                 = "PNY ARGB Epic-X GPU Device";
+    location                    = controller->GetDeviceLocation();
+    type                        = DEVICE_TYPE_GPU;
 
     mode Direct;
-    Direct.name             = "Direct";
-    Direct.value            = PNY_GPU_MODE_ARGB_DIRECT;
-    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode       = MODE_COLORS_PER_LED;
-    Direct.brightness       = 0xFF;
-    Direct.brightness_min   = 0;
-    Direct.brightness_max   = 0xFF;
+    Direct.name                 = "Direct";
+    Direct.value                = PNY_GPU_MODE_ARGB_DIRECT;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    mode Off;
+    Off.name                    = "Off";
+    Off.value                   = PNY_GPU_MODE_ARGB_OFF;
+    Off.color_mode              = MODE_COLORS_NONE;
+    modes.push_back(Off);
+
+    mode Cycle;
+    Cycle.name                  = "Spectrum Cycle";
+    Cycle.value                 = PNY_GPU_MODE_ARGB_CYCLE;
+    Cycle.flags                 = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Cycle.color_mode            = MODE_COLORS_RANDOM;
+    Cycle.speed                 = 0x09;
+    Cycle.speed_min             = 0x0F;
+    Cycle.speed_max             = 0x00;
+    Cycle.brightness            = 0xFF;
+    Cycle.brightness_min        = 0;
+    Cycle.brightness_max        = 0xFF;
+    modes.push_back(Cycle);
+
+    mode Neon;
+    Neon.name                   = "Neon";
+    Neon.value                  = PNY_GPU_MODE_ARGB_NEON;
+    Neon.flags                  = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Neon.color_mode             = MODE_COLORS_RANDOM;
+    Neon.speed                  = 0x09;
+    Neon.speed_min              = 0x5F;
+    Neon.speed_max              = 0x00;
+    Neon.brightness             = 0xFF;
+    Neon.brightness_min         = 0;
+    Neon.brightness_max         = 0xFF;
+    modes.push_back(Neon);
+
+//    mode Explosion;
+//    Explosion.name              = "Explosion";
+//    Explosion.value             = PNY_GPU_MODE_ARGB_EXPLOSION;
+//    Explosion.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+//    Explosion.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+//    Explosion.brightness        = 0xFF;
+//    Explosion.brightness_min    = 0;
+//    Explosion.brightness_max    = 0xFF;
+//    Explosion.colors_min        = 1;
+//    Explosion.colors_max        = 1;
+//    Explosion.colors.resize(1);
+//    modes.push_back(Explosion);
+
+//    mode Supernova;
+//    Supernova.name              = "Supernova";
+//    Supernova.value             = PNY_GPU_MODE_ARGB_SUPERNOVA;
+//    Supernova.flags             = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+//    Supernova.color_mode        = MODE_COLORS_RANDOM;
+//    Supernova.brightness        = 0xFF;
+//    Supernova.brightness_min    = 0;
+//    Supernova.brightness_max    = 0xFF;
+//    modes.push_back(Supernova);
+
+    mode Infinity;
+    Infinity.name               = "Infinity";
+    Infinity.value              = PNY_GPU_MODE_ARGB_INFINITY;
+    Infinity.flags              = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Infinity.color_mode         = MODE_COLORS_RANDOM;
+    Infinity.speed              = 0x09;
+    Infinity.speed_min          = 0x5F;
+    Infinity.speed_max          = 0x00;
+    Infinity.brightness         = 0xFF;
+    Infinity.brightness_min     = 0;
+    Infinity.brightness_max     = 0xFF;
+    modes.push_back(Infinity);
+
+    mode Streamer;
+    Streamer.name               = "Streamer";
+    Streamer.value              = PNY_GPU_MODE_ARGB_STREAMER;
+    Streamer.flags              = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Streamer.color_mode         = MODE_COLORS_RANDOM;
+    Streamer.speed              = 0x09;
+    Streamer.speed_min          = 0x5F;
+    Streamer.speed_max          = 0x00;
+    Streamer.brightness         = 0xFF;
+    Streamer.brightness_min     = 0;
+    Streamer.brightness_max     = 0xFF;
+    modes.push_back(Streamer);
+
+    mode Wave;
+    Wave.name                   = "Rainbow Wave";
+    Wave.value                  = PNY_GPU_MODE_ARGB_WAVE;
+    Wave.flags                  = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Wave.color_mode             = MODE_COLORS_RANDOM;
+    Wave.speed                  = 0x09;
+    Wave.speed_min              = 0x5F;
+    Wave.speed_max              = 0x00;
+    Wave.brightness             = 0xFF;
+    Wave.brightness_min         = 0;
+    Wave.brightness_max         = 0xFF;
+    modes.push_back(Wave);
 
     SetupZones();
 
@@ -205,6 +296,16 @@ void RGBController_PNYARGBEpicXGPU::UpdateSingleLED(int led)
 
 void RGBController_PNYARGBEpicXGPU::DeviceUpdateMode()
 {
+    if(modes[active_mode].color_mode == MODE_COLORS_NONE || modes[active_mode].color_mode == MODE_COLORS_RANDOM)
+    {
+        controller->SetZoneMode(PNY_GPU_REG_ZONE_FRONT, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, 0, 0);
+        controller->SetZoneMode(PNY_GPU_REG_ZONE_ARROW, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, 0, 0);
+
+        if(controller->IsLargeVariant())
+        {
+            controller->SetZoneMode(PNY_GPU_REG_ZONE_LOGO,  modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, 0, 0);
+        }
+    }
     if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {
         controller->SetZoneMode(PNY_GPU_REG_ZONE_FRONT, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, 0, modes[active_mode].colors[0]);
