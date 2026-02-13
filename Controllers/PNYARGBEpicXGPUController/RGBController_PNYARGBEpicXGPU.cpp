@@ -59,26 +59,39 @@ RGBController_PNYARGBEpicXGPU::~RGBController_PNYARGBEpicXGPU()
 void RGBController_PNYARGBEpicXGPU::SetupZones()
 {
     /*-----------------------------------------------------*\
-    | The logo zone has 4 LEDs, but they are part of the    |
-    | FRONT register zone                                   |
+    | The side logo zone has 4 LEDs, but they are part of   |
+    | the FRONT register zone                               |
+    |                                                       |
+    | This card has two variants, large and small.  Large   |
+    | is used on the 5080 and 5090 and has an extra logo    |
+    | zone on the rear of the card as well as additional    |
+    | LEDs in the arrow zone.  The small variant is used on |
+    | the 5070 Ti and lower cards.                          |
     \*-----------------------------------------------------*/
-    zone logo;
-    logo.name                   = "Logo";
-    logo.type                   = ZONE_TYPE_LINEAR;
-    logo.leds_min               = 4;
-    logo.leds_max               = 4;
-    logo.leds_count             = 4;
-    logo.matrix_map             = NULL;
-    zones.push_back(logo);
+    zone side_logo;
 
-    for(std::size_t led_idx = 0; led_idx < logo.leds_count; led_idx++)
+    if(controller->IsLargeVariant())
     {
-        led logo_led;
+        side_logo.name          = "Side Logo";
+    }
+    else
+    {
+        side_logo.name          = "Logo";
+    }
 
-        logo_led.name           = "Logo LED " + std::to_string(led_idx);
-        logo_led.value          = PNY_GPU_REG_ZONE_FRONT;
+    side_logo.type              = ZONE_TYPE_LINEAR;
+    side_logo.leds_min          = 4;
+    side_logo.leds_max          = 4;
+    side_logo.leds_count        = 4;
+    side_logo.matrix_map        = NULL;
+    zones.push_back(side_logo);
 
-        leds.push_back(logo_led);
+    for(std::size_t led_idx = 0; led_idx < side_logo.leds_count; led_idx++)
+    {
+        led side_logo_led;
+        side_logo_led.name      = side_logo.name + " LED " + std::to_string(led_idx);
+        side_logo_led.value     = PNY_GPU_REG_ZONE_FRONT;
+        leds.push_back(side_logo_led);
         zone_led_idx.push_back((unsigned char)(led_idx + 20));
     }
 
@@ -98,35 +111,65 @@ void RGBController_PNYARGBEpicXGPU::SetupZones()
     for(std::size_t led_idx = 0; led_idx < front.leds_count; led_idx++)
     {
         led front_led;
-
         front_led.name          = "Front LED " + std::to_string(led_idx);
         front_led.value         = PNY_GPU_REG_ZONE_FRONT;
-
         leds.push_back(front_led);
         zone_led_idx.push_back((unsigned char)led_idx);
     }
 
     /*-----------------------------------------------------*\
-    | The arrow zone has 17 LEDs                            |
+    | The arrow zone has 17 LEDs on the small variant, 19   |
+    | LEDs on the large variant                             |
     \*-----------------------------------------------------*/
+    unsigned int arrow_led_count;
+
+    if(controller->IsLargeVariant())
+    {
+        arrow_led_count         = 19;
+    }
+    else
+    {
+        arrow_led_count         = 17;
+    }
+
     zone arrow;
     arrow.name                  = "Arrow";
     arrow.type                  = ZONE_TYPE_LINEAR;
-    arrow.leds_min              = 17;
-    arrow.leds_max              = 17;
-    arrow.leds_count            = 17;
+    arrow.leds_min              = arrow_led_count;
+    arrow.leds_max              = arrow_led_count;
+    arrow.leds_count            = arrow_led_count;
     arrow.matrix_map            = NULL;
     zones.push_back(arrow);
 
     for(std::size_t led_idx = 0; led_idx < arrow.leds_count; led_idx++)
     {
         led arrow_led;
-
         arrow_led.name          = "Arrow LED " + std::to_string(led_idx);
         arrow_led.value         = PNY_GPU_REG_ZONE_ARROW;
-
         leds.push_back(arrow_led);
         zone_led_idx.push_back((unsigned char)led_idx);
+    }
+
+    /*-----------------------------------------------------*\
+    | The rear logo zone is only present on the large       |
+    | variant                                               |
+    \*-----------------------------------------------------*/
+    if(controller->IsLargeVariant())
+    {
+        zone rear_logo;
+        rear_logo.name          = "Rear Logo";
+        rear_logo.type          = ZONE_TYPE_SINGLE;
+        rear_logo.leds_min      = 1;
+        rear_logo.leds_max      = 1;
+        rear_logo.leds_count    = 1;
+        rear_logo.matrix_map    = NULL;
+        zones.push_back(rear_logo);
+
+        led rear_logo_led;
+        rear_logo_led.name      = "Rear Logo LED";
+        rear_logo_led.value     = PNY_GPU_REG_ZONE_LOGO;
+        leds.push_back(rear_logo_led);
+        zone_led_idx.push_back(0);
     }
 
     SetupColors();
@@ -166,11 +209,22 @@ void RGBController_PNYARGBEpicXGPU::DeviceUpdateMode()
     {
         controller->SetZoneMode(PNY_GPU_REG_ZONE_FRONT, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, 0, modes[active_mode].colors[0]);
         controller->SetZoneMode(PNY_GPU_REG_ZONE_ARROW, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, 0, modes[active_mode].colors[0]);
+
+        if(controller->IsLargeVariant())
+        {
+            controller->SetZoneMode(PNY_GPU_REG_ZONE_LOGO,  modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, 0, modes[active_mode].colors[0]);
+        }
     }
     else if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
         controller->SetZoneMode(PNY_GPU_REG_ZONE_FRONT, modes[active_mode].value, 0, 0xFF, 0, 0);
         controller->SetZoneMode(PNY_GPU_REG_ZONE_ARROW, modes[active_mode].value, 0, 0xFF, 0, 0);
+
+        if(controller->IsLargeVariant())
+        {
+            controller->SetZoneMode(PNY_GPU_REG_ZONE_LOGO,  modes[active_mode].value, 0, 0xFF, 0, 0);
+        }
+
         DeviceUpdateLEDs();
     }
 }

@@ -12,11 +12,12 @@
 
 #include "PNYARGBEpicXGPUController.h"
 
-PNYARGBEpicXGPUController::PNYARGBEpicXGPUController(i2c_smbus_interface* bus, unsigned char init_i2c_addr, std::string name)
+PNYARGBEpicXGPUController::PNYARGBEpicXGPUController(i2c_smbus_interface* bus, unsigned char init_i2c_addr, std::string name, bool large_variant)
 {
-    this->bus       = bus;
-    this->i2c_addr  = init_i2c_addr;
-    this->name      = name;
+    this->bus           = bus;
+    this->i2c_addr      = init_i2c_addr;
+    this->name          = name;
+    this->large_variant = large_variant;
 }
 
 PNYARGBEpicXGPUController::~PNYARGBEpicXGPUController()
@@ -39,9 +40,14 @@ std::string PNYARGBEpicXGPUController::GetDeviceName()
     return(name);
 }
 
+bool PNYARGBEpicXGPUController::IsLargeVariant()
+{
+    return(large_variant);
+}
+
 void PNYARGBEpicXGPUController::SetZoneMode(unsigned char zone, unsigned char mode, unsigned char speed, unsigned char brightness, unsigned char subcmd, RGBColor color)
 {
-    unsigned char data[7] = 
+    unsigned char data[7] =
     {
         mode,
         brightness,
