@@ -35,4 +35,6 @@ private:
     ClevoKeyboardController*        controller;
     std::vector<RGBColor*>          buffer_map;
     RGBColor                        null_color;
+
+    unsigned int    GetCorrectHWValue(const std::string& key_name);
 };
