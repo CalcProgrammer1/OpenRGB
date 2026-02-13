@@ -65,6 +65,14 @@ std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned sho
             | readlink() does not null-terminate, so manually terminate it      |
             \*-----------------------------------------------------------------*/
             ssize_t link_path_size = readlink(tty_path, symlink_path, 1024);
+            if(link_path_size < 0 || link_path_size >= 1024)
+            {
+                /*-----------------------------------------------------------------*\
+                | readlink failed or buffer too small, skip this device             |
+                \*-----------------------------------------------------------------*/
+                ent = readdir(dir);
+                continue;
+            }
             symlink_path[link_path_size] = '\0';
 
             char * usb_string = strstr(symlink_path, "usb");

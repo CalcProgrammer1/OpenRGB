@@ -749,8 +749,8 @@ macx {
 
     SOURCES += $$CONTROLLER_CPP_MACOS
 
-    # Use mbedtls
-    MBEDTLS_PREFIX = $$system(brew --prefix mbedtls)
+    # Use mbedtls 3
+    MBEDTLS_PREFIX = $$system(brew --prefix mbedtls@3)
 
     INCLUDEPATH +=                                                                              \
     $$MBEDTLS_PREFIX/include                                                                    \

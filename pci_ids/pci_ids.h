@@ -364,6 +364,7 @@
 #define ASUS_ROG_ASTRAL_RTX_5090_O32G_GAMING_BTF        0x8A3C
 #define ASUS_ROG_ASTRAL_RTX_5090_O32G_GAMING_WHITE      0x8A2E
 #define ASUS_ROG_ASTRAL_LC_RTX_5090_O32G_GAMING         0x89EC
+#define ASUS_ROG_ASTRAL_LC_OC_RTX_5090_O32G_GAMING      0x89ED
 #define ASUS_ROG_MATRIX_PLATINUM_RTX_5090_P32G          0x8A61
 #define ASUS_TUF_RTX_5090_O32G_GAMING                   0x89EE
 #define ASUS_TUF_RTX_5090_32G_GAMING                    0x89EF
@@ -712,6 +713,7 @@
 #define GIGABYTE_RTX5080_GAMING_OC_16G_SUB_DEV          0x4176
 #define GIGABYTE_AORUS_RTX5080_XTREME_WATERFORCE_16G_SUB_DEV 0x418A
 #define GIGABYTE_RTX5080_XTREME_WATERFORCE_16G_SUB_DEV  0x418B
+#define GIGABYTE_AORUS_RTX5080_MASTER_16G_SUB_DEV       0x4178
 #define GIGABYTE_RTX5090_GAMING_OC_32G_SUB_DEV          0x416F
 #define GIGABYTE_AORUS_RTX5090_MASTER_32G_SUB_DEV       0x416E
 #define GIGABYTE_AORUS_RTX5090_MASTER_ICE_32G_SUB_DEV   0x4199
@@ -789,6 +791,7 @@
 #define MSI_RTX3090TI_SUPRIM_X_SUB_DEV                  0x5090
 #define MSI_RTX3090TI_GAMING_X_TRIO_SUB_DEV             0x5091
 #define MSI_RTX4060_GAMING_X_8G_SUB_DEV                 0x5160
+#define MSI_RTX4060_GAMING_X_NV_EDITION_8G_SUB_DEV      0x5164
 #define MSI_RTX4060TI_GAMING_X_8G_SUB_DEV               0x5152
 #define MSI_RTX4060TI_GAMING_X_16G_SLIM_WHITE_SUB_DEV   0x5171
 #define MSI_RTX4060TI_GAMING_X_16G_SUB_DEV              0x5172
@@ -891,7 +894,10 @@
 #define PALIT_RTX4090_GAMEROCK_SUB_DEV                  0xF296
 #define PALIT_RTX5060TI_WHITE_OC_16G_SUB_DEV            0xF330
 #define PALIT_RTX5070_GAMINGPRO_SUB_DEV                 0xF324
-#define PALIT_RTX5070TI_GAMINGPRO_SUB_DEV               0xF320
+#define PALIT_RTX5070TI_GAMEROCK_SUB_DEV                0xF320
+#define PALIT_RTX5070TI_GAMINGPRO_SUB_DEV               0xF322
+#define PALIT_RTX5070TI_GAMINGPRO_S_SUB_DEV             0xF332
+#define PALIT_RTX5080_GAMEROCK_SUB_DEV                  0xF320
 #define PALIT_RTX5080_GAMINGPRO_SUB_DEV                 0xF322
 #define PALIT_RTX5090_GAMEROCK_SUB_DEV                  0xF318
 
@@ -939,6 +945,7 @@
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV                   0xF440
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV1                  0xF441
 #define SAPPHIRE_NAVI31_NITRO_PLUS_SUB_DEV              0xE471
+#define SAPPHIRE_NAVI44_PURE_XT_SUB_DEV                 0x493E
 #define SAPPHIRE_NAVI48_NITRO_PLUS_SUB_DEV              0xE489
 #define SAPPHIRE_NAVI48_NITRO_PLUS_SUB_DEV1             0xE493
 #define SAPPHIRE_NAVI48_PURE_SUB_DEV                    0x4499
@@ -974,6 +981,7 @@
 | Manli Sub-Device IDs                                  |
 \*-----------------------------------------------------*/
 #define MANLI_RTX3080TI_GALLARDO_SUB_DEV                0x2612
+#define MANLI_RTX4090_GALLARDO_SUB_DEV                 0x167C
 
 /*---------------------------------------------------------*\
 | PCI ID Macros                                             |

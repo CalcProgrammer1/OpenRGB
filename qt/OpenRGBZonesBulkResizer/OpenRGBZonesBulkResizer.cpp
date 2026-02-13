@@ -27,9 +27,9 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
     SettingsManager* settings_manager = ResourceManager::get()->GetSettingsManager();
     json ui_settings = settings_manager->GetSettings("UserInterface");
 
-    if(!ui_settings.is_null() && ui_settings.contains("RunZoneChecks"))
+    if(!ui_settings.is_null() && ui_settings.contains("run_zone_checks"))
     {
-        json run_zone_checks = ui_settings["RunZoneChecks"];
+        json run_zone_checks = ui_settings["run_zone_checks"];
 
         if(!run_zone_checks.is_null() && run_zone_checks.is_boolean())
         {
@@ -233,7 +233,7 @@ void OpenRGBZonesBulkResizer::SaveDoNotRunState()
 
     bool state = ui->do_not_show_again_checkbox->checkState() == Qt::Checked;
 
-    ui_settings["RunZoneChecks"] = !state;
+    ui_settings["run_zone_checks"] = !state;
 
     settings_manager->SetSettings("UserInterface", ui_settings);
     settings_manager->SaveSettings();

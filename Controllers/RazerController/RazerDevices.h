@@ -54,6 +54,7 @@
 #define RAZER_BLACKWIDOW_V4_PRO_PID                     0x028D
 #define RAZER_BLACKWIDOW_V4_X_PID                       0x0293
 #define RAZER_BLACKWIDOW_V4_PRO_75_WIRED_PID            0x02B3
+#define RAZER_BLACKWIDOW_V4_PRO_75_WIRELESS_PID         0x02B4
 #define RAZER_BLACKWIDOW_V4_75_WIRED_PID                0x02A5
 #define RAZER_BLACKWIDOW_X_CHROMA_PID                   0x0216
 #define RAZER_BLACKWIDOW_X_CHROMA_TE_PID                0x021A
@@ -228,6 +229,7 @@
 #define RAZER_KRAKEN_V3_HYPERSENSE_PID                  0x0533
 #define RAZER_KRAKEN_V3_X_PID                           0x0537
 #define RAZER_KRAKEN_V3_PID                             0x0549
+#define RAZER_KRAKEN_KITTY_V2_PRO_PID                   0x0554
 #define RAZER_KRAKEN_V4_WIRED_PID                       0x056B
 #define RAZER_KRAKEN_V4_WIRELESS_PID                    0x056C
 #define RAZER_KRAKEN_KITTY_V3_PRO_WIRED_PID             0x0587

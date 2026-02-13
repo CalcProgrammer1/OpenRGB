@@ -24,6 +24,7 @@ class SPDWrapper
     SPDMemoryType memory_type();
     int index();
     uint16_t jedec_id();
+    std::string part_number();
     uint8_t manufacturer_data(uint16_t index);
 
   private:

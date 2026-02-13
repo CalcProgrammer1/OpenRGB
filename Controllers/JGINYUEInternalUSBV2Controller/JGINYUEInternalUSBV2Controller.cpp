@@ -18,7 +18,7 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "JGINYUEInternalUSBV2Controller.h"
-
+#include "LogManager.h"
 #include "dmiinfo.h"
 
 #define JGINYUE_V2_HID_GENERAL_COMMAND_HEADER              0x01
@@ -55,8 +55,10 @@ JGINYUEInternalUSBV2Controller::JGINYUEInternalUSBV2Controller(hid_device* jy_hi
 JGINYUEInternalUSBV2Controller::~JGINYUEInternalUSBV2Controller()
 {
     hid_close(jy_hid_interface);
-    delete jy_cdc_interface;
-
+    if(jy_cdc_interface != nullptr)
+    {
+        delete jy_cdc_interface;
+    }
 }
 
 unsigned int JGINYUEInternalUSBV2Controller::GetZoneCount()
@@ -91,14 +93,26 @@ void JGINYUEInternalUSBV2Controller::Init_device()
     memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0] = JGINYUE_V2_HID_GENERAL_COMMAND_HEADER;
     usb_buf[1] = 0x0F;
-    hid_write(jy_hid_interface, usb_buf, 64);
-    std::this_thread::sleep_for(20ms);
-    hid_read(jy_hid_interface, usb_buf, 64);
-    if(usb_buf[1] != 0x0F)
+
+    int write_result = hid_write(jy_hid_interface, usb_buf, 64);
+    if(write_result < 0)
     {
+        LOG_ERROR("[JGINYUEInternalUSBV2Controller] Failed to write to JGINYUE device during initialization");
         ZoneCount = 0x00;
         memset(device_config, 0x00, sizeof(device_config));
-        memset (&device_config_Global, 0x00, sizeof(device_config_Global));
+        memset(&device_config_Global, 0x00, sizeof(device_config_Global));
+        return;
+    }
+
+    std::this_thread::sleep_for(20ms);
+
+    int bytes_read = hid_read_timeout(jy_hid_interface, usb_buf, 64, 1000);
+    if(bytes_read <= 0 || usb_buf[1] != 0x0F)
+    {
+        LOG_ERROR("[JGINYUEInternalUSBV2Controller] JGINYUE device did not respond or invalid response (bytes read: %d)", bytes_read);
+        ZoneCount = 0x00;
+        memset(device_config, 0x00, sizeof(device_config));
+        memset(&device_config_Global, 0x00, sizeof(device_config_Global));
         return;
     }
     unsigned char Zone_Info = usb_buf[4];
@@ -135,13 +149,25 @@ void JGINYUEInternalUSBV2Controller::Init_Zone(int zone)
     usb_buf[1] = JGINYUE_V2_HID_REQUEST_ARGB_SETTING;
     usb_buf[2] = Area_ID;
 
-    hid_write(jy_hid_interface, usb_buf, 64);
+    int write_result = hid_write(jy_hid_interface, usb_buf, 64);
+    if(write_result < 0)
+    {
+        LOG_ERROR("[JGINYUEInternalUSBV2Controller] Failed to write to JGINYUE device for zone %d", zone);
+        return;
+    }
+
     std::this_thread::sleep_for(20ms);
 
-    hid_read(jy_hid_interface, usb_buf, 64);
-
-    if((usb_buf[1] != JGINYUE_V2_HID_REQUEST_ARGB_SETTING)|(usb_buf[2] != Area_ID))
+    int bytes_read = hid_read_timeout(jy_hid_interface, usb_buf, 64, 1000);
+    if(bytes_read <= 0)
     {
+        LOG_ERROR("[JGINYUEInternalUSBV2Controller] Failed to read zone %d config from JGINYUE device (bytes read: %d)", zone, bytes_read);
+        return;
+    }
+
+    if((usb_buf[1] != JGINYUE_V2_HID_REQUEST_ARGB_SETTING) || (usb_buf[2] != Area_ID))
+    {
+        LOG_ERROR("[JGINYUEInternalUSBV2Controller] Invalid response for zone %d from JGINYUE device", zone);
         return;
     }
 
@@ -200,6 +226,16 @@ void JGINYUEInternalUSBV2Controller::DirectLEDControl
     unsigned char          Area
     )
 {
+    /*-----------------------------------------------------*\
+    | Direct mode requires CDC interface                   |
+    | If CDC is not available, log error and return        |
+    \*-----------------------------------------------------*/
+    if(jy_cdc_interface == nullptr)
+    {
+        LOG_WARNING("[JGINYUEInternalUSBV2Controller] Direct mode requires serial port (CDC) which is not available. Use other modes instead.");
+        return;
+    }
+
     unsigned char cdc_buf[512];
     memset(cdc_buf, 0x00, sizeof(cdc_buf));
     cdc_buf[0] = JGINYUE_V2_CDC_COMMAND_HEADER;

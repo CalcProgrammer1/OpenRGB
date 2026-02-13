@@ -239,6 +239,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 Mini (Wireless)",             Det
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4",                             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PID,                        0x03,   0x01,   0x00);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro",                         DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_PID,                    0x03,   0x01,   0x00);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro 75% (Wired)",             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_75_WIRED_PID,           0x03,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro 75% (Wireless)",          DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_75_WIRELESS_PID,        0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 75% (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_75_WIRED_PID,               0x03,   0x01,   0x00);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 X",                           DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_X_PID,                      0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_X_CHROMA_PID,                  0x02,   0x01,   0x02);
@@ -392,6 +393,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Kraken Ultimate",                           Det
 REGISTER_HID_DETECTOR_IPU("Razer Kraken V3 HyperSense",                      DetectRazerKrakenV3Controllers,RAZER_VID,  RAZER_KRAKEN_V3_HYPERSENSE_PID,                 0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken V3 X",                               DetectRazerKrakenV3Controllers,RAZER_VID,  RAZER_KRAKEN_V3_X_PID,                          0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken V3",                                 DetectRazerKrakenV3Controllers,RAZER_VID,  RAZER_KRAKEN_V3_PID,                            0x03,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty V2 Pro",                       DetectRazerKrakenV3Controllers,RAZER_VID,  RAZER_KRAKEN_KITTY_V2_PRO_PID,                  0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken V4 (Wired)",                         DetectRazerKrakenV4Controllers,RAZER_VID,  RAZER_KRAKEN_V4_WIRED_PID,                      0x05,   0xFF14, 0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken V4 (Wireless)",                      DetectRazerKrakenV4Controllers,RAZER_VID,  RAZER_KRAKEN_V4_WIRELESS_PID,                   0x05,   0xFF14, 0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty V3 Pro (Wired)",               DetectRazerKrakenV4Controllers,RAZER_VID,  RAZER_KRAKEN_KITTY_V3_PRO_WIRED_PID,            0x05,   0xFF14, 0x01);

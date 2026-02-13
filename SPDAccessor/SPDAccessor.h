@@ -11,6 +11,10 @@
 
 #include "SPDCommon.h"
 
+#include <cstddef>
+#include <cstdint>
+#include <string>
+
 class SPDAccessor
 {
   public:
@@ -21,6 +25,7 @@ class SPDAccessor
 
     virtual SPDMemoryType memory_type() = 0;
     virtual uint16_t jedec_id() = 0;
+    virtual std::string part_number() = 0;
     virtual uint8_t manufacturer_data(uint16_t index) = 0;
 
     virtual SPDAccessor *copy() = 0;
@@ -30,6 +35,8 @@ class SPDAccessor
   protected:
     i2c_smbus_interface *bus;
     uint8_t address;
+
+    std::string read_part_nr_at(uint16_t address, std::size_t len);
 };
 
 /*---------------------------------------------------------*\
@@ -43,6 +50,7 @@ class DDR4Accessor : public SPDAccessor
     virtual ~DDR4Accessor();
     virtual SPDMemoryType memory_type();
     virtual uint16_t jedec_id();
+    virtual std::string part_number();
     virtual uint8_t manufacturer_data(uint16_t index);
 };
 
@@ -53,5 +61,6 @@ class DDR5Accessor : public SPDAccessor
     virtual ~DDR5Accessor();
     virtual SPDMemoryType memory_type();
     virtual uint16_t jedec_id();
+    virtual std::string part_number();
     virtual uint8_t manufacturer_data(uint16_t index);
 };

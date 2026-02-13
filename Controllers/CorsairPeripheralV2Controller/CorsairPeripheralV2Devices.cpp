@@ -152,6 +152,28 @@ keyboard_keymap_overlay_values corsair_K70_TKL_cs_layout
     }
 };
 
+
+keyboard_keymap_overlay_values corsair_K70_CORE_TKL_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
+    {
+        corsair_tkl_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode,                             |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      14,         70,         KEY_EN_MEDIA_MUTE,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,         },  // Swap PRSC with Mute 
+        {   0,      0,      15,         71,         KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,         },  // Remove SCLK
+        {   0,      0,      16,         72,         KEY_EN_MEDIA_VOLUME_UP,     KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,         },  // Swap PSBK with Volume Potion Up 
+        
+    }
+};
+
 keyboard_keymap_overlay_values corsair_k95_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
@@ -930,6 +952,39 @@ static const corsair_v2_device k70_rgb_tkl_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair K70 Core RGB TKL 1B1C:2B01                           |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 1 Columns                                       |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone k70_core_rgb_tkl_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    17
+};
+
+static const corsair_v2_device k70_core_rgb_tkl_device =
+{
+    CORSAIR_K70_CORE_RGB_TKL_PID,
+    DEVICE_TYPE_KEYBOARD,
+    6,
+    17,
+    {
+        &k70_core_rgb_tkl_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_K70_CORE_TKL_layout
+};
+
+
+/*-------------------------------------------------------------*\
 |  Corsair K70 RGB TKL Champion Series 1B1C:1BB9                |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -1411,6 +1466,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k60_rgb_pro_tkl_device_b,
     &k60_rgb_pro_tkl_device_w,
     &k70_core_rgb_device,
+    &k70_core_rgb_tkl_device,
     &k70_rgb_pro_device,
     &k70_rgb_pro_v2_device,
     &k70_rgb_tkl_device,

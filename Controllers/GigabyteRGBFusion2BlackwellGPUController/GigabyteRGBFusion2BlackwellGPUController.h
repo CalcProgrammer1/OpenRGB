@@ -44,6 +44,7 @@ enum
     RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_SHIFT     = 0x08, // Not available to Eagle/Aero
     RGB_FUSION2_BLACKWELL_GPU_MODE_TRICOLOR        = 0x09, // Available to Waterforce
     RGB_FUSION2_BLACKWELL_GPU_MODE_DAZZLE          = 0x0A, // Not available to Eagle/Aero/Waterforce
+    RGB_FUSION2_BLACKWELL_GPU_MODE_CLAWS           = 0x0C, // Available to AORUS 5080 MASTER
 };
 
 enum
@@ -61,16 +62,17 @@ enum
 
 enum
 {
-    RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE          = 0,
-    RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT        = 1,
-    RGB_FUSION2_BLACKWELL_GPU_WATERFORCE_LAYOUT    = 2,
-    RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT = 3,
+    RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE              = 0,
+    RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT            = 1,
+    RGB_FUSION2_BLACKWELL_GPU_WATERFORCE_LAYOUT        = 2,
+    RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT  = 3,
+    RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5080_LAYOUT = 4,
 };
 
 class RGBFusion2BlackwellGPUController
 {
 public:
-    RGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string dev_name);
+    RGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string dev_name, int gpu_layout);
     ~RGBFusion2BlackwellGPUController();
 
     RGBColor        zone_color[RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES];
@@ -87,4 +89,6 @@ private:
     i2c_smbus_interface*    bus;
     rgb_fusion_dev_id       dev;
     std::string             name;
+    int                     gpu_layout;
+
 };

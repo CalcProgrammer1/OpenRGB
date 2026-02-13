@@ -223,5 +223,10 @@ void SteelSeriesApexController::SendInitialization()
 
 std::string SteelSeriesApexController::GetSerial()
 {
+    if(use_new_protocol)
+    {
         return "64865";
+    }
+
+    return SteelSeriesApexBaseController::GetSerial();
 }
