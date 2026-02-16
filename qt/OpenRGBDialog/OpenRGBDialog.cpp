@@ -15,6 +15,7 @@
 #include "OpenRGBServerInfoPage.h"
 #include "OpenRGBConsolePage.h"
 #include "OpenRGBPluginContainer.h"
+#include "OpenRGBProfileEditorDialog.h"
 #include "OpenRGBProfileListDialog.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
@@ -40,87 +41,6 @@
 #ifdef __APPLE__
 #include "macutils.h"
 #endif
-
-static int GetIcon(device_type type)
-{
-    /*-----------------------------------------------------*\
-    | Return the icon int value for the given device        |
-    | type value                                            |
-    \*-----------------------------------------------------*/
-    int icon;
-
-    switch(type)
-    {
-    case DEVICE_TYPE_ACCESSORY:
-        icon = OpenRGBFont::usb;
-        break;
-    case DEVICE_TYPE_MOTHERBOARD:
-        icon = OpenRGBFont::mainboard;
-        break;
-    case DEVICE_TYPE_DRAM:
-        icon = OpenRGBFont::dram;
-        break;
-    case DEVICE_TYPE_GPU:
-        icon = OpenRGBFont::gpu;
-        break;
-    case DEVICE_TYPE_COOLER:
-        icon = OpenRGBFont::cooler;
-        break;
-    case DEVICE_TYPE_LEDSTRIP:
-        icon = OpenRGBFont::ledstrip;
-        break;
-    case DEVICE_TYPE_KEYBOARD:
-        icon = OpenRGBFont::keyboard;
-        break;
-    case DEVICE_TYPE_MICROPHONE:
-        icon = OpenRGBFont::mic;
-        break;
-    case DEVICE_TYPE_MOUSE:
-        icon = OpenRGBFont::mouse;
-        break;
-    case DEVICE_TYPE_MOUSEMAT:
-        icon = OpenRGBFont::mousemat;
-        break;
-    case DEVICE_TYPE_HEADSET:
-        icon = OpenRGBFont::headset;
-        break;
-    case DEVICE_TYPE_HEADSET_STAND:
-        icon = OpenRGBFont::headsetstand;
-        break;
-    case DEVICE_TYPE_GAMEPAD:
-        icon = OpenRGBFont::gamepad;
-        break;
-    case DEVICE_TYPE_LIGHT:
-        icon = OpenRGBFont::bulb;
-        break;
-    case DEVICE_TYPE_SPEAKER:
-        icon = OpenRGBFont::music_speaker;
-        break;
-    case DEVICE_TYPE_VIRTUAL:
-        icon = OpenRGBFont::virtual_controller;
-        break;
-    case DEVICE_TYPE_STORAGE:
-        icon = OpenRGBFont::drive;
-        break;
-    case DEVICE_TYPE_CASE:
-        icon = OpenRGBFont::pc_case;
-        break;
-    case DEVICE_TYPE_KEYPAD:
-        icon = OpenRGBFont::keypad;
-        break;
-    case DEVICE_TYPE_LAPTOP:
-        icon = OpenRGBFont::laptop;
-        break;
-    case DEVICE_TYPE_MONITOR:
-        icon = OpenRGBFont::monitor;
-        break;
-    default:
-        icon = OpenRGBFont::unknown;
-        break;
-    }
-
-    return icon;
-}
 
 static void OpenRGBDialogProfileManagerCallback(void * this_ptr, unsigned int update_reason)
 {
@@ -1062,7 +982,7 @@ void OpenRGBDialog::UpdateDevicesList()
                         /*---------------------------------*\
                         | Create the tab label              |
                         \*---------------------------------*/
-                        TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
+                        TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
 
                         ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
                         ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
@@ -1139,7 +1059,7 @@ void OpenRGBDialog::UpdateDevicesList()
                 /*-----------------------------------------*\
                 | Create the tab label                      |
                 \*-----------------------------------------*/
-                TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
+                TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
 
                 ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
                 ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
@@ -1199,7 +1119,7 @@ void OpenRGBDialog::UpdateDevicesList()
             /*---------------------------------------------*\
             | Create the tab label                          |
             \*---------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
+            TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
@@ -1817,7 +1737,9 @@ void OpenRGBDialog::SaveProfile()
         /*-------------------------------------------------*\
         | Save the profile                                  |
         \*-------------------------------------------------*/
-        profile_manager->SaveProfile(filename);
+        OpenRGBProfileEditorDialog editor(filename);
+
+        editor.show();
     }
 }
 
@@ -1844,7 +1766,9 @@ void OpenRGBDialog::SaveProfileAs()
             /*---------------------------------------------*\
             | Save the profile                              |
             \*---------------------------------------------*/
-            profile_manager->SaveProfile(filename);
+            OpenRGBProfileEditorDialog editor(filename);
+
+            editor.show();
         }
     }
 }
