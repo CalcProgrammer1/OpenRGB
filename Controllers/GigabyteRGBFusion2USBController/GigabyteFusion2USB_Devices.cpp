@@ -1926,6 +1926,14 @@ static const gb_fusion2_device z390_aorus_master_cf_device =
     "Z390 AORUS MASTER-CF",
 };
 
+static const gb_fusion2_device z390_aorus_pro_wifi_cf_device =
+{
+    &mstr_atx_layout,
+    0xCDE4CFFE,
+    1,
+    "Z390 AORUS PRO WIFI-CF",
+};
+
 /*-------------------------------------------------------------*\
 |  MSTR_ATX_3    048D:8297                                      |
 |                                                               |
@@ -3833,6 +3841,7 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &x570_aorus_ultra_device,
     &x570i_aorus_pro_wifi_device,
     &z390_aorus_master_cf_device,
+    &z390_aorus_pro_wifi_cf_device,
 
 /*-----------------------------------------------------------------*\
 |  IT8950 Devices                                                   |
