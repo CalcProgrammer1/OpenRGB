@@ -39,6 +39,87 @@ OpenRGBFont *OpenRGBFont::Get()
     return instance;
 }
 
+int OpenRGBFont::GetIconIDFromDeviceType(device_type type)
+{
+    /*-----------------------------------------------------*\
+    | Return the icon int value for the given device        |
+    | type value                                            |
+    \*-----------------------------------------------------*/
+    int icon;
+
+    switch(type)
+    {
+    case DEVICE_TYPE_ACCESSORY:
+        icon = OpenRGBFont::usb;
+        break;
+    case DEVICE_TYPE_MOTHERBOARD:
+        icon = OpenRGBFont::mainboard;
+        break;
+    case DEVICE_TYPE_DRAM:
+        icon = OpenRGBFont::dram;
+        break;
+    case DEVICE_TYPE_GPU:
+        icon = OpenRGBFont::gpu;
+        break;
+    case DEVICE_TYPE_COOLER:
+        icon = OpenRGBFont::cooler;
+        break;
+    case DEVICE_TYPE_LEDSTRIP:
+        icon = OpenRGBFont::ledstrip;
+        break;
+    case DEVICE_TYPE_KEYBOARD:
+        icon = OpenRGBFont::keyboard;
+        break;
+    case DEVICE_TYPE_MICROPHONE:
+        icon = OpenRGBFont::mic;
+        break;
+    case DEVICE_TYPE_MOUSE:
+        icon = OpenRGBFont::mouse;
+        break;
+    case DEVICE_TYPE_MOUSEMAT:
+        icon = OpenRGBFont::mousemat;
+        break;
+    case DEVICE_TYPE_HEADSET:
+        icon = OpenRGBFont::headset;
+        break;
+    case DEVICE_TYPE_HEADSET_STAND:
+        icon = OpenRGBFont::headsetstand;
+        break;
+    case DEVICE_TYPE_GAMEPAD:
+        icon = OpenRGBFont::gamepad;
+        break;
+    case DEVICE_TYPE_LIGHT:
+        icon = OpenRGBFont::bulb;
+        break;
+    case DEVICE_TYPE_SPEAKER:
+        icon = OpenRGBFont::music_speaker;
+        break;
+    case DEVICE_TYPE_VIRTUAL:
+        icon = OpenRGBFont::virtual_controller;
+        break;
+    case DEVICE_TYPE_STORAGE:
+        icon = OpenRGBFont::drive;
+        break;
+    case DEVICE_TYPE_CASE:
+        icon = OpenRGBFont::pc_case;
+        break;
+    case DEVICE_TYPE_KEYPAD:
+        icon = OpenRGBFont::keypad;
+        break;
+    case DEVICE_TYPE_LAPTOP:
+        icon = OpenRGBFont::laptop;
+        break;
+    case DEVICE_TYPE_MONITOR:
+        icon = OpenRGBFont::monitor;
+        break;
+    default:
+        icon = OpenRGBFont::unknown;
+        break;
+    }
+
+    return icon;
+}
+
 QString OpenRGBFont::icon(int glyph)
 {
     return QChar(glyph);
