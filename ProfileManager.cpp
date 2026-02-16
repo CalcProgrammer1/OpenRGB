@@ -111,6 +111,126 @@ void ProfileManager::ClearActiveProfile()
     SetActiveProfile("");
 }
 
+bool ProfileManager::CompareControllers(RGBController* controller_1, RGBController* controller_2)
+{
+    /*-----------------------------------------------------*\
+    | Do not compare location string for HID devices, as    |
+    | the location string may change between runs as        |
+    | devices are connected and disconnected. Also do not   |
+    | compare the I2C bus number, since it is not           |
+    | persistent across reboots on Linux - strip the I2C    |
+    | number and compare only address.                      |
+    \*-----------------------------------------------------*/
+    bool location_check;
+
+    if(controller_1->GetLocation().find("HID: ") == 0)
+    {
+        location_check = true;
+    }
+    else if(controller_1->GetLocation().find("I2C: ") == 0)
+    {
+        std::size_t loc = controller_1->GetLocation().rfind(", ");
+        if(loc == std::string::npos)
+        {
+            location_check = false;
+        }
+        else
+        {
+            std::string i2c_address = controller_1->GetLocation().substr(loc + 2);
+            location_check = controller_2->GetLocation().find(i2c_address) != std::string::npos;
+        }
+    }
+    else
+    {
+        location_check = controller_2->GetLocation() == controller_1->GetLocation();
+    }
+
+    /*-----------------------------------------------------*\
+    | Compare top-level controller information              |
+    \*-----------------------------------------------------*/
+    if((controller_1->GetDeviceType()    != controller_2->GetDeviceType() )
+    || (controller_1->GetName()          != controller_2->GetName()       )
+    || (controller_1->GetDescription()   != controller_2->GetDescription())
+    || (controller_1->GetVersion()       != controller_2->GetVersion()    )
+    || (controller_1->GetSerial()        != controller_2->GetSerial()     )
+    || (location_check                   != true                          ))
+    {
+        return(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | Compare modes                                         |
+    \*-----------------------------------------------------*/
+    if(controller_1->modes.size() != controller_2->modes.size())
+    {
+        return(false);
+    }
+    else
+    {
+        for(std::size_t mode_index = 0; mode_index < controller_1->modes.size(); mode_index++)
+        {
+            if((controller_1->GetModeName(mode_index)            != controller_2->GetModeName(mode_index)         )
+            || (controller_1->GetModeValue(mode_index)           != controller_2->GetModeValue(mode_index)        )
+            || (controller_1->GetModeFlags(mode_index)           != controller_2->GetModeFlags(mode_index)        )
+            || (controller_1->GetModeSpeedMin(mode_index)        != controller_2->GetModeSpeedMin(mode_index)     )
+            || (controller_1->GetModeSpeedMax(mode_index)        != controller_2->GetModeSpeedMax(mode_index)     )
+            || (controller_1->GetModeBrightnessMin(mode_index)   != controller_2->GetModeBrightnessMin(mode_index))
+            || (controller_1->GetModeBrightnessMax(mode_index)   != controller_2->GetModeBrightnessMax(mode_index))
+            || (controller_1->GetModeColorsMin(mode_index)       != controller_2->GetModeColorsMin(mode_index)    )
+            || (controller_1->GetModeColorsMax(mode_index)       != controller_2->GetModeColorsMax(mode_index)    ))
+            {
+                return(false);
+            }
+        }
+    }
+    /*-----------------------------------------------------*\
+    | Compare zones                                         |
+    \*-----------------------------------------------------*/
+    if(controller_1->zones.size() != controller_2->zones.size())
+    {
+        return(false);
+    }
+    else
+    {
+        for(std::size_t zone_index = 0; zone_index < controller_1->zones.size(); zone_index++)
+        {
+            if((controller_1->GetZoneName(zone_index)      != controller_2->GetZoneName(zone_index)     )
+            || (controller_1->GetZoneType(zone_index)      != controller_2->GetZoneType(zone_index)     )
+            || (controller_1->GetZoneLEDsMin(zone_index)   != controller_2->GetZoneLEDsMin(zone_index)  )
+            || (controller_1->GetZoneLEDsMax(zone_index)   != controller_2->GetZoneLEDsMax(zone_index)  )
+            || (controller_1->GetZoneModeCount(zone_index) != controller_2->GetZoneModeCount(zone_index)))
+            {
+                return(false);
+            }
+
+            if(controller_1->GetZoneModeCount(zone_index) != controller_2->GetZoneModeCount(zone_index))
+            {
+                return(false);
+            }
+            else
+            {
+                for(std::size_t mode_index = 0; mode_index < controller_1->GetZoneModeCount(zone_index); mode_index++)
+                {
+                    if((controller_1->GetZoneModeName(zone_index, mode_index)          != controller_2->GetZoneModeName(zone_index, mode_index)         )
+                    || (controller_1->GetZoneModeValue(zone_index, mode_index)         != controller_2->GetZoneModeValue(zone_index, mode_index)        )
+                    || (controller_1->GetZoneModeFlags(zone_index, mode_index)         != controller_2->GetZoneModeFlags(zone_index, mode_index)        )
+                    || (controller_1->GetZoneModeSpeedMin(zone_index, mode_index)      != controller_2->GetZoneModeSpeedMin(zone_index, mode_index)     )
+                    || (controller_1->GetZoneModeSpeedMax(zone_index, mode_index)      != controller_2->GetZoneModeSpeedMax(zone_index, mode_index)     )
+                    || (controller_1->GetZoneModeBrightnessMin(zone_index, mode_index) != controller_2->GetZoneModeBrightnessMin(zone_index, mode_index))
+                    || (controller_1->GetZoneModeBrightnessMax(zone_index, mode_index) != controller_2->GetZoneModeBrightnessMax(zone_index, mode_index))
+                    || (controller_1->GetZoneModeColorsMin(zone_index, mode_index)     != controller_2->GetZoneModeColorsMin(zone_index, mode_index)    )
+                    || (controller_1->GetZoneModeColorsMax(zone_index, mode_index)     != controller_2->GetZoneModeColorsMax(zone_index, mode_index)    ))
+                    {
+                        return(false);
+                    }
+                }
+            }
+        }
+    }
+
+    return(true);
+}
+
 void ProfileManager::DeleteProfile(std::string profile_name)
 {
     if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
@@ -133,7 +253,7 @@ std::string ProfileManager::GetActiveProfile()
     return(active_profile);
 }
 
-std::vector<RGBController*> ProfileManager::GetControllerListFromProfile(nlohmann::json profile_json)
+std::vector<RGBController*> ProfileManager::GetControllerListFromProfileJson(nlohmann::json profile_json)
 {
     std::vector<RGBController*> temp_controllers;
 
@@ -155,6 +275,11 @@ std::vector<RGBController*> ProfileManager::GetControllerListFromProfile(nlohman
     return(temp_controllers);
 }
 
+std::vector<RGBController*> ProfileManager::GetControllerListFromProfileName(std::string profile_name)
+{
+    return(GetControllerListFromProfileJson(ReadProfileJSON(profile_name)));
+}
+
 std::vector<RGBController*> ProfileManager::GetControllerListFromSizes()
 {
     /*-----------------------------------------------------*\
@@ -163,7 +288,7 @@ std::vector<RGBController*> ProfileManager::GetControllerListFromSizes()
     filesystem::path    filename    = configuration_directory / "Sizes.json";
     nlohmann::json      sizes_json  = ReadProfileFileJSON(filename);
 
-    return(GetControllerListFromProfile(sizes_json));
+    return(GetControllerListFromProfileJson(sizes_json));
 }
 
 std::vector<std::string> ProfileManager::GetProfileList()
@@ -404,6 +529,78 @@ bool ProfileManager::SaveProfile(std::string profile_name)
         if(plugin_manager != NULL)
         {
             profile_json["plugins"] = plugin_manager->OnProfileSave();
+        }
+
+        if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
+        {
+            /*---------------------------------------------*\
+            | Upload the profile to the server              |
+            \*---------------------------------------------*/
+            ResourceManager::get()->GetLocalClient()->ProfileManager_UploadProfile(profile_json.dump());
+        }
+        else
+        {
+            /*---------------------------------------------*\
+            | Save the profile to file from the JSON        |
+            \*---------------------------------------------*/
+            SaveProfileFromJSON(profile_json);
+        }
+
+        return(true);
+    }
+    else
+    {
+        return(false);
+    }
+}
+
+bool ProfileManager::SaveProfileCustom(std::string profile_name, std::vector<RGBController*> controllers, RGBColor base_color, bool base_color_enabled, std::vector<std::string> enabled_plugins)
+{
+    /*-----------------------------------------------------*\
+    | If a name was entered, save the profile file          |
+    \*-----------------------------------------------------*/
+    if(profile_name != "")
+    {
+        /*-------------------------------------------------*\
+        | Start filling in profile json data                |
+        \*-------------------------------------------------*/
+        nlohmann::json profile_json;
+
+        profile_json["profile_version"] = OPENRGB_PROFILE_VERSION;
+        profile_json["profile_name"]    = profile_name;
+
+        /*-------------------------------------------------*\
+        | Write base color data if enabled                  |
+        \*-------------------------------------------------*/
+        if(base_color_enabled)
+        {
+            profile_json["base_color"] = base_color;
+        }
+
+        /*-------------------------------------------------*\
+        | Write controller data for each controller         |
+        \*-------------------------------------------------*/
+        for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
+        {
+            /*---------------------------------------------*\
+            | Read the controller data for this controller  |
+            | into the profile json                         |
+            \*---------------------------------------------*/
+            profile_json["controllers"][controller_index] = controllers[controller_index]->GetDeviceDescriptionJSON();
+        }
+
+        /*-------------------------------------------------*\
+        | Get plugin profile data if the plugin manager is  |
+        | available                                         |
+        \*-------------------------------------------------*/
+        if(enabled_plugins.size() > 0)
+        {
+            PluginManagerInterface* plugin_manager = ResourceManager::get()->GetPluginManager();
+
+            if(plugin_manager != NULL)
+            {
+                profile_json["plugins"] = plugin_manager->OnProfileSave(enabled_plugins);
+            }
         }
 
         if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
@@ -887,7 +1084,7 @@ bool ProfileManager::LoadProfileWithOptions
     /*-------------------------------------------------*\
     | Open input file in binary mode                    |
     \*-------------------------------------------------*/
-    temp_controllers = GetControllerListFromProfile(profile_json);
+    temp_controllers = GetControllerListFromProfileJson(profile_json);
 
     /*-------------------------------------------------*\
     | Signal to plugins that a profile is about to load |
@@ -900,6 +1097,30 @@ bool ProfileManager::LoadProfileWithOptions
     }
 
     ResourceManager::get()->GetServer()->ProfileManager_ProfileAboutToLoad();
+
+    /*-------------------------------------------------*\
+    | If profile contains a base color, apply it        |
+    \*-------------------------------------------------*/
+    if(profile_json.contains("base_color"))
+    {
+        RGBColor base_color = profile_json["base_color"];
+
+        for(std::size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
+        {
+            controllers[controller_idx]->SetCustomMode();
+
+            if(controllers[controller_idx]->GetModeColorMode(controllers[controller_idx]->GetActiveMode()) == MODE_COLORS_PER_LED)
+            {
+                controllers[controller_idx]->SetAllColors(base_color);
+                controllers[controller_idx]->UpdateLEDs();
+            }
+            else if(controllers[controller_idx]->GetModeColorMode(controllers[controller_idx]->GetActiveMode()) == MODE_COLORS_MODE_SPECIFIC)
+            {
+                controllers[controller_idx]->SetModeColor(controllers[controller_idx]->GetActiveMode(), 0, base_color);
+                controllers[controller_idx]->UpdateMode();
+            }
+        }
+    }
 
     /*-------------------------------------------------*\
     | Set up used flag vector                           |
