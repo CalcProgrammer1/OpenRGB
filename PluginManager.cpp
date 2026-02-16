@@ -616,6 +616,32 @@ nlohmann::json PluginManager::OnProfileSave()
     return(plugin_json);
 }
 
+nlohmann::json PluginManager::OnProfileSave(std::vector<std::string> enabled_plugins)
+{
+    nlohmann::json plugin_json;
+
+    /*-----------------------------------------------------*\
+    | Loop through all plugins and gather their profile     |
+    | data if the plugin name is in the enabled list        |
+    \*-----------------------------------------------------*/
+    for(std::size_t plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            for(std::size_t enabled_plugin_idx = 0; enabled_plugin_idx < enabled_plugins.size(); enabled_plugin_idx++)
+            {
+                if(enabled_plugins[enabled_plugin_idx] == ActivePlugins[plugin_idx].info.Name)
+                {
+                    plugin_json[ActivePlugins[plugin_idx].plugin->GetPluginInfo().Name] = ActivePlugins[plugin_idx].plugin->OnProfileSave();
+                    break;
+                }
+            }
+        }
+    }
+
+    return(plugin_json);
+}
+
 unsigned char * PluginManager::OnSDKCommand(unsigned int plugin_idx, unsigned int pkt_id, unsigned char * pkt_data, unsigned int * pkt_size)
 {
     unsigned char * out_data = NULL;
