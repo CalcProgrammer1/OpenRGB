@@ -82,6 +82,7 @@ public:
     void OnProfileAboutToLoad();
     void OnProfileLoad(nlohmann::json profile_data);
     nlohmann::json OnProfileSave();
+    nlohmann::json OnProfileSave(std::vector<std::string> enabled_plugins);
 
     /*-----------------------------------------------------*\
     | Plugin SDK Integration                                |
