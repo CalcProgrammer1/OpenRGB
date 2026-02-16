@@ -37,7 +37,8 @@ public:
     virtual void                        DeleteProfile(std::string profile_name)                                 = 0;
 
     virtual std::string                 GetActiveProfile()                                                      = 0;
-    virtual std::vector<RGBController*> GetControllerListFromProfile(nlohmann::json profile_json)               = 0;
+    virtual std::vector<RGBController*> GetControllerListFromProfileJson(nlohmann::json profile_json)           = 0;
+    virtual std::vector<RGBController*> GetControllerListFromProfileName(std::string profile_name)              = 0;
     virtual std::vector<RGBController*> GetControllerListFromSizes()                                            = 0;
     virtual std::vector<std::string>    GetProfileList()                                                        = 0;
     virtual unsigned char *             GetProfileListDescription()                                             = 0;
@@ -76,11 +77,13 @@ public:
     ~ProfileManager();
 
     void                        ClearActiveProfile();
+    static bool                 CompareControllers(RGBController* controller_1, RGBController* controller_2);
 
     void                        DeleteProfile(std::string profile_name);
 
     std::string                 GetActiveProfile();
-    std::vector<RGBController*> GetControllerListFromProfile(nlohmann::json profile_json);
+    std::vector<RGBController*> GetControllerListFromProfileJson(nlohmann::json profile_json);
+    std::vector<RGBController*> GetControllerListFromProfileName(std::string profile_name);
     std::vector<RGBController*> GetControllerListFromSizes();
     std::vector<std::string>    GetProfileList();
     unsigned char *             GetProfileListDescription();
@@ -114,6 +117,7 @@ public:
     nlohmann::json              ReadProfileJSON(std::string profile_name);
 
     bool                        SaveProfile(std::string profile_name);
+    bool                        SaveProfileCustom(std::string profile_name, std::vector<RGBController*> controllers, RGBColor base_color, bool base_color_enabled, std::vector<std::string> enabled_plugins);
     bool                        SaveProfileFromJSON(nlohmann::json profile_json);
     bool                        SaveSizes();
 

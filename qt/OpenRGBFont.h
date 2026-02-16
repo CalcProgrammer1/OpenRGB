@@ -11,11 +11,13 @@
 
 #include <QFont>
 #include <QString>
+#include "RGBController.h"
 
 class OpenRGBFont
 {
 public:
     static OpenRGBFont* Get();
+    static int GetIconIDFromDeviceType(device_type type);
 
     enum Glyph
     {
