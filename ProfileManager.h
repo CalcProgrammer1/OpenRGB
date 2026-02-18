@@ -46,11 +46,13 @@ public:
     virtual bool                        LoadControllerFromListWithOptions
                                         (
                                         std::vector<RGBController*>&    temp_controllers,
-                                        std::vector<bool>&              temp_controller_used,
                                         RGBController*                  load_controller,
                                         bool                            load_size,
                                         bool                            load_settings
                                         )                                                                       = 0;
+
+    virtual bool                        LoadControllerActiveProfile(RGBController* load_controller)             = 0;
+    virtual bool                        LoadControllerConfiguration(RGBController* load_controller)             = 0;
 
     virtual bool                        LoadProfile(std::string profile_name)                                   = 0;
 
@@ -96,11 +98,13 @@ public:
     bool                        LoadControllerFromListWithOptions
                                     (
                                     std::vector<RGBController*>&    temp_controllers,
-                                    std::vector<bool>&              temp_controller_used,
                                     RGBController*                  load_controller,
                                     bool                            load_size,
                                     bool                            load_settings
                                     );
+
+    bool                        LoadControllerActiveProfile(RGBController* load_controller);
+    bool                        LoadControllerConfiguration(RGBController* load_controller);
 
     bool                        LoadProfile(std::string profile_name);
 
@@ -153,6 +157,18 @@ private:
     std::vector<ProfileManagerCallback>         ProfileManagerCallbacks;
     std::vector<void *>                         ProfileManagerCallbackArgs;
     std::mutex                                  ProfileManagerCallbackMutex;
+
+    /*-----------------------------------------------------*\
+    | Active profile data                                   |
+    \*-----------------------------------------------------*/
+    bool                        active_base_color_enabled;
+    RGBColor                    active_base_color;
+    std::vector<RGBController*> active_rgb_controllers;
+
+    /*-----------------------------------------------------*\
+    | Manual controller configuration data                  |
+    \*-----------------------------------------------------*/
+    std::vector<RGBController*> manually_configured_rgb_controllers;
 
     /*-----------------------------------------------------*\
     | Private functions                                     |
