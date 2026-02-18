@@ -210,12 +210,6 @@ private:
     std::vector<RGBController*>                 rgb_controllers;
 
     /*-----------------------------------------------------*\
-    | List of manually configured RGBController information |
-    | from stored sizes profile                             |
-    \*-----------------------------------------------------*/
-    std::vector<RGBController*>                 rgb_controllers_sizes;
-
-    /*-----------------------------------------------------*\
     | Detectors                                             |
     \*-----------------------------------------------------*/
     std::vector<DeviceDetectorFunction>         device_detectors;
@@ -273,7 +267,6 @@ private:
     unsigned int                                detection_percent_i2c_pci_count;
     unsigned int                                detection_percent_other_count;
     unsigned int                                detection_percent_denominator;
-    std::vector<bool>                           detection_size_entry_used;
     std::string                                 detection_string;
     bool                                        dynamic_detectors_processed;
     bool                                        initial_detection;
