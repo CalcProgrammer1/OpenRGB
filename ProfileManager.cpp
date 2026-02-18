@@ -94,6 +94,11 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
         settings_manager->SetSettings("ProfileManager", profilemanager_settings);
         settings_manager->SaveSettings();
     }
+
+    /*-----------------------------------------------------*\
+    | Initialize manually configured controllers list       |
+    \*-----------------------------------------------------*/
+    manually_configured_rgb_controllers = GetControllerListFromSizes();
 }
 
 ProfileManager::~ProfileManager()
@@ -103,6 +108,20 @@ ProfileManager::~ProfileManager()
 
 void ProfileManager::ClearActiveProfile()
 {
+    /*-------------------------------------------------*\
+    | Clear stored active profile data                  |
+    \*-------------------------------------------------*/
+    std::vector active_rgb_controllers_copy = active_rgb_controllers;
+
+    active_base_color_enabled               = false;
+    active_base_color                       = 0;
+    active_rgb_controllers.clear();
+
+    for(unsigned int controller_idx = 0; controller_idx < active_rgb_controllers_copy.size(); controller_idx++)
+    {
+        delete active_rgb_controllers_copy[controller_idx];
+    }
+
     if(ResourceManager::get()->IsLocalClient() && ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI())
     {
         ResourceManager::get()->GetLocalClient()->ProfileManager_ClearActiveProfile();
@@ -255,7 +274,7 @@ std::string ProfileManager::GetActiveProfile()
 
 std::vector<RGBController*> ProfileManager::GetControllerListFromProfileJson(nlohmann::json profile_json)
 {
-    std::vector<RGBController*> temp_controllers;
+    std::vector<RGBController*> profile_controllers;
 
     /*-----------------------------------------------------*\
     | Read list of controllers from profile                 |
@@ -264,15 +283,15 @@ std::vector<RGBController*> ProfileManager::GetControllerListFromProfileJson(nlo
     {
         for(std::size_t controller_idx = 0; controller_idx < profile_json["controllers"].size(); controller_idx++)
         {
-            RGBController_Dummy * temp_controller = new RGBController_Dummy();
+            RGBController_Dummy * profile_controller = new RGBController_Dummy();
 
-            temp_controller->SetDeviceDescriptionJSON(profile_json["controllers"][controller_idx]);
+            profile_controller->SetDeviceDescriptionJSON(profile_json["controllers"][controller_idx]);
 
-            temp_controllers.push_back(temp_controller);
+            profile_controllers.push_back(profile_controller);
         }
     }
 
-    return(temp_controllers);
+    return(profile_controllers);
 }
 
 std::vector<RGBController*> ProfileManager::GetControllerListFromProfileName(std::string profile_name)
@@ -367,6 +386,16 @@ bool ProfileManager::LoadAutoProfileResume()
 bool ProfileManager::LoadAutoProfileSuspend()
 {
     return(LoadAutoProfile("suspend_profile"));
+}
+
+bool ProfileManager::LoadControllerActiveProfile(RGBController* load_controller)
+{
+    return(LoadControllerFromListWithOptions(active_rgb_controllers, load_controller, false, true));
+}
+
+bool ProfileManager::LoadControllerConfiguration(RGBController* load_controller)
+{
+    return(LoadControllerFromListWithOptions(manually_configured_rgb_controllers, load_controller, true, false));
 }
 
 bool ProfileManager::LoadProfile(std::string profile_name)
@@ -715,6 +744,11 @@ bool ProfileManager::SaveSizes()
     \*-----------------------------------------------------*/
     controller_file.close();
 
+    /*-----------------------------------------------------*\
+    | Initialize manually configured controllers list       |
+    \*-----------------------------------------------------*/
+    manually_configured_rgb_controllers = GetControllerListFromSizes();
+
     return(true);
 }
 
@@ -863,16 +897,15 @@ bool ProfileManager::LoadAutoProfile(std::string setting_name)
 
 bool ProfileManager::LoadControllerFromListWithOptions
     (
-    std::vector<RGBController*>&    temp_controllers,
-    std::vector<bool>&              temp_controller_used,
+    std::vector<RGBController*>&    profile_controllers,
     RGBController*                  load_controller,
     bool                            load_size,
     bool                            load_settings
     )
 {
-    for(std::size_t temp_index = 0; temp_index < temp_controllers.size(); temp_index++)
+    for(std::size_t temp_index = 0; temp_index < profile_controllers.size(); temp_index++)
     {
-        RGBController *temp_controller = temp_controllers[temp_index];
+        RGBController *profile_controller = profile_controllers[temp_index];
 
         /*---------------------------------------------------------*\
         | Do not compare location string for HID devices, as the    |
@@ -897,57 +930,51 @@ bool ProfileManager::LoadControllerFromListWithOptions
             else
             {
                 std::string i2c_address = load_controller->GetLocation().substr(loc + 2);
-                location_check = temp_controller->GetLocation().find(i2c_address) != std::string::npos;
+                location_check = profile_controller->GetLocation().find(i2c_address) != std::string::npos;
             }
         }
         else
         {
-            location_check = temp_controller->GetLocation() == load_controller->GetLocation();
+            location_check = profile_controller->GetLocation() == load_controller->GetLocation();
         }
 
         /*-------------------------------------------------*\
         | Test if saved controller data matches this        |
         | controller                                        |
         \*-------------------------------------------------*/
-        if((temp_controller_used[temp_index]    == false                            )
-         &&(temp_controller->GetDeviceType()    == load_controller->GetDeviceType() )
-         &&(temp_controller->GetName()          == load_controller->GetName()       )
-         &&(temp_controller->GetDescription()   == load_controller->GetDescription())
-         &&(temp_controller->GetVersion()       == load_controller->GetVersion()    )
-         &&(temp_controller->GetSerial()        == load_controller->GetSerial()     )
-         &&(location_check                      == true                             ))
+        if((profile_controller->GetDeviceType()    == load_controller->GetDeviceType() )
+         &&(profile_controller->GetName()          == load_controller->GetName()       )
+         &&(profile_controller->GetDescription()   == load_controller->GetDescription())
+         &&(profile_controller->GetVersion()       == load_controller->GetVersion()    )
+         &&(profile_controller->GetSerial()        == load_controller->GetSerial()     )
+         &&(location_check                         == true                             ))
         {
-            /*---------------------------------------------*\
-            | Set used flag for this temp device            |
-            \*---------------------------------------------*/
-            temp_controller_used[temp_index] = true;
-
             /*---------------------------------------------*\
             | Update zone sizes if requested                |
             \*---------------------------------------------*/
             if(load_size)
             {
-                if(temp_controller->zones.size() == load_controller->zones.size())
+                if(profile_controller->zones.size() == load_controller->zones.size())
                 {
-                    for(std::size_t zone_idx = 0; zone_idx < temp_controller->zones.size(); zone_idx++)
+                    for(std::size_t zone_idx = 0; zone_idx < profile_controller->zones.size(); zone_idx++)
                     {
-                        if((temp_controller->GetZoneName(zone_idx)      == load_controller->GetZoneName(zone_idx)     )
-                         &&(temp_controller->GetZoneType(zone_idx)      == load_controller->GetZoneType(zone_idx)     )
-                         &&(temp_controller->GetZoneLEDsMin(zone_idx)   == load_controller->GetZoneLEDsMin(zone_idx)  )
-                         &&(temp_controller->GetZoneLEDsMax(zone_idx)   == load_controller->GetZoneLEDsMax(zone_idx)  ))
+                        if((profile_controller->GetZoneName(zone_idx)      == load_controller->GetZoneName(zone_idx)     )
+                         &&(profile_controller->GetZoneType(zone_idx)      == load_controller->GetZoneType(zone_idx)     )
+                         &&(profile_controller->GetZoneLEDsMin(zone_idx)   == load_controller->GetZoneLEDsMin(zone_idx)  )
+                         &&(profile_controller->GetZoneLEDsMax(zone_idx)   == load_controller->GetZoneLEDsMax(zone_idx)  ))
                         {
-                            if(temp_controller->GetZoneLEDsCount(zone_idx) != load_controller->GetZoneLEDsCount(zone_idx))
+                            if(profile_controller->GetZoneLEDsCount(zone_idx) != load_controller->GetZoneLEDsCount(zone_idx))
                             {
-                                load_controller->ResizeZone((int)zone_idx, temp_controller->zones[zone_idx].leds_count);
+                                load_controller->ResizeZone((int)zone_idx, profile_controller->zones[zone_idx].leds_count);
                             }
 
-                            if(temp_controller->zones[zone_idx].segments.size() != load_controller->zones[zone_idx].segments.size())
+                            if(profile_controller->zones[zone_idx].segments.size() != load_controller->zones[zone_idx].segments.size())
                             {
                                 load_controller->zones[zone_idx].segments.clear();
 
-                                for(std::size_t segment_idx = 0; segment_idx < temp_controller->zones[zone_idx].segments.size(); segment_idx++)
+                                for(std::size_t segment_idx = 0; segment_idx < profile_controller->zones[zone_idx].segments.size(); segment_idx++)
                                 {
-                                    load_controller->zones[zone_idx].segments.push_back(temp_controller->zones[zone_idx].segments[segment_idx]);
+                                    load_controller->zones[zone_idx].segments.push_back(profile_controller->zones[zone_idx].segments[segment_idx]);
                                 }
                             }
                         }
@@ -963,46 +990,46 @@ bool ProfileManager::LoadControllerFromListWithOptions
                 /*-----------------------------------------*\
                 | If mode list matches, load all modes      |
                 \*-----------------------------------------*/
-                if(temp_controller->modes.size() == load_controller->modes.size())
+                if(profile_controller->modes.size() == load_controller->modes.size())
                 {
-                    for(std::size_t mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
+                    for(std::size_t mode_index = 0; mode_index < profile_controller->modes.size(); mode_index++)
                     {
-                        if((temp_controller->GetModeName(mode_index)            == load_controller->GetModeName(mode_index)         )
-                         &&(temp_controller->GetModeValue(mode_index)           == load_controller->GetModeValue(mode_index)        )
-                         &&(temp_controller->GetModeFlags(mode_index)           == load_controller->GetModeFlags(mode_index)        )
-                         &&(temp_controller->GetModeSpeedMin(mode_index)        == load_controller->GetModeSpeedMin(mode_index)     )
-                         &&(temp_controller->GetModeSpeedMax(mode_index)        == load_controller->GetModeSpeedMax(mode_index)     )
-                         &&(temp_controller->GetModeBrightnessMin(mode_index)   == load_controller->GetModeBrightnessMin(mode_index))
-                         &&(temp_controller->GetModeBrightnessMax(mode_index)   == load_controller->GetModeBrightnessMax(mode_index))
-                         &&(temp_controller->GetModeColorsMin(mode_index)       == load_controller->GetModeColorsMin(mode_index)    )
-                         &&(temp_controller->GetModeColorsMax(mode_index)       == load_controller->GetModeColorsMax(mode_index)    ))
+                        if((profile_controller->GetModeName(mode_index)            == load_controller->GetModeName(mode_index)         )
+                         &&(profile_controller->GetModeValue(mode_index)           == load_controller->GetModeValue(mode_index)        )
+                         &&(profile_controller->GetModeFlags(mode_index)           == load_controller->GetModeFlags(mode_index)        )
+                         &&(profile_controller->GetModeSpeedMin(mode_index)        == load_controller->GetModeSpeedMin(mode_index)     )
+                         &&(profile_controller->GetModeSpeedMax(mode_index)        == load_controller->GetModeSpeedMax(mode_index)     )
+                         &&(profile_controller->GetModeBrightnessMin(mode_index)   == load_controller->GetModeBrightnessMin(mode_index))
+                         &&(profile_controller->GetModeBrightnessMax(mode_index)   == load_controller->GetModeBrightnessMax(mode_index))
+                         &&(profile_controller->GetModeColorsMin(mode_index)       == load_controller->GetModeColorsMin(mode_index)    )
+                         &&(profile_controller->GetModeColorsMax(mode_index)       == load_controller->GetModeColorsMax(mode_index)    ))
                         {
-                            load_controller->modes[mode_index].speed            = temp_controller->modes[mode_index].speed;
-                            load_controller->modes[mode_index].brightness       = temp_controller->modes[mode_index].brightness;
-                            load_controller->modes[mode_index].direction        = temp_controller->modes[mode_index].direction;
-                            load_controller->modes[mode_index].color_mode       = temp_controller->modes[mode_index].color_mode;
+                            load_controller->modes[mode_index].speed            = profile_controller->modes[mode_index].speed;
+                            load_controller->modes[mode_index].brightness       = profile_controller->modes[mode_index].brightness;
+                            load_controller->modes[mode_index].direction        = profile_controller->modes[mode_index].direction;
+                            load_controller->modes[mode_index].color_mode       = profile_controller->modes[mode_index].color_mode;
 
-                            load_controller->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
+                            load_controller->modes[mode_index].colors.resize(profile_controller->modes[mode_index].colors.size());
 
-                            for(std::size_t mode_color_index = 0; mode_color_index < temp_controller->GetModeColorsCount(mode_index); mode_color_index++)
+                            for(std::size_t mode_color_index = 0; mode_color_index < profile_controller->GetModeColorsCount(mode_index); mode_color_index++)
                             {
-                                load_controller->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
+                                load_controller->modes[mode_index].colors[mode_color_index] = profile_controller->modes[mode_index].colors[mode_color_index];
                             }
                         }
                     }
 
-                    load_controller->active_mode = temp_controller->active_mode;
+                    load_controller->active_mode = profile_controller->active_mode;
                     load_controller->UpdateMode();
                 }
 
                 /*-----------------------------------------*\
                 | If color list matches, load all colors    |
                 \*-----------------------------------------*/
-                if(temp_controller->colors.size() == load_controller->colors.size())
+                if(profile_controller->colors.size() == load_controller->colors.size())
                 {
-                    for(std::size_t color_index = 0; color_index < temp_controller->colors.size(); color_index++)
+                    for(std::size_t color_index = 0; color_index < profile_controller->colors.size(); color_index++)
                     {
-                        load_controller->colors[color_index] = temp_controller->colors[color_index];
+                        load_controller->colors[color_index] = profile_controller->colors[color_index];
                     }
 
                     load_controller->UpdateLEDs();
@@ -1012,43 +1039,43 @@ bool ProfileManager::LoadControllerFromListWithOptions
                 | If zone mode list matches, load all zone  |
                 | modes                                     |
                 \*-----------------------------------------*/
-                if(temp_controller->GetZoneCount() == load_controller->GetZoneCount())
+                if(profile_controller->GetZoneCount() == load_controller->GetZoneCount())
                 {
-                    for(std::size_t zone_idx = 0; zone_idx < temp_controller->GetZoneCount(); zone_idx++)
+                    for(std::size_t zone_idx = 0; zone_idx < profile_controller->GetZoneCount(); zone_idx++)
                     {
-                        if((temp_controller->GetZoneName(zone_idx)      == load_controller->GetZoneName(zone_idx)     )
-                         &&(temp_controller->GetZoneType(zone_idx)      == load_controller->GetZoneType(zone_idx)     )
-                         &&(temp_controller->GetZoneLEDsMin(zone_idx)   == load_controller->GetZoneLEDsMin(zone_idx)  )
-                         &&(temp_controller->GetZoneLEDsMax(zone_idx)   == load_controller->GetZoneLEDsMax(zone_idx)  )
-                         &&(temp_controller->GetZoneModeCount(zone_idx) == load_controller->GetZoneModeCount(zone_idx)))
+                        if((profile_controller->GetZoneName(zone_idx)      == load_controller->GetZoneName(zone_idx)     )
+                         &&(profile_controller->GetZoneType(zone_idx)      == load_controller->GetZoneType(zone_idx)     )
+                         &&(profile_controller->GetZoneLEDsMin(zone_idx)   == load_controller->GetZoneLEDsMin(zone_idx)  )
+                         &&(profile_controller->GetZoneLEDsMax(zone_idx)   == load_controller->GetZoneLEDsMax(zone_idx)  )
+                         &&(profile_controller->GetZoneModeCount(zone_idx) == load_controller->GetZoneModeCount(zone_idx)))
                         {
-                            for(std::size_t mode_index = 0; mode_index < temp_controller->GetZoneModeCount(zone_idx); mode_index++)
+                            for(std::size_t mode_index = 0; mode_index < profile_controller->GetZoneModeCount(zone_idx); mode_index++)
                             {
-                                if((temp_controller->GetZoneModeName(zone_idx, mode_index)          == load_controller->GetZoneModeName(zone_idx, mode_index)         )
-                                 &&(temp_controller->GetZoneModeValue(zone_idx, mode_index)         == load_controller->GetZoneModeValue(zone_idx, mode_index)        )
-                                 &&(temp_controller->GetZoneModeFlags(zone_idx, mode_index)         == load_controller->GetZoneModeFlags(zone_idx, mode_index)        )
-                                 &&(temp_controller->GetZoneModeSpeedMin(zone_idx, mode_index)      == load_controller->GetZoneModeSpeedMin(zone_idx, mode_index)     )
-                                 &&(temp_controller->GetZoneModeSpeedMax(zone_idx, mode_index)      == load_controller->GetZoneModeSpeedMax(zone_idx, mode_index)     )
-                                 &&(temp_controller->GetZoneModeBrightnessMin(zone_idx, mode_index) == load_controller->GetZoneModeBrightnessMin(zone_idx, mode_index))
-                                 &&(temp_controller->GetZoneModeBrightnessMax(zone_idx, mode_index) == load_controller->GetZoneModeBrightnessMax(zone_idx, mode_index))
-                                 &&(temp_controller->GetZoneModeColorsMin(zone_idx, mode_index)     == load_controller->GetZoneModeColorsMin(zone_idx, mode_index)    )
-                                 &&(temp_controller->GetZoneModeColorsMax(zone_idx, mode_index)     == load_controller->GetZoneModeColorsMax(zone_idx, mode_index)    ))
+                                if((profile_controller->GetZoneModeName(zone_idx, mode_index)          == load_controller->GetZoneModeName(zone_idx, mode_index)         )
+                                 &&(profile_controller->GetZoneModeValue(zone_idx, mode_index)         == load_controller->GetZoneModeValue(zone_idx, mode_index)        )
+                                 &&(profile_controller->GetZoneModeFlags(zone_idx, mode_index)         == load_controller->GetZoneModeFlags(zone_idx, mode_index)        )
+                                 &&(profile_controller->GetZoneModeSpeedMin(zone_idx, mode_index)      == load_controller->GetZoneModeSpeedMin(zone_idx, mode_index)     )
+                                 &&(profile_controller->GetZoneModeSpeedMax(zone_idx, mode_index)      == load_controller->GetZoneModeSpeedMax(zone_idx, mode_index)     )
+                                 &&(profile_controller->GetZoneModeBrightnessMin(zone_idx, mode_index) == load_controller->GetZoneModeBrightnessMin(zone_idx, mode_index))
+                                 &&(profile_controller->GetZoneModeBrightnessMax(zone_idx, mode_index) == load_controller->GetZoneModeBrightnessMax(zone_idx, mode_index))
+                                 &&(profile_controller->GetZoneModeColorsMin(zone_idx, mode_index)     == load_controller->GetZoneModeColorsMin(zone_idx, mode_index)    )
+                                 &&(profile_controller->GetZoneModeColorsMax(zone_idx, mode_index)     == load_controller->GetZoneModeColorsMax(zone_idx, mode_index)    ))
                                 {
-                                    load_controller->zones[zone_idx].modes[mode_index].speed        = temp_controller->zones[zone_idx].modes[mode_index].speed;
-                                    load_controller->zones[zone_idx].modes[mode_index].brightness   = temp_controller->zones[zone_idx].modes[mode_index].brightness;
-                                    load_controller->zones[zone_idx].modes[mode_index].direction    = temp_controller->zones[zone_idx].modes[mode_index].direction;
-                                    load_controller->zones[zone_idx].modes[mode_index].color_mode   = temp_controller->zones[zone_idx].modes[mode_index].color_mode;
+                                    load_controller->zones[zone_idx].modes[mode_index].speed        = profile_controller->zones[zone_idx].modes[mode_index].speed;
+                                    load_controller->zones[zone_idx].modes[mode_index].brightness   = profile_controller->zones[zone_idx].modes[mode_index].brightness;
+                                    load_controller->zones[zone_idx].modes[mode_index].direction    = profile_controller->zones[zone_idx].modes[mode_index].direction;
+                                    load_controller->zones[zone_idx].modes[mode_index].color_mode   = profile_controller->zones[zone_idx].modes[mode_index].color_mode;
 
-                                    load_controller->zones[zone_idx].modes[mode_index].colors.resize(temp_controller->zones[zone_idx].modes[mode_index].colors.size());
+                                    load_controller->zones[zone_idx].modes[mode_index].colors.resize(profile_controller->zones[zone_idx].modes[mode_index].colors.size());
 
-                                    for(std::size_t mode_color_index = 0; mode_color_index < temp_controller->GetZoneModeColorsCount(zone_idx, mode_index); mode_color_index++)
+                                    for(std::size_t mode_color_index = 0; mode_color_index < profile_controller->GetZoneModeColorsCount(zone_idx, mode_index); mode_color_index++)
                                     {
-                                        load_controller->zones[zone_idx].modes[mode_index].colors[mode_color_index] = temp_controller->zones[zone_idx].modes[mode_index].colors[mode_color_index];
+                                        load_controller->zones[zone_idx].modes[mode_index].colors[mode_color_index] = profile_controller->zones[zone_idx].modes[mode_index].colors[mode_color_index];
                                     }
                                 }
                             }
 
-                            load_controller->SetZoneActiveMode(zone_idx, temp_controller->GetZoneActiveMode(zone_idx));
+                            load_controller->SetZoneActiveMode(zone_idx, profile_controller->GetZoneActiveMode(zone_idx));
                             load_controller->UpdateZoneMode(zone_idx);
                         }
                     }
@@ -1056,6 +1083,27 @@ bool ProfileManager::LoadControllerFromListWithOptions
             }
 
             return(true);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | If no saved controller state in the profile matched   |
+    | this controller, apply the base color if it is        |
+    | enabled                                               |
+    \*-----------------------------------------------------*/
+    if(load_settings && active_base_color_enabled)
+    {
+        load_controller->SetCustomMode();
+
+        if(load_controller->GetModeColorMode(load_controller->GetActiveMode()) == MODE_COLORS_PER_LED)
+        {
+            load_controller->SetAllColors(active_base_color);
+            load_controller->UpdateLEDs();
+        }
+        else if(load_controller->GetModeColorMode(load_controller->GetActiveMode()) == MODE_COLORS_MODE_SPECIFIC)
+        {
+            load_controller->SetModeColor(load_controller->GetActiveMode(), 0, active_base_color);
+            load_controller->UpdateMode();
         }
     }
 
@@ -1069,25 +1117,48 @@ bool ProfileManager::LoadProfileWithOptions
     bool            load_settings
     )
 {
-    std::vector<RGBController*> temp_controllers;
-    std::vector<bool>           temp_controller_used;
-    bool                        ret_val = false;
+    /*-------------------------------------------------*\
+    | Clear stored active profile data                  |
+    \*-------------------------------------------------*/
+    std::vector active_rgb_controllers_copy = active_rgb_controllers;
+
+    active_base_color_enabled               = false;
+    active_base_color                       = 0;
+    active_rgb_controllers.clear();
+
+    for(unsigned int controller_idx = 0; controller_idx < active_rgb_controllers_copy.size(); controller_idx++)
+    {
+        delete active_rgb_controllers_copy[controller_idx];
+    }
 
     /*-------------------------------------------------*\
-    | Get the list of controllers from the resource     |
-    | manager                                           |
+    | Get JSON data for given profile name              |
     \*-------------------------------------------------*/
-    std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
-
     nlohmann::json profile_json = ReadProfileJSON(profile_name);
 
     /*-------------------------------------------------*\
-    | Open input file in binary mode                    |
+    | Load the controller state data for this profile   |
+    | into the active profile data                      |
     \*-------------------------------------------------*/
-    temp_controllers = GetControllerListFromProfileJson(profile_json);
+    active_rgb_controllers = GetControllerListFromProfileJson(profile_json);
 
     /*-------------------------------------------------*\
-    | Signal to plugins that a profile is about to load |
+    | Load the base color data for this profile into    |
+    | the active profile data                           |
+    \*-------------------------------------------------*/
+    if(profile_json.contains("base_color"))
+    {
+        active_base_color           = profile_json["base_color"];
+        active_base_color_enabled   = true;
+    }
+    else
+    {
+        active_base_color           = 0;
+        active_base_color_enabled   = false;
+    }
+
+    /*-------------------------------------------------*\
+    | Signal that a profile is about to load            |
     \*-------------------------------------------------*/
     PluginManagerInterface* plugin_manager = ResourceManager::get()->GetPluginManager();
 
@@ -1099,38 +1170,10 @@ bool ProfileManager::LoadProfileWithOptions
     ResourceManager::get()->GetServer()->ProfileManager_ProfileAboutToLoad();
 
     /*-------------------------------------------------*\
-    | If profile contains a base color, apply it        |
+    | Get the list of controllers from the resource     |
+    | manager                                           |
     \*-------------------------------------------------*/
-    if(profile_json.contains("base_color"))
-    {
-        RGBColor base_color = profile_json["base_color"];
-
-        for(std::size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
-        {
-            controllers[controller_idx]->SetCustomMode();
-
-            if(controllers[controller_idx]->GetModeColorMode(controllers[controller_idx]->GetActiveMode()) == MODE_COLORS_PER_LED)
-            {
-                controllers[controller_idx]->SetAllColors(base_color);
-                controllers[controller_idx]->UpdateLEDs();
-            }
-            else if(controllers[controller_idx]->GetModeColorMode(controllers[controller_idx]->GetActiveMode()) == MODE_COLORS_MODE_SPECIFIC)
-            {
-                controllers[controller_idx]->SetModeColor(controllers[controller_idx]->GetActiveMode(), 0, base_color);
-                controllers[controller_idx]->UpdateMode();
-            }
-        }
-    }
-
-    /*-------------------------------------------------*\
-    | Set up used flag vector                           |
-    \*-------------------------------------------------*/
-    temp_controller_used.resize(temp_controllers.size());
-
-    for(unsigned int controller_idx = 0; controller_idx < temp_controller_used.size(); controller_idx++)
-    {
-        temp_controller_used[controller_idx] = false;
-    }
+    std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
 
     /*-------------------------------------------------*\
     | Loop through all controllers.  For each           |
@@ -1139,18 +1182,7 @@ bool ProfileManager::LoadProfileWithOptions
     \*-------------------------------------------------*/
     for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
     {
-        bool temp_ret_val = LoadControllerFromListWithOptions(temp_controllers, temp_controller_used, controllers[controller_index], load_size, load_settings);
-        std::string current_name = controllers[controller_index]->GetName() + " @ " + controllers[controller_index]->GetLocation();
-        LOG_INFO("[ProfileManager] Profile loading: %s for %s", ( temp_ret_val ? "Succeeded" : "FAILED!" ), current_name.c_str());
-        ret_val |= temp_ret_val;
-    }
-
-    /*-------------------------------------------------*\
-    | Delete all temporary controllers                  |
-    \*-------------------------------------------------*/
-    for(unsigned int controller_idx = 0; controller_idx < temp_controllers.size(); controller_idx++)
-    {
-        delete temp_controllers[controller_idx];
+        LoadControllerFromListWithOptions(active_rgb_controllers, controllers[controller_index], load_size, load_settings);
     }
 
     /*-------------------------------------------------*\
@@ -1173,7 +1205,7 @@ bool ProfileManager::LoadProfileWithOptions
 
     ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ActiveProfileChanged(active_profile);
 
-    return(ret_val);
+    return(true);
 }
 
 nlohmann::json ProfileManager::ReadProfileFileJSON(filesystem::path profile_filepath)
