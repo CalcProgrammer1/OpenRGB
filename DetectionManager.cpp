@@ -402,9 +402,14 @@ void DetectionManager::RegisterRGBController(RGBController *rgb_controller)
     rgb_controller->flags |= CONTROLLER_FLAG_LOCAL;
 
     /*-----------------------------------------------------*\
-    | Load sizes for the new controller                     |
+    | Load manual configuration for the new controller      |
     \*-----------------------------------------------------*/
-    ResourceManager::get()->GetProfileManager()->LoadControllerFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controller, true, false);
+    ResourceManager::get()->GetProfileManager()->LoadControllerConfiguration(rgb_controller);
+
+    /*-----------------------------------------------------*\
+    | Load active profile for the new controller            |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->GetProfileManager()->LoadControllerActiveProfile(rgb_controller);
 
     /*-----------------------------------------------------*\
     | Add the new controller to the list                    |
@@ -651,16 +656,6 @@ void DetectionManager::BackgroundDetectDevices()
         BackgroundHIDInit();
 
         initial_detection = false;
-    }
-
-    /*-----------------------------------------------------*\
-    | Reset the size entry used flags vector                |
-    \*-----------------------------------------------------*/
-    detection_size_entry_used.resize(rgb_controllers_sizes.size());
-
-    for(std::size_t size_idx = 0; size_idx < detection_size_entry_used.size(); size_idx++)
-    {
-        detection_size_entry_used[size_idx] = false;
     }
 
     /*-----------------------------------------------------*\
@@ -1655,11 +1650,6 @@ bool DetectionManager::ProcessPreDetection()
     | Update the detector settings                          |
     \*-----------------------------------------------------*/
     UpdateDetectorSettings();
-
-    /*-----------------------------------------------------*\
-    | Initialize sizes list                                 |
-    \*-----------------------------------------------------*/
-    rgb_controllers_sizes = ResourceManager::get()->GetProfileManager()->GetControllerListFromSizes();
 
     /*-----------------------------------------------------*\
     | Clean up any existing detected devices                |
