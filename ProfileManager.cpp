@@ -718,6 +718,8 @@ bool ProfileManager::SaveSizes()
     /*-----------------------------------------------------*\
     | Write controller data for each controller             |
     \*-----------------------------------------------------*/
+    std::size_t new_saved_controller_index = 0;
+
     for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
     {
         /*-------------------------------------------------*\
@@ -730,11 +732,49 @@ bool ProfileManager::SaveSizes()
             break;
         }
 
-        /*-------------------------------------------------*\
-        | Read the controller data for this controller into |
-        | the profile json                                  |
-        \*-------------------------------------------------*/
-        profile_json["controllers"][controller_index] = controllers[controller_index]->GetDeviceDescriptionJSON();
+        for(std::size_t zone_index = 0; zone_index < controllers[controller_index]->GetZoneCount(); zone_index++)
+        {
+            if(controllers[controller_index]->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED)
+            {
+            /*---------------------------------------------*\
+            | Read the controller data for this controller  |
+            | into the profile json if manually configured  |
+            \*---------------------------------------------*/
+            profile_json["controllers"][new_saved_controller_index] = controllers[controller_index]->GetDeviceDescriptionJSON();
+            new_saved_controller_index++;
+
+            break;
+            }
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Loop through the previously saved sizes and add any   |
+    | controllers that were previously saved but not in the |
+    | current controllers list                              |
+    \*-----------------------------------------------------*/
+    for(std::size_t old_saved_controller_index = 0; old_saved_controller_index < manually_configured_rgb_controllers.size(); old_saved_controller_index++)
+    {
+        bool found = false;
+
+        for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
+        {
+            if(ProfileManager::CompareControllers(manually_configured_rgb_controllers[old_saved_controller_index], controllers[controller_index]))
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if(!found)
+        {
+            /*---------------------------------------------*\
+            | Read the controller data for this controller  |
+            | into the profile json                         |
+            \*---------------------------------------------*/
+            profile_json["controllers"][new_saved_controller_index] = manually_configured_rgb_controllers[old_saved_controller_index]->GetDeviceDescriptionJSON();
+            new_saved_controller_index++;
+        }
     }
 
     controller_file << std::setw(4) << profile_json << std::endl;
@@ -745,7 +785,7 @@ bool ProfileManager::SaveSizes()
     controller_file.close();
 
     /*-----------------------------------------------------*\
-    | Initialize manually configured controllers list       |
+    | Reinitialize manually configured controllers list     |
     \*-----------------------------------------------------*/
     manually_configured_rgb_controllers = GetControllerListFromSizes();
 
@@ -768,7 +808,15 @@ void ProfileManager::SetConfigurationDirectory(const filesystem::path& directory
 
     filesystem::create_directories(profile_directory);
 
+    /*-----------------------------------------------------*\
+    | Reload profile list                                   |
+    \*-----------------------------------------------------*/
     UpdateProfileList();
+
+    /*-----------------------------------------------------*\
+    | Reinitialize manually configured controllers list     |
+    \*-----------------------------------------------------*/
+    manually_configured_rgb_controllers = GetControllerListFromSizes();
 }
 
 void ProfileManager::SetProfileListFromDescription(unsigned int /*data_size*/, char * data_buf)
