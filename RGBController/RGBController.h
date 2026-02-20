@@ -319,8 +319,9 @@ public:
     virtual unsigned int            GetZoneLEDsCount(unsigned int zone)                                                                                 = 0;
     virtual unsigned int            GetZoneLEDsMax(unsigned int zone)                                                                                   = 0;
     virtual unsigned int            GetZoneLEDsMin(unsigned int zone)                                                                                   = 0;
+    virtual matrix_map_type         GetZoneMatrixMap(unsigned int zone)                                                                                 = 0;
+    virtual const unsigned int*     GetZoneMatrixMapData(unsigned int zone)                                                                             = 0;
     virtual unsigned int            GetZoneMatrixMapHeight(unsigned int zone)                                                                           = 0;
-    virtual const unsigned int *    GetZoneMatrixMap(unsigned int zone)                                                                                 = 0;
     virtual unsigned int            GetZoneMatrixMapWidth(unsigned int zone)                                                                            = 0;
     virtual std::size_t             GetZoneModeCount(unsigned int zone)                                                                                 = 0;
     virtual unsigned int            GetZoneModeBrightness(unsigned int zone, unsigned int mode)                                                         = 0;
@@ -341,8 +342,9 @@ public:
     virtual std::string             GetZoneName(unsigned int zone)                                                                                      = 0;
     virtual std::size_t             GetZoneSegmentCount(unsigned int zone)                                                                              = 0;
     virtual unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment)                                                    = 0;
+    virtual matrix_map_type         GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment)                                                    = 0;
+    virtual const unsigned int *    GetZoneSegmentMatrixMapData(unsigned int zone, unsigned int segment)                                                = 0;
     virtual unsigned int            GetZoneSegmentMatrixMapHeight(unsigned int zone, unsigned int segment)                                              = 0;
-    virtual const unsigned int *    GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment)                                                    = 0;
     virtual unsigned int            GetZoneSegmentMatrixMapWidth(unsigned int zone, unsigned int segment)                                               = 0;
     virtual std::string             GetZoneSegmentName(unsigned int zone, unsigned int segment)                                                         = 0;
     virtual unsigned int            GetZoneSegmentStartIndex(unsigned int zone, unsigned int segment)                                                   = 0;
@@ -414,49 +416,6 @@ public:
     virtual void                    SetAllZoneColors(int zone, RGBColor color)                                                                          = 0;
 
     /*-----------------------------------------------------*\
-    | Serialized Description Functions                      |
-    \*-----------------------------------------------------*/
-    virtual unsigned char *         GetColorDescriptionData(unsigned char* data_ptr, unsigned int protocol_version)                                     = 0;
-    virtual unsigned int            GetColorDescriptionSize(unsigned int protocol_version)                                                              = 0;
-    virtual unsigned char *         GetDeviceDescriptionData(unsigned char* data_ptr, unsigned int protocol_version)                                    = 0;
-    virtual unsigned int            GetDeviceDescriptionSize(unsigned int protocol_version)                                                             = 0;
-    virtual unsigned char *         GetLEDDescriptionData(unsigned char* data_ptr, led led, unsigned int protocol_version)                              = 0;
-    virtual unsigned int            GetLEDDescriptionSize(led led, unsigned int protocol_version)                                                       = 0;
-    virtual unsigned char *         GetMatrixMapDescriptionData(unsigned char* data_ptr, matrix_map_type matrix_map, unsigned int protocol_version)     = 0;
-    virtual unsigned int            GetMatrixMapDescriptionSize(matrix_map_type matrix_map, unsigned int protocol_version)                              = 0;
-    virtual unsigned char *         GetModeDescriptionData(unsigned char* data_ptr, mode mode, unsigned int protocol_version)                           = 0;
-    virtual unsigned int            GetModeDescriptionSize(mode mode, unsigned int protocol_version)                                                    = 0;
-    virtual unsigned char *         GetSegmentDescriptionData(unsigned char* data_ptr, segment segment, unsigned int protocol_version)                  = 0;
-    virtual unsigned int            GetSegmentDescriptionSize(segment segment, unsigned int protocol_version)                                           = 0;
-    virtual unsigned char *         GetZoneDescriptionData(unsigned char* data_ptr, zone zone, unsigned int protocol_version)                           = 0;
-    virtual unsigned int            GetZoneDescriptionSize(zone zone, unsigned int protocol_version)                                                    = 0;
-
-    virtual unsigned char*          SetColorDescription(unsigned char* data_ptr, unsigned int protocol_version, bool resize = false)                    = 0;
-    virtual unsigned char*          SetDeviceDescription(unsigned char* data_ptr, unsigned int protocol_version)                                        = 0;
-    virtual unsigned char*          SetLEDDescription(unsigned char* data_ptr, led* led, unsigned int protocol_version)                                 = 0;
-    virtual unsigned char*          SetMatrixMapDescription(unsigned char* data_ptr, matrix_map_type* matrix_map, unsigned int protocol_version)        = 0;
-    virtual unsigned char*          SetModeDescription(unsigned char* data_ptr, mode* mode, unsigned int protocol_version)                              = 0;
-    virtual unsigned char*          SetSegmentDescription(unsigned char* data_ptr, segment* segment, unsigned int protocol_version)                     = 0;
-    virtual unsigned char*          SetZoneDescription(unsigned char* data_ptr, zone* zone, unsigned int protocol_version)                              = 0;
-
-    /*-----------------------------------------------------*\
-    | JSON Description Functions                            |
-    \*-----------------------------------------------------*/
-    virtual nlohmann::json          GetDeviceDescriptionJSON()                                                                                          = 0;
-    virtual nlohmann::json          GetLEDDescriptionJSON(led led)                                                                                      = 0;
-    virtual nlohmann::json          GetMatrixMapDescriptionJSON(matrix_map_type matrix_map)                                                             = 0;
-    virtual nlohmann::json          GetModeDescriptionJSON(mode mode)                                                                                   = 0;
-    virtual nlohmann::json          GetSegmentDescriptionJSON(segment segment)                                                                          = 0;
-    virtual nlohmann::json          GetZoneDescriptionJSON(zone zone)                                                                                   = 0;
-
-    virtual void                    SetDeviceDescriptionJSON(nlohmann::json controller_json)                                                            = 0;
-    virtual led                     SetLEDDescriptionJSON(nlohmann::json led_json)                                                                      = 0;
-    virtual matrix_map_type         SetMatrixMapDescriptionJSON(nlohmann::json matrix_map_json)                                                         = 0;
-    virtual mode                    SetModeDescriptionJSON(nlohmann::json mode_json)                                                                    = 0;
-    virtual segment                 SetSegmentDescriptionJSON(nlohmann::json segment_json)                                                              = 0;
-    virtual zone                    SetZoneDescriptionJSON(nlohmann::json zone_json)                                                                    = 0;
-
-    /*-----------------------------------------------------*\
     | Update Callback Functions                             |
     \*-----------------------------------------------------*/
     virtual void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg)                                 = 0;
@@ -520,8 +479,9 @@ public:
     unsigned int            GetZoneLEDsCount(unsigned int zone);
     unsigned int            GetZoneLEDsMax(unsigned int zone);
     unsigned int            GetZoneLEDsMin(unsigned int zone);
+    matrix_map_type         GetZoneMatrixMap(unsigned int zone);
+    const unsigned int*     GetZoneMatrixMapData(unsigned int zone);
     unsigned int            GetZoneMatrixMapHeight(unsigned int zone);
-    const unsigned int*     GetZoneMatrixMap(unsigned int zone);
     unsigned int            GetZoneMatrixMapWidth(unsigned int zone);
     std::size_t             GetZoneModeCount(unsigned int zone);
     unsigned int            GetZoneModeBrightness(unsigned int zone, unsigned int mode);
@@ -542,8 +502,9 @@ public:
     std::string             GetZoneName(unsigned int zone);
     std::size_t             GetZoneSegmentCount(unsigned int zone);
     unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment);
+    matrix_map_type         GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment);
+    const unsigned int *    GetZoneSegmentMatrixMapData(unsigned int zone, unsigned int segment);
     unsigned int            GetZoneSegmentMatrixMapHeight(unsigned int zone, unsigned int segment);
-    const unsigned int *    GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment);
     unsigned int            GetZoneSegmentMatrixMapWidth(unsigned int zone, unsigned int segment);
     std::string             GetZoneSegmentName(unsigned int zone, unsigned int segment);
     unsigned int            GetZoneSegmentStartIndex(unsigned int zone, unsigned int segment);
@@ -614,49 +575,6 @@ public:
     void                    SetAllZoneColors(int zone, RGBColor color);
 
     /*-----------------------------------------------------*\
-    | Serialized Description Functions                      |
-    \*-----------------------------------------------------*/
-    unsigned char *         GetColorDescriptionData(unsigned char* data_ptr, unsigned int protocol_version);
-    unsigned int            GetColorDescriptionSize(unsigned int protocol_version);
-    unsigned char *         GetDeviceDescriptionData(unsigned char* data_ptr, unsigned int protocol_version);
-    unsigned int            GetDeviceDescriptionSize(unsigned int protocol_version);
-    unsigned char *         GetLEDDescriptionData(unsigned char* data_ptr, led led, unsigned int protocol_version);
-    unsigned int            GetLEDDescriptionSize(led led, unsigned int protocol_version);
-    unsigned char *         GetMatrixMapDescriptionData(unsigned char* data_ptr, matrix_map_type matrix_map, unsigned int protocol_version);
-    unsigned int            GetMatrixMapDescriptionSize(matrix_map_type matrix_map, unsigned int protocol_version);
-    unsigned char *         GetModeDescriptionData(unsigned char* data_ptr, mode mode, unsigned int protocol_version);
-    unsigned int            GetModeDescriptionSize(mode mode, unsigned int protocol_version);
-    unsigned char *         GetSegmentDescriptionData(unsigned char* data_ptr, segment segment, unsigned int protocol_version);
-    unsigned int            GetSegmentDescriptionSize(segment segment, unsigned int protocol_version);
-    unsigned char *         GetZoneDescriptionData(unsigned char* data_ptr, zone zone, unsigned int protocol_version);
-    unsigned int            GetZoneDescriptionSize(zone zone, unsigned int protocol_version);
-
-    unsigned char*          SetColorDescription(unsigned char* data_ptr, unsigned int protocol_version, bool resize = false);
-    unsigned char*          SetDeviceDescription(unsigned char* data_ptr, unsigned int protocol_version);
-    unsigned char*          SetLEDDescription(unsigned char* data_ptr, led* led, unsigned int protocol_version);
-    unsigned char*          SetMatrixMapDescription(unsigned char* data_ptr, matrix_map_type* matrix_map, unsigned int protocol_version);
-    unsigned char*          SetModeDescription(unsigned char* data_ptr, mode* mode, unsigned int protocol_version);
-    unsigned char*          SetSegmentDescription(unsigned char* data_ptr, segment* segment, unsigned int protocol_version);
-    unsigned char*          SetZoneDescription(unsigned char* data_ptr, zone* zone, unsigned int protocol_version);
-
-    /*-----------------------------------------------------*\
-    | JSON Description Functions                            |
-    \*-----------------------------------------------------*/
-    nlohmann::json          GetDeviceDescriptionJSON();
-    nlohmann::json          GetLEDDescriptionJSON(led led);
-    nlohmann::json          GetMatrixMapDescriptionJSON(matrix_map_type matrix_map);
-    nlohmann::json          GetModeDescriptionJSON(mode mode);
-    nlohmann::json          GetSegmentDescriptionJSON(segment segment);
-    nlohmann::json          GetZoneDescriptionJSON(zone zone);
-
-    void                    SetDeviceDescriptionJSON(nlohmann::json controller_json);
-    led                     SetLEDDescriptionJSON(nlohmann::json led_json);
-    matrix_map_type         SetMatrixMapDescriptionJSON(nlohmann::json matrix_map_json);
-    mode                    SetModeDescriptionJSON(nlohmann::json mode_json);
-    segment                 SetSegmentDescriptionJSON(nlohmann::json segment_json);
-    zone                    SetZoneDescriptionJSON(nlohmann::json zone_json);
-
-    /*-----------------------------------------------------*\
     | Update Callback Functions                             |
     \*-----------------------------------------------------*/
     void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg);
@@ -696,6 +614,49 @@ public:
     virtual void            DeviceUpdateMode();
     virtual void            DeviceUpdateZoneMode(int zone);
     virtual void            DeviceSaveMode();
+
+    /*-----------------------------------------------------*\
+    | Static Serialized Description Functions               |
+    \*-----------------------------------------------------*/
+    static unsigned char *  GetColorDescriptionData(unsigned char* data_ptr, RGBController* controller, unsigned int protocol_version);
+    static unsigned int     GetColorDescriptionSize(RGBController* controller, unsigned int protocol_version);
+    static unsigned char *  GetDeviceDescriptionData(unsigned char* data_ptr, RGBController* controller, unsigned int protocol_version);
+    static unsigned int     GetDeviceDescriptionSize(RGBController* controller, unsigned int protocol_version);
+    static unsigned char *  GetLEDDescriptionData(unsigned char* data_ptr, led led, unsigned int protocol_version);
+    static unsigned int     GetLEDDescriptionSize(led led, unsigned int protocol_version);
+    static unsigned char *  GetMatrixMapDescriptionData(unsigned char* data_ptr, matrix_map_type matrix_map, unsigned int protocol_version);
+    static unsigned int     GetMatrixMapDescriptionSize(matrix_map_type matrix_map, unsigned int protocol_version);
+    static unsigned char *  GetModeDescriptionData(unsigned char* data_ptr, mode mode, unsigned int protocol_version);
+    static unsigned int     GetModeDescriptionSize(mode mode, unsigned int protocol_version);
+    static unsigned char *  GetSegmentDescriptionData(unsigned char* data_ptr, segment segment, unsigned int protocol_version);
+    static unsigned int     GetSegmentDescriptionSize(segment segment, unsigned int protocol_version);
+    static unsigned char *  GetZoneDescriptionData(unsigned char* data_ptr, zone zone, unsigned int protocol_version);
+    static unsigned int     GetZoneDescriptionSize(zone zone, unsigned int protocol_version);
+
+    static unsigned char*   SetColorDescription(unsigned char* data_ptr, RGBController* controller, unsigned int protocol_version, bool resize = false);
+    static unsigned char*   SetDeviceDescription(unsigned char* data_ptr, RGBController* controller, unsigned int protocol_version);
+    static unsigned char*   SetLEDDescription(unsigned char* data_ptr, led* led, unsigned int protocol_version);
+    static unsigned char*   SetMatrixMapDescription(unsigned char* data_ptr, matrix_map_type* matrix_map, unsigned int protocol_version);
+    static unsigned char*   SetModeDescription(unsigned char* data_ptr, mode* mode, unsigned int protocol_version);
+    static unsigned char*   SetSegmentDescription(unsigned char* data_ptr, segment* segment, unsigned int protocol_version);
+    static unsigned char*   SetZoneDescription(unsigned char* data_ptr, zone* zone, unsigned int protocol_version);
+
+    /*-----------------------------------------------------*\
+    | Static JSON Description Functions                     |
+    \*-----------------------------------------------------*/
+    static nlohmann::json   GetDeviceDescriptionJSON(RGBController* controller);
+    static nlohmann::json   GetLEDDescriptionJSON(led led);
+    static nlohmann::json   GetMatrixMapDescriptionJSON(matrix_map_type matrix_map);
+    static nlohmann::json   GetModeDescriptionJSON(mode mode);
+    static nlohmann::json   GetSegmentDescriptionJSON(segment segment);
+    static nlohmann::json   GetZoneDescriptionJSON(zone zone);
+
+    static void             SetDeviceDescriptionJSON(nlohmann::json controller_json, RGBController* controller);
+    static led              SetLEDDescriptionJSON(nlohmann::json led_json);
+    static matrix_map_type  SetMatrixMapDescriptionJSON(nlohmann::json matrix_map_json);
+    static mode             SetModeDescriptionJSON(nlohmann::json mode_json);
+    static segment          SetSegmentDescriptionJSON(nlohmann::json segment_json);
+    static zone             SetZoneDescriptionJSON(nlohmann::json zone_json);
 
 protected:
     /*-----------------------------------------------------*\
