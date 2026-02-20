@@ -524,6 +524,37 @@ bool ProfileManager::SaveProfile(std::string profile_name)
     if(profile_name != "")
     {
         /*-------------------------------------------------*\
+        | Get the existing profile JSON data                |
+        \*-------------------------------------------------*/
+        nlohmann::json existing_profile_json = ReadProfileJSON(profile_name);
+
+        /*-------------------------------------------------*\
+        | Read the existing profile's base color settings   |
+        \*-------------------------------------------------*/
+        RGBColor    base_color          = 0;
+        bool        base_color_enabled  = false;
+
+        if(existing_profile_json.contains("base_color"))
+        {
+            base_color          = existing_profile_json["base_color"];
+            base_color_enabled  = true;
+        }
+
+        /*-------------------------------------------------*\
+        | Read the existing profile's controller states     |
+        \*-------------------------------------------------*/
+        std::vector<RGBController*> existing_controllers = GetControllerListFromProfileJson(existing_profile_json);
+
+        /*-------------------------------------------------*\
+        | If updating an existing profile, only save        |
+        | controller states if the existing profile had one |
+        | or more saved controller states already.          |
+        | If creating a new profile, always save controller |
+        | states.                                           |
+        \*-------------------------------------------------*/
+        bool save_controllers = (existing_profile_json.empty()) || (!existing_profile_json.empty() && !existing_controllers.empty());
+
+        /*-------------------------------------------------*\
         | Get the list of controllers from the resource     |
         | manager                                           |
         \*-------------------------------------------------*/
@@ -538,26 +569,89 @@ bool ProfileManager::SaveProfile(std::string profile_name)
         profile_json["profile_name"]    = profile_name;
 
         /*-------------------------------------------------*\
-        | Write controller data for each controller         |
+        | Write base color data if enabled                  |
         \*-------------------------------------------------*/
-        for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
+        if(base_color_enabled)
         {
+            profile_json["base_color"] = base_color;
+        }
+
+        /*-------------------------------------------------*\
+        | Write controller data for each controller if      |
+        | enabled                                           |
+        \*-------------------------------------------------*/
+        if(save_controllers)
+        {
+            std::size_t new_profile_controller_index = 0;
+
+            for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
+            {
+                /*-----------------------------------------*\
+                | Read the controller data for this         |
+                | controller into the profile json          |
+                \*-----------------------------------------*/
+                profile_json["controllers"][new_profile_controller_index] = controllers[controller_index]->GetDeviceDescriptionJSON();
+                new_profile_controller_index++;
+            }
+
             /*---------------------------------------------*\
-            | Read the controller data for this controller  |
-            | into the profile json                         |
+            | Loop through the previously saved controllers |
+            | and add any controllers that were previously  |
+            | saved but not in the current controllers list |
             \*---------------------------------------------*/
-            profile_json["controllers"][controller_index] = controllers[controller_index]->GetDeviceDescriptionJSON();
+            for(std::size_t existing_controller_index = 0; existing_controller_index < existing_controllers.size(); existing_controller_index++)
+            {
+                bool found = false;
+
+                for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
+                {
+                    if(ProfileManager::CompareControllers(existing_controllers[existing_controller_index], controllers[controller_index]))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if(!found)
+                {
+                /*-----------------------------------------*\
+                | Read the controller data for this         |
+                | controller into the profile json          |
+                \*-----------------------------------------*/
+                    profile_json["controllers"][new_profile_controller_index] = manually_configured_rgb_controllers[existing_controller_index]->GetDeviceDescriptionJSON();
+                    new_profile_controller_index++;
+                }
+            }
         }
 
         /*-------------------------------------------------*\
         | Get plugin profile data if the plugin manager is  |
-        | available                                         |
+        | available.  If updating existing profile, only    |
+        | update the plugins saved in that profile.         |
+        | Otherwise, save all plugins.                      |
         \*-------------------------------------------------*/
         PluginManagerInterface* plugin_manager = ResourceManager::get()->GetPluginManager();
 
         if(plugin_manager != NULL)
         {
-            profile_json["plugins"] = plugin_manager->OnProfileSave();
+            if(existing_profile_json.empty())
+            {
+                profile_json["plugins"] = plugin_manager->OnProfileSave();
+            }
+            else if(existing_profile_json.contains("plugins"))
+            {
+                std::vector<std::string> plugins_to_save;
+
+                for(unsigned int plugin_idx = 0; plugin_idx < plugin_manager->GetPluginCount(); plugin_idx++)
+                {
+                    if(profile_json["plugins"].contains(plugin_manager->GetPluginName(plugin_idx)))
+                    {
+                        plugins_to_save.push_back(plugin_manager->GetPluginName(plugin_idx));
+                    }
+                }
+
+                profile_json["plugins"] = plugin_manager->OnProfileSave(plugins_to_save);
+            }
         }
 
         if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
