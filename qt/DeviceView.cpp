@@ -34,6 +34,7 @@ DeviceView::DeviceView(QWidget *parent) :
     mouseDown(false)
 {
     controller = NULL;
+    changed = false;
     numerical_labels = false;
     per_led = true;
     setMouseTracking(1);
@@ -231,6 +232,11 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_BR_TILDE,             { "~"     , "~"                 }}
 };
 
+void DeviceView::setChanged()
+{
+    changed = true;
+}
+
 void DeviceView::setController(RGBController * controller_ptr)
 {
     /*-----------------------------------------------------*\
@@ -297,10 +303,17 @@ void DeviceView::InitDeviceView()
         {
             for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
             {
-                unsigned int count          = controller->GetZoneSegmentLEDsCount(zone_idx, segment_idx);
-                zone_pos[zone_idx].matrix_w = std::min(count, (unsigned int)MAX_COLS);
-                totalHeight                += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
-
+                if(controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX)
+                {
+                    totalHeight                    += controller->GetZoneSegmentMatrixMapHeight(zone_idx, segment_idx);
+                    zone_pos[zone_idx].matrix_w     = controller->GetZoneSegmentMatrixMapWidth(zone_idx, segment_idx);
+                }
+                else
+                {
+                    unsigned int count          = controller->GetZoneSegmentLEDsCount(zone_idx, segment_idx);
+                    zone_pos[zone_idx].matrix_w = std::min(count, (unsigned int)MAX_COLS);
+                    totalHeight                += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
+                }
                 segment_count++;
             }
         }
@@ -352,9 +365,9 @@ void DeviceView::InitDeviceView()
                 for(unsigned int led_y = 0; led_y < controller->GetZoneMatrixMapHeight(zone_idx); led_y++)
                 {
                     unsigned int map_idx    = led_y * controller->GetZoneMatrixMapWidth(zone_idx) + led_x;
-                    unsigned int color_idx  = controller->GetZoneMatrixMap(zone_idx)[map_idx] + controller->GetZoneStartIndex(zone_idx);
+                    unsigned int color_idx  = controller->GetZoneMatrixMapData(zone_idx)[map_idx] + controller->GetZoneStartIndex(zone_idx);
 
-                    if(controller->GetZoneMatrixMap(zone_idx)[map_idx] != 0xFFFFFFFF && color_idx < led_pos.size())
+                    if(controller->GetZoneMatrixMapData(zone_idx)[map_idx] != 0xFFFFFFFF && color_idx < led_pos.size())
                     {
                         led_pos[color_idx].matrix_x = (zone_pos[zone_idx].matrix_x + led_x + PAD_LED);
                         led_pos[color_idx].matrix_y = current_y + (led_y + PAD_LED);
@@ -385,7 +398,7 @@ void DeviceView::InitDeviceView()
                             | Fill Wide:                                            |
                             |    Space                                              |
                             \*-----------------------------------------------------*/
-                            if(led_x < controller->GetZoneMatrixMapWidth(zone_idx) - 1 && controller->GetZoneMatrixMap(zone_idx)[map_idx + 1] == 0xFFFFFFFF)
+                            if(led_x < controller->GetZoneMatrixMapWidth(zone_idx) - 1 && controller->GetZoneMatrixMapData(zone_idx)[map_idx + 1] == 0xFFFFFFFF)
                             {
                                 if( ( controller->GetLEDDisplayName(color_idx) == KEY_EN_TAB        )
                                  || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_CAPS_LOCK  )
@@ -400,12 +413,12 @@ void DeviceView::InitDeviceView()
                             if( ( controller->GetLEDDisplayName(color_idx) == KEY_EN_NUMPAD_ENTER   )
                              || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_NUMPAD_PLUS    ) )
                             {
-                                if(led_y < controller->GetZoneMatrixMapHeight(zone_idx) - 1 && controller->GetZoneMatrixMap(zone_idx)[map_idx + controller->GetZoneMatrixMapWidth(zone_idx)] == 0xFFFFFFFF)
+                                if(led_y < controller->GetZoneMatrixMapHeight(zone_idx) - 1 && controller->GetZoneMatrixMapData(zone_idx)[map_idx + controller->GetZoneMatrixMapWidth(zone_idx)] == 0xFFFFFFFF)
                                 {
                                     led_pos[color_idx].matrix_h += 1.0f;
                                 }
                                 /* TODO: check if there isn't another widened key above */
-                                else if(led_y > 0 && controller->GetZoneMatrixMap(zone_idx)[map_idx - controller->GetZoneMatrixMapWidth(zone_idx)] == 0xFFFFFFFF)
+                                else if(led_y > 0 && controller->GetZoneMatrixMapData(zone_idx)[map_idx - controller->GetZoneMatrixMapWidth(zone_idx)] == 0xFFFFFFFF)
                                 {
                                     led_pos[color_idx].matrix_y -= 1.0f;
                                     led_pos[color_idx].matrix_h += 1.0f;
@@ -413,12 +426,12 @@ void DeviceView::InitDeviceView()
                             }
                             else if(controller->GetLEDDisplayName(color_idx) == KEY_EN_SPACE)
                             {
-                                for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * controller->GetZoneMatrixMapWidth(zone_idx) && controller->GetZoneMatrixMap(zone_idx)[map_idx2] == 0xFFFFFFFF; map_idx2--)
+                                for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * controller->GetZoneMatrixMapWidth(zone_idx) && controller->GetZoneMatrixMapData(zone_idx)[map_idx2] == 0xFFFFFFFF; map_idx2--)
                                 {
                                     led_pos[color_idx].matrix_x -= 1.0f;
                                     led_pos[color_idx].matrix_w += 1.0f;
                                 }
-                                for(unsigned int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * controller->GetZoneMatrixMapWidth(zone_idx) && controller->GetZoneMatrixMap(zone_idx)[map_idx2] == 0xFFFFFFFF; map_idx2++)
+                                for(unsigned int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * controller->GetZoneMatrixMapWidth(zone_idx) && controller->GetZoneMatrixMapData(zone_idx)[map_idx2] == 0xFFFFFFFF; map_idx2++)
                                 {
                                     led_pos[color_idx].matrix_w += 1.0f;
                                 }
@@ -445,26 +458,54 @@ void DeviceView::InitDeviceView()
 
                 segment_count++;
 
-                /*-----------------------------------------------------*\
-                | Calculate LED box positions for segmented zones       |
-                \*-----------------------------------------------------*/
-                unsigned int leds_count = controller->GetZoneSegmentLEDsCount(zone_idx, segment_idx);
-
-                for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
+                if(controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX)
                 {
-                    unsigned int led_pos_idx = controller->GetZoneStartIndex(zone_idx) + controller->GetZoneSegmentStartIndex(zone_idx, segment_idx) + led_idx;
+                    for(unsigned int led_x = 0; led_x < controller->GetZoneSegmentMatrixMapWidth(zone_idx, segment_idx); led_x++)
+                    {
+                        for(unsigned int led_y = 0; led_y < controller->GetZoneSegmentMatrixMapHeight(zone_idx, segment_idx); led_y++)
+                        {
+                            unsigned int map_idx    = led_y * controller->GetZoneSegmentMatrixMapWidth(zone_idx, segment_idx) + led_x;
+                            unsigned int color_idx  = controller->GetZoneSegmentMatrixMapData(zone_idx, segment_idx)[map_idx] + controller->GetZoneSegmentStartIndex(zone_idx, segment_idx);
 
-                    led_pos[led_pos_idx].matrix_x = zone_pos[zone_idx].matrix_x + ((led_idx % MAX_COLS) + PAD_LED);
-                    led_pos[led_pos_idx].matrix_y = current_y + ((led_idx / MAX_COLS) + PAD_LED);
+                            if(controller->GetZoneSegmentMatrixMapData(zone_idx, segment_idx)[map_idx] != 0xFFFFFFFF && color_idx < led_pos.size())
+                            {
+                                led_pos[color_idx].matrix_x = (segment_pos[zone_idx].matrix_x + led_x + PAD_LED);
+                                led_pos[color_idx].matrix_y = current_y + (led_y + PAD_LED);
 
-                    /*-----------------------------------------------------*\
-                    | LED is a 1x1 square, minus padding on all sides       |
-                    \*-----------------------------------------------------*/
-                    led_pos[led_pos_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
-                    led_pos[led_pos_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
+                                /*-----------------------------------------------------*\
+                                | LED is a 1x1 square, minus padding on all sides       |
+                                \*-----------------------------------------------------*/
+                                led_pos[color_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
+                                led_pos[color_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
+                            }
+                        }
+                    }
+
+                    current_y += controller->GetZoneSegmentMatrixMapHeight(zone_idx, segment_idx);
                 }
+                else
+                {
+                    /*-----------------------------------------------------*\
+                    | Calculate LED box positions for segmented zones       |
+                    \*-----------------------------------------------------*/
+                    unsigned int leds_count = controller->GetZoneSegmentLEDsCount(zone_idx, segment_idx);
 
-                current_y += (leds_count / MAX_COLS) + ((leds_count % MAX_COLS) > 0);
+                    for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
+                    {
+                        unsigned int led_pos_idx = controller->GetZoneStartIndex(zone_idx) + controller->GetZoneSegmentStartIndex(zone_idx, segment_idx) + led_idx;
+
+                        led_pos[led_pos_idx].matrix_x = zone_pos[zone_idx].matrix_x + ((led_idx % MAX_COLS) + PAD_LED);
+                        led_pos[led_pos_idx].matrix_y = current_y + ((led_idx / MAX_COLS) + PAD_LED);
+
+                        /*-----------------------------------------------------*\
+                        | LED is a 1x1 square, minus padding on all sides       |
+                        \*-----------------------------------------------------*/
+                        led_pos[led_pos_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
+                        led_pos[led_pos_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
+                    }
+
+                    current_y += (leds_count / MAX_COLS) + ((leds_count % MAX_COLS) > 0);
+                }
             }
         }
         else
@@ -734,9 +775,10 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     /*-----------------------------------------------------*\
     | If controller has resized, reinitialize local data    |
     \*-----------------------------------------------------*/
-    if(controller->GetLEDCount() != led_pos.size())
+    if(changed || (controller->GetLEDCount() != led_pos.size()))
     {
         InitDeviceView();
+        changed = false;
     }
 
     /*-----------------------------------------------------*\

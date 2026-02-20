@@ -359,6 +359,38 @@ unsigned int RGBController::GetZoneLEDsMin(unsigned int zone)
     return(leds_min);
 }
 
+matrix_map_type RGBController::GetZoneMatrixMap(unsigned int zone)
+{
+    matrix_map_type matrix_map;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        matrix_map = zones[zone].matrix_map;
+    }
+    AccessMutex.unlock_shared();
+
+    return(matrix_map);
+}
+
+const unsigned int* RGBController::GetZoneMatrixMapData(unsigned int zone)
+{
+    unsigned int* map;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        map = zones[zone].matrix_map.map.data();
+    }
+    else
+    {
+        map = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(map);
+}
+
 unsigned int RGBController::GetZoneMatrixMapHeight(unsigned int zone)
 {
     unsigned int height;
@@ -375,24 +407,6 @@ unsigned int RGBController::GetZoneMatrixMapHeight(unsigned int zone)
     AccessMutex.unlock_shared();
 
     return(height);
-}
-
-const unsigned int* RGBController::GetZoneMatrixMap(unsigned int zone)
-{
-    unsigned int* map;
-
-    AccessMutex.lock_shared();
-    if(zone < zones.size())
-    {
-        map = zones[zone].matrix_map.map.data();
-    }
-    else
-    {
-        map = 0;
-    }
-    AccessMutex.unlock_shared();
-
-    return(map);
 }
 
 unsigned int RGBController::GetZoneMatrixMapWidth(unsigned int zone)
@@ -755,33 +769,25 @@ unsigned int RGBController::GetZoneSegmentLEDsCount(unsigned int zone, unsigned 
     return(leds_count);
 }
 
-unsigned int RGBController::GetZoneSegmentMatrixMapHeight(unsigned int zone, unsigned int segment)
+matrix_map_type RGBController::GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment)
 {
-    unsigned int height;
+    matrix_map_type matrix_map;
 
-    if(zone < zones.size())
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (segment < zones[zone].segments.size()))
     {
-        if(segment < zones[zone].segments.size())
-        {
-            height = zones[zone].segments[segment].matrix_map.height;
-        }
-        else
-        {
-            height = 0;
-        }
+        matrix_map = zones[zone].segments[segment].matrix_map;
     }
-    else
-    {
-        height = 0;
-    }
+    AccessMutex.unlock_shared();
 
-    return(height);
+    return(matrix_map);
 }
 
-const unsigned int * RGBController::GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment)
+const unsigned int * RGBController::GetZoneSegmentMatrixMapData(unsigned int zone, unsigned int segment)
 {
     unsigned int* map;
 
+    AccessMutex.lock_shared();
     if(zone < zones.size())
     {
         if(segment < zones[zone].segments.size())
@@ -797,14 +803,41 @@ const unsigned int * RGBController::GetZoneSegmentMatrixMap(unsigned int zone, u
     {
         map = 0;
     }
+    AccessMutex.unlock_shared();
 
     return(map);
+}
+
+unsigned int RGBController::GetZoneSegmentMatrixMapHeight(unsigned int zone, unsigned int segment)
+{
+    unsigned int height;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        if(segment < zones[zone].segments.size())
+        {
+            height = zones[zone].segments[segment].matrix_map.height;
+        }
+        else
+        {
+            height = 0;
+        }
+    }
+    else
+    {
+        height = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(height);
 }
 
 unsigned int RGBController::GetZoneSegmentMatrixMapWidth(unsigned int zone, unsigned int segment)
 {
     unsigned int width;
 
+    AccessMutex.lock_shared();
     if(zone < zones.size())
     {
         if(segment < zones[zone].segments.size())
@@ -820,6 +853,7 @@ unsigned int RGBController::GetZoneSegmentMatrixMapWidth(unsigned int zone, unsi
     {
         width = 0;
     }
+    AccessMutex.unlock_shared();
 
     return(width);
 }
@@ -1586,14 +1620,350 @@ void RGBController::SetAllZoneColors(int zone, RGBColor color)
 }
 
 /*---------------------------------------------------------*\
-| Serialized Description Functions                          |
+| Update Callback Functions                                 |
 \*---------------------------------------------------------*/
-unsigned char * RGBController::GetColorDescriptionData(unsigned char* data_ptr, unsigned int /*protocol_version*/)
+void RGBController::RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg)
+{
+    UpdateMutex.lock();
+
+    /*-----------------------------------------------------*\
+    | Check to see if this is already registered to avoid   |
+    | registering the same callback multiple times          |
+    \*-----------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < UpdateCallbackArgs.size(); callback_idx++ )
+    {
+        if((UpdateCallbacks[callback_idx] == new_callback) && (UpdateCallbackArgs[callback_idx] == new_callback_arg))
+        {
+            UpdateMutex.unlock();
+            return;
+        }
+    }
+
+    UpdateCallbacks.push_back(new_callback);
+    UpdateCallbackArgs.push_back(new_callback_arg);
+    UpdateMutex.unlock();
+}
+
+void RGBController::UnregisterUpdateCallback(void * callback_arg)
+{
+    UpdateMutex.lock();
+    for(unsigned int callback_idx = 0; callback_idx < UpdateCallbackArgs.size(); callback_idx++ )
+    {
+        if(UpdateCallbackArgs[callback_idx] == callback_arg)
+        {
+            UpdateCallbackArgs.erase(UpdateCallbackArgs.begin() + callback_idx);
+            UpdateCallbacks.erase(UpdateCallbacks.begin() + callback_idx);
+        }
+    }
+    UpdateMutex.unlock();
+}
+
+void RGBController::ClearCallbacks()
+{
+    UpdateMutex.lock();
+    UpdateCallbacks.clear();
+    UpdateCallbackArgs.clear();
+    UpdateMutex.unlock();
+}
+
+void RGBController::SignalUpdate(unsigned int update_reason)
+{
+    UpdateMutex.lock();
+
+    /*-----------------------------------------------------*\
+    | Client info has changed, call the callbacks           |
+    \*-----------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < UpdateCallbacks.size(); callback_idx++)
+    {
+        UpdateCallbacks[callback_idx](UpdateCallbackArgs[callback_idx], update_reason, this);
+    }
+
+    UpdateMutex.unlock();
+}
+
+/*---------------------------------------------------------*\
+| Device Update Functions                                   |
+\*---------------------------------------------------------*/
+void RGBController::Shutdown()
+{
+    /*-----------------------------------------------------*\
+    | Stop device thread                                    |
+    \*-----------------------------------------------------*/
+    DeviceThreadRunning = false;
+    DeviceCallThread->join();
+    delete DeviceCallThread;
+
+    /*-----------------------------------------------------*\
+    | Lock the access mutex                                 |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock();
+}
+
+void RGBController::UpdateLEDs()
+{
+    CallFlag_UpdateLEDs = true;
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATELEDS);
+}
+
+void RGBController::UpdateZoneLEDs(int zone)
+{
+    AccessMutex.lock_shared();
+    DeviceUpdateZoneLEDs(zone);
+    AccessMutex.unlock_shared();
+}
+
+void RGBController::UpdateSingleLED(int led)
+{
+    AccessMutex.lock_shared();
+    DeviceUpdateSingleLED(led);
+    AccessMutex.unlock_shared();
+}
+
+void RGBController::UpdateMode()
+{
+    CallFlag_UpdateMode = true;
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATEMODE);
+}
+
+void RGBController::UpdateZoneMode(int zone)
+{
+    AccessMutex.lock_shared();
+    DeviceUpdateZoneMode(zone);
+    AccessMutex.unlock_shared();
+}
+
+void RGBController::SaveMode()
+{
+    AccessMutex.lock_shared();
+    DeviceSaveMode();
+    AccessMutex.unlock_shared();
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_SAVEMODE);
+}
+
+void RGBController::DeviceCallThreadFunction()
+{
+    CallFlag_UpdateLEDs = false;
+    CallFlag_UpdateMode = false;
+
+    while(DeviceThreadRunning.load() == true)
+    {
+        if(CallFlag_UpdateMode.load() == true)
+        {
+            if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
+            {
+                AccessMutex.lock_shared();
+                CallFlag_UpdateMode = false;
+                DeviceUpdateMode();
+                AccessMutex.unlock_shared();
+            }
+            else
+            {
+                AccessMutex.lock_shared();
+                DeviceUpdateMode();
+                CallFlag_UpdateMode = false;
+                AccessMutex.unlock_shared();
+            }
+        }
+        if(CallFlag_UpdateLEDs.load() == true)
+        {
+            if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
+            {
+                AccessMutex.lock_shared();
+                CallFlag_UpdateLEDs = false;
+                DeviceUpdateLEDs();
+                AccessMutex.unlock_shared();
+            }
+            else
+            {
+                AccessMutex.lock_shared();
+                DeviceUpdateLEDs();
+                CallFlag_UpdateLEDs = false;
+                AccessMutex.unlock_shared();
+            }
+        }
+        else
+        {
+           std::this_thread::sleep_for(1ms);
+        }
+    }
+}
+
+void RGBController::ClearSegments(int zone)
+{
+    AccessMutex.lock();
+    zones[zone].segments.clear();
+    AccessMutex.unlock();
+
+    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED;
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS);
+}
+
+void RGBController::AddSegment(int zone, segment new_segment)
+{
+    AccessMutex.lock();
+    zones[zone].segments.push_back(new_segment);
+    AccessMutex.unlock();
+
+    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED;
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT);
+}
+
+void RGBController::ResizeZone(int zone, int new_size)
+{
+    AccessMutex.lock();
+    DeviceResizeZone(zone, new_size);
+    AccessMutex.unlock();
+
+    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED;
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_RESIZEZONE);
+}
+
+/*---------------------------------------------------------*\
+| Functions not part of interface for internal use only     |
+\*---------------------------------------------------------*/
+unsigned int RGBController::LEDsInZone(unsigned int zone)
+{
+    unsigned int leds_count;
+
+    leds_count = zones[zone].leds_count;
+
+    if(zones[zone].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY)
+    {
+        if(leds_count > 1)
+        {
+            leds_count = 1;
+        }
+    }
+
+    return(leds_count);
+}
+
+void RGBController::SetupColors()
+{
+    unsigned int total_led_count;
+    unsigned int zone_led_count;
+
+    /*-----------------------------------------------------*\
+    | Determine total number of LEDs on the device          |
+    \*-----------------------------------------------------*/
+    total_led_count = 0;
+
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        total_led_count += LEDsInZone((unsigned int)zone_idx);
+    }
+
+    /*-----------------------------------------------------*\
+    | Set the size of the color buffer to the number of LEDs|
+    \*-----------------------------------------------------*/
+    colors.resize(total_led_count);
+
+    /*-----------------------------------------------------*\
+    | Set the color buffer pointers on each zone            |
+    \*-----------------------------------------------------*/
+    total_led_count = 0;
+
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].start_idx   = total_led_count;
+        zone_led_count              = LEDsInZone((unsigned int)zone_idx);
+
+        if((colors.size() > 0) && (zone_led_count > 0))
+        {
+            zones[zone_idx].colors = &colors[total_led_count];
+        }
+        else
+        {
+            zones[zone_idx].colors = NULL;
+        }
+
+        if((leds.size() > 0) && (zone_led_count > 0))
+        {
+            zones[zone_idx].leds   = &leds[total_led_count];
+        }
+        else
+        {
+            zones[zone_idx].leds    = NULL;
+        }
+
+
+        total_led_count += zone_led_count;
+    }
+}
+
+void RGBController::UpdateLEDsInternal()
+{
+    CallFlag_UpdateLEDs = true;
+}
+
+/*---------------------------------------------------------*\
+| Functions to be implemented in device implementation      |
+\*---------------------------------------------------------*/
+void RGBController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*-----------------------------------------------------*\
+    | If not implemented by controller, does nothing        |
+    \*-----------------------------------------------------*/
+}
+
+void RGBController::DeviceUpdateLEDs()
+{
+    /*-----------------------------------------------------*\
+    | If not implemented by controller, does nothing        |
+    \*-----------------------------------------------------*/
+}
+
+void RGBController::DeviceUpdateZoneLEDs(int /*zone*/)
+{
+    /*-----------------------------------------------------*\
+    | If not implemented by controller, does nothing        |
+    \*-----------------------------------------------------*/
+}
+
+void RGBController::DeviceUpdateSingleLED(int /*led*/)
+{
+    /*-----------------------------------------------------*\
+    | If not implemented by controller, does nothing        |
+    \*-----------------------------------------------------*/
+}
+
+void RGBController::DeviceUpdateMode()
+{
+    /*-----------------------------------------------------*\
+    | If not implemented by controller, does nothing        |
+    \*-----------------------------------------------------*/
+}
+
+void RGBController::DeviceUpdateZoneMode(int /*zone*/)
+{
+    /*-----------------------------------------------------*\
+    | If not implemented by controller, does nothing        |
+    \*-----------------------------------------------------*/
+}
+
+void RGBController::DeviceSaveMode()
+{
+    /*-----------------------------------------------------*\
+    | If not implemented by controller, does nothing        |
+    \*-----------------------------------------------------*/
+}
+
+
+/*---------------------------------------------------------*\
+| Static Serialized Description Functions                   |
+\*---------------------------------------------------------*/
+unsigned char * RGBController::GetColorDescriptionData(unsigned char* data_ptr, RGBController* controller, unsigned int /*protocol_version*/)
 {
     /*-----------------------------------------------------*\
     | Initialize variables                                  |
     \*-----------------------------------------------------*/
-    unsigned short num_colors               = (unsigned short)colors.size();
+    unsigned short num_colors               = (unsigned short)controller->colors.size();
 
     /*-----------------------------------------------------*\
     | Copy in number of colors                              |
@@ -1606,20 +1976,20 @@ unsigned char * RGBController::GetColorDescriptionData(unsigned char* data_ptr, 
     \*-----------------------------------------------------*/
     for(int color_index = 0; color_index < num_colors; color_index++)
     {
-        memcpy(data_ptr, &colors[color_index], sizeof(colors[color_index]));
-        data_ptr += sizeof(colors[color_index]);
+        memcpy(data_ptr, &controller->colors[color_index], sizeof(controller->colors[color_index]));
+        data_ptr += sizeof(controller->colors[color_index]);
     }
 
     return(data_ptr);
 }
 
-unsigned int RGBController::GetColorDescriptionSize(unsigned int /*protocol_version*/)
+unsigned int RGBController::GetColorDescriptionSize(RGBController* controller, unsigned int /*protocol_version*/)
 {
     /*-----------------------------------------------------*\
     | Initialize variables                                  |
     \*-----------------------------------------------------*/
     unsigned int data_size                  = 0;
-    unsigned short num_colors               = (unsigned short)colors.size();
+    unsigned short num_colors               = (unsigned short)controller->colors.size();
 
     /*-----------------------------------------------------*\
     | Calculate data size                                   |
@@ -1630,26 +2000,26 @@ unsigned int RGBController::GetColorDescriptionSize(unsigned int /*protocol_vers
     return(data_size);
 }
 
-unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr, unsigned int protocol_version)
+unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr, RGBController* controller, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Calculate data size                                   |
     \*-----------------------------------------------------*/
-    unsigned short name_len                 = (unsigned short)strlen(name.c_str())        + 1;
-    unsigned short vendor_len               = (unsigned short)strlen(vendor.c_str())      + 1;
-    unsigned short description_len          = (unsigned short)strlen(description.c_str()) + 1;
-    unsigned short version_len              = (unsigned short)strlen(version.c_str())     + 1;
-    unsigned short serial_len               = (unsigned short)strlen(serial.c_str())      + 1;
-    unsigned short location_len             = (unsigned short)strlen(location.c_str())    + 1;
-    unsigned short num_modes                = (unsigned short)modes.size();
-    unsigned short num_zones                = (unsigned short)zones.size();
-    unsigned short num_leds                 = (unsigned short)leds.size();
-    unsigned short num_led_alt_names        = (unsigned short)led_alt_names.size();
+    unsigned short name_len                 = (unsigned short)strlen(controller->name.c_str())        + 1;
+    unsigned short vendor_len               = (unsigned short)strlen(controller->vendor.c_str())      + 1;
+    unsigned short description_len          = (unsigned short)strlen(controller->description.c_str()) + 1;
+    unsigned short version_len              = (unsigned short)strlen(controller->version.c_str())     + 1;
+    unsigned short serial_len               = (unsigned short)strlen(controller->serial.c_str())      + 1;
+    unsigned short location_len             = (unsigned short)strlen(controller->location.c_str())    + 1;
+    unsigned short num_modes                = (unsigned short)controller->modes.size();
+    unsigned short num_zones                = (unsigned short)controller->zones.size();
+    unsigned short num_leds                 = (unsigned short)controller->leds.size();
+    unsigned short num_led_alt_names        = (unsigned short)controller->led_alt_names.size();
 
     /*-----------------------------------------------------*\
     | Copy in type                                          |
     \*-----------------------------------------------------*/
-    memcpy(data_ptr, &type, sizeof(device_type));
+    memcpy(data_ptr, &controller->type, sizeof(device_type));
     data_ptr += sizeof(device_type);
 
     /*-----------------------------------------------------*\
@@ -1658,7 +2028,7 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     memcpy(data_ptr, &name_len, sizeof(name_len));
     data_ptr += sizeof(name_len);
 
-    strcpy((char *)data_ptr, name.c_str());
+    strcpy((char *)data_ptr, controller->name.c_str());
     data_ptr += name_len;
 
     /*-----------------------------------------------------*\
@@ -1669,7 +2039,7 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
         memcpy(data_ptr, &vendor_len, sizeof(vendor_len));
         data_ptr += sizeof(vendor_len);
 
-        strcpy((char *)data_ptr, vendor.c_str());
+        strcpy((char *)data_ptr, controller->vendor.c_str());
         data_ptr += vendor_len;
     }
 
@@ -1679,7 +2049,7 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     memcpy(data_ptr, &description_len, sizeof(description_len));
     data_ptr += sizeof(description_len);
 
-    strcpy((char *)data_ptr, description.c_str());
+    strcpy((char *)data_ptr, controller->description.c_str());
     data_ptr += description_len;
 
     /*-----------------------------------------------------*\
@@ -1688,7 +2058,7 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     memcpy(data_ptr, &version_len, sizeof(version_len));
     data_ptr += sizeof(version_len);
 
-    strcpy((char *)data_ptr, version.c_str());
+    strcpy((char *)data_ptr, controller->version.c_str());
     data_ptr += version_len;
 
     /*-----------------------------------------------------*\
@@ -1697,7 +2067,7 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     memcpy(data_ptr, &serial_len, sizeof(serial_len));
     data_ptr += sizeof(serial_len);
 
-    strcpy((char *)data_ptr, serial.c_str());
+    strcpy((char *)data_ptr, controller->serial.c_str());
     data_ptr += serial_len;
 
     /*-----------------------------------------------------*\
@@ -1706,7 +2076,7 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     memcpy(data_ptr, &location_len, sizeof(location_len));
     data_ptr += sizeof(location_len);
 
-    strcpy((char *)data_ptr, location.c_str());
+    strcpy((char *)data_ptr, controller->location.c_str());
     data_ptr += location_len;
 
     /*-----------------------------------------------------*\
@@ -1718,7 +2088,7 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     /*-----------------------------------------------------*\
     | Copy in active mode                                   |
     \*-----------------------------------------------------*/
-    memcpy(data_ptr, &active_mode, sizeof(active_mode));
+    memcpy(data_ptr, &controller->active_mode, sizeof(active_mode));
     data_ptr += sizeof(active_mode);
 
     /*-----------------------------------------------------*\
@@ -1726,7 +2096,7 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     \*-----------------------------------------------------*/
     for(int mode_index = 0; mode_index < num_modes; mode_index++)
     {
-        data_ptr = GetModeDescriptionData(data_ptr, modes[mode_index], protocol_version);
+        data_ptr = GetModeDescriptionData(data_ptr, controller->modes[mode_index], protocol_version);
     }
 
     /*-----------------------------------------------------*\
@@ -1740,7 +2110,7 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     \*-----------------------------------------------------*/
     for(int zone_index = 0; zone_index < num_zones; zone_index++)
     {
-        data_ptr = GetZoneDescriptionData(data_ptr, zones[zone_index], protocol_version);
+        data_ptr = GetZoneDescriptionData(data_ptr, controller->zones[zone_index], protocol_version);
     }
 
     /*-----------------------------------------------------*\
@@ -1754,13 +2124,13 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     \*-----------------------------------------------------*/
     for(int led_index = 0; led_index < num_leds; led_index++)
     {
-        data_ptr = GetLEDDescriptionData(data_ptr, leds[led_index], protocol_version);
+        data_ptr = GetLEDDescriptionData(data_ptr, controller->leds[led_index], protocol_version);
     }
 
     /*-----------------------------------------------------*\
     | Copy in colors                                        |
     \*-----------------------------------------------------*/
-    data_ptr = GetColorDescriptionData(data_ptr, protocol_version);
+    data_ptr = GetColorDescriptionData(data_ptr, controller, protocol_version);
 
     /*-----------------------------------------------------*\
     | Copy in LED alternate names                           |
@@ -1773,17 +2143,17 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
         memcpy(data_ptr, &num_led_alt_names, sizeof(num_led_alt_names));
         data_ptr += sizeof(num_led_alt_names);
 
-        for(std::size_t led_idx = 0; led_idx < led_alt_names.size(); led_idx++)
+        for(std::size_t led_idx = 0; led_idx < controller->led_alt_names.size(); led_idx++)
         {
             /*---------------------------------------------*\
             | Copy in LED alternate name (size+data)        |
             \*---------------------------------------------*/
-            unsigned short string_length    = (unsigned short)strlen(led_alt_names[led_idx].c_str()) + 1;
+            unsigned short string_length    = (unsigned short)strlen(controller->led_alt_names[led_idx].c_str()) + 1;
 
             memcpy(data_ptr, &string_length, sizeof(string_length));
             data_ptr += sizeof(string_length);
 
-            strcpy((char *)data_ptr, led_alt_names[led_idx].c_str());
+            strcpy((char *)data_ptr, controller->led_alt_names[led_idx].c_str());
             data_ptr += string_length;
         }
     }
@@ -1793,14 +2163,14 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     \*-----------------------------------------------------*/
     if(protocol_version >= 5)
     {
-        memcpy(data_ptr, &flags, sizeof(flags));
+        memcpy(data_ptr, &controller->flags, sizeof(flags));
         data_ptr += sizeof(flags);
     }
 
     return(data_ptr);
 }
 
-unsigned int RGBController::GetDeviceDescriptionSize(unsigned int protocol_version)
+unsigned int RGBController::GetDeviceDescriptionSize(RGBController* controller, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Initialize variables                                  |
@@ -1810,16 +2180,16 @@ unsigned int RGBController::GetDeviceDescriptionSize(unsigned int protocol_versi
     /*-----------------------------------------------------*\
     | Calculate data size                                   |
     \*-----------------------------------------------------*/
-    unsigned short name_len                 = (unsigned short)strlen(name.c_str())        + 1;
-    unsigned short vendor_len               = (unsigned short)strlen(vendor.c_str())      + 1;
-    unsigned short description_len          = (unsigned short)strlen(description.c_str()) + 1;
-    unsigned short version_len              = (unsigned short)strlen(version.c_str())     + 1;
-    unsigned short serial_len               = (unsigned short)strlen(serial.c_str())      + 1;
-    unsigned short location_len             = (unsigned short)strlen(location.c_str())    + 1;
-    unsigned short num_modes                = (unsigned short)modes.size();
-    unsigned short num_zones                = (unsigned short)zones.size();
-    unsigned short num_leds                 = (unsigned short)leds.size();
-    unsigned short num_led_alt_names        = (unsigned short)led_alt_names.size();
+    unsigned short name_len                 = (unsigned short)strlen(controller->name.c_str())        + 1;
+    unsigned short vendor_len               = (unsigned short)strlen(controller->vendor.c_str())      + 1;
+    unsigned short description_len          = (unsigned short)strlen(controller->description.c_str()) + 1;
+    unsigned short version_len              = (unsigned short)strlen(controller->version.c_str())     + 1;
+    unsigned short serial_len               = (unsigned short)strlen(controller->serial.c_str())      + 1;
+    unsigned short location_len             = (unsigned short)strlen(controller->location.c_str())    + 1;
+    unsigned short num_modes                = (unsigned short)controller->modes.size();
+    unsigned short num_zones                = (unsigned short)controller->zones.size();
+    unsigned short num_leds                 = (unsigned short)controller->leds.size();
+    unsigned short num_led_alt_names        = (unsigned short)controller->led_alt_names.size();
 
     data_size                              += sizeof(device_type);
     data_size                              += sizeof(name_len);
@@ -1845,33 +2215,33 @@ unsigned int RGBController::GetDeviceDescriptionSize(unsigned int protocol_versi
 
     for(int mode_index = 0; mode_index < num_modes; mode_index++)
     {
-        data_size                          += GetModeDescriptionSize(modes[mode_index], protocol_version);
+        data_size                          += GetModeDescriptionSize(controller->modes[mode_index], protocol_version);
     }
 
     data_size                              += sizeof(num_zones);
 
     for(int zone_index = 0; zone_index < num_zones; zone_index++)
     {
-        data_size                          += GetZoneDescriptionSize(zones[zone_index], protocol_version);
+        data_size                          += GetZoneDescriptionSize(controller->zones[zone_index], protocol_version);
     }
 
     data_size                              += sizeof(num_leds);
 
     for(int led_index = 0; led_index < num_leds; led_index++)
     {
-        data_size                          += GetLEDDescriptionSize(leds[led_index], protocol_version);
+        data_size                          += GetLEDDescriptionSize(controller->leds[led_index], protocol_version);
     }
 
-    data_size                              += GetColorDescriptionSize(protocol_version);
+    data_size                              += GetColorDescriptionSize(controller, protocol_version);
 
     if(protocol_version >= 5)
     {
         data_size                          += sizeof(num_led_alt_names);
 
-        for(std::size_t led_idx = 0; led_idx < led_alt_names.size(); led_idx++)
+        for(std::size_t led_idx = 0; led_idx < controller->led_alt_names.size(); led_idx++)
         {
             data_size                      += sizeof(unsigned short);
-            data_size                      += (unsigned int)strlen(led_alt_names[led_idx].c_str()) + 1;
+            data_size                      += (unsigned int)strlen(controller->led_alt_names[led_idx].c_str()) + 1;
         }
     }
 
@@ -2417,17 +2787,17 @@ unsigned int RGBController::GetZoneDescriptionSize(zone zone, unsigned int proto
     return(data_size);
 }
 
-unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsigned int protocol_version)
+unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, RGBController* controller, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Lock access mutex                                     |
     \*-----------------------------------------------------*/
-    AccessMutex.lock();
+    controller->AccessMutex.lock();
 
     /*-----------------------------------------------------*\
     | Copy in type                                          |
     \*-----------------------------------------------------*/
-    memcpy(&type, data_ptr, sizeof(device_type));
+    memcpy(&controller->type, data_ptr, sizeof(device_type));
     data_ptr += sizeof(device_type);
 
     /*-----------------------------------------------------*\
@@ -2437,8 +2807,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&name_len, data_ptr, sizeof(name_len));
     data_ptr += sizeof(name_len);
 
-    name.assign((char *)data_ptr, name_len);
-    name = StringUtils::remove_null_terminating_chars(name);
+    controller->name.assign((char *)data_ptr, name_len);
+    controller->name = StringUtils::remove_null_terminating_chars(controller->name);
     data_ptr += name_len;
 
     /*-----------------------------------------------------*\
@@ -2450,7 +2820,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
         memcpy(&vendor_len, data_ptr, sizeof(vendor_len));
         data_ptr += sizeof(vendor_len);
 
-        vendor = (char *)data_ptr;
+        controller->vendor.assign((char *)data_ptr, vendor_len);
+        controller->vendor = StringUtils::remove_null_terminating_chars(controller->vendor);
         data_ptr += vendor_len;
     }
 
@@ -2461,8 +2832,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&description_len, data_ptr, sizeof(description_len));
     data_ptr += sizeof(description_len);
 
-    description.assign((char *)data_ptr, description_len);
-    description = StringUtils::remove_null_terminating_chars(description);
+    controller->description.assign((char *)data_ptr, description_len);
+    controller->description = StringUtils::remove_null_terminating_chars(controller->description);
     data_ptr += description_len;
 
     /*-----------------------------------------------------*\
@@ -2472,8 +2843,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&version_len, data_ptr, sizeof(version_len));
     data_ptr += sizeof(version_len);
 
-    version.assign((char *)data_ptr, version_len);
-    version = StringUtils::remove_null_terminating_chars(version);
+    controller->version.assign((char *)data_ptr, version_len);
+    controller->version = StringUtils::remove_null_terminating_chars(controller->version);
     data_ptr += version_len;
 
     /*-----------------------------------------------------*\
@@ -2483,8 +2854,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&serial_len, data_ptr, sizeof(serial_len));
     data_ptr += sizeof(serial_len);
 
-    serial.assign((char *)data_ptr, serial_len);
-    serial = StringUtils::remove_null_terminating_chars(serial);
+    controller->serial.assign((char *)data_ptr, serial_len);
+    controller->serial = StringUtils::remove_null_terminating_chars(controller->serial);
     data_ptr += serial_len;
 
     /*-----------------------------------------------------*\
@@ -2494,8 +2865,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&location_len, data_ptr, sizeof(location_len));
     data_ptr += sizeof(location_len);
 
-    location.assign((char *)data_ptr, location_len);
-    location = StringUtils::remove_null_terminating_chars(location);
+    controller->location.assign((char *)data_ptr, location_len);
+    controller->location = StringUtils::remove_null_terminating_chars(controller->location);
     data_ptr += location_len;
 
     /*-----------------------------------------------------*\
@@ -2508,17 +2879,17 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     /*-----------------------------------------------------*\
     | Copy in active mode                                   |
     \*-----------------------------------------------------*/
-    memcpy(&active_mode, data_ptr, sizeof(active_mode));
-    data_ptr += sizeof(active_mode);
+    memcpy(&controller->active_mode, data_ptr, sizeof(controller->active_mode));
+    data_ptr += sizeof(controller->active_mode);
 
     /*-----------------------------------------------------*\
     | Copy in modes                                         |
     \*-----------------------------------------------------*/
-    modes.resize(num_modes);
+    controller->modes.resize(num_modes);
 
     for(int mode_index = 0; mode_index < num_modes; mode_index++)
     {
-        data_ptr = SetModeDescription(data_ptr, &modes[mode_index], protocol_version);
+        data_ptr = SetModeDescription(data_ptr, &controller->modes[mode_index], protocol_version);
     }
 
     /*-----------------------------------------------------*\
@@ -2531,11 +2902,11 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     /*-----------------------------------------------------*\
     | Copy in zones                                         |
     \*-----------------------------------------------------*/
-    zones.resize(num_zones);
+    controller->zones.resize(num_zones);
 
     for(int zone_index = 0; zone_index < num_zones; zone_index++)
     {
-        data_ptr = SetZoneDescription(data_ptr, &zones[zone_index], protocol_version);
+        data_ptr = SetZoneDescription(data_ptr, &controller->zones[zone_index], protocol_version);
     }
 
     /*-----------------------------------------------------*\
@@ -2548,17 +2919,17 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     /*-----------------------------------------------------*\
     | Copy in LEDs                                          |
     \*-----------------------------------------------------*/
-    leds.resize(num_leds);
+    controller->leds.resize(num_leds);
 
     for(int led_index = 0; led_index < num_leds; led_index++)
     {
-        data_ptr = SetLEDDescription(data_ptr, &leds[led_index], protocol_version);
+        data_ptr = SetLEDDescription(data_ptr, &controller->leds[led_index], protocol_version);
     }
 
     /*-----------------------------------------------------*\
     | Copy in colors                                        |
     \*-----------------------------------------------------*/
-    data_ptr = SetColorDescription(data_ptr, protocol_version, true);
+    data_ptr = SetColorDescription(data_ptr, controller, protocol_version, true);
 
     /*-----------------------------------------------------*\
     | Copy in LED alternate names data                      |
@@ -2586,7 +2957,7 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
             std::string new_name((char *)data_ptr, string_length);
             new_name = StringUtils::remove_null_terminating_chars(new_name);
 
-            led_alt_names.push_back(new_name);
+            controller->led_alt_names.push_back(new_name);
             data_ptr += string_length;
         }
     }
@@ -2596,24 +2967,24 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     \*-----------------------------------------------------*/
     if(protocol_version >= 5)
     {
-        memcpy(&flags, data_ptr, sizeof(flags));
-        data_ptr += sizeof(flags);
+        memcpy(&controller->flags, data_ptr, sizeof(controller->flags));
+        data_ptr += sizeof(controller->flags);
     }
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
     \*-----------------------------------------------------*/
-    AccessMutex.unlock();
+    controller->AccessMutex.unlock();
 
     /*-----------------------------------------------------*\
     | Setup colors                                          |
     \*-----------------------------------------------------*/
-    SetupColors();
+    controller->SetupColors();
 
     return(data_ptr);
 }
 
-unsigned char* RGBController::SetColorDescription(unsigned char* data_ptr, unsigned int /*protocol_version*/, bool resize)
+unsigned char* RGBController::SetColorDescription(unsigned char* data_ptr, RGBController* controller, unsigned int /*protocol_version*/, bool resize)
 {
     /*-----------------------------------------------------*\
     | Copy in number of colors (data)                       |
@@ -2624,7 +2995,7 @@ unsigned char* RGBController::SetColorDescription(unsigned char* data_ptr, unsig
 
     if(resize)
     {
-        colors.resize(num_colors);
+        controller->colors.resize(num_colors);
     }
     else
     {
@@ -2632,7 +3003,7 @@ unsigned char* RGBController::SetColorDescription(unsigned char* data_ptr, unsig
         | Check if we aren't reading beyond the list of     |
         | colors.                                           |
         \*-------------------------------------------------*/
-        if(((size_t)num_colors) > colors.size())
+        if(((size_t)num_colors) > controller->colors.size())
         {
             data_ptr += (num_colors * sizeof(RGBColor));
             return(data_ptr);
@@ -2644,8 +3015,8 @@ unsigned char* RGBController::SetColorDescription(unsigned char* data_ptr, unsig
     \*-----------------------------------------------------*/
     for(int color_index = 0; color_index < num_colors; color_index++)
     {
-        memcpy(&colors[color_index], data_ptr, sizeof(colors[color_index]));
-        data_ptr += sizeof(colors[color_index]);
+        memcpy(&controller->colors[color_index], data_ptr, sizeof(controller->colors[color_index]));
+        data_ptr += sizeof(controller->colors[color_index]);
     }
 
     return(data_ptr);
@@ -2977,78 +3348,78 @@ unsigned char* RGBController::SetZoneDescription(unsigned char* data_ptr, zone* 
 }
 
 /*---------------------------------------------------------*\
-| JSON Description Functions                                |
+| Static JSON Description Functions                         |
 \*---------------------------------------------------------*/
-nlohmann::json RGBController::GetDeviceDescriptionJSON()
+nlohmann::json RGBController::GetDeviceDescriptionJSON(RGBController* controller)
 {
     nlohmann::json controller_json;
 
     /*-----------------------------------------------------*\
     | Lock access mutex                                     |
     \*-----------------------------------------------------*/
-    AccessMutex.lock_shared();
+    controller->AccessMutex.lock_shared();
 
     /*-----------------------------------------------------*\
     | Controller information strings                        |
     \*-----------------------------------------------------*/
-    controller_json["description"]          = description;
-    controller_json["location"]             = location;
-    controller_json["name"]                 = name;
-    controller_json["serial"]               = serial;
-    controller_json["vendor"]               = vendor;
-    controller_json["version"]              = version;
+    controller_json["description"]          = controller->description;
+    controller_json["location"]             = controller->location;
+    controller_json["name"]                 = controller->name;
+    controller_json["serial"]               = controller->serial;
+    controller_json["vendor"]               = controller->vendor;
+    controller_json["version"]              = controller->version;
 
     /*-----------------------------------------------------*\
     | Controller variables                                  |
     \*-----------------------------------------------------*/
-    controller_json["active_mode"]          = active_mode;
-    controller_json["flags"]                = flags;
-    controller_json["type"]                 = type;
+    controller_json["active_mode"]          = controller->active_mode;
+    controller_json["flags"]                = controller->flags;
+    controller_json["type"]                 = controller->type;
 
     /*-----------------------------------------------------*\
     | Colors                                                |
     \*-----------------------------------------------------*/
-    for(std::size_t color_idx = 0; color_idx < colors.size(); color_idx++)
+    for(std::size_t color_idx = 0; color_idx < controller->colors.size(); color_idx++)
     {
-        controller_json["colors"][color_idx] = colors[color_idx];
+        controller_json["colors"][color_idx] = controller->colors[color_idx];
     }
 
     /*-----------------------------------------------------*\
     | LEDs                                                  |
     \*-----------------------------------------------------*/
-    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
     {
-        controller_json["leds"][led_idx]  = GetLEDDescriptionJSON(leds[led_idx]);
+        controller_json["leds"][led_idx]  = GetLEDDescriptionJSON(controller->leds[led_idx]);
     }
 
     /*-----------------------------------------------------*\
     | LED alternate names                                   |
     \*-----------------------------------------------------*/
-    for(std::size_t led_alt_name_idx = 0; led_alt_name_idx < led_alt_names.size(); led_alt_name_idx++)
+    for(std::size_t led_alt_name_idx = 0; led_alt_name_idx < controller->led_alt_names.size(); led_alt_name_idx++)
     {
-        controller_json["led_alt_names"][led_alt_name_idx] = led_alt_names[led_alt_name_idx];
+        controller_json["led_alt_names"][led_alt_name_idx] = controller->led_alt_names[led_alt_name_idx];
     }
 
     /*-----------------------------------------------------*\
     | Modes                                                 |
     \*-----------------------------------------------------*/
-    for(std::size_t mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+    for(std::size_t mode_idx = 0; mode_idx < controller->modes.size(); mode_idx++)
     {
-        controller_json["modes"][mode_idx]  = GetModeDescriptionJSON(modes[mode_idx]);
+        controller_json["modes"][mode_idx]  = GetModeDescriptionJSON(controller->modes[mode_idx]);
     }
 
     /*-----------------------------------------------------*\
     | Zones                                                 |
     \*-----------------------------------------------------*/
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
     {
-        controller_json["zones"][zone_idx]  = GetZoneDescriptionJSON(zones[zone_idx]);
+        controller_json["zones"][zone_idx]  = GetZoneDescriptionJSON(controller->zones[zone_idx]);
     }
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
     \*-----------------------------------------------------*/
-    AccessMutex.unlock_shared();
+    controller->AccessMutex.unlock_shared();
 
     return(controller_json);
 }
@@ -3164,44 +3535,44 @@ nlohmann::json RGBController::GetZoneDescriptionJSON(zone zone)
     return(zone_json);
 }
 
-void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json)
+void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json, RGBController* controller)
 {
     /*-----------------------------------------------------*\
     | Lock access mutex                                     |
     \*-----------------------------------------------------*/
-    AccessMutex.lock();
+    controller->AccessMutex.lock();
 
     /*-----------------------------------------------------*\
     | Controller information strings                        |
     \*-----------------------------------------------------*/
     if(controller_json.contains("description"))
     {
-        description                         = controller_json["description"];
+        controller->description                         = controller_json["description"];
     }
 
     if(controller_json.contains("location"))
     {
-        location                            = controller_json["location"];
+        controller->location                            = controller_json["location"];
     }
 
     if(controller_json.contains("name"))
     {
-        name                                = controller_json["name"];
+        controller->name                                = controller_json["name"];
     }
 
     if(controller_json.contains("serial"))
     {
-        serial                              = controller_json["serial"];
+        controller->serial                              = controller_json["serial"];
     }
 
     if(controller_json.contains("vendor"))
     {
-        vendor                              = controller_json["vendor"];
+        controller->vendor                              = controller_json["vendor"];
     }
 
     if(controller_json.contains("version"))
     {
-        version                             = controller_json["version"];
+        controller->version                             = controller_json["version"];
     }
 
     /*-----------------------------------------------------*\
@@ -3209,17 +3580,17 @@ void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json)
     \*-----------------------------------------------------*/
     if(controller_json.contains("active_mode"))
     {
-        active_mode                         = controller_json["active_mode"];
+        controller->active_mode                         = controller_json["active_mode"];
     }
 
     if(controller_json.contains("flags"))
     {
-        flags                               = controller_json["flags"];
+        controller->flags                               = controller_json["flags"];
     }
 
     if(controller_json.contains("type"))
     {
-        type                                = controller_json["type"];
+        controller->type                                = controller_json["type"];
     }
 
     /*-----------------------------------------------------*\
@@ -3227,11 +3598,11 @@ void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json)
     \*-----------------------------------------------------*/
     if(controller_json.contains("colors"))
     {
-        colors.resize(controller_json["colors"].size());
+        controller->colors.resize(controller_json["colors"].size());
 
-        for(std::size_t color_idx = 0; color_idx < colors.size(); color_idx++)
+        for(std::size_t color_idx = 0; color_idx < controller->colors.size(); color_idx++)
         {
-            colors[color_idx]               = controller_json["colors"][color_idx];
+            controller->colors[color_idx]               = controller_json["colors"][color_idx];
         }
     }
 
@@ -3240,11 +3611,11 @@ void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json)
     \*-----------------------------------------------------*/
     if(controller_json.contains("leds"))
     {
-        leds.resize(controller_json["leds"].size());
+        controller->leds.resize(controller_json["leds"].size());
 
-        for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+        for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
         {
-            leds[led_idx]                   = SetLEDDescriptionJSON(controller_json["leds"][led_idx]);
+            controller->leds[led_idx]                   = SetLEDDescriptionJSON(controller_json["leds"][led_idx]);
         }
     }
 
@@ -3253,11 +3624,11 @@ void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json)
     \*-----------------------------------------------------*/
     if(controller_json.contains("led_alt_names"))
     {
-        led_alt_names.resize(controller_json["led_alt_names"].size());
+        controller->led_alt_names.resize(controller_json["led_alt_names"].size());
 
-        for(std::size_t led_alt_name_idx = 0; led_alt_name_idx < led_alt_names.size(); led_alt_name_idx++)
+        for(std::size_t led_alt_name_idx = 0; led_alt_name_idx < controller->led_alt_names.size(); led_alt_name_idx++)
         {
-            led_alt_names[led_alt_name_idx] = controller_json["led_alt_names"][led_alt_name_idx];
+            controller->led_alt_names[led_alt_name_idx] = controller_json["led_alt_names"][led_alt_name_idx];
         }
     }
 
@@ -3266,11 +3637,11 @@ void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json)
     \*-----------------------------------------------------*/
     if(controller_json.contains("modes"))
     {
-        modes.resize(controller_json["modes"].size());
+        controller->modes.resize(controller_json["modes"].size());
 
-        for(std::size_t mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+        for(std::size_t mode_idx = 0; mode_idx < controller->modes.size(); mode_idx++)
         {
-            modes[mode_idx]                 = SetModeDescriptionJSON(controller_json["modes"][mode_idx]);
+            controller->modes[mode_idx]                 = SetModeDescriptionJSON(controller_json["modes"][mode_idx]);
         }
     }
 
@@ -3279,23 +3650,23 @@ void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json)
     \*-----------------------------------------------------*/
     if(controller_json.contains("zones"))
     {
-        zones.resize(controller_json["zones"].size());
+        controller->zones.resize(controller_json["zones"].size());
 
-        for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+        for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
         {
-            zones[zone_idx]                 = SetZoneDescriptionJSON(controller_json["zones"][zone_idx]);
+            controller->zones[zone_idx]                 = SetZoneDescriptionJSON(controller_json["zones"][zone_idx]);
         }
     }
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
     \*-----------------------------------------------------*/
-    AccessMutex.unlock();
+    controller->AccessMutex.unlock();
 
     /*-----------------------------------------------------*\
     | Setup colors                                          |
     \*-----------------------------------------------------*/
-    SetupColors();
+    controller->SetupColors();
 }
 
 led RGBController::SetLEDDescriptionJSON(nlohmann::json led_json)
@@ -3322,18 +3693,18 @@ matrix_map_type RGBController::SetMatrixMapDescriptionJSON(nlohmann::json matrix
 {
     matrix_map_type matrix_map;
 
-    if(matrix_map_json["matrix_map"].contains("width") &&
-       matrix_map_json["matrix_map"].contains("height") &&
-       matrix_map_json["matrix_map"].contains("map"))
+    if(matrix_map_json.contains("width") &&
+       matrix_map_json.contains("height") &&
+       matrix_map_json.contains("map"))
     {
-        matrix_map.width                    = matrix_map_json["matrix_map"]["width"];
-        matrix_map.height                   = matrix_map_json["matrix_map"]["height"];
+        matrix_map.width                    = matrix_map_json["width"];
+        matrix_map.height                   = matrix_map_json["height"];
 
         matrix_map.map.resize(matrix_map.width * matrix_map.height);
 
         for(unsigned int matrix_map_idx = 0; matrix_map_idx < matrix_map.width * matrix_map.height; matrix_map_idx++)
         {
-            matrix_map.map[matrix_map_idx]  = matrix_map_json["matrix_map"]["map"][matrix_map_idx];
+            matrix_map.map[matrix_map_idx]  = matrix_map_json["map"][matrix_map_idx];
         }
     }
 
@@ -3531,341 +3902,6 @@ zone RGBController::SetZoneDescriptionJSON(nlohmann::json zone_json)
     }
 
     return(new_zone);
-}
-
-/*---------------------------------------------------------*\
-| Update Callback Functions                                 |
-\*---------------------------------------------------------*/
-void RGBController::RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg)
-{
-    UpdateMutex.lock();
-
-    /*-----------------------------------------------------*\
-    | Check to see if this is already registered to avoid   |
-    | registering the same callback multiple times          |
-    \*-----------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < UpdateCallbackArgs.size(); callback_idx++ )
-    {
-        if((UpdateCallbacks[callback_idx] == new_callback) && (UpdateCallbackArgs[callback_idx] == new_callback_arg))
-        {
-            UpdateMutex.unlock();
-            return;
-        }
-    }
-
-    UpdateCallbacks.push_back(new_callback);
-    UpdateCallbackArgs.push_back(new_callback_arg);
-    UpdateMutex.unlock();
-}
-
-void RGBController::UnregisterUpdateCallback(void * callback_arg)
-{
-    UpdateMutex.lock();
-    for(unsigned int callback_idx = 0; callback_idx < UpdateCallbackArgs.size(); callback_idx++ )
-    {
-        if(UpdateCallbackArgs[callback_idx] == callback_arg)
-        {
-            UpdateCallbackArgs.erase(UpdateCallbackArgs.begin() + callback_idx);
-            UpdateCallbacks.erase(UpdateCallbacks.begin() + callback_idx);
-        }
-    }
-    UpdateMutex.unlock();
-}
-
-void RGBController::ClearCallbacks()
-{
-    UpdateMutex.lock();
-    UpdateCallbacks.clear();
-    UpdateCallbackArgs.clear();
-    UpdateMutex.unlock();
-}
-
-void RGBController::SignalUpdate(unsigned int update_reason)
-{
-    UpdateMutex.lock();
-
-    /*-----------------------------------------------------*\
-    | Client info has changed, call the callbacks           |
-    \*-----------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < UpdateCallbacks.size(); callback_idx++)
-    {
-        UpdateCallbacks[callback_idx](UpdateCallbackArgs[callback_idx], update_reason, this);
-    }
-
-    UpdateMutex.unlock();
-}
-
-/*---------------------------------------------------------*\
-| Device Update Functions                                   |
-\*---------------------------------------------------------*/
-void RGBController::Shutdown()
-{
-    /*-----------------------------------------------------*\
-    | Stop device thread                                    |
-    \*-----------------------------------------------------*/
-    DeviceThreadRunning = false;
-    DeviceCallThread->join();
-    delete DeviceCallThread;
-
-    /*-----------------------------------------------------*\
-    | Lock the access mutex                                 |
-    \*-----------------------------------------------------*/
-    AccessMutex.lock();
-}
-
-void RGBController::UpdateLEDs()
-{
-    CallFlag_UpdateLEDs = true;
-
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATELEDS);
-}
-
-void RGBController::UpdateZoneLEDs(int zone)
-{
-    AccessMutex.lock_shared();
-    DeviceUpdateZoneLEDs(zone);
-    AccessMutex.unlock_shared();
-}
-
-void RGBController::UpdateSingleLED(int led)
-{
-    AccessMutex.lock_shared();
-    DeviceUpdateSingleLED(led);
-    AccessMutex.unlock_shared();
-}
-
-void RGBController::UpdateMode()
-{
-    CallFlag_UpdateMode = true;
-
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATEMODE);
-}
-
-void RGBController::UpdateZoneMode(int zone)
-{
-    AccessMutex.lock_shared();
-    DeviceUpdateZoneMode(zone);
-    AccessMutex.unlock_shared();
-}
-
-void RGBController::SaveMode()
-{
-    AccessMutex.lock_shared();
-    DeviceSaveMode();
-    AccessMutex.unlock_shared();
-
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_SAVEMODE);
-}
-
-void RGBController::DeviceCallThreadFunction()
-{
-    CallFlag_UpdateLEDs = false;
-    CallFlag_UpdateMode = false;
-
-    while(DeviceThreadRunning.load() == true)
-    {
-        if(CallFlag_UpdateMode.load() == true)
-        {
-            if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
-            {
-                AccessMutex.lock_shared();
-                CallFlag_UpdateMode = false;
-                DeviceUpdateMode();
-                AccessMutex.unlock_shared();
-            }
-            else
-            {
-                AccessMutex.lock_shared();
-                DeviceUpdateMode();
-                CallFlag_UpdateMode = false;
-                AccessMutex.unlock_shared();
-            }
-        }
-        if(CallFlag_UpdateLEDs.load() == true)
-        {
-            if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
-            {
-                AccessMutex.lock_shared();
-                CallFlag_UpdateLEDs = false;
-                DeviceUpdateLEDs();
-                AccessMutex.unlock_shared();
-            }
-            else
-            {
-                AccessMutex.lock_shared();
-                DeviceUpdateLEDs();
-                CallFlag_UpdateLEDs = false;
-                AccessMutex.unlock_shared();
-            }
-        }
-        else
-        {
-           std::this_thread::sleep_for(1ms);
-        }
-    }
-}
-
-void RGBController::ClearSegments(int zone)
-{
-    AccessMutex.lock();
-    zones[zone].segments.clear();
-    AccessMutex.unlock();
-
-    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED;
-
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS);
-}
-
-void RGBController::AddSegment(int zone, segment new_segment)
-{
-    AccessMutex.lock();
-    zones[zone].segments.push_back(new_segment);
-    AccessMutex.unlock();
-
-    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED;
-
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT);
-}
-
-void RGBController::ResizeZone(int zone, int new_size)
-{
-    AccessMutex.lock();
-    DeviceResizeZone(zone, new_size);
-    AccessMutex.unlock();
-
-    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED;
-
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_RESIZEZONE);
-}
-
-/*---------------------------------------------------------*\
-| Functions not part of interface for internal use only     |
-\*---------------------------------------------------------*/
-unsigned int RGBController::LEDsInZone(unsigned int zone)
-{
-    unsigned int leds_count;
-
-    leds_count = zones[zone].leds_count;
-
-    if(zones[zone].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY)
-    {
-        if(leds_count > 1)
-        {
-            leds_count = 1;
-        }
-    }
-
-    return(leds_count);
-}
-
-void RGBController::SetupColors()
-{
-    unsigned int total_led_count;
-    unsigned int zone_led_count;
-
-    /*-----------------------------------------------------*\
-    | Determine total number of LEDs on the device          |
-    \*-----------------------------------------------------*/
-    total_led_count = 0;
-
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        total_led_count += LEDsInZone((unsigned int)zone_idx);
-    }
-
-    /*-----------------------------------------------------*\
-    | Set the size of the color buffer to the number of LEDs|
-    \*-----------------------------------------------------*/
-    colors.resize(total_led_count);
-
-    /*-----------------------------------------------------*\
-    | Set the color buffer pointers on each zone            |
-    \*-----------------------------------------------------*/
-    total_led_count = 0;
-
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        zones[zone_idx].start_idx   = total_led_count;
-        zone_led_count              = LEDsInZone((unsigned int)zone_idx);
-
-        if((colors.size() > 0) && (zone_led_count > 0))
-        {
-            zones[zone_idx].colors = &colors[total_led_count];
-        }
-        else
-        {
-            zones[zone_idx].colors = NULL;
-        }
-
-        if((leds.size() > 0) && (zone_led_count > 0))
-        {
-            zones[zone_idx].leds   = &leds[total_led_count];
-        }
-        else
-        {
-            zones[zone_idx].leds    = NULL;
-        }
-
-
-        total_led_count += zone_led_count;
-    }
-}
-
-void RGBController::UpdateLEDsInternal()
-{
-    CallFlag_UpdateLEDs = true;
-}
-
-/*---------------------------------------------------------*\
-| Functions to be implemented in device implementation      |
-\*---------------------------------------------------------*/
-void RGBController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*-----------------------------------------------------*\
-    | If not implemented by controller, does nothing        |
-    \*-----------------------------------------------------*/
-}
-
-void RGBController::DeviceUpdateLEDs()
-{
-    /*-----------------------------------------------------*\
-    | If not implemented by controller, does nothing        |
-    \*-----------------------------------------------------*/
-}
-
-void RGBController::DeviceUpdateZoneLEDs(int /*zone*/)
-{
-    /*-----------------------------------------------------*\
-    | If not implemented by controller, does nothing        |
-    \*-----------------------------------------------------*/
-}
-
-void RGBController::DeviceUpdateSingleLED(int /*led*/)
-{
-    /*-----------------------------------------------------*\
-    | If not implemented by controller, does nothing        |
-    \*-----------------------------------------------------*/
-}
-
-void RGBController::DeviceUpdateMode()
-{
-    /*-----------------------------------------------------*\
-    | If not implemented by controller, does nothing        |
-    \*-----------------------------------------------------*/
-}
-
-void RGBController::DeviceUpdateZoneMode(int /*zone*/)
-{
-    /*-----------------------------------------------------*\
-    | If not implemented by controller, does nothing        |
-    \*-----------------------------------------------------*/
-}
-
-void RGBController::DeviceSaveMode()
-{
-    /*-----------------------------------------------------*\
-    | If not implemented by controller, does nothing        |
-    \*-----------------------------------------------------*/
 }
 
 /*---------------------------------------------------------*\
