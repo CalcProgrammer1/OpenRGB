@@ -1480,7 +1480,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZoneResizeDialog</name>
+    <name>OpenRGBZoneEditorDialog</name>
     <message>
         <source>Resize Zone</source>
         <translation>調整區域大小</translation>
