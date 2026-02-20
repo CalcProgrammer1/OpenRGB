@@ -32,6 +32,7 @@ public:
     virtual QSize sizeHint () const;
     virtual QSize minimumSizeHint () const;
 
+    void setChanged();
     void setController(RGBController * controller_ptr);
     void setNumericalLabels(bool enable);
     void setPerLED(bool per_led_mode);
@@ -48,6 +49,7 @@ private:
     bool mouseDown;
     bool ctrlDown;
     bool mouseMoved;
+    bool changed;
     int size;
     int offset_x;
     QRect selectionRect;
