@@ -217,7 +217,7 @@ unsigned char * RGBController_Network::CreateUpdateLEDsPacket(unsigned int proto
     | Calculate data size                                   |
     \*-----------------------------------------------------*/
     data_size                              += sizeof(data_size);
-    data_size                              += GetColorDescriptionSize(protocol_version);
+    data_size                              += RGBController::GetColorDescriptionSize(this, protocol_version);
 
     /*-----------------------------------------------------*\
     | Create data buffer                                    |
@@ -234,7 +234,7 @@ unsigned char * RGBController_Network::CreateUpdateLEDsPacket(unsigned int proto
     /*-----------------------------------------------------*\
     | Copy in color data                                    |
     \*-----------------------------------------------------*/
-    data_ptr                                = GetColorDescriptionData(data_ptr, protocol_version);
+    data_ptr                                = RGBController::GetColorDescriptionData(data_ptr, this, protocol_version);
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
