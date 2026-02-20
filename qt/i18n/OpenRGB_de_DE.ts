@@ -1477,7 +1477,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZoneResizeDialog</name>
+    <name>OpenRGBZoneEditorDialog</name>
     <message>
         <source>Resize Zone</source>
         <translation>Größe der Zone ändern</translation>
