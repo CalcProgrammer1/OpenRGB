@@ -1194,7 +1194,7 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
         \*-------------------------------------------------*/
         RGBController_Network * new_controller   = new RGBController_Network(this, dev_id);
 
-        new_controller->SetDeviceDescription((unsigned char *)data, GetProtocolVersion());
+        RGBController::SetDeviceDescription((unsigned char *)data, new_controller, GetProtocolVersion());
 
         /*-------------------------------------------------*\
         | Mark this controller as remote owned              |
@@ -1459,7 +1459,7 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
         | UpdateLEDs() sends color description              |
         \*-------------------------------------------------*/
         case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:
-            controller->SetColorDescription((unsigned char *)data_ptr, GetProtocolVersion());
+            RGBController::SetColorDescription((unsigned char *)data_ptr, controller, GetProtocolVersion());
             break;
 
         /*-------------------------------------------------*\
@@ -1474,7 +1474,7 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
         case RGBCONTROLLER_UPDATE_REASON_HIDDEN:
         case RGBCONTROLLER_UPDATE_REASON_UNHIDDEN:
         default:
-            controller->SetDeviceDescription((unsigned char *)data_ptr, GetProtocolVersion());
+            RGBController::SetDeviceDescription((unsigned char *)data_ptr, controller, GetProtocolVersion());
             break;
     }
 
