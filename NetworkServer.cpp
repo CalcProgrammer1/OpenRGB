@@ -1818,7 +1818,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned int control
     /*-----------------------------------------------------*\
     | Update colors                                         |
     \*-----------------------------------------------------*/
-    controllers[controller_idx]->SetColorDescription(data_ptr, protocol_version);
+    RGBController::SetColorDescription(data_ptr, controllers[controller_idx], protocol_version);
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
@@ -2199,7 +2199,7 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
         | Get data size                                         |
         \*-----------------------------------------------------*/
         reply_size                  = sizeof(reply_size);
-        reply_size                 += controllers[dev_idx]->GetDeviceDescriptionSize(protocol_version);
+        reply_size                 += RGBController::GetDeviceDescriptionSize(controllers[dev_idx], protocol_version);
 
         /*-----------------------------------------------------*\
         | Create data buffer                                    |
@@ -2216,7 +2216,7 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
         /*-----------------------------------------------------*\
         | Copy in data                                          |
         \*-----------------------------------------------------*/
-        data_ptr                    = controllers[dev_idx]->GetDeviceDescriptionData(data_ptr, protocol_version);
+        data_ptr                    = RGBController::GetDeviceDescriptionData(data_ptr, controllers[dev_idx], protocol_version);
 
         /*-----------------------------------------------------*\
         | Unlock controller's access mutex                      |
@@ -2736,7 +2736,7 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
                     | UpdateLEDs() sends color description  |
                     \*-------------------------------------*/
                     case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:
-                        reply_size                 += controller_ptr->GetColorDescriptionSize(protocol_version);
+                        reply_size                 += RGBController::GetColorDescriptionSize(controller_ptr, protocol_version);
                         break;
 
                     /*-------------------------------------*\
@@ -2751,7 +2751,7 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
                     case RGBCONTROLLER_UPDATE_REASON_HIDDEN:
                     case RGBCONTROLLER_UPDATE_REASON_UNHIDDEN:
                     default:
-                        reply_size                 += controller_ptr->GetDeviceDescriptionSize(protocol_version);
+                        reply_size                 += RGBController::GetDeviceDescriptionSize(controller_ptr, protocol_version);
                         break;
                 }
 
@@ -2782,7 +2782,7 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
                     | UpdateLEDs() sends color description  |
                     \*-------------------------------------*/
                     case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:
-                        data_ptr                    = controller_ptr->GetColorDescriptionData(data_ptr, protocol_version);
+                        data_ptr                    = RGBController::GetColorDescriptionData(data_ptr, controller_ptr, protocol_version);
                         break;
 
                     /*-------------------------------------*\
@@ -2797,7 +2797,7 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
                     case RGBCONTROLLER_UPDATE_REASON_HIDDEN:
                     case RGBCONTROLLER_UPDATE_REASON_UNHIDDEN:
                     default:
-                        data_ptr                    = controller_ptr->GetDeviceDescriptionData(data_ptr, protocol_version);
+                        data_ptr                    = RGBController::GetDeviceDescriptionData(data_ptr, controller_ptr, protocol_version);
                         break;
                 }
 

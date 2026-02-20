@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include "OpenRGBDevicePage.h"
-#include "OpenRGBZoneResizeDialog.h"
+#include "OpenRGBZoneEditorDialog.h"
 #include "ProfileManager.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
@@ -2002,6 +2002,7 @@ void OpenRGBDevicePage::UpdateInterface(unsigned int update_reason)
     case RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS:
     case RGBCONTROLLER_UPDATE_REASON_RESIZEZONE:
         UpdateModeUi();
+        ui->DeviceViewBox->setChanged();
         ui->DeviceViewBox->repaint();
         break;
     }
@@ -2166,7 +2167,7 @@ void OpenRGBDevicePage::on_EditZoneButton_clicked()
                 \*-----------------------------------------*/
                 if((device->GetZoneType(selected_zone) == ZONE_TYPE_LINEAR) || (device->GetZoneFlags(selected_zone) & ZONE_FLAG_RESIZE_EFFECTS_ONLY))
                 {
-                    OpenRGBZoneResizeDialog dlg(device, selected_zone);
+                    OpenRGBZoneEditorDialog dlg(device, selected_zone);
 
                     int new_size = dlg.show();
 

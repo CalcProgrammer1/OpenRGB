@@ -285,7 +285,7 @@ std::vector<RGBController*> ProfileManager::GetControllerListFromProfileJson(nlo
         {
             RGBController_Dummy * profile_controller = new RGBController_Dummy();
 
-            profile_controller->SetDeviceDescriptionJSON(profile_json["controllers"][controller_idx]);
+            RGBController::SetDeviceDescriptionJSON(profile_json["controllers"][controller_idx], profile_controller);
 
             profile_controllers.push_back(profile_controller);
         }
@@ -590,7 +590,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
                 | Read the controller data for this         |
                 | controller into the profile json          |
                 \*-----------------------------------------*/
-                profile_json["controllers"][new_profile_controller_index] = controllers[controller_index]->GetDeviceDescriptionJSON();
+                profile_json["controllers"][new_profile_controller_index] = RGBController::GetDeviceDescriptionJSON(controllers[controller_index]);
                 new_profile_controller_index++;
             }
 
@@ -618,7 +618,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
                 | Read the controller data for this         |
                 | controller into the profile json          |
                 \*-----------------------------------------*/
-                    profile_json["controllers"][new_profile_controller_index] = manually_configured_rgb_controllers[existing_controller_index]->GetDeviceDescriptionJSON();
+                    profile_json["controllers"][new_profile_controller_index] = RGBController::GetDeviceDescriptionJSON(manually_configured_rgb_controllers[existing_controller_index]);
                     new_profile_controller_index++;
                 }
             }
@@ -709,7 +709,7 @@ bool ProfileManager::SaveProfileCustom(std::string profile_name, std::vector<RGB
             | Read the controller data for this controller  |
             | into the profile json                         |
             \*---------------------------------------------*/
-            profile_json["controllers"][controller_index] = controllers[controller_index]->GetDeviceDescriptionJSON();
+            profile_json["controllers"][controller_index] = RGBController::GetDeviceDescriptionJSON(controllers[controller_index]);
         }
 
         /*-------------------------------------------------*\
@@ -834,7 +834,7 @@ bool ProfileManager::SaveSizes()
             | Read the controller data for this controller  |
             | into the profile json if manually configured  |
             \*---------------------------------------------*/
-            profile_json["controllers"][new_saved_controller_index] = controllers[controller_index]->GetDeviceDescriptionJSON();
+            profile_json["controllers"][new_saved_controller_index] = RGBController::GetDeviceDescriptionJSON(controllers[controller_index]);
             new_saved_controller_index++;
 
             break;
@@ -866,7 +866,7 @@ bool ProfileManager::SaveSizes()
             | Read the controller data for this controller  |
             | into the profile json                         |
             \*---------------------------------------------*/
-            profile_json["controllers"][new_saved_controller_index] = manually_configured_rgb_controllers[old_saved_controller_index]->GetDeviceDescriptionJSON();
+            profile_json["controllers"][new_saved_controller_index] = RGBController::GetDeviceDescriptionJSON(manually_configured_rgb_controllers[old_saved_controller_index]);
             new_saved_controller_index++;
         }
     }
