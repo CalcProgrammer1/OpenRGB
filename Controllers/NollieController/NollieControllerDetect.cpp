@@ -23,11 +23,6 @@ DetectedControllers DetectNollieControllers(hid_device_info* info, const std::st
 
     if(dev)
     {
-        wchar_t product[128];
-        hid_get_product_string(dev, product, 128);
-
-        std::wstring product_str(product);
-
         NollieController*     controller     = new NollieController(dev, info->path, info->vendor_id, info->product_id, name);
         RGBController_Nollie* rgb_controller = new RGBController_Nollie(controller);
 

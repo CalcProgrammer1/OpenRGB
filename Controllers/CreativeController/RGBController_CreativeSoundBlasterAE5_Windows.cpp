@@ -50,56 +50,91 @@ RGBController_CreativeSoundBlasterAE5::~RGBController_CreativeSoundBlasterAE5()
 
 void RGBController_CreativeSoundBlasterAE5::SetupZones()
 {
-    zone internal_zone;
-    internal_zone.name                  = "Internal";
-    internal_zone.type                  = ZONE_TYPE_LINEAR;
-    internal_zone.leds_min              = 5;
-    internal_zone.leds_max              = 5;
-    internal_zone.leds_count            = 5;
-    zones.push_back(internal_zone);
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \*-----------------------------------------------------*/
+    bool first_run = false;
 
-    for(unsigned int led_idx = 0; led_idx < 5; led_idx++)
+    if(zones.size() == 0)
     {
-        led new_led;
-        new_led.name = "Internal LED " + std::to_string(led_idx + 1);
-        leds.push_back(new_led);
+        first_run = true;
     }
 
-    zone external_zone;
-    external_zone.name                  = "External";
-    external_zone.type                  = ZONE_TYPE_LINEAR;
-    external_zone.leds_min              = 0;
-    external_zone.leds_max              = 100;
-    external_zone.leds_count            = controller->GetExternalLEDCount();
-    zones.push_back(external_zone);
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \*-----------------------------------------------------*/
+    leds.clear();
+    colors.clear();
+    zones.resize(2);
 
-    for(unsigned int led_idx = 0; led_idx < controller->GetExternalLEDCount(); led_idx++)
+    /*-----------------------------------------------------*\
+    | Set up internal zone                                  |
+    \*-----------------------------------------------------*/
+    zones[0].name                       = "Internal";
+    zones[0].type                       = ZONE_TYPE_LINEAR;
+    zones[0].leds_min                   = 5;
+    zones[0].leds_max                   = 5;
+    zones[0].leds_count                 = 5;
+
+    /*-----------------------------------------------------*\
+    | Set up internal zone and LEDs                         |
+    \*-----------------------------------------------------*/
+    zones[1].leds_min                   = 0;
+    zones[1].leds_max                   = 100;
+
+    if(first_run)
     {
-        led new_led;
-        new_led.name = "External LED " + std::to_string(led_idx + 1);
-        leds.push_back(new_led);
+        zones[1].flags                  = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+    }
+
+    if(!(zones[1].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+    {
+        zones[1].name                   = "Addressable RGB Header";
+    }
+
+    if(!(zones[1].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+    {
+        zones[1].leds_count             = controller->GetExternalLEDCount();;
+    }
+
+    if(!(zones[1].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+    {
+        zones[1].type                   = ZONE_TYPE_LINEAR;
+    }
+
+    if(!(zones[1].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+    {
+        zones[1].matrix_map.width       = 0;
+        zones[1].matrix_map.height      = 0;
+        zones[1].matrix_map.map.resize(0);
+    }
+
+    /*-----------------------------------------------------*\
+    | Set up LEDs                                           |
+    \*-----------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        {
+            led new_led;
+            new_led.name = zones[0].name + ", LED " + std::to_string(led_idx + 1);
+            leds.push_back(new_led);
+        }
     }
 
     SetupColors();
 }
 
-void RGBController_CreativeSoundBlasterAE5::DeviceResizeZone(int zone, int new_size)
+void RGBController_CreativeSoundBlasterAE5::DeviceConfigureZone(int zone_idx)
 {
-    if(zone == 1) // External zone
+    if((size_t)zone_idx < zones.size())
     {
-        zones[zone].leds_count = new_size;
+        controller->SetExternalLEDCount(zones[zone_idx].leds_count);
 
-        leds.resize(5);
-
-        for(unsigned int led_idx = 0; led_idx < (unsigned int)new_size; led_idx++)
-        {
-            led new_led;
-            new_led.name = "External LED " + std::to_string(led_idx + 1);
-            leds.push_back(new_led);
-        }
-
-        controller->SetExternalLEDCount(new_size);
-        SetupColors();
+        SetupZones();
     }
 }
 

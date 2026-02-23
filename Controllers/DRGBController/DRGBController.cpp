@@ -20,7 +20,21 @@ DRGBController::DRGBController(hid_device* dev_handle, const char* path, unsigne
     dev         = dev_handle;
     location    = path;
     name        = dev_name;
-    device_pid  = pid;
+
+    /*-----------------------------------------------------*\
+    | Loop through all known devices to look for a PID      |
+    | match                                                 |
+    \*-----------------------------------------------------*/
+    for(unsigned int i = 0; i < DRGB_NUM_DEVICES; i++)
+    {
+        if(drgb_device_list[i]->pid == pid)
+        {
+            /*---------------------------------------------*\
+            | Set device index                              |
+            \*---------------------------------------------*/
+            device_index = i;
+        }
+    }
 
     /*-----------------------------------------------------*\
     | Exit hardware effects.  Start a thread to continuously|
@@ -36,20 +50,6 @@ DRGBController::~DRGBController()
     keepalive_thread->join();
     delete keepalive_thread;
     hid_close(dev);
-}
-
-void DRGBController::KeepaliveThread()
-{
-    unsigned char   sleep_buf[65];
-    sleep_buf[0] = 0x65;
-    while(keepalive_thread_run.load())
-    {
-        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::milliseconds(500))
-        {
-            SendPacketFS(sleep_buf, 1, 0);
-        }
-        std::this_thread::sleep_for(300ms);
-    }
 }
 
 std::string DRGBController::GetFirmwareString()
@@ -82,7 +82,99 @@ std::string DRGBController::GetSerialString()
 
 unsigned short DRGBController::GetDevicePID()
 {
-    return(device_pid);
+    return(drgb_device_list[device_index]->pid);
+}
+
+unsigned char DRGBController::GetNumChannels()
+{
+    return(drgb_device_list[device_index]->channels);
+}
+
+unsigned short DRGBController::GetLEDsPerChannel()
+{
+    return(drgb_device_list[device_index]->leds_per_channel);
+}
+
+unsigned short DRGBController::GetVersion()
+{
+    return(drgb_device_list[device_index]->version);
+}
+
+std::string DRGBController::GetChannelName(unsigned char channel)
+{
+    std::string channel_name;
+
+    if(drgb_device_list[device_index]->channels == 6)
+    {
+        if(channel == 0)
+        {
+            channel_name = "Strimer ATX" + std::to_string(channel + 1);
+        }
+        else if(channel < 3)
+        {
+            channel_name = "Channel C" + std::to_string(channel);
+        }
+        else if(channel == 3)
+        {
+            channel_name = "Strimer GPU" + std::to_string(channel - 2);
+        }
+        else if(channel < 6)
+        {
+            channel_name = "Channel D" + std::to_string(channel - 3);
+        }
+    }
+    else if(drgb_device_list[device_index]->channels == 10 || drgb_device_list[device_index]->channels == 12)
+    {
+        channel_name = "Channel " + std::to_string(channel + 1);
+    }
+    else if(drgb_device_list[device_index]->channels == 14)
+    {
+        if(channel < 4)
+        {
+            channel_name = "LCD " + std::to_string(channel + 1);
+        }
+        else if(channel < 6)
+        {
+            channel_name = "LED " + std::to_string(channel + 1);
+        }
+        else if(channel < 16)
+        {
+            channel_name = "ARGB " + std::to_string(channel - 5);
+        }
+    }
+    else if(channel < 8)
+    {
+        channel_name = "Channel A" + std::to_string(channel + 1);
+    }
+    else if(channel < 16)
+    {
+        channel_name = "Channel B" + std::to_string(channel - 7);
+    }
+    else if(drgb_device_list[device_index]->channels == 30)
+    {
+        if(channel < 24)
+        {
+            channel_name = "Channel C" + std::to_string(channel - 15);
+        }
+        else if(channel < 30)
+        {
+            channel_name = "Channel D" + std::to_string(channel - 23);
+        }
+    }
+    else if(channel < 22)
+    {
+        channel_name = "Channel C" + std::to_string(channel - 15);
+    }
+    else if(channel < 28)
+    {
+        channel_name = "Channel D" + std::to_string(channel - 21);
+    }
+    else if(channel < 36)
+    {
+        channel_name = "Channel E" + std::to_string(channel - 27);
+    }
+
+    return(channel_name);
 }
 
 void DRGBController::SetChannelLEDs(unsigned char /*channel*/, RGBColor* /*colors*/, unsigned int /*num_colors*/)
@@ -151,5 +243,19 @@ void DRGBController::SendPacketFS(unsigned char* colors, unsigned int buf_packet
     {
         memcpy(usb_buf + 1, colors, 64);
         hid_write(dev, usb_buf, 65);
+    }
+}
+
+void DRGBController::KeepaliveThread()
+{
+    unsigned char   sleep_buf[65];
+    sleep_buf[0] = 0x65;
+    while(keepalive_thread_run.load())
+    {
+        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::milliseconds(500))
+        {
+            SendPacketFS(sleep_buf, 1, 0);
+        }
+        std::this_thread::sleep_for(300ms);
     }
 }

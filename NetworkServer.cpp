@@ -1412,6 +1412,25 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     goto listen_done;
                 }
                 break;
+
+            case NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE:
+                /*-----------------------------------------*\
+                | Verify the packet size in the packet data |
+                | (first 4 bytes of data) matches the       |
+                | packet size in the header                 |
+                \*-----------------------------------------*/
+                if((data != NULL)
+                && (header.pkt_size >= sizeof(unsigned int))
+                && (header.pkt_size == *((unsigned int*)data)))
+                {
+                    ProcessRequest_RGBController_ConfigureZone(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                }
+                else
+                {
+                    LOG_ERROR("[%s] ConfigureZone packet has invalid size. Packet size: %d", header.pkt_size, NETWORKSERVER);
+                    goto listen_done;
+                }
+                break;
         }
 
         if(delete_data)
@@ -1720,6 +1739,49 @@ void NetworkServer::ProcessRequest_RGBController_ClearSegments(unsigned int cont
     | Call ClearSegments on the given controller            |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->ClearSegments(zone_idx);
+
+    /*-----------------------------------------------------*\
+    | Save sizes                                            |
+    \*-----------------------------------------------------*/
+    profile_manager->SaveSizes();
+}
+
+void NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+{
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+    int             zone_idx;
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Skip data size                                        |
+    \*-----------------------------------------------------*/
+    data_ptr += sizeof(unsigned int);
+
+    /*-----------------------------------------------------*\
+    | Copy in zone index                                    |
+    \*-----------------------------------------------------*/
+    memcpy(&zone_idx, data_ptr, sizeof(zone_idx));
+    data_ptr += sizeof(zone_idx);
+
+    /*-----------------------------------------------------*\
+    | Configure zone                                        |
+    \*-----------------------------------------------------*/
+    zone new_zone;
+
+    data_ptr = controllers[controller_idx]->SetZoneDescription(data_ptr, &new_zone, protocol_version);
+
+    controllers[controller_idx]->ConfigureZone(zone_idx, new_zone);
 
     /*-----------------------------------------------------*\
     | Save sizes                                            |

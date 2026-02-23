@@ -458,181 +458,228 @@ RGBController_GaiZhongGaiKeyboard::~RGBController_GaiZhongGaiKeyboard()
 
 void RGBController_GaiZhongGaiKeyboard::SetupZones()
 {
-    /*---------------------------------------------------------*\
-    | Set up zones                                              |
-    \*---------------------------------------------------------*/
-    char str[10];
-    unsigned int total_led_count = 0;
-    unsigned int zone_idx_len = 1;
-    unsigned int temp;
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \*-----------------------------------------------------*/
+    bool first_run = false;
 
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \*-----------------------------------------------------*/
     leds.clear();
     colors.clear();
-    zones.clear();
-
-    for(unsigned int zone_idx = 0; zone_idx < zone_idx_len; zone_idx++)
-    {
-        zone new_zone;
-
-        switch(controller->GetUSBPID())
-        {
-            case GAIZHONGGAI_68_PRO_PID:
-            {
-                new_zone.type                   = ZONE_TYPE_MATRIX;
-                new_zone.leds_min               = 68;
-                new_zone.leds_max               = 68;
-                new_zone.leds_count             = 68;
-                new_zone.matrix_map.Set(17, 5, (unsigned int *)&matrix_map_68);
-                new_zone.name                   = zone_names[zone_idx];
-            }
-            break;
-
-            case GAIZHONGGAI_42_PRO_PID:
-            {
-                new_zone.type                   = ZONE_TYPE_MATRIX;
-                new_zone.leds_min               = 42;
-                new_zone.leds_max               = 42;
-                new_zone.leds_count             = 42;
-                new_zone.matrix_map.Set(12, 4, (unsigned int *)&matrix_map_42);
-                new_zone.name                   = zone_names[zone_idx];
-            }
-            break;
-
-            case GAIZHONGGAI_17_TOUCH_PRO_PID:
-            {
-                new_zone.type                   = ZONE_TYPE_MATRIX;
-                new_zone.leds_min               = 88;
-                new_zone.leds_max               = 88;
-                new_zone.leds_count             = 88;
-                new_zone.matrix_map.Set(5, 5, (unsigned int *)&matrix_map_PAD_Touch);
-                new_zone.name                   = zone_names[zone_idx];
-            }
-                break;
-
-            case GAIZHONGGAI_17_PRO_PID:
-            {
-                new_zone.type                   = ZONE_TYPE_MATRIX;
-                new_zone.leds_min               = 85;
-                new_zone.leds_max               = 85;
-                new_zone.leds_count             = 85;
-                new_zone.matrix_map.Set(4, 5, (unsigned int *)&matrix_map_17PAD);
-                new_zone.name                   = zone_names[zone_idx];
-            }
-                break;
-
-            case GAIZHONGGAI_20_PRO_PID:
-            {
-                new_zone.type                   = ZONE_TYPE_MATRIX;
-                new_zone.leds_min               = 88;
-                new_zone.leds_max               = 88;
-                new_zone.leds_count             = 88;
-                new_zone.matrix_map.Set(4, 6, (unsigned int *)&matrix_map_20PAD);
-                new_zone.name                   = zone_names[zone_idx];
-            }
-                break;
-
-            case GAIZHONGGAI_DIAL_PID:
-            {
-                new_zone.type                   = ZONE_TYPE_MATRIX;
-                new_zone.leds_min               = 89;
-                new_zone.leds_max               = 89;
-                new_zone.leds_count             = 89;
-                new_zone.matrix_map.Set(2, 2, (unsigned int *)&matrix_map_dial);
-                new_zone.name                   = zone_names[zone_idx];
-            }
-                break;
-
-            case GAIZHONGGAI_LIGHT_BOARD_PID:
-            {
-                temp                            = LightBoard_init(controller->GetDataFlash());//get led_len
-                new_zone.type                   = ZONE_TYPE_MATRIX;
-                new_zone.leds_min               = temp;
-                new_zone.leds_max               = temp;
-                new_zone.leds_count             = temp;
-                new_zone.matrix_map.Set(controller->GetDataFlash()[124], controller->GetDataFlash()[125], (unsigned int *)&matrix_map_light_board);
-                new_zone.name                   = zone_names[zone_idx + 1];
-            }
-                break;
-
-            case GAIZHONGGAI_RGB_HUB_GREEN_PID:
-            {
-                zone_idx_len = 4;
-                temp                            = controller->GetChannelLen(zone_idx);//get led_len
-                new_zone.type                   = ZONE_TYPE_LINEAR;
-                new_zone.leds_min               = 1;
-                new_zone.leds_max               = 637;
-                new_zone.leds_count             = temp;
-                new_zone.name                   = zone_names[zone_idx + 1];
-            }
-                break;
-
-            case GAIZHONGGAI_RGB_HUB_BLUE_PID:
-            {
-                zone_idx_len = 8;
-                temp                            = controller->GetChannelLen(zone_idx);//get led_len
-                new_zone.type                   = ZONE_TYPE_LINEAR;
-                new_zone.leds_min               = 1;
-                new_zone.leds_max               = 633;
-                new_zone.leds_count             = temp;
-                new_zone.name                   = zone_names[zone_idx + 1];
-            }
-                break;
-        }
-
-        zones.push_back(new_zone);
-
-        total_led_count += new_zone.leds_count;
-    }
 
     switch(controller->GetUSBPID())
     {
-        case GAIZHONGGAI_LIGHT_BOARD_PID:
-        case GAIZHONGGAI_RGB_HUB_GREEN_PID:
-        case GAIZHONGGAI_RGB_HUB_BLUE_PID:
-            for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
-            {
-                    led new_led;
-                    snprintf(str, 10, "RGB_%03d", led_idx + 1);
-                    new_led.name = str;
-                    leds.push_back(new_led);
-            }
+        default:
+            zones.resize(1);
             break;
-        case GAIZHONGGAI_42_PRO_PID:
-            for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
-            {
+
+        case GAIZHONGGAI_RGB_HUB_GREEN_PID:
+            zones.resize(4);
+            break;
+
+        case GAIZHONGGAI_RGB_HUB_BLUE_PID:
+            zones.resize(8);
+            break;
+    }
+
+    /*-----------------------------------------------------*\
+    | Set up zones                                          |
+    \*-----------------------------------------------------*/
+    unsigned int temp;
+
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        switch(controller->GetUSBPID())
+        {
+            case GAIZHONGGAI_68_PRO_PID:
+                zones[zone_idx].name                        = zone_names[zone_idx];
+                zones[zone_idx].type                        = ZONE_TYPE_MATRIX;
+                zones[zone_idx].leds_min                    = 68;
+                zones[zone_idx].leds_max                    = 68;
+                zones[zone_idx].leds_count                  = 68;
+                zones[zone_idx].matrix_map.Set(17, 5, (unsigned int *)&matrix_map_68);
+                break;
+
+            case GAIZHONGGAI_42_PRO_PID:
+                zones[zone_idx].name                        = zone_names[zone_idx];
+                zones[zone_idx].type                        = ZONE_TYPE_MATRIX;
+                zones[zone_idx].leds_min                    = 42;
+                zones[zone_idx].leds_max                    = 42;
+                zones[zone_idx].leds_count                  = 42;
+                zones[zone_idx].matrix_map.Set(12, 4, (unsigned int *)&matrix_map_42);
+                break;
+
+            case GAIZHONGGAI_17_TOUCH_PRO_PID:
+                zones[zone_idx].name                        = zone_names[zone_idx];
+                zones[zone_idx].type                        = ZONE_TYPE_MATRIX;
+                zones[zone_idx].leds_min                    = 88;
+                zones[zone_idx].leds_max                    = 88;
+                zones[zone_idx].leds_count                  = 88;
+                zones[zone_idx].matrix_map.Set(5, 5, (unsigned int *)&matrix_map_PAD_Touch);
+                break;
+
+            case GAIZHONGGAI_17_PRO_PID:
+                zones[zone_idx].name                        = zone_names[zone_idx];
+                zones[zone_idx].type                        = ZONE_TYPE_MATRIX;
+                zones[zone_idx].leds_min                    = 85;
+                zones[zone_idx].leds_max                    = 85;
+                zones[zone_idx].leds_count                  = 85;
+                zones[zone_idx].matrix_map.Set(4, 5, (unsigned int *)&matrix_map_17PAD);
+                break;
+
+            case GAIZHONGGAI_20_PRO_PID:
+                zones[zone_idx].name                        = zone_names[zone_idx];
+                zones[zone_idx].type                        = ZONE_TYPE_MATRIX;
+                zones[zone_idx].leds_min                    = 88;
+                zones[zone_idx].leds_max                    = 88;
+                zones[zone_idx].leds_count                  = 88;
+                zones[zone_idx].matrix_map.Set(4, 6, (unsigned int *)&matrix_map_20PAD);
+                break;
+
+            case GAIZHONGGAI_DIAL_PID:
+                zones[zone_idx].name                        = zone_names[zone_idx];
+                zones[zone_idx].type                        = ZONE_TYPE_MATRIX;
+                zones[zone_idx].leds_min                    = 89;
+                zones[zone_idx].leds_max                    = 89;
+                zones[zone_idx].leds_count                  = 89;
+                zones[zone_idx].matrix_map.Set(2, 2, (unsigned int *)&matrix_map_dial);
+                break;
+
+            case GAIZHONGGAI_LIGHT_BOARD_PID:
+                temp                                        = LightBoard_init(controller->GetDataFlash());//get led_len
+                zones[zone_idx].name                        = zone_names[zone_idx + 1];
+                zones[zone_idx].type                        = ZONE_TYPE_MATRIX;
+                zones[zone_idx].leds_min                    = temp;
+                zones[zone_idx].leds_max                    = temp;
+                zones[zone_idx].leds_count                  = temp;
+                zones[zone_idx].matrix_map.Set(controller->GetDataFlash()[124], controller->GetDataFlash()[125], (unsigned int *)&matrix_map_light_board);
+                break;
+
+            case GAIZHONGGAI_RGB_HUB_GREEN_PID:
+                temp                                        = controller->GetChannelLen(zone_idx);//get led_len
+                zones[zone_idx].leds_min                    = 0;
+                zones[zone_idx].leds_max                    = 637;
+
+                if(first_run)
+                {
+                    zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                            | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                            | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                            | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+                }
+
+                if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+                {
+                    zones[zone_idx].name                    = zone_names[zone_idx + 1];
+                }
+
+                if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+                {
+                    zones[zone_idx].leds_count              = temp;
+                }
+
+                if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+                {
+                    zones[zone_idx].type                    = ZONE_TYPE_LINEAR;
+                }
+
+                if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+                {
+                    zones[zone_idx].matrix_map.width        = 0;
+                    zones[zone_idx].matrix_map.height       = 0;
+                    zones[zone_idx].matrix_map.map.resize(0);
+                }
+                break;
+
+            case GAIZHONGGAI_RGB_HUB_BLUE_PID:
+                temp                                        = controller->GetChannelLen(zone_idx);//get led_len
+                zones[zone_idx].leds_min                    = 0;
+                zones[zone_idx].leds_max                    = 633;
+
+                if(first_run)
+                {
+                    zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                            | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                            | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                            | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+                }
+
+                if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+                {
+                    zones[zone_idx].name                    = zone_names[zone_idx + 1];
+                }
+
+                if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+                {
+                    zones[zone_idx].leds_count              = temp;
+                }
+
+                if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+                {
+                    zones[zone_idx].type                    = ZONE_TYPE_LINEAR;
+                }
+
+                if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+                {
+                    zones[zone_idx].matrix_map.width        = 0;
+                    zones[zone_idx].matrix_map.height       = 0;
+                    zones[zone_idx].matrix_map.map.resize(0);
+                }
+                break;
+        }
+
+        switch(controller->GetUSBPID())
+        {
+            case GAIZHONGGAI_LIGHT_BOARD_PID:
+            case GAIZHONGGAI_RGB_HUB_GREEN_PID:
+            case GAIZHONGGAI_RGB_HUB_BLUE_PID:
+                for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+                {
+                    led new_led;
+                    new_led.name = zones[zone_idx].name + ", LED " + std::to_string(led_idx + 1);
+                    leds.push_back(new_led);
+                }
+                break;
+
+            case GAIZHONGGAI_42_PRO_PID:
+                for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+                {
                     led new_led;
                     new_led.name = led_names_42key[led_idx];
                     leds.push_back(new_led);
-            }
-            break;
-        default:
-            for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
-            {
+                }
+                break;
+
+            default:
+                for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+                {
                     led new_led;
                     new_led.name = led_names_general[led_idx];
                     leds.push_back(new_led);
-            }
-            break;
-
+                }
+                break;
+        }
     }
 
     SetupColors();
 }
 
-void RGBController_GaiZhongGaiKeyboard::DeviceResizeZone(int zone, int new_size)
+void RGBController_GaiZhongGaiKeyboard::DeviceConfigureZone(int zone_idx)
 {
-    if((size_t) zone >= zones.size())
-    {
-        return;
-    }
-
-    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
+    if((size_t)zone_idx < zones.size())
     {
         switch(controller->GetUSBPID())
         {
             case GAIZHONGGAI_RGB_HUB_GREEN_PID:
             case GAIZHONGGAI_RGB_HUB_BLUE_PID:
-                controller->SetChannelLen(zone, new_size);
+                controller->SetChannelLen(zone_idx, zones[zone_idx].leds_count);
                 break;
             default:
                 return;
