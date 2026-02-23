@@ -328,52 +328,132 @@ void RGBController_RGBFusion2USB::Init_Controller()
             }
         }
     }
-
-    /*---------------------------------------------------------*\
-    | Iterate through layout and process each zone              |
-    \*---------------------------------------------------------*/
-    for(uint8_t zone_idx = 0; zone_idx < GB_FUSION2_ZONES_MAX; zone_idx++)
-    {
-        if(!layout->zones[0][zone_idx])
-        {
-            continue;
-        }
-        const gb_fusion2_zone* zone_at_idx = layout->zones[0][zone_idx];
-
-        zone new_zone;
-        new_zone.name               = zone_at_idx->name;
-        new_zone.leds_min           = zone_at_idx->leds_min;
-        new_zone.leds_max           = zone_at_idx->leds_max;
-        new_zone.leds_count         = new_zone.leds_min;
-        new_zone.type               = (new_zone.leds_min == new_zone.leds_max) ? ZONE_TYPE_SINGLE : ZONE_TYPE_LINEAR;
-        zones.emplace_back(new_zone);
-    }
 }
 
 void RGBController_RGBFusion2USB::SetupZones()
 {
-    /*---------------------------------------------------------*\
-    | Clear any existing color/LED configuration                |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \*-----------------------------------------------------*/
+    bool first_run = false;
+
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \*-----------------------------------------------------*/
     leds.clear();
     colors.clear();
 
+    /*-----------------------------------------------------*\
+    | Count number of zones to resize zones vector          |
+    \*-----------------------------------------------------*/
+    unsigned int num_zones;
+
+    for(num_zones = 0; num_zones < GB_FUSION2_ZONES_MAX; num_zones++)
+    {
+        if(!gb_fusion2_device_list[device_index]->zones[0][num_zones])
+        {
+            break;
+        }
+    }
+
+    zones.resize(num_zones);
+
     unsigned int d1 = 0, d2 = 0, d3 = 0, d4 = 0;
 
-    /*---------------------------------------------------------*\
-    | Set up zones (Fixed so as to not spam the controller)     |
-    \*---------------------------------------------------------*/
-
-    for(uint8_t zone_idx = 0; zone_idx < GB_FUSION2_ZONES_MAX; zone_idx++)
+    /*-----------------------------------------------------*\
+    | Set up zones (Fixed so as to not spam the controller) |
+    \*-----------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
+        /*-------------------------------------------------*\
+        | Get zone configuration from device data           |
+        \*-------------------------------------------------*/
         const gb_fusion2_zone* zone_at_idx = gb_fusion2_device_list[device_index]->zones[0][zone_idx];
+
         if(!zone_at_idx)
         {
             continue;
         }
-        bool single_zone = (zone_at_idx->leds_min == zone_at_idx->leds_max);
 
-        if(!single_zone)
+        /*-------------------------------------------------*\
+        | Check if this is a fixed-size zone                |
+        \*-------------------------------------------------*/
+        bool fixed_zone = (zone_at_idx->leds_min == zone_at_idx->leds_max);
+
+        /*-------------------------------------------------*\
+        | (Re-)initialize the zone                          |
+        \*-------------------------------------------------*/
+        if(fixed_zone)
+        {
+            zones[zone_idx].name                        = zone_at_idx->name;
+            zones[zone_idx].type                        = ZONE_TYPE_SINGLE;
+            zones[zone_idx].leds_min                    = zone_at_idx->leds_min;
+            zones[zone_idx].leds_max                    = zone_at_idx->leds_max;
+            zones[zone_idx].leds_count                  = zones[zone_idx].leds_min;
+        }
+        else
+        {
+            zones[zone_idx].leds_min                    = zone_at_idx->leds_min;
+            zones[zone_idx].leds_max                    = zone_at_idx->leds_max;
+
+            if(first_run)
+            {
+                zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+            }
+
+            if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+            {
+                zones[zone_idx].name                    = zone_at_idx->name;
+            }
+
+            if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+            {
+                zones[zone_idx].leds_count              = zone_at_idx->leds_min;
+            }
+
+            if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+            {
+                zones[zone_idx].type                    = ZONE_TYPE_LINEAR;
+            }
+
+            if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+            {
+                zones[zone_idx].matrix_map.width        = 0;
+                zones[zone_idx].matrix_map.height       = 0;
+                zones[zone_idx].matrix_map.map.resize(0);
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Initialize LEDs                                   |
+        \*-------------------------------------------------*/
+        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        {
+            led new_led;
+
+            new_led.name  = zone_at_idx->name;
+            new_led.value = zone_at_idx->idx;
+
+            if(!fixed_zone)
+            {
+                new_led.name.append(", LED " + std::to_string(led_idx + 1));
+            }
+
+            leds.push_back(new_led);
+        }
+
+        /*-------------------------------------------------*\
+        | If not a fixed-size zone, set up LED sizes        |
+        \*-------------------------------------------------*/
+        if(!fixed_zone)
         {
             switch(zone_at_idx->idx)
             {
@@ -392,21 +472,6 @@ void RGBController_RGBFusion2USB::SetupZones()
                     break;
             }
         }
-
-        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
-        {
-            led new_led;
-
-            new_led.name  = zone_at_idx->name;
-            new_led.value = zone_at_idx->idx;
-
-            if(!single_zone)
-            {
-                new_led.name.append(" LED " + std::to_string(led_idx));
-            }
-
-            leds.push_back(new_led);
-        }
     }
 
     controller->SetLedCount(d1, d2, d3, d4);
@@ -414,17 +479,10 @@ void RGBController_RGBFusion2USB::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2USB::DeviceResizeZone(int zone, int new_size)
+void RGBController_RGBFusion2USB::DeviceConfigureZone(int zone_idx)
 {
-    if((size_t) zone >= zones.size())
+    if((size_t)zone_idx < zones.size())
     {
-        return;
-    }
-
-    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
-    {
-        zones[zone].leds_count = new_size;
-
         SetupZones();
     }
 }
