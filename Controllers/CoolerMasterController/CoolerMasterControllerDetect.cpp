@@ -326,7 +326,7 @@ DetectedControllers DetectCoolerMasterSmallARGB(hid_device_info* info, const std
 
     if(dev)
     {
-        CMSmallARGBController*               controller     = new CMSmallARGBController(dev, info->path, 0);
+        CMSmallARGBController*               controller     = new CMSmallARGBController(dev, info->path);
         RGBController_CMSmallARGBController* rgb_controller = new RGBController_CMSmallARGBController(controller);
 
         detected_controllers.push_back(rgb_controller);

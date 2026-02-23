@@ -15,6 +15,8 @@
 #include "OpenRGBMatrixMapEditorDialog.h"
 #include "OpenRGBSegmentExportDialog.h"
 #include "OpenRGBZoneEditorDialog.h"
+#include "ProfileManager.h"
+#include "ResourceManager.h"
 #include "ui_OpenRGBZoneEditorDialog.h"
 
 OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, unsigned int edit_zone_idx_val, QWidget *parent) :
@@ -27,8 +29,9 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     /*-----------------------------------------------------*\
     | Save device and zone                                  |
     \*-----------------------------------------------------*/
-    edit_dev      = edit_dev_ptr;
-    edit_zone_idx = edit_zone_idx_val;
+    edit_dev                = edit_dev_ptr;
+    edit_zone_idx           = edit_zone_idx_val;
+    edit_zone               = edit_dev->GetZone(edit_zone_idx);
 
     /*-----------------------------------------------------*\
     | Append zone name to window title                      |
@@ -40,11 +43,117 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     setWindowTitle(newTitle);
 
     /*-----------------------------------------------------*\
-    | Set up zone size range                                |
+    | Read the zone flags                                   |
     \*-----------------------------------------------------*/
-    unsigned int size_min     = edit_dev->GetZoneLEDsMin(edit_zone_idx);
-    unsigned int size_max     = edit_dev->GetZoneLEDsMax(edit_zone_idx);
-    unsigned int size_current = edit_dev->GetZoneLEDsCount(edit_zone_idx);
+    if(edit_zone.leds_min != edit_zone.leds_max)
+    {
+        if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY) == 0)
+        {
+            edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
+        }
+
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE;
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize zone name                                  |
+    \*-----------------------------------------------------*/
+    ui->LineEditZoneName->blockSignals(true);
+    ui->LineEditZoneName->setText(QString::fromStdString(edit_zone.name));
+    ui->LineEditZoneName->blockSignals(false);
+
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME) == 0)
+    {
+        ui->LineEditZoneName->setEnabled(false);
+    }
+    else if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME)
+    {
+        ui->LabelZoneName->setText("Zone Name (*):");
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize zone size                                  |
+    \*-----------------------------------------------------*/
+    ui->SliderZoneSize->blockSignals(true);
+    ui->SliderZoneSize->setRange(edit_zone.leds_min, edit_zone.leds_max);
+    ui->SliderZoneSize->setValue(edit_zone.leds_count);
+    ui->SliderZoneSize->blockSignals(false);
+
+    ui->SpinBoxZoneSize->blockSignals(true);
+    ui->SpinBoxZoneSize->setRange(edit_zone.leds_min, edit_zone.leds_max);
+    ui->SpinBoxZoneSize->setValue(edit_zone.leds_count);
+    ui->SpinBoxZoneSize->blockSignals(false);
+
+    if((edit_zone.flags & (ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE | ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY)) == 0)
+    {
+        ui->SliderZoneSize->setEnabled(false);
+        ui->SpinBoxZoneSize->setEnabled(false);
+    }
+    else if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE)
+    {
+        ui->LabelZoneSize->setText("Zone Size (*):");
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize zone type                                  |
+    \*-----------------------------------------------------*/
+    ui->ComboBoxZoneType->blockSignals(true);
+    ui->ComboBoxZoneType->addItem("Single");
+    ui->ComboBoxZoneType->addItem("Linear");
+    ui->ComboBoxZoneType->addItem("Matrix");
+    ui->ComboBoxZoneType->addItem("Linear Loop");
+    ui->ComboBoxZoneType->addItem("Matrix Loop X");
+    ui->ComboBoxZoneType->addItem("Matrix Loop Y");
+    ui->ComboBoxZoneType->addItem("Segmented");
+
+    ui->ComboBoxZoneType->setCurrentIndex(edit_dev->GetZoneType(edit_zone_idx));
+    ui->ComboBoxZoneType->blockSignals(false);
+
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE) == 0)
+    {
+        ui->ComboBoxZoneType->setEnabled(false);
+    }
+    else if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE)
+    {
+        ui->LabelZoneType->setText("Zone Type (*):");
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize zone matrix map                            |
+    \*-----------------------------------------------------*/
+    ui->ButtonZoneMatrixMap->setText(QString::number(edit_zone.matrix_map.height) + "x" + QString::number(edit_zone.matrix_map.width));
+
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP) == 0)
+    {
+        ui->ButtonZoneMatrixMap->setEnabled(false);
+    }
+    else if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP)
+    {
+        ui->LabelZoneMatrixMap->setText("Zone Matrix Map (*):");
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize zone color order                           |
+    \*-----------------------------------------------------*/
+    ui->ComboBoxZoneColorOrder->blockSignals(true);
+    ui->ComboBoxZoneColorOrder->addItem("Default");
+    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_DEFAULT) ui->ComboBoxZoneColorOrder->addItem("Default");
+    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RGB)     ui->ComboBoxZoneColorOrder->addItem("RGB");
+    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RBG)     ui->ComboBoxZoneColorOrder->addItem("RBG");
+    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GRB)     ui->ComboBoxZoneColorOrder->addItem("GRB");
+    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GBR)     ui->ComboBoxZoneColorOrder->addItem("GBR");
+    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BRG)     ui->ComboBoxZoneColorOrder->addItem("BRG");
+    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BGR)     ui->ComboBoxZoneColorOrder->addItem("BGR");
+    ui->ComboBoxZoneColorOrder->blockSignals(false);
+
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_COLOR_ORDER) == 0)
+    {
+        ui->ComboBoxZoneColorOrder->setEnabled(false);
+    }
+    else if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER)
+    {
+        ui->LabelZoneColorOrder->setText("Zone Color Order (*):");
+    }
 
     /*-----------------------------------------------------*\
     | Initialize segment list                               |
@@ -53,16 +162,15 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     header_labels << "Name" << "Type" << "Matrix Map" << "Size" << "";
     ui->SegmentsTreeWidget->setHeaderLabels(header_labels);
 
-    ui->ResizeSlider->setRange(size_min, size_max);
-    ui->ResizeBox->setRange(size_min, size_max);
-
-    ui->ResizeSlider->setValue(size_current);
-    ui->ResizeBox->setValue(size_current);
-
-    for(unsigned int segment_idx = 0; segment_idx < edit_dev->GetZoneSegmentCount(edit_zone_idx); segment_idx++)
+    for(std::size_t segment_idx = 0; segment_idx < edit_zone.segments.size(); segment_idx++)
     {
-        matrix_map_type new_matrix_map = edit_dev->GetZoneSegmentMatrixMap(edit_zone_idx, segment_idx);
-        AddSegmentRow(QString::fromStdString(edit_dev->GetZoneSegmentName(edit_zone_idx, segment_idx)), edit_dev->GetZoneSegmentLEDsCount(edit_zone_idx, segment_idx), edit_dev->GetZoneSegmentType(edit_zone_idx, segment_idx), new_matrix_map);
+        AddSegmentRow(QString::fromStdString(edit_zone.segments[segment_idx].name), edit_zone.segments[segment_idx].leds_count, edit_zone.segments[segment_idx].type, edit_zone.segments[segment_idx].matrix_map);
+    }
+
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS) == 0)
+    {
+        ui->AddSegmentButton->setEnabled(false);
+        ui->RemoveSegmentButton->setEnabled(false);
     }
 }
 
@@ -79,11 +187,11 @@ void OpenRGBZoneEditorDialog::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBZoneEditorDialog::on_ResizeSlider_valueChanged(int value)
+void OpenRGBZoneEditorDialog::on_SliderZoneSize_valueChanged(int value)
 {
-    ui->ResizeBox->blockSignals(true);
-    ui->ResizeBox->setValue(value);
-    ui->ResizeBox->blockSignals(false);
+    ui->SpinBoxZoneSize->blockSignals(true);
+    ui->SpinBoxZoneSize->setValue(value);
+    ui->SpinBoxZoneSize->blockSignals(false);
 
     /*-----------------------------------------------------*\
     | Set maximum value for all segment sliders to new zone |
@@ -92,6 +200,12 @@ void OpenRGBZoneEditorDialog::on_ResizeSlider_valueChanged(int value)
     for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
     {
         ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 4))->setMaximum(value);
+    }
+
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE) == 0)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
+        ui->LabelZoneSize->setText("Zone Size (*):");
     }
 
     CheckSegmentsValidity();
@@ -139,11 +253,11 @@ void OpenRGBZoneEditorDialog::on_segment_slider_valueChanged(int)
     CheckSegmentsValidity();
 }
 
-void OpenRGBZoneEditorDialog::on_ResizeBox_valueChanged(int value)
+void OpenRGBZoneEditorDialog::on_SpinBoxZoneSize_valueChanged(int value)
 {
-    ui->ResizeSlider->blockSignals(true);
-    ui->ResizeSlider->setValue(value);
-    ui->ResizeSlider->blockSignals(false);
+    ui->SliderZoneSize->blockSignals(true);
+    ui->SliderZoneSize->setValue(value);
+    ui->SliderZoneSize->blockSignals(false);
 
     /*-----------------------------------------------------*\
     | Set maximum value for all segment sliders to new zone |
@@ -154,45 +268,73 @@ void OpenRGBZoneEditorDialog::on_ResizeBox_valueChanged(int value)
         ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 4))->setMaximum(value);
     }
 
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE) == 0)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
+        ui->LabelZoneSize->setText("Zone Size (*):");
+    }
+
     CheckSegmentsValidity();
 }
 
 int OpenRGBZoneEditorDialog::show()
 {
-    int ret_val = 0;
+    /*-----------------------------------------------------*\
+    | Execute this dialog                                   |
+    \*-----------------------------------------------------*/
+    int ret_val                 = 0;
+    int result                  = this->exec();
 
-    int result = this->exec();
-
-    if(result == QDialog::Rejected)
+    /*-----------------------------------------------------*\
+    | Return -1 if cancelled or edit device is invalid      |
+    \*-----------------------------------------------------*/
+    if(result == QDialog::Rejected || edit_dev == NULL)
     {
-        ret_val = -1;
+        ret_val                 = -1;
     }
     else
     {
-        ret_val = ui->ResizeBox->value();
-    }
+        /*-------------------------------------------------*\
+        | Read the selected color order                     |
+        \*-------------------------------------------------*/
+        zone_color_order    new_color_order         = 0;
+        int                 new_color_order_index   = ui->ComboBoxZoneColorOrder->currentIndex();
 
-    if(ret_val >= 0 && edit_dev != NULL)
-    {
-        edit_dev->ResizeZone(edit_zone_idx, ret_val);
+        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_DEFAULT)) new_color_order++;
+        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RGB))     new_color_order++;
+        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RBG))     new_color_order++;
+        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GRB))     new_color_order++;
+        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GBR))     new_color_order++;
+        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BRG))     new_color_order++;
+        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BGR))     new_color_order++;
 
-        edit_dev->ClearSegments(edit_zone_idx);
+        /*-------------------------------------------------*\
+        | Update zone with new settings                     |
+        \*-------------------------------------------------*/
+        edit_zone.name                              = ui->LineEditZoneName->text().toStdString();
+        edit_zone.leds_count                        = ui->SliderZoneSize->value();
+        edit_zone.type                              = ui->ComboBoxZoneType->currentIndex();
+        edit_zone.color_order                       = ui->ComboBoxZoneColorOrder->currentIndex();
 
-        unsigned int start_idx = 0;
+        /*-------------------------------------------------*\
+        | Configure the zone                                |
+        \*-------------------------------------------------*/
+        edit_dev->ConfigureZone(edit_zone_idx, edit_zone);
 
-        for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+        /*-------------------------------------------------*\
+        | Save the size profile                             |
+        \*-------------------------------------------------*/
+        ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
+        if(profile_manager != NULL)
         {
-            segment new_segment;
-            new_segment.type       = ((QComboBox*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 1))->currentIndex();
-            new_segment.name       = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 0))->text().toStdString();
-            new_segment.start_idx  = start_idx;
-            new_segment.leds_count = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 3))->text().toInt();
-            new_segment.matrix_map = ((SegmentTreeWidgetItem*)(ui->SegmentsTreeWidget->topLevelItem(item_idx)))->matrix_map;
-
-            edit_dev->AddSegment(edit_zone_idx, new_segment);
-
-            start_idx += new_segment.leds_count;
+            profile_manager->SaveSizes();
         }
+
+        /*-------------------------------------------------*\
+        | Return new zone size                              |
+        \*-------------------------------------------------*/
+        ret_val                 = edit_zone.leds_count;
     }
 
     return(ret_val);
@@ -200,19 +342,19 @@ int OpenRGBZoneEditorDialog::show()
 
 void OpenRGBZoneEditorDialog::AddSegmentRow(QString name, unsigned int length, zone_type type, matrix_map_type matrix_map)
 {
-    /*---------------------------------------------------------*\
-    | Create new line in segments list tree                     |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Create new line in segments list tree                 |
+    \*-----------------------------------------------------*/
     SegmentTreeWidgetItem* new_item     = new SegmentTreeWidgetItem(ui->SegmentsTreeWidget);
 
-    /*---------------------------------------------------------*\
-    | Set the matrix map                                        |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Set the matrix map                                    |
+    \*-----------------------------------------------------*/
     new_item->matrix_map = matrix_map;
 
-    /*---------------------------------------------------------*\
-    | Create new widgets for line                               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Create new widgets for line                           |
+    \*-----------------------------------------------------*/
     QComboBox*      combobox_type       = new QComboBox(ui->SegmentsTreeWidget);
     QLineEdit*      lineedit_name       = new QLineEdit(ui->SegmentsTreeWidget);
     QLineEdit*      lineedit_length     = new QLineEdit(ui->SegmentsTreeWidget);
@@ -221,14 +363,14 @@ void OpenRGBZoneEditorDialog::AddSegmentRow(QString name, unsigned int length, z
 
     button_matrix_map->setText(QString::number(new_item->matrix_map.height) + "x" + QString::number(new_item->matrix_map.width));
 
-    /*---------------------------------------------------------*\
-    | Fill in Name field                                        |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Fill in Name field                                    |
+    \*-----------------------------------------------------*/
     lineedit_name->setText(name);
 
-    /*---------------------------------------------------------*\
-    | Set up segment type combo box                             |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Set up segment type combo box                         |
+    \*-----------------------------------------------------*/
     combobox_type->addItem("Single");
     combobox_type->addItem("Linear");
     combobox_type->addItem("Matrix");
@@ -239,29 +381,29 @@ void OpenRGBZoneEditorDialog::AddSegmentRow(QString name, unsigned int length, z
 
     combobox_type->setCurrentIndex(type);
 
-    /*---------------------------------------------------------*\
-    | Fill in Length field                                      |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Fill in Length field                                  |
+    \*-----------------------------------------------------*/
     lineedit_length->setText(QString::number(length));
 
-    /*---------------------------------------------------------*\
-    | Fill in slider length and maximum                         |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Fill in slider length and maximum                     |
+    \*-----------------------------------------------------*/
     slider_length->setMaximum(edit_dev->GetZoneLEDsCount(edit_zone_idx));
     slider_length->setValue(length);
 
-    /*---------------------------------------------------------*\
-    | Add new widgets to tree                                   |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Add new widgets to tree                               |
+    \*-----------------------------------------------------*/
     ui->SegmentsTreeWidget->setItemWidget(new_item, 0, lineedit_name);
     ui->SegmentsTreeWidget->setItemWidget(new_item, 1, combobox_type);
     ui->SegmentsTreeWidget->setItemWidget(new_item, 2, button_matrix_map);
     ui->SegmentsTreeWidget->setItemWidget(new_item, 3, lineedit_length);
     ui->SegmentsTreeWidget->setItemWidget(new_item, 4, slider_length);
 
-    /*---------------------------------------------------------*\
-    | Connect signals for handling slider and line edits        |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Connect signals for handling slider and line edits    |
+    \*-----------------------------------------------------*/
     connect(lineedit_name, &QLineEdit::textChanged, this, &OpenRGBZoneEditorDialog::on_segment_lineedit_textChanged);
     connect(slider_length, &QSlider::valueChanged, this, &OpenRGBZoneEditorDialog::on_segment_slider_valueChanged);
     connect(lineedit_length, &QLineEdit::textChanged, this, &OpenRGBZoneEditorDialog::on_segment_lineedit_textChanged);
@@ -270,9 +412,9 @@ void OpenRGBZoneEditorDialog::AddSegmentRow(QString name, unsigned int length, z
 
 void OpenRGBZoneEditorDialog::on_AddSegmentButton_clicked()
 {
-    /*---------------------------------------------------------*\
-    | Create new empty row with name "Segment X"                |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Create new empty row with name "Segment X"            |
+    \*-----------------------------------------------------*/
     QString new_name = "Segment " + QString::number(ui->SegmentsTreeWidget->topLevelItemCount() + 1);
 
     matrix_map_type new_matrix_map;
@@ -285,23 +427,23 @@ void OpenRGBZoneEditorDialog::CheckSegmentsValidity()
 {
     bool segments_valid = true;
 
-    /*---------------------------------------------------------*\
-    | Only check validity if segments are configured            |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Only check validity if segments are configured        |
+    \*-----------------------------------------------------*/
     if(ui->SegmentsTreeWidget->topLevelItemCount() != 0)
     {
-        /*-----------------------------------------------------*\
-        | Verify all segments add up to zone size               |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Verify all segments add up to zone size           |
+        \*-------------------------------------------------*/
         int total_segment_leds = 0;
 
         for(int segment_idx = 0; segment_idx < ui->SegmentsTreeWidget->topLevelItemCount(); segment_idx++)
         {
             unsigned int segment_leds = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 3))->text().toInt();
 
-            /*-------------------------------------------------*\
-            | Zero-length segment is not allowed                |
-            \*-------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Zero-length segment is not allowed            |
+            \*---------------------------------------------*/
             if(segment_leds == 0)
             {
                 segments_valid = false;
@@ -309,16 +451,16 @@ void OpenRGBZoneEditorDialog::CheckSegmentsValidity()
 
             total_segment_leds += segment_leds;
 
-            /*-------------------------------------------------*\
-            | Empty name is not allowed                         |
-            \*-------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Empty name is not allowed                     |
+            \*---------------------------------------------*/
             if(((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 0))->text().isEmpty())
             {
                 segments_valid = false;
             }
         }
 
-        if(total_segment_leds != ui->ResizeBox->value())
+        if(total_segment_leds != ui->SpinBoxZoneSize->value())
         {
             segments_valid = false;
         }
@@ -366,7 +508,7 @@ void OpenRGBZoneEditorDialog::on_ImportConfigurationButton_clicked()
                 \*-----------------------------------------*/
                 if(config_json.contains("segments"))
                 {
-                    unsigned int total_leds_count = ui->ResizeSlider->value();
+                    unsigned int total_leds_count = ui->SliderZoneSize->value();
 
                     for(std::size_t segment_idx = 0; segment_idx < config_json["segments"].size(); segment_idx++)
                     {
@@ -397,8 +539,8 @@ void OpenRGBZoneEditorDialog::on_ImportConfigurationButton_clicked()
                     }
 
 
-                    ui->ResizeSlider->setValue(total_leds_count);
-                    ui->ResizeBox->setValue(total_leds_count);
+                    ui->SliderZoneSize->setValue(total_leds_count);
+                    ui->SpinBoxZoneSize->setValue(total_leds_count);
                 }
             }
             catch(const std::exception& e)
@@ -472,6 +614,77 @@ void OpenRGBZoneEditorDialog::on_ExportConfigurationButton_clicked()
             \*---------------------------------------------*/
             config_file.close();
         }
+    }
+}
+
+void OpenRGBZoneEditorDialog::on_ButtonZoneMatrixMap_clicked()
+{
+    unsigned int total_leds_count = ui->SliderZoneSize->value();
+
+    OpenRGBMatrixMapEditorDialog dialog(QString::fromStdString(edit_dev->GetZoneName(edit_zone_idx)), &edit_zone.matrix_map, total_leds_count);
+
+    int ret = dialog.show();
+
+    ui->ButtonZoneMatrixMap->setText(QString::number(edit_zone.matrix_map.height) + "x" + QString::number(edit_zone.matrix_map.width));
+
+    if(ret >= 0)
+    {
+        if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP) == 0)
+        {
+            edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP;
+            ui->LabelZoneMatrixMap->setText("Zone Matrix Map (*):");
+        }
+    }
+}
+
+void OpenRGBZoneEditorDialog::on_ButtonResetZoneConfiguration_clicked()
+{
+    edit_zone.flags &= ~ZONE_FLAGS_MANUALLY_CONFIGURED;
+
+    /*-------------------------------------------------*\
+    | Configure the zone                                |
+    \*-------------------------------------------------*/
+    edit_dev->ConfigureZone(edit_zone_idx, edit_zone);
+
+    /*-------------------------------------------------*\
+    | Save the size profile                             |
+    \*-------------------------------------------------*/
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
+    if(profile_manager != NULL)
+    {
+        profile_manager->SaveSizes();
+    }
+
+    done(0);
+}
+
+void OpenRGBZoneEditorDialog::on_LineEditZoneName_textChanged(const QString& /*arg1*/)
+{
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME) == 0)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_NAME;
+        ui->LabelZoneName->setText("Zone Name (*):");
+    }
+}
+
+
+void OpenRGBZoneEditorDialog::on_ComboBoxZoneType_currentIndexChanged(int /*index*/)
+{
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE) == 0)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_TYPE;
+        ui->LabelZoneType->setText("Zone Type (*):");
+    }
+}
+
+
+void OpenRGBZoneEditorDialog::on_ComboBoxZoneColorOrder_currentIndexChanged(int /*index*/)
+{
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER) == 0)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER;
+        ui->LabelZoneColorOrder->setText("Zone Color Order (*):");
     }
 }
 

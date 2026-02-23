@@ -22,6 +22,21 @@ NollieController::NollieController(hid_device* dev_handle, const char* path, uns
     name        = dev_name;
     usb_vid     = vid;
     usb_pid     = pid;
+
+    /*-----------------------------------------------------*\
+    | Loop through all known devices to look for a PID      |
+    | match                                                 |
+    \*-----------------------------------------------------*/
+    for(unsigned int i = 0; i < NOLLIE_NUM_DEVICES; i++)
+    {
+        if((nollie_device_list[i]->vid == vid) && (nollie_device_list[i]->pid == pid))
+        {
+            /*---------------------------------------------*\
+            | Set device index                              |
+            \*---------------------------------------------*/
+            device_index = i;
+        }
+    }
 }
 
 std::string NollieController::GetLocationString()
@@ -57,7 +72,46 @@ unsigned short NollieController::GetUSBVID()
     return(usb_vid);
 }
 
-void NollieController::InitChLEDs(int *led_num_list,int ch_num)
+unsigned short NollieController::GetNumChannels()
+{
+    return(nollie_device_list[device_index]->channels);
+}
+
+unsigned short NollieController::GetLEDsPerChannel()
+{
+    return(nollie_device_list[device_index]->leds_per_channel);
+}
+
+const int* NollieController::GetChannelIndex()
+{
+    return(nollie_device_list[device_index]->channel_index);
+}
+
+std::string NollieController::GetChannelName(unsigned short channel)
+{
+    std::string channel_name;
+
+    if(channel > 27 )
+    {
+        channel_name = "Channel EXT " + std::to_string(channel + 1 - 28);
+    }
+    else if(channel > 21 )
+    {
+        channel_name = "Channel GPU " + std::to_string(channel + 1 - 22);
+    }
+    else if(channel > 15 )
+    {
+        channel_name = "Channel ATX " + std::to_string(channel + 1 - 16);
+    }
+    else
+    {
+        channel_name = "Channel " + std::to_string(channel + 1);
+    }
+
+    return(channel_name);
+}
+
+void NollieController::InitChLEDs(unsigned int *led_num_list,int ch_num)
 {
     unsigned char   usb_buf[65];
     memset(usb_buf, 0x00, sizeof(usb_buf));

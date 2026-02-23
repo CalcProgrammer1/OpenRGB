@@ -29,7 +29,7 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     controller                  = controller_ptr;
     unsigned char speed         = controller->GetLedSpeed();
 
-    name                        = cm_small_argb_header_data[controller->GetZoneIndex()].name;
+    name                        = cm_small_argb_header_data[0].name;
     vendor                      = "Cooler Master";
     type                        = DEVICE_TYPE_LEDSTRIP;
     description                 = controller->GetDeviceName();
@@ -152,7 +152,6 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     PassThru.color_mode         = MODE_COLORS_NONE;
     modes.push_back(PassThru);
 
-    Init_Controller();         //Only processed on first run
     SetupZones();
 
     int temp_mode               = controller->GetMode();
@@ -186,57 +185,69 @@ RGBController_CMSmallARGBController::~RGBController_CMSmallARGBController()
     delete controller;
 }
 
-void RGBController_CMSmallARGBController::Init_Controller()
-{
-    int zone_idx            = controller->GetZoneIndex();
-    int zone_led_count      = cm_small_argb_header_data[zone_idx].count;
-    bool boolSingleLED      = ( zone_led_count == 1 );          //If argb_header_data[zone_idx].count == 1 then the zone is ZONE_TYPE_SINGLE
-
-    zone ARGB_zone;
-    ARGB_zone.name          = std::to_string(zone_idx);
-    ARGB_zone.type          = (boolSingleLED) ? ZONE_TYPE_SINGLE : ZONE_TYPE_LINEAR;
-    ARGB_zone.leds_min      = CM_SMALL_ARGB_MIN_LEDS;
-    ARGB_zone.leds_max      = CM_SMALL_ARGB_MAX_LEDS;
-    ARGB_zone.leds_count    = zone_led_count;
-    zones.push_back(ARGB_zone);
-}
-
 void RGBController_CMSmallARGBController::SetupZones()
 {
-    /*-------------------------------------------------*\
-    | Clear any existing color/LED configuration        |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \*-----------------------------------------------------*/
+    bool first_run = false;
+
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \*-----------------------------------------------------*/
     leds.clear();
     colors.clear();
+    zones.resize(1);
 
-    /*---------------------------------------------------------*\
-    | Set up zones                                              |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Set up zones and LEDs                                 |
+    \*-----------------------------------------------------*/
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        bool boolSingleLED = (zones[zone_idx].type == ZONE_TYPE_SINGLE);    //Calculated for later use
+        zones[zone_idx].leds_min                    = 0;
+        zones[zone_idx].leds_max                    = CM_SMALL_ARGB_MAX_LEDS;
 
-        if (!boolSingleLED)
+        if(first_run)
         {
-            controller->SetLedCount(cm_small_argb_header_data[zone_idx].header, zones[zone_idx].leds_count);
+            zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+        {
+            zones[zone_idx].name                    = "Addressable RGB Header";
+            zones[zone_idx].name.append(std::to_string(zone_idx + 1));
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+        {
+            zones[zone_idx].leds_count              = 0;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+        {
+            zones[zone_idx].type                    = ZONE_TYPE_LINEAR;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+        {
+            zones[zone_idx].matrix_map.width        = 0;
+            zones[zone_idx].matrix_map.height       = 0;
+            zones[zone_idx].matrix_map.map.resize(0);
         }
 
         for(unsigned int lp_idx = 0; lp_idx < zones[zone_idx].leds_count; lp_idx++)
         {
-            led     new_led;
-            unsigned int i = std::stoi(zones[zone_idx].name);
-
-            if(boolSingleLED)
-            {
-                new_led.name  = i;
-                new_led.value = cm_small_argb_header_data[i].header;
-            }
-            else
-            {
-                new_led.name = i;
-                new_led.name.append(" LED " + std::to_string(lp_idx));
-                new_led.value = cm_small_argb_header_data[i].header;
-            }
+            led new_led;
+            new_led.name                            = zones[zone_idx].name;
+            new_led.name.append(", LED " + std::to_string(lp_idx));
 
             leds.push_back(new_led);
         }
@@ -245,16 +256,11 @@ void RGBController_CMSmallARGBController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMSmallARGBController::DeviceResizeZone(int zone, int new_size)
+void RGBController_CMSmallARGBController::DeviceConfigureZone(int zone_idx)
 {
-    if((size_t) zone >= zones.size())
+    if((size_t)zone_idx < zones.size())
     {
-        return;
-    }
-
-    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
-    {
-        zones[zone].leds_count = new_size;
+        controller->SetLedCount(cm_small_argb_header_data[zone_idx].header, zones[zone_idx].leds_count);
 
         SetupZones();
     }

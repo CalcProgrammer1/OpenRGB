@@ -72,6 +72,7 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 1000  | [NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE](#net_packet_id_rgbcontroller_resizezone)                     | RGBController::ResizeZone()                                   | 0                |
 | 1001  | [NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS](#net_packet_id_rgbcontroller_clearsegments)               | RGBController::ClearSegments()                                | 5                |
 | 1002  | [NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT](#net_packet_id_rgbcontroller_addsegment)                     | RGBController::AddSegment()                                   | 5                |
+| 1003  | [NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE](#net_packet_id_rgbcontroller_configurezone)               | RGBController::ConfigureZone()                                | 6                |
 | 1050  | [NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS](#net_packet_id_rgbcontroller_updateleds)                     | RGBController::UpdateLEDs()                                   | 0                |
 | 1051  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS](#net_packet_id_rgbcontroller_updatezoneleds)             | RGBController::UpdateZoneLEDs()                               | 0                |
 | 1052  | [NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED](#net_packet_id_rgbcontroller_updatesingleled)           | RGBController::UpdateSingleLED()                              | 0                |
@@ -435,6 +436,16 @@ The client uses this ID to call the AddSegment() function of an RGBController de
 | 4                | unsigned int           | data_size        | Size of all data in packet                                |
 | 4                | unsigned int           | zone_idx         | Zone index to add segment to                              |
 | Variable         | Segment Data           | segment          | See [Segment Data](#segment-data) block format table.     |
+
+## NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE
+
+The client uses this ID to call the ConfigureZone() function of an RGBController device.  The packet contains a data block.  The format of the block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling ConfigureZone() on.  See the [Device IDs](#device-ids) section for more information. 
+
+| Size             | Format                 | Name             | Description                                               |
+| ---------------- | ---------------------- | ---------------- | --------------------------------------------------------- |
+| 4                | unsigned int           | data_size        | Size of all data in packet                                |
+| 4                | unsigned int           | zone_idx         | Zone index to configure                                   |
+| Variable         | Zone Data              | zone             | See [Zone Data](#zone-data) block format table.           |
 
 ## NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS
 
