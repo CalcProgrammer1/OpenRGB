@@ -128,17 +128,52 @@ typedef struct
 /*---------------------------------------------------------*\
 | Zone Flags                                                |
 \*---------------------------------------------------------*/
+typedef unsigned int zone_flags;
+
+#define ZONE_FLAGS_MANUALLY_CONFIGURABLE               (ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY   |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE                |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME                |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE                |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP          |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS            |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURABLE_COLOR_ORDER)
+
+#define ZONE_FLAGS_MANUALLY_CONFIGURED                 (ZONE_FLAG_MANUALLY_CONFIGURED_SIZE                  |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURED_NAME                  |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURED_TYPE                  |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP            |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS              |       \
+                                                        ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER)
 enum
 {
-    ZONE_FLAG_RESIZE_EFFECTS_ONLY       = (1 << 0), /* Zone is resizable, but only for  */
-                                                    /* effects - treat as single LED    */
-    ZONE_FLAG_MANUALLY_CONFIGURED       = (1 << 15),/* Zone has been manually configured*/
+    ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY   = (1 << 0), /* Zone size is manually configurable, but only */
+                                                                    /* for hardware effects, treated as single LED  */
+                                                                    /* for per-LED modes                            */
+    ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE                = (1 << 1), /* Zone size is manually configurable           */
+    ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME                = (1 << 2), /* Zone name is manually configurable           */
+    ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE                = (1 << 3), /* Zone type is manually configurable           */
+    ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP          = (1 << 4), /* Zone matrix map is manually configurable     */
+    ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS            = (1 << 5), /* Zone segments are manually configurable      */
+    ZONE_FLAG_MANUALLY_CONFIGURABLE_COLOR_ORDER         = (1 << 6), /* Zone color order is manually configurable    */
+    ZONE_FLAG_MANUALLY_CONFIGURED_SIZE                  = (1 << 12),/* Zone size has been manually configured       */
+    ZONE_FLAG_MANUALLY_CONFIGURED_NAME                  = (1 << 13),/* Zone name has been manually configured       */
+    ZONE_FLAG_MANUALLY_CONFIGURED_TYPE                  = (1 << 14),/* Zone type has been manually configured       */
+    ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP            = (1 << 15),/* Zone matrix map has been manually configured */
+    ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS              = (1 << 16),/* Zone segments have been manually configured  */
+    ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER           = (1 << 17),/* Zone color order has been manually configured*/
+    ZONE_FLAG_SUPPORTS_COLOR_ORDER_DEFAULT              = (1 << 24),/* Zone supports default color order            */
+    ZONE_FLAG_SUPPORTS_COLOR_ORDER_RGB                  = (1 << 25),/* Zone supports RGB color order                */
+    ZONE_FLAG_SUPPORTS_COLOR_ORDER_RBG                  = (1 << 26),/* Zone supports RBG color order                */
+    ZONE_FLAG_SUPPORTS_COLOR_ORDER_GRB                  = (1 << 27),/* Zone supports GRB color order                */
+    ZONE_FLAG_SUPPORTS_COLOR_ORDER_GBR                  = (1 << 28),/* Zone supports GBR color order                */
+    ZONE_FLAG_SUPPORTS_COLOR_ORDER_BRG                  = (1 << 29),/* Zone supports BRG color order                */
+    ZONE_FLAG_SUPPORTS_COLOR_ORDER_BGR                  = (1 << 30),/* Zone supports BGR color order                */
 };
 
 /*---------------------------------------------------------*\
 | Zone Types                                                |
 \*---------------------------------------------------------*/
-typedef int zone_type;
+typedef unsigned int zone_type;
 
 enum
 {
@@ -149,6 +184,22 @@ enum
     ZONE_TYPE_MATRIX_LOOP_X,
     ZONE_TYPE_MATRIX_LOOP_Y,
     ZONE_TYPE_SEGMENTED
+};
+
+/*---------------------------------------------------------*\
+| Zone Color Order                                          |
+\*---------------------------------------------------------*/
+typedef unsigned int zone_color_order;
+
+enum
+{
+    ZONE_COLOR_ORDER_DEFAULT,                       /* Device default color order       */
+    ZONE_COLOR_ORDER_RGB,                           /* RGB color order                  */
+    ZONE_COLOR_ORDER_RBG,                           /* RBG color order                  */
+    ZONE_COLOR_ORDER_GRB,                           /* GRB color order                  */
+    ZONE_COLOR_ORDER_GBR,                           /* GBR color order                  */
+    ZONE_COLOR_ORDER_BRG,                           /* BRG color order                  */
+    ZONE_COLOR_ORDER_BGR                            /* BGR color order                  */
 };
 
 /*---------------------------------------------------------*\
@@ -170,6 +221,15 @@ public:
 };
 
 /*---------------------------------------------------------*\
+| Segment Flags                                             |
+\*---------------------------------------------------------*/
+enum
+{
+    SEGMENT_FLAG_GROUP_START    = (1 << 0), /* Start of segment group   */
+    SEGMENT_FLAG_GROUP_MEMBER   = (1 << 1), /* Segment is in group      */
+};
+
+/*---------------------------------------------------------*\
 | Segment Class                                             |
 \*---------------------------------------------------------*/
 class segment
@@ -180,6 +240,7 @@ public:
     unsigned int            start_idx;      /* Start index within zone  */
     unsigned int            leds_count;     /* Number of LEDs in segment*/
     matrix_map_type         matrix_map;     /* Matrix map               */
+    unsigned int            flags;          /* Segment flags            */
 
     /*-----------------------------------------------------*\
     | Zone Constructor / Destructor                         |
@@ -203,10 +264,11 @@ public:
     unsigned int            leds_min;       /* Minimum number of LEDs   */
     unsigned int            leds_max;       /* Maximum number of LEDs   */
     matrix_map_type         matrix_map;     /* Matrix map               */
-	std::vector<segment>    segments;       /* Segments in zone         */
-    unsigned int            flags;          /* Zone flags bitfield      */
+    std::vector<segment>    segments;       /* Segments in zone         */
+    zone_flags              flags;          /* Zone flags bitfield      */
     std::vector<mode>       modes;          /* Zone-specific modes      */
     int                     active_mode;    /* Active zone-specific mode*/
+    zone_color_order        color_order;    /* Zone color order         */
 
     /*-----------------------------------------------------*\
     | Zone Constructor / Destructor                         |
@@ -311,6 +373,7 @@ public:
     /*-----------------------------------------------------*\
     | Zone Functions                                        |
     \*-----------------------------------------------------*/
+    virtual zone                    GetZone(unsigned int zone_idx)                                                                                      = 0;
     virtual int                     GetZoneActiveMode(unsigned int zone)                                                                                = 0;
     virtual RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index)                                                           = 0;
     virtual RGBColor*               GetZoneColorsPointer(unsigned int zone)                                                                             = 0;
@@ -437,6 +500,7 @@ public:
     virtual void                    ClearSegments(int zone)                                                                                             = 0;
     virtual void                    AddSegment(int zone, segment new_segment)                                                                           = 0;
 
+    virtual void                    ConfigureZone(int zone_idx, zone new_zone)                                                                          = 0;
     virtual void                    ResizeZone(int zone, int new_size)                                                                                  = 0;
 };
 
@@ -471,6 +535,7 @@ public:
     /*-----------------------------------------------------*\
     | Zone Functions                                        |
     \*-----------------------------------------------------*/
+    zone                    GetZone(unsigned int zone_idx);
     int                     GetZoneActiveMode(unsigned int zone);
     RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index);
     RGBColor*               GetZoneColorsPointer(unsigned int zone);
@@ -600,6 +665,7 @@ public:
     void                    ClearSegments(int zone);
     void                    AddSegment(int zone, segment new_segment);
 
+    void                    ConfigureZone(int zone_idx, zone new_zone);
     void                    ResizeZone(int zone, int new_size);
 
     /*-----------------------------------------------------*\

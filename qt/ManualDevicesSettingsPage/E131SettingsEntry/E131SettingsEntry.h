@@ -30,11 +30,6 @@ public:
 private:
     Ui::E131SettingsEntry *ui;
 
-private:
-    void HideMatrixSettings();
-    void ShowMatrixSettings();
-
 private slots:
     void changeEvent(QEvent *event) override;
-    void on_TypeComboBox_currentIndexChanged(int index);
 };

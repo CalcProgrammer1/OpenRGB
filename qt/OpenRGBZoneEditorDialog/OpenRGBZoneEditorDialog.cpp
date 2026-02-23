@@ -27,8 +27,9 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     /*-----------------------------------------------------*\
     | Save device and zone                                  |
     \*-----------------------------------------------------*/
-    edit_dev      = edit_dev_ptr;
-    edit_zone_idx = edit_zone_idx_val;
+    edit_dev                = edit_dev_ptr;
+    edit_zone_idx           = edit_zone_idx_val;
+    edit_zone_matrix_map    = edit_dev->GetZoneMatrixMap(edit_zone_idx);
 
     /*-----------------------------------------------------*\
     | Append zone name to window title                      |
@@ -40,11 +41,95 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     setWindowTitle(newTitle);
 
     /*-----------------------------------------------------*\
+    | Read the zone flags                                   |
+    \*-----------------------------------------------------*/
+    zone_flags flags = edit_dev->GetZoneFlags(edit_zone_idx);
+
+    if(edit_dev->GetZoneLEDsMin(edit_zone_idx) != edit_dev->GetZoneLEDsMax(edit_zone_idx))
+    {
+        if((flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY) == 0)
+        {
+            flags |= ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
+        }
+
+        flags |= ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE;
+    }
+
+    /*-----------------------------------------------------*\
     | Set up zone size range                                |
     \*-----------------------------------------------------*/
     unsigned int size_min     = edit_dev->GetZoneLEDsMin(edit_zone_idx);
     unsigned int size_max     = edit_dev->GetZoneLEDsMax(edit_zone_idx);
     unsigned int size_current = edit_dev->GetZoneLEDsCount(edit_zone_idx);
+
+    /*-----------------------------------------------------*\
+    | Initialize zone name                                  |
+    \*-----------------------------------------------------*/
+    ui->LineEditZoneName->setText(QString::fromStdString(edit_dev->GetZoneName(edit_zone_idx)));
+
+    if((flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME) == 0)
+    {
+        ui->LineEditZoneName->setEnabled(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize zone size                                  |
+    \*-----------------------------------------------------*/
+    ui->SliderZoneSize->setRange(size_min, size_max);
+    ui->SpinBoxZoneSize->setRange(size_min, size_max);
+
+    ui->SliderZoneSize->setValue(size_current);
+    ui->SpinBoxZoneSize->setValue(size_current);
+
+    if((flags & (ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE | ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY)) == 0)
+    {
+        ui->SliderZoneSize->setEnabled(false);
+        ui->SpinBoxZoneSize->setEnabled(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize zone type                                  |
+    \*-----------------------------------------------------*/
+    ui->ComboBoxZoneType->addItem("Single");
+    ui->ComboBoxZoneType->addItem("Linear");
+    ui->ComboBoxZoneType->addItem("Matrix");
+    ui->ComboBoxZoneType->addItem("Linear Loop");
+    ui->ComboBoxZoneType->addItem("Matrix Loop X");
+    ui->ComboBoxZoneType->addItem("Matrix Loop Y");
+    ui->ComboBoxZoneType->addItem("Segmented");
+
+    ui->ComboBoxZoneType->setCurrentIndex(edit_dev->GetZoneType(edit_zone_idx));
+
+    if((flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE) == 0)
+    {
+        ui->ComboBoxZoneType->setEnabled(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize zone matrix map                            |
+    \*-----------------------------------------------------*/
+    ui->ButtonZoneMatrixMap->setText(QString::number(edit_zone_matrix_map.height) + "x" + QString::number(edit_zone_matrix_map.width));
+
+    if((flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP) == 0)
+    {
+        ui->ButtonZoneMatrixMap->setEnabled(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize zone color order                           |
+    \*-----------------------------------------------------*/
+    ui->ComboBoxZoneColorOrder->addItem("Default");
+    if(flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RGB) ui->ComboBoxZoneColorOrder->addItem("RGB");
+    if(flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RBG) ui->ComboBoxZoneColorOrder->addItem("RBG");
+    if(flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GRB) ui->ComboBoxZoneColorOrder->addItem("GRB");
+    if(flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GBR) ui->ComboBoxZoneColorOrder->addItem("GBR");
+    if(flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BRG) ui->ComboBoxZoneColorOrder->addItem("BRG");
+    if(flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BGR) ui->ComboBoxZoneColorOrder->addItem("BGR");
+
+    if((flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_COLOR_ORDER) == 0)
+    {
+        ui->ComboBoxZoneColorOrder->setEnabled(false);
+    }
 
     /*-----------------------------------------------------*\
     | Initialize segment list                               |
@@ -53,16 +138,16 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     header_labels << "Name" << "Type" << "Matrix Map" << "Size" << "";
     ui->SegmentsTreeWidget->setHeaderLabels(header_labels);
 
-    ui->ResizeSlider->setRange(size_min, size_max);
-    ui->ResizeBox->setRange(size_min, size_max);
-
-    ui->ResizeSlider->setValue(size_current);
-    ui->ResizeBox->setValue(size_current);
-
     for(unsigned int segment_idx = 0; segment_idx < edit_dev->GetZoneSegmentCount(edit_zone_idx); segment_idx++)
     {
         matrix_map_type new_matrix_map = edit_dev->GetZoneSegmentMatrixMap(edit_zone_idx, segment_idx);
         AddSegmentRow(QString::fromStdString(edit_dev->GetZoneSegmentName(edit_zone_idx, segment_idx)), edit_dev->GetZoneSegmentLEDsCount(edit_zone_idx, segment_idx), edit_dev->GetZoneSegmentType(edit_zone_idx, segment_idx), new_matrix_map);
+    }
+
+    if((flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS) == 0)
+    {
+        ui->AddSegmentButton->setEnabled(false);
+        ui->RemoveSegmentButton->setEnabled(false);
     }
 }
 
@@ -79,11 +164,11 @@ void OpenRGBZoneEditorDialog::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBZoneEditorDialog::on_ResizeSlider_valueChanged(int value)
+void OpenRGBZoneEditorDialog::on_SliderZoneSize_valueChanged(int value)
 {
-    ui->ResizeBox->blockSignals(true);
-    ui->ResizeBox->setValue(value);
-    ui->ResizeBox->blockSignals(false);
+    ui->SpinBoxZoneSize->blockSignals(true);
+    ui->SpinBoxZoneSize->setValue(value);
+    ui->SpinBoxZoneSize->blockSignals(false);
 
     /*-----------------------------------------------------*\
     | Set maximum value for all segment sliders to new zone |
@@ -139,11 +224,11 @@ void OpenRGBZoneEditorDialog::on_segment_slider_valueChanged(int)
     CheckSegmentsValidity();
 }
 
-void OpenRGBZoneEditorDialog::on_ResizeBox_valueChanged(int value)
+void OpenRGBZoneEditorDialog::on_SpinBoxZoneSize_valueChanged(int value)
 {
-    ui->ResizeSlider->blockSignals(true);
-    ui->ResizeSlider->setValue(value);
-    ui->ResizeSlider->blockSignals(false);
+    ui->SliderZoneSize->blockSignals(true);
+    ui->SliderZoneSize->setValue(value);
+    ui->SliderZoneSize->blockSignals(false);
 
     /*-----------------------------------------------------*\
     | Set maximum value for all segment sliders to new zone |
@@ -169,12 +254,21 @@ int OpenRGBZoneEditorDialog::show()
     }
     else
     {
-        ret_val = ui->ResizeBox->value();
+        ret_val = ui->SpinBoxZoneSize->value();
     }
 
     if(ret_val >= 0 && edit_dev != NULL)
     {
-        edit_dev->ResizeZone(edit_zone_idx, ret_val);
+        zone                new_zone;
+
+        new_zone.name           = ui->LineEditZoneName->text().toStdString();
+        new_zone.leds_count     = ui->SliderZoneSize->value();
+        new_zone.type           = ui->ComboBoxZoneType->currentIndex();
+        new_zone.color_order    = ui->ComboBoxZoneColorOrder->currentIndex();
+        new_zone.flags          = ZONE_FLAG_MANUALLY_CONFIGURED_NAME | ZONE_FLAG_MANUALLY_CONFIGURED_SIZE | ZONE_FLAG_MANUALLY_CONFIGURED_TYPE | ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP | ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER;
+        new_zone.matrix_map     = edit_zone_matrix_map;
+
+        edit_dev->ConfigureZone(edit_zone_idx, new_zone);
 
         edit_dev->ClearSegments(edit_zone_idx);
 
@@ -318,7 +412,7 @@ void OpenRGBZoneEditorDialog::CheckSegmentsValidity()
             }
         }
 
-        if(total_segment_leds != ui->ResizeBox->value())
+        if(total_segment_leds != ui->SpinBoxZoneSize->value())
         {
             segments_valid = false;
         }
@@ -366,7 +460,7 @@ void OpenRGBZoneEditorDialog::on_ImportConfigurationButton_clicked()
                 \*-----------------------------------------*/
                 if(config_json.contains("segments"))
                 {
-                    unsigned int total_leds_count = ui->ResizeSlider->value();
+                    unsigned int total_leds_count = ui->SliderZoneSize->value();
 
                     for(std::size_t segment_idx = 0; segment_idx < config_json["segments"].size(); segment_idx++)
                     {
@@ -397,8 +491,8 @@ void OpenRGBZoneEditorDialog::on_ImportConfigurationButton_clicked()
                     }
 
 
-                    ui->ResizeSlider->setValue(total_leds_count);
-                    ui->ResizeBox->setValue(total_leds_count);
+                    ui->SliderZoneSize->setValue(total_leds_count);
+                    ui->SpinBoxZoneSize->setValue(total_leds_count);
                 }
             }
             catch(const std::exception& e)
@@ -475,3 +569,18 @@ void OpenRGBZoneEditorDialog::on_ExportConfigurationButton_clicked()
     }
 }
 
+void OpenRGBZoneEditorDialog::on_ButtonZoneMatrixMap_clicked()
+{
+    unsigned int total_leds_count = ui->SliderZoneSize->value();
+
+    OpenRGBMatrixMapEditorDialog dialog(QString::fromStdString(edit_dev->GetZoneName(edit_zone_idx)), &edit_zone_matrix_map, total_leds_count);
+
+    dialog.show();
+
+    ui->ButtonZoneMatrixMap->setText(QString::number(edit_zone_matrix_map.height) + "x" + QString::number(edit_zone_matrix_map.width));
+}
+
+void OpenRGBZoneEditorDialog::on_ButtonResetZoneConfiguration_clicked()
+{
+
+}

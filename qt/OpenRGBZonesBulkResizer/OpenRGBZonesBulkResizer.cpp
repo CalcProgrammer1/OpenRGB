@@ -63,7 +63,7 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
             \*---------------------------------------------*/
             if((controller->GetZoneLEDsCount(zone_index) == 0) &&
                (controller->GetZoneLEDsCount(zone_index) < controller->GetZoneLEDsMax(zone_index)) &&
-               (controller->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED) == 0)
+               (controller->GetZoneFlags(zone_index) & ZONE_FLAGS_MANUALLY_CONFIGURED) == 0)
             {
                 unconfigured_zones.push_back({controller, zone_index});
             }

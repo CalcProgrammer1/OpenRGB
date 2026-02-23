@@ -175,7 +175,7 @@ void RGBController_MSIMysticLight185::SetupZones()
                 new_zone.leds_max   = 30;//maxLeds;
                 new_zone.leds_count = 0;
                 last_resizable_zone = zd->zone_type;
-                new_zone.flags     |= ZONE_FLAG_RESIZE_EFFECTS_ONLY;
+                new_zone.flags     |= ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY;
             }
             /*--------------------------------------------------\
             | This is a resizable zone on a board that does     |
@@ -192,7 +192,7 @@ void RGBController_MSIMysticLight185::SetupZones()
             /*-------------------------------------------------*\
             | Determine zone type based on max number of LEDs   |
             \*-------------------------------------------------*/
-            if((new_zone.leds_max == 1) || (new_zone.flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY))
+            if((new_zone.leds_max == 1) || (new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY))
             {
                 new_zone.type       = ZONE_TYPE_SINGLE;
             }
@@ -213,7 +213,7 @@ void RGBController_MSIMysticLight185::SetupZones()
     {
         controller->SetCycleCount(zone_description[zone_idx]->zone_type, zones[zone_idx].leds_count);
 
-        if((zones[zone_idx].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY) == 0)
+        if((zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY) == 0)
         {
             for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; ++led_idx)
             {

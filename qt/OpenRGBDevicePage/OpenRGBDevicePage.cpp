@@ -570,17 +570,14 @@ void OpenRGBDevicePage::UpdateLEDList()
                 | Enable editing if:                        |
                 |   Zone has variable size                  |
                 | OR                                        |
-                |   Zone is LINEAR and device type is       |
-                |   LEDSTRIP                                |
+                |   Zone has any MANUALLY_CONFIGURABLE flag |
                 \*-----------------------------------------*/
                 bool zone_is_editable = false;
 
-                if(device->GetZoneLEDsMin(selected_zone) != device->GetZoneLEDsMax(selected_zone))
-                {
-                    zone_is_editable = true;
-                }
+                zone_flags flags = device->GetZoneFlags(selected_zone);
 
-                if((device->GetZoneType(selected_zone) == ZONE_TYPE_LINEAR) && (device->GetDeviceType() == DEVICE_TYPE_LEDSTRIP))
+                if((device->GetZoneLEDsMin(selected_zone) != device->GetZoneLEDsMax(selected_zone))
+                || ((flags & ZONE_FLAGS_MANUALLY_CONFIGURABLE) > 0))
                 {
                     zone_is_editable = true;
                 }
@@ -1916,11 +1913,6 @@ void OpenRGBDevicePage::GetSelectedZone(bool * selected_all_zones, int * selecte
                 break;
             }
         }
-
-        if((*selected_segment == -1) && (device->GetZoneCount() <= 1))
-        {
-            *selected_all_zones = true;
-        }
     }
 }
 
@@ -2161,34 +2153,27 @@ void OpenRGBDevicePage::on_EditZoneButton_clicked()
                     return;
                 }
 
-                /*-----------------------------------------*\
-                | Only allow resizing linear zones or       |
-                | effects-only resizable zones              |
-                \*-----------------------------------------*/
-                if((device->GetZoneType(selected_zone) == ZONE_TYPE_LINEAR) || (device->GetZoneFlags(selected_zone) & ZONE_FLAG_RESIZE_EFFECTS_ONLY))
+                OpenRGBZoneEditorDialog dlg(device, selected_zone);
+
+                int new_size = dlg.show();
+
+                if(new_size >= 0)
                 {
-                    OpenRGBZoneEditorDialog dlg(device, selected_zone);
+                    /*---------------------------------*\
+                    | Update Zone box                   |
+                    \*---------------------------------*/
+                    on_ZoneBox_currentIndexChanged(selected_zone);
 
-                    int new_size = dlg.show();
+                    /*---------------------------------*\
+                    | Update color picker with color of |
+                    | first LED                         |
+                    \*---------------------------------*/
+                    on_LEDBox_currentIndexChanged(0);
 
-                    if(new_size >= 0)
-                    {
-                        /*---------------------------------*\
-                        | Update Zone box                   |
-                        \*---------------------------------*/
-                        on_ZoneBox_currentIndexChanged(selected_zone);
-
-                        /*---------------------------------*\
-                        | Update color picker with color of |
-                        | first LED                         |
-                        \*---------------------------------*/
-                        on_LEDBox_currentIndexChanged(0);
-
-                        /*---------------------------------*\
-                        | Save the size profile             |
-                        \*---------------------------------*/
-                        SaveSizeProfile();
-                    }
+                    /*---------------------------------*\
+                    | Save the size profile             |
+                    \*---------------------------------*/
+                    SaveSizeProfile();
                 }
             }
             break;
