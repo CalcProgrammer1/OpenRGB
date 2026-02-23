@@ -20,7 +20,7 @@ public:
 
     void        SetupZones();
 
-    void        DeviceResizeZone(int zone, int new_size);
+    void        DeviceConfigureZone(int zone_idx);
 
     void        DeviceUpdateLEDs();
     void        DeviceUpdateZoneLEDs(int zone);

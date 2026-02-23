@@ -281,7 +281,7 @@ void RGBController_ASRockPolychromeV2SMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_ASRockPolychromeV2SMBus::DeviceResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_ASRockPolychromeV2SMBus::DeviceConfigureZone(int /*zone_idx*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |

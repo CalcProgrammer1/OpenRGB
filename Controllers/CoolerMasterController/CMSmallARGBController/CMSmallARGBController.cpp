@@ -18,11 +18,10 @@ cm_small_argb_headers cm_small_argb_header_data[1] =
     { "CM Small ARGB",  0x01, true,  12 }
 };
 
-CMSmallARGBController::CMSmallARGBController(hid_device* dev_handle, char *_path, unsigned char _zone_idx)
+CMSmallARGBController::CMSmallARGBController(hid_device* dev_handle, char *_path)
 {
     dev                     = dev_handle;
     location                = _path;
-    zone_index              = _zone_idx;
     current_speed           = CM_SMALL_ARGB_SPEED_NORMAL;
 
     /*---------------------------------------------------------*\
@@ -51,7 +50,7 @@ void CMSmallARGBController::GetStatus()
 {
     unsigned char buffer[CM_SMALL_ARGB_PACKET_SIZE]     = { 0x00, 0x80, 0x01, 0x01 };
     int buffer_size                                     = (sizeof(buffer) / sizeof(buffer[0]));
-    int header                                          = zone_index - 1;
+    int header                                          = 0 - 1;
 
     buffer[CM_SMALL_ARGB_ZONE_BYTE]                     = header;
     buffer[CM_SMALL_ARGB_MODE_BYTE]                     = 0x01;
@@ -96,11 +95,6 @@ std::string CMSmallARGBController::GetSerial()
 std::string CMSmallARGBController::GetLocation()
 {
     return("HID: " + location);
-}
-
-unsigned char CMSmallARGBController::GetZoneIndex()
-{
-    return(zone_index);
 }
 
 unsigned char CMSmallARGBController::GetMode()
@@ -177,7 +171,7 @@ void CMSmallARGBController::SetLedsDirect(RGBColor* led_colours, unsigned int le
         colours.push_back( RGBGetBValue(colour) );
     }
 
-    buffer[CM_SMALL_ARGB_ZONE_BYTE]     = zone_index - 1; //argb_header_data[zone_index].header;
+    buffer[CM_SMALL_ARGB_ZONE_BYTE]     = 0 - 1; //argb_header_data[zone_index].header;
     buffer[CM_SMALL_ARGB_MODE_BYTE]     = led_count;
     unsigned char buffer_idx            = CM_SMALL_ARGB_MODE_BYTE + 1;
 
@@ -225,7 +219,7 @@ void CMSmallARGBController::SendUpdate()
 
     buffer[CM_SMALL_ARGB_COMMAND_BYTE]                  = 0x0b;
     buffer[CM_SMALL_ARGB_FUNCTION_BYTE]                 = (false) ? 0x01 : 0x02; //This controls custom mode TODO
-    buffer[CM_SMALL_ARGB_ZONE_BYTE]                     = cm_small_argb_header_data[zone_index].header;
+    buffer[CM_SMALL_ARGB_ZONE_BYTE]                     = cm_small_argb_header_data[0].header;
     buffer[CM_SMALL_ARGB_MODE_BYTE]                     = current_mode;
     buffer[CM_SMALL_ARGB_SPEED_BYTE]                    = current_speed;
     buffer[CM_SMALL_ARGB_COLOUR_INDEX_BYTE]             = (bool_random) ? 0x00 : 0x10; //This looks to still be the colour index and controls random colours

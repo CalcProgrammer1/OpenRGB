@@ -23,7 +23,7 @@ public:
     ~RGBController_CMARGBGen2A1Controller();
 
     void SetupZones();
-    void DeviceResizeZone(int zone, int new_size);
+    void DeviceConfigureZone(int zone_idx);
     void DeviceUpdateLEDs();
     void DeviceUpdateZoneLEDs(int zone);
     void UpdateSegmentLEDs(int zone, int subchannel);

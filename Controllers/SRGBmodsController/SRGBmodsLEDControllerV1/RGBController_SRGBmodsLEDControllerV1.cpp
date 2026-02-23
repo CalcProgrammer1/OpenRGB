@@ -94,9 +94,9 @@ RGBController_SRGBmodsLEDControllerV1::~RGBController_SRGBmodsLEDControllerV1()
 
 void RGBController_SRGBmodsLEDControllerV1::SetupZones()
 {
-    /*-------------------------------------------------*\
-    | Only set LED count on the first run               |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \*-----------------------------------------------------*/
     bool first_run = false;
 
     if(zones.size() == 0)
@@ -104,65 +104,73 @@ void RGBController_SRGBmodsLEDControllerV1::SetupZones()
         first_run = true;
     }
 
-    /*-------------------------------------------------*\
-    | Clear any existing color/LED configuration        |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \*-----------------------------------------------------*/
     leds.clear();
     colors.clear();
     zones.resize(SRGBMODS_LED_CONTROLLER_V1_NUM_CHANNELS);
 
-    /*-------------------------------------------------*\
-    | Set zones and leds                                |
-    \*-------------------------------------------------*/
-    for(unsigned int channel_idx = 0; channel_idx < SRGBMODS_LED_CONTROLLER_V1_NUM_CHANNELS; channel_idx++)
+    /*-----------------------------------------------------*\
+    | Set zones and leds                                    |
+    \*-----------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        char ch_idx_string[2];
-        snprintf(ch_idx_string, 2, "%d", channel_idx + 1);
-
-        zones[channel_idx].name     = "Channel ";
-        zones[channel_idx].name.append(ch_idx_string);
-        zones[channel_idx].type     = ZONE_TYPE_LINEAR;
-
         /*-------------------------------------------------*\
         | The maximum number of LEDs per channel is 800     |
         | according to https://srgbmods.net/lcv1/           |
         \*-------------------------------------------------*/
-        zones[channel_idx].leds_min   = 0;
-        zones[channel_idx].leds_max   = 800;
+        zones[zone_idx].leds_min                    = 0;
+        zones[zone_idx].leds_max                    = 800;
 
         if(first_run)
         {
-            zones[channel_idx].leds_count = 0;
+            zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
         }
 
-        for(unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
         {
-            char led_idx_string[4];
-            snprintf(led_idx_string, 4, "%d", led_ch_idx + 1);
+            zones[zone_idx].name                    = "Addressable RGB Header ";
+            zones[zone_idx].name.append(std::to_string(zone_idx + 1));
+        }
 
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+        {
+            zones[zone_idx].leds_count              = 0;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+        {
+            zones[zone_idx].type                    = ZONE_TYPE_LINEAR;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+        {
+            zones[zone_idx].matrix_map.width        = 0;
+            zones[zone_idx].matrix_map.height       = 0;
+            zones[zone_idx].matrix_map.map.resize(0);
+        }
+
+        for(unsigned int led_ch_idx = 0; led_ch_idx < zones[zone_idx].leds_count; led_ch_idx++)
+        {
             led new_led;
-            new_led.name = "LED ";
-            new_led.name.append(led_idx_string);
+            new_led.name                            = zones[zone_idx].name + ", LED " + std::to_string(led_ch_idx + 1);
 
             leds.push_back(new_led);
-            leds_channel.push_back(channel_idx);
+            leds_channel.push_back(zone_idx);
         }
     }
 
     SetupColors();
 }
 
-void RGBController_SRGBmodsLEDControllerV1::DeviceResizeZone(int zone, int new_size)
+void RGBController_SRGBmodsLEDControllerV1::DeviceConfigureZone(int zone_idx)
 {
-    if((size_t)zone >= zones.size())
+    if((size_t)zone_idx < zones.size())
     {
-        return;
-    }
-
-    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
-    {
-        zones[zone].leds_count = new_size;
-
         SetupZones();
     }
 }

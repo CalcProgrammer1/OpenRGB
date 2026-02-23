@@ -113,27 +113,20 @@ void RGBController_Govee::SetupZones()
     SetupColors();
 }
 
-void RGBController_Govee::DeviceResizeZone(int zone, int new_size)
+void RGBController_Govee::DeviceConfigureZone(int zone_idx)
 {
-    if(zone < 0 || zone >= (int)zones.size() || new_size <= 0)
+    if((size_t)zone_idx < zones.size())
     {
-        return;
+        leds.clear();
+        leds.resize(zones[zone_idx].leds_count);
+        for(unsigned int i = 0; i < zones[zone_idx].leds_count; i++)
+        {
+            leds[i].name = "Govee LED " + std::to_string(i);
+        }
+
+        SetupColors();      /* re-sync color buffers with LED count */
+        DeviceUpdateLEDs(); /* push an updated frame */
     }
-
-    new_size = std::max(1, std::min(255, new_size));
-    zones[zone].leds_count = new_size;
-    zones[zone].leds_min = 1;
-    zones[zone].leds_max = 255;
-
-    leds.clear();
-    leds.resize(new_size);
-    for(int i = 0; i < new_size; ++i)
-    {
-        leds[i].name = "Govee LED " + std::to_string(i);
-    }
-
-    SetupColors();      /* re-sync color buffers with LED count */
-    DeviceUpdateLEDs(); /* push an updated frame */
 }
 
 void RGBController_Govee::DeviceUpdateLEDs()

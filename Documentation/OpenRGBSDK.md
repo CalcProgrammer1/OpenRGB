@@ -52,6 +52,8 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 40    | [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version)                     | Request OpenRGB SDK protocol version from server              | 1*               |
 | 50    | [NET_PACKET_ID_SET_CLIENT_NAME](#net_packet_id_set_client_name)                                       | Send client name string to server                             | 0                |
 | 51    | [NET_PACKET_ID_SET_SERVER_NAME](#net_packet_id_set_server_name)                                       | Send server name string to client                             | 6                |
+| 52    | [NET_PACKET_ID_SET_CLIENT_FLAGS](#net_packet_id_set_client_flags)                                     | Send client flags to server                                   | 6                |
+| 53    | [NET_PACKET_ID_SET_SERVER_FLAGS](#net_packet_id_set_server_flags)                                     | Send server flags to client                                   | 6                |
 | 100   | [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)                               | Indicate to clients that device list has updated              | 1                |
 | 101   | [NET_PACKET_ID_DETECTION_STARTED](#net_packet_id_detection_started)                                   | Indicate to clients that detection started                    | 6                |
 | 102   | [NET_PACKET_ID_DETECTION_PROGRESS_CHANGED](#net_packet_id_detection_progress_changed)                 | Indicate to clients that detection progress changed           | 6                |
@@ -72,6 +74,7 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 1000  | [NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE](#net_packet_id_rgbcontroller_resizezone)                     | RGBController::ResizeZone()                                   | 0                |
 | 1001  | [NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS](#net_packet_id_rgbcontroller_clearsegments)               | RGBController::ClearSegments()                                | 5                |
 | 1002  | [NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT](#net_packet_id_rgbcontroller_addsegment)                     | RGBController::AddSegment()                                   | 5                |
+| 1003  | [NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE](#net_packet_id_rgbcontroller_configurezone)               | RGBController::ConfigureZone()                                | 6                |
 | 1050  | [NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS](#net_packet_id_rgbcontroller_updateleds)                     | RGBController::UpdateLEDs()                                   | 0                |
 | 1051  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS](#net_packet_id_rgbcontroller_updatezoneleds)             | RGBController::UpdateZoneLEDs()                               | 0                |
 | 1052  | [NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED](#net_packet_id_rgbcontroller_updatesingleled)           | RGBController::UpdateSingleLED()                              | 0                |
@@ -200,8 +203,9 @@ The Zone Data block represents one entry in the `RGBController::zones` vector.  
 | Variable               | Segment Data[num_segments]        | segments            | 4                | See [Segment Data](#segment-data) block format table.  Repeat num_segments times       |
 | 4                      | unsigned int                      | zone_flags          | 5                | Zone flags value                                                                       |
 | 2                      | unsigned short                    | zone_num_modes      | 6                | Number of modes in zone                                                                |
-| 4                      | int                               | zone_active_mode    | 6                | zone active_mode field value                                                           |
+| 4                      | int                               | zone_active_mode    | 6                | Zone active_mode field value                                                           |
 | Variable               | Mode Data[zone_num_modes]         | zone_modes          | 6                | See [Mode Data](#mode-data) block format table.  Repeat zone_num_modes times           |
+| 4                      | unsigned int                      | zone_color_order    | 6                | Zone color_order field value                                                           |
 
 ## Segment Data
 
@@ -216,6 +220,7 @@ The Segment Data block represents one entry in the `RGBController::zones::segmen
 | 4                  | unsigned int           | segment_leds_count | 4                | Segment leds_count value                                                               |
 | 2                  | unsigned short         | segment_matrix_len | 6                | Segment matrix map length if matrix_map exists, otherwise 0 if matrix_map NULL         |
 | segment_matrix_len | Matrix Map Data        | segment_matrix_map | 6                | See [Matrix Map Data](#matrix-map-data) block format table, only if matrix_map exists. |
+| 4                  | unsigned int           | segment_flags      | 6                | Segment flags value                                                                    |
 
 ## Matrix Map Data
 
@@ -267,6 +272,35 @@ The client uses this ID to send the client's null-terminated name string to the 
 ### Server Only [Size: Variable]
 
 The server uses this ID to send the server's null-terminated name string to the client.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.  There is no response from the server for this packet.
+
+## NET_PACKET_ID_SET_CLIENT_FLAGS
+
+### Client Only [Size: 4]
+
+The client uses this ID to send the client's flags value to the server.  The client sets the NET_CLIENT_FLAG_REQUEST_LOCAL_CLIENT flag if it wants to request local client status.  The server responds in NET_PACKET_ID_SET_SERVER_FLAGS whether it was granted or not.
+
+| Bit | Flag Name                                | Flag Description                    |
+| --- | ---------------------------------------- | ----------------------------------- |
+| 0   | NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER   | Client supports RGBController API   |
+| 1   | NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER  | Client supports ProfileManager API  |
+| 2   | NET_CLIENT_FLAG_SUPPORTS_PLUGINMANAGER   | Client supports PluginManager API   |
+| 3   | NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER | Client supports SettingsManager API |
+| 16  | NET_CLIENT_FLAG_REQUEST_LOCAL_CLIENT     | Request local client                |
+
+## NET_PACKET_ID_SET_SERVER_FLAGS
+
+### Server Only [Size: 4]
+
+The server uses this ID to send the server's flags value to the client.  The server sets the NET_SERVER_FLAG_LOCAL_CLIENT flag to grant the connected client local client status.  The server will only set NET_SERVER_FLAG_LOCAL_CLIENT if the client requested local client status with NET_CLIENT_FLAG_REQUEST_LOCAL_CLIENT and the client is connected from the localhost address.
+
+| Bit | Flag Name                                | Flag Description                    |
+| --- | ---------------------------------------- | ----------------------------------- |
+| 0   | NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER   | Server supports RGBController API   |
+| 1   | NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER  | Server supports ProfileManager API  |
+| 2   | NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER   | Server supports PluginManager API   |
+| 3   | NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER | Server supports SettingsManager API |
+| 4   | NET_SERVER_FLAG_SUPPORTS_DETECTION       | Server supports detection functions |
+| 16  | NET_SERVER_FLAG_LOCAL_CLIENT             | Confirm that client is local client |
 
 ## NET_PACKET_ID_DEVICE_LIST_UPDATED
 
@@ -352,11 +386,24 @@ The client uses this ID to command the server to delete the given profile.  It p
 
 ## NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE
 
+### Client Only [Size: Variable]
+The client uses this ID to upload a JSON-formatted profile to the server.  The JSON data is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
 ## NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE
+
+### Request [Size: Variable]
+The client uses this ID to download a JSON-formatted profile from the server.  The name of the profile to download is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+### Response [Size: Variable]
+The server responds to this request with the JSON-formatted profile.  The JSON data is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
 
 ## NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE
 
+### Request [Size: 0]
+The client uses this ID to request the name of the active profile from the server.  The request contains no data.
+
 ## NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST
+The server responds to this request with the name of the active profile or an empty string if no profile is active.  This string is sent null-terminated.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
 
 ### Request [Size: 0]
 
@@ -435,6 +482,16 @@ The client uses this ID to call the AddSegment() function of an RGBController de
 | 4                | unsigned int           | data_size        | Size of all data in packet                                |
 | 4                | unsigned int           | zone_idx         | Zone index to add segment to                              |
 | Variable         | Segment Data           | segment          | See [Segment Data](#segment-data) block format table.     |
+
+## NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE
+
+The client uses this ID to call the ConfigureZone() function of an RGBController device.  The packet contains a data block.  The format of the block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling ConfigureZone() on.  See the [Device IDs](#device-ids) section for more information. 
+
+| Size             | Format                 | Name             | Description                                               |
+| ---------------- | ---------------------- | ---------------- | --------------------------------------------------------- |
+| 4                | unsigned int           | data_size        | Size of all data in packet                                |
+| 4                | unsigned int           | zone_idx         | Zone index to configure                                   |
+| Variable         | Zone Data              | zone             | See [Zone Data](#zone-data) block format table.           |
 
 ## NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS
 

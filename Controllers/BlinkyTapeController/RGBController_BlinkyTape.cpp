@@ -51,79 +51,80 @@ RGBController_BlinkyTape::~RGBController_BlinkyTape()
 
 void RGBController_BlinkyTape::SetupZones()
 {
-    zones.clear();
+    /*-------------------------------------------------*\
+    | Only set LED count on the first run               |
+    \*-------------------------------------------------*/
+    bool first_run = false;
+
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    /*-------------------------------------------------*\
+    | Clear any existing color/LED configuration        |
+    \*-------------------------------------------------*/
     leds.clear();
+    colors.clear();
+    zones.resize(1);
 
-    zone led_zone;
-    led_zone.name       = "LED Strip";
-    led_zone.type       = ZONE_TYPE_LINEAR;
-    led_zone.leds_min   = 0;
-    led_zone.leds_max   = 512;
-    led_zone.leds_count = 0;
-    zones.push_back(led_zone);
+    /*-----------------------------------------------------*\
+    | Set up zones                                          |
+    \*-----------------------------------------------------*/
+    zones[0].leds_min                   = 0;
+    zones[0].leds_max                   = 512;
 
-    DeviceResizeZone(0, led_zone.leds_count);
-}
-
-void RGBController_BlinkyTape::DeviceResizeZone(int zone, int new_size)
-{
-    /*-------------------------------------------------*\
-    | Explicitly cast these to avoid compiler warnings  |
-    \*-------------------------------------------------*/
-    const unsigned int zone_u       = static_cast<unsigned int>(zone);
-    const unsigned int new_size_u   = static_cast<unsigned int>(new_size);
-
-    /*-------------------------------------------------*\
-    | Check that the zone is in bounds                  |
-    \*-------------------------------------------------*/
-    if((zone_u > zones.size()) || (zone < 0))
+    if(first_run)
     {
-        return;
+        zones[0].flags                  = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
     }
 
-    /*-------------------------------------------------*\
-    | And that the new size is in bounds                |
-    \*-------------------------------------------------*/
-    if((new_size_u > zones.at(zone).leds_max) || (new_size_u < zones.at(zone).leds_min))
+    if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
     {
-        return;
+        zones[0].name                   = "Addressable RGB Header";
     }
 
-    /*-------------------------------------------------*\
-    | And that there's actually a change                |
-    \*-------------------------------------------------*/
-    if(zones.at(zone).leds_count == new_size_u)
+    if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
     {
-        return;
+        zones[0].leds_count             = 0;
     }
 
-    /*-------------------------------------------------*\
-    | If the new size is less than the current size,    |
-    | just chop off the end                             |
-    \*-------------------------------------------------*/
-    if(leds.size() > new_size_u)
+    if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
     {
-        leds.resize(new_size);
+        zones[0].type                   = ZONE_TYPE_LINEAR;
     }
 
-    /*-------------------------------------------------*\
-    | Otherwise, add new LEDs to the end                |
-    \*-------------------------------------------------*/
-    if(leds.size() < new_size_u)
+    if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
     {
-        for(size_t led_idx = leds.size(); led_idx < new_size_u; led_idx++)
-        {
-            led new_led;
-            new_led.name = "LED ";
-            new_led.name.append(std::to_string(led_idx));
-
-            leds.push_back(new_led);
-        }
+        zones[0].matrix_map.width       = 0;
+        zones[0].matrix_map.height      = 0;
+        zones[0].matrix_map.map.resize(0);
     }
 
-    zones.at(zone).leds_count = new_size;
+    /*-----------------------------------------------------*\
+    | Set up LEDs                                           |
+    \*-----------------------------------------------------*/
+    for(size_t led_idx = leds.size(); led_idx < zones[0].leds_count; led_idx++)
+    {
+        led new_led;
+        new_led.name = zones[0].name + ", LED ";
+        new_led.name.append(std::to_string(led_idx));
+
+        leds.push_back(new_led);
+    }
 
     SetupColors();
+}
+
+void RGBController_BlinkyTape::DeviceConfigureZone(int zone_idx)
+{
+    if((size_t)zone_idx < zones.size())
+    {
+        SetupZones();
+    }
 }
 
 void RGBController_BlinkyTape::DeviceUpdateLEDs()
