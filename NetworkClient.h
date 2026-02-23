@@ -119,6 +119,7 @@ public:
 
     void                                SendRequest_RGBController_ClearSegments(unsigned int dev_idx, int zone);
     void                                SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void                                SendRequest_RGBController_ConfigureZone(unsigned int dev_idx, unsigned char * data, unsigned int size);
     void                                SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
 
     void                                SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size);
