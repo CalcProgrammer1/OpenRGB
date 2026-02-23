@@ -132,11 +132,10 @@ RGBController_RazerAddressable::~RGBController_RazerAddressable()
 void RGBController_RazerAddressable::SetupZones()
 {
     unsigned int device_index = controller->GetDeviceIndex();
-    unsigned int zone_count   = 0;
 
-    /*-------------------------------------------------*\
-    | Only set LED count on the first run               |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \*-----------------------------------------------------*/
     bool first_run = false;
 
     if(zones.size() == 0)
@@ -144,69 +143,86 @@ void RGBController_RazerAddressable::SetupZones()
         first_run = true;
     }
 
-    /*-------------------------------------------------*\
-    | Count the number of zones for this device         |
-    \*-------------------------------------------------*/
-    for(unsigned int zone_id = 0; zone_id < RAZER_MAX_ZONES; zone_id++)
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \*-----------------------------------------------------*/
+    leds.clear();
+    colors.clear();
+
+    /*-----------------------------------------------------*\
+    | Count number of zones to resize zones vector          |
+    \*-----------------------------------------------------*/
+    unsigned int num_zones;
+
+    for(num_zones = 0; num_zones < RAZER_MAX_ZONES; num_zones++)
     {
-        if(device_list[device_index]->zones[zone_id] != NULL)
+        if(!device_list[device_index]->zones[num_zones])
         {
-            zone_count++;
+            break;
         }
     }
 
-    /*-------------------------------------------------*\
-    | Clear any existing color/LED configuration        |
-    \*-------------------------------------------------*/
-    leds.clear();
-    colors.clear();
-    zones.resize(zone_count);
+    zones.resize(num_zones);
 
-    /*---------------------------------------------------------*\
-    | Fill in zone information based on device table            |
-    \*---------------------------------------------------------*/
-    zone_count = 0;
-
-    for(unsigned int zone_id = 0; zone_id < RAZER_MAX_ZONES; zone_id++)
+    /*-----------------------------------------------------*\
+    | Set up zones                                          |
+    \*-----------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        if(device_list[device_index]->zones[zone_id] != NULL)
+        zones[zone_idx].leds_min                    = 0;
+        zones[zone_idx].leds_max                    = device_list[device_index]->zones[zone_idx]->rows * device_list[device_index]->zones[zone_idx]->cols;;
+
+        if(first_run)
         {
-            zones[zone_count].name          = device_list[device_index]->zones[zone_id]->name;
-            zones[zone_count].type          = device_list[device_index]->zones[zone_id]->type;
+            zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+        }
 
-            zones[zone_count].leds_min      = 0;
-            zones[zone_count].leds_max      = device_list[device_index]->zones[zone_id]->rows * device_list[device_index]->zones[zone_id]->cols;
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+        {
+            zones[zone_idx].name                    = device_list[device_index]->zones[zone_idx]->name;;
+        }
 
-            if(first_run)
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+        {
+            zones[zone_idx].leds_count              = 0;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+        {
+            zones[zone_idx].type                    = device_list[device_index]->zones[zone_idx]->type;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+        {
+            if(device_list[device_index]->zones[zone_idx]->type == ZONE_TYPE_MATRIX)
             {
-                zones[zone_count].leds_count = 0;
-            }
+                zones[zone_idx].matrix_map.height = device_list[device_index]->zones[zone_idx]->rows;
+                zones[zone_idx].matrix_map.width  = device_list[device_index]->zones[zone_idx]->cols;
+                zones[zone_idx].matrix_map.map.resize(zones[zone_idx].matrix_map.height * zones[zone_idx].matrix_map.width);
 
-            if(zones[zone_count].type == ZONE_TYPE_MATRIX)
-            {
-                zones[zone_count].matrix_map.height = device_list[device_index]->zones[zone_id]->rows;
-                zones[zone_count].matrix_map.width  = device_list[device_index]->zones[zone_id]->cols;
-                zones[zone_count].matrix_map.map.resize(zones[zone_count].matrix_map.height * zones[zone_count].matrix_map.width);
-
-                for(unsigned int y = 0; y < zones[zone_count].matrix_map.height; y++)
+                for(unsigned int y = 0; y < zones[zone_idx].matrix_map.height; y++)
                 {
-                    for(unsigned int x = 0; x < zones[zone_count].matrix_map.width; x++)
+                    for(unsigned int x = 0; x < zones[zone_idx].matrix_map.width; x++)
                     {
-                        zones[zone_count].matrix_map.map[(y * zones[zone_count].matrix_map.width) + x] = (y * zones[zone_count].matrix_map.width) + x;
+                        zones[zone_idx].matrix_map.map[(y * zones[zone_idx].matrix_map.width) + x] = (y * zones[zone_idx].matrix_map.width) + x;
                     }
                 }
             }
-
-            zone_count++;
+            else
+            {
+                zones[zone_idx].matrix_map.width        = 0;
+                zones[zone_idx].matrix_map.height       = 0;
+                zones[zone_idx].matrix_map.map.resize(0);
+            }
         }
-    }
 
-    for(unsigned int zone_id = 0; zone_id < zones.size(); zone_id++)
-    {
-        for(unsigned int led_id = 0; led_id < zones[zone_id].leds_count; led_id++)
+        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led new_led;
-            new_led.name = "Channel " + std::to_string(zone_id + 1) + ", LED " + std::to_string(led_id + 1);
+            new_led.name = zones[zone_idx].name + + ", LED " + std::to_string(led_idx + 1);
 
             leds.push_back(new_led);
         }
@@ -215,21 +231,10 @@ void RGBController_RazerAddressable::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerAddressable::DeviceResizeZone(int zone, int new_size)
+void RGBController_RazerAddressable::DeviceConfigureZone(int zone_idx)
 {
-    /*---------------------------------------------------------*\
-    | Only the Razer Chroma Addressable RGB Controller supports |
-    | zone resizing                                             |
-    \*---------------------------------------------------------*/
-    if((size_t) zone >= zones.size())
+    if((size_t)zone_idx < zones.size())
     {
-        return;
-    }
-
-    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
-    {
-        zones[zone].leds_count = new_size;
-
         controller->SetAddressableZoneSizes(zones[0].leds_count,
                                             zones[1].leds_count,
                                             zones[2].leds_count,
@@ -243,10 +248,6 @@ void RGBController_RazerAddressable::DeviceResizeZone(int zone, int new_size)
 
 void RGBController_RazerAddressable::DeviceUpdateLEDs()
 {
-    /*---------------------------------------------------------*\
-    | Only the Razer Chroma Addressable RGB Controller supports |
-    | zone resizing                                             |
-    \*---------------------------------------------------------*/
     RGBColor    colors_buf[80 * 6];
 
     for(unsigned int zone_id = 0; zone_id < zones.size(); zone_id++)

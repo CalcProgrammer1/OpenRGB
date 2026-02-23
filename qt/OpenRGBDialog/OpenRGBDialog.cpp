@@ -1031,15 +1031,6 @@ void OpenRGBDialog::UpdateDevicesList()
                     SLOT(on_SetAllDevices(unsigned char, unsigned char, unsigned char)));
 
             /*---------------------------------------------*\
-            | Connect the page's Resize signal to the Save  |
-            | Size slot                                     |
-            \*---------------------------------------------*/
-            connect(NewPage,
-                    SIGNAL(SaveSizeProfile()),
-                    this,
-                    SLOT(on_SaveSizeProfile()));
-
-            /*---------------------------------------------*\
             | Connect the page's Refresh List signal to the |
             | Refresh List slot                             |
             \*---------------------------------------------*/
@@ -1393,19 +1384,6 @@ void OpenRGBDialog::on_SetAllDevices(unsigned char red, unsigned char green, uns
     for(int device = 0; device < ui->DevicesTabBar->count(); device++)
     {
         qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->SetCustomMode(red, green, blue);
-    }
-}
-
-void OpenRGBDialog::on_SaveSizeProfile()
-{
-    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
-
-    if(profile_manager != NULL)
-    {
-        /*-------------------------------------------------*\
-        | Save the profile                                  |
-        \*-------------------------------------------------*/
-        profile_manager->SaveSizes();
     }
 }
 

@@ -128,5 +128,4 @@ private slots:
 signals:
     void RefreshList();
     void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
-    void SaveSizeProfile();
 };

@@ -328,7 +328,7 @@ RGBController_JGINYUEInternalUSBV2::RGBController_JGINYUEInternalUSBV2(JGINYUEIn
     Hourglass.colors.resize(8);
     //modes.push_back(Hourglass);
 
-    InitZones();
+    SetupZones();
 }
 
 RGBController_JGINYUEInternalUSBV2::~RGBController_JGINYUEInternalUSBV2()
@@ -340,28 +340,102 @@ RGBController_JGINYUEInternalUSBV2::~RGBController_JGINYUEInternalUSBV2()
 
 void RGBController_JGINYUEInternalUSBV2::SetupZones()
 {
-    /*-------------------------------------------------*\
-    | Clear any existing color/LED configuration        |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \*-----------------------------------------------------*/
+    bool first_run = false;
+
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \*-----------------------------------------------------*/
     leds.clear();
     colors.clear();
 
-    /*-------------------------------------------------*\
-    | Set zones and leds                                |
-    \*-------------------------------------------------*/
     unsigned char normal_zone_count = controller->GetZoneCount();
     if((controller->support_Global_zone == true) && (normal_zone_count > 1))
     {
         normal_zone_count--;
         //TODO support_Global_zone
     }
+    zones.resize(normal_zone_count);
 
-    for(unsigned int zone_idx = 0; zone_idx < normal_zone_count; zone_idx++)
+    /*-----------------------------------------------------*\
+    | Set zones and leds                                    |
+    \*-----------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
+        std::string zone_name;
+
+        switch(controller->device_config[zone_idx].Area_ID)
+        {
+            case JGINYUE_USB_V2_ARGB_STRIP_1:
+                zone_name                           = "ARGB Strip Header 1";
+                break;
+            case JGINYUE_USB_V2_ARGB_STRIP_2:
+                zone_name                           = "ARGB Strip Header 2";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_1:
+                zone_name                           = "ARGB Fan Header 1";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_2:
+                zone_name                           = "ARGB Fan Header 2";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_3:
+                zone_name                           = "ARGB Fan Header 3";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_4:
+                zone_name                           = "ARGB Fan Header 4";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_5:
+                zone_name                           = "ARGB Fan Header 5";
+                break;
+            default:
+                zone_name                           = "Unknown Device";
+                break;
+        }
+
+        zones[zone_idx].leds_min                    = 0;
+        zones[zone_idx].leds_max                    = controller->device_config[zone_idx].Max_LED_numbers;
+
+        if(first_run)
+        {
+            zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+        {
+            zones[zone_idx].name                    = zone_name;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+        {
+            zones[zone_idx].leds_count              = 0;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+        {
+            zones[zone_idx].type                    = ZONE_TYPE_LINEAR;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+        {
+            zones[zone_idx].matrix_map.width        = 0;
+            zones[zone_idx].matrix_map.height       = 0;
+            zones[zone_idx].matrix_map.map.resize(0);
+        }
+
         for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led new_led;
-            new_led.name    = zones[zone_idx].name + " LED#" + std::to_string(led_idx + 1);
+            new_led.name    = zones[zone_idx].name + ", LED " + std::to_string(led_idx + 1);
             new_led.value   = 0;
             leds.push_back(new_led);
         }
@@ -370,23 +444,24 @@ void RGBController_JGINYUEInternalUSBV2::SetupZones()
     SetupColors();
 }
 
-void RGBController_JGINYUEInternalUSBV2::DeviceResizeZone(int zone, int new_size)
+void RGBController_JGINYUEInternalUSBV2::DeviceConfigureZone(int zone_idx)
 {
-    unsigned char area;
-
-    area = controller->device_config[zone].Area_ID;
-
-    zones[zone].leds_count = new_size;
-
-    SetupZones();
-
-    if(modes[active_mode].value == JGINYUE_USB_V2_MODE_DIRECT)
+    if((size_t)zone_idx < zones.size())
     {
-        controller->DirectLEDControl(zones[zone].colors, new_size, area);
-    }
-    else
-    {
-        controller->WriteZoneMode(area,modes[active_mode].value, new_size,modes[active_mode].colors, modes[active_mode].speed, modes[active_mode].brightness, modes[active_mode].direction);
+        unsigned char area;
+
+        area = controller->device_config[zone_idx].Area_ID;
+
+        SetupZones();
+
+        if(modes[active_mode].value == JGINYUE_USB_V2_MODE_DIRECT)
+        {
+            controller->DirectLEDControl(zones[zone_idx].colors, zones[zone_idx].leds_count, area);
+        }
+        else
+        {
+            controller->WriteZoneMode(area, modes[active_mode].value, zones[zone_idx].leds_count, modes[active_mode].colors, modes[active_mode].speed, modes[active_mode].brightness, modes[active_mode].direction);
+        }
     }
 }
 
@@ -456,57 +531,4 @@ void RGBController_JGINYUEInternalUSBV2::DeviceUpdateZoneMode(int zone)
         modes[active_mode].speed,
         modes[active_mode].brightness,
         modes[active_mode].direction);
-}
-
-void RGBController_JGINYUEInternalUSBV2::InitZones()
-{
-    unsigned char normal_zone_count = controller->GetZoneCount();
-    zones.clear();
-    zones.resize(normal_zone_count);
-
-    if((controller->support_Global_zone == true) && (normal_zone_count > 1))
-    {
-        normal_zone_count--;
-        //TODO support_Global_zone
-    }
-
-    for(size_t i = 0; i < normal_zone_count; i++)
-    {
-        zone * zone_to_init         = &(zones[i]);
-        AreaConfigurationV2 * cfg   = &(controller->device_config[i]);
-
-        zone_to_init->leds_min      = 0;
-        zone_to_init->leds_max      = cfg->Max_LED_numbers;
-        zone_to_init->leds_count    = 0;
-        zone_to_init->type          = ZONE_TYPE_LINEAR;
-
-        switch(cfg->Area_ID)
-        {
-            case JGINYUE_USB_V2_ARGB_STRIP_1:
-                zone_to_init->name = "ARGB Strip Header 1";
-                break;
-            case JGINYUE_USB_V2_ARGB_STRIP_2:
-                zone_to_init->name = "ARGB Strip Header 2";
-                break;
-            case JGINYUE_USB_V2_ARGB_FAN_1:
-                zone_to_init->name = "ARGB Fan Header 1";
-                break;
-            case JGINYUE_USB_V2_ARGB_FAN_2:
-                zone_to_init->name = "ARGB Fan Header 2";
-                break;
-            case JGINYUE_USB_V2_ARGB_FAN_3:
-                zone_to_init->name = "ARGB Fan Header 3";
-                break;
-            case JGINYUE_USB_V2_ARGB_FAN_4:
-                zone_to_init->name = "ARGB Fan Header 4";
-                break;
-            case JGINYUE_USB_V2_ARGB_FAN_5:
-                zone_to_init->name = "ARGB Fan Header 5";
-                break;
-            default:
-                zone_to_init->name = "Unknow Device";
-                break;
-        }
-    }
-    SetupZones();
 }
