@@ -31,7 +31,6 @@
 #include "i2c_smbus.h"
 #include "LogManager.h"
 #include "RGBController.h"
-#include "ProfileManager.h"
 #include "NetworkClient.h"
 #include "NetworkServer.h"
 
@@ -158,7 +157,6 @@ private slots:
     void onDetectionStarted();
     void onDetectionEnded();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
-    void on_SaveSizeProfile();
     void on_ShowHide();
     void onShowDialogMessage();
     void on_ReShow(QSystemTrayIcon::ActivationReason reason);

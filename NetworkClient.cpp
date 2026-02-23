@@ -562,6 +562,23 @@ void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, u
     send_in_progress.unlock();
 }
 
+void NetworkClient::SendRequest_RGBController_ConfigureZone(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, 0);
+    send_in_progress.unlock();
+}
+
 void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size)
 {
     if(change_in_progress)

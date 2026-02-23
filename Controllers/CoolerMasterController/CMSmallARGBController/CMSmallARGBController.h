@@ -74,14 +74,13 @@ enum
 class CMSmallARGBController
 {
 public:
-    CMSmallARGBController(hid_device* dev_handle, char *_path, unsigned char _zone_idx);
+    CMSmallARGBController(hid_device* dev_handle, char *_path);
     ~CMSmallARGBController();
 
     std::string         GetDeviceName();
     std::string         GetSerial();
     std::string         GetLocation();
 
-    unsigned char       GetZoneIndex();
     unsigned char       GetMode();
     unsigned char       GetLedRed();
     unsigned char       GetLedGreen();
@@ -97,7 +96,6 @@ private:
     std::string         location;
     hid_device*         dev;
 
-    unsigned char       zone_index;
     unsigned char       current_mode;
     unsigned char       current_speed;
 

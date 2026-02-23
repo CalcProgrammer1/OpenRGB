@@ -93,6 +93,92 @@ void RGBController_Network::AddSegment(int zone, segment new_segment)
     client->WaitOnControllerData();
 }
 
+void RGBController_Network::ConfigureZone(int zone_idx, zone new_zone)
+{
+    /*-----------------------------------------------------*\
+    | ConfigureZone was introduced in protocol version 6    |
+    | For previous protocols, call ResizeZone and           |
+    | ClearSegments/AddSegments.                            |
+    \*-----------------------------------------------------*/
+    if(client->GetProtocolVersion() < 6)
+    {
+        /*-------------------------------------------------*\
+        | Resize zone if size is manually configured        |
+        \*-------------------------------------------------*/
+        if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE)
+        {
+            ResizeZone(zone_idx, new_zone.leds_count);
+        }
+
+        /*-------------------------------------------------*\
+        | Update segments if segments manually configured   |
+        \*-------------------------------------------------*/
+        if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS)
+        {
+            ClearSegments(zone_idx);
+
+            for(std::size_t segment_idx = 0; segment_idx < new_zone.segments.size(); segment_idx++)
+            {
+                AddSegment(zone_idx, new_zone.segments[segment_idx]);
+            }
+        }
+
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock_shared();
+
+    /*-----------------------------------------------------*\
+    | Initialize variables                                  |
+    \*-----------------------------------------------------*/
+    unsigned int data_size                  = 0;
+
+    /*-----------------------------------------------------*\
+    | Calculate data size                                   |
+    \*-----------------------------------------------------*/
+    data_size                              += sizeof(data_size);
+    data_size                              += sizeof(zone);
+    data_size                              += GetZoneDescriptionSize(new_zone, client->GetProtocolVersion());
+
+    /*-----------------------------------------------------*\
+    | Create data buffer                                    |
+    \*-----------------------------------------------------*/
+    unsigned char * data_buf                = new unsigned char[data_size];
+    unsigned char * data_ptr                = data_buf;
+
+    /*-----------------------------------------------------*\
+    | Copy in data size                                     |
+    \*-----------------------------------------------------*/
+    memcpy(data_ptr, &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
+
+    /*-----------------------------------------------------*\
+    | Copy in zone index                                    |
+    \*-----------------------------------------------------*/
+    memcpy(data_ptr, &zone_idx, sizeof(zone_idx));
+    data_ptr += sizeof(zone_idx);
+
+    /*-----------------------------------------------------*\
+    | Copy in segment description                           |
+    \*-----------------------------------------------------*/
+    data_ptr                                = GetZoneDescriptionData(data_ptr, new_zone, client->GetProtocolVersion());
+
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock_shared();
+
+    client->SendRequest_RGBController_ConfigureZone(dev_id, data_buf, data_size);
+
+    delete[] data_buf;
+
+    client->SendRequest_ControllerData(dev_id);
+    client->WaitOnControllerData();
+}
+
 void RGBController_Network::ResizeZone(int zone, int new_size)
 {
     client->SendRequest_RGBController_ResizeZone(dev_id, zone, new_size);

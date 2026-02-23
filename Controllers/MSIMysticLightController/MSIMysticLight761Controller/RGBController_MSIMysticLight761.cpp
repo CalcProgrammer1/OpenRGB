@@ -104,12 +104,9 @@ int RGBController_MSIMysticLight761::GetDeviceMode()
 
 void RGBController_MSIMysticLight761::SetupZones()
 {
-    /*-------------------------------------------------*\
-    | Clear any existing color/LED configuration        |
-    \*-------------------------------------------------*/
-    leds.clear();
-    colors.clear();
-
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \*-----------------------------------------------------*/
     bool first_run = false;
 
     if(zones.size() == 0)
@@ -117,109 +114,109 @@ void RGBController_MSIMysticLight761::SetupZones()
         first_run = true;
     }
 
-    if(first_run)
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \*-----------------------------------------------------*/
+    leds.clear();
+    colors.clear();
+    zones.resize(zone_description.size());
+
+    /*-----------------------------------------------------*\
+    | Set up zones                                          |
+    \*-----------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        /*---------------------------------------------------------*\
-        | Set up zones                                              |
-        \*---------------------------------------------------------*/
-        for(std::size_t zone_idx = 0; zone_idx < zone_description.size(); ++zone_idx)
+        const ZoneDescription*  zd                      = zone_description[zone_idx];
+        unsigned int            maxLeds                 = (unsigned int)controller->GetMaxDirectLeds(zd->zone_type);
+
+        /*-------------------------------------------------*\
+        | This is a fixed size zone                         |
+        \*-------------------------------------------------*/
+        if(((zd->zone_type != MSI_ZONE_J_RAINBOW_1)
+         && (zd->zone_type != MSI_ZONE_J_RAINBOW_2)
+         && (zd->zone_type != MSI_ZONE_J_RAINBOW_3)
+         && (zd->zone_type != MSI_ZONE_J_CORSAIR)))
         {
-            const ZoneDescription* zd = zone_description[zone_idx];
-
-            zone new_zone;
-
-            new_zone.name           = zd->name;
-            new_zone.flags          = 0;
-
-            int maxLeds = (int)controller->GetMaxDirectLeds(zd->zone_type);
-
-            /*-------------------------------------------------*\
-            | This is a fixed size zone                         |
-            \*-------------------------------------------------*/
-            if(((zd->zone_type != MSI_ZONE_J_RAINBOW_1)
-                 && (zd->zone_type != MSI_ZONE_J_RAINBOW_2)
-                 && (zd->zone_type != MSI_ZONE_J_RAINBOW_3)
-                 && (zd->zone_type != MSI_ZONE_JAF)
-                 && (zd->zone_type != MSI_ZONE_JARGB_1)
-                 && (zd->zone_type != MSI_ZONE_JARGB_2)
-                 && (zd->zone_type != MSI_ZONE_JARGB_3)
-                 && (zd->zone_type != MSI_ZONE_J_CORSAIR)))
-            {
-                new_zone.leds_min   = maxLeds;
-                new_zone.leds_max   = maxLeds;
-                new_zone.leds_count = maxLeds;
-            }
-            /*--------------------------------------------------*\
-            | This is a resizable zone on a board that does not  |
-            | support per-LED direct mode                        |
-            \*--------------------------------------------------*/
-            else if(controller->GetSupportedDirectMode() == MSIMysticLight761Controller::DIRECT_MODE_ZONE_BASED)
-            {
-                new_zone.leds_min   = 0;
-                new_zone.leds_max   = 30;//maxLeds;
-                new_zone.leds_count = 0;
-                last_resizable_zone = zd->zone_type;
-                new_zone.flags     |= ZONE_FLAG_RESIZE_EFFECTS_ONLY;
-            }
-            /*--------------------------------------------------*\
-            | This is a resizable zone on a board that does      |
-            | support per-LED direct mode                        |
-            \*--------------------------------------------------*/
-            else
-            {
-                new_zone.leds_min   = 0;
-                new_zone.leds_max   = maxLeds;
-                new_zone.leds_count = 0;
-                last_resizable_zone = zd->zone_type;
-            }
-
-            /*-------------------------------------------------*\
-            | Determine zone type based on max number of LEDs   |
-            \*-------------------------------------------------*/
-            if((new_zone.leds_max == 1) || (new_zone.flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY))
-            {
-                new_zone.type       = ZONE_TYPE_SINGLE;
-            }
-            else
-            {
-                new_zone.type       = ZONE_TYPE_LINEAR;
-            }
-
-            zones.push_back(new_zone);
+            zones[zone_idx].name                        = zd->name;
+            zones[zone_idx].type                        = ZONE_TYPE_SINGLE;
+            zones[zone_idx].flags                       = 0;
+            zones[zone_idx].leds_min                    = maxLeds;
+            zones[zone_idx].leds_max                    = maxLeds;
+            zones[zone_idx].leds_count                  = maxLeds;
         }
-    }
+        /*--------------------------------------------------\
+        | This is a resizable zone on a board that does not |
+        | support per-LED direct mode                       |
+        \*-------------------------------------------------*/
+        else if(controller->GetSupportedDirectMode() == MSIMysticLight761Controller::DIRECT_MODE_ZONE_BASED)
+        {
+            zones[zone_idx].name                        = zd->name;
+            zones[zone_idx].type                        = ZONE_TYPE_SINGLE;
+            zones[zone_idx].flags                       = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY;
+            zones[zone_idx].leds_min                    = 0;
+            zones[zone_idx].leds_max                    = 30;//maxLeds;
+            zones[zone_idx].leds_count                  = 0;
+            last_resizable_zone                         = zd->zone_type;
+        }
+        /*--------------------------------------------------\
+        | This is a resizable zone on a board that does     |
+        | support per-LED direct mode                       |
+        \*-------------------------------------------------*/
+        else
+        {
+            zones[zone_idx].leds_min                    = 0;
+            zones[zone_idx].leds_max                    = maxLeds;
 
-    /*---------------------------------------------------------*\
-    | Set up LEDs                                               |
-    \*---------------------------------------------------------*/
-    for(std::size_t zone_idx = 0; zone_idx < zone_description.size(); ++zone_idx)
-    {
+            if(first_run)
+            {
+                zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+            }
+
+            if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+            {
+                zones[zone_idx].name                    = zd->name;
+            }
+
+            if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+            {
+                zones[zone_idx].leds_count              = 0;
+            }
+
+            if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+            {
+                zones[zone_idx].type                    = ZONE_TYPE_LINEAR;
+            }
+
+            if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+            {
+                zones[zone_idx].matrix_map.width        = 0;
+                zones[zone_idx].matrix_map.height       = 0;
+                zones[zone_idx].matrix_map.map.resize(0);
+            }
+
+            last_resizable_zone = zd->zone_type;
+        }
+
         controller->SetCycleCount(zone_description[zone_idx]->zone_type, zones[zone_idx].leds_count);
 
-        if((zones[zone_idx].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY) == 0)
+        if((zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY) == 0)
         {
-            for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; ++led_idx)
+            for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
             {
                 led new_led;
-
-                new_led.name = zones[zone_idx].name;
-
-                if(zones[zone_idx].leds_count > 1)
-                {
-                    new_led.name.append(" LED " + std::to_string(led_idx + 1));
-                }
-
-                new_led.value = zone_description[zone_idx]->zone_type;
+                new_led.name                            = zones[zone_idx].name + ", LED " + std::to_string(led_idx + 1);
+                new_led.value                           = zone_description[zone_idx]->zone_type;
                 leds.push_back(new_led);
             }
         }
         else if(zones[zone_idx].leds_count > 0)
         {
             led new_led;
-
-            new_led.name = zones[zone_idx].name;
-
-            new_led.value = zone_description[zone_idx]->zone_type;
+            new_led.name                                = zones[zone_idx].name;
+            new_led.value                               = zone_description[zone_idx]->zone_type;
             leds.push_back(new_led);
         }
     }
@@ -228,23 +225,13 @@ void RGBController_MSIMysticLight761::SetupZones()
 }
 
 
-void RGBController_MSIMysticLight761::DeviceResizeZone
-    (
-    int zone,
-    int new_size
-    )
+void RGBController_MSIMysticLight761::DeviceConfigureZone(int zone_idx)
 {
-    if((std::size_t)zone >= zones.size())
+    if((std::size_t)zone_idx < zones.size())
     {
-        return;
-    }
-
-    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
-    {
-        zones[zone].leds_count = new_size;
         SetupZones();
 
-        if(zone_description[zone]->zone_type == last_resizable_zone)
+        if(zone_description[zone_idx]->zone_type == last_resizable_zone)
         {
             GetDeviceConfig();
             last_resizable_zone = MSI_ZONE_NONE;
