@@ -51,22 +51,23 @@ static unsigned int matrix_map24[11][11] =
 
 RGBController_CorsairCommanderCore::RGBController_CorsairCommanderCore(CorsairCommanderCoreController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = controller->GetNameString();
-    vendor      = "Corsair";
-    description = "Corsair Commander Core Device";
-    version     = controller->GetFirmwareString();
-    type        = DEVICE_TYPE_COOLER;
-    location    = controller->GetLocationString();
-    SetupZones();
+    name                = controller->GetNameString();
+    vendor              = "Corsair";
+    description         = "Corsair Commander Core Device";
+    version             = controller->GetFirmwareString();
+    type                = DEVICE_TYPE_COOLER;
+    location            = controller->GetLocationString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    SetupZones();
 }
 
 RGBController_CorsairCommanderCore::~RGBController_CorsairCommanderCore()
@@ -78,31 +79,70 @@ RGBController_CorsairCommanderCore::~RGBController_CorsairCommanderCore()
 
 void RGBController_CorsairCommanderCore::SetupZones()
 {
-    std::atomic<bool> first_run;
-    first_run = 0;
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \*-----------------------------------------------------*/
+    bool first_run = false;
 
     if(zones.size() == 0)
     {
-        first_run = 1;
+        first_run = true;
     }
 
-    std::vector<unsigned short int> led_count = controller->GetLedCounts();
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \*-----------------------------------------------------*/
+    leds.clear();
+    colors.clear();
     zones.resize(7);
+
+    /*-----------------------------------------------------*\
+    | Set up zones                                          |
+    \*-----------------------------------------------------*/
+    std::vector<unsigned short int> led_count = controller->GetLedCounts();
+
     if(controller->GetPidInt() == CORSAIR_COMMANDER_CORE_XT_PID)
     {
-        zones[0].name                   = "External RGB Port";
-        zones[0].type                   = ZONE_TYPE_LINEAR;
-        zones[0].leds_min               = zones[0].leds_min;
-        zones[0].leds_max               = 204;
-        zones[0].leds_count             = zones[0].leds_count;
+        zones[0].leds_min                           = 0;
+        zones[0].leds_max                           = 204;
+
+        if(first_run)
+        {
+            zones[0].flags                          = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+        }
+
+        if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+        {
+            zones[0].name                           = "Corsair RGB Header";
+        }
+
+        if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+        {
+            zones[0].leds_count                     = 0;
+        }
+
+        if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+        {
+            zones[0].type                           = ZONE_TYPE_LINEAR;
+        }
+
+        if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+        {
+            zones[0].matrix_map.width               = 0;
+            zones[0].matrix_map.height              = 0;
+            zones[0].matrix_map.map.resize(0);
+        }
     }
     else
     {
-        zones[0].name                   = "Pump";
-        zones[0].type                   = ZONE_TYPE_MATRIX;
-        zones[0].leds_min               = led_count.at(0);
-        zones[0].leds_max               = led_count.at(0);
-        zones[0].leds_count             = led_count.at(0);
+        zones[0].name                               = "Pump";
+        zones[0].type                               = ZONE_TYPE_MATRIX;
+        zones[0].leds_min                           = led_count.at(0);
+        zones[0].leds_max                           = led_count.at(0);
+        zones[0].leds_count                         = led_count.at(0);
 
         if(led_count.at(0) == 24)
         {
@@ -114,28 +154,51 @@ void RGBController_CorsairCommanderCore::SetupZones()
         }
     }
 
-    for(unsigned int i = 1; i < (CORSAIR_COMMANDER_CORE_NUM_CHANNELS + 1); i++)
+    for(unsigned int zone_idx = 1; zone_idx < (CORSAIR_COMMANDER_CORE_NUM_CHANNELS + 1); zone_idx++)
     {
-        zones[i].name               = "RGB Port " + std::to_string(i);
-        zones[i].type               = ZONE_TYPE_LINEAR;
-        zones[i].leds_min           = 0;
-        zones[i].leds_max           = 34;
+        zones[zone_idx].leds_min                    = 0;
+        zones[zone_idx].leds_max                    = 34;
 
         if(first_run)
         {
-            zones[i].leds_count     = (led_count.size() > i) ? led_count.at(i) : 0;
+            zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+        {
+            zones[zone_idx].name                    = "Corsair Fan Header " + std::to_string(zone_idx);
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
+        {
+            zones[zone_idx].leds_count              = 0;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+        {
+            zones[zone_idx].type                    = ZONE_TYPE_LINEAR;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+        {
+            zones[zone_idx].matrix_map.width        = 0;
+            zones[zone_idx].matrix_map.height       = 0;
+            zones[zone_idx].matrix_map.map.resize(0);
         }
     }
 
-    leds.clear();
-    colors.clear();
-
+    /*-----------------------------------------------------*\
+    | Set up LEDs                                           |
+    \*-----------------------------------------------------*/
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led new_led;
-            new_led.name            = zones[zone_idx].name + " LED " + std::to_string(led_idx+1);
+            new_led.name            = zones[zone_idx].name + ", LED " + std::to_string(led_idx+1);
 
             leds.push_back(new_led);
         }
@@ -144,28 +207,23 @@ void RGBController_CorsairCommanderCore::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairCommanderCore::DeviceResizeZone(int zone, int new_size)
+void RGBController_CorsairCommanderCore::DeviceConfigureZone(int zone_idx)
 {
-    if((size_t) zone >= zones.size())
+    if((size_t)zone_idx < zones.size())
     {
-        return;
-    }
-
-    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
-    {
-        zones[zone].leds_count = new_size;
-        if(zone == 0 && controller->GetPidInt() == CORSAIR_COMMANDER_CORE_XT_PID)
+        if(zone_idx == 0 && controller->GetPidInt() == CORSAIR_COMMANDER_CORE_XT_PID)
         {
-            if(new_size > 0)
+            if(zones[zone_idx].leds_count > 0)
             {
                 controller->SetFanMode(true);
-                controller->SetLedAmount(new_size);
+                controller->SetLedAmount(zones[zone_idx].leds_count);
             }
             else
             {
                 controller->SetFanMode(false);
             }
         }
+
         SetupZones();
     }
 }

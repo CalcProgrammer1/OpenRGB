@@ -220,10 +220,8 @@ void RGBController_CMARGBGen2A1Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMARGBGen2A1Controller::DeviceResizeZone(int zone, int new_size)
+void RGBController_CMARGBGen2A1Controller::DeviceConfigureZone(int zone_idx)
 {
-    zones[zone].leds_count = new_size;
-
     unsigned int total_leds = 0;
 
     for(unsigned int channel = 0; channel < CM_ARGB_GEN2_A1_CHANNEL_COUNT; channel++)
@@ -238,7 +236,7 @@ void RGBController_CMARGBGen2A1Controller::DeviceResizeZone(int zone, int new_si
         leds[i].name = "LED " + std::to_string(i + 1);
     }
 
-    controller->SetupZoneSize(zone, new_size);
+    controller->SetupZoneSize(zone_idx, zones[zone_idx].leds_count);
 
     SetupColors();
 }

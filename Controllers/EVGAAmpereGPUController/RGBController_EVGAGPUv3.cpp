@@ -257,9 +257,9 @@ void RGBController_EVGAGPUv3::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGPUv3::DeviceResizeZone(int /*zone*/, int newSize)
+void RGBController_EVGAGPUv3::DeviceConfigureZone(int zone_idx)
 {
-    controller->ResizeARGB(newSize);
+    controller->ResizeARGB(zones[zone_idx].leds_count);
 }
 
 void RGBController_EVGAGPUv3::DeviceUpdateLEDs()
