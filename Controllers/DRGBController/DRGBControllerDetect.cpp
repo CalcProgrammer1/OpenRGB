@@ -23,10 +23,6 @@ DetectedControllers DetectDRGBControllers(hid_device_info* info, const std::stri
 
     if(dev)
     {
-        wchar_t product[128];
-        hid_get_product_string(dev, product, 128);
-        std::wstring product_str(product);
-
         DRGBController*     controller              = new DRGBController(dev, info->path, info->product_id, name);
         RGBController_DRGB* rgb_controller          = new RGBController_DRGB(controller);
 
@@ -55,7 +51,7 @@ REGISTER_HID_DETECTOR("DeepRGB C16 V5F",            DetectDRGBControllers, DRGBV
 REGISTER_HID_DETECTOR("DeepRGB S16 V5F",            DetectDRGBControllers, DRGBV4_VID,  DRGB_S16_V5F_PID);
 
 REGISTER_HID_DETECTOR("DeepRGB LED",                DetectDRGBControllers, DRGBV3_VID,  DRGB_LED_V3_PID);
-REGISTER_HID_DETECTOR("DeepRGB Ultra V3",           DetectDRGBControllers, DRGBV3_VID,  DRGB_Ultra_V3_PID);
+REGISTER_HID_DETECTOR("DeepRGB Ultra V3",           DetectDRGBControllers, DRGBV3_VID,  DRGB_ULTRA_V3_PID);
 REGISTER_HID_DETECTOR("DeepRGB CORE V3",            DetectDRGBControllers, DRGBV3_VID,  DRGB_CORE_V3_PID);
 REGISTER_HID_DETECTOR("DeepRGB E8 F",               DetectDRGBControllers, DRGBV3_VID,  DRGB_E8_F_PID);
 REGISTER_HID_DETECTOR("DeepRGB E8",                 DetectDRGBControllers, DRGBV3_VID,  DRGB_E8_PID);
@@ -67,7 +63,7 @@ REGISTER_HID_DETECTOR("DeepRGB LED Controller",     DetectDRGBControllers, DRGBV
 REGISTER_HID_DETECTOR("DeepRGB ULTRA",              DetectDRGBControllers, DRGBV2_VID,  DRGB_ULTRA_PID);
 REGISTER_HID_DETECTOR("DeepRGB SIG AB",             DetectDRGBControllers, DRGBV2_VID,  DRGB_SIG_AB_PID);
 REGISTER_HID_DETECTOR("DeepRGB SIG CD",             DetectDRGBControllers, DRGBV2_VID,  DRGB_SIG_CD_PID);
-REGISTER_HID_DETECTOR("DeepRGB Strimer Controller", DetectDRGBControllers, DRGBV2_VID,  DRGB_Strimer_PID);
+REGISTER_HID_DETECTOR("DeepRGB Strimer Controller", DetectDRGBControllers, DRGBV2_VID,  DRGB_STRIMER_PID);
 
 REGISTER_HID_DETECTOR("YICO 8 ELITE",               DetectDRGBControllers, YICO_VID,    YICO_8_PID);
 REGISTER_HID_DETECTOR("YICO 08 ELITE",              DetectDRGBControllers, YICO_VID,    YICO_08_PID);

@@ -87,6 +87,7 @@ segment::segment()
     type        = 0;
     start_idx   = 0;
     leds_count  = 0;
+    flags       = 0;
 }
 
 segment::~segment()
@@ -229,6 +230,20 @@ void RGBController::SetHidden(bool hidden)
 /*---------------------------------------------------------*\
 | Zone Functions                                            |
 \*---------------------------------------------------------*/
+zone RGBController::GetZone(unsigned int zone_idx)
+{
+    zone zone_copy;
+
+    AccessMutex.lock_shared();
+    if(zone_idx < zones.size())
+    {
+        zone_copy = zones[zone_idx];
+    }
+    AccessMutex.unlock_shared();
+
+    return(zone_copy);
+}
+
 int RGBController::GetZoneActiveMode(unsigned int zone)
 {
     int active_mode;
@@ -314,7 +329,7 @@ unsigned int RGBController::GetZoneLEDsCount(unsigned int zone)
     {
         leds_count = zones[zone].leds_count;
 
-        if((zones[zone].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY) && (leds_count > 1))
+        if((zones[zone].flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY) && (leds_count > 1))
         {
             leds_count = 1;
         }
@@ -1805,7 +1820,7 @@ void RGBController::ClearSegments(int zone)
     zones[zone].segments.clear();
     AccessMutex.unlock();
 
-    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED;
+    zones[zone].flags &= ~ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS);
 }
@@ -1816,18 +1831,83 @@ void RGBController::AddSegment(int zone, segment new_segment)
     zones[zone].segments.push_back(new_segment);
     AccessMutex.unlock();
 
-    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED;
+    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT);
 }
 
-void RGBController::ResizeZone(int zone, int new_size)
+void RGBController::ConfigureZone(int zone_idx, zone new_zone)
 {
     AccessMutex.lock();
-    DeviceResizeZone(zone, new_size);
+
+    if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE)
+    {
+        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
+        zones[zone_idx].leds_count  = new_zone.leds_count;
+    }
+    else
+    {
+        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
+        new_zone.leds_count         = 0;
+    }
+
+    if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME)
+    {
+        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_NAME;
+        zones[zone_idx].name        = new_zone.name;
+    }
+    else
+    {
+        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_NAME;
+    }
+
+    if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE)
+    {
+        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_TYPE;
+        zones[zone_idx].type        = new_zone.type;
+    }
+    else
+    {
+        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_TYPE;
+    }
+
+    if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP)
+    {
+        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP;
+        zones[zone_idx].matrix_map  = new_zone.matrix_map;
+    }
+    else
+    {
+        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP;
+    }
+
+    if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER)
+    {
+        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER;
+        zones[zone_idx].color_order = new_zone.color_order;
+    }
+    else
+    {
+        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER;
+    }
+
+    DeviceConfigureZone(zone_idx);
+
     AccessMutex.unlock();
 
-    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED;
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_RESIZEZONE);
+}
+
+void RGBController::ResizeZone(int zone_idx, int new_size)
+{
+    zone new_zone           = zones[zone_idx];
+
+    new_zone.leds_count     = new_size;
+    new_zone.flags         |= ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
+
+    AccessMutex.lock();
+    ConfigureZone(zone_idx, new_zone);
+    AccessMutex.unlock();
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_RESIZEZONE);
 }
@@ -1841,7 +1921,7 @@ unsigned int RGBController::LEDsInZone(unsigned int zone)
 
     leds_count = zones[zone].leds_count;
 
-    if(zones[zone].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY)
+    if(zones[zone].flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY)
     {
         if(leds_count > 1)
         {
@@ -1913,7 +1993,7 @@ void RGBController::UpdateLEDsInternal()
 /*---------------------------------------------------------*\
 | Functions to be implemented in device implementation      |
 \*---------------------------------------------------------*/
-void RGBController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController::DeviceConfigureZone(int /*zone_idx*/)
 {
     /*-----------------------------------------------------*\
     | If not implemented by controller, does nothing        |
@@ -2543,7 +2623,7 @@ unsigned char * RGBController::GetSegmentDescriptionData(unsigned char* data_ptr
     data_ptr += sizeof(segment.leds_count);
 
     /*-----------------------------------------------------*\
-    | Segment matrix map data                               |
+    | Segment matrix map data and segment flags             |
     \*-----------------------------------------------------*/
     if(protocol_version >= 6)
     {
@@ -2553,6 +2633,9 @@ unsigned char * RGBController::GetSegmentDescriptionData(unsigned char* data_ptr
         data_ptr += sizeof(matrix_map_size);
 
         data_ptr                            = GetMatrixMapDescriptionData(data_ptr, segment.matrix_map, protocol_version);
+
+        memcpy(data_ptr, &segment.flags, sizeof(segment.flags));
+        data_ptr += sizeof(segment.flags);
     }
 
     return(data_ptr);
@@ -2576,12 +2659,13 @@ unsigned int RGBController::GetSegmentDescriptionSize(segment segment, unsigned 
     data_size                              += sizeof(segment.leds_count);
 
     /*-----------------------------------------------------*\
-    | Matrix map size                                       |
+    | Matrix map size and segment flags size                |
     \*-----------------------------------------------------*/
     if(protocol_version >= 6)
     {
         data_size                          += sizeof(unsigned short);
         data_size                          += GetMatrixMapDescriptionSize(segment.matrix_map, protocol_version);
+        data_size                          += sizeof(segment.flags);
     }
 
     return(data_size);
@@ -2615,7 +2699,7 @@ unsigned char * RGBController::GetZoneDescriptionData(unsigned char* data_ptr, z
     | overwrite the leds_min/max/count parameters to 1 so   |
     | that the zone appears a fixed size to older clients.  |
     \*-----------------------------------------------------*/
-    if((zone.flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY) && (protocol_version < 5))
+    if((zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY) && (protocol_version < 5))
     {
         /*-------------------------------------------------*\
         | Create a temporary variable to hold the fixed     |
@@ -2726,6 +2810,12 @@ unsigned char * RGBController::GetZoneDescriptionData(unsigned char* data_ptr, z
         {
             data_ptr = GetModeDescriptionData(data_ptr, zone.modes[mode_index], protocol_version);
         }
+
+        /*-------------------------------------------------*\
+        | Copy in color order                               |
+        \*-------------------------------------------------*/
+        memcpy(data_ptr, &zone.color_order, sizeof(zone.color_order));
+        data_ptr += sizeof(zone.color_order);
     }
 
     return(data_ptr);
@@ -2777,7 +2867,7 @@ unsigned int RGBController::GetZoneDescriptionSize(zone zone, unsigned int proto
     }
 
     /*-----------------------------------------------------*\
-    | Zone modes                                            |
+    | Zone modes and color order                            |
     \*-----------------------------------------------------*/
     if(protocol_version >= 6)
     {
@@ -2790,6 +2880,8 @@ unsigned int RGBController::GetZoneDescriptionSize(zone zone, unsigned int proto
         {
             data_size                      += GetModeDescriptionSize(zone.modes[mode_index], protocol_version);
         }
+
+        data_size                          += sizeof(zone.color_order);
     }
 
     return(data_size);
@@ -3208,6 +3300,12 @@ unsigned char* RGBController::SetSegmentDescription(unsigned char* data_ptr, seg
         {
             data_ptr = SetMatrixMapDescription(data_ptr, &segment->matrix_map, protocol_version);
         }
+
+        /*-------------------------------------------------*\
+        | Copy in segment flags                             |
+        \*-------------------------------------------------*/
+        memcpy(&segment->flags, data_ptr, sizeof(segment->flags));
+        data_ptr += sizeof(segment->flags);
     }
 
     return(data_ptr);
@@ -3350,6 +3448,12 @@ unsigned char* RGBController::SetZoneDescription(unsigned char* data_ptr, zone* 
         {
             data_ptr = SetModeDescription(data_ptr, &zone->modes[mode_index], protocol_version);
         }
+
+        /*-------------------------------------------------*\
+        | Copy in color order                               |
+        \*-------------------------------------------------*/
+        memcpy(&zone->color_order, data_ptr, sizeof(zone->color_order));
+        data_ptr += sizeof(zone->color_order);
     }
 
     return(data_ptr);
@@ -3505,6 +3609,7 @@ nlohmann::json RGBController::GetSegmentDescriptionJSON(segment segment)
     segment_json["start_idx"]                                   = segment.start_idx;
     segment_json["leds_count"]                                  = segment.leds_count;
     segment_json["matrix_map"]                                  = GetMatrixMapDescriptionJSON(segment.matrix_map);
+    segment_json["flags"]                                       = segment.flags;
 
     return(segment_json);
 }
@@ -3539,6 +3644,8 @@ nlohmann::json RGBController::GetZoneDescriptionJSON(zone zone)
     {
         zone_json["active_mode"]                                = zone.active_mode;
     }
+
+    zone_json["color_order"]                                    = zone.color_order;
 
     return(zone_json);
 }
@@ -3839,6 +3946,11 @@ segment RGBController::SetSegmentDescriptionJSON(nlohmann::json segment_json)
         new_segment.matrix_map                              = SetMatrixMapDescriptionJSON(segment_json["matrix_map"]);
     }
 
+    if(segment_json.contains("flags"))
+    {
+        new_segment.flags                                   = segment_json["flags"];
+    }
+
     return(new_segment);
 }
 
@@ -3907,6 +4019,11 @@ zone RGBController::SetZoneDescriptionJSON(nlohmann::json zone_json)
     if(zone_json.contains("active_mode"))
     {
         new_zone.active_mode                                = zone_json["active_mode"];
+    }
+
+    if(zone_json.contains("color_order"))
+    {
+        new_zone.color_order                                = zone_json["color_order"];
     }
 
     return(new_zone);
