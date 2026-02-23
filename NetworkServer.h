@@ -239,6 +239,7 @@ private:
 
     void                                ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
     void                                ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    void                                ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
     void                                ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
     void                                ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version);
     void                                ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);

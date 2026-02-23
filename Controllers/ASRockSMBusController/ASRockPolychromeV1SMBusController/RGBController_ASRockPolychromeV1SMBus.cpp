@@ -298,10 +298,9 @@ void RGBController_ASRockPolychromeV1SMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_ASRockPolychromeV1SMBus::DeviceResizeZone(int zone, int new_size)
+void RGBController_ASRockPolychromeV1SMBus::DeviceConfigureZone(int zone_idx)
 {
-    LOG_TRACE("[%s] DeviceResizeZone(%02X, %02X)", name.c_str(), zone, new_size);
-    controller-> SetARGBSize(new_size & 0xFF);
+    controller-> SetARGBSize(zones[zone_idx].leds_count & 0xFF);
     zones[POLYCHROME_V1_ZONE_ADDRESSABLE].leds_count = 1;
 }
 

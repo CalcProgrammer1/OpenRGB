@@ -213,11 +213,32 @@ bool ProfileManager::CompareControllers(RGBController* controller_1, RGBControll
     {
         for(std::size_t zone_index = 0; zone_index < controller_1->zones.size(); zone_index++)
         {
-            if((controller_1->GetZoneName(zone_index)      != controller_2->GetZoneName(zone_index)     )
-            || (controller_1->GetZoneType(zone_index)      != controller_2->GetZoneType(zone_index)     )
-            || (controller_1->GetZoneLEDsMin(zone_index)   != controller_2->GetZoneLEDsMin(zone_index)  )
-            || (controller_1->GetZoneLEDsMax(zone_index)   != controller_2->GetZoneLEDsMax(zone_index)  )
-            || (controller_1->GetZoneModeCount(zone_index) != controller_2->GetZoneModeCount(zone_index)))
+            bool    check_zone_name = true;
+            bool    check_zone_type = true;
+
+            /*---------------------------------------------*\
+            | Do not check zone name if manually configured |
+            \*---------------------------------------------*/
+            if((controller_1->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED_NAME)
+            || (controller_2->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+            {
+                check_zone_name = false;
+            }
+
+            /*---------------------------------------------*\
+            | Do not check zone type if manually configured |
+            \*---------------------------------------------*/
+            if((controller_1->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE)
+            || (controller_2->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+            {
+                check_zone_type = false;
+            }
+
+            if((check_zone_name && (controller_1->GetZoneName(zone_index)      != controller_2->GetZoneName(zone_index)     ))
+            || (check_zone_type && (controller_1->GetZoneType(zone_index)      != controller_2->GetZoneType(zone_index)     ))
+            ||                     (controller_1->GetZoneLEDsMin(zone_index)   != controller_2->GetZoneLEDsMin(zone_index)  )
+            ||                     (controller_1->GetZoneLEDsMax(zone_index)   != controller_2->GetZoneLEDsMax(zone_index)  )
+            ||                     (controller_1->GetZoneModeCount(zone_index) != controller_2->GetZoneModeCount(zone_index)))
             {
                 return(false);
             }
@@ -828,7 +849,7 @@ bool ProfileManager::SaveSizes()
 
         for(std::size_t zone_index = 0; zone_index < controllers[controller_index]->GetZoneCount(); zone_index++)
         {
-            if(controllers[controller_index]->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED)
+            if(controllers[controller_index]->GetZoneFlags(zone_index) & ZONE_FLAGS_MANUALLY_CONFIGURED)
             {
             /*---------------------------------------------*\
             | Read the controller data for this controller  |
@@ -1100,17 +1121,37 @@ bool ProfileManager::LoadControllerFromListWithOptions
                 {
                     for(std::size_t zone_idx = 0; zone_idx < profile_controller->zones.size(); zone_idx++)
                     {
-                        if((profile_controller->GetZoneName(zone_idx)      == load_controller->GetZoneName(zone_idx)     )
-                         &&(profile_controller->GetZoneType(zone_idx)      == load_controller->GetZoneType(zone_idx)     )
-                         &&(profile_controller->GetZoneLEDsMin(zone_idx)   == load_controller->GetZoneLEDsMin(zone_idx)  )
-                         &&(profile_controller->GetZoneLEDsMax(zone_idx)   == load_controller->GetZoneLEDsMax(zone_idx)  ))
-                        {
-                            if(profile_controller->GetZoneLEDsCount(zone_idx) != load_controller->GetZoneLEDsCount(zone_idx))
-                            {
-                                load_controller->ResizeZone((int)zone_idx, profile_controller->zones[zone_idx].leds_count);
-                            }
+                        bool    check_zone_name = true;
+                        bool    check_zone_type = true;
 
-                            if(profile_controller->zones[zone_idx].segments.size() != load_controller->zones[zone_idx].segments.size())
+                        /*---------------------------------*\
+                        | Do not check zone name if         |
+                        | manually configured               |
+                        \*---------------------------------*/
+                        if((profile_controller->GetZoneFlags(zone_idx) & ZONE_FLAG_MANUALLY_CONFIGURED_NAME)
+                        || (load_controller->GetZoneFlags(zone_idx) & ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME))
+                        {
+                            check_zone_name = false;
+                        }
+
+                        /*---------------------------------*\
+                        | Do not check zone type if         |
+                        | manually configured               |
+                        \*---------------------------------*/
+                        if((profile_controller->GetZoneFlags(zone_idx) & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE)
+                        || (load_controller->GetZoneFlags(zone_idx) & ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE))
+                        {
+                            check_zone_type = false;
+                        }
+
+                        if((!check_zone_name || (profile_controller->GetZoneName(zone_idx)      == load_controller->GetZoneName(zone_idx)     ))
+                        && (!check_zone_type || (profile_controller->GetZoneType(zone_idx)      == load_controller->GetZoneType(zone_idx)     ))
+                        &&                      (profile_controller->GetZoneLEDsMin(zone_idx)   == load_controller->GetZoneLEDsMin(zone_idx)  )
+                        &&                      (profile_controller->GetZoneLEDsMax(zone_idx)   == load_controller->GetZoneLEDsMax(zone_idx)  ))
+                        {
+                            load_controller->ConfigureZone(zone_idx, profile_controller->zones[zone_idx]);
+
+                            if(profile_controller->GetZoneFlags(zone_idx) & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS)
                             {
                                 load_controller->zones[zone_idx].segments.clear();
 
