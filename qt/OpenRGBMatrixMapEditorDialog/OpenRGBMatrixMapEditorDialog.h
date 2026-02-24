@@ -31,9 +31,8 @@ public:
 
 private slots:
     void changeEvent(QEvent *event);
-
+    void on_ButtonAutoGenerate_clicked();
     void on_LineEditHeight_textChanged(const QString &arg1);
-
     void on_LineEditWidth_textChanged(const QString &arg1);
 
 private:
