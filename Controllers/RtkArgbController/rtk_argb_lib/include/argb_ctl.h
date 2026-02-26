@@ -35,7 +35,7 @@
 #pragma pack(1)
 
 #define ARGBCTL_SIG			0x41524742
-#define ARGBCTL_VER			0x3
+#define ARGBCTL_VER			0x4
 
 #define ARGBCTL_EFF_MAX_NUM		5
 #define ARGBCTL_ARGB_MAX		400
@@ -117,7 +117,10 @@ typedef struct argbCtlHeader {
 	uint32_t mdl_size;
 	uint16_t rgb_num[NUM_ARGB_GRP];
 	uint16_t bright[NUM_ARGB_GRP];
-	uint8_t reserved[28];
+	uint32_t dmat_addr;                       // version 4: dot matrix
+	uint16_t all_dmat_size;
+	uint16_t num_dmat;
+	uint8_t reserved[20];
 } argbCtlHeader;
 
 /**
