@@ -329,7 +329,7 @@ void LianLiUniHubSLController::SendMerge()
 void LianLiUniHubSLController::SendColor(size_t channel, const unsigned char *colors, size_t num_colors)
 {
     unsigned char* buf = new unsigned char[2 + num_colors];
-    memset(buf, 0x00, sizeof(buf));
+    memset(buf, 0x00, (2 + num_colors));
 
     buf[0x00] = UNIHUB_SL_REPORT_ID;
     buf[0x01] = 0x30 + channel; // Channel 1: 0x30, Channel 2: 0x31, etc.
