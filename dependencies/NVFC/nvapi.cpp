@@ -13,96 +13,96 @@ typedef void * (*nvapi_QueryInterface_t)(int);
 // Constructors for NvAPI structures that just zero the memory and set the right version
 NV_DELTA_ENTRY::NV_DELTA_ENTRY()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 }
 
 NV_GPU_PSTATES20_V2::NV_GPU_PSTATES20_V2()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_PSTATES20_V2, 2);
 }
 
 NV_CLOCK_FREQUENCIES_V2::NV_CLOCK_FREQUENCIES_V2()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_CLOCK_FREQUENCIES_V2, 2);
 }
 
 NV_GPU_PERFORMANCE_TABLE_V1::NV_GPU_PERFORMANCE_TABLE_V1()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_PERFORMANCE_TABLE_V1, 1);
 }
 
 NV_DYNAMIC_PSTATES_V1::NV_DYNAMIC_PSTATES_V1()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_DYNAMIC_PSTATES_V1, 1);
 }
 
 NV_GPU_POWER_POLICIES_INFO_V1::NV_GPU_POWER_POLICIES_INFO_V1()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_POWER_POLICIES_INFO_V1, 1);
 }
 
 NV_GPU_POWER_POLICIES_STATUS_V1::NV_GPU_POWER_POLICIES_STATUS_V1()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_POWER_POLICIES_STATUS_V1, 1);
 }
 
 NV_GPU_VOLTAGE_DOMAINS_STATUS_V1::NV_GPU_VOLTAGE_DOMAINS_STATUS_V1()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_VOLTAGE_DOMAINS_STATUS_V1, 1);
 }
 
 NV_GPU_THERMAL_SETTINGS_V2::NV_GPU_THERMAL_SETTINGS_V2()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_THERMAL_SETTINGS_V2, 2);
 }
 
 NV_GPU_THERMAL_POLICIES_INFO_V2::NV_GPU_THERMAL_POLICIES_INFO_V2()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_THERMAL_POLICIES_INFO_V2, 2);
 }
 
 NV_GPU_THERMAL_POLICIES_STATUS_V2::NV_GPU_THERMAL_POLICIES_STATUS_V2()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_THERMAL_POLICIES_STATUS_V2, 2);
 }
 
 NV_GPU_COOLER_SETTINGS_V2::NV_GPU_COOLER_SETTINGS_V2()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_COOLER_SETTINGS_V2, 2);
 }
 
 NV_GPU_COOLER_LEVELS_V1::NV_GPU_COOLER_LEVELS_V1()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_GPU_COOLER_LEVELS_V1, 1);
 }
 
 NV_MEMORY_INFO_V2::NV_MEMORY_INFO_V2()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_MEMORY_INFO_V2, 2);
 }
 
 NV_DISPLAY_DRIVER_VERSION_V1::NV_DISPLAY_DRIVER_VERSION_V1()
 {
-	memset(this, 0, sizeof *this);
+	memset((void*)this, 0, sizeof *this);
 	version = NV_STRUCT_VERSION(NV_DISPLAY_DRIVER_VERSION_V1, 1);
 }
 
 NV_I2C_INFO_V3::NV_I2C_INFO_V3()
 {
-	memset(this, 0, sizeof * this);
+	memset((void*)this, 0, sizeof * this);
 	version = NV_STRUCT_VERSION(NV_I2C_INFO_V3, 3);
 }
 
@@ -268,7 +268,7 @@ static bool QueryInterfaceOpaque(nvapi_QueryInterface_t query_interface, NV_U32 
 template<typename F>
 static void QueryInterfaceCast(nvapi_QueryInterface_t query_interface, NV_U32 id, const char */*function_name*/, F &function_pointer)
 {
-	const bool result = QueryInterfaceOpaque(query_interface, id, (void **)&function_pointer);
+	/*const bool result = */QueryInterfaceOpaque(query_interface, id, (void **)&function_pointer);
     ////Log::write("%s querying interface '0x%08x' '%s'", result ? "success" : "failure", id, function_name);
 }
 
