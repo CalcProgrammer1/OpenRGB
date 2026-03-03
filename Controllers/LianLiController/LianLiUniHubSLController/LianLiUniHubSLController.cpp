@@ -291,7 +291,7 @@ void LianLiUniHubSLController::SendActivate(size_t channel, unsigned char num_fa
     buf[0x00] = UNIHUB_SL_REPORT_ID;
     buf[0x01] = 0x10;
     buf[0x02] = 0x32;
-    buf[0x03] = 0x10 * channel + num_fans;
+    buf[0x03] = 0x10 * (unsigned char)channel + num_fans;
 
     this->LogBuffer("SendActivate", buf, sizeof(buf));
 
@@ -332,7 +332,7 @@ void LianLiUniHubSLController::SendColor(size_t channel, const unsigned char *co
     memset(buf, 0x00, (2 + num_colors));
 
     buf[0x00] = UNIHUB_SL_REPORT_ID;
-    buf[0x01] = 0x30 + channel; // Channel 1: 0x30, Channel 2: 0x31, etc.
+    buf[0x01] = 0x30 + (unsigned char)channel; // Channel 1: 0x30, Channel 2: 0x31, etc.
 
     memcpy(&buf[0x02], colors, num_colors);
 
@@ -350,7 +350,7 @@ void LianLiUniHubSLController::SendMode(size_t channel, const mode &active)
     memset(buf, 0x00, sizeof(buf));
 
     buf[0x00] = UNIHUB_SL_REPORT_ID;
-    buf[0x01] = 0x10 + channel; // Channel 1: 0x10, Channel 2: 0x11, etc.
+    buf[0x01] = 0x10 + (unsigned char)channel; // Channel 1: 0x10, Channel 2: 0x11, etc.
     buf[0x02] = active.value;
     buf[0x03] = this->ConvertSpeed(active.speed);
     buf[0x04] = this->ConvertDirection(active.direction);
