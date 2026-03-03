@@ -66,7 +66,7 @@ std::string LianLiUniversalScreenController::GetVersion()
 
 void LianLiUniversalScreenController::SetLedColors(RGBColor* colors, size_t count)
 {
-    unsigned char leds_in_packet    = 20;
+    std::size_t   leds_in_packet    = 20;
     unsigned char offset            = 0;
     unsigned char usb_buf[64];
 
@@ -91,7 +91,7 @@ void LianLiUniversalScreenController::SetLedColors(RGBColor* colors, size_t coun
             usb_buf[6 + (led_idx * 3)] = RGBGetBValue(colors[offset + led_idx]);
         }
 
-        offset += leds_in_packet;
+        offset += (unsigned char)leds_in_packet;
 
         int actual_length = sizeof(usb_buf);
         libusb_bulk_transfer(dev, 1, usb_buf, sizeof(usb_buf), &actual_length, 25);
