@@ -93,6 +93,16 @@ void RGBController_DRGB::SetupZones()
             NUM_Channel_led = 256;
             Version         = 4;
             break;
+        case DRGB_AG_08_PID:
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 256;
+            Version         = 4;
+            break;
+        case DRGB_AG_08_F08_PID:
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 256;
+            Version         = 4;
+            break;
         case DRGB_AG_16_V4F_PID:
             NUM_CHANNELS    = 16;
             NUM_Channel_led = 256;
