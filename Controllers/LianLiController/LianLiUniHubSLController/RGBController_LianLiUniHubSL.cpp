@@ -321,7 +321,7 @@ void RGBController_LianLiUniHubSL::SetupZones()
             new_led.name = zones[zone_idx].name;
             new_led.name.append(", Fan ");
             new_led.name.append(std::to_string(led_idx + 1));
-            new_led.value = zone_idx;
+            new_led.value = (unsigned int)zone_idx;
 
             leds.push_back(new_led);
         }

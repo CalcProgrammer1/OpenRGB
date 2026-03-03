@@ -286,15 +286,15 @@ LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBControll
 
     SetupZones();
 
-    /*-----------------*\
-    | Initiliaze Static |
-    \*-----------------*/
+    /*-----------------------------------------------------*\
+    | Initiliaze Static                                     |
+    \*-----------------------------------------------------*/
     active_mode = 0;
     for(size_t i = 0; i < modes.size(); i++)
     {
         if(modes[i].value == LENOVO_LEGION_GEN7_8_MODE_STATIC)
         {
-            active_mode = i;
+            active_mode = (int)i;
             break;
         }
     }
@@ -306,7 +306,6 @@ LenovoRGBController_Gen7_8::~LenovoRGBController_Gen7_8()
 {
     delete controller;
 }
-
 
 void LenovoRGBController_Gen7_8::SetupZones()
 {
@@ -363,9 +362,9 @@ void LenovoRGBController_Gen7_8::SetupZones()
             new_led.value = lenovo_zones[i].id << 8 | lenovo_zones[i].leds[led_idx].led_num ;
             leds.push_back(new_led);
 
-            /*---------------------------------------------------------*\
-            | create led id to index map for fast look up               |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | create led id to index map for fast look up   |
+            \*---------------------------------------------*/
             led_id_to_index[new_led.value]=leds.size() - 1;
         }
     }
@@ -449,9 +448,10 @@ void LenovoRGBController_Gen7_8::DeviceUpdateLEDs()
     {
         if(controller->getPid() == LEGION_7GEN10)
         {
-            /*---------------------------------------------------------*\
-            | Gen10 may ignore A1 updates unless D0 is reasserted.       |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Gen10 may ignore A1 updates unless D0 is      |
+            | reasserted.                                   |
+            \*---------------------------------------------*/
             controller->setLedsDirectOn(profile_id);
             direct_enabled = true;
         }
@@ -585,9 +585,9 @@ std::vector<led_group> LenovoRGBController_Gen7_8::GetLedGroups()
         size_t start = 0;
         size_t end = leds.size();
 
-        /*---------------------------------------------------------*\
-        | Riplle and Type only apply to keyboard                    |
-        \*---------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Riplle and Type only apply to keyboard            |
+        \*-------------------------------------------------*/
         if(modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_RIPPLE ||
                 modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_TYPE)
         {
