@@ -73,7 +73,13 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     if(use_new_protocol)
     {
         struct hid_device_info* info = hid_get_device_info(dev);
-        if(info && (info->product_id == 0x162C || info->product_id == 0x162D)) // Aparently Gen 3 wireless models reuse this protocol, make sure to place their PID here and further below when developing.
+
+        /*-------------------------------------------------*\
+        | Apparently Gen 3 wireless models reuse this       |
+        | protocol, make sure to place their PID here and   |
+        | further below when developing.                    |
+        \*-------------------------------------------------*/
+        if(info && (info->product_id == 0x162C || info->product_id == 0x162D))
         {
              packet_id = APEX_2023_PACKET_ID_DIRECT_WIRELESS;
         }
@@ -112,10 +118,9 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     hid_send_feature_report(dev, buf, 643);
 }
 
-/*-------------------------------------------------------------------------------------------------*\
-| Private packet sending functions.                                                                 |
-\*-------------------------------------------------------------------------------------------------*/
-
+/*---------------------------------------------------------*\
+| Private packet sending functions.                         |
+\*---------------------------------------------------------*/
 void SteelSeriesApexController::SelectProfile
     (
     unsigned char   profile
@@ -138,35 +143,37 @@ void SteelSeriesApexController::SendInitialization()
     unsigned char buf[FIRMWARE_REQ_LEN];
     unsigned char read_buf[65];
     int res = 0;
-    char version_str[32] = "Unknown";
+    char version_str[65] = "Unknown";
 
     struct hid_device_info* info = hid_get_device_info(dev);
     unsigned short pid = (info) ? info->product_id : 0;
 
-    // Firmware check
+    /*-----------------------------------------------------*\
+    | Firmware check                                        |
+    \*-----------------------------------------------------*/
     if(pid == 0x1628)
     {
-        /*-----------------------------------------------------*\
-        | Zero out buffer                                       |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Zero out buffer                                   |
+        \*-------------------------------------------------*/
         memset(buf, 0x00, sizeof(buf));
         buf[0x00]   = 0x00;
         buf[0x01]   = 0x90;
 
-        /*-----------------------------------------------------*\
-        | Send packet                                           |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Send packet                                       |
+        \*-------------------------------------------------*/
         hid_write(dev, buf, 65);
 
-        /*-----------------------------------------------------*\
-        | Read Response                                         |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Read Response                                     |
+        \*-------------------------------------------------*/
         memset(read_buf, 0x00, sizeof(read_buf));
         res = hid_read_timeout(dev, read_buf, sizeof(read_buf), 200);
 
-        /*-----------------------------------------------------*\
-        | Firmware Check                                        |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Firmware Check                                    |
+        \*-------------------------------------------------*/
         if(res > 2 && read_buf[0] == 0x90)
         {
             int major = 0, minor = 0, patch = 0;
@@ -178,7 +185,9 @@ void SteelSeriesApexController::SendInitialization()
 
             if(count == 3)
             {
-                // Currently set to 1.19.7 or newer.
+                /*-----------------------------------------*\
+                | Currently set to 1.19.7 or newer.         |
+                \*-----------------------------------------*/
                 if(major > 1)
                 {
                     use_new_protocol = true;
@@ -197,7 +206,11 @@ void SteelSeriesApexController::SendInitialization()
             }
         }
     }
-    // // Aparently Gen 3 models reuse this protocol, make sure to place their PID here and further above for wireless when developing.
+    /*-----------------------------------------------------*\
+    | Apparently Gen 3 models reuse this protocol, make     |
+    | sure to place their PID here and further above for    |
+    | wireless when developing.                             |
+    \*-----------------------------------------------------*/
     else if(pid == 0x162C || pid == 0x162D)
     {
         use_new_protocol = true;
