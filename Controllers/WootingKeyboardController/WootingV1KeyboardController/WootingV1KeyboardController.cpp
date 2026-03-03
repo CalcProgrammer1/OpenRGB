@@ -98,7 +98,7 @@ void WootingV1KeyboardController::SendDirect(RGBColor* colors, uint8_t colour_co
     unsigned char buffer3[RGB_RAW_BUFFER_SIZE] = {0};
     unsigned char buffer4[RGB_RAW_BUFFER_SIZE] = {0};
 
-    for(std::size_t index = 0; index < colour_count; index++)
+    for(uint8_t index = 0; index < colour_count; index++)
     {
         unsigned char row = index / WOOTING_RGB_COLUMNS;
         unsigned char col = index % WOOTING_RGB_COLUMNS;
