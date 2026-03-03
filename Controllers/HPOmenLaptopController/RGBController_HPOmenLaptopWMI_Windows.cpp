@@ -91,7 +91,7 @@ void RGBController_HPOmenLaptopWMI_Windows::SetupZones()
     SetupColors();
 }
 
-void RGBController_HPOmenLaptopWMI_Windows::ResizeZone(int zone, int new_size)
+void RGBController_HPOmenLaptopWMI_Windows::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*-----------------------------------------------------*\
     | Not Supported                                         |
@@ -106,7 +106,7 @@ void RGBController_HPOmenLaptopWMI_Windows::DeviceUpdateLEDs()
     controller->setColors(this->colors);
 }
 
-void RGBController_HPOmenLaptopWMI_Windows::UpdateZoneLEDs(int zone)
+void RGBController_HPOmenLaptopWMI_Windows::UpdateZoneLEDs(int /*zone*/)
 {
     /*-----------------------------------------------------*\
     | Set new colors                                        |
@@ -114,7 +114,7 @@ void RGBController_HPOmenLaptopWMI_Windows::UpdateZoneLEDs(int zone)
     controller->setColors(this->colors);
 }
 
-void RGBController_HPOmenLaptopWMI_Windows::UpdateSingleLED(int led)
+void RGBController_HPOmenLaptopWMI_Windows::UpdateSingleLED(int /*led*/)
 {
     /*-----------------------------------------------------*\
     | Set new colors                                        |
