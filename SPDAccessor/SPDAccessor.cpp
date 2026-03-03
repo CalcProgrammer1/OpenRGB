@@ -115,9 +115,9 @@ std::string SPDAccessor::read_part_nr_at(uint16_t address, std::size_t len)
 {
     std::string part_number;
 
-    for(std::size_t i = 0; i < len; i++)
+    for(uint16_t i = 0; i < (uint16_t)len; i++)
     {
-        std::size_t spd_addr = address + i;
+        uint16_t spd_addr = address + i;
         part_number += (char)this->at(spd_addr);
     }
 
