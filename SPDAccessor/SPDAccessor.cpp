@@ -131,12 +131,12 @@ std::string SPDAccessor::read_part_nr_at(uint16_t address, std::size_t len)
     | Note: To prevent infinite loop, end_of_string_idx     |
     | MUST be signed.                                       |
     \*-----------------------------------------------------*/
-    std::size_t end_of_string_idx = part_number.length() - 1;
+    std::size_t end_of_string_idx = part_number.length();
 
-    for(; end_of_string_idx >= 0; end_of_string_idx--)
+    for(; end_of_string_idx > 0; end_of_string_idx--)
     {
-        if((part_number[end_of_string_idx] != '\0')
-        && (part_number[end_of_string_idx] != ' '))
+        if((part_number[end_of_string_idx - 1] != '\0')
+        && (part_number[end_of_string_idx - 1] != ' '))
         {
             break;
         }
