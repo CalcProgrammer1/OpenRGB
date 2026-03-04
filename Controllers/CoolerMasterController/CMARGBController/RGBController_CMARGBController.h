@@ -12,11 +12,8 @@
 #pragma once
 
 #include <vector>
-#include "RGBController.h"
 #include "CMARGBController.h"
-
-#define first_zone(zn)          ((zones.size() > 1) ? 1 : 0)
-#define last_zone(zn)           ((zones.size() > 1) ? 4 : 1)
+#include "RGBController.h"
 
 class RGBController_CMARGBController : public RGBController
 {
@@ -34,9 +31,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    void        Init_Controller();
-    int         GetDeviceMode();
-    int         GetLED_Zone(int led_idx);
-
-    CMARGBController*   controller;
+    CMARGBController*           controller;
+    std::vector<unsigned int>   leds_channel;
 };
