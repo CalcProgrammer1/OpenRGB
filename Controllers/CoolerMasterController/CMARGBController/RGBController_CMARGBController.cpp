@@ -213,7 +213,7 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController*
     {
         if(modes[mode_idx].value == port_mode)
         {
-            active_mode = mode_idx;
+            active_mode = (int)mode_idx;
 
             if((modes[mode_idx].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR) && (modes[mode_idx].colors.size() > 0))
             {
@@ -342,7 +342,7 @@ void RGBController_CMARGBController::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        UpdateZoneLEDs((int)zone_idx);
     }
 }
 
@@ -427,7 +427,7 @@ void RGBController_CMARGBController::DeviceUpdateMode()
     {
         controller->SetPortMode
                         (
-                            zone_idx,
+                            (unsigned char)zone_idx,
                             (zone_idx == 4) ? rgb_mode : modes[active_mode].value,
                             modes[active_mode].speed,
                             modes[active_mode].brightness,
