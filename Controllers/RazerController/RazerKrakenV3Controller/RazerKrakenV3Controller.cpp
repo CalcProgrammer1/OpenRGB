@@ -161,7 +161,7 @@ void RazerKrakenV3Controller::SetModeBreathing(std::vector<RGBColor> colors)
 {
     razer_kraken_v3_request_report report = razer_kraken_create_v3_report();
 
-    unsigned char led_count = colors.size();
+    unsigned char led_count = (unsigned char)colors.size();
 
     //  0 1 2 3 4 5 6 7 8 9 0 1 2
     // 400101000101ff000000000000

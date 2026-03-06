@@ -24,6 +24,7 @@ static const unsigned char magic_v2[3] = {0x01, 0x32, 0x00};
 | The controller reports a unique identifier for V1 and V2. |
 | Unfortunately they are on different addresses. Read it    |
 | for good measure anyways.                                 |
+| N.B: Some V2 controllers report the V1 magic.             |
 \*---------------------------------------------------------*/
 
 void DetectPowerColorRedDevilGPUControllersV1(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
@@ -54,7 +55,7 @@ void DetectPowerColorRedDevilGPUControllersV2(i2c_smbus_interface* bus, uint8_t 
 
     unsigned char data[3];
     int ret = bus->i2c_smbus_read_i2c_block_data(i2c_addr, RED_DEVIL_V2_READ_REG_MAGIC, 3, data);
-    if(ret == 3 && memcmp(data, magic_v2, 3) == 0)
+    if(ret == 3 && (memcmp(data, magic_v1, 3) == 0 || memcmp(data, magic_v2, 3) == 0))
     {
         PowerColorRedDevilV2Controller* controller         = new PowerColorRedDevilV2Controller(bus, i2c_addr, name);
         RGBController_PowerColorRedDevilV2* rgb_controller = new RGBController_PowerColorRedDevilV2(controller);

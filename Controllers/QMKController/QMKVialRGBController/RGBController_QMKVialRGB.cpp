@@ -136,7 +136,7 @@ RGBController_QMKVialRGB::RGBController_QMKVialRGB(QMKVialRGBController* control
     if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {
         hsv_t       hsv_color;
-        hsv_color.hue                   = ((float)cur_hue * (360.0f / 256.0f));
+        hsv_color.hue                   = (unsigned int)((float)cur_hue * (360.0f / 256.0f));
         hsv_color.saturation            = cur_sat;
         hsv_color.value                 = cur_val;
 
@@ -227,7 +227,7 @@ void RGBController_QMKVialRGB::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_QMKVialRGB::DeviceUpdateLEDs()
 {
-    controller->SendLEDs(colors.size(), colors.data());
+    controller->SendLEDs((unsigned short)colors.size(), colors.data());
 }
 
 void RGBController_QMKVialRGB::UpdateZoneLEDs(int /*zone*/)

@@ -22,6 +22,19 @@ Mountain60KeyboardController::Mountain60KeyboardController(hid_device* dev_handl
     dev         = dev_handle;
     location    = path;
     name        = dev_name;
+
+    unsigned char usb_buf[MOUNTAIN60_KEYBOARD_USB_BUFFER_SIZE];
+    unsigned char read[MOUNTAIN60_KEYBOARD_USB_BUFFER_SIZE];
+    memset(usb_buf, 0x00, MOUNTAIN60_KEYBOARD_USB_BUFFER_SIZE);
+
+    usb_buf[0x01] = MOUNTAIN60_KEYBOARD_RESET_CMD;
+    usb_buf[0x02] = 0x46; //constant data
+    usb_buf[0x03] = 0x23; //constant data
+    usb_buf[0x04] = 0xEA; //constant data
+
+    hid_send_feature_report(dev, usb_buf, MOUNTAIN60_KEYBOARD_USB_BUFFER_SIZE);
+    memset(read, 0x00, MOUNTAIN60_KEYBOARD_USB_BUFFER_SIZE);
+    hid_get_feature_report(dev, read, MOUNTAIN60_KEYBOARD_USB_BUFFER_SIZE);
 }
 
 Mountain60KeyboardController::~Mountain60KeyboardController()

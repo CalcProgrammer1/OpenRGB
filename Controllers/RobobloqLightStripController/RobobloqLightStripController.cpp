@@ -405,7 +405,7 @@ bool RobobloqLightStripController::RequestDeviceInfo()
     char uuid_buf[17];
     for(int i = 0; i < 8; i++)
     {
-        sprintf(uuid_buf + (i * 2), "%02x", data[12 + i]);
+        snprintf(uuid_buf + (i * 2), sizeof(uuid_buf) - (i * 2), "%02x", data[12 + i]);
     }
     this->uuid = std::string(uuid_buf);
 

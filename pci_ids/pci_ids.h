@@ -816,6 +816,7 @@
 #define MSI_RTX4090_SUPRIM_LIQUID_X_SUB_DEV             0x5104
 #define MSI_RTX4090_SUPRIM_X_SUB_DEV                    0x5102
 #define MSI_RTX5070TI_GAMING_TRIO_SUB_DEV               0x5315
+#define MSI_RTX5070TI_VANGUARD_SOC_SUB_DEV              0X5314
 #define MSI_RTX5080_GAMING_TRIO_OC_SUB_DEV              0x5315
 #define MSI_RTX5080_VANGUARD_SOC_SUB_DEV                0x5314
 #define MSI_RTX5080_SUPRIM_SOC_SUB_DEV                  0x5313
@@ -862,6 +863,7 @@
 #define PNY_RTX_4090_XLR8_VERTO_SUB_DEV                 0x13AE
 #define PNY_RTX_4090_VERTO_EPIC_X_SUB_DEV               0x13D8
 #define PNY_RTX_4090_VERTO_EPIC_X_OC_SUB_DEV            0x13D9
+#define PNY_RTX_5070_ARGB_EPIC_X_OC_SUB_DEV             0x1439
 #define PNY_RTX_5070TI_ARGB_EPIC_X_OC_SUB_DEV           0x143A
 #define PNY_RTX_5080_ARGB_EPIC_X_OC_SUB_DEV             0x1435
 #define PNY_RTX_5090_ARGB_EPIC_X_OC_SUB_DEV             0x1446

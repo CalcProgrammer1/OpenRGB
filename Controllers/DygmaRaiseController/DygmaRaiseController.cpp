@@ -65,7 +65,7 @@ void DygmaRaiseController::SendDirect(std::vector<RGBColor>colors, size_t led_nu
     /*-----------------------------------------------------*\
     | Set up led theme packet                               |
     \*-----------------------------------------------------*/
-    sprintf(serial_buf,"led.theme");
+    snprintf(serial_buf, MAX_LEN, "led.theme");
     int actual_length=9;
 
     /*-----------------------------------------------------*\
@@ -77,20 +77,20 @@ void DygmaRaiseController::SendDirect(std::vector<RGBColor>colors, size_t led_nu
         int g = RGBGetGValue(colors[led_idx]);
         int b = RGBGetBValue(colors[led_idx]);
 
-        sprintf(serial_buf+actual_length," %d",r);
+        snprintf(serial_buf + actual_length, MAX_LEN - actual_length, " %d", r);
         actual_length += val_char_len(r) + 1;
 
-        sprintf(serial_buf+actual_length," %d",g);
+        snprintf(serial_buf + actual_length, MAX_LEN - actual_length, " %d", g);
         actual_length += val_char_len(g) + 1;
 
-        sprintf(serial_buf+actual_length," %d",b);
+        snprintf(serial_buf + actual_length, MAX_LEN - actual_length, " %d", b);
         actual_length += val_char_len(b) + 1;
     }
 
     /*-----------------------------------------------------*\
     | Add the final newline                                 |
     \*-----------------------------------------------------*/
-    sprintf(serial_buf+actual_length,"\n");
+    snprintf(serial_buf + actual_length, MAX_LEN - actual_length, "\n");
     actual_length++;
 
     /*-----------------------------------------------------*\
