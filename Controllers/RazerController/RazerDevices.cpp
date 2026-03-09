@@ -4916,6 +4916,102 @@ static const razer_device basilisk_v3_pro_35k_wireless_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO 35K Phantom Green Wired 1532:00D6      |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       11 LEDs                                                 |
+\*-------------------------------------------------------------*/
+
+static const razer_device basilisk_v3_pro_35k_pg_wired_device =
+{
+    "Razer Basilisk V3 Pro 35K Phantom Green Edition (Wired)",
+    RAZER_BASILISK_V3_PRO_35K_PG_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    13,
+    {
+        &basilisk_v3_pro_35k_wired_scroll_wheel_zone,
+        &basilisk_v3_pro_35k_wired_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO 35K Phantom Green Wireless 1532:00D7   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       11 LEDs                                                  |
+\*-------------------------------------------------------------*/
+
+static const razer_device basilisk_v3_pro_35k_pg_wireless_device =
+{
+    "Razer Basilisk V3 Pro 35K Phantom Green Edition (Wireless)",
+    RAZER_BASILISK_V3_PRO_35K_PG_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    13,
+    {
+        &basilisk_v3_pro_35k_wireless_scroll_wheel_zone,
+        &basilisk_v3_pro_35k_wireless_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO 35K Phantom Green Bluetooth 068E:00D8  |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       11 LEDs                                                  |
+\*-------------------------------------------------------------*/
+
+static const razer_device basilisk_v3_pro_35k_pg_bluetooth_device =
+{
+    "Razer Basilisk V3 Pro 35K Phantom Green Edition (Bluetooth)",
+    RAZER_BASILISK_V3_PRO_35K_PG_BLUETOOTH_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    13,
+    {
+        &basilisk_v3_pro_35k_wireless_scroll_wheel_zone,
+        &basilisk_v3_pro_35k_wireless_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Basilisk V3 PRO Bluetooth 1532:00AC                    |
 |                                                               |
 |  Zone "Scroll Wheel"                                          |
@@ -9221,6 +9317,9 @@ const razer_device* razer_device_list[] =
     &basilisk_v3_pro_wireless_device,
     &basilisk_v3_pro_35k_wired_device,
     &basilisk_v3_pro_35k_wireless_device,
+    &basilisk_v3_pro_35k_pg_wired_device,
+    &basilisk_v3_pro_35k_pg_wireless_device,
+    &basilisk_v3_pro_35k_pg_bluetooth_device,
     &basilisk_v3_pro_bluetooth_device,
     &basilisk_v3_x_hyperspeed_device,
     &cobra_device,

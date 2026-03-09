@@ -21,6 +21,7 @@
 | Razer vendor ID                                       |
 \*-----------------------------------------------------*/
 #define RAZER_VID                                       0x1532
+#define RAZER_BLUETOOTH_VID                             0x068E
 
 /*-----------------------------------------------------*\
 | Razer maximum zones                                   |
@@ -154,6 +155,9 @@
 #define RAZER_BASILISK_V3_PRO_WIRELESS_PID              0x00AB
 #define RAZER_BASILISK_V3_PRO_35K_WIRED_PID             0x00CC
 #define RAZER_BASILISK_V3_PRO_35K_WIRELESS_PID          0x00CD
+#define RAZER_BASILISK_V3_PRO_35K_PG_WIRED_PID          0x00D6
+#define RAZER_BASILISK_V3_PRO_35K_PG_WIRELESS_PID       0x00D7
+#define RAZER_BASILISK_V3_PRO_35K_PG_BLUETOOTH_PID      0x00D8
 #define RAZER_BASILISK_V3_PRO_BLUETOOTH_PID             0x00AC
 #define RAZER_BASILISK_V3_X_HYPERSPEED_PID              0x00B9
 #define RAZER_COBRA_PID                                 0x00A3
