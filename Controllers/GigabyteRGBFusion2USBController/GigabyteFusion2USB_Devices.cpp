@@ -2065,6 +2065,51 @@ static const gb_fusion2_device x570_aorus_ultra_device =
     "X570 AORUS ULTRA",
 };
 
+/*-------------------------------------------------------------*\
+|  X570_AORUS_XTREME    048D:8297                               |
+|                                                               |
+|    Zone "Digital LED 1"           : Linear                    |
+|    Zone "Digital LED 2"           : Linear                    |
+|    Zone "Back I/O"                : Single                    |
+|    Zone "PCIe"                    : Single                    |
+|    Zone "CPU Header"              : Single                    |
+\*-------------------------------------------------------------*/
+static const gb_fusion2_zone xtreme_back_io_zone =
+{
+    LED3,
+    1,
+    1,
+    "Back I/O",
+};
+
+static const gb_fusion2_zone xtreme_cpu_hdr_zone =
+{
+    LED7,
+    1,
+    1,
+    "CPU Header",
+};
+
+static gb_fusion2_layout x570_aorus_xtreme_layout =
+{
+    &common_d_led1_zone,
+    &common_d_led2_zone,
+    &xtreme_back_io_zone,
+    &common_pcie_led4_zone,
+    &xtreme_cpu_hdr_zone,
+    nullptr,
+    nullptr,
+    nullptr
+};
+
+static const gb_fusion2_device x570_aorus_xtreme_device =
+{
+    &x570_aorus_xtreme_layout,
+    0xCDE4CFFE,
+    1,
+    "X570 AORUS XTREME",
+};
+
 /*-------------------------------------------------------------------------*\
 |  Generic Layout (Used when no match found)                                |
 \*-------------------------------------------------------------------------*/
@@ -3831,6 +3876,7 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &x570_aorus_pro_device,
     &x570_aorus_pro_wifi_device,
     &x570_aorus_ultra_device,
+    &x570_aorus_xtreme_device,
     &x570i_aorus_pro_wifi_device,
     &z390_aorus_master_cf_device,
 
