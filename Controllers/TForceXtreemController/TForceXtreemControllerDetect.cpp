@@ -114,6 +114,53 @@ bool TestForTForceXtreemController(i2c_smbus_interface* bus, unsigned char addre
 
 /******************************************************************************************\
 *                                                                                          *
+*   TestForTForceDeltaController                                                           *
+*                                                                                          *
+*       Tests the given address to see if an ENE controller exists there using the          *
+*       standard ENE test pattern (0xA0-0xAF incrementing 0x00-0x0F).  The Delta DDR5      *
+*       does not respond to the Xtreem-specific test at 0x90-0xA0.                         *
+*                                                                                          *
+\******************************************************************************************/
+
+static bool TestForTForceDeltaController(i2c_smbus_interface* bus, unsigned char address)
+{
+    bool pass = false;
+
+    LOG_DEBUG("[%s] looking for Delta DDR5 devices at 0x%02X...", DETECTOR_NAME, address);
+
+    int res = bus->i2c_smbus_read_byte(address);
+
+    if(res < 0)
+    {
+        res = bus->i2c_smbus_read_byte_data(address, 0x00);
+    }
+
+    if(res >= 0)
+    {
+        pass = true;
+
+        LOG_DEBUG("[%s] Detected an I2C device at address %02X, testing ENE register range", DETECTOR_NAME, address);
+
+        for(int i = 0xA0; i < 0xB0; i++)
+        {
+            res = bus->i2c_smbus_read_byte_data(address, i);
+
+            if(res != (i - 0xA0))
+            {
+                LOG_VERBOSE("[%s] Delta detection failed testing register %02X.  Expected %02X, got %02X.", DETECTOR_NAME, i, (i - 0xA0), res);
+
+                pass = false;
+                break;
+            }
+        }
+    }
+
+    return(pass);
+
+}   /* TestForTForceDeltaController() */
+
+/******************************************************************************************\
+*                                                                                          *
 *   RemapENERamModules                                                                     *
 *                                                                                          *
 *       Remaps ENE RAM modules from the default 0x77 master address to individual         *
@@ -121,7 +168,9 @@ bool TestForTForceXtreemController(i2c_smbus_interface* bus, unsigned char addre
 *                                                                                          *
 \******************************************************************************************/
 
-static void RemapENERamModules(i2c_smbus_interface* bus, std::vector<SPDWrapper*>& slots)
+typedef bool (*ENETestFunction)(i2c_smbus_interface*, unsigned char);
+
+static void RemapENERamModules(i2c_smbus_interface* bus, std::vector<SPDWrapper*>& slots, ENETestFunction test_func)
 {
     LOG_DEBUG("[%s] Remapping ENE SMBus RAM modules on 0x77", DETECTOR_NAME);
 
@@ -133,7 +182,7 @@ static void RemapENERamModules(i2c_smbus_interface* bus, std::vector<SPDWrapper*
         /*-------------------------------------------------*\
         | Full test to avoid conflicts with other ENE DRAMs |
         \*-------------------------------------------------*/
-        if(!TestForTForceXtreemController(bus, 0x77))
+        if(!test_func(bus, 0x77))
         {
             LOG_DEBUG("[%s] No device detected at 0x77, aborting remap", DETECTOR_NAME);
 
@@ -179,7 +228,7 @@ static void RemapENERamModules(i2c_smbus_interface* bus, std::vector<SPDWrapper*
 
 void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &/*name*/)
 {
-    RemapENERamModules(bus, slots);
+    RemapENERamModules(bus, slots, TestForTForceXtreemController);
 
     // Add ENE controllers at their remapped addresses
     for(unsigned int address_list_idx = 0; address_list_idx < XTREEM_RAM_ADDRESS_COUNT; address_list_idx++)
@@ -194,4 +243,40 @@ void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrap
     }
 }   /* DetectTForceXtreemControllers() */
 
+/******************************************************************************************\
+*                                                                                          *
+*   DetectTForceDeltaControllers                                                           *
+*                                                                                          *
+*       Detects T-Force Delta RGB controllers on DDR5 DRAM devices.                        *
+*       The Delta DDR5 uses the ENE 0xExxx register range (same as Xtreem) but responds    *
+*       to the standard ENE test pattern (0xA0-0xAF) rather than the Xtreem-specific       *
+*       pattern (0x90-0xA0).                                                               *
+*                                                                                          *
+*       NOTE: The generic "ENE SMBus DRAM" detector also detects these devices but uses     *
+*       the wrong register range (0x8xxx), resulting in only partial LED control. Users     *
+*       should disable "ENE SMBus DRAM" in OpenRGB settings to avoid duplicate devices.    *
+*                                                                                          *
+*       bus - pointer to i2c_smbus_interface where device is connected                     *
+*       slots - SPD accessors to occupied slots                                            *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectTForceDeltaControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*>& slots, const std::string& /*name*/)
+{
+    RemapENERamModules(bus, slots, TestForTForceDeltaController);
+
+    // Add ENE controllers at their remapped addresses
+    for(unsigned int address_list_idx = 0; address_list_idx < XTREEM_RAM_ADDRESS_COUNT; address_list_idx++)
+    {
+        if(TestForTForceDeltaController(bus, xtreem_ram_addresses[address_list_idx]))
+        {
+            TForceXtreemController*      controller     = new TForceXtreemController(bus, xtreem_ram_addresses[address_list_idx], DELTA_LED_COUNT, false);
+            RGBController_TForceXtreem*  rgb_controller = new RGBController_TForceXtreem(controller, "T-Force Delta RGB");
+
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+    }
+}   /* DetectTForceDeltaControllers() */
+
 REGISTER_I2C_DIMM_DETECTOR("T-Force Xtreem DDR4 DRAM", DetectTForceXtreemControllers, JEDEC_TEAMGROUP, SPD_DDR4_SDRAM);
+REGISTER_I2C_DIMM_DETECTOR("T-Force Delta DDR5 DRAM",  DetectTForceDeltaControllers,  JEDEC_TEAMGROUP, SPD_DDR5_SDRAM);
