@@ -114,21 +114,18 @@ bool TestForTForceXtreemController(i2c_smbus_interface* bus, unsigned char addre
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectTForceXtreemDRAMControllers                                                      *
+*   RemapENERamModules                                                                     *
 *                                                                                          *
-*           Detects T-Force Xtreem controllers on DRAM devices                             *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where device is connected                 *
-*           slots - SPD accessors to occupied slots                                        *
+*       Remaps ENE RAM modules from the default 0x77 master address to individual         *
+*       per-slot addresses from the xtreem_ram_addresses list.                            *
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &/*name*/)
+static void RemapENERamModules(i2c_smbus_interface* bus, std::vector<SPDWrapper*>& slots)
 {
-
     LOG_DEBUG("[%s] Remapping ENE SMBus RAM modules on 0x77", DETECTOR_NAME);
 
-    for(SPDWrapper *slot : slots)
+    for(SPDWrapper* slot : slots)
     {
         int address_list_idx = slot->index() - 1;
         int res;
@@ -167,6 +164,22 @@ void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrap
             XtreemRegisterWrite(bus, 0x77, XTREEM_REG_I2C_ADDRESS, (xtreem_ram_addresses[address_list_idx] << 1));
         }
     }
+}   /* RemapENERamModules() */
+
+/******************************************************************************************\
+*                                                                                          *
+*   DetectTForceXtreemDRAMControllers                                                      *
+*                                                                                          *
+*           Detects T-Force Xtreem controllers on DDR4 DRAM devices                       *
+*                                                                                          *
+*           bus - pointer to i2c_smbus_interface where device is connected                 *
+*           slots - SPD accessors to occupied slots                                        *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &/*name*/)
+{
+    RemapENERamModules(bus, slots);
 
     // Add ENE controllers at their remapped addresses
     for(unsigned int address_list_idx = 0; address_list_idx < XTREEM_RAM_ADDRESS_COUNT; address_list_idx++)
@@ -181,4 +194,33 @@ void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrap
     }
 }   /* DetectTForceXtreemControllers() */
 
+/******************************************************************************************\
+*                                                                                          *
+*   DetectTForceDeltaControllers                                                           *
+*                                                                                          *
+*           Detects T-Force Delta RGB controllers on DDR5 DRAM devices                    *
+*                                                                                          *
+*           bus - pointer to i2c_smbus_interface where device is connected                 *
+*           slots - SPD accessors to occupied slots                                        *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectTForceDeltaControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*>& slots, const std::string& /*name*/)
+{
+    RemapENERamModules(bus, slots);
+
+    // Add ENE controllers at their remapped addresses
+    for(unsigned int address_list_idx = 0; address_list_idx < XTREEM_RAM_ADDRESS_COUNT; address_list_idx++)
+    {
+        if(TestForTForceXtreemController(bus, xtreem_ram_addresses[address_list_idx]))
+        {
+            TForceXtreemController*      controller     = new TForceXtreemController(bus, xtreem_ram_addresses[address_list_idx], DELTA_LED_COUNT, false);
+            RGBController_TForceXtreem*  rgb_controller = new RGBController_TForceXtreem(controller, "T-Force Delta RGB");
+
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+    }
+}   /* DetectTForceDeltaControllers() */
+
 REGISTER_I2C_DIMM_DETECTOR("T-Force Xtreem DDR4 DRAM", DetectTForceXtreemControllers, JEDEC_TEAMGROUP, SPD_DDR4_SDRAM);
+REGISTER_I2C_DIMM_DETECTOR("T-Force Delta DDR5 DRAM",  DetectTForceDeltaControllers,  JEDEC_TEAMGROUP, SPD_DDR5_SDRAM);
