@@ -13,6 +13,7 @@
 #include "LogManager.h"
 #include "RGBController_TForceXtreem.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 
 #define DETECTOR_NAME   "TForce Xtreem Controller"
 
@@ -261,22 +262,70 @@ void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrap
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectTForceDeltaControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*>& slots, const std::string& /*name*/)
+void DetectTForceDeltaDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    RemapENERamModules(bus, slots, TestForTForceDeltaController);
-
-    // Add ENE controllers at their remapped addresses
-    for(unsigned int address_list_idx = 0; address_list_idx < XTREEM_RAM_ADDRESS_COUNT; address_list_idx++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        if(TestForTForceDeltaController(bus, xtreem_ram_addresses[address_list_idx]))
-        {
-            TForceXtreemController*      controller     = new TForceXtreemController(bus, xtreem_ram_addresses[address_list_idx], DELTA_LED_COUNT, false);
-            RGBController_TForceXtreem*  rgb_controller = new RGBController_TForceXtreem(controller, "T-Force Delta RGB");
+        int address_list_idx = -1;
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+        {
+            LOG_DEBUG("[T-Force Delta DDR5] Remapping ENE SMBus RAM modules on 0x77");
+
+            for(unsigned int slot = 0; slot < 8; slot++)
+            {
+                if(!TestForTForceDeltaController(busses[bus], 0x77))
+                {
+                    LOG_DEBUG("[T-Force Delta DDR5] No device detected at 0x77, aborting remap");
+                    break;
+                }
+
+                do
+                {
+                    address_list_idx++;
+
+                    if(address_list_idx < XTREEM_RAM_ADDRESS_COUNT)
+                    {
+                        LOG_DEBUG("[T-Force Delta DDR5] Testing address %02X to see if there is a device there", xtreem_ram_addresses[address_list_idx]);
+
+                        int res = busses[bus]->i2c_smbus_write_quick(xtreem_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
+
+                        if(res < 0)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                } while(true);
+
+                if(address_list_idx < XTREEM_RAM_ADDRESS_COUNT)
+                {
+                    LOG_DEBUG("[T-Force Delta DDR5] Remapping slot %d to address %02X", slot, xtreem_ram_addresses[address_list_idx]);
+
+                    XtreemRegisterWrite(busses[bus], 0x77, XTREEM_REG_SLOT_INDEX, slot);
+                    XtreemRegisterWrite(busses[bus], 0x77, XTREEM_REG_I2C_ADDRESS, (xtreem_ram_addresses[address_list_idx] << 1));
+                }
+            }
+
+            // Add controllers at their remapped addresses
+            for(unsigned int addr_idx = 0; addr_idx < XTREEM_RAM_ADDRESS_COUNT; addr_idx++)
+            {
+                if(TestForTForceDeltaController(busses[bus], xtreem_ram_addresses[addr_idx]))
+                {
+                    TForceXtreemController*      controller     = new TForceXtreemController(busses[bus], xtreem_ram_addresses[addr_idx], DELTA_LED_COUNT, false);
+                    RGBController_TForceXtreem*  rgb_controller = new RGBController_TForceXtreem(controller, "T-Force Delta RGB");
+
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
+
+                std::this_thread::sleep_for(1ms);
+            }
         }
     }
-}   /* DetectTForceDeltaControllers() */
+}   /* DetectTForceDeltaDRAMControllers() */
 
 REGISTER_I2C_DIMM_DETECTOR("T-Force Xtreem DDR4 DRAM", DetectTForceXtreemControllers, JEDEC_TEAMGROUP, SPD_DDR4_SDRAM);
-REGISTER_I2C_DIMM_DETECTOR("T-Force Delta DDR5 DRAM",  DetectTForceDeltaControllers,  JEDEC_TEAMGROUP, SPD_DDR5_SDRAM);
+REGISTER_I2C_DETECTOR("T-Force Delta DDR5 DRAM",       DetectTForceDeltaDRAMControllers);
