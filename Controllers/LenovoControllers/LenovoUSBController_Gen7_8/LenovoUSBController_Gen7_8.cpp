@@ -17,13 +17,18 @@ using namespace std;
 
 static void SetGen10PayloadLength(uint16_t pid, uint8_t* buffer, uint16_t payload_length)
 {
-    if(pid != LEGION_7GEN10)
+    if(pid != LEGION_7GEN10 && pid != LEGION_5GEN10)
     {
         return;
     }
 
     buffer[2] = payload_length & 0xFF;
     buffer[3] = (payload_length >> 8) & 0xFF;
+}
+
+static bool UsesGen10PacketFormat(uint16_t pid)
+{
+    return pid == LEGION_7GEN10 || pid == LEGION_5GEN10;
 }
 
 LenovoGen7And8USBController::LenovoGen7And8USBController(hid_device* dev_handle, const char* path, uint16_t in_pid, std::string dev_name)
@@ -114,7 +119,7 @@ void LenovoGen7And8USBController::setLedsByGroup(uint8_t profile_id, vector<led_
             i+= led_count * sizeof(uint16_t);
         }
 
-        if(pid == LEGION_7GEN10)
+        if(UsesGen10PacketFormat(pid))
         {
             SetGen10PayloadLength(pid, buffer, static_cast<uint16_t>(i - 4));
         }
@@ -162,7 +167,7 @@ void LenovoGen7And8USBController::setLedsDirectOff(uint8_t profile_id)
 
 void LenovoGen7And8USBController::setLedsDirect(std::vector<led> &leds, std::vector<RGBColor> &colors)
 {
-    if(pid == LEGION_7GEN10)
+    if(UsesGen10PacketFormat(pid))
     {
         /*---------------------------------------------------------*\
         | Gen10 uses 0x07/A1 direct updates, with payload length     |
