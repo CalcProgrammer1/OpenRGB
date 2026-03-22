@@ -79,7 +79,8 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
         | protocol, make sure to place their PID here and   |
         | further below when developing.                    |
         \*-------------------------------------------------*/
-        if(info && (info->product_id == 0x162C || info->product_id == 0x162D))
+        if(info && (info->product_id == 0x162C || info->product_id == 0x162D
+                 || info->product_id == 0x1644 || info->product_id == 0x1646))
         {
              packet_id = APEX_2023_PACKET_ID_DIRECT_WIRELESS;
         }
@@ -211,7 +212,8 @@ void SteelSeriesApexController::SendInitialization()
     | sure to place their PID here and further above for    |
     | wireless when developing.                             |
     \*-----------------------------------------------------*/
-    else if(pid == 0x162C || pid == 0x162D)
+    else if(pid == 0x162C || pid == 0x162D
+         || pid == 0x1642 || pid == 0x1644 || pid == 0x1646)
     {
         use_new_protocol = true;
     }
