@@ -252,6 +252,7 @@ REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E59",    DetectMSIMysticLightCont
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E80",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7E80,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E81",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7E81,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E34",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7E34,   0x0001, 0x00);
+REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E32",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7E32,   0x0001, 0x00);
 // Detector for the set of common boards
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light Common",     DetectMSIMysticLightControllers,   MSI_USB_VID_COMMON,  MSI_USB_PID_COMMON, 0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light X870",     DetectMSIMysticLightControllers,   MSI_USB_VID_COMMON,  MSI_USB_PID_COMMON, 0xFF00, 0x01);
