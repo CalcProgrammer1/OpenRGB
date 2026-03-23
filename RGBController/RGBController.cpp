@@ -1888,6 +1888,17 @@ void RGBController::ConfigureZone(int zone_idx, zone new_zone)
         zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER;
     }
 
+    if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS)
+    {
+        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        zones[zone_idx].segments    = new_zone.segments;
+    }
+    else
+    {
+        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        zones[zone_idx].segments.clear();
+    }
+
     DeviceConfigureZone(zone_idx);
 
     AccessMutex.unlock();

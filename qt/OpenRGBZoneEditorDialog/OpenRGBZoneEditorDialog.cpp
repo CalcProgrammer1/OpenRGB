@@ -43,19 +43,6 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     setWindowTitle(newTitle);
 
     /*-----------------------------------------------------*\
-    | Read the zone flags                                   |
-    \*-----------------------------------------------------*/
-    if(edit_zone.leds_min != edit_zone.leds_max)
-    {
-        if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY) == 0)
-        {
-            edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
-        }
-
-        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE;
-    }
-
-    /*-----------------------------------------------------*\
     | Initialize zone name                                  |
     \*-----------------------------------------------------*/
     ui->LineEditZoneName->blockSignals(true);
@@ -172,6 +159,11 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
         ui->AddSegmentButton->setEnabled(false);
         ui->RemoveSegmentButton->setEnabled(false);
     }
+    else if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        ui->GroupBoxSegments->setTitle("Segments Configuration (*)");
+    }
 }
 
 OpenRGBZoneEditorDialog::~OpenRGBZoneEditorDialog()
@@ -213,6 +205,12 @@ void OpenRGBZoneEditorDialog::on_SliderZoneSize_valueChanged(int value)
 
 void OpenRGBZoneEditorDialog::on_segment_lineedit_textChanged()
 {
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS) == 0)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        ui->GroupBoxSegments->setTitle("Segments Configuration (*)");
+    }
+
     /*-----------------------------------------------------*\
     | Update the Slider with the LineEdit value for each    |
     | segment                                               |
@@ -240,6 +238,12 @@ void SegmentTreeWidgetItem::on_button_matrix_map_clicked()
 
 void OpenRGBZoneEditorDialog::on_segment_slider_valueChanged(int)
 {
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS) == 0)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        ui->GroupBoxSegments->setTitle("Segments Configuration (*)");
+    }
+
     /*-----------------------------------------------------*\
     | Update the LineEdit with the Slider value for each    |
     | segment                                               |
@@ -315,6 +319,22 @@ int OpenRGBZoneEditorDialog::show()
         edit_zone.leds_count                        = ui->SliderZoneSize->value();
         edit_zone.type                              = ui->ComboBoxZoneType->currentIndex();
         edit_zone.color_order                       = ui->ComboBoxZoneColorOrder->currentIndex();
+
+        if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS)
+        {
+            unsigned int start_idx                          = 0;
+            edit_zone.segments.resize(ui->SegmentsTreeWidget->topLevelItemCount());
+            for(std::size_t segment_idx = 0; segment_idx < edit_zone.segments.size(); segment_idx++)
+            {
+                edit_zone.segments[segment_idx].type        = ((QComboBox*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 1))->currentIndex();
+                edit_zone.segments[segment_idx].name        = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 0))->text().toStdString();
+                edit_zone.segments[segment_idx].start_idx   = start_idx;
+                edit_zone.segments[segment_idx].leds_count  = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 3))->text().toInt();
+                edit_zone.segments[segment_idx].matrix_map  = ((SegmentTreeWidgetItem*)(ui->SegmentsTreeWidget->topLevelItem(segment_idx)))->matrix_map;
+                edit_zone.segments[segment_idx].flags       = 0;
+                start_idx                                  += edit_zone.segments[segment_idx].leds_count;
+            }
+        }
 
         /*-------------------------------------------------*\
         | Configure the zone                                |
@@ -412,6 +432,12 @@ void OpenRGBZoneEditorDialog::AddSegmentRow(QString name, unsigned int length, z
 
 void OpenRGBZoneEditorDialog::on_AddSegmentButton_clicked()
 {
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS) == 0)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        ui->GroupBoxSegments->setTitle("Segments Configuration (*)");
+    }
+
     /*-----------------------------------------------------*\
     | Create new empty row with name "Segment X"            |
     \*-----------------------------------------------------*/
@@ -471,6 +497,12 @@ void OpenRGBZoneEditorDialog::CheckSegmentsValidity()
 
 void OpenRGBZoneEditorDialog::on_RemoveSegmentButton_clicked()
 {
+    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS) == 0)
+    {
+        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        ui->GroupBoxSegments->setTitle("Segments Configuration (*)");
+    }
+
     ui->SegmentsTreeWidget->takeTopLevelItem(ui->SegmentsTreeWidget->topLevelItemCount() - 1);
 
     CheckSegmentsValidity();
@@ -538,9 +570,14 @@ void OpenRGBZoneEditorDialog::on_ImportConfigurationButton_clicked()
                         total_leds_count += segment_leds_count;
                     }
 
-
                     ui->SliderZoneSize->setValue(total_leds_count);
                     ui->SpinBoxZoneSize->setValue(total_leds_count);
+
+                    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS) == 0)
+                    {
+                        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+                        ui->GroupBoxSegments->setTitle("Segments Configuration (*)");
+                    }
                 }
             }
             catch(const std::exception& e)
@@ -575,7 +612,6 @@ void OpenRGBZoneEditorDialog::on_ExportConfigurationButton_clicked()
                 config_json["device"] = device.toStdString();
             }
 
-
             /*---------------------------------------------*\
             | Fill in vendor string in the JSON             |
             \*---------------------------------------------*/
@@ -583,7 +619,6 @@ void OpenRGBZoneEditorDialog::on_ExportConfigurationButton_clicked()
             {
                 config_json["vendor"] = vendor.toStdString();
             }
-
 
             /*---------------------------------------------*\
             | Fill in segment data in the JSON              |
@@ -668,7 +703,6 @@ void OpenRGBZoneEditorDialog::on_LineEditZoneName_textChanged(const QString& /*a
     }
 }
 
-
 void OpenRGBZoneEditorDialog::on_ComboBoxZoneType_currentIndexChanged(int /*index*/)
 {
     if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE) == 0)
@@ -677,7 +711,6 @@ void OpenRGBZoneEditorDialog::on_ComboBoxZoneType_currentIndexChanged(int /*inde
         ui->LabelZoneType->setText("Zone Type (*):");
     }
 }
-
 
 void OpenRGBZoneEditorDialog::on_ComboBoxZoneColorOrder_currentIndexChanged(int /*index*/)
 {
