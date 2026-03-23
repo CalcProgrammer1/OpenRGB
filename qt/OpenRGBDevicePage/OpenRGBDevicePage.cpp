@@ -576,8 +576,7 @@ void OpenRGBDevicePage::UpdateLEDList()
 
                 zone_flags flags = device->GetZoneFlags(selected_zone);
 
-                if((device->GetZoneLEDsMin(selected_zone) != device->GetZoneLEDsMax(selected_zone))
-                || ((flags & ZONE_FLAGS_MANUALLY_CONFIGURABLE) > 0))
+                if((flags & ZONE_FLAGS_MANUALLY_CONFIGURABLE) > 0)
                 {
                     zone_is_editable = true;
                 }
