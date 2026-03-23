@@ -201,7 +201,8 @@ void RGBController_MSIMysticLight185::SetupZones()
                 zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
                                                         | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
                                                         | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
-                                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP;
+                                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP
+                                                        | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
             }
 
             if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
