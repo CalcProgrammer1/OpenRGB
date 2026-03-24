@@ -67,6 +67,7 @@ signals:
 
 public slots:
     void changeEvent(QEvent *event) override;
+    void resizeEvent(QResizeEvent* event) override;
     void SetTrayIcon(bool tray_icon);
     void handleAboutToQuit();
 

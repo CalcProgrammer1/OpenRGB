@@ -24,6 +24,8 @@ public:
     TabLabel(int icon, char* label, char* context, bool translatable);
     ~TabLabel();
 
+    void SetTextHidden(bool hidden);
+
 private:
     Ui::TabLabel*   ui;
     char*           label;
@@ -31,6 +33,10 @@ private:
     bool            translatable;
 
     void UpdateLabel(bool in_constructor);
+
+    int icon_initial_width;
+    int name_initial_width;
+
 
 private slots:
     void changeEvent(QEvent *event);

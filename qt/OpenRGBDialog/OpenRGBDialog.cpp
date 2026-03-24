@@ -33,6 +33,7 @@
 #include <QStyleFactory>
 #include <QKeyEvent>
 #include <QCheckBox>
+#include <QScreen>
 #include <QSpinBox>
 
 #include <string>
@@ -561,6 +562,41 @@ void OpenRGBDialog::keyPressEvent(QKeyEvent *event)
     {
         QMainWindow::keyPressEvent(event);
     }
+}
+
+void OpenRGBDialog::resizeEvent(QResizeEvent *event)
+{
+    QScreen*    screen  = QGuiApplication::primaryScreen();
+    qreal       scale   = screen->devicePixelRatio();
+
+    bool compact_mode = (event->size().width() < (700 * scale));
+
+    for(int i = 0; i < ui->DevicesTabBar->count(); i++)
+    {
+        ((TabLabel *)ui->DevicesTabBar->tabBar()->tabButton(i, QTabBar::LeftSide))->blockSignals(true);
+        ((TabLabel *)ui->DevicesTabBar->tabBar()->tabButton(i, QTabBar::LeftSide))->SetTextHidden(compact_mode);
+        ((TabLabel *)ui->DevicesTabBar->tabBar()->tabButton(i, QTabBar::LeftSide))->blockSignals(false);
+    }
+
+    for(int i = 0; i < ui->InformationTabBar->count(); i++)
+    {
+        ((TabLabel *)ui->InformationTabBar->tabBar()->tabButton(i, QTabBar::LeftSide))->blockSignals(true);
+        ((TabLabel *)ui->InformationTabBar->tabBar()->tabButton(i, QTabBar::LeftSide))->SetTextHidden(compact_mode);
+        ((TabLabel *)ui->InformationTabBar->tabBar()->tabButton(i, QTabBar::LeftSide))->blockSignals(false);
+    }
+
+    for(int i = 0; i < ui->SettingsTabBar->count(); i++)
+    {
+        ((TabLabel *)ui->SettingsTabBar->tabBar()->tabButton(i, QTabBar::LeftSide))->blockSignals(true);
+        ((TabLabel *)ui->SettingsTabBar->tabBar()->tabButton(i, QTabBar::LeftSide))->SetTextHidden(compact_mode);
+        ((TabLabel *)ui->SettingsTabBar->tabBar()->tabButton(i, QTabBar::LeftSide))->blockSignals(false);
+    }
+
+    ui->DevicesTabBar->tabBar()->setIconSize(ui->DevicesTabBar->tabBar()->iconSize());
+    ui->InformationTabBar->tabBar()->setIconSize(ui->InformationTabBar->tabBar()->iconSize());
+    ui->SettingsTabBar->tabBar()->setIconSize(ui->SettingsTabBar->tabBar()->iconSize());
+
+    QWidget::resizeEvent(event);
 }
 
 void OpenRGBDialog::AddPluginsPage()
