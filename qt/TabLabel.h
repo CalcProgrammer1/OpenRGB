@@ -24,10 +24,16 @@ public:
     TabLabel(int icon, QString name, char* original, char* context);
     ~TabLabel();
 
+    void SetTextHidden(bool hidden);
+
 private:
     Ui::TabLabel *ui;
     char* label;
     char* ctxt;
+
+    int icon_initial_width;
+    int name_initial_width;
+
 
 private slots:
     void changeEvent(QEvent *event);

@@ -18,13 +18,30 @@ TabLabel::TabLabel(int icon, QString name, char* original, char* context) :
 {
     ui->setupUi(this);
 
+    /*-----------------------------------------------------*\
+    | Store initial widths for icon and name                |
+    \*-----------------------------------------------------*/
+    icon_initial_width = ui->icon->width();
+    name_initial_width = ui->name->width();
+
+    /*-----------------------------------------------------*\
+    | Initialize icon font                                  |
+    \*-----------------------------------------------------*/
     QFont font = OpenRGBFont::GetFont();
     font.setPointSize(18);
 
+    /*-----------------------------------------------------*\
+    | Set icon                                              |
+    \*-----------------------------------------------------*/
     ui->icon->setFont(font);
     ui->icon->setText(OpenRGBFont::icon(icon));
 
+    /*-----------------------------------------------------*\
+    | Set name                                              |
+    \*-----------------------------------------------------*/
     ui->name->setText(name);
+
+    SetTextHidden(false);
 
     label   = original;
     ctxt    = context;
@@ -33,6 +50,22 @@ TabLabel::TabLabel(int icon, QString name, char* original, char* context) :
 TabLabel::~TabLabel()
 {
     delete ui;
+}
+
+void TabLabel::SetTextHidden(bool hidden)
+{
+    if(hidden)
+    {
+        ui->name->setFixedWidth(0);
+        setFixedWidth(ui->icon->width());
+    }
+    else
+    {
+        ui->name->setFixedWidth(name_initial_width);
+        setFixedWidth(ui->icon->width() + ui->name->width());
+    }
+
+    ui->name->setHidden(hidden);
 }
 
 void TabLabel::changeEvent(QEvent *event)
