@@ -41,6 +41,11 @@ TabLabel::TabLabel(int icon, QString name, char* original, char* context) :
     \*-----------------------------------------------------*/
     ui->name->setText(name);
 
+    /*-----------------------------------------------------*\
+    | Set tooltip                                           |
+    \*-----------------------------------------------------*/
+    setToolTip(name);
+
     SetTextHidden(false);
 
     label   = original;
