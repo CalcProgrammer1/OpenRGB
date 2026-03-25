@@ -92,6 +92,7 @@ void TabLabel::UpdateLabel(bool in_constructor)
         \*-------------------------------------------------*/
         QApplication* app = static_cast<QApplication *>(QApplication::instance());
         ui->name->setText(app->translate(context, label));
+        setToolTip(app->translate(context, label));
     }
     else if(in_constructor)
     {
@@ -100,5 +101,6 @@ void TabLabel::UpdateLabel(bool in_constructor)
         | translatable as label buffer may not exist        |
         \*-------------------------------------------------*/
         ui->name->setText(label);
+        setToolTip(label);
     }
 }

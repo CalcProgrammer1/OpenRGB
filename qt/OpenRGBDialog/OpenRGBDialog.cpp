@@ -1021,7 +1021,6 @@ void OpenRGBDialog::UpdateDevicesList()
                         TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
 
                         ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
-                        ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
 
                         /*---------------------------------*\
                         | Now move the new tab to the       |
@@ -1089,7 +1088,6 @@ void OpenRGBDialog::UpdateDevicesList()
                 TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
 
                 ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
-                ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
 
                 /*-----------------------------------------*\
                 | Now move the new tab to the correct       |
