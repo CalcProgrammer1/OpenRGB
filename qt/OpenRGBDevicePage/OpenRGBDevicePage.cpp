@@ -800,13 +800,23 @@ void OpenRGBDevicePage::UpdateLEDUi()
                 bool        updateColor = false;
 
                 /*-----------------------------------------*\
-                | Remove multiple selection                 |
+                | If multiple active and selected in the    |
+                | box, do nothing                           |
+                \*-----------------------------------------*/
+                if(MultipleSelected && (ui->LEDBox->currentIndex() == (ui->LEDBox->count() - 1)))
+                {
+                    break;
+                }
+
+                /*-----------------------------------------*\
+                | Otherwise, if multiple selection is       |
+                | active but no longer selected in the LED  |
+                | box, remove the Multiple entry.           |
                 \*-----------------------------------------*/
                 if(MultipleSelected)
                 {
-                    ui->LEDBox->removeItem((int)(device->GetLEDCount() + 1));
+                    ui->LEDBox->removeItem(ui->LEDBox->count() -1);
                 }
-
                 MultipleSelected = false;
 
                 /*-----------------------------------------*\
@@ -1915,6 +1925,44 @@ void OpenRGBDevicePage::GetSelectedZone(bool * selected_all_zones, int * selecte
     }
 }
 
+void OpenRGBDevicePage::SetSelectedZone(bool selected_all_zones, int selected_zone, int selected_segment)
+{
+    int current_index       = 0;
+
+    if(selected_all_zones)
+    {
+        ui->ZoneBox->setCurrentIndex(current_index);
+        return;
+    }
+
+    if(device->GetZoneCount() > 1)
+    {
+        current_index++;
+    }
+
+    for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
+    {
+        if((selected_zone == zone_idx) && (selected_segment < 0))
+        {
+            ui->ZoneBox->setCurrentIndex(current_index);
+            return;
+        }
+
+        current_index++;
+
+        for(std::size_t segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
+        {
+            if((selected_zone == zone_idx) && (selected_segment == segment_idx))
+            {
+                ui->ZoneBox->setCurrentIndex(current_index);
+                return;
+            }
+
+            current_index++;
+        }
+    }
+}
+
 QString OpenRGBDevicePage::ModeDescription(const std::string mode_name)
 {
     /*-----------------------------------------------------------------*\
@@ -2071,48 +2119,67 @@ void OpenRGBDevicePage::on_DeviceSaveButton_clicked()
     }
 }
 
-void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
+void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int selected_segment, QVector<int> indices)
 {
+    /*-----------------------------------------------------*\
+    | Device View only supports per-LED modes               |
+    \*-----------------------------------------------------*/
     if(device->GetModeColorMode(device->GetActiveMode()) == MODE_COLORS_PER_LED)
     {
-        ui->ZoneBox->blockSignals(true);
-        ui->LEDBox->blockSignals(true);
-        ui->ZoneBox->setCurrentIndex(0);
-        on_ZoneBox_currentIndexChanged(0);
-        //updateLeds(); // We want to update the LED box, but we don't want any of the side effects of that action
-        ui->ZoneBox->blockSignals(false);
-        if(indices.size() != 0 && size_t(indices.size()) != device->GetLEDCount())
+        /*-------------------------------------------------*\
+        | Handle case where all LEDs are selected           |
+        \*-------------------------------------------------*/
+        if((selected_zone < 0) && (indices.size() == 0))
         {
-            if(indices.size() == 1)
-            {
-                if(device->GetLEDCount() == 1)
-                {
-                    ui->LEDBox->setCurrentIndex(0);
-                }
-                else
-                {
-                    ui->LEDBox->setCurrentIndex(indices[0] + 1);
-                    // Set everything to it's color
-                }
-                MultipleSelected = 0;
-            }
-            else
-            {
                 if(MultipleSelected)
                 {
-                    ui->LEDBox->removeItem((int)(device->GetLEDCount() + 1));
+                    ui->LEDBox->removeItem(ui->LEDBox->count() -1);
                 }
-                // TODO: translate
-                ui->LEDBox->addItem("Multiple (" + QVariant(indices.size()).toString() + ")");
-                ui->LEDBox->setCurrentIndex((int)(device->GetLEDCount() + 1));
-                MultipleSelected = 1;
-            }
+            MultipleSelected = false;
+            SetSelectedZone(true, -1, -1);
         }
+        /*-------------------------------------------------*\
+        | Handle case where a zone or segment is selected   |
+        \*-------------------------------------------------*/
+        else if(selected_zone >= 0)
+        {
+                if(MultipleSelected)
+                {
+                    ui->LEDBox->removeItem(ui->LEDBox->count() -1);
+                }
+            MultipleSelected = false;
+            SetSelectedZone(false, selected_zone, selected_segment);
+        }
+        /*-------------------------------------------------*\
+        | Handle case where a single LED is selected        |
+        \*-------------------------------------------------*/
+        else if(indices.size() == 1)
+        {
+                if(MultipleSelected)
+                {
+                    ui->LEDBox->removeItem(ui->LEDBox->count() -1);
+                }
+            MultipleSelected = false;
+            ui->ZoneBox->setCurrentIndex(0);
+            ui->LEDBox->setCurrentIndex(indices[0] + 1);
+        }
+        /*-------------------------------------------------*\
+        | Handle case where multiple LEDs are selected      |
+        \*-------------------------------------------------*/
         else
         {
-            ui->LEDBox->setCurrentIndex(0);
+            if(!MultipleSelected)
+            {
+                ui->LEDBox->addItem("");
+            }
+
+            ui->LEDBox->setItemText(ui->LEDBox->count() - 1, "Multiple (" + QString::number(indices.size()) +")");
+
+            ui->ZoneBox->setCurrentIndex(0);
+            ui->LEDBox->setCurrentIndex(ui->LEDBox->count() - 1);
+
+            MultipleSelected = true;
         }
-        ui->LEDBox->blockSignals(false);
     }
 }
 
