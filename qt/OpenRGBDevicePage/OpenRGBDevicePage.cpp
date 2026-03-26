@@ -56,7 +56,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     {
         bool            numerical_labels    = ui_settings["numerical_labels"];
 
-        ui->DeviceViewBox->setNumericalLabels(numerical_labels);
+        ui->DeviceViewBox->SetNumericalLabels(numerical_labels);
     }
 
     if(ui_settings.contains("hex_format"))
@@ -74,7 +74,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     /*-----------------------------------------------------*\
     | Initialize Device View                                |
     \*-----------------------------------------------------*/
-    ui->DeviceViewBox->setController(device);
+    ui->DeviceViewBox->SetController(device);
     ui->DeviceViewBoxFrame->hide();
 
     /*-----------------------------------------------------*\
@@ -293,7 +293,7 @@ void OpenRGBDevicePage::UpdateColor()
     switch(color_mode)
     {
         case MODE_COLORS_PER_LED:
-            ui->DeviceViewBox->setSelectionColor(rgb_color);
+            ui->DeviceViewBox->SetSelectionColor(rgb_color);
             break;
 
         case MODE_COLORS_MODE_SPECIFIC:
@@ -529,7 +529,7 @@ void OpenRGBDevicePage::UpdateLEDList()
                 if(!ui->ZoneBox->signalsBlocked())
                 {
                     ui->DeviceViewBox->blockSignals(true);
-                    ui->DeviceViewBox->clearSelection();
+                    ui->DeviceViewBox->ClearSelection();
                     ui->DeviceViewBox->blockSignals(false);
                 }
             }
@@ -586,7 +586,7 @@ void OpenRGBDevicePage::UpdateLEDList()
                 if(!ui->ZoneBox->signalsBlocked())
                 {
                     ui->DeviceViewBox->blockSignals(true);
-                    ui->DeviceViewBox->selectZone(selected_zone);
+                    ui->DeviceViewBox->SelectZone(selected_zone);
                     ui->DeviceViewBox->blockSignals(false);
                 }
             }
@@ -630,7 +630,7 @@ void OpenRGBDevicePage::UpdateLEDList()
                 if(!ui->ZoneBox->signalsBlocked())
                 {
                     ui->DeviceViewBox->blockSignals(true);
-                    ui->DeviceViewBox->selectSegment(selected_zone, selected_segment);
+                    ui->DeviceViewBox->SelectSegment(selected_zone, selected_segment);
                     ui->DeviceViewBox->blockSignals(false);
                 }
             }
@@ -832,7 +832,7 @@ void OpenRGBDevicePage::UpdateLEDUi()
                         if(!ui->LEDBox->signalsBlocked())
                         {
                             ui->DeviceViewBox->blockSignals(true);
-                            ui->DeviceViewBox->clearSelection();
+                            ui->DeviceViewBox->ClearSelection();
                             ui->DeviceViewBox->blockSignals(false);
                         }
                     }
@@ -858,7 +858,7 @@ void OpenRGBDevicePage::UpdateLEDUi()
                         if(!ui->LEDBox->signalsBlocked())
                         {
                             ui->DeviceViewBox->blockSignals(true);
-                            ui->DeviceViewBox->selectLed(selected_led);
+                            ui->DeviceViewBox->SelectLED(selected_led);
                             ui->DeviceViewBox->blockSignals(false);
                         }
                     }
@@ -876,7 +876,7 @@ void OpenRGBDevicePage::UpdateLEDUi()
                         if(!ui->LEDBox->signalsBlocked())
                         {
                             ui->DeviceViewBox->blockSignals(true);
-                            ui->DeviceViewBox->selectZone(selected_zone);
+                            ui->DeviceViewBox->SelectZone(selected_zone);
                             ui->DeviceViewBox->blockSignals(false);
                         }
                     }
@@ -910,7 +910,7 @@ void OpenRGBDevicePage::UpdateLEDUi()
                             if(!ui->LEDBox->signalsBlocked())
                             {
                                 ui->DeviceViewBox->blockSignals(true);
-                                ui->DeviceViewBox->selectLed(globalIndex);
+                                ui->DeviceViewBox->SelectLED(globalIndex);
                                 ui->DeviceViewBox->blockSignals(false);
                             }
                         }
@@ -929,7 +929,7 @@ void OpenRGBDevicePage::UpdateLEDUi()
                         if(!ui->LEDBox->signalsBlocked())
                         {
                             ui->DeviceViewBox->blockSignals(true);
-                            ui->DeviceViewBox->selectSegment(selected_zone, selected_segment);
+                            ui->DeviceViewBox->SelectSegment(selected_zone, selected_segment);
                             ui->DeviceViewBox->blockSignals(false);
                         }
                     }
@@ -963,7 +963,7 @@ void OpenRGBDevicePage::UpdateLEDUi()
                             if(!ui->LEDBox->signalsBlocked())
                             {
                                 ui->DeviceViewBox->blockSignals(true);
-                                ui->DeviceViewBox->selectLed(globalIndex);
+                                ui->DeviceViewBox->SelectLED(globalIndex);
                                 ui->DeviceViewBox->blockSignals(false);
                             }
                         }
@@ -2041,7 +2041,7 @@ void OpenRGBDevicePage::UpdateInterface(unsigned int update_reason)
     case RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS:
     case RGBCONTROLLER_UPDATE_REASON_RESIZEZONE:
         UpdateModeUi();
-        ui->DeviceViewBox->setChanged();
+        ui->DeviceViewBox->SetChanged();
         ui->DeviceViewBox->repaint();
         break;
     }
@@ -2119,7 +2119,7 @@ void OpenRGBDevicePage::on_DeviceSaveButton_clicked()
     }
 }
 
-void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int selected_segment, QVector<int> indices)
+void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int selected_segment, std::vector<std::size_t> indices)
 {
     /*-----------------------------------------------------*\
     | Device View only supports per-LED modes               |
@@ -2131,11 +2131,12 @@ void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int
         \*-------------------------------------------------*/
         if((selected_zone < 0) && (indices.size() == 0))
         {
-                if(MultipleSelected)
-                {
-                    ui->LEDBox->removeItem(ui->LEDBox->count() -1);
-                }
+            if(MultipleSelected)
+            {
+                ui->LEDBox->removeItem(ui->LEDBox->count() -1);
+            }
             MultipleSelected = false;
+
             SetSelectedZone(true, -1, -1);
         }
         /*-------------------------------------------------*\
@@ -2143,11 +2144,12 @@ void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int
         \*-------------------------------------------------*/
         else if(selected_zone >= 0)
         {
-                if(MultipleSelected)
-                {
-                    ui->LEDBox->removeItem(ui->LEDBox->count() -1);
-                }
+            if(MultipleSelected)
+            {
+                ui->LEDBox->removeItem(ui->LEDBox->count() -1);
+            }
             MultipleSelected = false;
+
             SetSelectedZone(false, selected_zone, selected_segment);
         }
         /*-------------------------------------------------*\
@@ -2155,11 +2157,12 @@ void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int
         \*-------------------------------------------------*/
         else if(indices.size() == 1)
         {
-                if(MultipleSelected)
-                {
-                    ui->LEDBox->removeItem(ui->LEDBox->count() -1);
-                }
+            if(MultipleSelected)
+            {
+                ui->LEDBox->removeItem(ui->LEDBox->count() -1);
+            }
             MultipleSelected = false;
+
             ui->ZoneBox->setCurrentIndex(0);
             ui->LEDBox->setCurrentIndex(indices[0] + 1);
         }
