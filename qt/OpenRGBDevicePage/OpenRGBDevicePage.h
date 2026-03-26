@@ -105,7 +105,7 @@ private slots:
     void on_BrightnessSlider_valueChanged(int value);
     void on_ColorWheelBox_colorChanged(const QColor color);
     void on_DeviceSaveButton_clicked();
-    void on_DeviceViewBox_selectionChanged(int selected_zone, int selected_segment, QVector<int>);
+    void on_DeviceViewBox_selectionChanged(int selected_zone, int selected_segment, std::vector<std::size_t>);
     void on_DirectionBox_currentIndexChanged(int index);
     void on_EditZoneButton_clicked();
     void on_GreenSpinBox_valueChanged(int green);
