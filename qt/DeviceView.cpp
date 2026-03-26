@@ -28,25 +28,6 @@
 #define PAD_SEGMENT 0.9f
 #define SIZE_TEXT   0.5f
 
-DeviceView::DeviceView(QWidget *parent) :
-    QWidget(parent),
-    initSize(128,128),
-    mouseDown(false)
-{
-    controller = NULL;
-    changed = false;
-    numerical_labels = false;
-    per_led = true;
-    setMouseTracking(1);
-
-    size = width();
-}
-
-DeviceView::~DeviceView()
-{
-
-}
-
 struct led_label
 {
     QString label_text;
@@ -232,12 +213,268 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_BR_TILDE,             { "~"     , "~"                 }}
 };
 
-void DeviceView::setChanged()
+DeviceView::DeviceView(QWidget *parent) :
+    QWidget(parent),
+    init_size(128,128)
 {
+    /*-----------------------------------------------------*\
+    | Initialize variables                                  |
+    \*-----------------------------------------------------*/
+    changed             = false;
+    controller          = NULL;
+    mouse_down          = false;
+    numerical_labels    = false;
+    per_led             = true;
+    size                = width();
+
+    /*-----------------------------------------------------*\
+    | Enable mouse tracking                                 |
+    \*-----------------------------------------------------*/
+    setMouseTracking(1);
+}
+
+DeviceView::~DeviceView()
+{
+
+}
+
+/*---------------------------------------------------------*\
+| Qt size hints                                             |
+\*---------------------------------------------------------*/
+QSize DeviceView::minimumSizeHint() const
+{
+    return(init_size);
+}
+
+QSize DeviceView::sizeHint() const
+{
+    return(QSize(height() - 1, height() - 1));
+}
+
+/*---------------------------------------------------------*\
+| Selection functions                                       |
+\*---------------------------------------------------------*/
+bool DeviceView::SelectLED(std::size_t led_idx)
+{
+    /*-----------------------------------------------------*\
+    | Check validity                                        |
+    \*-----------------------------------------------------*/
+    if(led_idx >= controller->GetLEDCount())
+    {
+        return(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | Set selection                                         |
+    \*-----------------------------------------------------*/
+    selected_leds.resize(1);
+    selected_leds[0] = led_idx;
+
+    selection_flags.clear();
+    selection_flags.resize(controller->GetLEDCount());
+    selection_flags[led_idx] = 1;
+
+    /*-----------------------------------------------------*\
+    | Update UI                                             |
+    \*-----------------------------------------------------*/
+    update();
+
+    /*-----------------------------------------------------*\
+    | Send selection changed signal                         |
+    \*-----------------------------------------------------*/
+    emit selectionChanged(-1, -1, selected_leds);
+
+    return(true);
+}
+
+bool DeviceView::SelectLEDs(std::vector<std::size_t> leds)
+{
+    /*-----------------------------------------------------*\
+    | Check validity                                        |
+    \*-----------------------------------------------------*/
+    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        if(leds[led_idx] >= controller->GetLEDCount())
+        {
+            return(false);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Set selection                                         |
+    \*-----------------------------------------------------*/
+    selection_flags.clear();
+    selection_flags.resize(controller->GetLEDCount());
+
+    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        selection_flags[led_idx] = 1;
+    }
+
+    /*-----------------------------------------------------*\
+    | Filter out duplicate items                            |
+    \*-----------------------------------------------------*/
+    selected_leds.clear();
+
+    for(std::size_t led_idx = 0; led_idx < selection_flags.size(); led_idx++)
+    {
+        if(selection_flags[led_idx])
+        {
+            selected_leds.push_back(led_idx);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Update UI                                             |
+    \*-----------------------------------------------------*/
+    update();
+
+    /*-----------------------------------------------------*\
+    | Send selection changed signal                         |
+    \*-----------------------------------------------------*/
+    emit selectionChanged(-1, -1, selected_leds);
+
+    return(true);
+}
+
+bool DeviceView::SelectSegment(std::size_t zone_idx, std::size_t segment_idx, bool add)
+{
+    /*-----------------------------------------------------*\
+    | Check validity                                        |
+    \*-----------------------------------------------------*/
+    if(zone_idx >= controller->GetZoneCount())
+    {
+        return(false);
+    }
+
+    if(segment_idx >= controller->GetZoneSegmentCount(zone_idx))
+    {
+        return(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | If not adding to the current selection, clear the     |
+    | existing selection                                    |
+    \*-----------------------------------------------------*/
+    if(!add)
+    {
+        selected_leds.clear();
+        selection_flags.clear();
+        selection_flags.resize(controller->GetLEDCount());
+    }
+
+    /*-----------------------------------------------------*\
+    | Add segment LEDs to selection                         |
+    \*-----------------------------------------------------*/
+    unsigned int zone_start     = controller->GetZoneStartIndex(zone_idx);
+    unsigned int segment_start  = controller->GetZoneSegmentStartIndex(zone_idx, segment_idx);
+
+    for(unsigned int led_idx = 0; led_idx < controller->GetZoneSegmentLEDsCount(zone_idx, segment_idx); led_idx++)
+    {
+        if(!selection_flags[zone_start + segment_start + led_idx])
+        {
+            selected_leds.push_back(zone_start + segment_start + led_idx);
+            selection_flags[zone_start + segment_start + led_idx] = 1;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Update UI                                             |
+    \*-----------------------------------------------------*/
+    update();
+
+    /*-----------------------------------------------------*\
+    | Send selection changed signal                         |
+    \*-----------------------------------------------------*/
+    if(!add)
+    {
+        emit selectionChanged(zone_idx, segment_idx, selected_leds);
+    }
+    else
+    {
+        emit selectionChanged(-1, -1, selected_leds);
+    }
+
+    return(true);
+}
+
+bool DeviceView::SelectZone(std::size_t zone_idx, bool add)
+{
+    /*-----------------------------------------------------*\
+    | Check validity                                        |
+    \*-----------------------------------------------------*/
+    if(zone_idx >= controller->GetZoneCount())
+    {
+        return(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | If not adding to the current selection, clear the     |
+    | existing selection                                    |
+    \*-----------------------------------------------------*/
+    if(!add)
+    {
+        selected_leds.clear();
+        selection_flags.clear();
+        selection_flags.resize(controller->GetLEDCount());
+    }
+
+    /*-----------------------------------------------------*\
+    | Add zone LEDs to selection                            |
+    \*-----------------------------------------------------*/
+    unsigned int zone_start     = controller->GetZoneStartIndex(zone_idx);
+
+    for(unsigned int led_idx = 0; led_idx < controller->GetLEDsInZone(zone_idx); led_idx++)
+    {
+        if(!selection_flags[zone_start + led_idx])
+        {
+            selected_leds.push_back(zone_start + led_idx);
+            selection_flags[zone_start + led_idx] = 1;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Update UI                                             |
+    \*-----------------------------------------------------*/
+    update();
+
+    /*-----------------------------------------------------*\
+    | Send selection changed signal                         |
+    \*-----------------------------------------------------*/
+    if(!add)
+    {
+        emit(selectionChanged(zone_idx, -1, selected_leds));
+    }
+    else
+    {
+        emit selectionChanged(-1, -1, selected_leds);
+    }
+
+    return(true);
+}
+
+/*---------------------------------------------------------*\
+| Setter functions                                          |
+\*---------------------------------------------------------*/
+void DeviceView::ClearSelection()
+{
+    /*-----------------------------------------------------*\
+    | Same as selecting the entire device                   |
+    \*-----------------------------------------------------*/
+    selected_leds.clear();
+    selection_flags.clear();
+    selection_flags.resize(controller->GetLEDCount());
+}
+
+void DeviceView::SetChanged()
+{
+    /*-----------------------------------------------------*\
+    | Set the changed flag                                  |
+    \*-----------------------------------------------------*/
     changed = true;
 }
 
-void DeviceView::setController(RGBController * controller_ptr)
+void DeviceView::SetController(RGBController * controller_ptr)
 {
     /*-----------------------------------------------------*\
     | Store the controller pointer                          |
@@ -245,12 +482,524 @@ void DeviceView::setController(RGBController * controller_ptr)
     controller = controller_ptr;
 }
 
+void DeviceView::SetNumericalLabels(bool enable)
+{
+    /*-----------------------------------------------------*\
+    | Store the numerical labels flag                       |
+    \*-----------------------------------------------------*/
+    numerical_labels = enable;
+}
+
+void DeviceView::SetPerLED(bool per_led_mode)
+{
+    /*-----------------------------------------------------*\
+    | Store the Per LED flag                                |
+    \*-----------------------------------------------------*/
+    per_led = per_led_mode;
+
+    /*-----------------------------------------------------*\
+    | Update UI                                             |
+    \*-----------------------------------------------------*/
+    update();
+}
+
+void DeviceView::SetSelectionColor(RGBColor color)
+{
+    /*-----------------------------------------------------*\
+    | If no LEDs are selected, set entire device using the  |
+    | SetAllColors function                                 |
+    \*-----------------------------------------------------*/
+    if(selected_leds.empty())
+    {
+        controller->SetAllColors(color);
+    }
+    /*-----------------------------------------------------*\
+    | Otherwise, set the individual selected LEDs using the |
+    | SetColor function                                     |
+    \*-----------------------------------------------------*/
+    else
+    {
+        for(std::size_t led_idx = 0; led_idx < selected_leds.size(); led_idx++)
+        {
+            controller->SetColor(selected_leds[led_idx], color);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Update the device to apply the new colors             |
+    \*-----------------------------------------------------*/
+    controller->UpdateLEDs();
+
+    /*-----------------------------------------------------*\
+    | Update UI                                             |
+    \*-----------------------------------------------------*/
+    update();
+}
+
+/*---------------------------------------------------------*\
+| Qt events                                                 |
+\*---------------------------------------------------------*/
+void DeviceView::mousePressEvent(QMouseEvent *event)
+{
+    /*-----------------------------------------------------*\
+    | Only handle events when in per-LED mode               |
+    \*-----------------------------------------------------*/
+    if(per_led)
+    {
+        /*-------------------------------------------------*\
+        | Set flags                                         |
+        \*-------------------------------------------------*/
+        ctrl_down                = event->modifiers().testFlag(Qt::ControlModifier);
+        mouse_down               = true;
+        mouse_moved              = false;
+
+        /*-------------------------------------------------*\
+        | If CTRL is held, store the previous selection     |
+        \*-------------------------------------------------*/
+        if(ctrl_down)
+        {
+            previous_flags      = selection_flags;
+            previous_selection  = selected_leds;
+        }
+
+        /*-------------------------------------------------*\
+        | Initialize the selection rect to the mouse press  |
+        | position.  It's okay if the size becomes negative |
+        \*-------------------------------------------------*/
+        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            selection_rect.setLeft(event->position().x());
+            selection_rect.setTop(event->position().y());
+            selection_rect.setRight(event->position().x());
+            selection_rect.setBottom(event->position().y());
+        #else
+            selection_rect.setLeft(event->x());
+            selection_rect.setTop(event->y());
+            selection_rect.setRight(event->x());
+            selection_rect.setBottom(event->y());
+        #endif
+
+        /*-------------------------------------------------*\
+        | Update selection                                  |
+        \*-------------------------------------------------*/
+        UpdateSelection();
+
+        /*-------------------------------------------------*\
+        | Update UI                                         |
+        \*-------------------------------------------------*/
+        update();
+    }
+}
+
+void DeviceView::mouseMoveEvent(QMouseEvent *event)
+{
+    /*-----------------------------------------------------*\
+    | Only handle events when in per-LED mode               |
+    \*-----------------------------------------------------*/
+    if(per_led)
+    {
+        /*-------------------------------------------------*\
+        | Set last mouse point                              |
+        \*-------------------------------------------------*/
+        last_mouse_point        = event->pos();
+
+        /*-------------------------------------------------*\
+        | Update the selection rect to the current mouse    |
+        | position                                          |
+        \*-------------------------------------------------*/
+        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            selection_rect.setRight(event->position().x());
+            selection_rect.setBottom(event->position().y());
+        #else
+            selection_rect.setRight(event->x());
+            selection_rect.setBottom(event->y());
+        #endif
+
+        /*-------------------------------------------------*\
+        | If mouse is held, update selection                |
+        \*-------------------------------------------------*/
+        if(mouse_down)
+        {
+            /*---------------------------------------------*\
+            | Set flags                                     |
+            \*---------------------------------------------*/
+            ctrl_down           = event->modifiers().testFlag(Qt::ControlModifier);
+            mouse_moved         = true;
+
+            /*---------------------------------------------*\
+            | If CTRL is released, clear the previous       |
+            | selection.                                    |
+            \*---------------------------------------------*/
+            if(!ctrl_down)
+            {
+                previous_selection.clear();
+                previous_flags.clear();
+                previous_flags.resize(controller->GetLEDCount());
+            }
+
+            /*---------------------------------------------*\
+            | Update selection                              |
+            \*---------------------------------------------*/
+            UpdateSelection();
+        }
+
+        /*-------------------------------------------------*\
+        | Update UI                                         |
+        \*-------------------------------------------------*/
+        update();
+    }
+}
+
+void DeviceView::mouseReleaseEvent(QMouseEvent* event)
+{
+    /*-----------------------------------------------------*\
+    | Only handle events when in per-LED mode               |
+    \*-----------------------------------------------------*/
+    if(per_led)
+    {
+        /*-------------------------------------------------*\
+        | Clear the mouse down flag and normalize the       |
+        | selection rect                                    |
+        \*-------------------------------------------------*/
+        mouse_down                      = false;
+        selection_rect                  = selection_rect.normalized();
+
+        /*-------------------------------------------------*\
+        | Check if the user clicked a zone or segment name  |
+        \*-------------------------------------------------*/
+        if(!mouse_moved)
+        {
+            /*---------------------------------------------*\
+            | Set size and X offset based on width          |
+            \*---------------------------------------------*/
+            int size                    = width();
+            int offset_x                = 0;
+
+            /*---------------------------------------------*\
+            | If height is less than width, set size and X  |
+            | offset based on height                        |
+            \*---------------------------------------------*/
+            if(height() < (size * matrix_h))
+            {
+                size                    = (height() / matrix_h);
+                offset_x                = ((width() - size) / 2);
+            }
+
+            /*---------------------------------------------*\
+            | Loop through each zone and check if the click |
+            | position is within the rect for the zone name |
+            | label                                         |
+            \*---------------------------------------------*/
+            unsigned int segment_count  = 0;
+
+            for(unsigned int zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
+            {
+                int posx                = zone_pos[zone_idx].matrix_x * size + offset_x + 12;
+                int posy                = zone_pos[zone_idx].matrix_y * size;
+                int posw                = zone_pos[zone_idx].matrix_w * size;
+                int posh                = zone_pos[zone_idx].matrix_h * size;
+
+                QRect rect              = {posx, posy, posw, posh};
+
+                if(rect.contains(event->pos()))
+                {
+                    SelectZone(zone_idx, ctrl_down);
+                }
+
+                /*-----------------------------------------*\
+                | Loop through each segment and check if    |
+                | the click position is within the rect for |
+                | the segment name label                    |
+                \*-----------------------------------------*/
+                for(unsigned int segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
+                {
+                    posx                = segment_pos[segment_count].matrix_x * size + offset_x + 12;
+                    posy                = segment_pos[segment_count].matrix_y * size;
+                    posw                = segment_pos[segment_count].matrix_w * size;
+                    posh                = segment_pos[segment_count].matrix_h * size;
+
+                    segment_count++;
+
+                    rect                = {posx, posy, posw, posh};
+
+                    if(rect.contains(event->pos()))
+                    {
+                        SelectSegment(zone_idx, segment_idx, ctrl_down);
+                    }
+                }
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Update UI                                         |
+        \*-------------------------------------------------*/
+        update();
+    }
+}
+
+void DeviceView::resizeEvent(QResizeEvent* /*event*/)
+{
+    /*-----------------------------------------------------*\
+    | Set size and X offset based on width                  |
+    \*-----------------------------------------------------*/
+    size                        = width();
+    offset_x                    = 0;
+
+    /*-----------------------------------------------------*\
+    | If height is less than width, set size and X offset   |
+    | based on height                                       |
+    \*-----------------------------------------------------*/
+    if(height() < (size * matrix_h))
+    {
+        size                    = (height() / matrix_h);
+        offset_x                = ((width() - size) / 2);
+    }
+
+    /*-----------------------------------------------------*\
+    | Update UI                                             |
+    \*-----------------------------------------------------*/
+    update();
+}
+
+void DeviceView::paintEvent(QPaintEvent* /* event */)
+{
+    /*-----------------------------------------------------*\
+    | If Device View is hidden, don't paint                 |
+    \*-----------------------------------------------------*/
+    if(isHidden() || !per_led)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Create painter and font                               |
+    \*-----------------------------------------------------*/
+    QPainter    painter(this);
+    QFont       font            = painter.font();
+
+    /*-----------------------------------------------------*\
+    | If controller has resized, reinitialize local data    |
+    \*-----------------------------------------------------*/
+    if(changed || (controller->GetZoneCount() != zone_pos.size()) || (controller->GetLEDCount() != led_pos.size()))
+    {
+        InitDeviceView();
+        changed = false;
+    }
+
+    /*-----------------------------------------------------*\
+    | If segments have resized, reinitialize local data     |
+    \*-----------------------------------------------------*/
+    unsigned int segments = 0;
+
+    for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
+    {
+        for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
+        {
+            segments++;
+        }
+    }
+
+    if(segments != segment_pos.size())
+    {
+        InitDeviceView();
+    }
+
+    /*-----------------------------------------------------*\
+    | Paint LED rectangles                                  |
+    \*-----------------------------------------------------*/
+    for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
+    {
+        /*-------------------------------------------------*\
+        | Determine position and size                       |
+        \*-------------------------------------------------*/
+        int posx                = led_pos[led_idx].matrix_x * size + offset_x;
+        int posy                = led_pos[led_idx].matrix_y * size;
+        int posw                = led_pos[led_idx].matrix_w * size;
+        int posh                = led_pos[led_idx].matrix_h * size;
+
+        /*-------------------------------------------------*\
+        | Create rect                                       |
+        \*-------------------------------------------------*/
+        QRect rect              = {posx, posy, posw, posh};
+
+        /*-------------------------------------------------*\
+        | Set Fill color                                    |
+        \*-------------------------------------------------*/
+        QColor currentColor     = QColor::fromRgb(RGBGetRValue(controller->GetColor(led_idx)),
+                                                  RGBGetGValue(controller->GetColor(led_idx)),
+                                                  RGBGetBValue(controller->GetColor(led_idx)));
+        painter.setBrush(currentColor);
+
+        /*-------------------------------------------------*\
+        | Set Border color                                  |
+        \*-------------------------------------------------*/
+        if(selection_flags[led_idx])
+        {
+            painter.setPen(palette().highlight().color());
+        }
+        else
+        {
+            painter.setPen(palette().dark().color());
+        }
+
+        /*-------------------------------------------------*\
+        | Draw LED rectangle                                |
+        \*-------------------------------------------------*/
+        painter.drawRect(rect);
+
+        /*-------------------------------------------------*\
+        | LED Label                                         |
+        | Set the font color so that the text is visible    |
+        \*-------------------------------------------------*/
+        font.setPixelSize(std::max<int>(1, posh / 2));
+        painter.setFont(font);
+
+        /*-------------------------------------------------*\
+        | Determine whether label should be drawn in white  |
+        | or black based on luma of the LED's color         |
+        \*-------------------------------------------------*/
+        unsigned int luma       = (unsigned int)(0.2126f * currentColor.red() + 0.7152f * currentColor.green() + 0.0722f * currentColor.blue());
+
+        if(luma > 127)
+        {
+            painter.setPen(Qt::black);
+        }
+        else
+        {
+            painter.setPen(Qt::white);
+        }
+
+        /*-------------------------------------------------*\
+        | Draw LED label on LED rectangle                   |
+        \*-------------------------------------------------*/
+        painter.drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, QString(led_labels[led_idx]));
+    }
+
+    /*-----------------------------------------------------*\
+    | Change font size for drawing zone and segment names   |
+    \*-----------------------------------------------------*/
+    font.setPixelSize(12);
+    painter.setFont(font);
+
+    /*-----------------------------------------------------*\
+    | Paint Zone and Segment names                          |
+    \*-----------------------------------------------------*/
+    unsigned int segment_count  = 0;
+
+    for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
+    {
+        /*-------------------------------------------------*\
+        | Determine position and size for zone name         |
+        \*-------------------------------------------------*/
+        int posx                = zone_pos[zone_idx].matrix_x * size + offset_x;
+        int posy                = zone_pos[zone_idx].matrix_y * size;
+        int posw                = zone_pos[zone_idx].matrix_w * size;
+        int posh                = zone_pos[zone_idx].matrix_h * size;
+
+        /*-------------------------------------------------*\
+        | Create rect                                       |
+        \*-------------------------------------------------*/
+        QRect rect              = {posx, posy, posw, posh};
+
+        /*-------------------------------------------------*\
+        | If the mouse is hovering inside of this rect,     |
+        | draw the name in the highlight color instead of   |
+        | the window text color                             |
+        \*-------------------------------------------------*/
+        if(rect.contains(last_mouse_point) && (!mouse_down || !mouse_moved))
+        {
+            painter.setPen(palette().highlight().color());
+        }
+        else
+        {
+            painter.setPen(palette().windowText().color());
+        }
+
+        /*-------------------------------------------------*\
+        | Draw zone name                                    |
+        \*-------------------------------------------------*/
+        painter.drawText(posx, posy + posh, QString(controller->GetZoneName((unsigned int)zone_idx).c_str()));
+
+        for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
+        {
+            /*---------------------------------------------*\
+            | Determine position and size for segment name  |
+            \*---------------------------------------------*/
+            posx                = segment_pos[segment_count].matrix_x * size + offset_x;
+            posy                = segment_pos[segment_count].matrix_y * size;
+            posw                = segment_pos[segment_count].matrix_w * size;
+            posh                = segment_pos[segment_count].matrix_h * size;
+
+            segment_count++;
+
+            /*---------------------------------------------*\
+            | Create rect                                   |
+            \*---------------------------------------------*/
+            rect                = {posx, posy, posw, posh};
+
+            /*---------------------------------------------*\
+            | If the mouse is hovering inside of this rect, |
+            | draw the name in the highlight color instead  |
+            | of the window text color                      |
+            \*---------------------------------------------*/
+            if(rect.contains(last_mouse_point) && (!mouse_down || !mouse_moved))
+            {
+                painter.setPen(palette().highlight().color());
+            }
+            else
+            {
+                painter.setPen(palette().windowText().color());
+            }
+
+            /*---------------------------------------------*\
+            | Draw segment name                             |
+            \*---------------------------------------------*/
+            painter.drawText(posx, posy + posh, QString(controller->GetZoneSegmentName(zone_idx, segment_idx).c_str()));
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Draw selection area                                   |
+    \*-----------------------------------------------------*/
+    if(mouse_down)
+    {
+        /*-------------------------------------------------*\
+        | Create rect based on normalized selection         |
+        \*-------------------------------------------------*/
+        QRect rect              = selection_rect.normalized();
+
+        /*-------------------------------------------------*\
+        | Use highlight color                               |
+        \*-------------------------------------------------*/
+        QColor color            = palette().highlight().color();
+
+        /*-------------------------------------------------*\
+        | Draw fill with transparent highlight color        |
+        \*-------------------------------------------------*/
+        color.setAlpha(63);
+        painter.fillRect(rect, color);
+
+        /*-------------------------------------------------*\
+        | Draw border with more opaque highlight color      |
+        \*-------------------------------------------------*/
+        color.setAlpha(127);
+        painter.setBrush(color);
+
+        /*-------------------------------------------------*\
+        | Draw the rect                                     |
+        \*-------------------------------------------------*/
+        painter.drawRect(rect);
+    }
+}
+
+/*---------------------------------------------------------*\
+| Private functions                                         |
+\*---------------------------------------------------------*/
 void DeviceView::InitDeviceView()
 {
     /*-----------------------------------------------------*\
     | Set the size of the selection flags vector            |
     \*-----------------------------------------------------*/
-    selectionFlags.resize((int)controller->GetLEDCount());
+    selection_flags.resize((int)controller->GetLEDCount());
 
     /*-----------------------------------------------------*\
     | Set the size of the zone and LED position vectors     |
@@ -262,24 +1011,21 @@ void DeviceView::InitDeviceView()
     /*-----------------------------------------------------*\
     | Process position and size for zones                   |
     \*-----------------------------------------------------*/
-    unsigned int maxWidth       = 0;
-    unsigned int segment_count  = 0;
-    float        totalHeight    = 0.0f;
+    unsigned int        max_width           = 0;
+    unsigned int        segment_count       = 0;
+    float               total_height        = 0.0f;
 
     /*-----------------------------------------------------*\
     | Get device view settings                              |
     \*-----------------------------------------------------*/
     SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
     std::string         ui_string           = "UserInterface";
-    json                ui_settings;
-
+    json                ui_settings         = settings_manager->GetSettings(ui_string);
     bool                disable_expansion   = false;
-
-    ui_settings = settings_manager->GetSettings(ui_string);
 
     if(ui_settings.contains("disable_key_expansion"))
     {
-        disable_expansion       = ui_settings["disable_key_expansion"];
+        disable_expansion                   = ui_settings["disable_key_expansion"];
     }
 
     /*-----------------------------------------------------*\
@@ -287,49 +1033,49 @@ void DeviceView::InitDeviceView()
     \*-----------------------------------------------------*/
     for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
     {
-        /*-----------------------------------------------------*\
-        | For matrix zones, use matrix height from the map      |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | For matrix zones, use matrix height from the map  |
+        \*-------------------------------------------------*/
         if(controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX)
         {
-            totalHeight                += controller->GetZoneMatrixMapHeight(zone_idx);
-            zone_pos[zone_idx].matrix_w = controller->GetZoneMatrixMapWidth(zone_idx);
+            total_height                   += controller->GetZoneMatrixMapHeight(zone_idx);
+            zone_pos[zone_idx].matrix_w     = controller->GetZoneMatrixMapWidth(zone_idx);
         }
-        /*-----------------------------------------------------*\
-        | For all other zones, compute the height including     |
-        | wrap-around                                           |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | For all other zones, compute the height including |
+        | wrap-around                                       |
+        \*-------------------------------------------------*/
         else if(controller->GetZoneSegmentCount(zone_idx) > 0)
         {
             for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
             {
                 if(controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX)
                 {
-                    totalHeight                    += controller->GetZoneSegmentMatrixMapHeight(zone_idx, segment_idx);
-                    zone_pos[zone_idx].matrix_w     = controller->GetZoneSegmentMatrixMapWidth(zone_idx, segment_idx);
+                    total_height               += controller->GetZoneSegmentMatrixMapHeight(zone_idx, segment_idx);
+                    zone_pos[zone_idx].matrix_w = controller->GetZoneSegmentMatrixMapWidth(zone_idx, segment_idx);
                 }
                 else
                 {
                     unsigned int count          = controller->GetZoneSegmentLEDsCount(zone_idx, segment_idx);
                     zone_pos[zone_idx].matrix_w = std::min(count, (unsigned int)MAX_COLS);
-                    totalHeight                += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
+                    total_height                += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
                 }
                 segment_count++;
             }
         }
         else
         {
-            unsigned int count          = controller->GetLEDsInZone((unsigned int)zone_idx);
-            zone_pos[zone_idx].matrix_w = std::min(count, (unsigned int)MAX_COLS);
-            totalHeight                += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
+            unsigned int count              = controller->GetLEDsInZone((unsigned int)zone_idx);
+            zone_pos[zone_idx].matrix_w     = std::min(count, (unsigned int)MAX_COLS);
+            total_height                   += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
         }
 
-        /*-----------------------------------------------------*\
-        | Determine the maximum width (in LEDs) in the view     |
-        \*-----------------------------------------------------*/
-        if(zone_pos[zone_idx].matrix_w > maxWidth)
+        /*-------------------------------------------------*\
+        | Determine the maximum width (in LEDs) in the view |
+        \*-------------------------------------------------*/
+        if(zone_pos[zone_idx].matrix_w > max_width)
         {
-            maxWidth = zone_pos[zone_idx].matrix_w;
+            max_width                       = zone_pos[zone_idx].matrix_w;
         }
     }
 
@@ -338,26 +1084,30 @@ void DeviceView::InitDeviceView()
     /*-----------------------------------------------------*\
     | Add some space for zone names and padding             |
     \*-----------------------------------------------------*/
-    totalHeight    += controller->GetZoneCount() * PAD_ZONE;
-    totalHeight    += segment_count * PAD_SEGMENT;
+    total_height                           += controller->GetZoneCount() * PAD_ZONE;
+    total_height                           += segment_count * PAD_SEGMENT;
 
-    float current_y = 0;                    // We will be descending, placing each zone one unit below the previous one
-    matrix_h        = totalHeight;
-    segment_count   = 0;
+    /*-----------------------------------------------------*\
+    | We will be descending, placing each zone one unit     |
+    | below the previous one                                |
+    \*-----------------------------------------------------*/
+    float current_y                         = 0;
+    matrix_h                                = total_height;
+    segment_count                           = 0;
 
     for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
     {
-        /*-----------------------------------------------------*\
-        | Calculate zone label position and size                |
-        \*-----------------------------------------------------*/
-        zone_pos[zone_idx].matrix_x = (maxWidth - zone_pos[zone_idx].matrix_w) / 2.0f;
-        zone_pos[zone_idx].matrix_y = current_y + SIZE_TEXT;
-        zone_pos[zone_idx].matrix_h = SIZE_TEXT - PAD_TEXT;
-        current_y                  += PAD_ZONE;
+        /*-------------------------------------------------*\
+        | Calculate zone label position and size            |
+        \*-------------------------------------------------*/
+        zone_pos[zone_idx].matrix_x         = (max_width - zone_pos[zone_idx].matrix_w) / 2.0f;
+        zone_pos[zone_idx].matrix_y         = current_y + SIZE_TEXT;
+        zone_pos[zone_idx].matrix_h         = SIZE_TEXT - PAD_TEXT;
+        current_y                          += PAD_ZONE;
 
-        /*-----------------------------------------------------*\
-        | Calculate LEDs position and size for zone             |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Calculate LEDs position and size for zone         |
+        \*-------------------------------------------------*/
         if(controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX)
         {
             for(unsigned int led_x = 0; led_x < controller->GetZoneMatrixMapWidth(zone_idx); led_x++)
@@ -372,32 +1122,35 @@ void DeviceView::InitDeviceView()
                         led_pos[color_idx].matrix_x = (zone_pos[zone_idx].matrix_x + led_x + PAD_LED);
                         led_pos[color_idx].matrix_y = current_y + (led_y + PAD_LED);
 
-                        /*-----------------------------------------------------*\
-                        | LED is a 1x1 square, minus padding on all sides       |
-                        \*-----------------------------------------------------*/
+                        /*---------------------------------*\
+                        | LED is a 1x1 square, minus        |
+                        | padding on all sides              |
+                        \*---------------------------------*/
                         led_pos[color_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
                         led_pos[color_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
 
                         if(!disable_expansion)
                         {
-                            /*-----------------------------------------------------*\
-                            | Expand large keys to fill empty spaces in matrix, if  |
-                            | possible.  Large keys can fill left, down, up, or wide|
-                            | Fill Left:                                            |
-                            |    Tab                                                |
-                            |    Caps Lock                                          |
-                            |    Left Shift                                         |
-                            |    Right Shift                                        |
-                            |    Backspace                                          |
-                            |    Number Pad 0                                       |
-                            |                                                       |
-                            | Fill Up or Down:                                      |
-                            |    Number Pad Enter                                   |
-                            |    Number Pad +                                       |
-                            |                                                       |
-                            | Fill Wide:                                            |
-                            |    Space                                              |
-                            \*-----------------------------------------------------*/
+                            /*-----------------------------*\
+                            | Expand large keys to fill     |
+                            | empty spaces in matrix, if    |
+                            | possible.  Large keys can     |
+                            | fill left, down, up, or wide  |
+                            | Fill Left:                    |
+                            |    Tab                        |
+                            |    Caps Lock                  |
+                            |    Left Shift                 |
+                            |    Right Shift                |
+                            |    Backspace                  |
+                            |    Number Pad 0               |
+                            |                               |
+                            | Fill Up or Down:              |
+                            |    Number Pad Enter           |
+                            |    Number Pad +               |
+                            |                               |
+                            | Fill Wide:                    |
+                            |    Space                      |
+                            \*-----------------------------*/
                             if(led_x < controller->GetZoneMatrixMapWidth(zone_idx) - 1 && controller->GetZoneMatrixMapData(zone_idx)[map_idx + 1] == 0xFFFFFFFF)
                             {
                                 if( ( controller->GetLEDDisplayName(color_idx) == KEY_EN_TAB        )
@@ -447,10 +1200,10 @@ void DeviceView::InitDeviceView()
         {
             for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
             {
-                /*-----------------------------------------------------*\
-                | Calculate segment label position and size             |
-                \*-----------------------------------------------------*/
-                segment_pos[segment_count].matrix_x = (maxWidth - zone_pos[zone_idx].matrix_w) / 2.0f;
+                /*-----------------------------------------*\
+                | Calculate segment label position and size |
+                \*-----------------------------------------*/
+                segment_pos[segment_count].matrix_x = (max_width - zone_pos[zone_idx].matrix_w) / 2.0f;
                 segment_pos[segment_count].matrix_y = current_y + SIZE_TEXT;
                 segment_pos[segment_count].matrix_w = zone_pos[zone_idx].matrix_w;
                 segment_pos[segment_count].matrix_h = SIZE_TEXT - PAD_TEXT;
@@ -472,9 +1225,11 @@ void DeviceView::InitDeviceView()
                                 led_pos[color_idx].matrix_x = (segment_pos[zone_idx].matrix_x + led_x + PAD_LED);
                                 led_pos[color_idx].matrix_y = current_y + (led_y + PAD_LED);
 
-                                /*-----------------------------------------------------*\
-                                | LED is a 1x1 square, minus padding on all sides       |
-                                \*-----------------------------------------------------*/
+                                /*-------------------------*\
+                                | LED is a 1x1 square,      |
+                                | minus padding on all      |
+                                | sides                     |
+                                \*-------------------------*/
                                 led_pos[color_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
                                 led_pos[color_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
                             }
@@ -485,9 +1240,10 @@ void DeviceView::InitDeviceView()
                 }
                 else
                 {
-                    /*-----------------------------------------------------*\
-                    | Calculate LED box positions for segmented zones       |
-                    \*-----------------------------------------------------*/
+                    /*-------------------------------------*\
+                    | Calculate LED box positions for       |
+                    | segmented zones                       |
+                    \*-------------------------------------*/
                     unsigned int leds_count = controller->GetZoneSegmentLEDsCount(zone_idx, segment_idx);
 
                     for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
@@ -497,9 +1253,10 @@ void DeviceView::InitDeviceView()
                         led_pos[led_pos_idx].matrix_x = zone_pos[zone_idx].matrix_x + ((led_idx % MAX_COLS) + PAD_LED);
                         led_pos[led_pos_idx].matrix_y = current_y + ((led_idx / MAX_COLS) + PAD_LED);
 
-                        /*-----------------------------------------------------*\
-                        | LED is a 1x1 square, minus padding on all sides       |
-                        \*-----------------------------------------------------*/
+                        /*---------------------------------*\
+                        | LED is a 1x1 square, minus        |
+                        | padding on all sides              |
+                        \*---------------------------------*/
                         led_pos[led_pos_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
                         led_pos[led_pos_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
                     }
@@ -510,9 +1267,10 @@ void DeviceView::InitDeviceView()
         }
         else
         {
-            /*-----------------------------------------------------*\
-            | Calculate LED box positions for single/linear zones   |
-            \*-----------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Calculate LED box positions for single/linear |
+            | zones                                         |
+            \*---------------------------------------------*/
             unsigned int leds_count = controller->GetLEDsInZone((unsigned int)zone_idx);
 
             for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
@@ -522,9 +1280,10 @@ void DeviceView::InitDeviceView()
                 led_pos[led_pos_idx].matrix_x = zone_pos[zone_idx].matrix_x + ((led_idx % MAX_COLS) + PAD_LED);
                 led_pos[led_pos_idx].matrix_y = current_y + ((led_idx / MAX_COLS) + PAD_LED);
 
-                /*-----------------------------------------------------*\
-                | LED is a 1x1 square, minus padding on all sides       |
-                \*-----------------------------------------------------*/
+                /*-----------------------------------------*\
+                | LED is a 1x1 square, minus padding on all |
+                | sides                                     |
+                \*-----------------------------------------*/
                 led_pos[led_pos_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
                 led_pos[led_pos_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
             }
@@ -557,7 +1316,7 @@ void DeviceView::InitDeviceView()
     | thing becomes too tall, we ignore it and let the view |
     | widget take care of it                                |
     \*-----------------------------------------------------*/
-    float atom = 1.0f / maxWidth;
+    float atom = 1.0f / max_width;
 
     for(std::size_t zone_idx = 0; zone_idx < zone_pos.size(); zone_idx++)
     {
@@ -598,212 +1357,25 @@ void DeviceView::InitDeviceView()
     }
 }
 
-void DeviceView::setNumericalLabels(bool enable)
+void DeviceView::UpdateSelection()
 {
-    numerical_labels = enable;
-}
-
-void DeviceView::setPerLED(bool per_led_mode)
-{
-    per_led = per_led_mode;
-    update();
-}
-
-QSize DeviceView::sizeHint () const
-{
-    return QSize(height() - 1, height() - 1);
-}
-
-QSize DeviceView::minimumSizeHint () const
-{
-    return initSize;
-}
-
-void DeviceView::mousePressEvent(QMouseEvent *event)
-{
-    if(per_led)
-    {
-        ctrlDown    = event->modifiers().testFlag(Qt::ControlModifier);
-        mouseDown   = true;
-        mouseMoved  = false;
-
-        if(ctrlDown)
-        {
-            previousFlags = selectionFlags;
-            previousSelection = selectedLeds;
-        }
-
-        /*-----------------------------------------------------*\
-        | It's okay if the size becomes negative                |
-        \*-----------------------------------------------------*/
-        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-            selectionRect.setLeft(event->position().x());
-            selectionRect.setTop(event->position().y());
-            selectionRect.setRight(event->position().x());
-            selectionRect.setBottom(event->position().y());
-        #else
-            selectionRect.setLeft(event->x());
-            selectionRect.setTop(event->y());
-            selectionRect.setRight(event->x());
-            selectionRect.setBottom(event->y());
-        #endif
-
-        updateSelection();
-        update();
-    }
-}
-
-void DeviceView::mouseMoveEvent(QMouseEvent *event)
-{
-    if(per_led)
-    {
-        lastMousePos = event->pos();
-
-        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-            selectionRect.setRight(event->position().x());
-            selectionRect.setBottom(event->position().y());
-        #else
-            selectionRect.setRight(event->x());
-            selectionRect.setBottom(event->y());
-        #endif
-
-        if(mouseDown)
-        {
-            mouseMoved  = true;
-            ctrlDown    = event->modifiers().testFlag(Qt::ControlModifier);
-
-            /*-----------------------------------------------------*\
-            | Clear the previous selection in case ctrl is released |
-            \*-----------------------------------------------------*/
-            if(!ctrlDown)
-            {
-                previousSelection.clear();
-                previousFlags.clear();
-                previousFlags.resize((int)controller->GetLEDCount());
-            }
-            updateSelection();
-        }
-        update();
-    }
-}
-
-void DeviceView::mouseReleaseEvent(QMouseEvent* event)
-{
-    if(per_led)
-    {
-        selectionRect = selectionRect.normalized();
-        mouseDown = false;
-
-        /*-----------------------------------------------------*\
-        | Check if the user clicked a zone name & select it     |
-        \*-----------------------------------------------------*/
-        if(!mouseMoved)
-        {
-            int size     = width();
-            int offset_x = 0;
-
-            if(height() < size * matrix_h)
-            {
-                size     = height() / matrix_h;
-                offset_x = (width() - size) / 2;
-            }
-
-            unsigned int segment_count = 0;
-
-            for(unsigned int zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
-            {
-                int posx = zone_pos[zone_idx].matrix_x * size + offset_x + 12;
-                int posy = zone_pos[zone_idx].matrix_y * size;
-                int posw = zone_pos[zone_idx].matrix_w * size;
-                int posh = zone_pos[zone_idx].matrix_h * size;
-
-                QRect rect = {posx, posy, posw, posh};
-
-                if(rect.contains(event->pos()))
-                {
-                    selectZone(zone_idx, ctrlDown);
-                }
-
-                for(unsigned int segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
-                {
-                    posx = segment_pos[segment_count].matrix_x * size + offset_x + 12;
-                    posy = segment_pos[segment_count].matrix_y * size;
-                    posw = segment_pos[segment_count].matrix_w * size;
-                    posh = segment_pos[segment_count].matrix_h * size;
-
-                    segment_count++;
-
-                    rect = {posx, posy, posw, posh};
-
-                    if(rect.contains(event->pos()))
-                    {
-                        selectSegment(zone_idx, segment_idx, ctrlDown);
-                    }
-                }
-            }
-        }
-        update();
-    }
-}
-
-void DeviceView::resizeEvent(QResizeEvent* /*event*/)
-{
-    size     = width();
-    offset_x = 0;
-
-    if(height() < size * matrix_h)
-    {
-        size     = height() / matrix_h;
-        offset_x = (width() - size) / 2;
-    }
-    update();
-}
-
-void DeviceView::paintEvent(QPaintEvent* /* event */)
-{
-    QPainter painter(this);
-    QFont font = painter.font();
+    /*-----------------------------------------------------*\
+    | Clear existing selection                              |
+    \*-----------------------------------------------------*/
+    selected_leds.clear();
+    selection_flags.clear();
+    selection_flags.resize(controller->GetLEDCount());
 
     /*-----------------------------------------------------*\
-    | If Device View is hidden, don't paint                 |
+    | Get normalized selection rect                         |
     \*-----------------------------------------------------*/
-    if(isHidden() || !per_led)
-    {
-        return;
-    }
+    QRect sel = selection_rect.normalized();
 
-    /*-----------------------------------------------------*\
-    | If controller has resized, reinitialize local data    |
-    \*-----------------------------------------------------*/
-    if(changed || (controller->GetZoneCount() != zone_pos.size()) || (controller->GetLEDCount() != led_pos.size()))
-    {
-        InitDeviceView();
-        changed = false;
-    }
-
-    /*-----------------------------------------------------*\
-    | If segments have resized, reinitialize local data     |
-    \*-----------------------------------------------------*/
-    unsigned int segments = 0;
-
-    for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
-    {
-        for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
-        {
-            segments++;
-        }
-    }
-
-    if(segments != segment_pos.size())
-    {
-        InitDeviceView();
-    }
-
-    /*-----------------------------------------------------*\
-    | LED rectangles                                        |
-    \*-----------------------------------------------------*/
     for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
     {
+        /*-------------------------------------------------*\
+        | Check intersection                                |
+        \*-------------------------------------------------*/
         int posx = led_pos[led_idx].matrix_x * size + offset_x;
         int posy = led_pos[led_idx].matrix_y * size;
         int posw = led_pos[led_idx].matrix_w * size;
@@ -811,337 +1383,30 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
 
         QRect rect = {posx, posy, posw, posh};
 
-        /*-----------------------------------------------------*\
-        | Fill color                                            |
-        \*-----------------------------------------------------*/
-        QColor currentColor = QColor::fromRgb(
-                    RGBGetRValue(controller->GetColor(led_idx)),
-                    RGBGetGValue(controller->GetColor(led_idx)),
-                    RGBGetBValue(controller->GetColor(led_idx)));
-        painter.setBrush(currentColor);
-
-        /*-----------------------------------------------------*\
-        | Border color                                          |
-        \*-----------------------------------------------------*/
-        if(selectionFlags[led_idx])
-        {
-            painter.setPen(palette().highlight().color());
-        }
-        else
-        {
-            painter.setPen(palette().dark().color());
-        }
-        painter.drawRect(rect);
-
-        /*-----------------------------------------------------*\
-        | Label                                                 |
-        | Set the font color so that the text is visible        |
-        \*-----------------------------------------------------*/
-        font.setPixelSize(std::max<int>(1, posh / 2));
-        painter.setFont(font);
-
-        unsigned int luma = (unsigned int)(0.2126f * currentColor.red() + 0.7152f * currentColor.green() + 0.0722f * currentColor.blue());
-
-        if(luma > 127)
-        {
-            painter.setPen(Qt::black);
-        }
-        else
-        {
-            painter.setPen(Qt::white);
-        }
-        painter.drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, QString(led_labels[led_idx]));
-    }
-
-    font.setPixelSize(12);
-    painter.setFont(font);
-
-    /*-----------------------------------------------------*\
-    | Zone and Segment names                                |
-    \*-----------------------------------------------------*/
-    unsigned int segment_count = 0;
-
-    for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
-    {
-        int posx = zone_pos[zone_idx].matrix_x * size + offset_x;
-        int posy = zone_pos[zone_idx].matrix_y * size;
-        int posw = zone_pos[zone_idx].matrix_w * size;
-        int posh = zone_pos[zone_idx].matrix_h * size;
-
-        QRect rect = {posx, posy, posw, posh};
-
-        if(rect.contains(lastMousePos) && (!mouseDown || !mouseMoved))
-        {
-            painter.setPen(palette().highlight().color());
-        }
-        else
-        {
-            painter.setPen(palette().windowText().color());
-        }
-        painter.drawText(posx, posy + posh, QString(controller->GetZoneName((unsigned int)zone_idx).c_str()));
-
-        for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
-        {
-            posx = segment_pos[segment_count].matrix_x * size + offset_x;
-            posy = segment_pos[segment_count].matrix_y * size;
-            posw = segment_pos[segment_count].matrix_w * size;
-            posh = segment_pos[segment_count].matrix_h * size;
-
-            segment_count++;
-
-            rect = {posx, posy, posw, posh};
-
-            if(rect.contains(lastMousePos) && (!mouseDown || !mouseMoved))
-            {
-                painter.setPen(palette().highlight().color());
-            }
-            else
-            {
-                painter.setPen(palette().windowText().color());
-            }
-            painter.drawText(posx, posy + posh, QString(controller->GetZoneSegmentName(zone_idx, segment_idx).c_str()));
-        }
-    }
-
-    /*-----------------------------------------------------*\
-    | Selection area                                        |
-    \*-----------------------------------------------------*/
-    if(mouseDown)
-    {
-        QRect rect = selectionRect.normalized();
-        QColor color = palette().highlight().color();
-        color.setAlpha(63);
-        painter.fillRect(rect, color);
-        color.setAlpha(127);
-        painter.setBrush(color);
-        painter.drawRect(rect);
-    }
-}
-
-void DeviceView::updateSelection()
-{
-    selectedLeds.clear();
-    selectionFlags.clear();
-    selectionFlags.resize((int)controller->GetLEDCount());
-
-    QRect sel = selectionRect.normalized();
-
-    for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
-    {
-        /*-----------------------------------------------------*\
-        | Check intersection                                    |
-        \*-----------------------------------------------------*/
-        int posx = led_pos[led_idx].matrix_x * size + offset_x;
-        int posy = led_pos[led_idx].matrix_y * size;
-        int posw = led_pos[led_idx].matrix_w * size;
-        int posh = led_pos[led_idx].matrix_h * size;
-
-        QRect rect = {posx, posy, posw, posh};
-
-        selectionFlags[led_idx] = 0;
+        selection_flags[led_idx] = 0;
 
         if(sel.intersects(rect))
         {
-            selectionFlags[led_idx] = 1;
+            selection_flags[led_idx] = 1;
         }
-        if(ctrlDown)
+        if(ctrl_down)
         {
-            selectionFlags[led_idx] ^= previousFlags[led_idx];
+            selection_flags[led_idx] = selection_flags[led_idx] ^ previous_flags[led_idx];
         }
 
-        if(selectionFlags[led_idx])
+        if(selection_flags[led_idx])
         {
-            selectedLeds.push_back(led_idx);
+            selected_leds.push_back(led_idx);
         }
     }
 
+    /*-----------------------------------------------------*\
+    | Update UI                                             |
+    \*-----------------------------------------------------*/
     update();
 
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/
-    emit selectionChanged(-1, -1, selectedLeds);
-}
-
-bool DeviceView::selectLed(int target)
-{
-    if(target < 0 || size_t(target) >= controller->GetLEDCount())
-    {
-        return false;
-    }
-
-    selectedLeds.resize(1);
-    selectedLeds[0] = target;
-    selectionFlags.clear();
-    selectionFlags.resize((int)controller->GetLEDCount());
-    selectionFlags[target] = 1;
-
-    update();
-
-    /*-----------------------------------------------------*\
-    | Send selection changed signal                         |
-    \*-----------------------------------------------------*/
-    emit selectionChanged(-1, -1, selectedLeds);
-
-    return true;
-}
-
-bool DeviceView::selectLeds(QVector<int> target)
-{
-    for(int item: target)
-    {
-        if(item < 0 || size_t(item) >= controller->GetLEDCount())
-        {
-            return false;
-        }
-    }
-
-    selectionFlags.clear();
-    selectionFlags.resize((int)controller->GetLEDCount());
-
-    for(int item: target)
-    {
-        selectionFlags[item] = 1;
-    }
-
-    //selectedLeds = target;
-
-    /*-----------------------------------------------------*\
-    | Filter out duplicate items                            |
-    \*-----------------------------------------------------*/
-    selectedLeds.clear();
-
-    for(int i = 0; i < selectionFlags.size(); ++i)
-    {
-        if(selectionFlags[i])
-        {
-            selectedLeds.push_back(i);
-        }
-    }
-
-    update();
-
-    /*-----------------------------------------------------*\
-    | Send selection changed signal                         |
-    \*-----------------------------------------------------*/
-    emit selectionChanged(-1, -1, selectedLeds);
-
-    return true;
-}
-
-bool DeviceView::selectSegment(int zone, int segment, bool add)
-{
-    if(zone < 0 || size_t(zone) >= controller->GetZoneCount())
-    {
-        return false;
-    }
-
-    if(segment < 0 || size_t(segment) >= controller->GetZoneSegmentCount(zone))
-    {
-        return false;
-    }
-
-    if(!add)
-    {
-        selectedLeds.clear();
-        selectionFlags.clear();
-        selectionFlags.resize((int)controller->GetLEDCount());
-    }
-
-    int zoneStart   = controller->GetZoneStartIndex(zone);
-    int segStart    = controller->GetZoneSegmentStartIndex(zone, segment);
-
-    for(int led_idx = 0; led_idx < (int)controller->GetZoneSegmentLEDsCount(zone, segment); led_idx++)
-    {
-        if(!selectionFlags[zoneStart + segStart + led_idx])
-        {
-            selectedLeds.push_back(zoneStart + segStart + led_idx);
-            selectionFlags[zoneStart + segStart + led_idx] = 1;
-        }
-    }
-
-    update();
-
-    /*-----------------------------------------------------*\
-    | Send selection changed signal                         |
-    \*-----------------------------------------------------*/
-    if(!add)
-    {
-        emit selectionChanged(zone, segment, selectedLeds);
-    }
-    else
-    {
-        emit selectionChanged(-1, -1, selectedLeds);
-    }
-
-    return true;
-}
-
-bool DeviceView::selectZone(int zone, bool add)
-{
-    if(zone < 0 || size_t(zone) >= controller->GetZoneCount())
-    {
-        return false;
-    }
-
-    if(!add)
-    {
-        selectedLeds.clear();
-        selectionFlags.clear();
-        selectionFlags.resize((int)controller->GetLEDCount());
-    }
-
-    int zoneStart = controller->GetZoneStartIndex(zone);
-
-    for(std::size_t led_idx = 0; led_idx < controller->GetLEDsInZone(zone); led_idx++)
-    {
-        if(!selectionFlags[zoneStart + (int)led_idx])
-        {
-            selectedLeds.push_back(zoneStart + (int)led_idx);
-            selectionFlags[zoneStart + (int)led_idx] = 1;
-        }
-    }
-
-    update();
-
-    /*-----------------------------------------------------*\
-    | Send selection changed signal                         |
-    \*-----------------------------------------------------*/
-    if(!add)
-    {
-        emit(selectionChanged(zone, -1, selectedLeds));
-    }
-    else
-    {
-        emit selectionChanged(-1, -1, selectedLeds);
-    }
-
-    return true;
-}
-
-void DeviceView::clearSelection()
-{
-    /*-----------------------------------------------------*\
-    | Same as selecting the entire device                   |
-    \*-----------------------------------------------------*/
-    selectedLeds.clear();
-    selectionFlags.clear();
-    selectionFlags.resize((int)controller->GetLEDCount());
-}
-
-void DeviceView::setSelectionColor(RGBColor color)
-{
-    if(selectedLeds.isEmpty())
-    {
-        controller->SetAllColors(color);
-    }
-    else
-    {
-        for(int led_idx: selectedLeds)
-        {
-            controller->SetColor(led_idx, color);
-        }
-    }
-    controller->UpdateLEDs();
-    update();
+    emit selectionChanged(-1, -1, selected_leds);
 }
