@@ -83,6 +83,7 @@ private:
     void ColorChanged();
     void GetSelectedMode(bool * selected_zone_mode, int * selected_mode);
     void GetSelectedZone(bool * selected_all_zones, int * selected_zone, int * selected_segment);
+    void SetSelectedZone(bool selected_all_zones, int selected_zone, int selected_segment);
     QString ModeDescription(const std::string mode_name);
 
 private slots:
@@ -104,7 +105,7 @@ private slots:
     void on_BrightnessSlider_valueChanged(int value);
     void on_ColorWheelBox_colorChanged(const QColor color);
     void on_DeviceSaveButton_clicked();
-    void on_DeviceViewBox_selectionChanged(QVector<int>);
+    void on_DeviceViewBox_selectionChanged(int selected_zone, int selected_segment, QVector<int>);
     void on_DirectionBox_currentIndexChanged(int index);
     void on_EditZoneButton_clicked();
     void on_GreenSpinBox_valueChanged(int green);

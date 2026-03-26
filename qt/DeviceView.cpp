@@ -960,7 +960,7 @@ void DeviceView::updateSelection()
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/
-    emit selectionChanged(selectedLeds);
+    emit selectionChanged(-1, -1, selectedLeds);
 }
 
 bool DeviceView::selectLed(int target)
@@ -981,7 +981,7 @@ bool DeviceView::selectLed(int target)
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/
-    emit selectionChanged(selectedLeds);
+    emit selectionChanged(-1, -1, selectedLeds);
 
     return true;
 }
@@ -1024,7 +1024,7 @@ bool DeviceView::selectLeds(QVector<int> target)
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/
-    emit selectionChanged(selectedLeds);
+    emit selectionChanged(-1, -1, selectedLeds);
 
     return true;
 }
@@ -1065,7 +1065,14 @@ bool DeviceView::selectSegment(int zone, int segment, bool add)
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/
-    emit selectionChanged(selectedLeds);
+    if(!add)
+    {
+        emit selectionChanged(zone, segment, selectedLeds);
+    }
+    else
+    {
+        emit selectionChanged(-1, -1, selectedLeds);
+    }
 
     return true;
 }
@@ -1100,7 +1107,14 @@ bool DeviceView::selectZone(int zone, bool add)
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/
-    emit selectionChanged(selectedLeds);
+    if(!add)
+    {
+        emit(selectionChanged(zone, -1, selectedLeds));
+    }
+    else
+    {
+        emit selectionChanged(-1, -1, selectedLeds);
+    }
 
     return true;
 }
