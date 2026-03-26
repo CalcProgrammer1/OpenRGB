@@ -76,7 +76,7 @@ private:
     void updateSelection();
 
 signals:
-    void selectionChanged(QVector<int>);
+    void selectionChanged(int selected_zone, int selected_segment, QVector<int>);
 
 public slots:
     bool selectLed(int);
