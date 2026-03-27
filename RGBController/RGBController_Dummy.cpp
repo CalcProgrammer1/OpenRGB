@@ -34,7 +34,12 @@
 
 RGBController_Dummy::RGBController_Dummy()
 {
-
+    /*-----------------------------------------------------*\
+    | Dummy controller doesn't actually use its background  |
+    | thread, so shut it down immediately to save resources |
+    \*-----------------------------------------------------*/
+    Shutdown();
+    AccessMutex.unlock();
 }
 
 RGBController_Dummy::~RGBController_Dummy()
