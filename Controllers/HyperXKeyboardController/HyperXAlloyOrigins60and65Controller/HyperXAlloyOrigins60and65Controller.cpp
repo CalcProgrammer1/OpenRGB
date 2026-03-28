@@ -17,7 +17,7 @@ HyperXAlloyOrigins60and65Controller::HyperXAlloyOrigins60and65Controller(hid_dev
 {
     dev         = dev_handle;
     location    = path;
-    dev_name    = name;
+    name        = dev_name;
 }
 
 HyperXAlloyOrigins60and65Controller::~HyperXAlloyOrigins60and65Controller()
