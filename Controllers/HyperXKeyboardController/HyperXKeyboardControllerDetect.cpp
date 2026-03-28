@@ -15,12 +15,14 @@
 #include "HyperXAlloyOriginsController.h"
 #include "HyperXAlloyOriginsCoreController.h"
 #include "HyperXAlloyOrigins60and65Controller.h"
+#include "HyperXOrigins2_65Controller.h"
 #include "RGBController_HyperXAlloyElite.h"
 #include "RGBController_HyperXAlloyElite2.h"
 #include "RGBController_HyperXAlloyFPS.h"
 #include "RGBController_HyperXAlloyOrigins.h"
 #include "RGBController_HyperXAlloyOriginsCore.h"
 #include "RGBController_HyperXAlloyOrigins60and65.h"
+#include "RGBController_HyperXOrigins2_65.h"
 
 /*-----------------------------------------------------*\
 | HyperX keyboard vendor and product IDs                |
@@ -44,6 +46,7 @@
 #define HYPERX_ALLOY_ORIGINS_65_HP_PID             0x038F
 #define HYPERX_ALLOY_ORIGINS_CORE_HP_PID           0x098F
 #define HYPERX_ALLOY_ORIGINS_HP_PID                0x0591
+#define HYPERX_ORIGINS_2_65_HP_PID                 0x0CC2
 
 AlloyOrigins60and65MappingLayoutType GetAlloyOrigins60and65MappingLayoutType(int pid)
 {
@@ -140,11 +143,26 @@ void DetectHyperXAlloyOrigins60and65(hid_device_info* info, const std::string& n
     }
 }
 
+void DetectHyperXOrigins2_65(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        HyperXOrigins2_65Controller* controller = new HyperXOrigins2_65Controller(dev, info->path, name);
+        RGBController_HyperXOrigins2_65* rgb_controller = new RGBController_HyperXOrigins2_65(controller);
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 REGISTER_HID_DETECTOR_IP("HyperX Alloy Elite RGB",        DetectHyperXAlloyElite,          HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_PID,           2, 0xFF01);
 REGISTER_HID_DETECTOR_IP("HyperX Alloy FPS RGB",          DetectHyperXAlloyFPS,            HYPERX_KEYBOARD_VID, HYPERX_ALLOY_FPS_RGB_PID,         2, 0xFF01);
 REGISTER_HID_DETECTOR_I("HyperX Alloy Origins Core",      DetectHyperXAlloyOriginsCore,    HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_CORE_PID,    2);
 
 REGISTER_HID_DETECTOR_I("HyperX Alloy Origins Core (HP)", DetectHyperXAlloyOriginsCore,    HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_CORE_HP_PID, 2);
+
+REGISTER_HID_DETECTOR_I("HyperX Origins 2 65 (HP)",       DetectHyperXOrigins2_65,         HP_KEYBOARD_VID,     HYPERX_ORIGINS_2_65_HP_PID,       3);
 
 #ifdef _WIN32
 REGISTER_HID_DETECTOR_I("HyperX Alloy Origins",           DetectHyperXAlloyOrigins,        HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_PID,         3);
