@@ -2138,6 +2138,7 @@ void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int
             MultipleSelected = false;
 
             SetSelectedZone(true, -1, -1);
+            ui->LEDBox->setCurrentIndex(0);
         }
         /*-------------------------------------------------*\
         | Handle case where a zone or segment is selected   |
@@ -2151,6 +2152,7 @@ void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int
             MultipleSelected = false;
 
             SetSelectedZone(false, selected_zone, selected_segment);
+            ui->LEDBox->setCurrentIndex(0);
         }
         /*-------------------------------------------------*\
         | Handle case where a single LED is selected        |
