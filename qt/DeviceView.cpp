@@ -640,6 +640,11 @@ void DeviceView::mouseMoveEvent(QMouseEvent *event)
             | Update selection                              |
             \*---------------------------------------------*/
             UpdateSelection();
+
+            /*---------------------------------------------*\
+            | Send selection changed signal                 |
+            \*---------------------------------------------*/
+            emit selectionChanged(-1, -1, selected_leds);
         }
 
         /*-------------------------------------------------*\
@@ -661,6 +666,7 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
         | selection rect                                    |
         \*-------------------------------------------------*/
         mouse_down                      = false;
+        bool signal_sent                = false;
         selection_rect                  = selection_rect.normalized();
 
         /*-------------------------------------------------*\
@@ -703,6 +709,8 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
                 if(rect.contains(event->pos()))
                 {
                     SelectZone(zone_idx, ctrl_down);
+                    signal_sent         = true;
+                    break;
                 }
 
                 /*-----------------------------------------*\
@@ -724,9 +732,19 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
                     if(rect.contains(event->pos()))
                     {
                         SelectSegment(zone_idx, segment_idx, ctrl_down);
+                        signal_sent     = true;
+                        break;
                     }
                 }
             }
+        }
+
+        /*-------------------------------------------------*\
+        | Send selection changed signal                     |
+        \*-------------------------------------------------*/
+        if(!signal_sent)
+        {
+            emit selectionChanged(-1, -1, selected_leds);
         }
 
         /*-------------------------------------------------*\
@@ -1404,9 +1422,4 @@ void DeviceView::UpdateSelection()
     | Update UI                                             |
     \*-----------------------------------------------------*/
     update();
-
-    /*-----------------------------------------------------*\
-    | Send selection changed signal                         |
-    \*-----------------------------------------------------*/
-    emit selectionChanged(-1, -1, selected_leds);
 }
