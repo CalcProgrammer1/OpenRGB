@@ -773,6 +773,11 @@ void OpenRGBDevicePage::UpdateLEDUi()
                 int             selected_led        = -1;
 
                 /*-----------------------------------------*\
+                | Update Device View                        |
+                \*-----------------------------------------*/
+                ui->DeviceViewBox->repaint();
+
+                /*-----------------------------------------*\
                 | Handle selection of "Entire Device/Zone/  |
                 | Segment" index is selected                |
                 |                                           |
@@ -981,10 +986,6 @@ void OpenRGBDevicePage::UpdateLEDUi()
                     UpdateColorUi();
                 }
 
-                /*-----------------------------------------*\
-                | Update Device View                        |
-                \*-----------------------------------------*/
-                ui->DeviceViewBox->repaint();
             }
             break;
 
@@ -2009,9 +2010,9 @@ void OpenRGBDevicePage::UpdateInterface(unsigned int update_reason)
 
     case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:
         /*-------------------------------------------------*\
-        | Update LED UI                                     |
+        | Update Device View                                |
         \*-------------------------------------------------*/
-        UpdateLEDUi();
+        ui->DeviceViewBox->repaint();
         break;
 
     case RGBCONTROLLER_UPDATE_REASON_UPDATEMODE:
