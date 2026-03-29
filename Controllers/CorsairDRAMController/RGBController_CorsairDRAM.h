@@ -1,8 +1,9 @@
 /*---------------------------------------------------------*\
-| RGBController_CorsairDominatorPlatinum.h                  |
+| RGBController_CorsairDRAM.h                               |
 |                                                           |
-|   RGBController for Corsair Dominator Platinum RAM        |
+|   RGBController for Corsair DRAM RGB controllers          |
 |                                                           |
+|   Adam Honse (CalcProgrammer1)                30 Jun 2019 |
 |   Erik Gilling (konkers)                      25 Sep 2020 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
@@ -12,13 +13,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "CorsairDominatorPlatinumController.h"
+#include "CorsairDRAMController.h"
 
-class RGBController_CorsairDominatorPlatinum : public RGBController
+class RGBController_CorsairDRAM : public RGBController
 {
 public:
-    RGBController_CorsairDominatorPlatinum(CorsairDominatorPlatinumController* controller_ptr);
-    ~RGBController_CorsairDominatorPlatinum();
+    RGBController_CorsairDRAM(CorsairDRAMController* controller_ptr);
+    ~RGBController_CorsairDRAM();
 
     void SetupZones();
 
@@ -31,5 +32,5 @@ public:
     void DeviceUpdateMode();
 
 private:
-    CorsairDominatorPlatinumController* controller;
+    CorsairDRAMController* controller;
 };
