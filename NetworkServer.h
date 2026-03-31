@@ -224,29 +224,32 @@ private:
     /*-----------------------------------------------------*\
     | Server Protocol functions                             |
     \*-----------------------------------------------------*/
-    void                                ProcessRequest_ClientFlags(SOCKET client_sock, unsigned int data_size, char * data);
-    void                                ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data);
-    void                                ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
-    void                                ProcessRequest_RescanDevices();
+    NetPacketStatus                     ProcessRequest_ClientFlags(SOCKET client_sock, unsigned int data_size, char * data);
+    NetPacketStatus                     ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data);
+    NetPacketStatus                     ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
+    NetPacketStatus                     ProcessRequest_RescanDevices();
 
-    void                                ProcessRequest_ProfileManager_ClearActiveProfile();
-    void                                ProcessRequest_ProfileManager_DeleteProfile(unsigned int data_size, char * data);
-    void                                ProcessRequest_ProfileManager_DownloadProfile(SOCKET client_sock, unsigned int data_size, char * data);
-    void                                ProcessRequest_ProfileManager_GetActiveProfile(SOCKET client_sock);
-    void                                ProcessRequest_ProfileManager_LoadProfile(unsigned int data_size, char * data);
-    void                                ProcessRequest_ProfileManager_SaveProfile(unsigned int data_size, char * data);
-    void                                ProcessRequest_ProfileManager_UploadProfile(unsigned int data_size, char * data);
+    NetPacketStatus                     ProcessRequest_ProfileManager_ClearActiveProfile();
+    NetPacketStatus                     ProcessRequest_ProfileManager_DeleteProfile(unsigned int data_size, char * data);
+    NetPacketStatus                     ProcessRequest_ProfileManager_DownloadProfile(SOCKET client_sock, unsigned int data_size, char * data);
+    NetPacketStatus                     ProcessRequest_ProfileManager_GetActiveProfile(SOCKET client_sock);
+    NetPacketStatus                     ProcessRequest_ProfileManager_GetProfileList(SOCKET client_sock);
+    NetPacketStatus                     ProcessRequest_ProfileManager_LoadProfile(unsigned int data_size, char * data);
+    NetPacketStatus                     ProcessRequest_ProfileManager_SaveProfile(unsigned int data_size, char * data);
+    NetPacketStatus                     ProcessRequest_ProfileManager_UploadProfile(unsigned int data_size, char * data);
 
-    void                                ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version, bool save_mode);
-    void                                ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version, bool save_mode);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+
+    void                                SendAck(SOCKET client_sock, unsigned int acked_pkt_dev_id, unsigned int acked_pkt_id, NetPacketStatus status, unsigned int protocol_version);
 
     void                                SendReply_ControllerCount(SOCKET client_sock, unsigned int protocol_version);
     void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_id, unsigned int protocol_version);
@@ -254,7 +257,6 @@ private:
     void                                SendReply_ServerFlags(SOCKET client_sock);
     void                                SendReply_ServerString(SOCKET client_sock);
 
-    void                                SendReply_ProfileList(SOCKET client_sock);
     void                                SendReply_PluginList(SOCKET client_sock);
     void                                SendReply_PluginSpecific(SOCKET client_sock, unsigned int pkt_type, unsigned char* data, unsigned int data_size);
 
