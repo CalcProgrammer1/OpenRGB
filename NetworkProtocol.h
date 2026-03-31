@@ -50,6 +50,24 @@ typedef struct NetPacketHeader
     unsigned int        pkt_size;                       /* Packet size                                          */
 } NetPacketHeader;
 
+typedef unsigned int NetPacketStatus;
+
+enum
+{
+    NET_PACKET_STATUS_OK                        = 0,    /* OK/Success                                           */
+    NET_PACKET_STATUS_ERROR_GENERIC             = 1,    /* Generic error                                        */
+    NET_PACKET_STATUS_ERROR_UNSUPPORTED         = 2,    /* Unsupported error                                    */
+    NET_PACKET_STATUS_ERROR_NOT_ALLOWED         = 4,    /* Not allowed error                                    */
+    NET_PACKET_STATUS_ERROR_INVALID_ID          = 5,    /* Invalid device ID or index error                     */
+    NET_PACKET_STATUS_ERROR_INVALID_DATA        = 6,    /* Invalid data error                                   */
+};
+
+typedef struct
+{
+    unsigned int        acked_pkt_id;                   /* Packet ID of acknowledged packet                     */
+    NetPacketStatus     status;                         /* Status code                                          */
+} NetPacketAck;
+
 enum
 {
     NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER      = ( 1 << 0 ),   /* Client supports RGBController API            */
@@ -78,6 +96,8 @@ enum
     \*----------------------------------------------------------------------------------------------------------*/
     NET_PACKET_ID_REQUEST_CONTROLLER_COUNT      = 0,    /* Request RGBController device count from server       */
     NET_PACKET_ID_REQUEST_CONTROLLER_DATA       = 1,    /* Request RGBController data block                     */
+
+    NET_PACKET_ID_ACK                           = 10,   /* Acknowledge an SDK packet                            */
 
     NET_PACKET_ID_REQUEST_PROTOCOL_VERSION      = 40,   /* Request OpenRGB SDK protocol version from server     */
 
