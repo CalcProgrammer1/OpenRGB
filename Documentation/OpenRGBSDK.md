@@ -49,6 +49,7 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | ----- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------- |
 | 0     | [NET_PACKET_ID_REQUEST_CONTROLLER_COUNT](#net_packet_id_request_controller_count)                     | Request RGBController device count/device IDs from server     | 0                |
 | 1     | [NET_PACKET_ID_REQUEST_CONTROLLER_DATA](#net_packet_id_request_controller_data)                       | Request RGBController data block                              | 0                |
+| 10    | [NET_PACKET_ID_ACK](#net_packet_id_ack)                                                               | Acknowledgement                                               | 6                |
 | 40    | [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version)                     | Request OpenRGB SDK protocol version from server              | 1*               |
 | 50    | [NET_PACKET_ID_SET_CLIENT_NAME](#net_packet_id_set_client_name)                                       | Send client name string to server                             | 0                |
 | 51    | [NET_PACKET_ID_SET_SERVER_NAME](#net_packet_id_set_server_name)                                       | Send server name string to client                             | 6                |
@@ -260,6 +261,23 @@ The client uses this ID to request the server's highest supported protocol versi
 ### Response [Size: 4]
 
 The server responds to this request with a single `unsigned int`, size 4, containing the server's highest supported protocol version.  If the server is using protocol version 0, it will not send a response.  If no response is received, assume the server's highest supported protocol version is version 0.
+
+## NET_PACKET_ID_ACK
+
+### Acknowledgement [Size: 8]
+
+This packet is sent by the server to acknowledge any packet sent by the client.  The ACK contains two unsigned 32-bit integer values, the first being the packet ID of the packet being acknowledged and the second being a status code.  The `pkt_dev_id` field of the header is also set to the `pkt_dev_id` of the packet being acknowledged.
+
+The status codes are shown below.
+
+| Status Code | Name                                 | Description                      |
+| ----------- | ------------------------------------ | -------------------------------- |
+| 0           | NET_PACKET_STATUS_OK                 | OK/Success                       |
+| 1           | NET_PACKET_STATUS_ERROR_GENERIC      | Generic error                    |
+| 2           | NET_PACKET_STATUS_ERROR_UNSUPPORTED  | Unsupported error                |
+| 3           | NET_PACKET_STATUS_ERROR_NOT_ALLOWED  | Not allowed error                |
+| 4           | NET_PACKET_STATUS_ERROR_INVALID_ID   | Invalid device ID or index error |
+| 5           | NET_PACKET_STATUS_ERROR_INVALID_DATA | Invalid data error               |
 
 ## NET_PACKET_ID_SET_CLIENT_NAME
 

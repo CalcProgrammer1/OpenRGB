@@ -911,6 +911,7 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread * this_
             while(this_thread->queue.size() > 0)
             {
                 NetworkServerControllerThreadQueueEntry queue_entry;
+                NetPacketStatus                         status      = NET_PACKET_STATUS_OK;
 
                 this_thread->queue_mutex.lock();
                 queue_entry = this_thread->queue.front();
@@ -922,29 +923,35 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread * this_
                 switch(queue_entry.header.pkt_id)
                 {
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
-                        ProcessRequest_RGBController_UpdateLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        status = ProcessRequest_RGBController_UpdateLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
-                        ProcessRequest_RGBController_UpdateZoneLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        status = ProcessRequest_RGBController_UpdateZoneLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
-                        ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version, false);
+                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version, false);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_SAVEMODE:
-                        ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version, true);
+                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version, true);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE:
-                        ProcessRequest_RGBController_UpdateZoneMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        status = ProcessRequest_RGBController_UpdateZoneMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        break;
+
+                    default:
+                        status = NET_PACKET_STATUS_ERROR_UNSUPPORTED;
                         break;
                 }
 
                 controller_ids_mutex.unlock_shared();
 
                 delete[] queue_entry.data;
+
+                SendAck(queue_entry.client_sock, queue_entry.header.pkt_id, queue_entry.header.pkt_id, status, queue_entry.client_protocol_version);
             }
         }
         else
@@ -964,6 +971,7 @@ void NetworkServer::ProfileManagerListenThread(NetworkServerControllerThread * t
         while(this_thread->queue.size() > 0)
         {
             NetworkServerControllerThreadQueueEntry queue_entry;
+            NetPacketStatus                         status      = NET_PACKET_STATUS_OK;
 
             this_thread->queue_mutex.lock();
             queue_entry = this_thread->queue.front();
@@ -973,39 +981,45 @@ void NetworkServer::ProfileManagerListenThread(NetworkServerControllerThread * t
             switch(queue_entry.header.pkt_id)
             {
                 case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
-                    SendReply_ProfileList(queue_entry.client_sock);
+                    status = ProcessRequest_ProfileManager_GetProfileList(queue_entry.client_sock);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE:
-                    ProcessRequest_ProfileManager_SaveProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_SaveProfile(queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE:
-                    ProcessRequest_ProfileManager_LoadProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_LoadProfile(queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE:
-                    ProcessRequest_ProfileManager_DeleteProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_DeleteProfile(queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE:
-                    ProcessRequest_ProfileManager_UploadProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_UploadProfile(queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
-                    ProcessRequest_ProfileManager_DownloadProfile(queue_entry.client_sock, queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_DownloadProfile(queue_entry.client_sock, queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
-                    ProcessRequest_ProfileManager_GetActiveProfile(queue_entry.client_sock);
+                    status = ProcessRequest_ProfileManager_GetActiveProfile(queue_entry.client_sock);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_CLEAR_ACTIVE_PROFILE:
-                    ProcessRequest_ProfileManager_ClearActiveProfile();
+                    status = ProcessRequest_ProfileManager_ClearActiveProfile();
+                    break;
+
+                default:
+                    status = NET_PACKET_STATUS_ERROR_UNSUPPORTED;
                     break;
             }
 
             delete[] queue_entry.data;
+
+            SendAck(queue_entry.client_sock, queue_entry.header.pkt_id, queue_entry.header.pkt_id, status, queue_entry.client_protocol_version);
         }
     }
 }
@@ -1025,6 +1039,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         int             bytes_read  = 0;
         char *          data        = NULL;
         bool            delete_data = true;
+        NetPacketStatus status      = NET_PACKET_STATUS_OK;
 
         for(unsigned int i = 0; i < 4; i++)
         {
@@ -1134,22 +1149,22 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_REQUEST_PROTOCOL_VERSION:
-                ProcessRequest_ClientProtocolVersion(client_sock, header.pkt_size, data);
+                status = ProcessRequest_ClientProtocolVersion(client_sock, header.pkt_size, data);
                 SendReply_ProtocolVersion(client_sock);
                 SendReply_ServerString(client_sock);
                 break;
 
             case NET_PACKET_ID_SET_CLIENT_FLAGS:
-                ProcessRequest_ClientFlags(client_sock, header.pkt_size, data);
+                status = ProcessRequest_ClientFlags(client_sock, header.pkt_size, data);
                 SendReply_ServerFlags(client_sock);
                 break;
 
             case NET_PACKET_ID_SET_CLIENT_NAME:
-                ProcessRequest_ClientString(client_sock, header.pkt_size, data);
+                status = ProcessRequest_ClientString(client_sock, header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_REQUEST_RESCAN_DEVICES:
-                ProcessRequest_RescanDevices();
+                status = ProcessRequest_RescanDevices();
                 break;
 
         /*-------------------------------------------------*\
@@ -1266,7 +1281,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 if((data != NULL)
                 && (header.pkt_size == (2 * sizeof(int))))
                 {
-                    ProcessRequest_RGBController_ResizeZone(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_ResizeZone(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1365,7 +1380,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 if((data != NULL)
                 && (header.pkt_size == (sizeof(int) + sizeof(RGBColor))))
                 {
-                    ProcessRequest_RGBController_UpdateSingleLED(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_UpdateSingleLED(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1375,7 +1390,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE:
-                ProcessRequest_RGBController_SetCustomMode(header.pkt_dev_id, client_info->client_protocol_version);
+                status = ProcessRequest_RGBController_SetCustomMode(header.pkt_dev_id, client_info->client_protocol_version);
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS:
@@ -1385,7 +1400,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 if((data != NULL)
                 && (header.pkt_size == sizeof(int)))
                 {
-                    ProcessRequest_RGBController_ClearSegments(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_ClearSegments(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1404,7 +1419,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 && (header.pkt_size >= sizeof(unsigned int))
                 && (header.pkt_size == *((unsigned int*)data)))
                 {
-                    ProcessRequest_RGBController_AddSegment(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_AddSegment(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1423,7 +1438,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 && (header.pkt_size >= sizeof(unsigned int))
                 && (header.pkt_size == *((unsigned int*)data)))
                 {
-                    ProcessRequest_RGBController_ConfigureZone(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_ConfigureZone(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1431,11 +1446,17 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     goto listen_done;
                 }
                 break;
+
+            default:
+                status = NET_PACKET_STATUS_ERROR_UNSUPPORTED;
+                break;
         }
 
         if(delete_data)
         {
             delete[] data;
+
+            SendAck(client_info->client_sock, header.pkt_dev_id, header.pkt_id, status, client_info->client_protocol_version);
         }
     }
 
@@ -1466,7 +1487,7 @@ listen_done:
 /*---------------------------------------------------------*\
 | Server Protocol functions                                 |
 \*---------------------------------------------------------*/
-void NetworkServer::ProcessRequest_ClientFlags(SOCKET client_sock, unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ClientFlags(SOCKET client_sock, unsigned int data_size, char * data)
 {
     if((data_size == sizeof(unsigned int)) && (data != NULL))
     {
@@ -1486,10 +1507,14 @@ void NetworkServer::ProcessRequest_ClientFlags(SOCKET client_sock, unsigned int 
         | Client info has changed, call the callbacks           |
         \*-----------------------------------------------------*/
         SignalClientInfoChanged();
+
+        return(NET_PACKET_STATUS_OK);
     }
+
+    return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
 }
 
-void NetworkServer::ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data)
 {
     unsigned int protocol_version = 0;
 
@@ -1518,9 +1543,11 @@ void NetworkServer::ProcessRequest_ClientProtocolVersion(SOCKET client_sock, uns
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
     SignalClientInfoChanged();
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data)
 {
     if(data != NULL)
     {
@@ -1541,27 +1568,37 @@ void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int
         | Client info has changed, call the callbacks           |
         \*-----------------------------------------------------*/
         SignalClientInfoChanged();
+
+        return(NET_PACKET_STATUS_OK);
     }
+
+    return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
 }
 
-void NetworkServer::ProcessRequest_RescanDevices()
+NetPacketStatus NetworkServer::ProcessRequest_RescanDevices()
 {
     ResourceManager::get()->RescanDevices();
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_ProfileManager_ClearActiveProfile()
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_ClearActiveProfile()
 {
     if(profile_manager)
     {
         profile_manager->ClearActiveProfile();
+
+        return(NET_PACKET_STATUS_OK);
     }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-void NetworkServer::ProcessRequest_ProfileManager_DeleteProfile(unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_DeleteProfile(unsigned int data_size, char * data)
 {
     if(data == NULL)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     if(profile_manager)
@@ -1571,14 +1608,18 @@ void NetworkServer::ProcessRequest_ProfileManager_DeleteProfile(unsigned int dat
         profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
         profile_manager->DeleteProfile(profile_name);
+
+        return(NET_PACKET_STATUS_OK);
     }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-void NetworkServer::ProcessRequest_ProfileManager_DownloadProfile(SOCKET client_sock, unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_DownloadProfile(SOCKET client_sock, unsigned int data_size, char * data)
 {
     if(data == NULL)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     if(profile_manager)
@@ -1597,10 +1638,14 @@ void NetworkServer::ProcessRequest_ProfileManager_DownloadProfile(SOCKET client_
         send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
         send(client_sock, (char *)profile_json_string.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
         send_in_progress.unlock();
+
+        return(NET_PACKET_STATUS_OK);
     }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-void NetworkServer::ProcessRequest_ProfileManager_GetActiveProfile(SOCKET client_sock)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetActiveProfile(SOCKET client_sock)
 {
     if(profile_manager)
     {
@@ -1614,14 +1659,43 @@ void NetworkServer::ProcessRequest_ProfileManager_GetActiveProfile(SOCKET client
         send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
         send(client_sock, (char *)active_profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
         send_in_progress.unlock();
+
+        return(NET_PACKET_STATUS_OK);
     }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-void NetworkServer::ProcessRequest_ProfileManager_LoadProfile(unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetProfileList(SOCKET client_sock)
+{
+    if(profile_manager)
+    {
+        NetPacketHeader reply_hdr;
+        unsigned char *reply_data = profile_manager->GetProfileListDescription();
+        unsigned int reply_size;
+
+        memcpy(&reply_size, reply_data, sizeof(reply_size));
+
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST, reply_size);
+
+        send_in_progress.lock();
+        send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_sock, (const char *)reply_data, reply_size, MSG_NOSIGNAL);
+        send_in_progress.unlock();
+
+        delete[] reply_data;
+
+        return(NET_PACKET_STATUS_OK);
+    }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_LoadProfile(unsigned int data_size, char * data)
 {
     if(data == NULL)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     if(profile_manager)
@@ -1630,15 +1704,24 @@ void NetworkServer::ProcessRequest_ProfileManager_LoadProfile(unsigned int data_
         profile_name.assign(data, data_size);
         profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
-        profile_manager->LoadProfile(profile_name);
+        if(profile_manager->LoadProfile(profile_name))
+        {
+            return(NET_PACKET_STATUS_OK);
+        }
+        else
+        {
+            return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+        }
     }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-void NetworkServer::ProcessRequest_ProfileManager_SaveProfile(unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_SaveProfile(unsigned int data_size, char * data)
 {
     if(data == NULL)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     if(profile_manager)
@@ -1647,15 +1730,24 @@ void NetworkServer::ProcessRequest_ProfileManager_SaveProfile(unsigned int data_
         profile_name.assign(data, data_size);
         profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
-        profile_manager->SaveProfile(profile_name);
+        if(profile_manager->SaveProfile(profile_name))
+        {
+            return(NET_PACKET_STATUS_OK);
+        }
+        else
+        {
+            return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+        }
     }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-void NetworkServer::ProcessRequest_ProfileManager_UploadProfile(unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_UploadProfile(unsigned int data_size, char * data)
 {
     if(data == NULL)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     if(profile_manager)
@@ -1666,11 +1758,20 @@ void NetworkServer::ProcessRequest_ProfileManager_UploadProfile(unsigned int dat
 
         nlohmann::json profile_json = nlohmann::json::parse(profile_json_string);
 
-        profile_manager->SaveProfileFromJSON(profile_json);
+        if(profile_manager->SaveProfileFromJSON(profile_json))
+        {
+            return(NET_PACKET_STATUS_OK);
+        }
+        else
+        {
+            return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+        }
     }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-void NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1684,7 +1785,7 @@ void NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned int control
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
@@ -1711,9 +1812,11 @@ void NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned int control
     | Save sizes                                            |
     \*-----------------------------------------------------*/
     profile_manager->SaveSizes();
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1727,7 +1830,7 @@ void NetworkServer::ProcessRequest_RGBController_ClearSegments(unsigned int cont
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
@@ -1744,9 +1847,11 @@ void NetworkServer::ProcessRequest_RGBController_ClearSegments(unsigned int cont
     | Save sizes                                            |
     \*-----------------------------------------------------*/
     profile_manager->SaveSizes();
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1760,7 +1865,7 @@ void NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsigned int cont
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
@@ -1787,9 +1892,11 @@ void NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsigned int cont
     | Save sizes                                            |
     \*-----------------------------------------------------*/
     profile_manager->SaveSizes();
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1804,7 +1911,7 @@ void NetworkServer::ProcessRequest_RGBController_ResizeZone(unsigned int control
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
@@ -1827,9 +1934,11 @@ void NetworkServer::ProcessRequest_RGBController_ResizeZone(unsigned int control
     | Save sizes                                            |
     \*-----------------------------------------------------*/
     profile_manager->SaveSizes();
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1842,16 +1951,18 @@ void NetworkServer::ProcessRequest_RGBController_SetCustomMode(unsigned int cont
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
     | Call SetCustomMode on the given controller            |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->SetCustomMode();
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1864,7 +1975,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned int control
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
@@ -1891,9 +2002,11 @@ void NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned int control
     | Call UpdateLEDs on the given controller               |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->UpdateLEDs();
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version, bool save_mode)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version, bool save_mode)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1906,7 +2019,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsigned int con
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
@@ -1935,7 +2048,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsigned int con
         | Unlock access mutex                               |
         \*-------------------------------------------------*/
         controllers[controller_idx]->AccessMutex.unlock_shared();
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     /*-----------------------------------------------------*\
@@ -1965,9 +2078,11 @@ void NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsigned int con
     {
         controllers[controller_idx]->UpdateMode();
     }
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1980,7 +2095,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsigned int co
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
@@ -2010,7 +2125,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsigned int co
         | Unlock access mutex                               |
         \*-------------------------------------------------*/
         controllers[controller_idx]->AccessMutex.unlock();
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     /*-----------------------------------------------------*\
@@ -2028,9 +2143,11 @@ void NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsigned int co
     | Call UpdateSingleLED                                  |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->UpdateSingleLED(led_idx);
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -2043,7 +2160,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int con
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
@@ -2072,7 +2189,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int con
         | Unlock access mutex                               |
         \*-------------------------------------------------*/
         controllers[controller_idx]->AccessMutex.unlock();
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     /*-----------------------------------------------------*\
@@ -2091,7 +2208,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int con
         | Unlock access mutex                               |
         \*-------------------------------------------------*/
         controllers[controller_idx]->AccessMutex.unlock();
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     for(int color_index = 0; color_index < num_colors; color_index++)
@@ -2109,9 +2226,11 @@ void NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int con
     | Call UpdateZoneLEDs                                   |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->UpdateZoneLEDs(zone_idx);
+
+    return(NET_PACKET_STATUS_OK);
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -2124,7 +2243,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsigned int con
     \*-----------------------------------------------------*/
     if(!idx_valid)
     {
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
     /*-----------------------------------------------------*\
@@ -2160,7 +2279,7 @@ void NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsigned int con
         | Unlock access mutex                               |
         \*-------------------------------------------------*/
         controllers[controller_idx]->AccessMutex.unlock_shared();
-        return;
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
     /*-----------------------------------------------------*\
@@ -2185,6 +2304,32 @@ void NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsigned int con
     | Update zone mode                                      |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->UpdateZoneMode(zone_idx);
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+void NetworkServer::SendAck(SOCKET client_sock, unsigned int acked_pkt_dev_id, unsigned int acked_pkt_id, NetPacketStatus status, unsigned int protocol_version)
+{
+    /*-----------------------------------------------------*\
+    | ACKs were introduced in protocol version 6            |
+    \*-----------------------------------------------------*/
+    if(protocol_version < 6)
+    {
+        return;
+    }
+
+    NetPacketHeader ack_hdr;
+    NetPacketAck    ack_data;
+
+    InitNetPacketHeader(&ack_hdr, acked_pkt_dev_id, NET_PACKET_ID_ACK, sizeof(NetPacketAck));
+
+    ack_data.acked_pkt_id   = acked_pkt_id;
+    ack_data.status         = status;
+
+    send_in_progress.lock();
+    send(client_sock, (const char *)&ack_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (const char *)&ack_data, sizeof(ack_data), MSG_NOSIGNAL);
+    send_in_progress.unlock();
 }
 
 void NetworkServer::SendReply_ControllerCount(SOCKET client_sock, unsigned int protocol_version)
@@ -2384,29 +2529,6 @@ void NetworkServer::SendReply_ServerString(SOCKET client_sock)
         }
     }
     ServerClientsMutex.unlock();
-}
-
-void NetworkServer::SendReply_ProfileList(SOCKET client_sock)
-{
-    if(!profile_manager)
-    {
-        return;
-    }
-
-    NetPacketHeader reply_hdr;
-    unsigned char *reply_data = profile_manager->GetProfileListDescription();
-    unsigned int reply_size;
-
-    memcpy(&reply_size, reply_data, sizeof(reply_size));
-
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST, reply_size);
-
-    send_in_progress.lock();
-    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (const char *)reply_data, reply_size, MSG_NOSIGNAL);
-    send_in_progress.unlock();
-
-    delete[] reply_data;
 }
 
 void NetworkServer::SendReply_PluginList(SOCKET client_sock)
