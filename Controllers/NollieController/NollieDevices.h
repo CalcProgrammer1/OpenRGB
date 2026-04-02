@@ -34,6 +34,13 @@
 #define NOLLIE28_L1_PID            0x1617
 #define NOLLIE28_L2_PID            0x1618
 
+/* OS2_1 USB layout (interface 2 for 1/8 CH, 0 for 16/32 CH); same HID protocol */
+#define NOLLIE1_OS2_1_PID          0x2A01
+#define NOLLIE8_OS2_1_PID          0x2A08
+#define PRISM8_OS2_1_PID           0x2C08
+#define NOLLIE16_OS2_1_PID         0x2A16
+#define NOLLIE32_OS2_1_PID         0x2A32
+
 /*---------------------------------------------------------*\
 | Common Nollie LED counts                                  |
 \*---------------------------------------------------------*/

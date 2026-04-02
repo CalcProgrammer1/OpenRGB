@@ -1,4 +1,4 @@
-﻿/*---------------------------------------------------------*\
+/*---------------------------------------------------------*\
 | RGBController_Nollie.cpp                                  |
 |                                                           |
 |   RGBController for Nollie                                |
@@ -156,7 +156,8 @@ void RGBController_Nollie::DeviceConfigureZone(int zone_idx)
 void RGBController_Nollie::DeviceUpdateLEDs()
 {
     unsigned int DevPid = controller->GetUSBPID();
-    if(DevPid == NOLLIE32_PID || DevPid == NOLLIE16_PID)
+    if(DevPid == NOLLIE32_PID || DevPid == NOLLIE16_PID
+    || DevPid == NOLLIE32_OS2_1_PID || DevPid == NOLLIE16_OS2_1_PID)
     {
         const int* channel_index = controller->GetChannelIndex();
         std::vector<int> ChSort;
