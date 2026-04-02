@@ -121,6 +121,51 @@ static const nollie_device nollie1_os2 =
     dflt
 };
 
+static const nollie_device nollie32_os2_1 =
+{
+    NOLLIERGBOS_2_VID,
+    NOLLIE32_OS2_1_PID,
+    32,
+    NOLLIE_HS_CH_LED_NUM,
+    ch32
+};
+
+static const nollie_device nollie16_os2_1 =
+{
+    NOLLIERGBOS_2_VID,
+    NOLLIE16_OS2_1_PID,
+    16,
+    NOLLIE_HS_CH_LED_NUM,
+    n16
+};
+
+static const nollie_device nollie8_os2_1 =
+{
+    NOLLIERGBOS_2_VID,
+    NOLLIE8_OS2_1_PID,
+    8,
+    126,
+    dflt
+};
+
+static const nollie_device prism8_os2_1 =
+{
+    NOLLIERGBOS_2_VID,
+    PRISM8_OS2_1_PID,
+    8,
+    126,
+    dflt
+};
+
+static const nollie_device nollie1_os2_1 =
+{
+    NOLLIERGBOS_2_VID,
+    NOLLIE1_OS2_1_PID,
+    1,
+    630,
+    dflt
+};
+
 /*---------------------------------------------------------*\
 | Nollie Device List                                        |
 \*---------------------------------------------------------*/
@@ -137,6 +182,11 @@ static const nollie_device* device_list[] =
     &nollie16_os2,
     &nollie8_os2,
     &nollie1_os2,
+    &nollie32_os2_1,
+    &nollie16_os2_1,
+    &nollie8_os2_1,
+    &prism8_os2_1,
+    &nollie1_os2_1,
 };
 
 const unsigned int      NOLLIE_NUM_DEVICES = (sizeof(device_list) / sizeof(device_list[ 0 ]));
