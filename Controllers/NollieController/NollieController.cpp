@@ -1,4 +1,4 @@
-﻿/*---------------------------------------------------------*\
+/*---------------------------------------------------------*\
 | NollieController.cpp                                      |
 |                                                           |
 |   Driver for Nollie                                       |
@@ -136,7 +136,8 @@ void NollieController::SetMos(bool mos)
 
 void NollieController::SetChannelLEDs(unsigned char channel, RGBColor* colors, unsigned int num_colors)
 {
-   if(usb_pid == NOLLIE32_PID || usb_pid == NOLLIE16_PID)
+   if(usb_pid == NOLLIE32_PID || usb_pid == NOLLIE16_PID
+   || usb_pid == NOLLIE32_OS2_1_PID || usb_pid == NOLLIE16_OS2_1_PID)
    {
        SendPacket(channel,&colors[0], num_colors);
    }
@@ -216,9 +217,12 @@ void NollieController::SendPacketFS(unsigned char channel,unsigned char packet_i
             packet_interval = 2;
             break;
         case NOLLIE8_PID:
+        case NOLLIE8_OS2_1_PID:
+        case PRISM8_OS2_1_PID:
             packet_interval = 6;
             break;
         case NOLLIE1_PID:
+        case NOLLIE1_OS2_1_PID:
             packet_interval = 30;
             break;
         default:
@@ -233,7 +237,8 @@ void NollieController::SendPacketFS(unsigned char channel,unsigned char packet_i
         usb_buf[0x02 + (color_idx * 3)] = RGBGetRValue(colors[color_idx]);
         usb_buf[0x03 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
         usb_buf[0x04 + (color_idx * 3)] = RGBGetBValue(colors[color_idx]);
-        if(dev_pid == NOLLIE8_PID || dev_pid == NOLLIE1_PID )
+        if(dev_pid == NOLLIE8_PID || dev_pid == NOLLIE1_PID
+        || dev_pid == NOLLIE8_OS2_1_PID || dev_pid == NOLLIE1_OS2_1_PID || dev_pid == PRISM8_OS2_1_PID)
         {
             usb_buf[0x02 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
             usb_buf[0x03 + (color_idx * 3)] = RGBGetRValue(colors[color_idx]);
