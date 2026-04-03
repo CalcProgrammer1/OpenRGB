@@ -232,6 +232,18 @@ const std::vector<MSI_ZONE> zones_set20 =
     MSI_ZONE_J_RGB_1,
 };
 
+const std::vector<MSI_ZONE> zones_set21 =
+{
+    MSI_ZONE_J_RGB_1,
+    MSI_ZONE_J_RGB_2,
+    MSI_ZONE_J_RAINBOW_1,
+    MSI_ZONE_J_RAINBOW_2,
+    MSI_ZONE_J_CORSAIR,
+    MSI_ZONE_J_PIPE_1,
+    MSI_ZONE_J_PIPE_2,
+    MSI_ZONE_ON_BOARD_LED_0
+};
+
 
 /*---------------------------------------------------------------------------------------------------------------------------------*\
 | Definition of the board sepcific configurations (number of onboard LEDs and supported zones).                                     |
@@ -337,6 +349,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7E24, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B650M GAMING PLUS WIFI
     { 0x7E26, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B650 GAMING PLUS WIFI
     { 0x7E27, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B650M-P
+    { 0x7E28, 6,  0,  0, 2, &zones_set21, MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },    // MSI PRO A620M-B (MS-7E28)
 };
 
 
