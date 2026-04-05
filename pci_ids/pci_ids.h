@@ -438,6 +438,7 @@
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV2             0x1501
 #define COLORFUL_IGAME_RTX_4090_ADVANCED_OCV            0x1400
 #define COLORFUL_IGAME_RTX_4090_ADVANCED_OCV2           0x1401
+#define COLORFUL_IGAME_RTX_5060TI_ULTRAW_DUO_OC         0x1531
 #define COLORFUL_IGAME_RTX_5070_ULTRAW_OCV              0x1500
 
 /*-----------------------------------------------------*\
