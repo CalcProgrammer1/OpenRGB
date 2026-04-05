@@ -1021,6 +1021,11 @@ void ProfileManager::UpdateProfileList()
             }
         }
 
+        /*---------------------------------------------------------*\
+        | Sort the profiles list                                    |
+        \*---------------------------------------------------------*/
+        std::sort(profile_list.begin(), profile_list.end());
+
         SignalProfileManagerUpdate(PROFILEMANAGER_UPDATE_REASON_PROFILE_LIST_UPDATED);
     }
 }
