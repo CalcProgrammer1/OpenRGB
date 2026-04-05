@@ -293,7 +293,7 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     /*---------------------------------------------------------*\
     | Hide all drivers settings otherwise                       |
     \*---------------------------------------------------------*/
-    ui->DriversSettingsLabel->hide();
+    ui->GroupBoxDriverSettings->hide();
     ui->CheckboxAMDSMBusReduceCPU->hide();
     ui->CheckboxSharedSMBusAccess->hide();
     ui->LabelSMBusSleepMode->hide();
