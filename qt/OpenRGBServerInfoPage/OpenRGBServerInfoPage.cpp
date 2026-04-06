@@ -17,18 +17,21 @@ static void UpdateInfoCallback(void * this_ptr)
     QMetaObject::invokeMethod(this_obj, "UpdateInfo", Qt::QueuedConnection);
 }
 
-OpenRGBServerInfoPage::OpenRGBServerInfoPage(NetworkServer * server, QWidget *parent) :
+OpenRGBServerInfoPage::OpenRGBServerInfoPage(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OpenRGBServerInfoPage)
 {
-    network_server = server;
-
     ui->setupUi(this);
 
-    UpdateInfo();
+    network_server = ResourceManager::get()->GetServer();
 
-    network_server->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
-    network_server->RegisterServerListeningChangeCallback(UpdateInfoCallback, this);
+    if(network_server)
+    {
+        network_server->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
+        network_server->RegisterServerListeningChangeCallback(UpdateInfoCallback, this);
+    }
+
+    UpdateInfo();
 }
 
 OpenRGBServerInfoPage::~OpenRGBServerInfoPage()
@@ -46,10 +49,18 @@ void OpenRGBServerInfoPage::changeEvent(QEvent *event)
 
 void OpenRGBServerInfoPage::UpdateInfo()
 {
-    ui->ServerHostValue->setText(network_server->GetHost().c_str());
-    ui->ServerPortValue->setText(std::to_string(network_server->GetPort()).c_str());
+    if(network_server)
+    {
+        ui->ServerHostValue->setText(network_server->GetHost().c_str());
+        ui->ServerPortValue->setText(std::to_string(network_server->GetPort()).c_str());
+    }
+    else
+    {
+        ui->ServerHostValue->setText(ResourceManager::get()->GetDefaultServerHost().c_str());
+        ui->ServerPortValue->setText(std::to_string(ResourceManager::get()->GetDefaultServerPort()).c_str());
+    }
 
-    if(network_server->GetListening() && !network_server->GetOnline())
+    if(network_server && network_server->GetListening() && !network_server->GetOnline())
     {
         ui->ServerStatusValue->setText(tr("Stopping..."));
         ui->ServerStartButton->setEnabled(false);
@@ -57,7 +68,7 @@ void OpenRGBServerInfoPage::UpdateInfo()
         ui->ServerHostValue->setEnabled(false);
         ui->ServerPortValue->setEnabled(false);
     }
-    else if(network_server->GetListening())
+    else if(network_server && network_server->GetListening())
     {
         ui->ServerStatusValue->setText(tr("Online"));
         ui->ServerStartButton->setEnabled(false);
@@ -75,20 +86,33 @@ void OpenRGBServerInfoPage::UpdateInfo()
     }
 
     ui->ServerClientTree->clear();
-    for(unsigned int client_idx = 0; client_idx < network_server->GetNumClients(); client_idx++)
+
+    if(network_server)
     {
-        QTreeWidgetItem * new_item = new QTreeWidgetItem();
+        for(unsigned int client_idx = 0; client_idx < network_server->GetNumClients(); client_idx++)
+        {
+            QTreeWidgetItem * new_item = new QTreeWidgetItem();
 
-        new_item->setText(0, network_server->GetClientIP(client_idx));
-        new_item->setText(1, QString::number(network_server->GetClientProtocolVersion(client_idx)));
-        new_item->setText(2, network_server->GetClientString(client_idx));
+            new_item->setText(0, network_server->GetClientIP(client_idx));
+            new_item->setText(1, QString::number(network_server->GetClientProtocolVersion(client_idx)));
+            new_item->setText(2, network_server->GetClientString(client_idx));
 
-        ui->ServerClientTree->addTopLevelItem(new_item);
+            ui->ServerClientTree->addTopLevelItem(new_item);
+        }
     }
 }
 
 void OpenRGBServerInfoPage::on_ServerStartButton_clicked()
 {
+    if(!network_server)
+    {
+        ResourceManager::get()->InitializeServer();
+        network_server = ResourceManager::get()->GetServer();
+
+        network_server->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
+        network_server->RegisterServerListeningChangeCallback(UpdateInfoCallback, this);
+    }
+
     if(network_server->GetOnline() == false)
     {
         network_server->SetHost(ui->ServerHostValue->text().toStdString());
@@ -101,10 +125,13 @@ void OpenRGBServerInfoPage::on_ServerStartButton_clicked()
 
 void OpenRGBServerInfoPage::on_ServerStopButton_clicked()
 {
-    if(network_server->GetOnline() == true)
+    if(network_server)
     {
-        network_server->StopServer();
+        if(network_server->GetOnline() == true)
+        {
+            network_server->StopServer();
 
-        UpdateInfo();
+            UpdateInfo();
+        }
     }
 }

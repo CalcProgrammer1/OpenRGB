@@ -911,7 +911,12 @@ void ProfileManager::SetActiveProfile(std::string profile_name)
 {
     active_profile = profile_name;
 
-    ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ActiveProfileChanged(active_profile);
+    NetworkServer* server = ResourceManager::get()->GetServer();
+
+    if(server)
+    {
+        server->SendRequest_ProfileManager_ActiveProfileChanged(active_profile);
+    }
 
     SignalProfileManagerUpdate(PROFILEMANAGER_UPDATE_REASON_ACTIVE_PROFILE_CHANGED);
 }
@@ -969,7 +974,12 @@ void ProfileManager::SetProfileListFromDescription(unsigned int /*data_size*/, c
 
 void ProfileManager::SignalProfileManagerUpdate(unsigned int update_reason)
 {
-    ResourceManager::get()->GetServer()->SignalProfileManagerUpdate(update_reason);
+    NetworkServer* server = ResourceManager::get()->GetServer();
+
+    if(server)
+    {
+        server->SignalProfileManagerUpdate(update_reason);
+    }
 
     ProfileManagerCallbackMutex.lock();
 
@@ -1355,7 +1365,12 @@ bool ProfileManager::LoadProfileWithOptions
         plugin_manager->OnProfileAboutToLoad();
     }
 
-    ResourceManager::get()->GetServer()->ProfileManager_ProfileAboutToLoad();
+    NetworkServer* server = ResourceManager::get()->GetServer();
+
+    if(server)
+    {
+        server->ProfileManager_ProfileAboutToLoad();
+    }
 
     /*-------------------------------------------------*\
     | Get the list of controllers from the resource     |
@@ -1384,14 +1399,20 @@ bool ProfileManager::LoadProfileWithOptions
     /*-------------------------------------------------*\
     | Notify local client                               |
     \*-------------------------------------------------*/
-    ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ProfileLoaded(profile_json.dump());
+    if(server)
+    {
+        server->SendRequest_ProfileManager_ProfileLoaded(profile_json.dump());
+    }
 
     /*-------------------------------------------------*\
     | Update active profile                             |
     \*-------------------------------------------------*/
     SetActiveProfile(profile_name);
 
-    ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ActiveProfileChanged(active_profile);
+    if(server)
+    {
+        server->SendRequest_ProfileManager_ActiveProfileChanged(active_profile);
+    }
 
     return(true);
 }
