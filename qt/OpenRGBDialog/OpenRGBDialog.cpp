@@ -871,9 +871,12 @@ void OpenRGBDialog::AddServerTab()
     /*-----------------------------------------------------*\
     | Add server information tab if there is a server       |
     \*-----------------------------------------------------*/
-    OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage(ResourceManager::get()->GetServer());
-    ServerInfoPage->setObjectName(QString("SDK Server"));
-    ui->MainTabBar->insertTab(2, ServerInfoPage, tr("SDK Server"));
+    if(!ResourceManager::get()->IsLocalClient())
+    {
+        OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage();
+        ServerInfoPage->setObjectName(QString("SDK Server"));
+        ui->MainTabBar->insertTab(2, ServerInfoPage, tr("SDK Server"));
+    }
 }
 
 void OpenRGBDialog::ClearDevicesList()

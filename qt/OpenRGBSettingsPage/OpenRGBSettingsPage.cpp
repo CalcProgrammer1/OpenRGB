@@ -287,6 +287,18 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         ui->CheckboxLegacyWorkaround->setChecked(legacy_workaround);
     }
 
+    if(server_settings.contains("default_host"))
+    {
+        std::string host = server_settings["default_host"];
+        ui->LineEditServerDefaultHost->setText(QString::fromStdString(host));
+    }
+
+    if(server_settings.contains("default_port"))
+    {
+        unsigned short port = server_settings["default_port"];
+        ui->SpinBoxServerDefaultPort->setValue(port);
+    }
+
     UpdateProfiles();
 
     /*---------------------------------------------------------*\
@@ -1131,5 +1143,21 @@ void  OpenRGBSettingsPage::on_CheckboxShowLEDView_clicked()
     json ui_settings                = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
     ui_settings["show_led_view"]    = ui->CheckboxShowLEDView->isChecked();
     ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+}
+
+void OpenRGBSettingsPage::on_LineEditServerDefaultHost_textChanged(const QString server_default_host)
+{
+    json server_settings                                        = ResourceManager::get()->GetSettingsManager()->GetSettings("Server");
+    server_settings["default_host"]                             = server_default_host.toStdString();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("Server", server_settings);
+    SaveSettings();
+}
+
+void OpenRGBSettingsPage::on_SpinBoxServerDefaultPort_valueChanged(int server_default_port)
+{
+    json server_settings                                        = ResourceManager::get()->GetSettingsManager()->GetSettings("Server");
+    server_settings["default_port"]                             = (unsigned short)server_default_port;
+    ResourceManager::get()->GetSettingsManager()->SetSettings("Server", server_settings);
     SaveSettings();
 }

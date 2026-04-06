@@ -27,7 +27,6 @@ static const std::string ui_settings_keys[7] =
     "Plugins",
     "Client",
     "LogManager",
-    "Server"
 };
 
 SettingsManager::SettingsManager()
