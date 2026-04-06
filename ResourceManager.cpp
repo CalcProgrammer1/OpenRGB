@@ -132,9 +132,12 @@ ResourceManager::ResourceManager()
     \*-----------------------------------------------------*/
     auto_connection_client      = NULL;
     auto_connection_active      = false;
+    default_server_host         = "";
+    default_server_port         = 0;
     detection_enabled           = true;
     init_finished               = false;
     plugin_manager              = NULL;
+    server                      = NULL;
 
     SetupConfigurationDirectory();
 
@@ -151,43 +154,9 @@ ResourceManager::ResourceManager()
     LogManager::get()->configure(settings_manager->GetSettings("LogManager"), GetConfigurationDirectory());
 
     /*-----------------------------------------------------*\
-    | Initialize Server Instance                            |
-    |   If configured, pass through full controller list    |
-    |   including clients.  Otherwise, pass only local      |
-    |   hardware controllers                                |
-    \*-----------------------------------------------------*/
-    json server_settings    = settings_manager->GetSettings("Server");
-    bool legacy_workaround  = false;
-
-    server                  = new NetworkServer();
-
-    /*-----------------------------------------------------*\
-    | Set server name                                       |
-    \*-----------------------------------------------------*/
-    std::string titleString = "OpenRGB ";
-    titleString.append(VERSION_STRING);
-
-    server->SetName(titleString);
-    server->SetSettingsManager(settings_manager);
-
-    /*-----------------------------------------------------*\
-    | Enable legacy SDK workaround in server if configured  |
-    \*-----------------------------------------------------*/
-    if(server_settings.contains("legacy_workaround"))
-    {
-        legacy_workaround   = server_settings["legacy_workaround"];
-    }
-
-    if(legacy_workaround)
-    {
-        server->SetLegacyWorkaroundEnable(true);
-    }
-
-    /*-----------------------------------------------------*\
     | Load sizes list from file                             |
     \*-----------------------------------------------------*/
     profile_manager         = new ProfileManager(GetConfigurationDirectory());
-    server->SetProfileManager(profile_manager);
 }
 
 ResourceManager::~ResourceManager()
@@ -222,6 +191,16 @@ std::vector<NetworkClient*>& ResourceManager::GetClients()
 filesystem::path ResourceManager::GetConfigurationDirectory()
 {
     return(config_dir);
+}
+
+std::string ResourceManager::GetDefaultServerHost()
+{
+    return(default_server_host);
+}
+
+unsigned short ResourceManager::GetDefaultServerPort()
+{
+    return(default_server_port);
 }
 
 std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBuses()
@@ -266,10 +245,24 @@ void ResourceManager::SetConfigurationDirectory(const filesystem::path &director
     profile_manager->SetConfigurationDirectory(directory);
 }
 
+void ResourceManager::SetDefaultServerHost(std::string new_server_host)
+{
+    default_server_host = new_server_host;
+}
+
+void ResourceManager::SetDefaultServerPort(unsigned short new_server_port)
+{
+    default_server_port = new_server_port;
+}
+
 void ResourceManager::SetPluginManager(PluginManagerInterface* plugin_manager_ptr)
 {
     plugin_manager = plugin_manager_ptr;
-    server->SetPluginManager(plugin_manager);
+
+    if(server)
+    {
+        server->SetPluginManager(plugin_manager);
+    }
 }
 
 /*---------------------------------------------------------*\
@@ -494,21 +487,24 @@ void ResourceManager::UpdateDeviceList()
     /*-----------------------------------------------------*\
     | Update server list                                    |
     \*-----------------------------------------------------*/
-    json server_settings    = settings_manager->GetSettings("Server");
-    bool all_controllers    = false;
+    if(server)
+    {
+        json server_settings    = settings_manager->GetSettings("Server");
+        bool all_controllers    = false;
 
-    if(server_settings.contains("all_controllers"))
-    {
-        all_controllers     = server_settings["all_controllers"];
-    }
+        if(server_settings.contains("all_controllers"))
+        {
+            all_controllers     = server_settings["all_controllers"];
+        }
 
-    if(all_controllers)
-    {
-        server->SetControllers(rgb_controllers);
-    }
-    else
-    {
-        server->SetControllers(rgb_controllers_hw);
+        if(all_controllers)
+        {
+            server->SetControllers(rgb_controllers);
+        }
+        else
+        {
+            server->SetControllers(rgb_controllers_hw);
+        }
     }
 
     /*-----------------------------------------------------*\
@@ -532,7 +528,10 @@ void ResourceManager::WaitForDetection()
 \*---------------------------------------------------------*/
 void ResourceManager::SignalResourceManagerUpdate(unsigned int update_reason)
 {
-    server->SignalResourceManagerUpdate(update_reason);
+    if(server)
+    {
+        server->SignalResourceManagerUpdate(update_reason);
+    }
 
     ResourceManagerCallbackMutex.lock();
 
@@ -725,12 +724,44 @@ void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool start
     }
 
     /*-----------------------------------------------------*\
+    | If the server host and port have been set on the CLI, |
+    | use those values.  Otherwise, get default server host |
+    | and port from settings if configured.                 |
+    \*-----------------------------------------------------*/
+    json server_settings            = settings_manager->GetSettings("Server");
+
+    if(default_server_host == "")
+    {
+        if(server_settings.contains("default_host"))
+        {
+            default_server_host = server_settings["default_host"];
+        }
+        else
+        {
+            default_server_host = OPENRGB_SDK_HOST;
+        }
+    }
+
+    if(default_server_port == 0)
+    {
+        if(server_settings.contains("default_port"))
+        {
+            default_server_port = server_settings["default_port"];
+        }
+        else
+        {
+            default_server_port = OPENRGB_SDK_PORT;
+        }
+    }
+
+    /*-----------------------------------------------------*\
     | Start server if requested                             |
     \*-----------------------------------------------------*/
     if(start_server)
     {
-        GetServer()->StartServer();
-        if(!GetServer()->GetOnline())
+        InitializeServer();
+        server->StartServer();
+        if(!server->GetOnline())
         {
             LOG_DEBUG("[%s] Server failed to start", RESOURCEMANAGER);
         }
@@ -758,6 +789,64 @@ void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool start
     }
 
     init_finished = true;
+}
+
+void ResourceManager::InitializeServer()
+{
+    /*-----------------------------------------------------*\
+    | Initialize Server Instance                            |
+    |   If configured, pass through full controller list    |
+    |   including clients.  Otherwise, pass only local      |
+    |   hardware controllers                                |
+    \*-----------------------------------------------------*/
+    json server_settings    = settings_manager->GetSettings("Server");
+    bool legacy_workaround  = false;
+
+    server                  = new NetworkServer();
+
+    /*-----------------------------------------------------*\
+    | Set server name                                       |
+    \*-----------------------------------------------------*/
+    std::string titleString = "OpenRGB ";
+    titleString.append(VERSION_STRING);
+
+    server->SetName(titleString);
+    server->SetSettingsManager(settings_manager);
+
+    /*-----------------------------------------------------*\
+    | Enable legacy SDK workaround in server if configured  |
+    \*-----------------------------------------------------*/
+    if(server_settings.contains("legacy_workaround"))
+    {
+        legacy_workaround   = server_settings["legacy_workaround"];
+    }
+
+    if(legacy_workaround)
+    {
+        server->SetLegacyWorkaroundEnable(true);
+    }
+
+    server->SetProfileManager(profile_manager);
+
+    if(plugin_manager)
+    {
+        server->SetPluginManager(plugin_manager);
+    }
+
+    /*-----------------------------------------------------*\
+    | If the server host and port have been set on the CLI, |
+    | use those values.  Otherwise, get default server host |
+    | and port from settings if configured.                 |
+    \*-----------------------------------------------------*/
+    if(default_server_host != "")
+    {
+        server->SetHost(default_server_host);
+    }
+
+    if(default_server_port != 0)
+    {
+        server->SetPort(default_server_port);
+    }
 }
 
 void ResourceManager::WaitForInitialization()
