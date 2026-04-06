@@ -23,7 +23,7 @@ class OpenRGBServerInfoPage : public QFrame
     Q_OBJECT
 
 public:
-    explicit OpenRGBServerInfoPage(NetworkServer * server, QWidget *parent = nullptr);
+    explicit OpenRGBServerInfoPage(QWidget *parent = nullptr);
     ~OpenRGBServerInfoPage();
 
 public slots:

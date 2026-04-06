@@ -96,4 +96,6 @@ private slots:
     void on_CheckboxShowLEDView_clicked();
     void on_CheckboxAllDevices_clicked(bool checked);
     void on_CheckboxLegacyWorkaround_clicked(bool checked);
+    void on_LineEditServerDefaultHost_textChanged(const QString server_default_host);
+    void on_SpinBoxServerDefaultPort_valueChanged(int server_default_port);
 };

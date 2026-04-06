@@ -52,6 +52,8 @@ public:
     \*-----------------------------------------------------*/
     std::vector<NetworkClient*>&        GetClients();
     filesystem::path                    GetConfigurationDirectory();
+    std::string                         GetDefaultServerHost();
+    unsigned short                      GetDefaultServerPort();
     LogManager*                         GetLogManager();
     std::vector<i2c_smbus_interface*>&  GetI2CBuses();
     PluginManagerInterface*             GetPluginManager();
@@ -61,6 +63,8 @@ public:
     SettingsManager*                    GetSettingsManager();
 
     void                                SetConfigurationDirectory(const filesystem::path &directory);
+    void                                SetDefaultServerHost(std::string server_host);
+    void                                SetDefaultServerPort(unsigned short server_port);
     void                                SetPluginManager(PluginManagerInterface* plugin_manager_ptr);
 
     /*-----------------------------------------------------*\
@@ -99,6 +103,7 @@ public:
     void                                SignalResourceManagerUpdate(unsigned int update_reason);
 
     void                                Initialize(bool tryConnect, bool detectDevices, bool startServer, bool applyPostOptions);
+    void                                InitializeServer();
 
     void                                WaitForInitialization();
 
@@ -170,6 +175,8 @@ private:
     | Network Server                                        |
     \*-----------------------------------------------------*/
     NetworkServer*                              server;
+    std::string                                 default_server_host;
+    unsigned short                              default_server_port;
 
     /*-----------------------------------------------------*\
     | Network Clients                                       |
