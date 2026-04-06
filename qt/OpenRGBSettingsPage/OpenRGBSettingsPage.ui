@@ -220,17 +220,48 @@
           <string>Server</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_8">
-          <item row="0" column="0">
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="LineEditServerDefaultHost">
+            <property name="text">
+             <string>127.0.0.1</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="LabelServerDefaultHost">
+            <property name="text">
+             <string>Server Default Host</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QCheckBox" name="CheckboxLegacyWorkaround">
+            <property name="text">
+             <string>Legacy Workaround</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
            <widget class="QCheckBox" name="CheckboxAllDevices">
             <property name="text">
              <string>Serve All Devices (Including those from client connections)</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="CheckboxLegacyWorkaround">
+          <item row="3" column="0">
+           <widget class="QLabel" name="LabelServerDefaultPort">
             <property name="text">
-             <string>Legacy Workaround</string>
+             <string>Server Default Port</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QSpinBox" name="SpinBoxServerDefaultPort">
+            <property name="maximum">
+             <number>65535</number>
+            </property>
+            <property name="value">
+             <number>6742</number>
             </property>
            </widget>
           </item>
