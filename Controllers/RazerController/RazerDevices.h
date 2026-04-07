@@ -57,6 +57,8 @@
 #define RAZER_BLACKWIDOW_V4_PRO_75_WIRED_PID            0x02B3
 #define RAZER_BLACKWIDOW_V4_PRO_75_WIRELESS_PID         0x02B4
 #define RAZER_BLACKWIDOW_V4_75_WIRED_PID                0x02A5
+#define RAZER_BLACKWIDOW_V4_TKL_WIRED_PID               0x02D7
+#define RAZER_BLACKWIDOW_V4_TKL_WIRELESS_PID            0x02D5
 #define RAZER_BLACKWIDOW_X_CHROMA_PID                   0x0216
 #define RAZER_BLACKWIDOW_X_CHROMA_TE_PID                0x021A
 #define RAZER_BLADE_2016_PID                            0x020F

@@ -242,6 +242,8 @@ REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro 75% (Wired)",             Det
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro 75% (Wireless)",          DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_75_WIRELESS_PID,        0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 75% (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_75_WIRED_PID,               0x03,   0x01,   0x00);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 X",                           DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_X_PID,                      0x02,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 TKL (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_TKL_WIRED_PID,              0x03,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 TKL (Wireless)",              DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_TKL_WIRELESS_PID,           0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_X_CHROMA_PID,                  0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma Tournament Edition",    DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_X_CHROMA_TE_PID,               0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cynosa Chroma",                             DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_CHROMA_PID,                        0x02,   0x01,   0x02);
