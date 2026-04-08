@@ -69,19 +69,20 @@ s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
 #include <unistd.h>
 #include <dirent.h>
 #include <string.h>
+#include <linux/limits.h>
 
 bool i2c_smbus_linux_detect()
 {
     i2c_smbus_linux *       bus;
-    char                    device_string[1024];
-    char                    device_path[1024];
+    char                    device_string[PATH_MAX];
+    char                    device_path[PATH_MAX];
     DIR *                   dir;
-    char                    driver_path[512];
+    char                    driver_path[PATH_MAX];
     struct dirent *         ent;
     int                     test_fd;
     int                     ret = true;
-    char path[1024];
-    char buff[100];
+    char path[PATH_MAX];
+    char buff[64];
     unsigned short pci_device, pci_vendor, pci_subsystem_device, pci_subsystem_vendor;
     unsigned short port_id, bus_id;
     char *ptr;
@@ -102,22 +103,28 @@ bool i2c_smbus_linux_detect()
         {
             if(strncmp(ent->d_name, "i2c-", 4) == 0)
             {
-                strcpy(device_string, driver_path);
-                strcat(device_string, ent->d_name);
-                strcat(device_string, "/name");
+                strncpy(device_string, driver_path, sizeof(device_string) - 1);
+                device_string[sizeof(device_string) - 1] = '\0';
+                strncat(device_string, ent->d_name, sizeof(device_string) - strlen(device_string) - 1);
+                device_string[sizeof(device_string) - 1] = '\0';
+                strncat(device_string, "/name", sizeof(device_string) - strlen(device_string) - 1);
+                device_string[sizeof(device_string) - 1] = '\0';
                 test_fd = open(device_string, O_RDONLY);
 
                 if(test_fd)
                 {
                     memset(device_string, 0x00, sizeof(device_string));
-                    memset(device_path, 0x00, sizeof(device_string));
+                    memset(device_path, 0x00, sizeof(device_path));
 
                     if(read(test_fd, device_string, sizeof(device_string)) < 0)
                     {
                         LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device name");
                     }
 
-                    device_string[strlen(device_string) - 1] = 0x00;
+                    if(strlen(device_string) > 0 && strlen(device_string) < sizeof(device_string))
+                    {
+                        device_string[strlen(device_string) - 1] = 0x00;
+                    }
 
                     close(test_fd);
 
@@ -136,21 +143,26 @@ bool i2c_smbus_linux_detect()
                     sscanf(ent->d_name, "i2c-%hu", &bus_id);
 
                     // Get device path
-                    strcpy(path, driver_path);
-                    strcat(path, ent->d_name);
+                    strncpy(path, driver_path, sizeof(path) - 1);
+                    path[sizeof(path) - 1] = '\0';
+                    strncat(path, ent->d_name, sizeof(path) - strlen(path) - 1);
+                    path[sizeof(path) - 1] = '\0';
                     if(ent->d_type == DT_LNK)
                     {
                         ptr = realpath(path, NULL);
                         if(ptr == NULL)
                             continue;
 
-                        strcpy(path, ptr);
-                        strcat(path, "/..");
+                        strncpy(path, ptr, sizeof(path) - 1);
+                        path[sizeof(path) - 1] = '\0';
+                        strncat(path, "/..", sizeof(path) - strlen(path) - 1);
+                        path[sizeof(path) - 1] = '\0';
                         free(ptr);
                     }
                     else
                     {
-                        strcat(path, "/device");
+                        strncat(path, "/device", sizeof(path) - strlen(path) - 1);
+                        path[sizeof(path) - 1] = '\0';
                     }
                     ptr = path + strlen(path);
 
@@ -166,7 +178,10 @@ bool i2c_smbus_linux_detect()
                             LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI vendor ID");
                         }
 
-                        buff[strlen(buff) - 1] = 0x00;
+                        if(strlen(buff) > 0 && strlen(buff) < sizeof(buff))
+                        {
+                            buff[strlen(buff) - 1] = 0x00;
+                        }
                         pci_vendor = strtoul(buff, NULL, 16);
                         close(test_fd);
                     }
@@ -183,7 +198,10 @@ bool i2c_smbus_linux_detect()
                             LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI device ID");
                         }
 
-                        buff[strlen(buff) - 1] = 0x00;
+                        if(strlen(buff) > 0 && strlen(buff) < sizeof(buff))
+                        {
+                            buff[strlen(buff) - 1] = 0x00;
+                        }
                         pci_device = strtoul(buff, NULL, 16);
                         close(test_fd);
                     }
@@ -200,7 +218,10 @@ bool i2c_smbus_linux_detect()
                             LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI subvendor ID");
                         }
 
-                        buff[strlen(buff) - 1] = 0x00;
+                        if(strlen(buff) > 0 && strlen(buff) < sizeof(buff))
+                        {
+                            buff[strlen(buff) - 1] = 0x00;
+                        }
                         pci_subsystem_vendor = strtoul(buff, NULL, 16);
                         close(test_fd);
                     }
@@ -217,13 +238,18 @@ bool i2c_smbus_linux_detect()
                             LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI subdevice ID");
                         }
 
-                        buff[strlen(buff) - 1] = 0x00;
+                        if(strlen(buff) > 0 && strlen(buff) < sizeof(buff))
+                        {
+                            buff[strlen(buff) - 1] = 0x00;
+                        }
                         pci_subsystem_device = strtoul(buff, NULL, 16);
                         close(test_fd);
                     }
 
-                    strcpy(device_path, "/dev/");
-                    strcat(device_path, ent->d_name);
+                    strncpy(device_path, "/dev/", sizeof(device_path) - 1);
+                    device_path[sizeof(device_path) - 1] = '\0';
+                    strncat(device_path, ent->d_name, sizeof(device_path) - strlen(device_path) - 1);
+                    device_path[sizeof(device_path) - 1] = '\0';
                     test_fd = open(device_path, O_RDWR);
 
                     if (test_fd < 0)
