@@ -345,6 +345,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7E09, 0,  0,  0, 0, &zones_set19, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B650M PROJECT ZERO
     { 0x7E10, 0,  6,  0, 2, &zones_set17, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B650 EDGE WIFI
     { 0x7E12, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI
+    { 0x0076, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI (Common PID)
     { 0x7E16, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // X670E GAMING PLUS WIFI
     { 0x7E24, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B650M GAMING PLUS WIFI
     { 0x7E26, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B650 GAMING PLUS WIFI
@@ -717,6 +718,19 @@ bool MSIMysticLight185Controller::Update
     }
     else
     {
+        /*-----------------------------------------------------*\
+        | Save new state, read current state from board,        |
+        | send old state first, then new state.                 |
+        | Windows Mystic Light sends two consecutive reports.   |
+        \*-----------------------------------------------------*/
+        FeaturePacket_185 new_data;
+        std::memcpy(&new_data, &data, sizeof(data));
+
+        ReadSettings();
+        data.save_data = save;
+        hid_send_feature_report(dev, (unsigned char*)&data, sizeof(data));
+
+        std::memcpy(&data, &new_data, sizeof(data));
         data.save_data = save;
         return (hid_send_feature_report(dev, (unsigned char*)&data, sizeof(data)) == sizeof(data));
     }
