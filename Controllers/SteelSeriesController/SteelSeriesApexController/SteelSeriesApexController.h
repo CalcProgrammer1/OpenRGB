@@ -28,6 +28,7 @@ enum
     APEX_2023_PACKET_ID_DIRECT_WIRELESS = 0x61,     /* New Wireless Direct mode   */
     APEX_2023_PACKET_ID_INIT            = 0x4B,     /* New Initialization         */
     APEX_2023_PACKET_LENGTH             = 643,
+    APEX_GEN3_PACKET_CLEAR_LIGHTING     = 0x41,
 };
 
 class SteelSeriesApexController : public SteelSeriesApexBaseController
@@ -55,5 +56,4 @@ private:
 
     void    SendInitialization();
 
-    bool    use_new_protocol;
 };

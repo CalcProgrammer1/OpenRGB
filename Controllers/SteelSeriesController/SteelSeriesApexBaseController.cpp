@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "SteelSeriesApexBaseController.h"
+#include <algorithm>
 
 SteelSeriesApexBaseController::SteelSeriesApexBaseController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
@@ -34,17 +35,15 @@ std::string SteelSeriesApexBaseController::GetName()
 }
 
 /*---------------------------------------------------------*\
-| The serial number of the keyboard is acquired by sending  |
-| an output report to address 0xFF and reading the result.  |
-| The HID capability table is not used.  The serial number  |
-| also contains the model number which can be used to       |
-| determine the physical layout of different region         |
-| keyboards throughout the product stack.                   |
+| Gen 1 Apex Pro stores the unit serial number in firmware. |
+| The first 5 digits determine the region of the keyboard.  |
+| This is not the case for Gen 3, call to this function     |
+| will be ignored.                                          |
 \*---------------------------------------------------------*/
 std::string SteelSeriesApexBaseController::GetSerial()
 {
     std::string return_string = "";
-    if(proto_type == APEX)
+    if(proto_type == APEX && kbd_quirk == APEX_GEN1)
     {
         unsigned char obuf[STEELSERIES_PACKET_OUT_SIZE];
         unsigned char ibuf[STEELSERIES_PACKET_IN_SIZE];
@@ -70,6 +69,27 @@ std::string SteelSeriesApexBaseController::GetSerial()
         return(return_string);
 }
 
+std::string ExtractVersion(std::string version_string)
+{
+    /*---------------------------------------------*\
+    | Find 2 periods in string, if found we can     |
+    | form a X.Y.Z revision.                        |
+    \*---------------------------------------------*/
+    std::size_t majorp = version_string.find('.');
+    if(majorp != std::string::npos)
+    {
+        std::size_t minorp = version_string.find('.', majorp+1);
+        if(minorp != std::string::npos)
+        {
+            std::string major = version_string.substr(0, majorp);
+            std::string minor = version_string.substr(majorp+1, (minorp-majorp-1));
+            std::string build = version_string.substr(minorp+1);
+            return major + "." + minor + "." + build;
+        }
+    }
+    return "";
+}
+
 std::string SteelSeriesApexBaseController::GetVersion()
 {
     std::string return_string = "Unsupported protocol";
@@ -77,11 +97,9 @@ std::string SteelSeriesApexBaseController::GetVersion()
     if(proto_type == APEX)
     {
         /*-------------------------------------------------*\
-        | For the Apex Pro there are two firmware versions  |
-        | which can be acquired, KBD and LED.  We know      |
-        | where both are located, we do not know which is   |
-        | what.  For now we'll make an assumption and fix   |
-        | if proven wrong.                                  |
+        | Gen 1 & 2 Apex Pro report KBD and LED firmware    |
+        | Gen 3 only reports the KBD firmware, ignoring     |
+        | requests to read the LED version                  |
         \*-------------------------------------------------*/
         unsigned char   obuf[STEELSERIES_PACKET_OUT_SIZE];
         unsigned char   ibuf[STEELSERIES_PACKET_IN_SIZE];
@@ -96,50 +114,36 @@ std::string SteelSeriesApexBaseController::GetVersion()
         if(result > 0)
         {
             std::string fwver(ibuf, ibuf+STEELSERIES_PACKET_IN_SIZE);
-            fwver = fwver.c_str();
+            fwver.erase(std::remove(fwver.begin(), fwver.end(), '\0'), fwver.end());
 
             /*---------------------------------------------*\
-            | Find 2 periods in string, if found we can     |
-            | form a X.Y.Z revision.                        |
+            | Apex Pro Gen 3 needs the first char dropped   |
             \*---------------------------------------------*/
-            std::size_t majorp = fwver.find('.');
-            if(majorp != std::string::npos)
+            if(kbd_quirk == APEX_GEN3)
             {
-                std::size_t minorp = fwver.find('.', majorp+1);
-                if(minorp != std::string::npos)
-                {
-                    std::string major = fwver.substr(0, majorp);
-                    std::string minor = fwver.substr(majorp+1, (minorp-majorp-1));
-                    std::string build = fwver.substr(minorp+1);
-                    return_string = "KBD: " + major + "." + minor + "." + build;
-                }
+                fwver.erase(0,1);
             }
+
+            return_string = "KBD: " + ExtractVersion(fwver);
         }
 
         /*-------------------------------------------------*\
         | Clear and reuse buffer                            |
         \*-------------------------------------------------*/
-        memset(ibuf, 0x00, sizeof(ibuf));
-        obuf[0x02] = 0x01;
-        hid_write(dev, obuf, STEELSERIES_PACKET_OUT_SIZE);
-        result = hid_read_timeout(dev, ibuf, STEELSERIES_PACKET_IN_SIZE, 10);
-
-        if(result > 0)
+        if(kbd_quirk != APEX_GEN3)
         {
-            std::string fwver(ibuf, ibuf+STEELSERIES_PACKET_IN_SIZE);
-            fwver = fwver.c_str();
+            memset(ibuf, 0x00, sizeof(ibuf));
+            obuf[0x02] = 0x01;
+            hid_write(dev, obuf, STEELSERIES_PACKET_OUT_SIZE);
+            result = hid_read_timeout(dev, ibuf, STEELSERIES_PACKET_IN_SIZE, 10);
 
-            std::size_t majorp = fwver.find('.');
-            if(majorp != std::string::npos)
+            if(result > 0)
             {
-                std::size_t minorp = fwver.find('.', majorp+1);
-                if(minorp != std::string::npos)
-                {
-                    std::string major = fwver.substr(0, majorp);
-                    std::string minor = fwver.substr(majorp+1, (minorp-majorp-1));
-                    std::string build = fwver.substr(minorp+1);
-                    return_string = return_string + " / LED: " + major + "." + minor + "." + build;
-                }
+                std::string fwver(ibuf, ibuf+STEELSERIES_PACKET_IN_SIZE);
+                fwver.erase(std::remove(fwver.begin(), fwver.end(), '\0'), fwver.end());
+                fwver = fwver.c_str();
+
+                return_string = return_string + " / LED: " + ExtractVersion(fwver);
             }
         }
     }
