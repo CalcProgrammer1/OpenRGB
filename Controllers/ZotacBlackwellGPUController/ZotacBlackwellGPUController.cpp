@@ -9,7 +9,8 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include <unistd.h>
+#include <chrono>
+#include <thread>
 #include "ZotacBlackwellGPUController.h"
 #include "LogManager.h"
 
@@ -107,7 +108,7 @@ void ZotacBlackwellGPUController::SetMode
     for(int i = 0; i < 16; i++)
     {
         bus->i2c_smbus_write_byte_data(dev, (u8)(ZOTAC_BLACKWELL_GPU_REG_FIXED + i), regs[i]);
-        usleep(ZOTAC_BLACKWELL_GPU_DELAY_US);
+        std::this_thread::sleep_for(std::chrono::microseconds(ZOTAC_BLACKWELL_GPU_DELAY_US));
     }
 }
 
@@ -120,5 +121,5 @@ void ZotacBlackwellGPUController::Commit()
     | effects don't visually update until a parameter changes.  |
     \*---------------------------------------------------------*/
     bus->i2c_smbus_write_byte_data(dev, ZOTAC_BLACKWELL_GPU_REG_COMMIT, 0x01);
-    usleep(ZOTAC_BLACKWELL_GPU_COMMIT_DELAY_US);
+    std::this_thread::sleep_for(std::chrono::microseconds(ZOTAC_BLACKWELL_GPU_COMMIT_DELAY_US));
 }
