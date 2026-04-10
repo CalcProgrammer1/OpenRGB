@@ -50,6 +50,7 @@ public:
     bool                            GetDetectionEnabled();
     unsigned int                    GetDetectionPercent();
     std::string                     GetDetectionString();
+    void                            RescanDevices();
     void                            WaitForDetection();
     std::vector<RGBController*> &   GetRGBControllers();
 
