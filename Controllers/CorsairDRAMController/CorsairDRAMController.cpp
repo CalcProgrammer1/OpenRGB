@@ -114,7 +114,7 @@ void CorsairDRAMController::SetColorsPerLED(RGBColor* colors)
 
             if(corsair_dram_device_list[device_index]->reverse)
             {
-                color_index                 = led_count - led_idx;
+                color_index                 = (led_count -1) - led_idx;
             }
 
             direct_packet[offset + 0]       = RGBGetRValue(colors[color_index]);
@@ -166,7 +166,7 @@ void CorsairDRAMController::SetColorsPerLED(RGBColor* colors)
 
             if(corsair_dram_device_list[device_index]->reverse)
             {
-                color_index                 = led_count - led_idx;
+                color_index                 = (led_count -1) - led_idx;
             }
 
             color_data_packet[(led_idx * 4) + 0]  = RGBGetRValue(colors[color_index]);
