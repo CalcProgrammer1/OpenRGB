@@ -101,6 +101,7 @@ public:
     virtual bool                            GetDetectionEnabled()                                                               = 0;
     virtual unsigned int                    GetDetectionPercent()                                                               = 0;
     virtual std::string                     GetDetectionString()                                                                = 0;
+    virtual void                            RescanDevices()                                                                     = 0;
     virtual void                            WaitForDetection()                                                                  = 0;
     virtual std::vector<RGBController*> &   GetRGBControllers()                                                                 = 0;
 
