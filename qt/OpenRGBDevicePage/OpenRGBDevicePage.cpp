@@ -1690,7 +1690,14 @@ void OpenRGBDevicePage::UpdateModeUi()
 
                     for(std::size_t segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
                     {
-                        ui->ZoneBox->addItem(("    " + device->GetZoneSegmentName(zone_idx, segment_idx)).c_str());
+                        if(device->GetZoneSegmentFlags(zone_idx, segment_idx) & SEGMENT_FLAG_GROUP_MEMBER)
+                        {
+                            ui->ZoneBox->addItem(("        " + device->GetZoneSegmentName(zone_idx, segment_idx)).c_str());
+                        }
+                        else
+                        {
+                            ui->ZoneBox->addItem(("    " + device->GetZoneSegmentName(zone_idx, segment_idx)).c_str());
+                        }
                     }
                 }
 
@@ -1778,7 +1785,14 @@ void OpenRGBDevicePage::UpdateZoneList()
 
         for(std::size_t segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
         {
-            ui->ZoneBox->addItem(("    " + device->GetZoneSegmentName(zone_idx, segment_idx)).c_str());
+            if(device->GetZoneSegmentFlags(zone_idx, segment_idx) & SEGMENT_FLAG_GROUP_MEMBER)
+            {
+                ui->ZoneBox->addItem(("        " + device->GetZoneSegmentName(zone_idx, segment_idx)).c_str());
+            }
+            else
+            {
+                ui->ZoneBox->addItem(("    " + device->GetZoneSegmentName(zone_idx, segment_idx)).c_str());
+            }
         }
     }
 

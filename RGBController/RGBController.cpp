@@ -280,6 +280,24 @@ RGBColor RGBController::GetZoneColor(unsigned int zone, unsigned int color_index
     return(color);
 }
 
+zone_color_order RGBController::GetZoneColorOrder(unsigned int zone)
+{
+    zone_color_order color_order;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        color_order = zones[zone].color_order;
+    }
+    else
+    {
+        color_order = ZONE_COLOR_ORDER_DEFAULT;
+    }
+    AccessMutex.unlock_shared();
+
+    return(color_order);
+}
+
 RGBColor* RGBController::GetZoneColorsPointer(unsigned int zone)
 {
     /*-----------------------------------------------------*\
@@ -769,6 +787,24 @@ std::size_t RGBController::GetZoneSegmentCount(unsigned int zone)
     AccessMutex.unlock_shared();
 
     return(count);
+}
+
+unsigned int RGBController::GetZoneSegmentFlags(unsigned int zone, unsigned int segment)
+{
+    unsigned int flags;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (segment < zones[zone].segments.size()))
+    {
+        flags = zones[zone].segments[segment].flags;
+    }
+    else
+    {
+        flags = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(flags);
 }
 
 unsigned int RGBController::GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment)

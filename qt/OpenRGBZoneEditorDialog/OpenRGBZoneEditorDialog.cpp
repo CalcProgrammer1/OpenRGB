@@ -148,10 +148,25 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     QStringList header_labels;
     header_labels << "Name" << "Type" << "Matrix Map" << "Size" << "";
     ui->SegmentsTreeWidget->setHeaderLabels(header_labels);
+    ui->SegmentsTreeWidget->setItemsExpandable(false);
+    ui->SegmentsTreeWidget->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+
+    SegmentTreeWidgetItem* group_start = NULL;
 
     for(std::size_t segment_idx = 0; segment_idx < edit_zone.segments.size(); segment_idx++)
     {
-        AddSegmentRow(QString::fromStdString(edit_zone.segments[segment_idx].name), edit_zone.segments[segment_idx].leds_count, edit_zone.segments[segment_idx].type, edit_zone.segments[segment_idx].matrix_map);
+        if(edit_zone.segments[segment_idx].flags & SEGMENT_FLAG_GROUP_START)
+        {
+            group_start = AddSegmentGroupRow(QString::fromStdString(edit_zone.segments[segment_idx].name));
+        }
+        else if((edit_zone.segments[segment_idx].flags & SEGMENT_FLAG_GROUP_MEMBER) && (group_start != NULL))
+        {
+            AddSegmentRow(QString::fromStdString(edit_zone.segments[segment_idx].name), edit_zone.segments[segment_idx].leds_count, edit_zone.segments[segment_idx].type, edit_zone.segments[segment_idx].matrix_map, group_start);
+        }
+        else
+        {
+            AddSegmentRow(QString::fromStdString(edit_zone.segments[segment_idx].name), edit_zone.segments[segment_idx].leds_count, edit_zone.segments[segment_idx].type, edit_zone.segments[segment_idx].matrix_map, ui->SegmentsTreeWidget);
+        }
     }
 
     if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS) == 0)
@@ -189,9 +204,17 @@ void OpenRGBZoneEditorDialog::on_SliderZoneSize_valueChanged(int value)
     | Set maximum value for all segment sliders to new zone |
     | size                                                  |
     \*-----------------------------------------------------*/
-    for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+    QTreeWidgetItemIterator tree_iterator(ui->SegmentsTreeWidget);
+    while(*tree_iterator)
     {
-        ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 4))->setMaximum(value);
+        SegmentTreeWidgetItem* item = (SegmentTreeWidgetItem*)*tree_iterator;
+
+        if(!item->segment_group_header)
+        {
+            ((QSlider*)ui->SegmentsTreeWidget->itemWidget(item, 4))->setMaximum(value);
+        }
+
+        tree_iterator++;
     }
 
     if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE) == 0)
@@ -217,6 +240,16 @@ void OpenRGBZoneEditorDialog::on_segment_lineedit_textChanged()
     \*-----------------------------------------------------*/
     for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
     {
+        /*-------------------------------------------------*\
+        | Ignore this item if it is a segment group header  |
+        \*-------------------------------------------------*/
+        bool segment_group_header = ((SegmentTreeWidgetItem*)(ui->SegmentsTreeWidget->topLevelItem(item_idx)))->segment_group_header;
+
+        if(segment_group_header)
+        {
+            continue;
+        }
+
         int lineedit_value = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 3))->text().toInt();
         ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 4))->setValue(lineedit_value);
     }
@@ -248,10 +281,18 @@ void OpenRGBZoneEditorDialog::on_segment_slider_valueChanged(int)
     | Update the LineEdit with the Slider value for each    |
     | segment                                               |
     \*-----------------------------------------------------*/
-    for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+    QTreeWidgetItemIterator tree_iterator(ui->SegmentsTreeWidget);
+    while(*tree_iterator)
     {
-        int slider_value = ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 4))->value();
-        ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 3))->setText(QString::number(slider_value));
+        SegmentTreeWidgetItem* item = (SegmentTreeWidgetItem*)*tree_iterator;
+
+        if(!item->segment_group_header)
+        {
+            int slider_value = ((QSlider*)ui->SegmentsTreeWidget->itemWidget(item, 4))->value();
+            ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(item, 3))->setText(QString::number(slider_value));
+        }
+
+        tree_iterator++;
     }
 
     CheckSegmentsValidity();
@@ -267,9 +308,17 @@ void OpenRGBZoneEditorDialog::on_SpinBoxZoneSize_valueChanged(int value)
     | Set maximum value for all segment sliders to new zone |
     | size                                                  |
     \*-----------------------------------------------------*/
-    for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+    QTreeWidgetItemIterator tree_iterator(ui->SegmentsTreeWidget);
+    while(*tree_iterator)
     {
-        ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 4))->setMaximum(value);
+        SegmentTreeWidgetItem* item = (SegmentTreeWidgetItem*)*tree_iterator;
+
+        if(!item->segment_group_header)
+        {
+            ((QSlider*)ui->SegmentsTreeWidget->itemWidget(item, 4))->setMaximum(value);
+        }
+
+        tree_iterator++;
     }
 
     if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE) == 0)
@@ -322,17 +371,46 @@ int OpenRGBZoneEditorDialog::show()
 
         if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS)
         {
-            unsigned int start_idx                          = 0;
-            edit_zone.segments.resize(ui->SegmentsTreeWidget->topLevelItemCount());
-            for(std::size_t segment_idx = 0; segment_idx < edit_zone.segments.size(); segment_idx++)
+            unsigned int start_idx                  = 0;
+
+            edit_zone.segments.clear();
+
+            QTreeWidgetItemIterator tree_iterator(ui->SegmentsTreeWidget);
+            while(*tree_iterator)
             {
-                edit_zone.segments[segment_idx].type        = ((QComboBox*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 1))->currentIndex();
-                edit_zone.segments[segment_idx].name        = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 0))->text().toStdString();
-                edit_zone.segments[segment_idx].start_idx   = start_idx;
-                edit_zone.segments[segment_idx].leds_count  = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 3))->text().toInt();
-                edit_zone.segments[segment_idx].matrix_map  = ((SegmentTreeWidgetItem*)(ui->SegmentsTreeWidget->topLevelItem(segment_idx)))->matrix_map;
-                edit_zone.segments[segment_idx].flags       = 0;
-                start_idx                                  += edit_zone.segments[segment_idx].leds_count;
+                segment new_segment;
+
+                SegmentTreeWidgetItem* item         = (SegmentTreeWidgetItem*)*tree_iterator;
+
+                bool segment_group_header           = item->segment_group_header;
+                bool segment_group_member           = item->segment_group_member;
+
+                new_segment.name                    = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(item, 0))->text().toStdString();
+
+                if(!segment_group_header)
+                {
+                    new_segment.type                = ((QComboBox*)ui->SegmentsTreeWidget->itemWidget(item, 1))->currentIndex();
+                    new_segment.start_idx           = start_idx;
+                    new_segment.leds_count          = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(item, 3))->text().toInt();
+                    new_segment.matrix_map          = item->matrix_map;
+                    if(segment_group_member)
+                    {
+                        new_segment.flags           = SEGMENT_FLAG_GROUP_MEMBER;
+                    }
+                    else
+                    {
+                        new_segment.flags           = 0;
+                    }
+                    start_idx                      += new_segment.leds_count;
+                }
+                else
+                {
+                    new_segment.flags               = SEGMENT_FLAG_GROUP_START;
+                }
+
+                edit_zone.segments.push_back(new_segment);
+
+                tree_iterator++;
             }
         }
 
@@ -360,13 +438,25 @@ int OpenRGBZoneEditorDialog::show()
     return(ret_val);
 }
 
-void OpenRGBZoneEditorDialog::AddSegmentRow(QString name, unsigned int length, zone_type type, matrix_map_type matrix_map)
+void OpenRGBZoneEditorDialog::AddSegmentRow(QString name, unsigned int length, zone_type type, matrix_map_type matrix_map, QTreeWidget* parent)
 {
-    /*-----------------------------------------------------*\
-    | Create new line in segments list tree                 |
-    \*-----------------------------------------------------*/
-    SegmentTreeWidgetItem* new_item     = new SegmentTreeWidgetItem(ui->SegmentsTreeWidget);
+    SegmentTreeWidgetItem* new_item     = new SegmentTreeWidgetItem(parent);
+    new_item->setExpanded(true);
 
+    AddSegmentRowInternal(name, length, type, matrix_map, new_item);
+}
+
+void OpenRGBZoneEditorDialog::AddSegmentRow(QString name, unsigned int length, zone_type type, matrix_map_type matrix_map, QTreeWidgetItem* parent)
+{
+    SegmentTreeWidgetItem* new_item     = new SegmentTreeWidgetItem(parent);
+    new_item->segment_group_member      = true;
+    new_item->setExpanded(true);
+
+    AddSegmentRowInternal(name, length, type, matrix_map, new_item);
+}
+
+void OpenRGBZoneEditorDialog::AddSegmentRowInternal(QString name, unsigned int length, zone_type type, matrix_map_type matrix_map, SegmentTreeWidgetItem* new_item)
+{
     /*-----------------------------------------------------*\
     | Set the matrix map                                    |
     \*-----------------------------------------------------*/
@@ -428,6 +518,38 @@ void OpenRGBZoneEditorDialog::AddSegmentRow(QString name, unsigned int length, z
     connect(slider_length, &QSlider::valueChanged, this, &OpenRGBZoneEditorDialog::on_segment_slider_valueChanged);
     connect(lineedit_length, &QLineEdit::textChanged, this, &OpenRGBZoneEditorDialog::on_segment_lineedit_textChanged);
     connect(button_matrix_map, SIGNAL(clicked()), new_item, SLOT(on_button_matrix_map_clicked()));
+
+    ui->SegmentsTreeWidget->expandAll();
+}
+
+SegmentTreeWidgetItem* OpenRGBZoneEditorDialog::AddSegmentGroupRow(QString name)
+{
+    /*-----------------------------------------------------*\
+    | Create new line in segments list tree                 |
+    \*-----------------------------------------------------*/
+    SegmentTreeWidgetItem* new_item     = new SegmentTreeWidgetItem(ui->SegmentsTreeWidget);
+
+    /*-----------------------------------------------------*\
+    | Mark this line as a group header                      |
+    \*-----------------------------------------------------*/
+    new_item->segment_group_header      = true;
+
+    /*-----------------------------------------------------*\
+    | Create new widgets for line                           |
+    \*-----------------------------------------------------*/
+    QLineEdit*      lineedit_name       = new QLineEdit(ui->SegmentsTreeWidget);
+
+    /*-----------------------------------------------------*\
+    | Fill in Name field                                    |
+    \*-----------------------------------------------------*/
+    lineedit_name->setText(name);
+
+    /*-----------------------------------------------------*\
+    | Add new widgets to tree                               |
+    \*-----------------------------------------------------*/
+    ui->SegmentsTreeWidget->setItemWidget(new_item, 0, lineedit_name);
+
+    return(new_item);
 }
 
 void OpenRGBZoneEditorDialog::on_AddSegmentButton_clicked()
@@ -444,52 +566,91 @@ void OpenRGBZoneEditorDialog::on_AddSegmentButton_clicked()
     QString new_name = "Segment " + QString::number(ui->SegmentsTreeWidget->topLevelItemCount() + 1);
 
     matrix_map_type new_matrix_map;
-    AddSegmentRow(new_name, 0, ZONE_TYPE_LINEAR, new_matrix_map);
+
+    /*-----------------------------------------------------*\
+    | Get selected item                                     |
+    \*-----------------------------------------------------*/
+    QList<QTreeWidgetItem *> items = ui->SegmentsTreeWidget->selectedItems();
+
+    /*-----------------------------------------------------*\
+    | Create new line under selected group header or as top |
+    | level otherwise                                       |
+    \*-----------------------------------------------------*/
+    if((items.size() == 1) && ((SegmentTreeWidgetItem*)items[0])->segment_group_header)
+    {
+        AddSegmentRow(new_name, 0, ZONE_TYPE_LINEAR, new_matrix_map, items[0]);
+    }
+    else
+    {
+        AddSegmentRow(new_name, 0, ZONE_TYPE_LINEAR, new_matrix_map, ui->SegmentsTreeWidget);
+    }
 
     CheckSegmentsValidity();
+}
+
+void OpenRGBZoneEditorDialog::on_AddSegmentGroupButton_clicked()
+{
+    /*-----------------------------------------------------*\
+    | Create new empty row with name "Segment X"            |
+    \*-----------------------------------------------------*/
+    QString new_name = "Segment Group " + QString::number(ui->SegmentsTreeWidget->topLevelItemCount() + 1);
+    AddSegmentGroupRow(new_name);
 }
 
 void OpenRGBZoneEditorDialog::CheckSegmentsValidity()
 {
     bool segments_valid = true;
+    unsigned int total_segment_leds = 0;
 
-    /*-----------------------------------------------------*\
-    | Only check validity if segments are configured        |
-    \*-----------------------------------------------------*/
-    if(ui->SegmentsTreeWidget->topLevelItemCount() != 0)
+    QTreeWidgetItemIterator tree_iterator(ui->SegmentsTreeWidget);
+
+    if(!(*tree_iterator))
     {
+        ui->ButtonBox->setEnabled(segments_valid);
+        return;
+    }
+
+    while(*tree_iterator)
+    {
+        SegmentTreeWidgetItem* item = (SegmentTreeWidgetItem*)*tree_iterator;
+
         /*-------------------------------------------------*\
-        | Verify all segments add up to zone size           |
+        | Ignore this item if it is a segment group header  |
         \*-------------------------------------------------*/
-        int total_segment_leds = 0;
+        bool segment_group_header = item->segment_group_header;
 
-        for(int segment_idx = 0; segment_idx < ui->SegmentsTreeWidget->topLevelItemCount(); segment_idx++)
+        if(segment_group_header)
         {
-            unsigned int segment_leds = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 3))->text().toInt();
-
-            /*---------------------------------------------*\
-            | Zero-length segment is not allowed            |
-            \*---------------------------------------------*/
-            if(segment_leds == 0)
-            {
-                segments_valid = false;
-            }
-
-            total_segment_leds += segment_leds;
-
-            /*---------------------------------------------*\
-            | Empty name is not allowed                     |
-            \*---------------------------------------------*/
-            if(((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 0))->text().isEmpty())
-            {
-                segments_valid = false;
-            }
+            tree_iterator++;
+            continue;
         }
 
-        if(total_segment_leds != ui->SpinBoxZoneSize->value())
+        unsigned int segment_leds = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(item, 3))->text().toInt();
+
+        /*-------------------------------------------------*\
+        | Zero-length segment is not allowed                |
+        \*-------------------------------------------------*/
+        if(segment_leds == 0)
         {
             segments_valid = false;
         }
+
+        total_segment_leds += segment_leds;
+
+        /*-------------------------------------------------*\
+        | Empty name is not allowed                         |
+        \*-------------------------------------------------*/
+        if(((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(item, 0))->text().isEmpty())
+        {
+            segments_valid = false;
+        }
+
+        tree_iterator++;
+    }
+
+    if(total_segment_leds != (unsigned int)ui->SpinBoxZoneSize->value())
+    {
+        segments_valid = false;
     }
 
     ui->ButtonBox->setEnabled(segments_valid);
@@ -540,14 +701,16 @@ void OpenRGBZoneEditorDialog::on_ImportConfigurationButton_clicked()
                 \*-----------------------------------------*/
                 if(config_json.contains("segments"))
                 {
-                    unsigned int total_leds_count = ui->SliderZoneSize->value();
+                    unsigned int        total_leds_count    = ui->SliderZoneSize->value();
 
+                    SegmentTreeWidgetItem* group_start      = NULL;
                     for(std::size_t segment_idx = 0; segment_idx < config_json["segments"].size(); segment_idx++)
                     {
                         unsigned int    segment_leds_count  = 0;
                         matrix_map_type segment_matrix_map;
                         QString         segment_name        = "";
                         zone_type       segment_type        = ZONE_TYPE_LINEAR;
+                        unsigned int    segment_flags       = 0;
 
                         if(config_json["segments"][segment_idx].contains("name"))
                         {
@@ -561,11 +724,26 @@ void OpenRGBZoneEditorDialog::on_ImportConfigurationButton_clicked()
                         {
                             segment_type = config_json["segments"][segment_idx]["type"];
                         }
+                        if(config_json["segments"][segment_idx].contains("flags"))
+                        {
+                            segment_flags = config_json["segments"][segment_idx]["flags"];
+                        }
 
                         matrix_map_type new_matrix_map;
                         new_matrix_map = RGBController::SetMatrixMapDescriptionJSON(config_json["segments"][segment_idx]["matrix_map"]);
 
-                        AddSegmentRow(segment_name, segment_leds_count, segment_type, new_matrix_map);
+                        if(segment_flags & SEGMENT_FLAG_GROUP_START)
+                        {
+                            group_start = AddSegmentGroupRow(segment_name);
+                        }
+                        else if((segment_flags & SEGMENT_FLAG_GROUP_MEMBER) && (group_start != NULL))
+                        {
+                            AddSegmentRow(segment_name, segment_leds_count, segment_type, new_matrix_map, group_start);
+                        }
+                        else
+                        {
+                            AddSegmentRow(segment_name, segment_leds_count, segment_type, new_matrix_map, ui->SegmentsTreeWidget);
+                        }
 
                         total_leds_count += segment_leds_count;
                     }
@@ -623,20 +801,45 @@ void OpenRGBZoneEditorDialog::on_ExportConfigurationButton_clicked()
             /*---------------------------------------------*\
             | Fill in segment data in the JSON              |
             \*---------------------------------------------*/
-            unsigned int start_idx = 0;
+            unsigned int start_idx  = 0;
+            unsigned int item_idx   = 0;
 
-            for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+            QTreeWidgetItemIterator tree_iterator(ui->SegmentsTreeWidget);
+            while(*tree_iterator)
             {
-                segment new_segment;
-                new_segment.type       = ((QComboBox*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 1))->currentIndex();
-                new_segment.name       = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 0))->text().toStdString();
-                new_segment.start_idx  = start_idx;
-                new_segment.leds_count = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 3))->text().toInt();
-                new_segment.matrix_map = ((SegmentTreeWidgetItem*)(ui->SegmentsTreeWidget->topLevelItem(item_idx)))->matrix_map;
+                SegmentTreeWidgetItem*  item    = (SegmentTreeWidgetItem*)*tree_iterator;
+                segment                 new_segment;
+
+                bool segment_group_header       = item->segment_group_header;
+                bool segment_group_member       = item->segment_group_member;
+
+                new_segment.name                = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(item, 0))->text().toStdString();
+
+                if(!segment_group_header)
+                {
+                    new_segment.type            = ((QComboBox*)ui->SegmentsTreeWidget->itemWidget(item, 1))->currentIndex();
+                    new_segment.start_idx       = start_idx;
+                    new_segment.leds_count      = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(item, 3))->text().toInt();
+                    new_segment.matrix_map      = item->matrix_map;
+                    if(segment_group_member)
+                    {
+                        new_segment.flags       = SEGMENT_FLAG_GROUP_MEMBER;
+                    }
+                    else
+                    {
+                        new_segment.flags       = 0;
+                    }
+                    start_idx                  += new_segment.leds_count;
+                }
+                else
+                {
+                    new_segment.flags          = SEGMENT_FLAG_GROUP_START;
+                }
 
                 config_json["segments"][item_idx] = RGBController::GetSegmentDescriptionJSON(new_segment);
 
-                start_idx += new_segment.leds_count;
+                item_idx++;
+                tree_iterator++;
             }
 
             /*---------------------------------------------*\
