@@ -30,10 +30,11 @@ using namespace std::chrono_literals;
 #undef interface
 #endif
 
-/*----------------------------------------------------------------------*\
-| This list contains the available SMBus addresses for mapping ENE RAM   |
-\*----------------------------------------------------------------------*/
-#define ENE_RAM_ADDRESS_COUNT  23
+/*---------------------------------------------------------*\
+| This list contains the available SMBus addresses for      |
+| mapping ENE RAM                                           |
+\*---------------------------------------------------------*/
+#define ENE_RAM_ADDRESS_COUNT  (sizeof(ene_ram_addresses) / sizeof(ene_ram_addresses[0]))
 
 static const unsigned char ene_ram_addresses[] =
 {
@@ -44,14 +45,7 @@ static const unsigned char ene_ram_addresses[] =
     0x74,
     0x75,
     0x76,
-    0x78,
-    0x79,
-    0x7A,
-    0x7B,
-    0x7C,
-    0x7D,
-    0x7E,
-    0x7F,
+    0x77,
     0x4F,
     0x66,
     0x67,
@@ -62,10 +56,11 @@ static const unsigned char ene_ram_addresses[] =
     0x3D
 };
 
-/*---------------------------------------------------------------------------------*\
-| This list contains the available SMBus addresses for mapping Aura motherboards    |
-\*---------------------------------------------------------------------------------*/
-#define AURA_MOBO_ADDRESS_COUNT 3
+/*---------------------------------------------------------*\
+| This list contains the available SMBus addresses for      |
+| mapping Aura motherboards                                 |
+\*---------------------------------------------------------*/
+#define AURA_MOBO_ADDRESS_COUNT (sizeof(aura_mobo_addresses) / sizeof(aura_mobo_addresses[0]))
 
 static const unsigned char aura_mobo_addresses[] =
 {
