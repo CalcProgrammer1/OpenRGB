@@ -20,6 +20,20 @@
       <string>Segments Configuration</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="2">
+       <widget class="QPushButton" name="RemoveSegmentButton">
+        <property name="text">
+         <string>Remove Segment</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QPushButton" name="ExportConfigurationButton">
+        <property name="text">
+         <string>Export Configuration</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="0">
        <widget class="QPushButton" name="AddSegmentButton">
         <property name="text">
@@ -27,18 +41,17 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="RemoveSegmentButton">
-        <property name="text">
-         <string>Remove Segment</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="4">
+      <item row="0" column="0" colspan="5">
        <widget class="QTreeWidget" name="SegmentsTreeWidget">
+        <property name="itemsExpandable">
+         <bool>false</bool>
+        </property>
         <property name="columnCount">
          <number>4</number>
         </property>
+        <attribute name="headerStretchLastSection">
+         <bool>true</bool>
+        </attribute>
         <column>
          <property name="text">
           <string notr="true">Name</string>
@@ -61,17 +74,17 @@
         </column>
        </widget>
       </item>
-      <item row="1" column="2">
+      <item row="1" column="3">
        <widget class="QPushButton" name="ImportConfigurationButton">
         <property name="text">
          <string>Import Configuration</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="ExportConfigurationButton">
+      <item row="1" column="1">
+       <widget class="QPushButton" name="AddSegmentGroupButton">
         <property name="text">
-         <string>Export Configuration</string>
+         <string>Add Segment Group</string>
         </property>
        </widget>
       </item>
