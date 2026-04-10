@@ -376,6 +376,7 @@ public:
     virtual zone                    GetZone(unsigned int zone_idx)                                                                                      = 0;
     virtual int                     GetZoneActiveMode(unsigned int zone)                                                                                = 0;
     virtual RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index)                                                           = 0;
+    virtual zone_color_order        GetZoneColorOrder(unsigned int zone)                                                                                = 0;
     virtual RGBColor*               GetZoneColorsPointer(unsigned int zone)                                                                             = 0;
     virtual std::size_t             GetZoneCount()                                                                                                      = 0;
     virtual unsigned int            GetZoneFlags(unsigned int zone)                                                                                     = 0;
@@ -404,6 +405,7 @@ public:
     virtual int                     GetZoneModeValue(unsigned int zone, unsigned int mode)                                                              = 0;
     virtual std::string             GetZoneName(unsigned int zone)                                                                                      = 0;
     virtual std::size_t             GetZoneSegmentCount(unsigned int zone)                                                                              = 0;
+    virtual unsigned int            GetZoneSegmentFlags(unsigned int zone, unsigned int segment)                                                        = 0;
     virtual unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment)                                                    = 0;
     virtual matrix_map_type         GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment)                                                    = 0;
     virtual const unsigned int *    GetZoneSegmentMatrixMapData(unsigned int zone, unsigned int segment)                                                = 0;
@@ -538,6 +540,7 @@ public:
     zone                    GetZone(unsigned int zone_idx);
     int                     GetZoneActiveMode(unsigned int zone);
     RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index);
+    zone_color_order        GetZoneColorOrder(unsigned int zone);
     RGBColor*               GetZoneColorsPointer(unsigned int zone);
     std::size_t             GetZoneCount();
     unsigned int            GetZoneFlags(unsigned int zone);
@@ -566,6 +569,7 @@ public:
     int                     GetZoneModeValue(unsigned int zone, unsigned int mode);
     std::string             GetZoneName(unsigned int zone);
     std::size_t             GetZoneSegmentCount(unsigned int zone);
+    unsigned int            GetZoneSegmentFlags(unsigned int zone, unsigned int segment);
     unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment);
     matrix_map_type         GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment);
     const unsigned int *    GetZoneSegmentMatrixMapData(unsigned int zone, unsigned int segment);
