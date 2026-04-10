@@ -154,6 +154,11 @@ std::string OpenRGBPluginAPI::GetDetectionString()
     return(resource_manager->GetDetectionString());
 }
 
+void OpenRGBPluginAPI::RescanDevices()
+{
+    resource_manager->RescanDevices();
+}
+
 void OpenRGBPluginAPI::WaitForDetection()
 {
     resource_manager->WaitForDetection();
