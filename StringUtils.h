@@ -20,5 +20,6 @@ public:
     static std::string u16string_to_string(const std::u16string wstring);
     static const std::string remove_null_terminating_chars(std::string input);
     static std::string u32int_to_hexString(unsigned int value);
+    static std::string make_filename(std::string input);
     static std::string normalize_hex_id(const std::string& id);
 };

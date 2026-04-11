@@ -279,7 +279,7 @@ void ProfileManager::DeleteProfile(std::string profile_name)
     }
     else
     {
-        filesystem::path filename = profile_directory / profile_name;
+        filesystem::path filename = profile_directory / StringUtils::make_filename(profile_name);
         filename.concat(".json");
 
         filesystem::remove(filename);
@@ -524,7 +524,7 @@ nlohmann::json ProfileManager::ReadProfileJSON(std::string profile_name)
         /*-------------------------------------------------*\
         | File extension for v6+ profiles is .json          |
         \*-------------------------------------------------*/
-        profile_name += ".json";
+        profile_name = StringUtils::make_filename(profile_name) + ".json";
 
         /*-------------------------------------------------*\
         | Read the profile JSON from the file               |
@@ -774,7 +774,7 @@ bool ProfileManager::SaveProfileFromJSON(nlohmann::json profile_json)
 {
     if(profile_json.contains("profile_name"))
     {
-        std::string profile_filename = profile_json["profile_name"];
+        std::string profile_filename = StringUtils::make_filename(profile_json["profile_name"]);
 
         profile_filename.append(".json");
 
@@ -1024,9 +1024,9 @@ void ProfileManager::UpdateProfileList()
 
                 nlohmann::json profile_json = ReadProfileFileJSON(file_path);
 
-                if(!profile_json.empty())
+                if(!profile_json.empty() && profile_json.contains("profile_name"))
                 {
-                    profile_list.push_back(filename.erase(filename.length() - 5));
+                    profile_list.push_back(profile_json["profile_name"]);
                 }
             }
         }
