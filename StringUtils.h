@@ -18,4 +18,5 @@ public:
     static std::string wstring_to_string(const std::wstring wstring);
     static std::string u16string_to_string(const std::u16string wstring);
     static const std::string remove_null_terminating_chars(std::string input);
+    static std::string make_filename(std::string input);
 };
