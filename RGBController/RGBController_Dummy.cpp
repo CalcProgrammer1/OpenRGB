@@ -44,7 +44,6 @@ RGBController_Dummy::RGBController_Dummy()
 
 RGBController_Dummy::~RGBController_Dummy()
 {
-    Shutdown();
 }
 
 void RGBController_Dummy::SetupZones()
