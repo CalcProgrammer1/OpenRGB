@@ -21,6 +21,7 @@
 
 #include <codecvt>
 #include <locale>
+#include <regex>
 #include <string>
 #include "StringUtils.h"
 
@@ -100,4 +101,32 @@ std::string StringUtils::u32int_to_hexString(unsigned int value)
     char hex_str[20] = {0};
     snprintf(hex_str, sizeof(hex_str), "%X", value);
     return std::string(hex_str);
+}
+
+std::string StringUtils::make_filename(std::string input)
+{
+    /*-----------------------------------------------------*\
+    | Replace : characters with - characters                |
+    \*-----------------------------------------------------*/
+    input = std::regex_replace(input, std::regex(":"), "-");
+
+    /*-----------------------------------------------------*\
+    | Remove all other characters                           |
+    \*-----------------------------------------------------*/
+    input = std::regex_replace(input, std::regex("[#%&\\{\\}\\\\<>\\*\\?/!`';@+|=]"), "");
+
+    /*-----------------------------------------------------*\
+    | Remove leading . characters                           |
+    \*-----------------------------------------------------*/
+    input = std::regex_replace(input, std::regex("^\\.+"), "");
+
+    /*-----------------------------------------------------*\
+    | Remove control characters                             |
+    \*-----------------------------------------------------*/
+    input = std::regex_replace(input, std::regex("[\\x00-\\x1F\\x7F]"), "");
+
+    /*-----------------------------------------------------*\
+    | Return complete string                                |
+    \*-----------------------------------------------------*/
+    return(input);
 }
