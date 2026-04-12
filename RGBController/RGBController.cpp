@@ -1849,24 +1849,30 @@ void RGBController::DeviceCallThreadFunction()
 
 void RGBController::ClearSegments(int zone)
 {
-    AccessMutex.lock();
-    zones[zone].segments.clear();
-    AccessMutex.unlock();
+    if((std::size_t)zone < zones.size())
+    {
+        AccessMutex.lock();
+        zones[zone].segments.clear();
+        AccessMutex.unlock();
 
-    zones[zone].flags &= ~ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        zones[zone].flags &= ~ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
 
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS);
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS);
+    }
 }
 
 void RGBController::AddSegment(int zone, segment new_segment)
 {
-    AccessMutex.lock();
-    zones[zone].segments.push_back(new_segment);
-    AccessMutex.unlock();
+    if((std::size_t)zone < zones.size())
+    {
+        AccessMutex.lock();
+        zones[zone].segments.push_back(new_segment);
+        AccessMutex.unlock();
 
-    zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        zones[zone].flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
 
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT);
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT);
+    }
 }
 
 void RGBController::ConfigureZone(int zone_idx, zone new_zone)
@@ -1939,21 +1945,23 @@ void RGBController::ConfigureZone(int zone_idx, zone new_zone)
 
     AccessMutex.unlock();
 
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_RESIZEZONE);
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_CONFIGUREZONE);
 }
 
 void RGBController::ResizeZone(int zone_idx, int new_size)
 {
-    zone new_zone           = zones[zone_idx];
+    if((std::size_t)zone_idx < zones.size())
+    {
+        if(zones[zone_idx].flags & (ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE | ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY))
+        {
+            zone new_zone           = zones[zone_idx];
 
-    new_zone.leds_count     = new_size;
-    new_zone.flags         |= ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
+            new_zone.leds_count     = new_size;
+            new_zone.flags         |= ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
 
-    AccessMutex.lock();
-    ConfigureZone(zone_idx, new_zone);
-    AccessMutex.unlock();
-
-    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_RESIZEZONE);
+            ConfigureZone(zone_idx, new_zone);
+        }
+    }
 }
 
 /*---------------------------------------------------------*\
