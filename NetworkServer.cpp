@@ -2979,7 +2979,7 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
                     \*-------------------------------------*/
                     case RGBCONTROLLER_UPDATE_REASON_UPDATEMODE:
                     case RGBCONTROLLER_UPDATE_REASON_SAVEMODE:
-                    case RGBCONTROLLER_UPDATE_REASON_RESIZEZONE:
+                    case RGBCONTROLLER_UPDATE_REASON_CONFIGUREZONE:
                     case RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS:
                     case RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT:
                     case RGBCONTROLLER_UPDATE_REASON_HIDDEN:
@@ -3025,7 +3025,7 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
                     \*-------------------------------------*/
                     case RGBCONTROLLER_UPDATE_REASON_UPDATEMODE:
                     case RGBCONTROLLER_UPDATE_REASON_SAVEMODE:
-                    case RGBCONTROLLER_UPDATE_REASON_RESIZEZONE:
+                    case RGBCONTROLLER_UPDATE_REASON_CONFIGUREZONE:
                     case RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS:
                     case RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT:
                     case RGBCONTROLLER_UPDATE_REASON_HIDDEN:

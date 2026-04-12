@@ -339,7 +339,7 @@ enum
     RGBCONTROLLER_UPDATE_REASON_UPDATELEDS,         /* UpdateLEDs() called              */
     RGBCONTROLLER_UPDATE_REASON_UPDATEMODE,         /* UpdateMode() called              */
     RGBCONTROLLER_UPDATE_REASON_SAVEMODE,           /* SaveMode() called                */
-    RGBCONTROLLER_UPDATE_REASON_RESIZEZONE,         /* ResizeZone() called              */
+    RGBCONTROLLER_UPDATE_REASON_CONFIGUREZONE,      /* ConfigureZone() called           */
     RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS,      /* ClearSegments() called           */
     RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT,         /* AddSegment() called              */
     RGBCONTROLLER_UPDATE_REASON_HIDDEN,             /* Hidden flag set                  */
