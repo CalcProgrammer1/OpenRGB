@@ -343,6 +343,14 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
 
     ui->AutoStartStatusLabel->hide();
     autostart_initialized = true;
+
+    /*---------------------------------------------------------*\
+    | Sync the autostart system configuration with settings on  |
+    | startup. This ensures the file is recreated if it was     |
+    | deleted (e.g. by a reinstall) without requiring the user  |
+    | to manually toggle the checkbox.                          |
+    \*---------------------------------------------------------*/
+    ConfigureAutoStart();
 }
 
 OpenRGBSettingsPage::~OpenRGBSettingsPage()
