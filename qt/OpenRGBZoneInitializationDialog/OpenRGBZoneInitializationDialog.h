@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| OpenRGBZonesBulkResizer.h                                 |
+| OpenRGBZoneInitializationDialog.h                         |
 |                                                           |
-|   User interface for bulk resizing zones                  |
+|   User interface for initializing zones                   |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -14,21 +14,21 @@
 
 namespace Ui
 {
-    class OpenRGBZonesBulkResizer;
+    class OpenRGBZoneInitializationDialog;
 }
 
-class OpenRGBZonesBulkResizer : public QWidget
+class OpenRGBZoneInitializationDialog : public QWidget
 {
     Q_OBJECT
 
 public:
     static void RunChecks(QWidget *parent);
 
-    explicit OpenRGBZonesBulkResizer(QWidget*, const std::vector<std::tuple<RGBController*, unsigned int>>&);
-    ~OpenRGBZonesBulkResizer();
+    explicit OpenRGBZoneInitializationDialog(QWidget*, const std::vector<std::tuple<RGBController*, unsigned int>>&);
+    ~OpenRGBZoneInitializationDialog();
 
 private:
-    Ui::OpenRGBZonesBulkResizer *ui;
+    Ui::OpenRGBZoneInitializationDialog *ui;
 
     const std::vector<std::tuple<RGBController*, unsigned int>>& unconfigured_zones;
 

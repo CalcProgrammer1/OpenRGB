@@ -20,7 +20,7 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "TabLabel.h"
-#include "OpenRGBZonesBulkResizer.h"
+#include "OpenRGBZoneInitializationDialog.h"
 #include "OpenRGBThemeManager.h"
 #include "OpenRGBFont.h"
 
@@ -1382,7 +1382,7 @@ void OpenRGBDialog::onDetectionEnded()
     /*-----------------------------------------------------*\
     | Detect unconfigured zones and prompt for resizing     |
     \*-----------------------------------------------------*/
-    OpenRGBZonesBulkResizer::RunChecks(this);
+    OpenRGBZoneInitializationDialog::RunChecks(this);
 
     /*-----------------------------------------------------*\
     | Load plugins after the first detection (ONLY the      |

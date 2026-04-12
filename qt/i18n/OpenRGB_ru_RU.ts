@@ -1196,7 +1196,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZonesBulkResizer</name>
+    <name>OpenRGBZoneInitializationDialog</name>
     <message>
         <source>Zones Resizer</source>
         <translation>Изменение размера зон</translation>
