@@ -1,25 +1,25 @@
 /*---------------------------------------------------------*\
-| OpenRGBZonesBulkResizer.cpp                               |
+| OpenRGBZoneInitializationDialog.cpp                       |
 |                                                           |
-|   User interface for bulk resizing zones                  |
+|   User interface for initializing zones                   |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBZonesBulkResizer.h"
+#include "OpenRGBZoneInitializationDialog.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "LogManager.h"
 #include "OpenRGBDialog.h"
 
-#include "ui_OpenRGBZonesBulkResizer.h"
+#include "ui_OpenRGBZoneInitializationDialog.h"
 
 #include <QDialog>
 #include <QFile>
 #include <QSpinBox>
 
-void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
+void OpenRGBZoneInitializationDialog::RunChecks(QWidget *parent)
 {
     /*---------------------------------------------------------*\
     | Determine if we should run (user setting)                 |
@@ -37,13 +37,13 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
 
             if(!should_run)
             {
-                LOG_DEBUG("[ZonesBulkResizer] Skipping zones sizes checks.");
+                LOG_DEBUG("[OpenRGBZoneInitializationDialog] Skipping zones sizes checks.");
                 return;
             }
         }
     }
 
-    LOG_DEBUG("[ZonesBulkResizer] Running zones sizes checks...");
+    LOG_DEBUG("[OpenRGBZoneInitializationDialog] Running zones sizes checks...");
 
     /*-----------------------------------------------------*\
     | Collect the unconfigured zones                        |
@@ -57,20 +57,19 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
         for(unsigned int zone_index = 0; zone_index < controller->GetZoneCount(); zone_index++)
         {
             /*---------------------------------------------*\
-            | Consider unconfigured if zone is size 0, zone |
-            | size is less than max size, and not manually  |
+            | Consider unconfigured if zone has manually    |
+            | configurable size but has not been manually   |
             | configured                                    |
             \*---------------------------------------------*/
-            if((controller->GetZoneLEDsCount(zone_index) == 0) &&
-               (controller->GetZoneLEDsCount(zone_index) < controller->GetZoneLEDsMax(zone_index)) &&
-               (controller->GetZoneFlags(zone_index) & ZONE_FLAGS_MANUALLY_CONFIGURED) == 0)
+            if((controller->GetZoneFlags(zone_index) & (ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE | ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY))
+            && !(controller->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE))
             {
                 unconfigured_zones.push_back({controller, zone_index});
             }
         }
     }
 
-    LOG_DEBUG("[ZonesBulkResizer] Zones checks finished: %d unconfigured zone(s).", unconfigured_zones.size());
+    LOG_DEBUG("[OpenRGBZoneInitializationDialog] Zones checks finished: %d unconfigured zone(s).", unconfigured_zones.size());
 
     /*-----------------------------------------------------*\
     | Show the configuration tool GUI if we have some       |
@@ -79,18 +78,18 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
     if(!unconfigured_zones.empty())
     {
         QDialog* dialog = new QDialog(parent);
-        dialog->setWindowTitle(tr("Resize the zones"));
+        dialog->setWindowTitle(tr("Zone Initialization"));
 
         dialog->setMinimumSize(600,480);
         dialog->setModal(true);
 
         QVBoxLayout* dialog_layout = new QVBoxLayout(dialog);
 
-        OpenRGBZonesBulkResizer* widget = new OpenRGBZonesBulkResizer(dialog, unconfigured_zones);
+        OpenRGBZoneInitializationDialog* widget = new OpenRGBZoneInitializationDialog(dialog, unconfigured_zones);
 
         dialog_layout->addWidget(widget);
 
-        connect(widget, &OpenRGBZonesBulkResizer::CloseRequest, [=](){
+        connect(widget, &OpenRGBZoneInitializationDialog::CloseRequest, [=](){
             dialog->reject();
         });
 
@@ -98,9 +97,9 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
     }
 }
 
-OpenRGBZonesBulkResizer::OpenRGBZonesBulkResizer(QWidget *parent,  const std::vector<std::tuple<RGBController*, unsigned int>>& unconfigured_zones) :
+OpenRGBZoneInitializationDialog::OpenRGBZoneInitializationDialog(QWidget *parent,  const std::vector<std::tuple<RGBController*, unsigned int>>& unconfigured_zones) :
     QWidget(parent),
-    ui(new Ui::OpenRGBZonesBulkResizer),
+    ui(new Ui::OpenRGBZoneInitializationDialog),
     unconfigured_zones(unconfigured_zones)
 {
     ui->setupUi(this);
@@ -128,12 +127,12 @@ OpenRGBZonesBulkResizer::OpenRGBZonesBulkResizer(QWidget *parent,  const std::ve
     }
 }
 
-OpenRGBZonesBulkResizer::~OpenRGBZonesBulkResizer()
+OpenRGBZoneInitializationDialog::~OpenRGBZoneInitializationDialog()
 {
     delete ui;
 }
 
-void OpenRGBZonesBulkResizer::changeEvent(QEvent *event)
+void OpenRGBZoneInitializationDialog::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -141,7 +140,7 @@ void OpenRGBZonesBulkResizer::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBZonesBulkResizer::CreateZoneWidget(RGBController* controller, unsigned int zone_index)
+void OpenRGBZoneInitializationDialog::CreateZoneWidget(RGBController* controller, unsigned int zone_index)
 {
     /*---------------------------------------------------------*\
     | Labels: controller name + zone name                       |
@@ -171,7 +170,7 @@ void OpenRGBZonesBulkResizer::CreateZoneWidget(RGBController* controller, unsign
     ui->zones_table->setCellWidget(row, 2, spin_box);
 }
 
-void OpenRGBZonesBulkResizer::on_save_button_clicked()
+void OpenRGBZoneInitializationDialog::on_save_button_clicked()
 {
     /*---------------------------------------------------------*\
     | Resize what needs to be resized                           |
@@ -207,7 +206,7 @@ void OpenRGBZonesBulkResizer::on_save_button_clicked()
     emit CloseRequest();
 }
 
-void OpenRGBZonesBulkResizer::on_ignore_button_clicked()
+void OpenRGBZoneInitializationDialog::on_ignore_button_clicked()
 {
     /*---------------------------------------------------------*\
     | Save the "Do not show again" checkbox state, then close   |
@@ -217,7 +216,7 @@ void OpenRGBZonesBulkResizer::on_ignore_button_clicked()
     emit CloseRequest();
 }
 
-void OpenRGBZonesBulkResizer::SaveDoNotRunState()
+void OpenRGBZoneInitializationDialog::SaveDoNotRunState()
 {
     /*---------------------------------------------------------*\
     | Save the "Do not show again" checkbox state in            |

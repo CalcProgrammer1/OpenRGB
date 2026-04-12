@@ -1194,7 +1194,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZonesBulkResizer</name>
+    <name>OpenRGBZoneInitializationDialog</name>
     <message>
         <source>Do not show again</source>
         <translation></translation>
