@@ -1495,7 +1495,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZonesBulkResizer</name>
+    <name>OpenRGBZoneInitializationDialog</name>
     <message>
         <source>Do not show again</source>
         <translation>Ne plus afficher</translation>
@@ -1931,7 +1931,7 @@
     </message>
 </context>
 <context>
-    <name>Ui::OpenRGBZonesBulkResizer</name>
+    <name>Ui::OpenRGBZoneInitializationDialog</name>
     <message>
         <source>Resize the zones</source>
         <translation type="vanished">Redimensionner les zones</translation>

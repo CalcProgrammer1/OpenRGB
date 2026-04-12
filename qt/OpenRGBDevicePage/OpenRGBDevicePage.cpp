@@ -2054,7 +2054,7 @@ void OpenRGBDevicePage::UpdateInterface(unsigned int update_reason)
 
     case RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT:
     case RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS:
-    case RGBCONTROLLER_UPDATE_REASON_RESIZEZONE:
+    case RGBCONTROLLER_UPDATE_REASON_CONFIGUREZONE:
         UpdateModeUi();
         ui->DeviceViewBox->SetChanged();
         ui->DeviceViewBox->repaint();
