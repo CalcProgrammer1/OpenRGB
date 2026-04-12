@@ -923,23 +923,23 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread * this_
                 switch(queue_entry.header.pkt_id)
                 {
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
-                        status = ProcessRequest_RGBController_UpdateLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        status = ProcessRequest_RGBController_UpdateLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
-                        status = ProcessRequest_RGBController_UpdateZoneLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        status = ProcessRequest_RGBController_UpdateZoneLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
-                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version, false);
+                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version, false);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_SAVEMODE:
-                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version, true);
+                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version, true);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE:
-                        status = ProcessRequest_RGBController_UpdateZoneMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        status = ProcessRequest_RGBController_UpdateZoneMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version);
                         break;
 
                     default:
@@ -951,7 +951,7 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread * this_
 
                 delete[] queue_entry.data;
 
-                SendAck(queue_entry.client_sock, queue_entry.header.pkt_id, queue_entry.header.pkt_id, status, queue_entry.client_protocol_version);
+                SendAck(queue_entry.client_info->client_sock, queue_entry.header.pkt_id, queue_entry.header.pkt_id, status, queue_entry.client_info->client_protocol_version);
             }
         }
         else
@@ -981,35 +981,35 @@ void NetworkServer::ProfileManagerListenThread(NetworkServerControllerThread * t
             switch(queue_entry.header.pkt_id)
             {
                 case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
-                    status = ProcessRequest_ProfileManager_GetProfileList(queue_entry.client_sock);
+                    status = ProcessRequest_ProfileManager_GetProfileList(queue_entry.client_info);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE:
-                    status = ProcessRequest_ProfileManager_SaveProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_SaveProfile(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE:
-                    status = ProcessRequest_ProfileManager_LoadProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_LoadProfile(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE:
-                    status = ProcessRequest_ProfileManager_DeleteProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_DeleteProfile(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE:
-                    status = ProcessRequest_ProfileManager_UploadProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_UploadProfile(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
-                    status = ProcessRequest_ProfileManager_DownloadProfile(queue_entry.client_sock, queue_entry.header.pkt_size, queue_entry.data);
+                    status = ProcessRequest_ProfileManager_DownloadProfile(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
-                    status = ProcessRequest_ProfileManager_GetActiveProfile(queue_entry.client_sock);
+                    status = ProcessRequest_ProfileManager_GetActiveProfile(queue_entry.client_info);
                     break;
 
                 case NET_PACKET_ID_PROFILEMANAGER_CLEAR_ACTIVE_PROFILE:
-                    status = ProcessRequest_ProfileManager_ClearActiveProfile();
+                    status = ProcessRequest_ProfileManager_ClearActiveProfile(queue_entry.client_info);
                     break;
 
                 default:
@@ -1019,7 +1019,7 @@ void NetworkServer::ProfileManagerListenThread(NetworkServerControllerThread * t
 
             delete[] queue_entry.data;
 
-            SendAck(queue_entry.client_sock, queue_entry.header.pkt_id, queue_entry.header.pkt_id, status, queue_entry.client_protocol_version);
+            SendAck(queue_entry.client_info->client_sock, queue_entry.header.pkt_id, queue_entry.header.pkt_id, status, queue_entry.client_info->client_protocol_version);
         }
     }
 }
@@ -1185,8 +1185,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     NetworkServerControllerThreadQueueEntry new_entry;
                     new_entry.data                      = data;
                     new_entry.header                    = header;
-                    new_entry.client_sock               = client_sock;
-                    new_entry.client_protocol_version   = client_info->client_protocol_version;
+                    new_entry.client_info               = client_info;
 
                     profilemanager_thread->queue.push(new_entry);
                     profilemanager_thread->queue_mutex.unlock();
@@ -1226,52 +1225,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         | SettingsManager functions                         |
         \*-------------------------------------------------*/
             case NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS:
-                if(data == NULL)
-                {
-                    break;
-                }
-
-                if(settings_manager != NULL)
-                {
-                    std::string settings_key;
-                    settings_key.assign(data, header.pkt_size);
-                    settings_key = StringUtils::remove_null_terminating_chars(settings_key);
-
-                    nlohmann::json settings_json = settings_manager->GetSettings(settings_key);
-                    std::string settings_json_str = settings_json.dump();
-
-                    NetPacketHeader reply_hdr;
-
-                    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS, (unsigned int)strlen(settings_json_str.c_str()) + 1);
-
-                    send_in_progress.lock();
-                    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-                    send(client_sock, (char *)settings_json_str.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
-                    send_in_progress.unlock();
-                }
+                status = ProcessRequest_SettingsManager_GetSettings(client_info, header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS:
-                if(data == NULL)
-                {
-                    break;
-                }
-
-                if(settings_manager != NULL)
-                {
-                    std::string settings_json_str;
-                    settings_json_str.assign(data, header.pkt_size);
-                    settings_json_str = StringUtils::remove_null_terminating_chars(settings_json_str);
-
-                    settings_manager->SetSettingsFromJsonString(settings_json_str);
-                }
+                status = ProcessRequest_SettingsManager_SetSettings(client_info, header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS:
-                if(settings_manager != NULL)
-                {
-                    settings_manager->SaveSettings();
-                }
+                status = ProcessRequest_SettingsManager_SaveSettings(client_info);
                 break;
 
         /*-------------------------------------------------*\
@@ -1352,8 +1314,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                         NetworkServerControllerThreadQueueEntry new_entry;
                         new_entry.data                      = data;
                         new_entry.header                    = header;
-                        new_entry.client_sock               = client_sock;
-                        new_entry.client_protocol_version   = client_info->client_protocol_version;
+                        new_entry.client_info               = client_info;
 
                         controller_threads[controller_thread_idx]->queue.push(new_entry);
                         controller_threads[controller_thread_idx]->queue_mutex.unlock();
@@ -1582,7 +1543,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RescanDevices()
     return(NET_PACKET_STATUS_OK);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_ClearActiveProfile()
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_ClearActiveProfile(NetworkClientInfo* /*client_info*/)
 {
     if(profile_manager)
     {
@@ -1594,11 +1555,16 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_ClearActiveProfile(
     return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_DeleteProfile(unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_DeleteProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data)
 {
     if(data == NULL)
     {
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
     }
 
     if(profile_manager)
@@ -1615,7 +1581,7 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_DeleteProfile(unsig
     return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_DownloadProfile(SOCKET client_sock, unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_DownloadProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data)
 {
     if(data == NULL)
     {
@@ -1635,8 +1601,8 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_DownloadProfile(SOC
         InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE, (unsigned int)strlen(profile_json_string.c_str()) + 1);
 
         send_in_progress.lock();
-        send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-        send(client_sock, (char *)profile_json_string.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+        send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_info->client_sock, (char *)profile_json_string.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
         send_in_progress.unlock();
 
         return(NET_PACKET_STATUS_OK);
@@ -1645,7 +1611,7 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_DownloadProfile(SOC
     return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetActiveProfile(SOCKET client_sock)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetActiveProfile(NetworkClientInfo* client_info)
 {
     if(profile_manager)
     {
@@ -1656,8 +1622,8 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetActiveProfile(SO
         InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE, (unsigned int)strlen(active_profile_name.c_str()) + 1);
 
         send_in_progress.lock();
-        send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-        send(client_sock, (char *)active_profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+        send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_info->client_sock, (char *)active_profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
         send_in_progress.unlock();
 
         return(NET_PACKET_STATUS_OK);
@@ -1666,7 +1632,7 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetActiveProfile(SO
     return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetProfileList(SOCKET client_sock)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetProfileList(NetworkClientInfo* client_info)
 {
     if(profile_manager)
     {
@@ -1679,8 +1645,8 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetProfileList(SOCK
         InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST, reply_size);
 
         send_in_progress.lock();
-        send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-        send(client_sock, (const char *)reply_data, reply_size, MSG_NOSIGNAL);
+        send(client_info->client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_info->client_sock, (const char *)reply_data, reply_size, MSG_NOSIGNAL);
         send_in_progress.unlock();
 
         delete[] reply_data;
@@ -1691,7 +1657,7 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_GetProfileList(SOCK
     return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_LoadProfile(unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_LoadProfile(NetworkClientInfo* /*client_info*/, unsigned int data_size, char* data)
 {
     if(data == NULL)
     {
@@ -1717,11 +1683,16 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_LoadProfile(unsigne
     return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_SaveProfile(unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_SaveProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data)
 {
     if(data == NULL)
     {
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
     }
 
     if(profile_manager)
@@ -1743,11 +1714,16 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_SaveProfile(unsigne
     return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_UploadProfile(unsigned int data_size, char * data)
+NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_UploadProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data)
 {
     if(data == NULL)
     {
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
     }
 
     if(profile_manager)
@@ -1766,6 +1742,80 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_UploadProfile(unsig
         {
             return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
         }
+    }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_SettingsManager_GetSettings(NetworkClientInfo* client_info, unsigned int data_size, char* data)
+{
+    if(data == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    if(settings_manager != NULL)
+    {
+        std::string settings_key;
+        settings_key.assign(data, data_size);
+        settings_key = StringUtils::remove_null_terminating_chars(settings_key);
+
+        nlohmann::json settings_json = settings_manager->GetSettings(settings_key);
+        std::string settings_json_str = settings_json.dump();
+
+        NetPacketHeader reply_hdr;
+
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS, (unsigned int)strlen(settings_json_str.c_str()) + 1);
+
+        send_in_progress.lock();
+        send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_info->client_sock, (char *)settings_json_str.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+        send_in_progress.unlock();
+
+        return(NET_PACKET_STATUS_OK);
+    }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_SettingsManager_SetSettings(NetworkClientInfo* client_info, unsigned int data_size, char* data)
+{
+    if(data == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    if(settings_manager != NULL)
+    {
+        std::string settings_json_str;
+        settings_json_str.assign(data, data_size);
+        settings_json_str = StringUtils::remove_null_terminating_chars(settings_json_str);
+
+        settings_manager->SetSettingsFromJsonString(settings_json_str);
+
+        return(NET_PACKET_STATUS_OK);
+    }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_SettingsManager_SaveSettings(NetworkClientInfo* client_info)
+{
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    if(settings_manager != NULL)
+    {
+        settings_manager->SaveSettings();
+
+        return(NET_PACKET_STATUS_OK);
     }
 
     return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
