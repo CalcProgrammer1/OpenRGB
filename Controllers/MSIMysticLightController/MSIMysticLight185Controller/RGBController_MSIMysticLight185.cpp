@@ -478,7 +478,7 @@ void RGBController_MSIMysticLight185::GetDeviceConfig()
 
             if(zones[i].colors != nullptr)
             {
-                for(size_t j = 0; j < zones[i].leds_count; ++j)
+                for(size_t j = 0; j < GetLEDsInZone((unsigned int)i); ++j)
                 {
                     zones[i].colors[j] = color;
                 }
