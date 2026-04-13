@@ -815,11 +815,6 @@ static unsigned int ROCCAT_VULCAN_II_MAX_LAYOUT_KEYS_ANSI[6][24] =
     {   5,   8,  14,  NA,  NA,  NA,  34,  NA,  NA,  NA,  55,  61,  66,  74,  NA,  NA,  78,  83,  87,  NA,  92,  NA, 101,  NA }
 };
 
-static unsigned int ROCCAT_VULCAN_II_MAX_LAYOUT_PALM_REST[1][24] =
-{
-    {   0,  NA,   1,   2,  NA,   3,   4,  NA,   5,   6,  NA,   7,   8,  NA,   9,  10,  NA,  11,  12,  NA,  13,  14,  NA,  15 }
-};
-
 static std::map<int, layout_info> RoccatVulcanIIMaxLayouts =
 {
     {

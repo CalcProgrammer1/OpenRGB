@@ -215,7 +215,7 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
                 {
                     address_list_idx++;
 
-                    if(address_list_idx < ENE_RAM_ADDRESS_COUNT)
+                    if(address_list_idx < (int)ENE_RAM_ADDRESS_COUNT)
                     {
                         LOG_DEBUG("[ENE SMBus DRAM] Testing address %02X to see if there is a device there", ene_ram_addresses[address_list_idx]);
 
@@ -227,7 +227,7 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
                     }
                 } while (res >= 0);
 
-                if(address_list_idx < ENE_RAM_ADDRESS_COUNT)
+                if(address_list_idx < (int)ENE_RAM_ADDRESS_COUNT)
                 {
                     LOG_DEBUG("[ENE SMBus DRAM] Remapping slot %d to address %02X", slot, ene_ram_addresses[address_list_idx]);
 
