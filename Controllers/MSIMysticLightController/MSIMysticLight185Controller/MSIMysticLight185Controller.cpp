@@ -723,14 +723,14 @@ bool MSIMysticLight185Controller::Update
         | send old state first, then new state.                 |
         | Windows Mystic Light sends two consecutive reports.   |
         \*-----------------------------------------------------*/
-        FeaturePacket_185 new_data;
-        memcpy(&new_data, &data, sizeof(data));
+        FeaturePacket_185 new_data = data;
+        memcpy((unsigned char*)&new_data, (unsigned char*)&data, sizeof(data));
 
         ReadSettings();
         data.save_data = save;
         hid_send_feature_report(dev, (unsigned char*)&data, sizeof(data));
 
-        memcpy(&data, &new_data, sizeof(data));
+        memcpy((unsigned char*)&data, (unsigned char*)&new_data, sizeof(data));
         data.save_data = save;
         return (hid_send_feature_report(dev, (unsigned char*)&data, sizeof(data)) == sizeof(data));
     }
