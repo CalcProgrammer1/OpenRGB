@@ -574,6 +574,7 @@
 | _D, _H and _P suffixes belong to many-HDMI Aorus GPUs |
 | switching their ID depending on boot-plugged display  |
 \*-----------------------------------------------------*/
+#define GIGABYTE_GTX1050_G1_GAMING_SUB_DEV              0x372B
 #define GIGABYTE_GTX1050TI_G1_GAMING_SUB_DEV            0x372A
 #define GIGABYTE_GTX1060_G1_GAMING_SUB_DEV              0x3716
 #define GIGABYTE_GTX1060_G1_GAMING_OC_SUB_DEV           0x3739
