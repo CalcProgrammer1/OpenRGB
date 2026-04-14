@@ -1075,8 +1075,8 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
             \*---------------------------------------------*/
             if(header.pkt_magic[i] != openrgb_sdk_magic[i])
             {
-                LOG_ERROR("[%s] Invalid magic received", NETWORKSERVER);
-                continue;
+                LOG_ERROR("[%s] Invalid magic received, closing listener", NETWORKSERVER);
+                goto listen_done;
             }
         }
 
