@@ -241,16 +241,16 @@ private:
     NetPacketStatus                     ProcessRequest_SettingsManager_SetSettings(NetworkClientInfo* client_info, unsigned int data_size, char* data);
     NetPacketStatus                     ProcessRequest_SettingsManager_SaveSettings(NetworkClientInfo* client_info);
 
-    NetPacketStatus                     ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
     NetPacketStatus                     ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version, bool save_mode);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version, bool save_mode);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
 
     void                                SendAck(SOCKET client_sock, unsigned int acked_pkt_dev_id, unsigned int acked_pkt_id, NetPacketStatus status, unsigned int protocol_version);
 
