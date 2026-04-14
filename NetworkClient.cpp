@@ -1014,6 +1014,7 @@ void NetworkClient::ListenThreadFunction()
 
             if(bytes_read <= 0)
             {
+                LOG_ERROR("[%s] recv_select failed receiving magic, closing listener", NETWORKCLIENT);
                 goto listen_done;
             }
 
@@ -1022,7 +1023,8 @@ void NetworkClient::ListenThreadFunction()
             \*---------------------------------------------------------*/
             if(header.pkt_magic[i] != openrgb_sdk_magic[i])
             {
-                continue;
+                LOG_ERROR("[%s] Invalid magic received, closing listener", NETWORKCLIENT);
+                goto listen_done;
             }
         }
 
