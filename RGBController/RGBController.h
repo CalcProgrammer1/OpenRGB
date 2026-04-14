@@ -703,13 +703,13 @@ public:
     static unsigned char *  GetZoneDescriptionData(unsigned char* data_ptr, zone zone, unsigned int protocol_version);
     static unsigned int     GetZoneDescriptionSize(zone zone, unsigned int protocol_version);
 
-    static unsigned char*   SetColorDescription(unsigned char* data_ptr, RGBController* controller, unsigned int protocol_version, bool resize = false);
-    static unsigned char*   SetDeviceDescription(unsigned char* data_ptr, RGBController* controller, unsigned int protocol_version);
-    static unsigned char*   SetLEDDescription(unsigned char* data_ptr, led* led, unsigned int protocol_version);
-    static unsigned char*   SetMatrixMapDescription(unsigned char* data_ptr, matrix_map_type* matrix_map, unsigned int protocol_version);
-    static unsigned char*   SetModeDescription(unsigned char* data_ptr, mode* mode, unsigned int protocol_version);
-    static unsigned char*   SetSegmentDescription(unsigned char* data_ptr, segment* segment, unsigned int protocol_version);
-    static unsigned char*   SetZoneDescription(unsigned char* data_ptr, zone* zone, unsigned int protocol_version);
+    static unsigned char*   SetColorDescription(unsigned char* data_ptr, unsigned int data_size, RGBController* controller, unsigned int protocol_version, bool resize = false);
+    static unsigned char*   SetDeviceDescription(unsigned char* data_ptr, unsigned int data_size, RGBController* controller, unsigned int protocol_version);
+    static unsigned char*   SetLEDDescription(unsigned char* data_ptr, unsigned int data_size, led* led, unsigned int protocol_version);
+    static unsigned char*   SetMatrixMapDescription(unsigned char* data_ptr, unsigned int data_size, matrix_map_type* matrix_map, unsigned int protocol_version);
+    static unsigned char*   SetModeDescription(unsigned char* data_ptr, unsigned int data_size, mode* mode, unsigned int protocol_version);
+    static unsigned char*   SetSegmentDescription(unsigned char* data_ptr, unsigned int data_size, segment* segment, unsigned int protocol_version);
+    static unsigned char*   SetZoneDescription(unsigned char* data_ptr, unsigned int data_size, zone* zone, unsigned int protocol_version);
 
     /*-----------------------------------------------------*\
     | Static JSON Description Functions                     |

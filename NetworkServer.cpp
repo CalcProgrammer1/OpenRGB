@@ -44,6 +44,22 @@ const char yes = 1;
 using namespace std::chrono_literals;
 
 /*---------------------------------------------------------*\
+| Macros for copying data fields from set descriptor buffer |
+| while ensuring we don't access out of bounds              |
+\*---------------------------------------------------------*/
+#define COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, field, controller) \
+    if((data_ptr + sizeof(field) - data_start) <= data_size)            \
+    {                                                                   \
+        memcpy(&field, data_ptr, sizeof(field));                        \
+        data_ptr += sizeof(field);                                      \
+    }                                                                   \
+    else                                                                \
+    {                                                                   \
+        controller->AccessMutex.unlock();                               \
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);                   \
+    }                                                                   \
+
+/*---------------------------------------------------------*\
 | NetworkServer name for log entries                        |
 \*---------------------------------------------------------*/
 const char* NETWORKSERVER = "NetworkServer";
@@ -923,23 +939,23 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread * this_
                 switch(queue_entry.header.pkt_id)
                 {
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
-                        status = ProcessRequest_RGBController_UpdateLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version);
+                        status = ProcessRequest_RGBController_UpdateLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.header.pkt_size, queue_entry.client_info->client_protocol_version);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
-                        status = ProcessRequest_RGBController_UpdateZoneLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version);
+                        status = ProcessRequest_RGBController_UpdateZoneLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.header.pkt_size, queue_entry.client_info->client_protocol_version);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
-                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version, false);
+                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.header.pkt_size, queue_entry.client_info->client_protocol_version, false);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_SAVEMODE:
-                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version, true);
+                        status = ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.header.pkt_size, queue_entry.client_info->client_protocol_version, true);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE:
-                        status = ProcessRequest_RGBController_UpdateZoneMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_info->client_protocol_version);
+                        status = ProcessRequest_RGBController_UpdateZoneMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.header.pkt_size, queue_entry.client_info->client_protocol_version);
                         break;
 
                     default:
@@ -1243,7 +1259,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 if((data != NULL)
                 && (header.pkt_size == (2 * sizeof(int))))
                 {
-                    status = ProcessRequest_RGBController_ResizeZone(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_ResizeZone(header.pkt_dev_id, (unsigned char *)data, header.pkt_size, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1341,7 +1357,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 if((data != NULL)
                 && (header.pkt_size == (sizeof(int) + sizeof(RGBColor))))
                 {
-                    status = ProcessRequest_RGBController_UpdateSingleLED(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_UpdateSingleLED(header.pkt_dev_id, (unsigned char *)data, header.pkt_size, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1361,7 +1377,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 if((data != NULL)
                 && (header.pkt_size == sizeof(int)))
                 {
-                    status = ProcessRequest_RGBController_ClearSegments(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_ClearSegments(header.pkt_dev_id, (unsigned char *)data, header.pkt_size, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1380,7 +1396,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 && (header.pkt_size >= sizeof(unsigned int))
                 && (header.pkt_size == *((unsigned int*)data)))
                 {
-                    status = ProcessRequest_RGBController_AddSegment(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_AddSegment(header.pkt_dev_id, (unsigned char *)data, header.pkt_size, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1399,7 +1415,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 && (header.pkt_size >= sizeof(unsigned int))
                 && (header.pkt_size == *((unsigned int*)data)))
                 {
-                    status = ProcessRequest_RGBController_ConfigureZone(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                    status = ProcessRequest_RGBController_ConfigureZone(header.pkt_dev_id, (unsigned char *)data, header.pkt_size, client_info->client_protocol_version);
                 }
                 else
                 {
@@ -1821,7 +1837,7 @@ NetPacketStatus NetworkServer::ProcessRequest_SettingsManager_SaveSettings(Netwo
     return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int data_size, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1854,7 +1870,12 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned 
     \*-----------------------------------------------------*/
     segment new_segment;
 
-    data_ptr = controllers[controller_idx]->SetSegmentDescription(data_ptr, &new_segment, protocol_version);
+    data_ptr = controllers[controller_idx]->SetSegmentDescription(data_ptr, data_size, &new_segment, protocol_version);
+
+    if(data_ptr == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
 
     controllers[controller_idx]->AddSegment(zone_idx, new_segment);
 
@@ -1866,7 +1887,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned 
     return(NET_PACKET_STATUS_OK);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int data_size, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1901,7 +1922,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ClearSegments(unsign
     return(NET_PACKET_STATUS_OK);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int data_size, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -1934,7 +1955,12 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsign
     \*-----------------------------------------------------*/
     zone new_zone;
 
-    data_ptr = controllers[controller_idx]->SetZoneDescription(data_ptr, &new_zone, protocol_version);
+    data_ptr = controllers[controller_idx]->SetZoneDescription(data_ptr, data_size, &new_zone, protocol_version);
+
+    if(data_ptr == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
 
     controllers[controller_idx]->ConfigureZone(zone_idx, new_zone);
 
@@ -1946,7 +1972,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsign
     return(NET_PACKET_STATUS_OK);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int data_size, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -2012,13 +2038,14 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_SetCustomMode(unsign
     return(NET_PACKET_STATUS_OK);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int data_size, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
     \*-----------------------------------------------------*/
     bool            idx_valid;
     unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+    unsigned char*  ret_val;
 
     /*-----------------------------------------------------*\
     | If controller ID is invalid, return                   |
@@ -2041,12 +2068,17 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned 
     /*-----------------------------------------------------*\
     | Update colors                                         |
     \*-----------------------------------------------------*/
-    RGBController::SetColorDescription(data_ptr, controllers[controller_idx], protocol_version);
+    ret_val = RGBController::SetColorDescription(data_ptr, data_size, controllers[controller_idx], protocol_version);
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->AccessMutex.unlock();
+
+    if(ret_val == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
 
     /*-----------------------------------------------------*\
     | Call UpdateLEDs on the given controller               |
@@ -2056,7 +2088,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned 
     return(NET_PACKET_STATUS_OK);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version, bool save_mode)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int data_size, unsigned int protocol_version, bool save_mode)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
@@ -2109,12 +2141,17 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsig
     /*-----------------------------------------------------*\
     | Set mode description                                  |
     \*-----------------------------------------------------*/
-    data_ptr = controllers[controller_idx]->SetModeDescription(data_ptr, &controllers[controller_idx]->modes[mode_idx], protocol_version);
+    data_ptr = controllers[controller_idx]->SetModeDescription(data_ptr, data_size, &controllers[controller_idx]->modes[mode_idx], protocol_version);
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->AccessMutex.unlock();
+
+    if(data_ptr == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
 
     /*-----------------------------------------------------*\
     | Call either SaveMode or UpdateMode on the given       |
@@ -2132,13 +2169,14 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsig
     return(NET_PACKET_STATUS_OK);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char * data_ptr, unsigned int data_size, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
     \*-----------------------------------------------------*/
     bool            idx_valid;
-    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+    unsigned int    controller_idx  = index_from_id(controller_id, protocol_version, &idx_valid);
+    unsigned char*  data_start      = data_ptr;
 
     /*-----------------------------------------------------*\
     | If controller ID is invalid, return                   |
@@ -2157,14 +2195,11 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsi
     | Fixed size descrption:                                |
     |       int:      LED index                             |
     |       RGBColor: LED color                             |
-    \*-----------------------------------------------------*/
-    int led_idx;
-
-    /*-----------------------------------------------------*\
+    |                                                       |
     | Copy in LED index                                     |
     \*-----------------------------------------------------*/
-    memcpy(&led_idx, data_ptr, sizeof(led_idx));
-    data_ptr += sizeof(led_idx);
+    int led_idx;
+    COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, led_idx, controllers[controller_idx]);
 
     /*-----------------------------------------------------*\
     | Check if we aren't reading beyond the list of leds.   |
@@ -2181,8 +2216,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsi
     /*-----------------------------------------------------*\
     | Copy in LED color                                     |
     \*-----------------------------------------------------*/
-    memcpy(&controllers[controller_idx]->colors[led_idx], data_ptr, sizeof(controllers[controller_idx]->colors[led_idx]));
-    data_ptr += sizeof(controllers[controller_idx]->colors[led_idx]);
+    COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, controllers[controller_idx]->colors[led_idx], controllers[controller_idx]);
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
@@ -2197,13 +2231,14 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsi
     return(NET_PACKET_STATUS_OK);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
     \*-----------------------------------------------------*/
     bool            idx_valid;
-    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+    unsigned int    controller_idx  = index_from_id(controller_id, protocol_version, &idx_valid);
+    unsigned char*  data_start      = data_ptr;
 
     /*-----------------------------------------------------*\
     | If controller ID is invalid, return                   |
@@ -2227,13 +2262,12 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsig
     | Copy in zone index                                    |
     \*-----------------------------------------------------*/
     unsigned int zone_idx;
-    memcpy(&zone_idx, data_ptr, sizeof(zone_idx));
-    data_ptr += sizeof(zone_idx);
+    COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, zone_idx, controllers[controller_idx]);
 
     /*-----------------------------------------------------*\
     | Check if we aren't reading beyond the list of zones.  |
     \*-----------------------------------------------------*/
-    if(((size_t)zone_idx) > controllers[controller_idx]->zones.size())
+    if(((std::size_t)zone_idx) > controllers[controller_idx]->zones.size())
     {
         /*-------------------------------------------------*\
         | Unlock access mutex                               |
@@ -2246,13 +2280,12 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsig
     | Copy in number of colors                              |
     \*-----------------------------------------------------*/
     unsigned short num_colors;
-    memcpy(&num_colors, data_ptr, sizeof(unsigned short));
-    data_ptr += sizeof(unsigned short);
+    COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, num_colors, controllers[controller_idx]);
 
     /*-----------------------------------------------------*\
     | Copy in colors                                        |
     \*-----------------------------------------------------*/
-    if(((size_t)num_colors) > controllers[controller_idx]->zones[zone_idx].leds_count)
+    if(((std::size_t)num_colors) > controllers[controller_idx]->zones[zone_idx].leds_count)
     {
         /*-------------------------------------------------*\
         | Unlock access mutex                               |
@@ -2261,10 +2294,9 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsig
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
-    for(int color_index = 0; color_index < num_colors; color_index++)
+    for(unsigned short color_idx = 0; color_idx < num_colors; color_idx++)
     {
-        memcpy(&controllers[controller_idx]->zones[zone_idx].colors[color_index], data_ptr, sizeof(controllers[controller_idx]->zones[zone_idx].colors[color_index]));
-        data_ptr += sizeof(controllers[controller_idx]->zones[zone_idx].colors[color_index]);
+        COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, controllers[controller_idx]->zones[zone_idx].colors[color_idx], controllers[controller_idx]);
     }
 
     /*-----------------------------------------------------*\
@@ -2280,13 +2312,14 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsig
     return(NET_PACKET_STATUS_OK);
 }
 
-NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int data_size, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Convert ID to index                                   |
     \*-----------------------------------------------------*/
     bool            idx_valid;
-    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+    unsigned int    controller_idx  = index_from_id(controller_id, protocol_version, &idx_valid);
+    unsigned char*  data_start      = data_ptr;
 
     /*-----------------------------------------------------*\
     | If controller ID is invalid, return                   |
@@ -2310,20 +2343,18 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsig
     | Copy in mode index                                    |
     \*-----------------------------------------------------*/
     int zone_idx;
-    memcpy(&zone_idx, data_ptr, sizeof(zone_idx));
-    data_ptr += sizeof(zone_idx);
+    COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, zone_idx, controllers[controller_idx]);
 
     /*-----------------------------------------------------*\
     | Copy in mode index                                    |
     \*-----------------------------------------------------*/
     int mode_idx;
-    memcpy(&mode_idx, data_ptr, sizeof(mode_idx));
-    data_ptr += sizeof(mode_idx);
+    COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, mode_idx, controllers[controller_idx]);
 
     /*-----------------------------------------------------*\
     | Check if we aren't reading beyond the list of modes.  |
     \*-----------------------------------------------------*/
-    if((((size_t)zone_idx) > controllers[controller_idx]->zones.size()) || (mode_idx > (int)controllers[controller_idx]->zones[zone_idx].modes.size()))
+    if((((std::size_t)zone_idx) > controllers[controller_idx]->zones.size()) || (mode_idx > (int)controllers[controller_idx]->zones[zone_idx].modes.size()))
     {
         /*-------------------------------------------------*\
         | Unlock access mutex                               |
@@ -2342,13 +2373,18 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsig
     \*-----------------------------------------------------*/
     if(mode_idx >= 0)
     {
-        data_ptr = controllers[controller_idx]->SetModeDescription(data_ptr, &controllers[controller_idx]->zones[zone_idx].modes[mode_idx], protocol_version);
+        data_ptr = controllers[controller_idx]->SetModeDescription(data_ptr, data_size - (data_ptr - data_start), &controllers[controller_idx]->zones[zone_idx].modes[mode_idx], protocol_version);
     }
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->AccessMutex.unlock();
+
+    if(data_ptr == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
 
     /*-----------------------------------------------------*\
     | Update zone mode                                      |
