@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include <queue>
+#include "JsonUtils.h"
 #include "LogManager.h"
 #include "NetworkServer.h"
 #include "StringUtils.h"
@@ -1244,6 +1245,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 status = ProcessRequest_SettingsManager_GetSettings(client_info, header.pkt_size, data);
                 break;
 
+            case NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS_SCHEMA:
+                status = ProcessRequest_SettingsManager_GetSettingsSchema(client_info, header.pkt_size, data);
+                break;
+
             case NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS:
                 status = ProcessRequest_SettingsManager_SetSettings(client_info, header.pkt_size, data);
                 break;
@@ -1422,6 +1427,14 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     LOG_ERROR("[%s] ConfigureZone packet has invalid size. Packet size: %d", header.pkt_size, NETWORKSERVER);
                     goto listen_done;
                 }
+                break;
+
+            case NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION:
+                ProcessRequest_RGBController_SetDeviceSpecificConfiguration(header.pkt_dev_id, (unsigned char *)data, header.pkt_size, client_info->client_protocol_version);
+                break;
+
+            case NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION:
+                ProcessRequest_RGBController_SetDeviceSpecificZoneConfiguration(header.pkt_dev_id, (unsigned char *)data, header.pkt_size, client_info->client_protocol_version);
                 break;
 
             default:
@@ -1748,7 +1761,8 @@ NetPacketStatus NetworkServer::ProcessRequest_ProfileManager_UploadProfile(Netwo
         profile_json_string.assign(data, data_size);
         profile_json_string = StringUtils::remove_null_terminating_chars(profile_json_string);
 
-        nlohmann::json profile_json = nlohmann::json::parse(profile_json_string);
+        nlohmann::json profile_json;
+        JsonUtils::JsonParse(profile_json_string, profile_json);
 
         if(profile_manager->SaveProfileFromJSON(profile_json))
         {
@@ -1782,6 +1796,37 @@ NetPacketStatus NetworkServer::ProcessRequest_SettingsManager_GetSettings(Networ
         NetPacketHeader reply_hdr;
 
         InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS, (unsigned int)strlen(settings_json_str.c_str()) + 1);
+
+        send_in_progress.lock();
+        send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_info->client_sock, (char *)settings_json_str.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+        send_in_progress.unlock();
+
+        return(NET_PACKET_STATUS_OK);
+    }
+
+    return(NET_PACKET_STATUS_ERROR_UNSUPPORTED);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_SettingsManager_GetSettingsSchema(NetworkClientInfo* client_info, unsigned int data_size, char* data)
+{
+    if(data == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    if(settings_manager != NULL)
+    {
+        std::string settings_key;
+        settings_key.assign(data, data_size);
+        settings_key = StringUtils::remove_null_terminating_chars(settings_key);
+
+        nlohmann::json settings_json = settings_manager->GetSettingsSchema(settings_key);
+        std::string settings_json_str = settings_json.dump();
+
+        NetPacketHeader reply_hdr;
+
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS_SCHEMA, (unsigned int)strlen(settings_json_str.c_str()) + 1);
 
         send_in_progress.lock();
         send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
@@ -1880,9 +1925,9 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned 
     controllers[controller_idx]->AddSegment(zone_idx, new_segment);
 
     /*-----------------------------------------------------*\
-    | Save sizes                                            |
+    | Save configuration                                    |
     \*-----------------------------------------------------*/
-    profile_manager->SaveSizes();
+    profile_manager->SaveConfiguration();
 
     return(NET_PACKET_STATUS_OK);
 }
@@ -1915,9 +1960,9 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ClearSegments(unsign
     controllers[controller_idx]->ClearSegments(zone_idx);
 
     /*-----------------------------------------------------*\
-    | Save sizes                                            |
+    | Save configuration                                    |
     \*-----------------------------------------------------*/
-    profile_manager->SaveSizes();
+    profile_manager->SaveConfiguration();
 
     return(NET_PACKET_STATUS_OK);
 }
@@ -1965,9 +2010,9 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ConfigureZone(unsign
     controllers[controller_idx]->ConfigureZone(zone_idx, new_zone);
 
     /*-----------------------------------------------------*\
-    | Save sizes                                            |
+    | Save configuration                                    |
     \*-----------------------------------------------------*/
-    profile_manager->SaveSizes();
+    profile_manager->SaveConfiguration();
 
     return(NET_PACKET_STATUS_OK);
 }
@@ -2007,9 +2052,9 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ResizeZone(unsigned 
     controllers[controller_idx]->ResizeZone(zone_idx, new_size);
 
     /*-----------------------------------------------------*\
-    | Save sizes                                            |
+    | Save configuration                                    |
     \*-----------------------------------------------------*/
-    profile_manager->SaveSizes();
+    profile_manager->SaveConfiguration();
 
     return(NET_PACKET_STATUS_OK);
 }
@@ -2034,6 +2079,78 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_SetCustomMode(unsign
     | Call SetCustomMode on the given controller            |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->SetCustomMode();
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version)
+{
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
+    }
+
+    /*-----------------------------------------------------*\
+    | Save configuration JSON string                        |
+    \*-----------------------------------------------------*/
+    std::string     configuration_string;
+    nlohmann::json  configuration;
+
+    configuration_string.assign((char*)data_ptr, data_size);
+    configuration_string = StringUtils::remove_null_terminating_chars(configuration_string);
+
+    JsonUtils::JsonParse(configuration_string, configuration);
+
+    controllers[controller_idx]->SetDeviceSpecificConfiguration(configuration);
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version)
+{
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
+    }
+
+    /*-----------------------------------------------------*\
+    | Save configuration JSON string                        |
+    \*-----------------------------------------------------*/
+    int             zone_idx;
+    unsigned int    configuration_string_size;
+    std::string     configuration_string;
+    nlohmann::json  configuration;
+
+    memcpy(&zone_idx, data_ptr, sizeof(zone_idx));
+    data_ptr += sizeof(zone_idx);
+
+    memcpy(&configuration_string_size, data_ptr, sizeof(configuration_string_size));
+    data_ptr += sizeof(configuration_string_size);
+
+    configuration_string.assign((char*)data_ptr, configuration_string_size);
+    configuration_string = StringUtils::remove_null_terminating_chars(configuration_string);
+
+    JsonUtils::JsonParse(configuration_string, configuration);
+
+    controllers[controller_idx]->SetDeviceSpecificZoneConfiguration(zone_idx, configuration);
 
     return(NET_PACKET_STATUS_OK);
 }
@@ -3066,6 +3183,8 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
                     case RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT:
                     case RGBCONTROLLER_UPDATE_REASON_HIDDEN:
                     case RGBCONTROLLER_UPDATE_REASON_UNHIDDEN:
+                    case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICCONFIGURATION:
+                    case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICZONECONFIGURATION:
                     default:
                         data_ptr                    = RGBController::GetDeviceDescriptionData(data_ptr, controller_ptr, protocol_version);
                         break;

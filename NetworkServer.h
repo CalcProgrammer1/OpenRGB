@@ -238,6 +238,7 @@ private:
     NetPacketStatus                     ProcessRequest_ProfileManager_UploadProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data);
 
     NetPacketStatus                     ProcessRequest_SettingsManager_GetSettings(NetworkClientInfo* client_info, unsigned int data_size, char* data);
+    NetPacketStatus                     ProcessRequest_SettingsManager_GetSettingsSchema(NetworkClientInfo* client_info, unsigned int data_size, char* data);
     NetPacketStatus                     ProcessRequest_SettingsManager_SetSettings(NetworkClientInfo* client_info, unsigned int data_size, char* data);
     NetPacketStatus                     ProcessRequest_SettingsManager_SaveSettings(NetworkClientInfo* client_info);
 
@@ -246,6 +247,8 @@ private:
     NetPacketStatus                     ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
     NetPacketStatus                     ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
     NetPacketStatus                     ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
     NetPacketStatus                     ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
     NetPacketStatus                     ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version, bool save_mode);
     NetPacketStatus                     ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);

@@ -1130,7 +1130,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Загружаць геаметрыю акна</translation>
@@ -1164,7 +1164,7 @@
         <translation>Згортваць замест закрыцця</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Захоўваць геаметрыю акна пры закрыцці</translation>
     </message>
     <message>
@@ -1180,12 +1180,8 @@
         <translation>Задаць порт сервера</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Тэма (патрабуецца перазапуск)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Уключыць кансоль журнала (патрабуецца перазапуск)</translation>
+        <source>Enable Log Console</source>
+        <translation>Уключыць кансоль журнала</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1212,7 +1208,7 @@
         <translation>Налады драйвераў</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Значок вобласці апавяшчэнняў у градацыях шэрага</translation>
     </message>
     <message>
@@ -1236,7 +1232,7 @@
         <translation>Мова</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>Адключыць пашырэнне клавіш у перадпраглядзе LED</translation>
     </message>
     <message>
@@ -1256,8 +1252,8 @@
         <translation>Задаць профіль пры ўзнаўленні працы камп&apos;ютара</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>Уключыць вядзенне журнала (патрабуецца перазапуск)</translation>
+        <source>Enable Log File</source>
+        <translation>Уключыць вядзенне журнала</translation>
     </message>
     <message>
         <source>A problem occurred enabling Start at Login.</source>

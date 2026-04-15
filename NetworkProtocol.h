@@ -149,6 +149,8 @@ enum
     NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS      = 250,  /* Get settings for a given key in JSON format      */
     NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS      = 251,  /* Set settings for a given key in JSON format      */
     NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS     = 252,  /* Save settings                                    */
+    NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS_SCHEMA
+                                                    = 253,  /* Get settings schema for given key in JSON format */
 
     /*----------------------------------------------------------------------------------------------------------*\
     | RGBController functions                                                                                    |
@@ -166,6 +168,12 @@ enum
     NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE          = 1101, /* RGBController::UpdateMode()                      */
     NET_PACKET_ID_RGBCONTROLLER_SAVEMODE            = 1102, /* RGBController::SaveMode()                        */
     NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE      = 1103, /* RGBController::UpdateZoneMode()                  */
+
+    NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION
+                                                    = 1130, /* RGBController::SetDeviceSpecificConfiguration()  */
+    NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION
+                                                    = 1131, /* RGBController::                                  */
+                                                            /* SetDeviceSpecificZoneConfiguration()             */
 
     NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE        = 1150, /* RGBController::SignalUpdate()                    */
 };

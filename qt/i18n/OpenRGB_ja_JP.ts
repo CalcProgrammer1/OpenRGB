@@ -1130,7 +1130,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>ウィンドウジオメトリをロード</translation>
@@ -1140,7 +1140,7 @@
         <translation>閉じる時は最小化させる</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>ウィンドウジオメトリを閉じるときに保存</translation>
     </message>
     <message>
@@ -1152,8 +1152,8 @@
         <translation>サーバースタート</translation>
     </message>
     <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>ログコンソールを有効にする(再起動が必要)</translation>
+        <source>Enable Log Console</source>
+        <translation>ログコンソールを有効にする</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1170,10 +1170,6 @@
     <message>
         <source>Log Manager Settings:</source>
         <translation>ログマネージャ設定:</translation>
-    </message>
-    <message>
-        <source>Theme (restart required)</source>
-        <translation>テーマ(再起動が必要)</translation>
     </message>
     <message>
         <source>Start at Login Status</source>
@@ -1228,7 +1224,7 @@
         <translation>AMD SMBus: CPU使用率低減 (再起動が必要)</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>トレイアイコンをグレースケールで表示させる</translation>
     </message>
     <message>
@@ -1236,7 +1232,7 @@
         <translation>設定フォルダを開く</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>デバイスビューでキー拡張を無効にする</translation>
     </message>
     <message>
@@ -1256,8 +1252,8 @@
         <translation>復帰時にプロファイルをセット</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>ログファイルを有効にする(再起動が必要)</translation>
+        <source>Enable Log File</source>
+        <translation>ログファイルを有効にする</translation>
     </message>
     <message>
         <source>English - US</source>
