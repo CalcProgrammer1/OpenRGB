@@ -239,24 +239,28 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         ui->TextDetectionDelay->setValue(0);
     }
 
+#if defined(_MACOSX_X86_X64)
     /*---------------------------------------------------------*\
-    | Load drivers settings (Windows only or Mac)               |
+    | Load drivers settings (MacOS only)                        |
     \*---------------------------------------------------------*/
-#if defined(WIN32) || defined(_MACOSX_X86_X64)
     json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
+
+    ui->CheckboxSharedSMBusAccess->hide();
+    ui->LabelSMBusSleepMode->hide();
+    ui->ComboBoxSMBusSleepMode->hide();
 
     if(drivers_settings.contains("amd_smbus_reduce_cpu"))
     {
         ui->CheckboxAMDSMBusReduceCPU->setChecked(drivers_settings["amd_smbus_reduce_cpu"]);
     }
-#else
-    ui->DriversSettingsLabel->hide();
-    ui->CheckboxAMDSMBusReduceCPU->hide();
-#endif
+#elif defined(_WIN32)
     /*---------------------------------------------------------*\
     | Load drivers settings (Windows only)                      |
     \*---------------------------------------------------------*/
-#ifdef _WIN32
+    json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
+
+    ui->CheckboxAMDSMBusReduceCPU->hide();
+
     if(drivers_settings.contains("shared_smbus_access"))
     {
         ui->CheckboxSharedSMBusAccess->setChecked(drivers_settings["shared_smbus_access"]);
@@ -265,10 +269,29 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     {
         ui->CheckboxSharedSMBusAccess->setChecked(true);
     }
-#else
-    ui->CheckboxSharedSMBusAccess->hide();
-#endif
 
+    ui->ComboBoxSMBusSleepMode->addItem("Always Busy");
+    ui->ComboBoxSMBusSleepMode->addItem("Short Busy");
+    ui->ComboBoxSMBusSleepMode->addItem("Always Sleep");
+
+    if(drivers_settings.contains("smbus_sleep_mode") && (drivers_settings["smbus_sleep_mode"] <= 2))
+    {
+        ui->ComboBoxSMBusSleepMode->setCurrentIndex(drivers_settings["smbus_sleep_mode"]);
+    }
+    else
+    {
+        ui->ComboBoxSMBusSleepMode->setCurrentIndex(2);
+    }
+#else
+    /*---------------------------------------------------------*\
+    | Hide all drivers settings otherwise                       |
+    \*---------------------------------------------------------*/
+    ui->DriversSettingsLabel->hide();
+    ui->CheckboxAMDSMBusReduceCPU->hide();
+    ui->CheckboxSharedSMBusAccess->hide();
+    ui->LabelSMBusSleepMode->hide();
+    ui->ComboBoxSMBusSleepMode->hide();
+#endif
     UpdateProfiles();
 
     /*---------------------------------------------------------*\
@@ -1068,6 +1091,14 @@ void OpenRGBSettingsPage::on_CheckboxSharedSMBusAccess_clicked()
 {
     json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
     drivers_settings["shared_smbus_access"] = ui->CheckboxSharedSMBusAccess->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("Drivers", drivers_settings);
+    SaveSettings();
+}
+
+void OpenRGBSettingsPage::on_ComboBoxSMBusSleepMode_currentIndexChanged(int index)
+{
+    json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
+    drivers_settings["smbus_sleep_mode"] = index;
     ResourceManager::get()->GetSettingsManager()->SetSettings("Drivers", drivers_settings);
     SaveSettings();
 }

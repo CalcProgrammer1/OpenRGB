@@ -82,6 +82,7 @@ private slots:
     void on_TextDetectionDelay_valueChanged(int);
     void on_CheckboxAMDSMBusReduceCPU_clicked();
     void on_CheckboxSharedSMBusAccess_clicked();
+    void on_ComboBoxSMBusSleepMode_currentIndexChanged(int index);
 
     void on_CheckboxSetOnExit_clicked(bool checked);
     void on_ComboBoxExitProfile_currentTextChanged(const QString exit_profile_name);
