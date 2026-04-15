@@ -10,8 +10,9 @@
 \*---------------------------------------------------------*/
 
 #include <cstdint>
-#include "KasaSmartController.h"
 #include <nlohmann/json.hpp>
+#include "JsonUtils.h"
+#include "KasaSmartController.h"
 #include "hsv.h"
 
 using json = nlohmann::json;
@@ -64,11 +65,7 @@ bool KasaSmartController::Initialize()
     }
 
     json system_information;
-    try
-    {
-        system_information = json::parse(system_info_json);
-    }
-    catch (json::parse_error&)
+    if(!JsonUtils::JsonParse(system_info_json, system_information))
     {
         /*-----------------------*\
         | Can't parse system info |

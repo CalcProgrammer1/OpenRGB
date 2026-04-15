@@ -32,6 +32,13 @@ void PluginManagerResourceManagerCallback(void * this_ptr, unsigned int update_r
     this_obj->ResourceManagerCallback(update_reason);
 }
 
+void PluginManagerSettingsManagerCallback(void * this_ptr, unsigned int update_reason)
+{
+    PluginManager * this_obj = (PluginManager *)this_ptr;
+
+    this_obj->SettingsManagerCallback(update_reason);
+}
+
 PluginManager::PluginManager()
 {
     /*-----------------------------------------------------*\
@@ -54,6 +61,7 @@ PluginManager::PluginManager()
     \*-----------------------------------------------------*/
     ResourceManager::get()->GetProfileManager()->RegisterProfileManagerCallback(PluginManagerProfileManagerCallback, this);
     ResourceManager::get()->RegisterResourceManagerCallback(PluginManagerResourceManagerCallback, this);
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsManagerCallback(PluginManagerSettingsManagerCallback, this);
 }
 
 PluginManager::~PluginManager()
@@ -61,8 +69,9 @@ PluginManager::~PluginManager()
     /*-----------------------------------------------------*\
     | Unegister callbacks                                   |
     \*-----------------------------------------------------*/
-    ResourceManager::get()->GetProfileManager()->RegisterProfileManagerCallback(PluginManagerProfileManagerCallback, this);
-    ResourceManager::get()->RegisterResourceManagerCallback(PluginManagerResourceManagerCallback, this);
+    ResourceManager::get()->GetProfileManager()->UnregisterProfileManagerCallback(PluginManagerProfileManagerCallback, this);
+    ResourceManager::get()->UnregisterResourceManagerCallback(PluginManagerResourceManagerCallback, this);
+    ResourceManager::get()->GetSettingsManager()->UnregisterSettingsManagerCallback(PluginManagerSettingsManagerCallback, this);
 }
 
 void PluginManager::RegisterAddPluginCallback(AddPluginCallback new_callback, void * new_callback_arg)
@@ -678,6 +687,17 @@ void PluginManager::ResourceManagerCallback(unsigned int update_reason)
         if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
         {
             ActivePlugins[plugin_idx].plugin->ResourceManagerUpdated(update_reason);
+        }
+    }
+}
+
+void PluginManager::SettingsManagerCallback(unsigned int update_reason)
+{
+    for(std::size_t plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            ActivePlugins[plugin_idx].plugin->SettingsManagerUpdated(update_reason);
         }
     }
 }

@@ -1131,7 +1131,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Φόρτωση γεωμετρίας παραθύρου</translation>
@@ -1165,7 +1165,7 @@
         <translation>Ελαχιστοποίηση στο κλείσιμο</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Αποθήκευση γεωμετρίας στο κλείσιμο</translation>
     </message>
     <message>
@@ -1181,12 +1181,8 @@
         <translation>Ορισμός θύρας διακομιστή</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Θέμα (απαιτείται επανεκκίνηση)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Ενεργοποίηση της κονσόλας καταγραφής (απαιτείται επανεκκίνηση)</translation>
+        <source>Enable Log Console</source>
+        <translation>Ενεργοποίηση της κονσόλας καταγραφής</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1213,7 +1209,7 @@
         <translation>Ρυθμίσεις οδηγών</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Εικονίδιο γράμμης εργάσιων σε κλίμακα του γκρι</translation>
     </message>
     <message>
@@ -1237,7 +1233,7 @@
         <translation>Γλώσσα</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1257,7 +1253,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
+        <source>Enable Log File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

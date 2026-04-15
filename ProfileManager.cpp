@@ -13,6 +13,7 @@
 #include <iostream>
 #include <cstring>
 #include "filesystem.h"
+#include "JsonUtils.h"
 #include "LogManager.h"
 #include "NetworkClient.h"
 #include "NetworkProtocol.h"
@@ -42,10 +43,33 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
     UpdateProfileList();
 
     /*-----------------------------------------------------*\
+    | Create ProfileManager settings schema                 |
+    \*-----------------------------------------------------*/
+    SettingsManager*    settings_manager                                = ResourceManager::get()->GetSettingsManager();
+    json                profilemanager_settings_schema;
+
+    profilemanager_settings_schema["exit_profile"]["title"]             = QT_TRANSLATE_NOOP("Settings", "Load Profile on Exit");
+    profilemanager_settings_schema["exit_profile"]["type"]              = "profile";
+    profilemanager_settings_schema["exit_profile"]["description"]       = QT_TRANSLATE_NOOP("Settings", "Profile to load when OpenRGB exits");
+
+    profilemanager_settings_schema["open_profile"]["title"]             = QT_TRANSLATE_NOOP("Settings", "Load Profile on Open");
+    profilemanager_settings_schema["open_profile"]["type"]              = "profile";
+    profilemanager_settings_schema["open_profile"]["description"]       = QT_TRANSLATE_NOOP("Settings", "Profile to load when OpenRGB opens");
+
+    profilemanager_settings_schema["resume_profile"]["title"]           = QT_TRANSLATE_NOOP("Settings", "Load Profile on Resume");
+    profilemanager_settings_schema["resume_profile"]["type"]            = "profile";
+    profilemanager_settings_schema["resume_profile"]["description"]     = QT_TRANSLATE_NOOP("Settings", "Profile to load after system resumes from sleep");
+
+    profilemanager_settings_schema["suspend_profile"]["title"]          = QT_TRANSLATE_NOOP("Settings", "Load Profile on Suspend");
+    profilemanager_settings_schema["suspend_profile"]["type"]           = "profile";
+    profilemanager_settings_schema["suspend_profile"]["description"]    = QT_TRANSLATE_NOOP("Settings", "Profile to load before system enters sleep mode");
+
+    settings_manager->RegisterSettingsSchema("ProfileManager", "Profile Manager", profilemanager_settings_schema, 1);
+
+    /*-----------------------------------------------------*\
     | Read in profile manager settings and initialize any   |
     | missing settings to defaults                          |
     \*-----------------------------------------------------*/
-    SettingsManager*    settings_manager            = ResourceManager::get()->GetSettingsManager();
     json                profilemanager_settings     = settings_manager->GetSettings("ProfileManager");
     bool                new_settings_keys           = false;
 
@@ -98,7 +122,7 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
     /*-----------------------------------------------------*\
     | Initialize manually configured controllers list       |
     \*-----------------------------------------------------*/
-    manually_configured_rgb_controllers = GetControllerListFromSizes();
+    manually_configured_rgb_controllers = GetControllerListFromSavedConfiguration();
 }
 
 ProfileManager::~ProfileManager()
@@ -213,8 +237,9 @@ bool ProfileManager::CompareControllers(RGBController* controller_1, RGBControll
     {
         for(std::size_t zone_index = 0; zone_index < controller_1->zones.size(); zone_index++)
         {
-            bool    check_zone_name = true;
-            bool    check_zone_type = true;
+            bool    check_zone_geometry = true;
+            bool    check_zone_name     = true;
+            bool    check_zone_type     = true;
 
             /*---------------------------------------------*\
             | Do not check zone name if manually configured |
@@ -234,11 +259,17 @@ bool ProfileManager::CompareControllers(RGBController* controller_1, RGBControll
                 check_zone_type = false;
             }
 
-            if((check_zone_name && (controller_1->GetZoneName(zone_index)      != controller_2->GetZoneName(zone_index)     ))
-            || (check_zone_type && (controller_1->GetZoneType(zone_index)      != controller_2->GetZoneType(zone_index)     ))
-            ||                     (controller_1->GetZoneLEDsMin(zone_index)   != controller_2->GetZoneLEDsMin(zone_index)  )
-            ||                     (controller_1->GetZoneLEDsMax(zone_index)   != controller_2->GetZoneLEDsMax(zone_index)  )
-            ||                     (controller_1->GetZoneModeCount(zone_index) != controller_2->GetZoneModeCount(zone_index)))
+            if((controller_1->GetZoneFlags(zone_index) & ZONE_FLAG_ZONE_GEOMETRY_MAY_CHANGE)
+            || (controller_2->GetZoneFlags(zone_index) & ZONE_FLAG_ZONE_GEOMETRY_MAY_CHANGE))
+            {
+                check_zone_geometry = false;
+            }
+
+            if((check_zone_name     && (controller_1->GetZoneName(zone_index)      != controller_2->GetZoneName(zone_index)     ))
+            || (check_zone_type     && (controller_1->GetZoneType(zone_index)      != controller_2->GetZoneType(zone_index)     ))
+            || (check_zone_geometry && ((controller_1->GetZoneLEDsMin(zone_index)   != controller_2->GetZoneLEDsMin(zone_index)  )
+                                     || (controller_1->GetZoneLEDsMax(zone_index)   != controller_2->GetZoneLEDsMax(zone_index)  )))
+            ||                         (controller_1->GetZoneModeCount(zone_index) != controller_2->GetZoneModeCount(zone_index)))
             {
                 return(false);
             }
@@ -320,15 +351,15 @@ std::vector<RGBController*> ProfileManager::GetControllerListFromProfileName(std
     return(GetControllerListFromProfileJson(ReadProfileJSON(profile_name)));
 }
 
-std::vector<RGBController*> ProfileManager::GetControllerListFromSizes()
+std::vector<RGBController*> ProfileManager::GetControllerListFromSavedConfiguration()
 {
     /*-----------------------------------------------------*\
-    | Read the sizes JSON from the file                     |
+    | Read the configuration JSON from the file             |
     \*-----------------------------------------------------*/
-    filesystem::path    filename    = configuration_directory / "Sizes.json";
-    nlohmann::json      sizes_json  = ReadProfileFileJSON(filename);
+    filesystem::path    filename    = configuration_directory / "Configuration.json";
+    nlohmann::json      config_json = ReadProfileFileJSON(filename);
 
-    return(GetControllerListFromProfileJson(sizes_json));
+    return(GetControllerListFromProfileJson(config_json));
 }
 
 std::vector<std::string> ProfileManager::GetProfileList()
@@ -455,8 +486,7 @@ void ProfileManager::OnProfileAboutToLoad()
 void ProfileManager::OnProfileLoaded(std::string profile_json_string)
 {
     nlohmann::json profile_json;
-
-    profile_json = nlohmann::json::parse(profile_json_string);
+    JsonUtils::JsonParse(profile_json_string, profile_json);
 
     /*-------------------------------------------------*\
     | Get plugin profile data                           |
@@ -517,7 +547,7 @@ nlohmann::json ProfileManager::ReadProfileJSON(std::string profile_name)
 
     if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
     {
-        profile_json = nlohmann::json::parse(ResourceManager::get()->GetLocalClient()->ProfileManager_DownloadProfile(profile_name));
+        JsonUtils::JsonParse(ResourceManager::get()->GetLocalClient()->ProfileManager_DownloadProfile(profile_name), profile_json);
     }
     else
     {
@@ -809,7 +839,7 @@ bool ProfileManager::SaveProfileFromJSON(nlohmann::json profile_json)
     }
 }
 
-bool ProfileManager::SaveSizes()
+bool ProfileManager::SaveConfiguration()
 {
     /*-----------------------------------------------------*\
     | Get the list of controllers from the resource manager |
@@ -819,7 +849,7 @@ bool ProfileManager::SaveSizes()
     /*-----------------------------------------------------*\
     | Open an output file in the profile directory          |
     \*-----------------------------------------------------*/
-    filesystem::path profile_path = configuration_directory / "Sizes.json";
+    filesystem::path profile_path = configuration_directory / "Configuration.json";
     std::ofstream controller_file(profile_path, std::ios::out );
 
     /*-----------------------------------------------------*\
@@ -828,7 +858,7 @@ bool ProfileManager::SaveSizes()
     nlohmann::json profile_json;
 
     profile_json["profile_version"] = OPENRGB_PROFILE_VERSION;
-    profile_json["profile_name"]    = "Sizes";
+    profile_json["profile_name"]    = "Controller Configuration";
 
     /*-----------------------------------------------------*\
     | Write controller data for each controller             |
@@ -839,7 +869,7 @@ bool ProfileManager::SaveSizes()
     {
         /*-------------------------------------------------*\
         | Ignore remote and virtual controllers when saving |
-        | sizes                                             |
+        | configuration                                     |
         \*-------------------------------------------------*/
         if(controllers[controller_index]->GetFlags() & CONTROLLER_FLAG_REMOTE
         || controllers[controller_index]->GetFlags() & CONTROLLER_FLAG_VIRTUAL)
@@ -864,9 +894,9 @@ bool ProfileManager::SaveSizes()
     }
 
     /*-----------------------------------------------------*\
-    | Loop through the previously saved sizes and add any   |
-    | controllers that were previously saved but not in the |
-    | current controllers list                              |
+    | Loop through the previously saved configuration and   |
+    | add any controllers that were previously saved but    |
+    | not in the current controllers list                   |
     \*-----------------------------------------------------*/
     for(std::size_t old_saved_controller_index = 0; old_saved_controller_index < manually_configured_rgb_controllers.size(); old_saved_controller_index++)
     {
@@ -902,7 +932,7 @@ bool ProfileManager::SaveSizes()
     /*-----------------------------------------------------*\
     | Reinitialize manually configured controllers list     |
     \*-----------------------------------------------------*/
-    manually_configured_rgb_controllers = GetControllerListFromSizes();
+    manually_configured_rgb_controllers = GetControllerListFromSavedConfiguration();
 
     return(true);
 }
@@ -936,7 +966,7 @@ void ProfileManager::SetConfigurationDirectory(const filesystem::path& directory
     /*-----------------------------------------------------*\
     | Reinitialize manually configured controllers list     |
     \*-----------------------------------------------------*/
-    manually_configured_rgb_controllers = GetControllerListFromSizes();
+    manually_configured_rgb_controllers = GetControllerListFromSavedConfiguration();
 }
 
 void ProfileManager::SetProfileListFromDescription(unsigned int /*data_size*/, char * data_buf)
@@ -1077,8 +1107,8 @@ bool ProfileManager::LoadControllerFromListWithOptions
     (
     std::vector<RGBController*>&    profile_controllers,
     RGBController*                  load_controller,
-    bool                            load_size,
-    bool                            load_settings
+    bool                            load_configuration,
+    bool                            load_state
     )
 {
     for(std::size_t temp_index = 0; temp_index < profile_controllers.size(); temp_index++)
@@ -1128,10 +1158,21 @@ bool ProfileManager::LoadControllerFromListWithOptions
          &&(location_check                         == true                             ))
         {
             /*---------------------------------------------*\
-            | Update zone sizes if requested                |
+            | Update device configuration if requested      |
             \*---------------------------------------------*/
-            if(load_size)
+            if(load_configuration)
             {
+                /*-----------------------------------------*\
+                | Load device-specific configuration        |
+                \*-----------------------------------------*/
+                nlohmann::json configuration_json;
+                JsonUtils::JsonParse(profile_controller->configuration, configuration_json);
+
+                load_controller->SetDeviceSpecificConfiguration(configuration_json["configuration"]);
+
+                /*-----------------------------------------*\
+                | Load zone configuration                   |
+                \*-----------------------------------------*/
                 if(profile_controller->zones.size() == load_controller->zones.size())
                 {
                     for(unsigned int zone_idx = 0; zone_idx < (unsigned int)profile_controller->zones.size(); zone_idx++)
@@ -1176,6 +1217,8 @@ bool ProfileManager::LoadControllerFromListWithOptions
                                 }
                             }
                         }
+
+                        load_controller->SetDeviceSpecificZoneConfiguration(zone_idx, configuration_json["zones"][zone_idx]["configuration"]);
                     }
                 }
             }
@@ -1183,7 +1226,7 @@ bool ProfileManager::LoadControllerFromListWithOptions
             /*---------------------------------------------*\
             | Update settings if requested                  |
             \*---------------------------------------------*/
-            if(load_settings)
+            if(load_state)
             {
                 /*-----------------------------------------*\
                 | If mode list matches, load all modes      |
@@ -1289,7 +1332,7 @@ bool ProfileManager::LoadControllerFromListWithOptions
     | this controller, apply the base color if it is        |
     | enabled                                               |
     \*-----------------------------------------------------*/
-    if(load_settings && active_base_color_enabled)
+    if(load_state && active_base_color_enabled)
     {
         load_controller->SetCustomMode();
 
@@ -1311,8 +1354,8 @@ bool ProfileManager::LoadControllerFromListWithOptions
 bool ProfileManager::LoadProfileWithOptions
     (
     std::string     profile_name,
-    bool            load_size,
-    bool            load_settings
+    bool            load_configuration,
+    bool            load_state
     )
 {
     /*-------------------------------------------------*\
@@ -1385,7 +1428,7 @@ bool ProfileManager::LoadProfileWithOptions
     \*-------------------------------------------------*/
     for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
     {
-        LoadControllerFromListWithOptions(active_rgb_controllers, controllers[controller_index], load_size, load_settings);
+        LoadControllerFromListWithOptions(active_rgb_controllers, controllers[controller_index], load_configuration, load_state);
     }
 
     /*-------------------------------------------------*\
