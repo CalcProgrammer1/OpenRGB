@@ -1131,7 +1131,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Fenster Geometrie laden</translation>
@@ -1145,7 +1145,7 @@
         <translation>Zonen beim erneuten Scannen überprüfen</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>Deaktiviere Schlüsselerweiterung in der Geräteansicht</translation>
     </message>
     <message>
@@ -1165,7 +1165,7 @@
         <translation>Minimiert Starten</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Graues Icon</translation>
     </message>
     <message>
@@ -1185,15 +1185,15 @@
         <translation>Profil beim Schließen anwenden</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>Log Datei aktivieren (Programmneustart erforderlich)</translation>
+        <source>Enable Log File</source>
+        <translation>Log Datei aktivieren</translation>
     </message>
     <message>
         <source>Minimize on Close</source>
         <translation>Beim Schließen in die Taskleiste minimieren</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Geometrie beim Schließen beibehalten</translation>
     </message>
     <message>
@@ -1209,12 +1209,8 @@
         <translation>Server Port setzen</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Stil (Programmneustart erforderlich)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Log Konsole aktivieren (Programmneustart erforderlich)</translation>
+        <source>Enable Log Console</source>
+        <translation>Log Konsole aktivieren</translation>
     </message>
     <message>
         <source>Drivers Settings</source>

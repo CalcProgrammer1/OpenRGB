@@ -141,6 +141,7 @@ public:
     \*-----------------------------------------------------*/
     virtual void                            ProfileManagerUpdated(unsigned int update_reason)                                   = 0;
     virtual void                            ResourceManagerUpdated(unsigned int update_reason)                                  = 0;
+    virtual void                            SettingsManagerUpdated(unsigned int update_reason)                                  = 0;
 };
 
 Q_DECLARE_INTERFACE(OpenRGBPluginInterface, OpenRGBPluginInterface_IID)

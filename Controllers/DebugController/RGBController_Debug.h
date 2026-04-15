@@ -33,6 +33,9 @@ public:
 
     void        DeviceUpdateMode();
 
+    void        DeviceUpdateDeviceSpecificConfiguration();
+    void        DeviceUpdateDeviceSpecificZoneConfiguration(int zone);
+
 private:
     json        debug_settings;
     bool        custom_controller;

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>750</width>
-    <height>400</height>
+    <height>496</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,6 +91,60 @@
      </layout>
     </widget>
    </item>
+   <item row="5" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="HorizontalLayoutButtonBox">
+     <item>
+      <widget class="QPushButton" name="ButtonResetZoneConfiguration">
+       <property name="text">
+        <string>Reset Zone Configuration</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="ButtonBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QGroupBox" name="GroupBoxDeviceSpecificZoneConfiguration">
+     <property name="title">
+      <string>Device-Specific Zone Configuration</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="QScrollArea" name="ScrollAreaDeviceSpecificZoneConfiguration">
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="ScrollAreaDeviceSpecificZoneConfigurationWidget">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>714</width>
+           <height>65</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="ScrollAreaDeviceSpecificZoneConfigurationLayout"/>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="3">
     <widget class="QGroupBox" name="GroupBoxZoneConfiguration">
      <property name="title">
@@ -99,12 +153,6 @@
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="3" column="0" colspan="3">
        <layout class="QGridLayout" name="GroupBoxZoneSettings">
-        <item row="0" column="1">
-         <widget class="QComboBox" name="ComboBoxZoneType"/>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="ComboBoxZoneColorOrder"/>
-        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="LabelZoneType">
           <property name="text">
@@ -112,24 +160,20 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="LabelZoneMatrixMap">
-          <property name="text">
-           <string>Zone Matrix Map:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="LabelZoneColorOrder">
-          <property name="text">
-           <string>Zone Color Order:</string>
-          </property>
-         </widget>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="ComboBoxZoneType"/>
         </item>
         <item row="0" column="3">
          <widget class="QPushButton" name="ButtonZoneMatrixMap">
           <property name="text">
            <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="LabelZoneMatrixMap">
+          <property name="text">
+           <string>Zone Matrix Map:</string>
           </property>
          </widget>
         </item>
@@ -178,33 +222,6 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
-    <layout class="QHBoxLayout" name="HorizontalLayoutButtonBox">
-     <item>
-      <widget class="QPushButton" name="ButtonResetZoneConfiguration">
-       <property name="text">
-        <string>Reset Zone Configuration</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDialogButtonBox" name="ButtonBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -223,12 +240,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>20</x>
+     <y>20</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>20</x>
+     <y>20</y>
     </hint>
    </hints>
   </connection>
@@ -239,12 +256,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>20</x>
+     <y>20</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>20</x>
+     <y>20</y>
     </hint>
    </hints>
   </connection>

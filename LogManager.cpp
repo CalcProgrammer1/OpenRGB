@@ -7,15 +7,14 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "LogManager.h"
-
+#include <chrono>
+#include <iomanip>
+#include <iostream>
 #include <regex>
 #include <stdarg.h>
-#include <iostream>
-#include <iomanip>
-#include <chrono>
-
 #include "filesystem.h"
+#include "JsonUtils.h"
+#include "LogManager.h"
 
 const char* LogManager::log_codes[] = {"FATAL:", "ERROR:", "Warning:", "Info:", "Verbose:", "Debug:", "Trace:", "Dialog:"};
 
@@ -80,41 +79,17 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
         | i.e. with the lexicographically smallest filename |
         | 0 or less equals no limit (default)               |
         \*-------------------------------------------------*/
-        int loglimit = 0;
-        if(config.contains("file_count_limit") && config["file_count_limit"].is_number_integer())
-        {
-            loglimit = config["file_count_limit"];
-        }
-
-        if(config.contains("log_file"))
-        {
-            log_file_enabled = config["log_file"];
-        }
+        int loglimit        = JsonUtils::JsonGetInt(config, "file_count_limit");
+        log_file_enabled    = JsonUtils::JsonGetBool(config, "log_file");
 
         /*-------------------------------------------------*\
         | Default template for the logfile name             |
         | The # symbol is replaced with a timestamp         |
         \*-------------------------------------------------*/
-        std::string logtempl = "OpenRGB_#.log";
+        std::string logtemp = JsonUtils::JsonGetString(config, "logfile", "OpenRGB_#.log", false);
 
         if(log_file_enabled)
         {
-            /*---------------------------------------------*\
-            | If the logfile is defined in the              |
-            | configuration, use the configured name        |
-            \*---------------------------------------------*/
-            if(config.contains("logfile"))
-            {
-                const json& logfile_obj = config["logfile"];
-                if(logfile_obj.is_string())
-                {
-                    std::string tmpname = config["logfile"];
-                    if(!tmpname.empty())
-                    {
-                        logtempl = tmpname;
-                    }
-                }
-            }
             /*---------------------------------------------*\
             | If the # symbol is found in the log file      |
             | name, replace it with a timestamp             |
@@ -124,7 +99,7 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
             char time_string[64];
             snprintf(time_string, 64, TimestampPattern, 1900 + tmp->tm_year, tmp->tm_mon + 1, tmp->tm_mday, tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 
-            std::string logname = logtempl;
+            std::string logname = logtemp;
             size_t oct = logname.find("#");
             if(oct != logname.npos)
             {
@@ -145,7 +120,7 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
             | "Log rotation": remove old log files          |
             | exceeding the current configured limit        |
             \*---------------------------------------------*/
-            rotate_logs(p.parent_path(), filesystem::u8path(logtempl).filename(), loglimit);
+            rotate_logs(p.parent_path(), filesystem::u8path(logtemp).filename(), loglimit);
 
             /*---------------------------------------------*\
             | Open the logfile                              |

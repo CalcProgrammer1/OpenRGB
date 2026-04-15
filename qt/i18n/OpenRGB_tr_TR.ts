@@ -879,7 +879,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Pencere Geometrisini Yükle</translation>
@@ -909,7 +909,7 @@
         <translation>Kapatıldığında Simge Durumuna Küçült</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Kapatırken Geometriyi Kaydet</translation>
     </message>
     <message>
@@ -925,12 +925,8 @@
         <translation>Sunucu Bağlantı Noktasını Ayarla</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Tema (yeniden başlatma gerekli)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Kayıt Konsolunu Etkinleştir (yeniden başlatma gerekli)</translation>
+        <source>Enable Log Console</source>
+        <translation>Kayıt Konsolunu Etkinleştir</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -957,7 +953,7 @@
         <translation>Sürücü Ayarları</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Gri Tonlu Sistem Tepsisi Simgesi</translation>
     </message>
     <message>
@@ -981,7 +977,7 @@
         <translation>Dil</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>Cihaz Görünümünde Tuş Genişletmeyi Devre Dışı Bırak</translation>
     </message>
     <message>
@@ -1001,8 +997,8 @@
         <translation>Devam edildiğinde profil ayarla</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>Kayıt dosyasını etkinleştir (yeniden başlatma gerekli)</translation>
+        <source>Enable Log File</source>
+        <translation>Kayıt dosyasını etkinleştir</translation>
     </message>
     <message>
         <source>A problem occurred enabling Start at Login.</source>
