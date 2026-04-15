@@ -13,6 +13,7 @@
 #include <nlohmann/json.hpp>
 #include "base64.hpp"
 #include "GoveeController.h"
+#include "JsonUtils.h"
 
 using json = nlohmann::json;
 using namespace std::chrono_literals;
@@ -106,7 +107,8 @@ void GoveeController::ReceiveBroadcast(char* recv_buf, int size)
     /*-----------------------------------------------------*\
     | Convert null-terminated response to JSON              |
     \*-----------------------------------------------------*/
-    json response = json::parse(recv_buf);
+    json response;
+    JsonUtils::JsonParse(recv_buf, response);
 
     /*-----------------------------------------------------*\
     | Check if the response contains the method name        |

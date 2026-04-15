@@ -1130,7 +1130,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Minimize on Close</source>
         <translation>关闭窗口时最小化</translation>
@@ -1144,7 +1144,7 @@
         <translation>启动服务器</translation>
     </message>
     <message>
-        <source>Enable Log Console (restart required)</source>
+        <source>Enable Log Console</source>
         <translation>启用日志控制台（需要重新启动）</translation>
     </message>
     <message>
@@ -1152,7 +1152,7 @@
         <translation>自定义参数</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>关闭时保存窗口大小及位置</translation>
     </message>
     <message>
@@ -1170,10 +1170,6 @@
     <message>
         <source>Log Manager Settings:</source>
         <translation>日志管理器设置：</translation>
-    </message>
-    <message>
-        <source>Theme (restart required)</source>
-        <translation>主题（需要重新启动）</translation>
     </message>
     <message>
         <source>Start at Login Status</source>
@@ -1228,7 +1224,7 @@
         <translation>AMD SMBus：降低 CPU 使用率（需要重新启动）</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>灰度托盘图标</translation>
     </message>
     <message>
@@ -1236,7 +1232,7 @@
         <translation>打开设置文件夹</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>在设备视图中禁用快捷键扩展</translation>
     </message>
     <message>
@@ -1256,7 +1252,7 @@
         <translation>唤醒时设置配置文件</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
+        <source>Enable Log File</source>
         <translation>启用日志文件（需要重新启动）</translation>
     </message>
     <message>

@@ -1130,7 +1130,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Завантажувати геометрію вікна</translation>
@@ -1172,15 +1172,15 @@
         <translation>Запускати при вході в систему</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>Увімкнути логування (потрібен перезапуск)</translation>
+        <source>Enable Log File</source>
+        <translation>Увімкнути логування</translation>
     </message>
     <message>
         <source>Minimize on Close</source>
         <translation>Згортати замість закриття</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Зберігати розміри вікна при закритті</translation>
     </message>
     <message>
@@ -1196,12 +1196,8 @@
         <translation>Встановити порт для сервера</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Тема (потрібен перезапуск)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Увімкнути консоль логів (потрібен перезапуск)</translation>
+        <source>Enable Log Console</source>
+        <translation>Увімкнути консоль логів</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1228,7 +1224,7 @@
         <translation>Налаштування драйверів</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Відображення значка у системному лотку в відтінках сірого</translation>
     </message>
     <message>
@@ -1236,7 +1232,7 @@
         <translation>AMD SMBus: зменшити навантаження на ЦП (потрібен перезапуск)</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>Відключити розширення клавіш у перегляді пристроїв</translation>
     </message>
     <message>

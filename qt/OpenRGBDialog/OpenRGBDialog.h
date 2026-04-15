@@ -15,6 +15,7 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QSlider>
+#include <QTranslator>
 
 #include "OpenRGBClientInfoPage.h"
 #include "OpenRGBDevicePage.h"
@@ -59,6 +60,7 @@ public:
     static bool IsMinimizeOnClose();
 
     void SetDialogMessage(PLogMessage msg);
+    void SetLanguage(std::string locale);
 
     bool DontShowAgain;
 
@@ -117,13 +119,19 @@ private:
     /*-----------------------------------------------------*\
     | User interface                                        |
     \*-----------------------------------------------------*/
-    Ui::OpenRGBDialog *ui;
+    Ui::OpenRGBDialog*              ui;
+
+    /*-----------------------------------------------------*\
+    | Translator                                            |
+    \*-----------------------------------------------------*/
+    QTranslator                     translator;
 
     void AddSoftwareInfoPage();
     void AddSupportedDevicesPage();
     void AddSettingsPage();
     void AddPluginsPage();
     void AddConsolePage();
+    void RemoveConsolePage();
     void AddManualDevicesSettingsPage();
 
     void ClearDevicesList();
@@ -159,6 +167,7 @@ private slots:
     void onDetectionProgressUpdated();
     void onDetectionStarted();
     void onDetectionEnded();
+    void onSettingsUpdated();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void on_ShowHide();
     void onShowDialogMessage();

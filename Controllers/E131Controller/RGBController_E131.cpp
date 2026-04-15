@@ -235,8 +235,7 @@ void RGBController_E131::SetupZones()
         led_zone.leds_count     = devices[zone_idx].num_leds;
         led_zone.flags          = ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
                                 | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP
-                                | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS
-                                | ZONE_FLAG_MANUALLY_CONFIGURABLE_COLOR_ORDER;
+                                | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
 
         zones.push_back(led_zone);
     }

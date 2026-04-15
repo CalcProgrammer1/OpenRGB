@@ -879,7 +879,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation></translation>
@@ -905,7 +905,7 @@
         <translation>Minimise On Close</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation></translation>
     </message>
     <message>
@@ -921,11 +921,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
+        <source>Enable Log Console</source>
         <translation></translation>
     </message>
     <message>
@@ -953,7 +949,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -977,7 +973,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -997,8 +993,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation type="unfinished"></translation>
+        <source>Enable Log File</source>
+        <translation></translation>
     </message>
     <message>
         <source>A problem occurred enabling Start at Login.</source>

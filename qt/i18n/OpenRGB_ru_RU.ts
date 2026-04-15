@@ -880,7 +880,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Загружать геометрию окна</translation>
@@ -918,15 +918,15 @@
         <translation>Запускать при входе в систему</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>Включить ведение лога (потребуется перезапуск)</translation>
+        <source>Enable Log File</source>
+        <translation>Включить ведение лога</translation>
     </message>
     <message>
         <source>Minimize on Close</source>
         <translation>Сворачивать вместо закрытия</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Сохранять размеры окна при закрытии</translation>
     </message>
     <message>
@@ -942,12 +942,8 @@
         <translation>Задать порт для сервера</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Тема (потребуется перезапуск)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Включить консоль журналирования (потребуется перезапуск)</translation>
+        <source>Enable Log Console</source>
+        <translation>Включить консоль журналирования</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -974,7 +970,7 @@
         <translation>Параметры драйверов</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Отображение значка в системном лотке в оттенках серого</translation>
     </message>
     <message>
@@ -982,7 +978,7 @@
         <translation>AMD SMBus: уменьшить загрузку ЦП (потребуется перезапуск)</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>Отключить расширение клавиш в LED View</translation>
     </message>
     <message>

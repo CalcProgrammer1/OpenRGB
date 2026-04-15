@@ -13,8 +13,9 @@
 #include <sstream>
 #include <thread>
 #include <vector>
-#include "ElgatoLightStripController.h"
 #include <nlohmann/json.hpp>
+#include "ElgatoLightStripController.h"
+#include "JsonUtils.h"
 #include "LogManager.h"
 
 using json = nlohmann::json;
@@ -58,7 +59,8 @@ ElgatoLightStripController::ElgatoLightStripController(std::string ip)
         }
 
         std::string result = recv_list[5];
-        json elgato_lightstrip_data = json::parse(result);
+        json elgato_lightstrip_data;
+        JsonUtils::JsonParse(result, elgato_lightstrip_data);
 
         firmware_version = elgato_lightstrip_data["firmwareVersion"];
         serialnumber = elgato_lightstrip_data["serialNumber"];
