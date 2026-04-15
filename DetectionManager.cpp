@@ -12,6 +12,7 @@
 
 #include <chrono>
 #include "DetectionManager.h"
+#include "JsonUtils.h"
 #include "LogManager.h"
 #include "pci_ids.h"
 #include "ProfileManager.h"
@@ -29,11 +30,6 @@ using namespace std::chrono_literals;
 | DetectionManager name for log entries                     |
 \*---------------------------------------------------------*/
 const char* DETECTIONMANAGER = "DetectionManager";
-
-/*---------------------------------------------------------*\
-| Define a macro for QT lupdate to parse                    |
-\*---------------------------------------------------------*/
-#define QT_TRANSLATE_NOOP(scope, x) x
 
 /*---------------------------------------------------------*\
 | Warning Strings                                           |
@@ -597,8 +593,6 @@ void DetectionManager::BackgroundDetectDevices()
     hid_device_info*    current_hid_device;
     json                detector_settings;
     hid_device_info*    hid_devices                 = NULL;
-    bool                hid_safe_mode               = false;
-    unsigned int        initial_detection_delay_ms  = 0;
 
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|               Start device detection               |");
@@ -621,18 +615,12 @@ void DetectionManager::BackgroundDetectDevices()
     /*-----------------------------------------------------*\
     | Check HID safe mode setting                           |
     \*-----------------------------------------------------*/
-    if(detector_settings.contains("hid_safe_mode"))
-    {
-        hid_safe_mode = detector_settings["hid_safe_mode"];
-    }
+    bool                hid_safe_mode               = JsonUtils::JsonGetBool(detector_settings, "hid_safe_mode");
 
     /*-----------------------------------------------------*\
     | Check initial detection delay setting                 |
     \*-----------------------------------------------------*/
-    if(detector_settings.contains("initial_detection_delay_ms"))
-    {
-        initial_detection_delay_ms = detector_settings["initial_detection_delay_ms"];
-    }
+    unsigned int        initial_detection_delay_ms  = JsonUtils::JsonGetInt(detector_settings, "initial_detection_delay_ms");
 
     /*-----------------------------------------------------*\
     | If configured, delay detection for the configured     |

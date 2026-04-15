@@ -49,6 +49,7 @@ public:
     void            ClearSelection();
     void            SetChanged();
     void            SetController(RGBController * controller_ptr);
+    void            SetDisableKeyExpansion(bool disable_key_expansion);
     void            SetNumericalLabels(bool enable);
     void            SetPerLED(bool per_led_mode);
     void            SetSelectionColor(RGBColor);
@@ -69,6 +70,7 @@ private:
     \*-----------------------------------------------------*/
     bool                                changed;
     bool                                ctrl_down;
+    bool                                disable_expansion;
     QPoint                              last_mouse_point;
     bool                                mouse_down;
     bool                                mouse_moved;

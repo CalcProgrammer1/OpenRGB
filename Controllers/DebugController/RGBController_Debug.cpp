@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <cstring>
 #include "KeyboardLayoutManager.h"
+#include "JsonUtils.h"
 #include "RGBController_Debug.h"
 
 /**------------------------------------------------------------------*\
@@ -54,80 +55,69 @@ RGBController_Debug::RGBController_Debug(bool custom, json settings)
     if(custom_controller)
     {
         /*-------------------------------------------------*\
-        | Set the name                                      |
+        | Set the name, description, location, version, and |
+        | serial                                            |
         \*-------------------------------------------------*/
-        name = debug_settings["DeviceName"];
+        name                            = JsonUtils::JsonGetString(debug_settings, "DeviceName", "Custom Device");
+        description                     = JsonUtils::JsonGetString(debug_settings, "DeviceDescription");
+        location                        = JsonUtils::JsonGetString(debug_settings, "DeviceLocation");
+        version                         = JsonUtils::JsonGetString(debug_settings, "DeviceVersion");
+        serial                          = JsonUtils::JsonGetString(debug_settings, "DeviceSerial");
 
         /*-------------------------------------------------*\
         | Find the device type                              |
         \*-------------------------------------------------*/
-        if      (debug_settings["DeviceType"] == "motherboard")   type = DEVICE_TYPE_MOTHERBOARD;
-        else if (debug_settings["DeviceType"] == "dram")          type = DEVICE_TYPE_DRAM;
-        else if (debug_settings["DeviceType"] == "gpu")           type = DEVICE_TYPE_GPU;
-        else if (debug_settings["DeviceType"] == "cooler")        type = DEVICE_TYPE_COOLER;
-        else if (debug_settings["DeviceType"] == "led_strip")     type = DEVICE_TYPE_LEDSTRIP;
-        else if (debug_settings["DeviceType"] == "keyboard")      type = DEVICE_TYPE_KEYBOARD;
-        else if (debug_settings["DeviceType"] == "mouse")         type = DEVICE_TYPE_MOUSE;
-        else if (debug_settings["DeviceType"] == "mousemat")      type = DEVICE_TYPE_MOUSEMAT;
-        else if (debug_settings["DeviceType"] == "headset")       type = DEVICE_TYPE_HEADSET;
-        else if (debug_settings["DeviceType"] == "headset_stand") type = DEVICE_TYPE_HEADSET_STAND;
-        else if (debug_settings["DeviceType"] == "gamepad")       type = DEVICE_TYPE_GAMEPAD;
-        else if (debug_settings["DeviceType"] == "light")         type = DEVICE_TYPE_LIGHT;
-        else if (debug_settings["DeviceType"] == "speaker")       type = DEVICE_TYPE_SPEAKER;
-        else if (debug_settings["DeviceType"] == "unknown")       type = DEVICE_TYPE_UNKNOWN;
+        std::string device_type         = JsonUtils::JsonGetString(debug_settings, "DeviceType", "keyboard");
 
-        /*-------------------------------------------------*\
-        | Set description, location, version, and serial    |
-        \*-------------------------------------------------*/
-        description                             = debug_settings["DeviceDescription"];
-        location                                = debug_settings["DeviceLocation"];
-        version                                 = debug_settings["DeviceVersion"];
-        serial                                  = debug_settings["DeviceSerial"];
+        if(     device_type == "motherboard")   type = DEVICE_TYPE_MOTHERBOARD;
+        else if(device_type == "dram")          type = DEVICE_TYPE_DRAM;
+        else if(device_type == "gpu")           type = DEVICE_TYPE_GPU;
+        else if(device_type == "cooler")        type = DEVICE_TYPE_COOLER;
+        else if(device_type == "led_strip")     type = DEVICE_TYPE_LEDSTRIP;
+        else if(device_type == "keyboard")      type = DEVICE_TYPE_KEYBOARD;
+        else if(device_type == "mouse")         type = DEVICE_TYPE_MOUSE;
+        else if(device_type == "mousemat")      type = DEVICE_TYPE_MOUSEMAT;
+        else if(device_type == "headset")       type = DEVICE_TYPE_HEADSET;
+        else if(device_type == "headset_stand") type = DEVICE_TYPE_HEADSET_STAND;
+        else if(device_type == "gamepad")       type = DEVICE_TYPE_GAMEPAD;
+        else if(device_type == "light")         type = DEVICE_TYPE_LIGHT;
+        else if(device_type == "speaker")       type = DEVICE_TYPE_SPEAKER;
+        else if(device_type == "unknown")       type = DEVICE_TYPE_UNKNOWN;
     }
     else
     {
-        std::string name_setting    = "";
-        std::string type_setting    = "keyboard";
-
-        if(debug_settings.contains("name"))
-        {
-            name_setting = debug_settings["name"];
-        }
-
-        if(debug_settings.contains("type"))
-        {
-            type_setting = debug_settings["type"];
-        }
+        std::string name_setting        = JsonUtils::JsonGetString(debug_settings, "name");
+        std::string type_setting        = JsonUtils::JsonGetString(debug_settings, "type", "keyboard");
 
         if(type_setting == "motherboard")
         {
-            name                = "Debug Motherboard";
-            type                = DEVICE_TYPE_MOTHERBOARD;
+            name                        = "Debug Motherboard";
+            type                        = DEVICE_TYPE_MOTHERBOARD;
         }
         else if(type_setting == "dram")
         {
-            name                = "Debug DRAM";
-            type                = DEVICE_TYPE_DRAM;
+            name                        = "Debug DRAM";
+            type                        = DEVICE_TYPE_DRAM;
         }
         else if(type_setting == "gpu")
         {
-            name                = "Debug GPU";
-            type                = DEVICE_TYPE_GPU;
+            name                        = "Debug GPU";
+            type                        = DEVICE_TYPE_GPU;
         }
         else if(type_setting == "keyboard")
         {
-            name                = "Debug Keyboard";
-            type                = DEVICE_TYPE_KEYBOARD;
+            name                        = "Debug Keyboard";
+            type                        = DEVICE_TYPE_KEYBOARD;
         }
       else if(type_setting == "mouse")
         {
-            name                = "Debug Mouse";
-            type                = DEVICE_TYPE_MOUSE;
+            name                        = "Debug Mouse";
+            type                        = DEVICE_TYPE_MOUSE;
         }
         else if(type_setting == "argb")
         {
-            name                = "Debug ARGB Controller";
-            type                = DEVICE_TYPE_LEDSTRIP;
+            name                        = "Debug ARGB Controller";
+            type                        = DEVICE_TYPE_LEDSTRIP;
         }
 
         /*---------------------------------------------------------*\
@@ -143,6 +133,41 @@ RGBController_Debug::RGBController_Debug(bool custom, json settings)
         {
             name                        = name_setting;
         }
+
+        /*---------------------------------------------------------*\
+        | Create test configuration                                 |
+        \*---------------------------------------------------------*/
+        nlohmann::json configuration_json;
+        JsonUtils::JsonParse(configuration, configuration_json);
+
+        configuration_json["schema"]["test_string"]["title"]     = "String Setting";
+        configuration_json["schema"]["test_string"]["type"]      = "string";
+
+        configuration_json["schema"]["test_bool"]["title"]       = "Boolean Setting";
+        configuration_json["schema"]["test_bool"]["type"]        = "bool";
+
+        configuration_json["schema"]["test_enum"]["title"]       = "String Enum Setting";
+        configuration_json["schema"]["test_enum"]["type"]        = "string";
+        configuration_json["schema"]["test_enum"]["enum"][0]     = "Option 1";
+        configuration_json["schema"]["test_enum"]["enum"][1]     = "Option 2";
+        configuration_json["schema"]["test_enum"]["enum"][2]     = "Option 3";
+
+        configuration_json["schema"]["test_enum_int"]["title"]   = "Integer Enum Setting";
+        configuration_json["schema"]["test_enum_int"]["type"]    = "integer";
+        configuration_json["schema"]["test_enum_int"]["enum"][0] = 2;
+        configuration_json["schema"]["test_enum_int"]["enum"][1] = 4;
+        configuration_json["schema"]["test_enum_int"]["enum"][2] = 8;
+
+        configuration_json["schema"]["test_int"]["title"]        = "Integer Setting";
+        configuration_json["schema"]["test_int"]["type"]         = "integer";
+
+        configuration_json["configuration"]["test_string"]       = "This is a test";
+        configuration_json["configuration"]["test_bool"]         = true;
+        configuration_json["configuration"]["test_enum"]         = "Option 2";
+        configuration_json["configuration"]["test_enum_int"]     = 4;
+        configuration_json["configuration"]["test_int"]          = 12345;
+
+        configuration = configuration_json.dump();
     }
 
     /*-----------------------------------------------------*\
@@ -181,6 +206,7 @@ void RGBController_Debug::SetupZones()
     /*-------------------------------------------------*\
     | Clear any existing color/LED configuration        |
     \*-------------------------------------------------*/
+    led_alt_names.clear();
     leds.clear();
     colors.clear();
 
@@ -216,9 +242,9 @@ void RGBController_Debug::SetupZones()
                 continue;
             }
 
-            custom_zone.leds_min   = ZoneJson["leds_min"];
-            custom_zone.leds_max   = ZoneJson["leds_max"];
-            custom_zone.leds_count = ZoneJson["leds_count"];
+            custom_zone.leds_min        = JsonUtils::JsonGetInt(ZoneJson, "leds_min");
+            custom_zone.leds_max        = JsonUtils::JsonGetInt(ZoneJson, "leds_max");
+            custom_zone.leds_count      = JsonUtils::JsonGetInt(ZoneJson, "leds_count");
 
             /*---------------------------------------------*\
             | Fill in the matrix map                        |
@@ -241,8 +267,8 @@ void RGBController_Debug::SetupZones()
                     continue;
                 }
 
-                unsigned int H                  = ZoneJson["matrix_width"];
-                unsigned int W                  = ZoneJson["matrix_height"];
+                unsigned int H                  = JsonUtils::JsonGetInt(ZoneJson, "matrix_width");
+                unsigned int W                  = JsonUtils::JsonGetInt(ZoneJson, "matrix_height");
 
                 BadVal                          = ((unsigned int)ZoneJson["matrix_map"].size() != H);
 
@@ -333,36 +359,11 @@ void RGBController_Debug::SetupZones()
     }
     else
     {
-        bool    zone_single             = true;
-        bool    zone_linear             = true;
-        bool    zone_resizable          = false;
-        bool    zone_keyboard           = false;
-        bool    zone_underglow          = false;
-
-        if(debug_settings.contains("single"))
-        {
-            zone_single = debug_settings["single"];
-        }
-
-        if(debug_settings.contains("linear"))
-        {
-            zone_linear = debug_settings["linear"];
-        }
-
-        if(debug_settings.contains("resizable"))
-        {
-            zone_resizable = debug_settings["resizable"];
-        }
-
-        if(debug_settings.contains("keyboard"))
-        {
-            zone_keyboard = debug_settings["keyboard"];
-        }
-
-        if(debug_settings.contains("underglow"))
-        {
-            zone_underglow = debug_settings["underglow"];
-        }
+        bool    zone_single             = JsonUtils::JsonGetBool(debug_settings, "single", true);
+        bool    zone_linear             = JsonUtils::JsonGetBool(debug_settings, "linear", true);
+        bool    zone_resizable          = JsonUtils::JsonGetBool(debug_settings, "resizable", false);
+        bool    zone_keyboard           = JsonUtils::JsonGetBool(debug_settings, "keyboard", false);
+        bool    zone_underglow          = JsonUtils::JsonGetBool(debug_settings, "underglow", false);
 
         /*-------------------------------------------------*\
         | Create a single zone/LED                          |
@@ -371,20 +372,22 @@ void RGBController_Debug::SetupZones()
         {
             zone single_zone;
 
-            single_zone.name            = "Single Zone";
-            single_zone.type            = ZONE_TYPE_SINGLE;
-            single_zone.leds_min        = 1;
-            single_zone.leds_max        = 1;
-            single_zone.leds_count      = 1;
-
             if(first_run)
             {
                 zones.push_back(single_zone);
             }
-            else
+
+            zones[zone_idx].name        = "Single Zone";
+            zones[zone_idx].type        = ZONE_TYPE_SINGLE;
+
+            if(first_run)
             {
-                zones[zone_idx] = single_zone;
+                zones[zone_idx].flags   = ZONE_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC;
             }
+
+            zones[zone_idx].leds_min    = 1;
+            zones[zone_idx].leds_max    = 1;
+            zones[zone_idx].leds_count  = 1;
 
             led single_led;
 
@@ -393,6 +396,27 @@ void RGBController_Debug::SetupZones()
             leds.push_back(single_led);
 
             led_alt_names.push_back("");
+
+            nlohmann::json configuration_json;
+            JsonUtils::JsonParse(configuration, configuration_json);
+
+            if(first_run)
+            {
+                /*-----------------------------------------*\
+                | Create test configuration                 |
+                \*-----------------------------------------*/
+                configuration_json["zones"][zone_idx]["schema"]["color_order"]["title"]     = "Color Order";
+                configuration_json["zones"][zone_idx]["schema"]["color_order"]["type"]      = "string";
+                configuration_json["zones"][zone_idx]["schema"]["color_order"]["enum"][0]   = "RGB";
+                configuration_json["zones"][zone_idx]["schema"]["color_order"]["enum"][1]   = "GRB";
+            }
+
+            if((zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC) == 0)
+            {
+                configuration_json["zones"][zone_idx]["configuration"]["color_order"]       = "RGB";
+            }
+
+            configuration = configuration_json.dump();
 
             zone_idx++;
         }
@@ -404,22 +428,18 @@ void RGBController_Debug::SetupZones()
         {
             zone linear_zone;
 
-            linear_zone.name            = "Linear Zone";
-            linear_zone.type            = ZONE_TYPE_LINEAR;
-            linear_zone.leds_min        = 10;
-            linear_zone.leds_max        = 10;
-            linear_zone.leds_count      = 10;
-
             if(first_run)
             {
                 zones.push_back(linear_zone);
             }
-            else
-            {
-                zones[zone_idx] = linear_zone;
-            }
 
-            for(std::size_t led_idx = 0; led_idx < 10; led_idx++)
+            zones[zone_idx].name        = "Linear Zone";
+            zones[zone_idx].type        = ZONE_TYPE_LINEAR;
+            zones[zone_idx].leds_min    = 10;
+            zones[zone_idx].leds_max    = 10;
+            zones[zone_idx].leds_count  = 10;
+
+            for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
             {
                 led linear_led;
 
@@ -441,6 +461,24 @@ void RGBController_Debug::SetupZones()
             KEYBOARD_LAYOUT layout              = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY;
             KEYBOARD_SIZE   size                = KEYBOARD_SIZE::KEYBOARD_SIZE_FULL;
 
+            nlohmann::json configuration_json;
+            JsonUtils::JsonParse(configuration, configuration_json);
+
+            zone keyboard_zone;
+
+            if(first_run)
+            {
+                zones.push_back(keyboard_zone);
+            }
+
+            zones[zone_idx].name                = "Keyboard Zone";
+            zones[zone_idx].type                = ZONE_TYPE_MATRIX;
+
+            if(first_run)
+            {
+                zones[zone_idx].flags           = ZONE_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC | ZONE_FLAG_ZONE_GEOMETRY_MAY_CHANGE;
+            }
+
             if(debug_settings.contains("layout"))
             {
                 KEYBOARD_LAYOUT temp_layout = debug_settings["layout"];
@@ -451,14 +489,35 @@ void RGBController_Debug::SetupZones()
                 }
             }
 
+            if(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC)
+            {
+                if(configuration_json.contains("zones") && (zone_idx < (int)configuration_json["zones"].size()))
+                {
+                    if(configuration_json["zones"][zone_idx].contains("configuration"))
+                    {
+                        if(configuration_json["zones"][zone_idx]["configuration"].contains("layout"))
+                        {
+                            std::string layout_string = configuration_json["zones"][zone_idx]["configuration"]["layout"];
+
+                            for(std::size_t layout_idx = 0; layout_idx < NUM_LAYOUTS; layout_idx++)
+                            {
+                                if(layout_names[layout_idx] == layout_string)
+                                {
+                                    layout = (KEYBOARD_LAYOUT)layout_idx;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             if(debug_settings.contains("size"))
             {
                 size = debug_settings["size"];
             }
 
             KeyboardLayoutManager new_kb(layout, size);
-
-            description                        += ", Layout: " + layout_names[layout] + ", Size: " + new_kb.GetName();
 
             /*---------------------------------------------*\
             | Check for custom key inserts and swaps        |
@@ -518,25 +577,12 @@ void RGBController_Debug::SetupZones()
                 new_kb.ChangeKeys(change);
             }
 
-            zone keyboard_zone;
+            zones[zone_idx].leds_min            = new_kb.GetKeyCount();
+            zones[zone_idx].leds_max            = new_kb.GetKeyCount();
+            zones[zone_idx].leds_count          = new_kb.GetKeyCount();
+            zones[zone_idx].matrix_map          = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT);
 
-            keyboard_zone.name                  = "Keyboard Zone";
-            keyboard_zone.type                  = ZONE_TYPE_MATRIX;
-            keyboard_zone.leds_min              = new_kb.GetKeyCount();
-            keyboard_zone.leds_max              = new_kb.GetKeyCount();
-            keyboard_zone.leds_count            = new_kb.GetKeyCount();
-            keyboard_zone.matrix_map = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT);
-
-            if(first_run)
-            {
-                zones.push_back(keyboard_zone);
-            }
-            else
-            {
-                zones[zone_idx] = keyboard_zone;
-            }
-
-            for(unsigned int led_idx = 0; led_idx < keyboard_zone.leds_count; led_idx++)
+            for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
             {
                 led keyboard_led;
 
@@ -546,6 +592,28 @@ void RGBController_Debug::SetupZones()
 
                 led_alt_names.push_back(new_kb.GetKeyAltNameAt(led_idx));
             }
+
+            if(first_run)
+            {
+                /*-----------------------------------------*\
+                | Create test configuration                 |
+                \*-----------------------------------------*/
+                configuration_json["zones"][zone_idx]["schema"]["layout"]["title"]      = "Layout";
+                configuration_json["zones"][zone_idx]["schema"]["layout"]["type"]       = "string";
+                configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][0]    = "Default",
+                configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][1]    = "ANSI QWERTY";
+                configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][2]    = "ISO QWERTY";
+                configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][3]    = "ISO QWERTZ";
+                configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][4]    = "ISO AZERTY";
+                configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][5]    = "JIS";
+            }
+
+            if((zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC) == 0)
+            {
+                configuration_json["zones"][zone_idx]["configuration"]["layout"]        = "Default";
+            }
+
+            configuration = configuration_json.dump();
 
             zone_idx++;
         }
@@ -673,4 +741,14 @@ void RGBController_Debug::DeviceUpdateSingleLED(int /*led*/)
 void RGBController_Debug::DeviceUpdateMode()
 {
 
+}
+
+void RGBController_Debug::DeviceUpdateDeviceSpecificConfiguration()
+{
+
+}
+
+void RGBController_Debug::DeviceUpdateDeviceSpecificZoneConfiguration(int zone)
+{
+    SetupZones();
 }

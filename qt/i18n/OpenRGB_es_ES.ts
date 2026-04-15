@@ -1132,7 +1132,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Cargar forma de la ventana</translation>
@@ -1166,7 +1166,7 @@
         <translation>Minimizar al salir</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Guardar la forma de la ventana al cerrar</translation>
     </message>
     <message>
@@ -1182,12 +1182,8 @@
         <translation>Configurar puerto de red</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Tema de colores (requiere reiniciar)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Activar la consola de registros (requiere reiniciar)</translation>
+        <source>Enable Log Console</source>
+        <translation>Activar la consola de registros</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1214,7 +1210,7 @@
         <translation>Adjustes de controladores</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Escala de grises icono de plato</translation>
     </message>
     <message>
@@ -1238,7 +1234,7 @@
         <translation>Idioma</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>inutillizar la llave de Expansion en vista de depositivo</translation>
     </message>
     <message>
@@ -1258,8 +1254,8 @@
         <translation>Establecer perfil en resumen</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>Establecer archivo de registro (requiere reiniciar)</translation>
+        <source>Enable Log File</source>
+        <translation>Establecer archivo de registro</translation>
     </message>
     <message>
         <source>A problem occurred enabling Start at Login.</source>

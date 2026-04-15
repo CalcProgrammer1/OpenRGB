@@ -43,6 +43,7 @@ public:
     ~OpenRGBZoneEditorDialog();
 
     int show();
+    void OnSettingChanged(std::string key, nlohmann::json settings);
 
 private slots:
     void changeEvent(QEvent *event);
@@ -59,13 +60,24 @@ private slots:
     void on_ButtonResetZoneConfiguration_clicked();
     void on_LineEditZoneName_textChanged(const QString& arg1);
     void on_ComboBoxZoneType_currentIndexChanged(int index);
-    void on_ComboBoxZoneColorOrder_currentIndexChanged(int index);
 
 private:
+    /*-----------------------------------------------------*\
+    | UI Pointer                                            |
+    \*-----------------------------------------------------*/
     Ui::OpenRGBZoneEditorDialog*    ui;
+
+    /*-----------------------------------------------------*\
+    | Device pointer and zone index                         |
+    \*-----------------------------------------------------*/
     RGBController*                  edit_dev;
     zone                            edit_zone;
     unsigned int                    edit_zone_idx;
+
+    /*-----------------------------------------------------*\
+    | Zone configuration                                    |
+    \*-----------------------------------------------------*/
+    nlohmann::json                  zone_configuration;
 
     void AddSegmentRow(QString name, unsigned int length, zone_type type, matrix_map_type matrix_map, QTreeWidget* parent);
     void AddSegmentRow(QString name, unsigned int length, zone_type type, matrix_map_type matrix_map, QTreeWidgetItem* parent);
