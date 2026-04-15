@@ -1126,7 +1126,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Charger la géométrie de la fenêtre</translation>
@@ -1160,7 +1160,7 @@
         <translation>Minimiser lors de la fermeture</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Sauvegarder la géométrie de la fenêtre lors de la fermeture</translation>
     </message>
     <message>
@@ -1176,12 +1176,8 @@
         <translation>Définir le port du serveur</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Thème (nécessite un redémarrage)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Activer la console de logs (nécessite un redémarrage)</translation>
+        <source>Enable Log Console</source>
+        <translation>Activer la console de logs</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1208,7 +1204,7 @@
         <translation>Paramètre de pilotes</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Icône de la barre des tâches grise</translation>
     </message>
     <message>
@@ -1232,7 +1228,7 @@
         <translation>Langue</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>Désactiver le remplissage des touches du clavier dans la vue périphériques</translation>
     </message>
     <message>
@@ -1252,7 +1248,7 @@
         <translation>Définir le profil en sortie de veille</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
+        <source>Enable Log File</source>
         <translation>Activer la console des journaux</translation>
     </message>
     <message>
@@ -1905,7 +1901,7 @@
     </message>
 </context>
 <context>
-    <name>Ui::OpenRGBSettingsPage</name>
+    <name>Ui::Settings</name>
     <message>
         <source>A problem occurred enabling Start at Login.</source>
         <translation type="vanished">Un problème est survenu pour l&apos;activation du démarrage à la connexion.</translation>

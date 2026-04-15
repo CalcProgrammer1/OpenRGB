@@ -120,6 +120,7 @@ private slots:
     void on_SatSpinBox_valueChanged(int sat);
     void on_SelectAllLEDsButton_clicked();
     void on_SetAllButton_clicked();
+    void on_SettingsUpdated();
     void on_SpeedSlider_valueChanged(int value);
     void on_SpinBoxModeColors_valueChanged(int arg1);
     void on_SwatchBox_swatchChanged(const QColor color);
