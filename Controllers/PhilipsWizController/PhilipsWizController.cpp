@@ -9,8 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "PhilipsWizController.h"
 #include <nlohmann/json.hpp>
+#include "JsonUtils.h"
+#include "PhilipsWizController.h"
 
 using json = nlohmann::json;
 using namespace std::chrono_literals;
@@ -194,7 +195,8 @@ void PhilipsWizController::ReceiveThreadFunction()
             /*-----------------------------------------------------------------*\
             | Convert null-terminated response to JSON                          |
             \*-----------------------------------------------------------------*/
-            json response = json::parse(recv_buf);
+            json response;
+            JsonUtils::JsonParse(recv_buf, response);
 
             /*-----------------------------------------------------------------*\
             | Check if the response contains the method name                    |

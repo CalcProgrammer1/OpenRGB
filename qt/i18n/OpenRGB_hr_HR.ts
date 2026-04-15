@@ -1132,7 +1132,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Učitaj geometriju prozora</translation>
@@ -1166,7 +1166,7 @@
         <translation>Smanji u ikonu sustava pri zatvaranju</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Spremi geometriju pri zatvaranju</translation>
     </message>
     <message>
@@ -1182,12 +1182,8 @@
         <translation>Postavi ulaz poslužitelja</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Tema (potrebno je ponovno pokretanje)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Omogući konzolu zapisa (potrebno je ponovno pokretanje)</translation>
+        <source>Enable Log Console</source>
+        <translation>Omogući konzolu zapisa</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1214,7 +1210,7 @@
         <translation>Postavke upravljačkih programa</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Siva ikona sustava</translation>
     </message>
     <message>
@@ -1238,7 +1234,7 @@
         <translation>Jezik</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1258,7 +1254,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
+        <source>Enable Log File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

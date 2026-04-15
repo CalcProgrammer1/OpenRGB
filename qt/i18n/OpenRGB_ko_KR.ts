@@ -1130,7 +1130,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>윈도우 지오메트리 불러오기</translation>
@@ -1164,7 +1164,7 @@
         <translation>종료되지 않고 최소화</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>닫을 때 지오메트리 저장</translation>
     </message>
     <message>
@@ -1180,12 +1180,8 @@
         <translation>서버 포트 설정</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>테마 (재시작 필요)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>콘솔 로그 활성화 (재시작 필요)</translation>
+        <source>Enable Log Console</source>
+        <translation>콘솔 로그 활성화</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1212,7 +1208,7 @@
         <translation>드라이버 설정</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>흑백 트레이 아이콘</translation>
     </message>
     <message>
@@ -1236,7 +1232,7 @@
         <translation>언어 (Language)</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>장치 화면에서 키 확장 비활성화</translation>
     </message>
     <message>
@@ -1256,7 +1252,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
+        <source>Enable Log File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

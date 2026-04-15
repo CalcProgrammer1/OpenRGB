@@ -94,6 +94,7 @@ public:
     \*-----------------------------------------------------*/
     void ProfileManagerCallback(unsigned int update_reason);
     void ResourceManagerCallback(unsigned int update_reason);
+    void SettingsManagerCallback(unsigned int update_reason);
 
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 

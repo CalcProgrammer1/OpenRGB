@@ -1130,7 +1130,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Carica Geometria Finestra</translation>
@@ -1164,7 +1164,7 @@
         <translation>Riduci a Icona alla Chiusura</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Salva Geometria Alla Chiusura</translation>
     </message>
     <message>
@@ -1180,12 +1180,8 @@
         <translation>Imposta Porta Server</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Tema (riavvio richiesto)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Attiva Console Registri (riavvio richiesto)</translation>
+        <source>Enable Log Console</source>
+        <translation>Attiva Console Registri</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1212,7 +1208,7 @@
         <translation>Impostazioni Driver</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Icona in Scala di Grigi nell&apos;Area di Notifica</translation>
     </message>
     <message>
@@ -1236,7 +1232,7 @@
         <translation>Lingua</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>Disabilita espansione chiavi in visuale dispositivi</translation>
     </message>
     <message>
@@ -1256,8 +1252,8 @@
         <translation>Imposta Profilo alla Ripresa</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>Abilita File di Registro (riavvio richiesto)</translation>
+        <source>Enable Log File</source>
+        <translation>Abilita File di Registro</translation>
     </message>
     <message>
         <source>A problem occurred enabling Start at Login.</source>
