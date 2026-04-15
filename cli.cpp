@@ -863,9 +863,9 @@ bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argumen
         rgb_controllers[current_device]->ResizeZone(current_zone, new_size);
 
         /*---------------------------------------------------------*\
-        | Save the profile                                          |
+        | Save configuration                                        |
         \*---------------------------------------------------------*/
-        ResourceManager::get()->GetProfileManager()->SaveSizes();
+        ResourceManager::get()->GetProfileManager()->SaveConfiguration();
     }
 
     return true;

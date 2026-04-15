@@ -124,6 +124,7 @@ private:
     void AddSettingsPage();
     void AddPluginsPage();
     void AddConsolePage();
+    void RemoveConsolePage();
     void AddManualDevicesSettingsPage();
 
     void ClearDevicesList();
@@ -159,6 +160,7 @@ private slots:
     void onDetectionProgressUpdated();
     void onDetectionStarted();
     void onDetectionEnded();
+    void onSettingsUpdated();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void on_ShowHide();
     void onShowDialogMessage();

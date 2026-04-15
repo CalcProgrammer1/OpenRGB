@@ -718,6 +718,30 @@ void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, uns
     send_in_progress.unlock();
 }
 
+void NetworkClient::SendRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
 void NetworkClient::WaitOnControllerData()
 {
     for(int i = 0; i < 1000; i++)

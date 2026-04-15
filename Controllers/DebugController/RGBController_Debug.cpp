@@ -46,10 +46,10 @@ static unsigned int debug_keyboard_underglow_map[3][10] =
       {   10,  11,  12,  13,  14,  15,  16,  17,  18,  19 },
       {   20,  21,  22,  23,  24,  25,  26,  27,  28,  29 } };
 
-RGBController_Debug::RGBController_Debug(bool custom, json settings)
+RGBController_Debug::RGBController_Debug(bool custom, json dbg_settings)
 {
     custom_controller   = custom;
-    debug_settings      = settings;
+    debug_settings      = dbg_settings;
 
     if(custom_controller)
     {
@@ -143,6 +143,48 @@ RGBController_Debug::RGBController_Debug(bool custom, json settings)
         {
             name                        = name_setting;
         }
+
+        /*---------------------------------------------------------*\
+        | Create test configuration                                 |
+        \*---------------------------------------------------------*/
+        nlohmann::json configuration_json;
+
+        try
+        {
+            configuration_json = nlohmann::json::parse(configuration);
+        }
+        catch(...)
+        {
+        }
+
+        configuration_json["schema"]["test_string"]["title"]     = "String Setting";
+        configuration_json["schema"]["test_string"]["type"]      = "string";
+
+        configuration_json["schema"]["test_bool"]["title"]       = "Boolean Setting";
+        configuration_json["schema"]["test_bool"]["type"]        = "bool";
+
+        configuration_json["schema"]["test_enum"]["title"]       = "String Enum Setting";
+        configuration_json["schema"]["test_enum"]["type"]        = "string";
+        configuration_json["schema"]["test_enum"]["enum"][0]     = "Option 1";
+        configuration_json["schema"]["test_enum"]["enum"][1]     = "Option 2";
+        configuration_json["schema"]["test_enum"]["enum"][2]     = "Option 3";
+
+        configuration_json["schema"]["test_enum_int"]["title"]   = "Integer Enum Setting";
+        configuration_json["schema"]["test_enum_int"]["type"]    = "integer";
+        configuration_json["schema"]["test_enum_int"]["enum"][0] = 2;
+        configuration_json["schema"]["test_enum_int"]["enum"][1] = 4;
+        configuration_json["schema"]["test_enum_int"]["enum"][2] = 8;
+
+        configuration_json["schema"]["test_int"]["title"]        = "Integer Setting";
+        configuration_json["schema"]["test_int"]["type"]         = "integer";
+
+        configuration_json["configuration"]["test_string"]       = "This is a test";
+        configuration_json["configuration"]["test_bool"]         = true;
+        configuration_json["configuration"]["test_enum"]         = "Option 2";
+        configuration_json["configuration"]["test_enum_int"]     = 4;
+        configuration_json["configuration"]["test_int"]          = 12345;
+
+        configuration = configuration_json.dump();
     }
 
     /*-----------------------------------------------------*\
@@ -373,6 +415,7 @@ void RGBController_Debug::SetupZones()
 
             single_zone.name            = "Single Zone";
             single_zone.type            = ZONE_TYPE_SINGLE;
+            single_zone.flags           = ZONE_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC;
             single_zone.leds_min        = 1;
             single_zone.leds_max        = 1;
             single_zone.leds_count      = 1;
@@ -393,6 +436,27 @@ void RGBController_Debug::SetupZones()
             leds.push_back(single_led);
 
             led_alt_names.push_back("");
+
+            /*---------------------------------------------------------*\
+            | Create test configuration                                 |
+            \*---------------------------------------------------------*/
+            nlohmann::json configuration_json;
+
+            try
+            {
+                configuration_json = nlohmann::json::parse(configuration);
+            }
+            catch(...)
+            {
+            }
+
+            configuration_json["zones"][zone_idx]["schema"]["color_order"]["title"]     = "Color Order";
+            configuration_json["zones"][zone_idx]["schema"]["color_order"]["type"]      = "string";
+            configuration_json["zones"][zone_idx]["schema"]["color_order"]["enum"][0]   = "RGB";
+            configuration_json["zones"][zone_idx]["schema"]["color_order"]["enum"][1]   = "GRB";
+            configuration_json["zones"][zone_idx]["configuration"]["color_order"]       = "RGB";
+
+            configuration = configuration_json.dump();
 
             zone_idx++;
         }
@@ -522,6 +586,7 @@ void RGBController_Debug::SetupZones()
 
             keyboard_zone.name                  = "Keyboard Zone";
             keyboard_zone.type                  = ZONE_TYPE_MATRIX;
+            keyboard_zone.flags                 = ZONE_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC;
             keyboard_zone.leds_min              = new_kb.GetKeyCount();
             keyboard_zone.leds_max              = new_kb.GetKeyCount();
             keyboard_zone.leds_count            = new_kb.GetKeyCount();
@@ -546,6 +611,31 @@ void RGBController_Debug::SetupZones()
 
                 led_alt_names.push_back(new_kb.GetKeyAltNameAt(led_idx));
             }
+
+            /*---------------------------------------------------------*\
+            | Create test configuration                                 |
+            \*---------------------------------------------------------*/
+            nlohmann::json configuration_json;
+
+            try
+            {
+                configuration_json = nlohmann::json::parse(configuration);
+            }
+            catch(...)
+            {
+            }
+
+            configuration_json["zones"][zone_idx]["schema"]["layout"]["title"]      = "Layout";
+            configuration_json["zones"][zone_idx]["schema"]["layout"]["type"]       = "string";
+            configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][0]    = "Default",
+            configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][1]    = "ANSI QWERTY";
+            configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][2]    = "ISO QWERTY";
+            configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][3]    = "ISO QWERTZ";
+            configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][4]    = "ISO AZERTY";
+            configuration_json["zones"][zone_idx]["schema"]["layout"]["enum"][5]    = "JIS";
+            configuration_json["zones"][zone_idx]["configuration"]["layout"]        = "Default";
+
+            configuration = configuration_json.dump();
 
             zone_idx++;
         }
@@ -673,4 +763,45 @@ void RGBController_Debug::DeviceUpdateSingleLED(int /*led*/)
 void RGBController_Debug::DeviceUpdateMode()
 {
 
+}
+
+void RGBController_Debug::DeviceUpdateDeviceSpecificConfiguration()
+{
+
+}
+
+void RGBController_Debug::DeviceUpdateDeviceSpecificZoneConfiguration(int zone)
+{
+    nlohmann::json configuration_json;
+
+    try
+    {
+        configuration_json = nlohmann::json::parse(configuration);
+    }
+    catch(...)
+    {
+    }
+
+    if(configuration_json.contains("zones") && (zone < configuration_json["zones"].size()))
+    {
+        if(configuration_json["zones"][zone].contains("configuration"))
+        {
+            if(configuration_json["zones"][zone]["configuraton"].contains("layout"))
+            {
+                std::string layout_string = configuration_json["zones"][zone]["configuraton"]["layout"];
+
+                for(std::size_t layout_idx = 0; layout_idx < NUM_LAYOUTS; layout_idx++)
+                {
+                    if(layout_names[layout_idx] == layout_string)
+                    {
+                        debug_settings["layout"] = layout_idx;
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
+
+    SetupZones();
 }

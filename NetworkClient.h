@@ -132,6 +132,9 @@ public:
     void                                SendRequest_RGBController_UpdateZoneMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
     void                                SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
 
+    void                                SendRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void                                SendRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size);
+
     void                                WaitOnControllerData();
 
 private:

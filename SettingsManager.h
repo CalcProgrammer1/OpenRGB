@@ -17,17 +17,30 @@
 #include <mutex>
 #include "filesystem.h"
 
-using json = nlohmann::json;
+/*---------------------------------------------------------*\
+| Callback Types                                            |
+\*---------------------------------------------------------*/
+typedef void (*SettingsManagerCallback)(void *, unsigned int);
+
+/*---------------------------------------------------------*\
+| SettingsManager Update Reason Codes                       |
+\*---------------------------------------------------------*/
+enum
+{
+    SETTINGSMANAGER_UPDATE_REASON_SETTINGS_UPDATED,             /* Settings updated                 */
+    SETTINGSMANAGER_UPDATE_REASON_SETTINGS_SCHEMA_UPDATED,      /* Settings schema updated          */
+};
 
 class SettingsManagerInterface
 {
 public:
-    virtual json GetSettings(std::string settings_key)                       = 0;
-    virtual void SetSettings(std::string settings_key, json new_settings)    = 0;
-    virtual void SetSettingsFromJsonString(std::string settings_json_str)    = 0;
+    virtual nlohmann::json      GetSettings(std::string settings_key)                                   = 0;
+    virtual void                ModifySettings(std::string settings_key, nlohmann::json new_settings)   = 0;
+    virtual void                SetSettings(std::string settings_key, nlohmann::json new_settings)      = 0;
+    virtual void                SetSettingsFromJsonString(std::string settings_json_str)                = 0;
 
-    virtual void LoadSettings(const filesystem::path& filename)              = 0;
-    virtual void SaveSettings()                                              = 0;
+    virtual void                LoadSettings(const filesystem::path& filename)                          = 0;
+    virtual void                SaveSettings()                                                          = 0;
 
 protected:
     virtual ~SettingsManagerInterface() {};
@@ -39,17 +52,50 @@ public:
     SettingsManager();
     ~SettingsManager();
 
-    json GetSettings(std::string settings_key) override;
-    void SetSettings(std::string settings_key, json new_settings) override;
-    void SetSettingsFromJsonString(std::string settings_json_str) override;
+    nlohmann::json              GetSettings(std::string settings_key);
+    nlohmann::json              GetSettingsSchema(std::string settings_key);
+    void                        RegisterSettingsSchema(std::string settings_key, std::string settings_title, nlohmann::json new_schema);
+    void                        ModifySettings(std::string settings_key, nlohmann::json new_settings);
+    void                        SetSettings(std::string settings_key, nlohmann::json new_settings);
+    void                        SetSettingsFromJsonString(std::string settings_json_str);
 
-    void LoadSettings(const filesystem::path& filename) override;
-    void SaveSettings() override;
+    void                        LoadSettings(const filesystem::path& filename);
+    void                        SaveSettings();
+
+    /*-----------------------------------------------------*\
+    | Callback Registration Functions                       |
+    \*-----------------------------------------------------*/
+    void                        RegisterSettingsManagerCallback(SettingsManagerCallback new_callback, void * new_callback_arg);
+    void                        UnregisterSettingsManagerCallback(SettingsManagerCallback callback, void * callback_arg);
+
+    void                        SignalSettingsManagerUpdate(unsigned int update_reason);
 
 private:
-    json             settings_data;
-    json             settings_prototype;
-    filesystem::path settings_filename;
-    std::mutex       mutex;
-    bool             config_found;
+    /*-----------------------------------------------------*\
+    | JSON objects for settings data and schema             |
+    \*-----------------------------------------------------*/
+    nlohmann::json              settings_data;
+    nlohmann::json              settings_schema;
+
+    /*-----------------------------------------------------*\
+    | Settings filename                                     |
+    \*-----------------------------------------------------*/
+    filesystem::path            settings_filename;
+
+    /*-----------------------------------------------------*\
+    | Settings mutex                                        |
+    \*-----------------------------------------------------*/
+    std::mutex                  mutex;
+
+    /*-----------------------------------------------------*\
+    | Configuration found flag                              |
+    \*-----------------------------------------------------*/
+    bool                        config_found;
+
+    /*-----------------------------------------------------*\
+    | SettingsManager Callbacks                             |
+    \*-----------------------------------------------------*/
+    std::vector<SettingsManagerCallback>        SettingsManagerCallbacks;
+    std::vector<void *>                         SettingsManagerCallbackArgs;
+    std::mutex                                  SettingsManagerCallbackMutex;
 };

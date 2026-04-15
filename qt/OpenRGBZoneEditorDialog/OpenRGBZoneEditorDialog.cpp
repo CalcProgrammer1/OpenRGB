@@ -12,12 +12,19 @@
 #include <QComboBox>
 #include <QFileDialog>
 #include <QLineEdit>
+#include <QListWidgetItem>
+#include "OpenRGBDynamicSettingsWidget.h"
 #include "OpenRGBMatrixMapEditorDialog.h"
 #include "OpenRGBSegmentExportDialog.h"
 #include "OpenRGBZoneEditorDialog.h"
 #include "ProfileManager.h"
 #include "ResourceManager.h"
 #include "ui_OpenRGBZoneEditorDialog.h"
+
+static void Callback(void* this_ptr, std::string key, nlohmann::json settings)
+{
+    ((OpenRGBZoneEditorDialog*)this_ptr)->OnSettingChanged(key, settings);
+}
 
 OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, unsigned int edit_zone_idx_val, QWidget *parent) :
     QDialog(parent),
@@ -120,29 +127,6 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     }
 
     /*-----------------------------------------------------*\
-    | Initialize zone color order                           |
-    \*-----------------------------------------------------*/
-    ui->ComboBoxZoneColorOrder->blockSignals(true);
-    ui->ComboBoxZoneColorOrder->addItem("Default");
-    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_DEFAULT) ui->ComboBoxZoneColorOrder->addItem("Default");
-    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RGB)     ui->ComboBoxZoneColorOrder->addItem("RGB");
-    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RBG)     ui->ComboBoxZoneColorOrder->addItem("RBG");
-    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GRB)     ui->ComboBoxZoneColorOrder->addItem("GRB");
-    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GBR)     ui->ComboBoxZoneColorOrder->addItem("GBR");
-    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BRG)     ui->ComboBoxZoneColorOrder->addItem("BRG");
-    if(edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BGR)     ui->ComboBoxZoneColorOrder->addItem("BGR");
-    ui->ComboBoxZoneColorOrder->blockSignals(false);
-
-    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_COLOR_ORDER) == 0)
-    {
-        ui->ComboBoxZoneColorOrder->setEnabled(false);
-    }
-    else if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER)
-    {
-        ui->LabelZoneColorOrder->setText("Zone Color Order (*):");
-    }
-
-    /*-----------------------------------------------------*\
     | Initialize segment list                               |
     \*-----------------------------------------------------*/
     QStringList header_labels;
@@ -178,6 +162,30 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     {
         edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
         ui->GroupBoxSegments->setTitle("Segments Configuration (*)");
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize configuration list                         |
+    \*-----------------------------------------------------*/
+    nlohmann::json configuration_schema  = edit_dev->GetDeviceSpecificZoneConfigurationSchema(edit_zone_idx);
+    nlohmann::json configuration_value   = edit_dev->GetDeviceSpecificZoneConfiguration(edit_zone_idx);
+
+    ui->ListWidgetDeviceSpecificZoneConfiguration->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->ListWidgetDeviceSpecificZoneConfiguration->setFocusPolicy(Qt::NoFocus);
+
+    /*-----------------------------------------------------*\
+    | Loop through the schema and create an entry for each  |
+    | configuration                                         |
+    \*-----------------------------------------------------*/
+    for(nlohmann::json::iterator json_iterator = configuration_schema.begin(); json_iterator != configuration_schema.end(); json_iterator++)
+    {
+        nlohmann::json                  schema_entry    = json_iterator.value();
+        QListWidgetItem*                item            = new QListWidgetItem(ui->ListWidgetDeviceSpecificZoneConfiguration);
+        OpenRGBDynamicSettingsWidget*   item_widget     = new OpenRGBDynamicSettingsWidget(json_iterator.key(), schema_entry, configuration_value);
+
+        item_widget->SetCallback(Callback, this);
+        item->setSizeHint(item_widget->sizeHint());
+        ui->ListWidgetDeviceSpecificZoneConfiguration->setItemWidget(item, item_widget);
     }
 }
 
@@ -348,26 +356,11 @@ int OpenRGBZoneEditorDialog::show()
     else
     {
         /*-------------------------------------------------*\
-        | Read the selected color order                     |
-        \*-------------------------------------------------*/
-        zone_color_order    new_color_order         = 0;
-        int                 new_color_order_index   = ui->ComboBoxZoneColorOrder->currentIndex();
-
-        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_DEFAULT)) new_color_order++;
-        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RGB))     new_color_order++;
-        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_RBG))     new_color_order++;
-        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GRB))     new_color_order++;
-        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_GBR))     new_color_order++;
-        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BRG))     new_color_order++;
-        if(((int)new_color_order < new_color_order_index) && (edit_zone.flags & ZONE_FLAG_SUPPORTS_COLOR_ORDER_BGR))     new_color_order++;
-
-        /*-------------------------------------------------*\
         | Update zone with new settings                     |
         \*-------------------------------------------------*/
         edit_zone.name                              = ui->LineEditZoneName->text().toStdString();
         edit_zone.leds_count                        = ui->SliderZoneSize->value();
         edit_zone.type                              = ui->ComboBoxZoneType->currentIndex();
-        edit_zone.color_order                       = ui->ComboBoxZoneColorOrder->currentIndex();
 
         if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS)
         {
@@ -420,13 +413,18 @@ int OpenRGBZoneEditorDialog::show()
         edit_dev->ConfigureZone(edit_zone_idx, edit_zone);
 
         /*-------------------------------------------------*\
-        | Save the size profile                             |
+        | Apply zone configuration                          |
+        \*-------------------------------------------------*/
+        edit_dev->SetDeviceSpecificZoneConfiguration(edit_zone_idx, zone_configuration);
+
+        /*-------------------------------------------------*\
+        | Save the configuration                            |
         \*-------------------------------------------------*/
         ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
         if(profile_manager != NULL)
         {
-            profile_manager->SaveSizes();
+            profile_manager->SaveConfiguration();
         }
 
         /*-------------------------------------------------*\
@@ -885,13 +883,13 @@ void OpenRGBZoneEditorDialog::on_ButtonResetZoneConfiguration_clicked()
     edit_dev->ConfigureZone(edit_zone_idx, edit_zone);
 
     /*-------------------------------------------------*\
-    | Save the size profile                             |
+    | Save the configuration                            |
     \*-------------------------------------------------*/
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
     if(profile_manager != NULL)
     {
-        profile_manager->SaveSizes();
+        profile_manager->SaveConfiguration();
     }
 
     done(0);
@@ -915,12 +913,8 @@ void OpenRGBZoneEditorDialog::on_ComboBoxZoneType_currentIndexChanged(int /*inde
     }
 }
 
-void OpenRGBZoneEditorDialog::on_ComboBoxZoneColorOrder_currentIndexChanged(int /*index*/)
+void OpenRGBZoneEditorDialog::OnSettingChanged(std::string /*key*/, nlohmann::json settings)
 {
-    if((edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER) == 0)
-    {
-        edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER;
-        ui->LabelZoneColorOrder->setText("Zone Color Order (*):");
-    }
+    edit_zone.flags |= ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC;
+    zone_configuration.update(settings, true);
 }
-

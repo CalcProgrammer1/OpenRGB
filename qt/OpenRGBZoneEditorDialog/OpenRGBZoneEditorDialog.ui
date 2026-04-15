@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>750</width>
-    <height>400</height>
+    <height>496</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -99,12 +99,6 @@
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="3" column="0" colspan="3">
        <layout class="QGridLayout" name="GroupBoxZoneSettings">
-        <item row="0" column="1">
-         <widget class="QComboBox" name="ComboBoxZoneType"/>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="ComboBoxZoneColorOrder"/>
-        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="LabelZoneType">
           <property name="text">
@@ -112,24 +106,20 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="LabelZoneMatrixMap">
-          <property name="text">
-           <string>Zone Matrix Map:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="LabelZoneColorOrder">
-          <property name="text">
-           <string>Zone Color Order:</string>
-          </property>
-         </widget>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="ComboBoxZoneType"/>
         </item>
         <item row="0" column="3">
          <widget class="QPushButton" name="ButtonZoneMatrixMap">
           <property name="text">
            <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="LabelZoneMatrixMap">
+          <property name="text">
+           <string>Zone Matrix Map:</string>
           </property>
          </widget>
         </item>
@@ -205,6 +195,18 @@
      </item>
     </layout>
    </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QGroupBox" name="GroupBoxDeviceSpecificZoneConfiguration">
+     <property name="title">
+      <string>Device-Specific Zone Configuration</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="QListWidget" name="ListWidgetDeviceSpecificZoneConfiguration"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -223,12 +225,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>20</x>
+     <y>20</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>20</x>
+     <y>20</y>
     </hint>
    </hints>
   </connection>
@@ -239,12 +241,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>20</x>
+     <y>20</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>20</x>
+     <y>20</y>
     </hint>
    </hints>
   </connection>

@@ -59,6 +59,18 @@ static void OpenRGBDialogProfileManagerCallback(void * this_ptr, unsigned int up
     }
 }
 
+static void OpenRGBDialogSettingsManagerCallback(void * this_ptr, unsigned int update_reason)
+{
+    OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
+
+    switch(update_reason)
+    {
+        case SETTINGSMANAGER_UPDATE_REASON_SETTINGS_UPDATED:
+            QMetaObject::invokeMethod(this_obj, "onSettingsUpdated", Qt::QueuedConnection);
+            break;
+    }
+}
+
 static void OpenRGBDialogResourceManagerCallback(void * this_ptr, unsigned int update_reason)
 {
     OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
@@ -128,73 +140,59 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     setWindowIcon(logo);
 
     /*-----------------------------------------------------*\
-    | Set window geometry from config (if available)        |
+    | Create UserInterface settings schema                  |
     \*-----------------------------------------------------*/
-    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
-    std::string         ui_string           = "UserInterface";
-    json                ui_settings;
-    bool                new_settings_keys   = false;
+    json                ui_settings_schema;
 
-    ui_settings = settings_manager->GetSettings(ui_string);
+    ui_settings_schema["numerical_labels"]["title"]                         = "Numerical Labels";
+    ui_settings_schema["numerical_labels"]["description"]                   = "Display numerical labels for otherwise non-labeled LEDs in the LED view";
+    ui_settings_schema["numerical_labels"]["type"]                          = "bool";
 
-    if(ui_settings.contains("show_led_view") && ui_settings["show_led_view"])
-    {
-        ShowLEDView();
-    }
+    ui_settings_schema["disable_key_expansion"]["title"]                    = "Disable Key Expansion";
+    ui_settings_schema["disable_key_expansion"]["type"]                     = "bool";
 
-    /*-----------------------------------------------------*\
-    | If geometry info doesn't exist, write it to config    |
-    \*-----------------------------------------------------*/
-    if(!ui_settings.contains("geometry"))
-    {
-        json geometry_settings;
+    ui_settings_schema["greyscale_tray_icon"]["title"]                      = "Greyscale Tray Icon";
+    ui_settings_schema["greyscale_tray_icon"]["description"]                = "Use a monochrome icon in the system tray instead of a full color icon";
+    ui_settings_schema["greyscale_tray_icon"]["type"]                       = "bool";
 
-        geometry_settings["load_geometry"]  = false;
-        geometry_settings["save_on_exit"]   = false;
-        geometry_settings["x"]              = 0;
-        geometry_settings["y"]              = 0;
-        geometry_settings["width"]          = 0;
-        geometry_settings["height"]         = 0;
+    ui_settings_schema["hex_format"]["title"]                               = "Hex Format";
+    ui_settings_schema["hex_format"]["type"]                                = "string";
+    ui_settings_schema["hex_format"]["description"]                         = "Select #BBGGRR or #RRGGBB format for hex display and input";
+    ui_settings_schema["hex_format"]["enum"][0]                             = "BGR";
+    ui_settings_schema["hex_format"]["enum"][1]                             = "RGB";
 
-        ui_settings["geometry"] = geometry_settings;
-        new_settings_keys       = true;
-    }
+    ui_settings_schema["minimize_on_close"]["title"]                        = "Minimize On Close";
+    ui_settings_schema["minimize_on_close"]["description"]                  = "Keep OpenRGB active in the system tray when closing the main window";
+    ui_settings_schema["minimize_on_close"]["type"]                         = "bool";
 
-    /*-----------------------------------------------------*\
-    | If geometry information exists in settings, apply it  |
-    \*-----------------------------------------------------*/
-    bool load_geometry = false;
+    ui_settings_schema["run_zone_checks"]["title"]                          = "Run Zone Checks on Rescan";
+    ui_settings_schema["run_zone_checks"]["type"]                           = "bool";
 
-    if(ui_settings["geometry"].contains("load_geometry"))
-    {
-        load_geometry = ui_settings["geometry"]["load_geometry"].get<bool>();
-    }
+    ui_settings_schema["show_led_view"]["title"]                            = "Show LED View by Default";
+    ui_settings_schema["show_led_view"]["type"]                             = "bool";
 
-    if(load_geometry)
-    {
-        QRect set_window;
+    ui_settings_schema["geometry"]["title"]                                 = "Geometry";
+    ui_settings_schema["geometry"]["type"]                                  = "object";
 
-        /*-------------------------------------------------*\
-        | x and y can be set independent of width and       |
-        | height.  QT attempts to clamp these values in     |
-        | case the user enters invalid numbers.             |
-        \*-------------------------------------------------*/
-        if( ui_settings["geometry"].contains("x")
-         && ui_settings["geometry"].contains("y"))
-        {
-            set_window.setX(ui_settings["geometry"]["x"].get<int>());
-            set_window.setY(ui_settings["geometry"]["y"].get<int>());
-        }
+    ui_settings_schema["geometry"]["properties"]["load_geometry"]["title"]  = "Load Geometry";
+    ui_settings_schema["geometry"]["properties"]["load_geometry"]["type"]   = "bool";
 
-        if( ui_settings["geometry"].contains("width")
-         && ui_settings["geometry"].contains("height"))
-        {
-            set_window.setWidth(ui_settings["geometry"]["width"].get<int>());
-            set_window.setHeight(ui_settings["geometry"]["height"].get<int>());
-        }
+    ui_settings_schema["geometry"]["properties"]["save_on_exit"]["title"]   = "Save On Exit";
+    ui_settings_schema["geometry"]["properties"]["save_on_exit"]["type"]    = "bool";
 
-        setGeometry(set_window);
-    }
+    ui_settings_schema["geometry"]["properties"]["x"]["title"]              = "X";
+    ui_settings_schema["geometry"]["properties"]["x"]["type"]               = "integer";
+
+    ui_settings_schema["geometry"]["properties"]["y"]["title"]              = "Y";
+    ui_settings_schema["geometry"]["properties"]["y"]["type"]               = "integer";
+
+    ui_settings_schema["geometry"]["properties"]["width"]["title"]          = "Width";
+    ui_settings_schema["geometry"]["properties"]["width"]["type"]           = "integer";
+
+    ui_settings_schema["geometry"]["properties"]["height"]["title"]         = "Height";
+    ui_settings_schema["geometry"]["properties"]["height"]["type"]          = "integer";
+
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("UserInterface", "User Interface", ui_settings_schema);
 
     /*-----------------------------------------------------*\
     | Register resource manager callbacks                   |
@@ -205,6 +203,11 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     | Register profile manager callbacks                    |
     \*-----------------------------------------------------*/
     ResourceManager::get()->GetProfileManager()->RegisterProfileManagerCallback(OpenRGBDialogProfileManagerCallback, this);
+
+    /*-----------------------------------------------------*\
+    | Register settings manager callbacks                   |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsManagerCallback(OpenRGBDialogSettingsManagerCallback, this);
 
     /*-----------------------------------------------------*\
     | Register dialog show callback with log manager        |
@@ -295,46 +298,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
     trayIconMenu->addAction(actionExit);
 
-    /*-----------------------------------------------------*\
-    | If tray minimize flag isn't in the config, set        |
-    | default value to false                                |
-    \*-----------------------------------------------------*/
-    if(!ui_settings.contains("minimize_on_close"))
-    {
-        ui_settings["minimize_on_close"] = false;
-        new_settings_keys                = true;
-    }
-
     connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_ReShow(QSystemTrayIcon::ActivationReason)));
-
-    /*-----------------------------------------------------*\
-    | If Greyscale Tray Icon flag is not set in config then |
-    | set the default value to false                        |
-    \*-----------------------------------------------------*/
-    if(!ui_settings.contains("greyscale_tray_icon"))
-    {
-        ui_settings["greyscale_tray_icon"] = false;
-        new_settings_keys                  = true;
-    }
-
-    /*-----------------------------------------------------*\
-    | If greyscale tray icon exists in settings, apply it   |
-    |   or else set the icon to the default window logo     |
-    \*-----------------------------------------------------*/
-    if(ui_settings.contains("greyscale_tray_icon"))
-    {
-        SetTrayIcon(ui_settings["greyscale_tray_icon"].get<bool>());
-    }
-
-    /*-----------------------------------------------------*\
-    | Save the settings if new default values have been     |
-    | inserted                                              |
-    \*-----------------------------------------------------*/
-    if(new_settings_keys)
-    {
-        settings_manager->SetSettings(ui_string, ui_settings);
-        settings_manager->SaveSettings();
-    }
 
     trayIcon->setToolTip("OpenRGB");
     trayIcon->setContextMenu(trayIconMenu);
@@ -408,23 +372,9 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     }
 
     /*-----------------------------------------------------*\
-    | If log console is enabled in settings, enable it      |
+    | Process Settings                                      |
     \*-----------------------------------------------------*/
-    json log_manager_settings = settings_manager->GetSettings("LogManager");
-
-    bool log_console_enabled = false;
-    if(log_manager_settings.contains("log_console"))
-    {
-        log_console_enabled = log_manager_settings["log_console"];
-    }
-
-    /*-----------------------------------------------------*\
-    | Add the log console page                              |
-    \*-----------------------------------------------------*/
-    if(log_console_enabled)
-    {
-        AddConsolePage();
-    }
+    onSettingsUpdated();
 
     /*-----------------------------------------------------*\
     | Connect aboutToQuit signal to handleAboutToQuit       |
@@ -572,7 +522,7 @@ bool OpenRGBDialog::isCompactTabMode()
 }
 
 void OpenRGBDialog::resizeEvent(QResizeEvent *event)
-{    
+{
     bool compact_mode = isCompactTabMode();
 
     for(int i = 0; i < ui->DevicesTabBar->count(); i++)
@@ -669,12 +619,6 @@ void OpenRGBDialog::AddSettingsPage()
     TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::options, (char *)"General Settings", (char *)context, true);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
-
-    /*-----------------------------------------------------*\
-    | Connect signals to slots                              |
-    \*-----------------------------------------------------*/
-    connect(SettingsPage, SIGNAL(TrayIconChanged(bool)), this, SLOT(SetTrayIcon(bool)));
-    connect(this, SIGNAL(ProfileListChanged()), SettingsPage, SLOT(UpdateProfiles()));
 }
 
 void OpenRGBDialog::AddManualDevicesSettingsPage()
@@ -1414,6 +1358,140 @@ void OpenRGBDialog::onDetectionEnded()
     ResourceManager::get()->GetProfileManager()->LoadAutoProfileOpen();
 }
 
+void OpenRGBDialog::onSettingsUpdated()
+{
+    /*-----------------------------------------------------*\
+    | Set window geometry from config (if available)        |
+    \*-----------------------------------------------------*/
+    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
+    std::string         ui_string           = "UserInterface";
+    json                ui_settings;
+    bool                new_settings_keys   = false;
+
+    ui_settings = settings_manager->GetSettings(ui_string);
+
+    if(ui_settings.contains("show_led_view") && ui_settings["show_led_view"])
+    {
+        ShowLEDView();
+    }
+
+    /*-----------------------------------------------------*\
+    | If geometry info doesn't exist, write it to config    |
+    \*-----------------------------------------------------*/
+    if(!ui_settings.contains("geometry"))
+    {
+        json geometry_settings;
+
+        geometry_settings["load_geometry"]  = false;
+        geometry_settings["save_on_exit"]   = false;
+        geometry_settings["x"]              = 0;
+        geometry_settings["y"]              = 0;
+        geometry_settings["width"]          = 0;
+        geometry_settings["height"]         = 0;
+
+        ui_settings["geometry"] = geometry_settings;
+        new_settings_keys       = true;
+    }
+
+    /*-----------------------------------------------------*\
+    | If geometry information exists in settings, apply it  |
+    \*-----------------------------------------------------*/
+    bool load_geometry = false;
+
+    if(ui_settings["geometry"].contains("load_geometry"))
+    {
+        load_geometry = ui_settings["geometry"]["load_geometry"].get<bool>();
+    }
+
+    if(load_geometry)
+    {
+        QRect set_window;
+
+        /*-------------------------------------------------*\
+        | x and y can be set independent of width and       |
+        | height.  QT attempts to clamp these values in     |
+        | case the user enters invalid numbers.             |
+        \*-------------------------------------------------*/
+        if( ui_settings["geometry"].contains("x")
+         && ui_settings["geometry"].contains("y"))
+        {
+            set_window.setX(ui_settings["geometry"]["x"].get<int>());
+            set_window.setY(ui_settings["geometry"]["y"].get<int>());
+        }
+
+        if( ui_settings["geometry"].contains("width")
+         && ui_settings["geometry"].contains("height"))
+        {
+            set_window.setWidth(ui_settings["geometry"]["width"].get<int>());
+            set_window.setHeight(ui_settings["geometry"]["height"].get<int>());
+        }
+
+        setGeometry(set_window);
+    }
+
+//    /*-----------------------------------------------------*\
+//    | If tray minimize flag isn't in the config, set        |
+//    | default value to false                                |
+//    \*-----------------------------------------------------*/
+//    if(!ui_settings.contains("minimize_on_close"))
+//    {
+//        ui_settings["minimize_on_close"] = false;
+//        new_settings_keys                = true;
+//    }
+//
+//    /*-----------------------------------------------------*\
+//    | If Greyscale Tray Icon flag is not set in config then |
+//    | set the default value to false                        |
+//    \*-----------------------------------------------------*/
+//    if(!ui_settings.contains("greyscale_tray_icon"))
+//    {
+//        ui_settings["greyscale_tray_icon"] = false;
+//        new_settings_keys                  = true;
+//    }
+
+    /*-----------------------------------------------------*\
+    | If greyscale tray icon exists in settings, apply it   |
+    |   or else set the icon to the default window logo     |
+    \*-----------------------------------------------------*/
+    if(ui_settings.contains("greyscale_tray_icon"))
+    {
+        SetTrayIcon(ui_settings["greyscale_tray_icon"].get<bool>());
+    }
+
+//    /*-----------------------------------------------------*\
+//    | Save the settings if new default values have been     |
+//    | inserted                                              |
+//    \*-----------------------------------------------------*/
+//    if(new_settings_keys)
+//    {
+//        settings_manager->SetSettings(ui_string, ui_settings);
+//        settings_manager->SaveSettings();
+//    }
+
+    /*-----------------------------------------------------*\
+    | If log console is enabled in settings, enable it      |
+    \*-----------------------------------------------------*/
+    json log_manager_settings = settings_manager->GetSettings("LogManager");
+
+    bool log_console_enabled = false;
+    if(log_manager_settings.contains("log_console"))
+    {
+        log_console_enabled = log_manager_settings["log_console"];
+    }
+
+    /*-----------------------------------------------------*\
+    | Add the log console page                              |
+    \*-----------------------------------------------------*/
+    if(log_console_enabled)
+    {
+        AddConsolePage();
+    }
+    else
+    {
+        RemoveConsolePage();
+    }
+}
+
 void OpenRGBDialog::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)
 {
     ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
@@ -1890,4 +1968,16 @@ void OpenRGBDialog::AddConsolePage()
     TabLabel* ConsoleTabLabel = new TabLabel(OpenRGBFont::terminal, (char *)"Log Console", (char *)context, true);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, ConsoleTabLabel);
+}
+
+void OpenRGBDialog::RemoveConsolePage()
+{
+    int         index   = (ui->InformationTabBar->tabBar()->count() - 1);
+    QWidget*    tab     = ui->InformationTabBar->widget(index);
+
+    if(dynamic_cast<OpenRGBConsolePage*>(tab) != nullptr)
+    {
+        ui->InformationTabBar->removeTab(index);
+        delete tab;
+    }
 }

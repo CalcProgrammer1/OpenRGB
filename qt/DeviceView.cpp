@@ -257,6 +257,14 @@ QSize DeviceView::sizeHint() const
 bool DeviceView::SelectLED(std::size_t led_idx)
 {
     /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return(false);
+    }
+
+    /*-----------------------------------------------------*\
     | Check validity                                        |
     \*-----------------------------------------------------*/
     if(led_idx >= controller->GetLEDCount())
@@ -289,6 +297,14 @@ bool DeviceView::SelectLED(std::size_t led_idx)
 
 bool DeviceView::SelectLEDs(std::vector<std::size_t> leds)
 {
+    /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return(false);
+    }
+
     /*-----------------------------------------------------*\
     | Check validity                                        |
     \*-----------------------------------------------------*/
@@ -339,6 +355,14 @@ bool DeviceView::SelectLEDs(std::vector<std::size_t> leds)
 
 bool DeviceView::SelectSegment(std::size_t zone_idx, std::size_t segment_idx, bool add)
 {
+    /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return(false);
+    }
+
     /*-----------------------------------------------------*\
     | Check validity                                        |
     \*-----------------------------------------------------*/
@@ -401,6 +425,14 @@ bool DeviceView::SelectSegment(std::size_t zone_idx, std::size_t segment_idx, bo
 bool DeviceView::SelectZone(std::size_t zone_idx, bool add)
 {
     /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return(false);
+    }
+
+    /*-----------------------------------------------------*\
     | Check validity                                        |
     \*-----------------------------------------------------*/
     if(zone_idx >= controller->GetZoneCount())
@@ -459,6 +491,14 @@ bool DeviceView::SelectZone(std::size_t zone_idx, bool add)
 void DeviceView::ClearSelection()
 {
     /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
     | Same as selecting the entire device                   |
     \*-----------------------------------------------------*/
     selected_leds.clear();
@@ -482,12 +522,24 @@ void DeviceView::SetController(RGBController * controller_ptr)
     controller = controller_ptr;
 }
 
+void DeviceView::SetDisableKeyExpansion(bool disable_key_expansion)
+{
+    /*-----------------------------------------------------*\
+    | Store the disable key expansion flag                  |
+    \*-----------------------------------------------------*/
+    disable_expansion = disable_key_expansion;
+
+    InitDeviceView();
+}
+
 void DeviceView::SetNumericalLabels(bool enable)
 {
     /*-----------------------------------------------------*\
     | Store the numerical labels flag                       |
     \*-----------------------------------------------------*/
     numerical_labels = enable;
+
+    InitDeviceView();
 }
 
 void DeviceView::SetPerLED(bool per_led_mode)
@@ -505,6 +557,14 @@ void DeviceView::SetPerLED(bool per_led_mode)
 
 void DeviceView::SetSelectionColor(RGBColor color)
 {
+    /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | If no LEDs are selected, set entire device using the  |
     | SetAllColors function                                 |
@@ -541,6 +601,14 @@ void DeviceView::SetSelectionColor(RGBColor color)
 \*---------------------------------------------------------*/
 void DeviceView::mousePressEvent(QMouseEvent *event)
 {
+    /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Only handle events when in per-LED mode               |
     \*-----------------------------------------------------*/
@@ -592,6 +660,14 @@ void DeviceView::mousePressEvent(QMouseEvent *event)
 
 void DeviceView::mouseMoveEvent(QMouseEvent *event)
 {
+    /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Only handle events when in per-LED mode               |
     \*-----------------------------------------------------*/
@@ -656,6 +732,14 @@ void DeviceView::mouseMoveEvent(QMouseEvent *event)
 
 void DeviceView::mouseReleaseEvent(QMouseEvent* event)
 {
+    /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Only handle events when in per-LED mode               |
     \*-----------------------------------------------------*/
@@ -780,6 +864,14 @@ void DeviceView::resizeEvent(QResizeEvent* /*event*/)
 
 void DeviceView::paintEvent(QPaintEvent* /* event */)
 {
+    /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | If Device View is hidden, don't paint                 |
     \*-----------------------------------------------------*/
@@ -1015,6 +1107,14 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
 void DeviceView::InitDeviceView()
 {
     /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
     | Set the size of the selection flags vector            |
     \*-----------------------------------------------------*/
     selection_flags.resize((int)controller->GetLEDCount());
@@ -1032,19 +1132,6 @@ void DeviceView::InitDeviceView()
     unsigned int        max_width           = 0;
     unsigned int        segment_count       = 0;
     float               total_height        = 0.0f;
-
-    /*-----------------------------------------------------*\
-    | Get device view settings                              |
-    \*-----------------------------------------------------*/
-    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
-    std::string         ui_string           = "UserInterface";
-    json                ui_settings         = settings_manager->GetSettings(ui_string);
-    bool                disable_expansion   = false;
-
-    if(ui_settings.contains("disable_key_expansion"))
-    {
-        disable_expansion                   = ui_settings["disable_key_expansion"];
-    }
 
     /*-----------------------------------------------------*\
     | Determine the total height (in LEDs) of all zones     |
@@ -1325,6 +1412,10 @@ void DeviceView::InitDeviceView()
         {
             led_labels[led_idx] = QString::number(led_idx);
         }
+        else
+        {
+            led_labels[led_idx] = "";
+        }
     }
 
     /*-----------------------------------------------------*\
@@ -1377,6 +1468,14 @@ void DeviceView::InitDeviceView()
 
 void DeviceView::UpdateSelection()
 {
+    /*-----------------------------------------------------*\
+    | Verify controller exists                              |
+    \*-----------------------------------------------------*/
+    if(controller == NULL)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Clear existing selection                              |
     \*-----------------------------------------------------*/

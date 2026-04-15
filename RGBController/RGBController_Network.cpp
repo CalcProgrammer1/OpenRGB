@@ -264,6 +264,55 @@ void RGBController_Network::DeviceSaveMode()
     delete[] data;
 }
 
+void RGBController_Network::SetDeviceSpecificConfiguration(nlohmann::json configuration_json)
+{
+    std::string json_string = configuration_json.dump();
+
+    client->SendRequest_RGBController_SetDeviceSpecificConfiguration(dev_id, (unsigned char *)json_string.c_str(), strlen(json_string.c_str()) + 1);
+}
+
+void RGBController_Network::SetDeviceSpecificZoneConfiguration(int zone, nlohmann::json configuration_json)
+{
+    /*-----------------------------------------------------*\
+    | Initialize variables                                  |
+    \*-----------------------------------------------------*/
+    unsigned int    data_size               = 0;
+    std::string     json_string             = configuration_json.dump();
+    unsigned int    json_string_size        = strlen(json_string.c_str()) +1;
+
+    /*-----------------------------------------------------*\
+    | Calculate data size                                   |
+    \*-----------------------------------------------------*/
+    data_size                              += sizeof(int);
+    data_size                              += sizeof(json_string_size);
+    data_size                              += json_string_size;
+
+    /*-----------------------------------------------------*\
+    | Create data buffer                                    |
+    \*-----------------------------------------------------*/
+    unsigned char * data_buf                = new unsigned char[data_size];
+    unsigned char * data_ptr                = data_buf;
+
+    /*-----------------------------------------------------*\
+    | Copy in zone                                          |
+    \*-----------------------------------------------------*/
+    memcpy(data_ptr, &zone, sizeof(zone));
+    data_ptr += sizeof(zone);
+
+    /*-----------------------------------------------------*\
+    | Copy in string size                                   |
+    \*-----------------------------------------------------*/
+    memcpy(data_ptr, &json_string_size, sizeof(json_string_size));
+    data_ptr += sizeof(json_string_size);
+
+    memcpy(data_ptr, json_string.c_str(), json_string_size);
+    data_ptr += json_string_size;
+
+    client->SendRequest_RGBController_SetDeviceSpecificZoneConfiguration(dev_id, data_buf, data_size);
+
+    delete[] data_buf;
+}
+
 /*-----------------------------------------------------*\
 | This function overrides RGBController::UpdateLEDs()!  |
 | Normally, UpdateLEDs() sets a flag for the updater    |

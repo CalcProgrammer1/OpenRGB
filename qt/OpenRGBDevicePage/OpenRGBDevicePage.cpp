@@ -8,11 +8,24 @@
 \*---------------------------------------------------------*/
 
 #include "OpenRGBDevicePage.h"
+#include "OpenRGBDeviceEditorDialog.h"
 #include "OpenRGBZoneEditorDialog.h"
 #include "ProfileManager.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "ui_OpenRGBDevicePage.h"
+
+static void OpenRGBDevicePageSettingsManagerCallback(void * this_ptr, unsigned int update_reason)
+{
+    OpenRGBDevicePage * this_obj = (OpenRGBDevicePage *)this_ptr;
+
+    switch(update_reason)
+    {
+        case SETTINGSMANAGER_UPDATE_REASON_SETTINGS_UPDATED:
+            QMetaObject::invokeMethod(this_obj, "on_SettingsUpdated", Qt::QueuedConnection);
+            break;
+    }
+}
 
 static void UpdateCallback(void * this_ptr, unsigned int update_reason, void * /*controller_ptr*/)
 {
@@ -38,38 +51,19 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     device->RegisterUpdateCallback(UpdateCallback, this);
 
     /*-----------------------------------------------------*\
+    | Register settings manager callbacks                   |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsManagerCallback(OpenRGBDevicePageSettingsManagerCallback, this);
+
+    /*-----------------------------------------------------*\
     | Set up the device view                                |
     \*-----------------------------------------------------*/
     connect(ui->DeviceViewBox, &DeviceView::selectionChanged, this, &OpenRGBDevicePage::on_DeviceViewBox_selectionChanged);
 
     /*-----------------------------------------------------*\
-    | Get the UserInterface settings and check the          |
-    | numerical labels and hex format settings              |
+    | Initialize Settings                                   |
     \*-----------------------------------------------------*/
-    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
-    std::string         ui_string           = "UserInterface";
-    json                ui_settings;
-
-    ui_settings = settings_manager->GetSettings(ui_string);
-
-    if(ui_settings.contains("numerical_labels"))
-    {
-        bool            numerical_labels    = ui_settings["numerical_labels"];
-
-        ui->DeviceViewBox->SetNumericalLabels(numerical_labels);
-    }
-
-    if(ui_settings.contains("hex_format"))
-    {
-        if(ui_settings["hex_format"] == "RGB")
-        {
-            HexFormatRGB = true;
-        }
-        else if(ui_settings["hex_format"] == "BGR")
-        {
-            HexFormatRGB = false;
-        }
-    }
+    on_SettingsUpdated();
 
     /*-----------------------------------------------------*\
     | Initialize Device View                                |
@@ -117,6 +111,11 @@ OpenRGBDevicePage::~OpenRGBDevicePage()
             break;
         }
     }
+
+    /*-----------------------------------------------------*\
+    | Unregister settings manager callbacks                 |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->GetSettingsManager()->UnregisterSettingsManagerCallback(OpenRGBDevicePageSettingsManagerCallback, this);
 
     delete ui;
 }
@@ -524,7 +523,8 @@ void OpenRGBDevicePage::UpdateLEDList()
                 | Editing is not allowed when all zones are |
                 | selected at once                          |
                 \*-----------------------------------------*/
-                ui->EditZoneButton->setEnabled(false);
+                ui->EditZoneButton->setEnabled(true);
+                ui->EditZoneButton->setText("Edit Device");
 
                 if(!ui->ZoneBox->signalsBlocked())
                 {
@@ -581,7 +581,8 @@ void OpenRGBDevicePage::UpdateLEDList()
                     zone_is_editable = true;
                 }
 
-                ui->EditZoneButton->setEnabled(zone_is_editable);
+                ui->EditZoneButton->setEnabled(true);
+                ui->EditZoneButton->setText("Edit Zone");
 
                 if(!ui->ZoneBox->signalsBlocked())
                 {
@@ -1671,17 +1672,7 @@ void OpenRGBDevicePage::UpdateModeUi()
 
                 if(device->GetZoneCount() > 1)
                 {
-                    ui->ZoneBox->setEnabled(1);
                     ui->ZoneBox->addItem(tr("All Zones"));
-                }
-                else if(device->GetZoneCount() == 1 && device->GetZoneSegmentCount(0) > 1)
-                {
-                    ui->ZoneBox->setEnabled(1);
-                }
-                else
-                {
-                    ui->ZoneBox->setDisabled(1);
-                    ui->EditZoneButton->setEnabled(false);
                 }
 
                 for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
@@ -1764,19 +1755,12 @@ void OpenRGBDevicePage::UpdateZoneList()
     ui->ZoneBox->blockSignals(true);
     ui->ZoneBox->clear();
 
-    if(device->GetZoneCount() > 1)
-    {
-        ui->ZoneBox->setEnabled(1);
-        ui->ZoneBox->addItem(tr("Entire Device"));
-    }
-    else if(device->GetZoneCount() == 1 && device->GetZoneSegmentCount(0) > 1)
-    {
-        ui->ZoneBox->setEnabled(1);
-    }
-    else
+    ui->ZoneBox->setEnabled(1);
+    ui->ZoneBox->addItem(tr("Entire Device"));
+
+    if(device->GetZoneCount() == 0)
     {
         ui->ZoneBox->setDisabled(1);
-        ui->EditZoneButton->setEnabled(false);
     }
 
     for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
@@ -1898,18 +1882,14 @@ void OpenRGBDevicePage::GetSelectedZone(bool * selected_all_zones, int * selecte
     | which adds an "All Zones" entry to the Zone menu in   |
     | the first index                                       |
     \*-----------------------------------------------------*/
-    if(device->GetZoneCount() > 1)
+    if(index == current_index)
     {
-        if(index == current_index)
-        {
-            *selected_all_zones = true;
-        }
-
-        current_index++;
+        *selected_all_zones = true;
     }
-
-    if(!(*selected_all_zones))
+    else
     {
+        current_index++;
+
         for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
         {
             if(index == (int)current_index)
@@ -1950,10 +1930,7 @@ void OpenRGBDevicePage::SetSelectedZone(bool selected_all_zones, int selected_zo
         return;
     }
 
-    if(device->GetZoneCount() > 1)
-    {
-        current_index++;
-    }
+    current_index++;
 
     for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
     {
@@ -2234,22 +2211,24 @@ void OpenRGBDevicePage::on_EditZoneButton_clicked()
                 | the edit button should not be clickable.  |
                 | If somehow this did get clicked, ignore.  |
                 \*-----------------------------------------*/
-                if(selected_all_zones || selected_segment != -1)
+                if(selected_all_zones)
                 {
-                    return;
+                    OpenRGBDeviceEditorDialog dlg(device);
+                    dlg.show();
                 }
+                else
+                {
+                    OpenRGBZoneEditorDialog dlg(device, selected_zone);
+                    dlg.show();
 
-                OpenRGBZoneEditorDialog dlg(device, selected_zone);
-
-                dlg.show();
-
-                /*-----------------------------------------*\
-                | Update Zone list and then reset the       |
-                | current index                             |
-                \*-----------------------------------------*/
-                selected_zone = ui->ZoneBox->currentIndex();
-                UpdateZoneList();
-                ui->ZoneBox->setCurrentIndex(selected_zone);
+                    /*-----------------------------------------*\
+                    | Update Zone list and then reset the       |
+                    | current index                             |
+                    \*-----------------------------------------*/
+                    selected_zone = ui->ZoneBox->currentIndex();
+                    UpdateZoneList();
+                    ui->ZoneBox->setCurrentIndex(selected_zone);
+                }
             }
             break;
     }
@@ -2529,6 +2508,45 @@ void OpenRGBDevicePage::on_SelectAllLEDsButton_clicked()
 void OpenRGBDevicePage::on_SetAllButton_clicked()
 {
     emit SetAllDevices(current_color.red(), current_color.green(), current_color.blue());
+}
+
+void OpenRGBDevicePage::on_SettingsUpdated()
+{
+    /*-----------------------------------------------------*\
+    | Get the UserInterface settings and check the          |
+    | numerical labels and hex format settings              |
+    \*-----------------------------------------------------*/
+    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
+    std::string         ui_string           = "UserInterface";
+    json                ui_settings;
+
+    ui_settings = settings_manager->GetSettings(ui_string);
+
+    if(ui_settings.contains("numerical_labels"))
+    {
+        bool            numerical_labels    = ui_settings["numerical_labels"];
+
+        ui->DeviceViewBox->SetNumericalLabels(numerical_labels);
+    }
+
+    if(ui_settings.contains("disable_key_expansion"))
+    {
+        bool            disable_expansion   = ui_settings["disable_key_expansion"];
+
+        ui->DeviceViewBox->SetDisableKeyExpansion(disable_expansion);
+    }
+
+    if(ui_settings.contains("hex_format"))
+    {
+        if(ui_settings["hex_format"] == "RGB")
+        {
+            HexFormatRGB = true;
+        }
+        else if(ui_settings["hex_format"] == "BGR")
+        {
+            HexFormatRGB = false;
+        }
+    }
 }
 
 void OpenRGBDevicePage::on_SpeedSlider_valueChanged(int /*value*/)

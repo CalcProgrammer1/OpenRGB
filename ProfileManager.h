@@ -39,7 +39,7 @@ public:
     virtual std::string                 GetActiveProfile()                                                      = 0;
     virtual std::vector<RGBController*> GetControllerListFromProfileJson(nlohmann::json profile_json)           = 0;
     virtual std::vector<RGBController*> GetControllerListFromProfileName(std::string profile_name)              = 0;
-    virtual std::vector<RGBController*> GetControllerListFromSizes()                                            = 0;
+    virtual std::vector<RGBController*> GetControllerListFromSavedConfiguration()                               = 0;
     virtual std::vector<std::string>    GetProfileList()                                                        = 0;
     virtual unsigned char *             GetProfileListDescription()                                             = 0;
 
@@ -47,8 +47,8 @@ public:
                                         (
                                         std::vector<RGBController*>&    temp_controllers,
                                         RGBController*                  load_controller,
-                                        bool                            load_size,
-                                        bool                            load_settings
+                                        bool                            load_configuration,
+                                        bool                            load_state
                                         )                                                                       = 0;
 
     virtual bool                        LoadControllerActiveProfile(RGBController* load_controller)             = 0;
@@ -60,7 +60,7 @@ public:
 
     virtual bool                        SaveProfile(std::string profile_name)                                   = 0;
     virtual bool                        SaveProfileFromJSON(nlohmann::json profile_json)                        = 0;
-    virtual bool                        SaveSizes()                                                             = 0;
+    virtual bool                        SaveConfiguration()                                                     = 0;
 
     virtual void                        SetConfigurationDirectory(const filesystem::path& directory)            = 0;
 
@@ -86,7 +86,7 @@ public:
     std::string                 GetActiveProfile();
     std::vector<RGBController*> GetControllerListFromProfileJson(nlohmann::json profile_json);
     std::vector<RGBController*> GetControllerListFromProfileName(std::string profile_name);
-    std::vector<RGBController*> GetControllerListFromSizes();
+    std::vector<RGBController*> GetControllerListFromSavedConfiguration();
     std::vector<std::string>    GetProfileList();
     unsigned char *             GetProfileListDescription();
 
@@ -99,8 +99,8 @@ public:
                                     (
                                     std::vector<RGBController*>&    temp_controllers,
                                     RGBController*                  load_controller,
-                                    bool                            load_size,
-                                    bool                            load_settings
+                                    bool                            load_configuration,
+                                    bool                            load_state
                                     );
 
     bool                        LoadControllerActiveProfile(RGBController* load_controller);
@@ -123,7 +123,7 @@ public:
     bool                        SaveProfile(std::string profile_name);
     bool                        SaveProfileCustom(std::string profile_name, std::vector<RGBController*> controllers, RGBColor base_color, bool base_color_enabled, std::vector<std::string> enabled_plugins);
     bool                        SaveProfileFromJSON(nlohmann::json profile_json);
-    bool                        SaveSizes();
+    bool                        SaveConfiguration();
 
     void                        SetActiveProfile(std::string profile_name);
     void                        SetConfigurationDirectory(const filesystem::path& directory);
@@ -178,8 +178,8 @@ private:
     bool                        LoadProfileWithOptions
                                     (
                                     std::string     profile_name,
-                                    bool            load_size,
-                                    bool            load_settings
+                                    bool            load_configuration,
+                                    bool            load_state
                                     );
 
     nlohmann::json              ReadProfileFileJSON(filesystem::path profile_filepath);

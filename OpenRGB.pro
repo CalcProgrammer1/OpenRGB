@@ -87,13 +87,13 @@ DEFINES +=                                                                      
 #-----------------------------------------------------------------------------------------------#
 FORMS += $$files("qt/*.ui", true)
 
-for(iter, FORMS) {
+GUI_H               = $$files("qt/*.h", true)
+GUI_CPP             = $$files("qt/*.cpp", true)
+
+for(iter, $$list($$GUI_H)) {
     GUI_INCLUDES += $$dirname(iter)
 }
 GUI_INCLUDES        = $$unique(GUI_INCLUDES)
-
-GUI_H               = $$files("qt/*.h", true)
-GUI_CPP             = $$files("qt/*.cpp", true)
 
 CONTROLLER_H        = $$files("Controllers/*.h", true)
 CONTROLLER_CPP      = $$files("Controllers/*.cpp", true)

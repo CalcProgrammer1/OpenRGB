@@ -186,16 +186,13 @@ void OpenRGBZoneInitializationDialog::on_save_button_clicked()
     }
 
     /*---------------------------------------------------------*\
-    | Save the sizes                                            |
+    | Save the configuration                                    |
     \*---------------------------------------------------------*/
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
     if(profile_manager != NULL)
     {
-        /*-----------------------------------------------------*\
-        | Save the profile                                      |
-        \*-----------------------------------------------------*/
-        profile_manager->SaveSizes();
+        profile_manager->SaveConfiguration();
     }
 
     /*---------------------------------------------------------*\

@@ -136,14 +136,14 @@ typedef unsigned int zone_flags;
                                                         ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE                |       \
                                                         ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP          |       \
                                                         ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS            |       \
-                                                        ZONE_FLAG_MANUALLY_CONFIGURABLE_COLOR_ORDER)
+                                                        ZONE_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC)
 
 #define ZONE_FLAGS_MANUALLY_CONFIGURED                 (ZONE_FLAG_MANUALLY_CONFIGURED_SIZE                  |       \
                                                         ZONE_FLAG_MANUALLY_CONFIGURED_NAME                  |       \
                                                         ZONE_FLAG_MANUALLY_CONFIGURED_TYPE                  |       \
                                                         ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP            |       \
                                                         ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS              |       \
-                                                        ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER)
+                                                        ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC)
 enum
 {
     ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY   = (1 << 0), /* Zone size is manually configurable, but only */
@@ -154,20 +154,13 @@ enum
     ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE                = (1 << 3), /* Zone type is manually configurable           */
     ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP          = (1 << 4), /* Zone matrix map is manually configurable     */
     ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS            = (1 << 5), /* Zone segments are manually configurable      */
-    ZONE_FLAG_MANUALLY_CONFIGURABLE_COLOR_ORDER         = (1 << 6), /* Zone color order is manually configurable    */
+    ZONE_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC     = (1 << 6), /* Zone dev-specific cfg manually configurable  */
     ZONE_FLAG_MANUALLY_CONFIGURED_SIZE                  = (1 << 12),/* Zone size has been manually configured       */
     ZONE_FLAG_MANUALLY_CONFIGURED_NAME                  = (1 << 13),/* Zone name has been manually configured       */
     ZONE_FLAG_MANUALLY_CONFIGURED_TYPE                  = (1 << 14),/* Zone type has been manually configured       */
     ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP            = (1 << 15),/* Zone matrix map has been manually configured */
     ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS              = (1 << 16),/* Zone segments have been manually configured  */
-    ZONE_FLAG_MANUALLY_CONFIGURED_COLOR_ORDER           = (1 << 17),/* Zone color order has been manually configured*/
-    ZONE_FLAG_SUPPORTS_COLOR_ORDER_DEFAULT              = (1 << 24),/* Zone supports default color order            */
-    ZONE_FLAG_SUPPORTS_COLOR_ORDER_RGB                  = (1 << 25),/* Zone supports RGB color order                */
-    ZONE_FLAG_SUPPORTS_COLOR_ORDER_RBG                  = (1 << 26),/* Zone supports RBG color order                */
-    ZONE_FLAG_SUPPORTS_COLOR_ORDER_GRB                  = (1 << 27),/* Zone supports GRB color order                */
-    ZONE_FLAG_SUPPORTS_COLOR_ORDER_GBR                  = (1 << 28),/* Zone supports GBR color order                */
-    ZONE_FLAG_SUPPORTS_COLOR_ORDER_BRG                  = (1 << 29),/* Zone supports BRG color order                */
-    ZONE_FLAG_SUPPORTS_COLOR_ORDER_BGR                  = (1 << 30),/* Zone supports BGR color order                */
+    ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC       = (1 << 17),/* Zone device-specific cfg manually configured */
 };
 
 /*---------------------------------------------------------*\
@@ -184,22 +177,6 @@ enum
     ZONE_TYPE_MATRIX_LOOP_X,
     ZONE_TYPE_MATRIX_LOOP_Y,
     ZONE_TYPE_SEGMENTED
-};
-
-/*---------------------------------------------------------*\
-| Zone Color Order                                          |
-\*---------------------------------------------------------*/
-typedef unsigned int zone_color_order;
-
-enum
-{
-    ZONE_COLOR_ORDER_DEFAULT,                       /* Device default color order       */
-    ZONE_COLOR_ORDER_RGB,                           /* RGB color order                  */
-    ZONE_COLOR_ORDER_RBG,                           /* RBG color order                  */
-    ZONE_COLOR_ORDER_GRB,                           /* GRB color order                  */
-    ZONE_COLOR_ORDER_GBR,                           /* GBR color order                  */
-    ZONE_COLOR_ORDER_BRG,                           /* BRG color order                  */
-    ZONE_COLOR_ORDER_BGR                            /* BGR color order                  */
 };
 
 /*---------------------------------------------------------*\
@@ -268,7 +245,6 @@ public:
     zone_flags              flags;          /* Zone flags bitfield      */
     std::vector<mode>       modes;          /* Zone-specific modes      */
     int                     active_mode;    /* Active zone-specific mode*/
-    zone_color_order        color_order;    /* Zone color order         */
 
     /*-----------------------------------------------------*\
     | Zone Constructor / Destructor                         |
@@ -376,7 +352,6 @@ public:
     virtual zone                    GetZone(unsigned int zone_idx)                                                                                      = 0;
     virtual int                     GetZoneActiveMode(unsigned int zone)                                                                                = 0;
     virtual RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index)                                                           = 0;
-    virtual zone_color_order        GetZoneColorOrder(unsigned int zone)                                                                                = 0;
     virtual RGBColor*               GetZoneColorsPointer(unsigned int zone)                                                                             = 0;
     virtual std::size_t             GetZoneCount()                                                                                                      = 0;
     virtual unsigned int            GetZoneFlags(unsigned int zone)                                                                                     = 0;
@@ -481,6 +456,17 @@ public:
     virtual void                    SetAllZoneColors(int zone, RGBColor color)                                                                          = 0;
 
     /*-----------------------------------------------------*\
+    | Device-Specific Configuration Functions               |
+    \*-----------------------------------------------------*/
+    virtual nlohmann::json          GetDeviceSpecificConfigurationSchema()                                                                              = 0;
+    virtual nlohmann::json          GetDeviceSpecificConfiguration()                                                                                    = 0;
+    virtual void                    SetDeviceSpecificConfiguration(nlohmann::json configuration_json)                                                   = 0;
+
+    virtual nlohmann::json          GetDeviceSpecificZoneConfigurationSchema(int zone)                                                                  = 0;
+    virtual nlohmann::json          GetDeviceSpecificZoneConfiguration(int zone)                                                                        = 0;
+    virtual void                    SetDeviceSpecificZoneConfiguration(int zone, nlohmann::json configuration_json)                                     = 0;
+
+    /*-----------------------------------------------------*\
     | Update Callback Functions                             |
     \*-----------------------------------------------------*/
     virtual void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg)                                 = 0;
@@ -540,7 +526,6 @@ public:
     zone                    GetZone(unsigned int zone_idx);
     int                     GetZoneActiveMode(unsigned int zone);
     RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index);
-    zone_color_order        GetZoneColorOrder(unsigned int zone);
     RGBColor*               GetZoneColorsPointer(unsigned int zone);
     std::size_t             GetZoneCount();
     unsigned int            GetZoneFlags(unsigned int zone);
@@ -644,6 +629,17 @@ public:
     void                    SetAllZoneColors(int zone, RGBColor color);
 
     /*-----------------------------------------------------*\
+    | Device-Specific Configuration Functions               |
+    \*-----------------------------------------------------*/
+    nlohmann::json          GetDeviceSpecificConfigurationSchema();
+    nlohmann::json          GetDeviceSpecificConfiguration();
+    void                    SetDeviceSpecificConfiguration(nlohmann::json configuration_json);
+
+    nlohmann::json          GetDeviceSpecificZoneConfigurationSchema(int zone);
+    nlohmann::json          GetDeviceSpecificZoneConfiguration(int zone);
+    void                    SetDeviceSpecificZoneConfiguration(int zone, nlohmann::json configuration_json);
+
+    /*-----------------------------------------------------*\
     | Update Callback Functions                             |
     \*-----------------------------------------------------*/
     void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg);
@@ -684,6 +680,9 @@ public:
     virtual void            DeviceUpdateMode();
     virtual void            DeviceUpdateZoneMode(int zone);
     virtual void            DeviceSaveMode();
+
+    virtual void            DeviceUpdateDeviceSpecificConfiguration();
+    virtual void            DeviceUpdateDeviceSpecificZoneConfiguration(int zone);
 
     /*-----------------------------------------------------*\
     | Static Serialized Description Functions               |
@@ -738,6 +737,8 @@ protected:
     std::string             serial;         /* controller serial number */
     std::string             vendor;         /* controller vendor        */
     std::string             version;        /* controller version       */
+    std::string             configuration;  /* controller device-       */
+                                            /* specific config JSON     */
 
     /*-----------------------------------------------------*\
     | Controller variables                                  |
