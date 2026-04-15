@@ -34,12 +34,16 @@ public:
     void            DeviceUpdateSingleLED(int led);
 
     void            SetCustomMode();
-    void            DeviceUpdateMode();
-    void            DeviceUpdateZoneMode(int zone);
-    void            DeviceSaveMode();
+
+    void            SetDeviceSpecificConfiguration(nlohmann::json configuration_json);
+    void            SetDeviceSpecificZoneConfiguration(int zone, nlohmann::json configuration_json);
 
     void            UpdateLEDs();
     void            UpdateMode();
+
+    void            DeviceUpdateMode();
+    void            DeviceUpdateZoneMode(int zone);
+    void            DeviceSaveMode();
 
 private:
     NetworkClient * client;

@@ -109,6 +109,8 @@ public:
     | SettingsManager functions                             |
     \*-----------------------------------------------------*/
     std::string                         SettingsManager_GetSettings(std::string settings_key);
+    std::string                         SettingsManager_GetSettingsSchema(std::string settings_key);
+    void                                SettingsManager_ModifySettings(std::string settings_json_str);
     void                                SettingsManager_SaveSettings();
     void                                SettingsManager_SetSettings(std::string settings_json_str);
 
@@ -131,6 +133,9 @@ public:
     void                                SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
     void                                SendRequest_RGBController_UpdateZoneMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
     void                                SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
+
+    void                                SendRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void                                SendRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size);
 
     void                                WaitOnControllerData();
 

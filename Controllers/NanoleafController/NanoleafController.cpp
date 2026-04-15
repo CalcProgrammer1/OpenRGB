@@ -12,6 +12,7 @@
 #include "NanoleafController.h"
 #include "LogManager.h"
 #include "httplib.h"
+#include "JsonUtils.h"
 
 long APIRequest(std::string method, std::string location, std::string URI, json* request_data = nullptr, json* response_data = nullptr)
 {
@@ -91,7 +92,7 @@ long APIRequest(std::string method, std::string location, std::string URI, json*
     {
         if(response_data)
         {
-            *response_data = json::parse(body);
+            JsonUtils::JsonParse(body, *response_data);
         }
     }
     else

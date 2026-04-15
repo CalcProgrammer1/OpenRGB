@@ -1130,7 +1130,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Wczytaj pozycję okna</translation>
@@ -1164,7 +1164,7 @@
         <translation>Zminimalizuj przy wyjściu</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Zapisz pozycję przy wyjściu</translation>
     </message>
     <message>
@@ -1180,12 +1180,8 @@
         <translation>Ustaw port serwera</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Temat (wymagany restart)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Włączenie Konsoli LOGów (wymagany restart)</translation>
+        <source>Enable Log Console</source>
+        <translation>Włączenie Konsoli LOGów</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -1212,7 +1208,7 @@
         <translation>Ustawienia sterowników</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Szara ikona w tray&apos;u</translation>
     </message>
     <message>
@@ -1236,7 +1232,7 @@
         <translation>Język</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1256,7 +1252,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
+        <source>Enable Log File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

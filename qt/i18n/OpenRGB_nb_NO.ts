@@ -1130,7 +1130,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPage</name>
+    <name>Settings</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Bruk vindugeometri</translation>
@@ -1144,7 +1144,7 @@
         <translation>Kjør sonekontroll ved skanning</translation>
     </message>
     <message>
-        <source>Disable Key Expansion in Device View</source>
+        <source>Disable Key Expansion</source>
         <translation>Deaktiver nøkkelutvidelse i enhetsvisning</translation>
     </message>
     <message>
@@ -1164,7 +1164,7 @@
         <translation>Start minimert</translation>
     </message>
     <message>
-        <source>Greyscale Tray Icon</source>
+        <source>Monochrome Tray Icon</source>
         <translation>Grått icon</translation>
     </message>
     <message>
@@ -1184,15 +1184,15 @@
         <translation>Sett profil ved lukking</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>Aktiver loggfil (Omstart kreves)</translation>
+        <source>Enable Log File</source>
+        <translation>Aktiver loggfil</translation>
     </message>
     <message>
         <source>Minimize on Close</source>
         <translation>Minimer ved lukking</translation>
     </message>
     <message>
-        <source>Save Geometry on Close</source>
+        <source>Save on Exit</source>
         <translation>Lagre geometri ved lukking</translation>
     </message>
     <message>
@@ -1208,12 +1208,8 @@
         <translation>Sett server port</translation>
     </message>
     <message>
-        <source>Theme (restart required)</source>
-        <translation>Tema (omstart kreves)</translation>
-    </message>
-    <message>
-        <source>Enable Log Console (restart required)</source>
-        <translation>Aktiver loggkonsoll (omstart kreves)</translation>
+        <source>Enable Log Console</source>
+        <translation>Aktiver loggkonsoll</translation>
     </message>
     <message>
         <source>Drivers Settings</source>

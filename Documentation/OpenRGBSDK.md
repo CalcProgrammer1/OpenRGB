@@ -45,45 +45,47 @@ Each packet starts with a header that indicates the packet is an OpenRGB SDK pac
 
 The following IDs represent different SDK commands.  Each ID packet has a certain format of data associated with it, which will be explained under each ID's section of this document.  Gaps have been left in the ID values to allow for future expansion.  The same ID values are often used for both request and response packets.
 
-| Value | Name                                                                                                  | Description                                                   | Protocol Version |
-| ----- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------- |
-| 0     | [NET_PACKET_ID_REQUEST_CONTROLLER_COUNT](#net_packet_id_request_controller_count)                     | Request RGBController device count/device IDs from server     | 0                |
-| 1     | [NET_PACKET_ID_REQUEST_CONTROLLER_DATA](#net_packet_id_request_controller_data)                       | Request RGBController data block                              | 0                |
-| 10    | [NET_PACKET_ID_ACK](#net_packet_id_ack)                                                               | Acknowledgement                                               | 6                |
-| 40    | [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version)                     | Request OpenRGB SDK protocol version from server              | 1*               |
-| 50    | [NET_PACKET_ID_SET_CLIENT_NAME](#net_packet_id_set_client_name)                                       | Send client name string to server                             | 0                |
-| 51    | [NET_PACKET_ID_SET_SERVER_NAME](#net_packet_id_set_server_name)                                       | Send server name string to client                             | 6                |
-| 52    | [NET_PACKET_ID_SET_CLIENT_FLAGS](#net_packet_id_set_client_flags)                                     | Send client flags to server                                   | 6                |
-| 53    | [NET_PACKET_ID_SET_SERVER_FLAGS](#net_packet_id_set_server_flags)                                     | Send server flags to client                                   | 6                |
-| 100   | [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)                               | Indicate to clients that device list has updated              | 1                |
-| 101   | [NET_PACKET_ID_DETECTION_STARTED](#net_packet_id_detection_started)                                   | Indicate to clients that detection started                    | 6                |
-| 102   | [NET_PACKET_ID_DETECTION_PROGRESS_CHANGED](#net_packet_id_detection_progress_changed)                 | Indicate to clients that detection progress changed           | 6                |
-| 103   | [NET_PACKET_ID_DETECTION_COMPLETE](#net_packet_id_detection_complete)                                 | Indicate to clients that detection completed                  | 6                |
-| 140   | [NET_PACKET_ID_REQUEST_RESCAN_DEVICES](#net_packet_id_request_rescan_devices)                         | Request server to rescan devices                              | 5                |
-| 150   | [NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST](#net_packet_id_profilemanager_get_profile_list)       | Get profile list                                              | 2                |
-| 151   | [NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE](#net_packet_id_profilemanager_save_profile)               | Save current configuration in a new profile                   | 2                |
-| 152   | [NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE](#net_packet_id_profilemanager_load_profile)               | Load a given profile                                          | 2                |
-| 153   | [NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE](#net_packet_id_profilemanager_delete_profile)           | Delete a given profile                                        | 2                |
-| 154   | [NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE](#net_packet_id_profilemanager_upload_profile)           | Upload a profile to the server in JSON format                 | 6                |
-| 155   | [NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE](#net_packet_id_profilemanager_download_profile)       | Download a profile from the server in JSON format             | 6                | 
-| 156   | [NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE](#net_packet_id_profilemanager_get_active_profile)   | Get the active profile name                                   | 6                |
-| 200   | [NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST](#net_packet_id_pluginmanager_get_plugin_list)           | Get list of plugins                                           | 4                |
-| 201   | [NET_PACKET_ID_PLUGINMANAGER_PLUGIN_SPECIFIC](#net_packet_id_pluginmanager_plugin_specific)           | Interact with a plugin                                        | 4                |
-| 250   | [NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS](#net_packet_id_settingsmanager_get_settings)             | Get settings for a given key in JSON format                   | 6                |
-| 251   | [NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS](#net_packet_id_settingsmanager_set_settings)             | Set settings for a given key in JSON format                   | 6                |
-| 252   | [NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS](#net_packet_id_settingsmanager_save_settings)           | Save settings                                                 | 6                |
-| 1000  | [NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE](#net_packet_id_rgbcontroller_resizezone)                     | RGBController::ResizeZone()                                   | 0                |
-| 1001  | [NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS](#net_packet_id_rgbcontroller_clearsegments)               | RGBController::ClearSegments()                                | 5                |
-| 1002  | [NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT](#net_packet_id_rgbcontroller_addsegment)                     | RGBController::AddSegment()                                   | 5                |
-| 1003  | [NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE](#net_packet_id_rgbcontroller_configurezone)               | RGBController::ConfigureZone()                                | 6                |
-| 1050  | [NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS](#net_packet_id_rgbcontroller_updateleds)                     | RGBController::UpdateLEDs()                                   | 0                |
-| 1051  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS](#net_packet_id_rgbcontroller_updatezoneleds)             | RGBController::UpdateZoneLEDs()                               | 0                |
-| 1052  | [NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED](#net_packet_id_rgbcontroller_updatesingleled)           | RGBController::UpdateSingleLED()                              | 0                |
-| 1100  | [NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE](#net_packet_id_rgbcontroller_setcustommode)               | RGBController::SetCustomMode()                                | 0                |
-| 1101  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE](#net_packet_id_rgbcontroller_updatemode)                     | RGBController::UpdateMode()                                   | 0                |
-| 1102  | [NET_PACKET_ID_RGBCONTROLLER_SAVEMODE](#net_packet_id_rgbcontroller_savemode)                         | RGBController::SaveMode()                                     | 3                |
-| 1103  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE](#net_packet_id_rgbcontroller_updatezonemode)             | RGBController::UpdateZoneMode()                               | 6                |
-| 1150  | [NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE](#net_packet_id_rgbcontroller_signalupdate)                 | RGBController::SignalUpdate()                                 | 6                |
+| Value | Name                                                                                                                              | Description                                                   | Protocol Version |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------- |
+| 0     | [NET_PACKET_ID_REQUEST_CONTROLLER_COUNT](#net_packet_id_request_controller_count)                                                 | Request RGBController device count/device IDs from server     | 0                |
+| 1     | [NET_PACKET_ID_REQUEST_CONTROLLER_DATA](#net_packet_id_request_controller_data)                                                   | Request RGBController data block                              | 0                |
+| 10    | [NET_PACKET_ID_ACK](#net_packet_id_ack)                                                                                           | Acknowledgement                                               | 6                |
+| 40    | [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version)                                                 | Request OpenRGB SDK protocol version from server              | 1*               |
+| 50    | [NET_PACKET_ID_SET_CLIENT_NAME](#net_packet_id_set_client_name)                                                                   | Send client name string to server                             | 0                |
+| 51    | [NET_PACKET_ID_SET_SERVER_NAME](#net_packet_id_set_server_name)                                                                   | Send server name string to client                             | 6                |
+| 52    | [NET_PACKET_ID_SET_CLIENT_FLAGS](#net_packet_id_set_client_flags)                                                                 | Send client flags to server                                   | 6                |
+| 53    | [NET_PACKET_ID_SET_SERVER_FLAGS](#net_packet_id_set_server_flags)                                                                 | Send server flags to client                                   | 6                |
+| 100   | [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)                                                           | Indicate to clients that device list has updated              | 1                |
+| 101   | [NET_PACKET_ID_DETECTION_STARTED](#net_packet_id_detection_started)                                                               | Indicate to clients that detection started                    | 6                |
+| 102   | [NET_PACKET_ID_DETECTION_PROGRESS_CHANGED](#net_packet_id_detection_progress_changed)                                             | Indicate to clients that detection progress changed           | 6                |
+| 103   | [NET_PACKET_ID_DETECTION_COMPLETE](#net_packet_id_detection_complete)                                                             | Indicate to clients that detection completed                  | 6                |
+| 140   | [NET_PACKET_ID_REQUEST_RESCAN_DEVICES](#net_packet_id_request_rescan_devices)                                                     | Request server to rescan devices                              | 5                |
+| 150   | [NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST](#net_packet_id_profilemanager_get_profile_list)                                   | Get profile list                                              | 2                |
+| 151   | [NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE](#net_packet_id_profilemanager_save_profile)                                           | Save current configuration in a new profile                   | 2                |
+| 152   | [NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE](#net_packet_id_profilemanager_load_profile)                                           | Load a given profile                                          | 2                |
+| 153   | [NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE](#net_packet_id_profilemanager_delete_profile)                                       | Delete a given profile                                        | 2                |
+| 154   | [NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE](#net_packet_id_profilemanager_upload_profile)                                       | Upload a profile to the server in JSON format                 | 6                |
+| 155   | [NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE](#net_packet_id_profilemanager_download_profile)                                   | Download a profile from the server in JSON format             | 6                | 
+| 156   | [NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE](#net_packet_id_profilemanager_get_active_profile)                               | Get the active profile name                                   | 6                |
+| 200   | [NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST](#net_packet_id_pluginmanager_get_plugin_list)                                       | Get list of plugins                                           | 4                |
+| 201   | [NET_PACKET_ID_PLUGINMANAGER_PLUGIN_SPECIFIC](#net_packet_id_pluginmanager_plugin_specific)                                       | Interact with a plugin                                        | 4                |
+| 250   | [NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS](#net_packet_id_settingsmanager_get_settings)                                         | Get settings for a given key in JSON format                   | 6                |
+| 251   | [NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS](#net_packet_id_settingsmanager_set_settings)                                         | Set settings for a given key in JSON format                   | 6                |
+| 252   | [NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS](#net_packet_id_settingsmanager_save_settings)                                       | Save settings                                                 | 6                |
+| 1000  | [NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE](#net_packet_id_rgbcontroller_resizezone)                                                 | RGBController::ResizeZone()                                   | 0                |
+| 1001  | [NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS](#net_packet_id_rgbcontroller_clearsegments)                                           | RGBController::ClearSegments()                                | 5                |
+| 1002  | [NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT](#net_packet_id_rgbcontroller_addsegment)                                                 | RGBController::AddSegment()                                   | 5                |
+| 1003  | [NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE](#net_packet_id_rgbcontroller_configurezone)                                           | RGBController::ConfigureZone()                                | 6                |
+| 1050  | [NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS](#net_packet_id_rgbcontroller_updateleds)                                                 | RGBController::UpdateLEDs()                                   | 0                |
+| 1051  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS](#net_packet_id_rgbcontroller_updatezoneleds)                                         | RGBController::UpdateZoneLEDs()                               | 0                |
+| 1052  | [NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED](#net_packet_id_rgbcontroller_updatesingleled)                                       | RGBController::UpdateSingleLED()                              | 0                |
+| 1100  | [NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE](#net_packet_id_rgbcontroller_setcustommode)                                           | RGBController::SetCustomMode()                                | 0                |
+| 1101  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE](#net_packet_id_rgbcontroller_updatemode)                                                 | RGBController::UpdateMode()                                   | 0                |
+| 1102  | [NET_PACKET_ID_RGBCONTROLLER_SAVEMODE](#net_packet_id_rgbcontroller_savemode)                                                     | RGBController::SaveMode()                                     | 3                |
+| 1103  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE](#net_packet_id_rgbcontroller_updatezonemode)                                         | RGBController::UpdateZoneMode()                               | 6                |
+| 1130  | [NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION](#net_packet_id_rgbcontroller_setdevicespecificconfiguration)         | RGBController::SetDeviceSpecificConfiguration                 | 6                |
+| 1131  | [NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION](#net_packet_id_rgbcontroller_setdevicespecificzoneconfiguration) | RGBController::SetDeviceSpecificZoneConfiguration             | 6                |
+| 1150  | [NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE](#net_packet_id_rgbcontroller_signalupdate)                                             | RGBController::SignalUpdate()                                 | 6                |
         
 \* The [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version) packet was not present in protocol version 0, but clients supporting protocol versions 1+ should always send this packet.  If no response is received, it should be assumed that the server is using protocol 0.
 
@@ -162,6 +164,8 @@ The Device Data block represents an entire `RGBController`.  This data block is 
 | 2                   | unsigned short                        | num_led_alt_names   | 5                | Number of LED alternate name strings                                                                         |
 | Variable            | LED Alternate Name[num_led_alt_names] | led_alt_names       | 5                | See [LED Alternate Name Data](#led-alternate-names-data) block format table.  Repeat num_led_alt_names times |
 | 4                   | unsigned int                          | flags               | 5                | RGBController flags field value                                                                              |
+| 4                   | unsigned int                          | configuration_len   | 6                | Length of RGBController configuration field string, including null termination                               |
+| configuration_len   | char[configuration_len]               | configuration       |                  | RGBController configuration field string value, including null termination                                   |
 
 ## Mode Data
 
@@ -206,7 +210,6 @@ The Zone Data block represents one entry in the `RGBController::zones` vector.  
 | 2                      | unsigned short                    | zone_num_modes      | 6                | Number of modes in zone                                                                |
 | 4                      | int                               | zone_active_mode    | 6                | Zone active_mode field value                                                           |
 | Variable               | Mode Data[zone_num_modes]         | zone_modes          | 6                | See [Mode Data](#mode-data) block format table.  Repeat zone_num_modes times           |
-| 4                      | unsigned int                      | zone_color_order    | 6                | Zone color_order field value                                                           |
 
 ## Segment Data
 
@@ -574,6 +577,14 @@ The client uses this ID to call the SaveMode() function of an RGBController devi
 ## NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE
 
 The client uses this ID to call the UpdateZoneMode() function of an RGBController device.  The packet contains a data block.  The format of the data block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling UpdateZoneMode() on.  See the [Device IDs](#device-ids) section for more information.
+
+## NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION
+
+The client uses this ID to call the SetDeviceSpecificConfiguration function of an RGBController device.  The `pkt_dev_id` of this request's header indicates which controller you are calling SetDeviceSpecificConfiguration on.  See the [Device IDs](#device-ids) section for more information.
+
+## NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION
+
+The client uses this ID to call the SetDeviceSpecificZoneConfiguration function of an RGBController device.  The `pkt_dev_id` of this request's header indicates which controller you are calling SetDeviceSpecificZoneConfiguration on.  See the [Device IDs](#device-ids) section for more information.
 
 ## NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE
 
