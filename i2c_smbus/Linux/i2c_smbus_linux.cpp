@@ -175,7 +175,7 @@ bool i2c_smbus_linux_detect()
 
                         if(read(test_fd, buff, sizeof(buff)) < 0)
                         {
-                            LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI vendor ID");
+                            LOG_INFO("[i2c_smbus_linux] Failed to read i2c device PCI vendor ID");
                         }
 
                         if(strlen(buff) > 0 && strlen(buff) < sizeof(buff))
@@ -195,7 +195,7 @@ bool i2c_smbus_linux_detect()
 
                         if(read(test_fd, buff, sizeof(buff)) < 0)
                         {
-                            LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI device ID");
+                            LOG_INFO("[i2c_smbus_linux] Failed to read i2c device PCI device ID");
                         }
 
                         if(strlen(buff) > 0 && strlen(buff) < sizeof(buff))
@@ -215,7 +215,7 @@ bool i2c_smbus_linux_detect()
 
                         if(read(test_fd, buff, sizeof(buff)) < 0)
                         {
-                            LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI subvendor ID");
+                            LOG_INFO("[i2c_smbus_linux] Failed to read i2c device PCI subvendor ID");
                         }
 
                         if(strlen(buff) > 0 && strlen(buff) < sizeof(buff))
@@ -235,7 +235,7 @@ bool i2c_smbus_linux_detect()
 
                         if(read(test_fd, buff, sizeof(buff)) < 0)
                         {
-                            LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI subdevice ID");
+                            LOG_INFO("[i2c_smbus_linux] Failed to read i2c device PCI subdevice ID");
                         }
 
                         if(strlen(buff) > 0 && strlen(buff) < sizeof(buff))
