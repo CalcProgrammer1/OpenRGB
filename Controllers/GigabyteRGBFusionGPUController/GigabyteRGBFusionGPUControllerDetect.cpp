@@ -105,6 +105,7 @@ void DetectGigabyteRGBFusionGPUControllers(i2c_smbus_interface* bus, uint8_t i2c
     }
 }   /* DetectGigabyteRGBFusionGPUControllers() */
 
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GTX 1050 G1 Gaming",                             DetectGigabyteRGBFusionGPUControllers,  NVIDIA_VEN, NVIDIA_GTX1050_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_GTX1050_G1_GAMING_SUB_DEV,             0x47);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce GTX 1050 Ti G1 Gaming Rev A1",           DetectGigabyteRGBFusionGPUControllers,  NVIDIA_VEN, NVIDIA_GTX1050TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_GTX1050TI_G1_GAMING_SUB_DEV,           0x47);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce GTX 1050 Ti G1 Gaming",                  DetectGigabyteRGBFusionGPUControllers,  NVIDIA_VEN, NVIDIA_GTX1050TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_GTX1050TI_G1_GAMING_SUB_DEV,           0x48);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce GTX 1060 G1 Gaming",                     DetectGigabyteRGBFusionGPUControllers,  NVIDIA_VEN, NVIDIA_GTX1060_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_GTX1060_G1_GAMING_SUB_DEV,             0x48);

@@ -69,3 +69,7 @@ OpenRGB is written in C++, uses the Qt framework for UI, and uses the QMake buil
 
 Translation files are located in [`OpenRGB/qt/i18n/`](https://gitlab.com/CalcProgrammer1/OpenRGB/-/tree/master/qt/i18n), where languages are formatted using ISO 639-1 format: `OpenRGB_xx_XX.ts` — `xx_XX` representing the language code.
 In order to translate a file, you need to [fork](https://gitlab.com/CalcProgrammer1/OpenRGB/-/forks/new) the project, create a new file for your language with `lupdate` (or edit an exisiting one), edit the file with `qtlinguist`, commit, push, and create a merge request.
+
+## AI Guidelines
+
+OpenRGB is an open source project developed by humans for humans.  As a general rule, AI generated submissions are not permitted.  The licensing behind AI generated code is problematic.  If you choose to use AI for assistance in your development process, we can't stop you, but do not credit the AI in commits (no AI authorship/co-authorship).  Ultimately, you as a human developer are responsible for the code you submit and it is expected that any code you submit you fully understand and have manually vetted before submission.  Merge requests that appear to be straight from an AI output, commits with AI tool authorship or co-authorship tags, or otherwise AI generated submissions are subject to closure.
