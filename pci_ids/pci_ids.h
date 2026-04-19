@@ -827,6 +827,7 @@
 #define MSI_RTX5080_GAMING_TRIO_OC_SUB_DEV              0x5315
 #define MSI_RTX5080_VANGUARD_SOC_SUB_DEV                0x5314
 #define MSI_RTX5080_SUPRIM_SOC_SUB_DEV                  0x5313
+#define MSI_RTX5080_SUPRIM_LIQUID_SOC_SUB_DEV           0x5312
 #define MSI_RTX5090_GAMING_TRIO_SUB_DEV                 0x5303
 #define MSI_RTX5090_VANGUARD_SOC_SUB_DEV                0x5302
 #define MSI_RTX5090_SUPRIM_SOC_SUB_DEV                  0x5301
