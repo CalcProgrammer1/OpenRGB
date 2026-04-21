@@ -27,89 +27,119 @@
 \*---------------------------------------------------------*/
 
 /*---------------------------------------------------------*\
-| LED values in TKL order (fn_row + main + extras)          |
+| LED values in FINAL LED ORDER                              |
 |                                                           |
-| Values follow the key order in KeyboardLayoutManager.cpp. |
-| For ANSI-only keys (not present on this ISO keyboard),    |
-| use 0 as a placeholder - they won't be displayed.         |
-| Numpad values are added via edit_keys.                    |
+| CRITICAL: This array MUST be in the order LEDs appear   |
+| in OpenRGB (row-major order after sorting by row,col). |
+|                                                           |
+| The KeyboardLayoutManager sorts keys by (row, col), so |
+| this array must match that sorted order, not zone order!   |
 \*---------------------------------------------------------*/
 static const std::vector<unsigned int> clevo_tkl_values =
 {
     /*---------------------------------------------------------*\
-    | Function row (keyboard_zone_fn_row)                       |
+    | Row 0: F-row + extras                                |
     \*---------------------------------------------------------*/
     105,                                                        // Escape
     106, 107, 108, 109,                                         // F1-F4
     110, 111, 112, 113,                                         // F5-F8
     114, 115, 116, 117,                                         // F9-F12
+    118,                                                        // Print Screen
 
     /*---------------------------------------------------------*\
-    | Main block - Row 1 (keyboard_zone_main)                   |
+    | Row 1: Number row + extras                              |
     \*---------------------------------------------------------*/
     84,                                                         // Back tick
     85, 86, 87, 88, 89, 90, 91, 92, 93, 94,                     // 1-0
     95, 96,                                                     // Minus, Equals
     98,                                                         // Backspace
-
-    /*---------------------------------------------------------*\
-    | Main block - Row 2                                        |
-    \*---------------------------------------------------------*/
-    63,                                                         // Tab
-    65, 66, 67, 68, 69, 70, 71, 72, 73, 74,                     // Q-P
-    75, 76,                                                     // [ ]
-    0,                                                          // ANSI backslash (not on ISO)
-
-    /*---------------------------------------------------------*\
-    | Main block - Row 3                                        |
-    \*---------------------------------------------------------*/
-    42,                                                         // Caps Lock
-    44, 45, 46, 47, 48, 49, 50, 51, 52,                         // A-L
-    53, 54,                                                     // ; '
-    55,                                                         // ISO # (POUND)
-    77,                                                         // Enter (ANSI/ISO share same LED)
-
-    /*---------------------------------------------------------*\
-    | Main block - Row 4                                        |
-    \*---------------------------------------------------------*/
-    22,                                                         // Left Shift
-    23,                                                         // ISO backslash
-    24, 25, 26, 27, 28, 29, 30, 31, 32,                         // Z-. (9 keys)
-    33,                                                         // /
-    35,                                                         // Right Shift
-
-    /*---------------------------------------------------------*\
-    | Main block - Row 5                                        |
-    \*---------------------------------------------------------*/
-    0,                                                          // Left Ctrl
-    3,                                                          // Left Win
-    4,                                                          // Left Alt
-    7,                                                          // Space
-    10,                                                         // Right Alt
-    0,                                                          // Right Fn (removed via edit_keys)
-    0,                                                          // Menu (removed via edit_keys)
-    12,                                                         // Right Ctrl
-
-    /*---------------------------------------------------------*\
-    | Extras - Navigation cluster (keyboard_zone_extras)        |
-    \*---------------------------------------------------------*/
-    118,                                                        // Print Screen
-    0,                                                          // Scroll Lock (removed via edit_keys)
-    0,                                                          // Pause (removed via edit_keys)
     119,                                                        // Insert
+    99,                                                         // Num Lock
+    100,                                                        // Numpad /
+    101,                                                        // Numpad *
+    102,                                                        // Numpad -
     121,                                                        // Home
     123,                                                        // Page Up
+
+    /*---------------------------------------------------------*\
+    | Row 2: QWERTY row + extras                           |
+    \*---------------------------------------------------------*/
+    63,                                                         // Tab
+    65,                                                         // Q
+    66,                                                         // W
+    67,                                                         // E
+    68,                                                         // R
+    69,                                                         // T
+    70,                                                         // Y
+    71,                                                         // U
+    72,                                                         // I
+    73,                                                         // O
+    74,                                                         // P
+    75,                                                         // [
+    76,                                                         // ]
     120,                                                        // Delete
+    78,                                                         // Numpad 7
+    79,                                                         // Numpad 8
+    80,                                                         // Numpad 9
+    81,                                                         // Numpad +
     122,                                                        // End
     124,                                                        // Page Down
 
     /*---------------------------------------------------------*\
-    | Extras - Arrow keys                                       |
+    | Row 3: ASDF row + numpad                              |
     \*---------------------------------------------------------*/
-    14,                                                         // Up
-    13,                                                         // Left
-    18,                                                         // Down
-    15,                                                         // Right
+    42,                                                         // Caps Lock
+    44,                                                         // A
+    45,                                                         // S
+    46,                                                         // D
+    47,                                                         // F
+    48,                                                         // G
+    49,                                                         // H
+    50,                                                         // J
+    51,                                                         // K
+    52,                                                         // L
+    53,                                                         // ;
+    54,                                                         // '
+    55,                                                         // ISO #
+    77,                                                         // Enter
+    57,                                                         // Numpad 4
+    58,                                                         // Numpad 5
+    59,                                                         // Numpad 6
+
+    /*---------------------------------------------------------*\
+    | Row 4: ZXCV row + numpad + Up arrow                     |
+    \*---------------------------------------------------------*/
+    22,                                                         // Left Shift
+    23,                                                         // ISO backslash
+    24,                                                         // Z
+    25,                                                         // X
+    26,                                                         // C
+    27,                                                         // V
+    28,                                                         // B
+    29,                                                         // N
+    30,                                                         // M
+    31,                                                         // ,
+    32,                                                         // .
+    33,                                                         // /
+    35,                                                         // Right Shift
+    36,                                                         // Numpad 1
+    37,                                                         // Numpad 2
+    38,                                                         // Numpad 3
+    14,                                                         // Up arrow
+
+    /*---------------------------------------------------------*\
+    | Row 5: Modifiers + arrows + numpad                      |
+    \*---------------------------------------------------------*/
+    3,                                                          // Left Win
+    4,                                                          // Left Alt
+    7,                                                          // Space
+    10,                                                         // Right Alt
+    12,                                                         // Right Ctrl
+    16,                                                         // Numpad 0
+    17,                                                         // Numpad .
+    13,                                                         // Left arrow
+    18,                                                         // Down arrow
+    15,                                                         // Right arrow
 };
 
 keyboard_keymap_overlay_values clevo_keyboard_layout
