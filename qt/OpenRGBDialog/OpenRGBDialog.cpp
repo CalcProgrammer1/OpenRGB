@@ -564,12 +564,16 @@ void OpenRGBDialog::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void OpenRGBDialog::resizeEvent(QResizeEvent *event)
+bool OpenRGBDialog::isCompactTabMode()
 {
-    QScreen*    screen  = QGuiApplication::primaryScreen();
-    qreal       scale   = screen->devicePixelRatio();
+    QScreen* screen  = QGuiApplication::primaryScreen();
+    qreal    scale   = screen->devicePixelRatio();
+    return (width() < (700 * scale));
+}
 
-    bool compact_mode = (event->size().width() < (700 * scale));
+void OpenRGBDialog::resizeEvent(QResizeEvent *event)
+{    
+    bool compact_mode = isCompactTabMode();
 
     for(int i = 0; i < ui->DevicesTabBar->count(); i++)
     {
@@ -1090,6 +1094,8 @@ void OpenRGBDialog::UpdateDevicesList()
                 \*-----------------------------------------*/
                 TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
 
+                NewTabLabel->SetTextHidden(isCompactTabMode());
+
                 ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
 
                 /*-----------------------------------------*\
@@ -1148,6 +1154,8 @@ void OpenRGBDialog::UpdateDevicesList()
             | Create the tab label                          |
             \*---------------------------------------------*/
             TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
+
+            NewTabLabel->SetTextHidden(isCompactTabMode());
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
