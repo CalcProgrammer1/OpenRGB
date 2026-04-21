@@ -143,6 +143,8 @@ private:
     void OnSuspend() override;
     void OnResume() override;
 
+    bool isCompactTabMode();
+
 private slots:
     void on_Exit();
     void on_LightsOff();
