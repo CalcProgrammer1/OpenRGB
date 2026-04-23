@@ -41,3 +41,7 @@ if [ "$1" = "qt5" ]; then
 fi
 
 $ARCH $BREW_PATH/$QT_PATH/macdeployqt OpenRGB.app -codesign=OpenRGB
+
+if [ "$1" = "qt6" ]; then
+    $ARCH $BREW_PATH/$QT_PATH/macdeployqt OpenRGB.app -codesign=OpenRGB
+fi
