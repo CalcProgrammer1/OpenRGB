@@ -33,4 +33,11 @@ fi
 eval $($BREW_PATH/bin/brew shellenv)
 $ARCH $BREW_PATH/$QT_PATH/qmake OpenRGB.pro
 $ARCH make -j$(sysctl -n hw.ncpu)
+
+if [ "$1" = "qt5" ]; then
+    mkdir -p OpenRGB.app/Contents/Frameworks
+    cp $BREW_PATH/lib/libsharpyuv.0.dylib OpenRGB.app/Contents/Frameworks
+    install_name_tool -change @rpath/libsharpyuv.0.dylib @executable_path/../Frameworks/libsharpyuv.0.dylib OpenRGB.app/Contents/MacOS/OpenRGB
+fi
+
 $ARCH $BREW_PATH/$QT_PATH/macdeployqt OpenRGB.app -codesign=OpenRGB
