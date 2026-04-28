@@ -21,11 +21,12 @@
 
 using namespace std::chrono_literals;
 
-
-// Sources for define values:
-// - https://en.wikipedia.org/wiki/Serial_presence_detect
-// - JEDEC DDR5 Serial Presence Detect (SPD): Table of contents
-
+/*---------------------------------------------------------*\
+| Sources for define values:                                |
+| - https://en.wikipedia.org/wiki/Serial_presence_detect    |
+| - JEDEC DDR5 Serial Presence Detect (SPD): Table of       |
+|   contents                                                |
+\*---------------------------------------------------------*/
 #define BASIC_MEMORY_TYPE_ADDR      (0x02)
 
 #define DDR4_JEDEC_ID_ADDR          (0x140)
@@ -115,23 +116,27 @@ std::string SPDAccessor::read_part_nr_at(uint16_t address, std::size_t len)
 {
     std::string part_number;
 
-    for(std::size_t i = 0; i < len; i++)
+    for(uint16_t i = 0; i < (uint16_t)len; i++)
     {
-        std::size_t spd_addr = address + i;
+        uint16_t spd_addr = address + i;
         part_number += (char)this->at(spd_addr);
     }
 
-    // Find the true end of string & truncate it to that point.
-    // Part number should be padded with 0x20 (space) for DDR4 (Source: Wikipedia)
-    // It may be padded with 0x00 (Source: real-life tests on DDR5 memory)
-    // Note: To prevent infinite loop, end_of_string_idx MUST be signed.
-    int end_of_string_idx = part_number.length()-1;
-    for(; end_of_string_idx >= 0; end_of_string_idx--)
+    /*-----------------------------------------------------*\
+    | Find the true end of string and truncate it to that   |
+    | point.  Part number should be padded with 0x20        |
+    | (space) for DDR4 (Source: Wikipedia).                 |
+    | It may be padded with 0x00 (Source: real-life tests   |
+    | on DDR5 memory).                                      |
+    | Note: To prevent infinite loop, end_of_string_idx     |
+    | MUST be signed.                                       |
+    \*-----------------------------------------------------*/
+    std::size_t end_of_string_idx = part_number.length();
+
+    for(; end_of_string_idx > 0; end_of_string_idx--)
     {
-        if(
-            part_number[end_of_string_idx] != '\0' &&
-            part_number[end_of_string_idx] != ' '
-        )
+        if((part_number[end_of_string_idx - 1] != '\0')
+        && (part_number[end_of_string_idx - 1] != ' '))
         {
             break;
         }

@@ -20,7 +20,7 @@
     @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectMSIMysticLight1565Controller
+    @detectors DetectMSIKeyboardController
     @comment
 \*-------------------------------------------------------------------*/
 

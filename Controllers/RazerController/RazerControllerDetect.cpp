@@ -239,8 +239,11 @@ REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 Mini (Wireless)",             Det
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4",                             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PID,                        0x03,   0x01,   0x00);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro",                         DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_PID,                    0x03,   0x01,   0x00);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro 75% (Wired)",             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_75_WIRED_PID,           0x03,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro 75% (Wireless)",          DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_75_WIRELESS_PID,        0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 75% (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_75_WIRED_PID,               0x03,   0x01,   0x00);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 X",                           DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_X_PID,                      0x02,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 TKL (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_TKL_WIRED_PID,              0x03,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 TKL (Wireless)",              DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_TKL_WIRELESS_PID,           0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_X_CHROMA_PID,                  0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma Tournament Edition",    DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_X_CHROMA_TE_PID,               0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cynosa Chroma",                             DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_CHROMA_PID,                        0x02,   0x01,   0x02);
@@ -326,6 +329,9 @@ REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro (Wireless)",                Det
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro 35K (Wired)",               DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PRO_35K_WIRED_PID,            0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro 35K (Wireless)",            DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PRO_35K_WIRELESS_PID,         0x00,   0x01,   0x02);
 // REGISTER_HID_DETECTOR_PU ("Razer Basilisk V3 Pro (Bluetooth)",               DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PRO_BLUETOOTH_PID,                    0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro 35K Phantom Green (Wired)",    DetectRazerControllers,     RAZER_VID,  RAZER_BASILISK_V3_PRO_35K_PG_WIRED_PID,         0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro 35K Phantom Green (Wireless)", DetectRazerControllers,     RAZER_VID,  RAZER_BASILISK_V3_PRO_35K_PG_WIRELESS_PID,      0x00,   0x01,   0x02);
+// REGISTER_HID_DETECTOR_PU("Razer Basilisk V3 Pro 35K Phantom Green (Bluetooth)",DetectRazerControllers,      RAZER_BLUETOOTH_VID, RAZER_BASILISK_V3_PRO_35K_PG_BLUETOOTH_PID,    0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 X HyperSpeed",                  DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_X_HYPERSPEED_PID,             0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cobra",                                     DetectRazerControllers,        RAZER_VID,  RAZER_COBRA_PID,                                0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cobra Pro (Wired)",                         DetectRazerControllers,        RAZER_VID,  RAZER_COBRA_PRO_WIRED_PID,                      0x00,   0x01,   0x02);

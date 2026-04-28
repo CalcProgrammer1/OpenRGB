@@ -13,6 +13,78 @@
 
 using namespace std;
 
+static bool UsesGen10PacketFormat(uint16_t pid)
+{
+    return pid == LEGION_7GEN10 || pid == LEGION_5GEN10;
+}
+
+static bool Is24ZoneDevice(uint16_t pid)
+{
+    return pid == LEGION_5GEN10;
+}
+
+static bool IsKeyboardOnlyDevice(uint16_t pid)
+{
+    return pid == LEGION_5GEN10;
+}
+
+static const lenovo_led legion_5gen10_24zone_leds[] =
+{
+    {0x01, "Zone R1C1"},
+    {0x02, "Zone R1C2"},
+    {0x03, "Zone R1C3"},
+    {0x04, "Zone R1C4"},
+    {0x05, "Zone R1C5"},
+    {0x06, "Zone R1C6"},
+    {0x07, "Zone R2C1"},
+    {0x08, "Zone R2C2"},
+    {0x09, "Zone R2C3"},
+    {0x0A, "Zone R2C4"},
+    {0x0B, "Zone R2C5"},
+    {0x0C, "Zone R2C6"},
+    {0x0D, "Zone R3C1"},
+    {0x0E, "Zone R3C2"},
+    {0x0F, "Zone R3C3"},
+    {0x10, "Zone R3C4"},
+    {0x11, "Zone R3C5"},
+    {0x12, "Zone R3C6"},
+    {0x13, "Zone R4C1"},
+    {0x14, "Zone R4C2"},
+    {0x15, "Zone R4C3"},
+    {0x16, "Zone R4C4"},
+    {0x17, "Zone R4C5"},
+    {0x18, "Zone R4C6"},
+};
+
+static const unsigned int legion_5gen10_24zone_matrix_map[] =
+{
+    0, 1, 2, 3, 4, 5,
+    6, 7, 8, 9, 10, 11,
+    12, 13, 14, 15, 16, 17,
+    18, 19, 20, 21, 22, 23,
+};
+
+static const lenovo_zone legion_5gen10_kbd_24zone =
+{
+    "Keyboard (24-zone)",
+    ZONE_TYPE_MATRIX,
+    0,
+    4,
+    6,
+    legion_5gen10_24zone_matrix_map,
+    legion_5gen10_24zone_leds,
+    0,
+    23,
+};
+
+static const RGBColor legion_5gen10_zone_visualization_colors[24] =
+{
+    0xFF0000, 0x00FFFF, 0xFFFF00, 0x0000FF, 0x00FF00, 0xFF00FF,
+    0xFF7F00, 0x007FFF, 0x7FFF00, 0x7F00FF, 0xFF007F, 0x00FF7F,
+    0xFFD700, 0x0055FF, 0x55FF00, 0xFF0055, 0x00BFFF, 0xBF00FF,
+    0xFF3B00, 0x00FF3B, 0x3B00FF, 0xFF1493, 0x14FF93, 0x9314FF,
+};
+
 LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBController* controller_ptr)
 {
     controller = controller_ptr;
@@ -139,72 +211,79 @@ LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBControll
     Smooth.brightness = brightness;
     modes.push_back(Smooth);
 
-    mode Rain;
-    Rain.name = "Rain";
-    Rain.value = LENOVO_LEGION_GEN7_8_MODE_RAIN;
-    Rain.flags = MODE_FLAG_HAS_SPEED |
-        MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_RANDOM_COLOR |
-        MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_AUTOMATIC_SAVE;
-    Rain.speed_min = 0x01;
-    Rain.speed_max = 0x03;
-    Rain.speed = 2;
-    Rain.colors_min = 1;
-    Rain.colors_max = 4;
-    Rain.colors.resize(4);
-    Rain.colors[0] = 0xFFF500;
-    Rain.color_mode = MODE_COLORS_RANDOM;
-    Rain.brightness_min = 0;
-    Rain.brightness_max = 9;
-    Rain.brightness = brightness;
-    modes.push_back(Rain);
+    if(!Is24ZoneDevice(controller->getPid()))
+    {
+        mode Rain;
+        Rain.name = "Rain";
+        Rain.value = LENOVO_LEGION_GEN7_8_MODE_RAIN;
+        Rain.flags = MODE_FLAG_HAS_SPEED |
+            MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
+            MODE_FLAG_HAS_RANDOM_COLOR |
+            MODE_FLAG_HAS_BRIGHTNESS |
+            MODE_FLAG_AUTOMATIC_SAVE;
+        Rain.speed_min = 0x01;
+        Rain.speed_max = 0x03;
+        Rain.speed = 2;
+        Rain.colors_min = 1;
+        Rain.colors_max = 4;
+        Rain.colors.resize(4);
+        Rain.colors[0] = 0xFFF500;
+        Rain.color_mode = MODE_COLORS_RANDOM;
+        Rain.brightness_min = 0;
+        Rain.brightness_max = 9;
+        Rain.brightness = brightness;
+        modes.push_back(Rain);
+    }
 
-    mode Ripple;
-    Ripple.name = "Ripple";
-    Ripple.value = LENOVO_LEGION_GEN7_8_MODE_RIPPLE;
-    Ripple.flags = MODE_FLAG_HAS_SPEED |
-        MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_RANDOM_COLOR |
-        MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_AUTOMATIC_SAVE;
-    Ripple.speed_min = 0x01;
-    Ripple.speed_max = 0x03;
-    Ripple.speed = 2;
-    Ripple.colors_min = 1;
-    Ripple.colors_max = 4;
-    Ripple.colors.resize(4);
-    Ripple.colors[0] = 0xFFF500;
-    Ripple.color_mode = MODE_COLORS_RANDOM;
-    Ripple.brightness_min = 0;
-    Ripple.brightness_max = 9;
-    Ripple.brightness = brightness;
-    modes.push_back(Ripple);
+    if(!IsKeyboardOnlyDevice(controller->getPid()))
+    {
+        mode Ripple;
+        Ripple.name = "Ripple";
+        Ripple.value = LENOVO_LEGION_GEN7_8_MODE_RIPPLE;
+        Ripple.flags = MODE_FLAG_HAS_SPEED |
+            MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
+            MODE_FLAG_HAS_RANDOM_COLOR |
+            MODE_FLAG_HAS_BRIGHTNESS |
+            MODE_FLAG_AUTOMATIC_SAVE;
+        Ripple.speed_min = 0x01;
+        Ripple.speed_max = 0x03;
+        Ripple.speed = 2;
+        Ripple.colors_min = 1;
+        Ripple.colors_max = 4;
+        Ripple.colors.resize(4);
+        Ripple.colors[0] = 0xFFF500;
+        Ripple.color_mode = MODE_COLORS_RANDOM;
+        Ripple.brightness_min = 0;
+        Ripple.brightness_max = 9;
+        Ripple.brightness = brightness;
+        modes.push_back(Ripple);
 
-    mode AudioBounce;
-    AudioBounce.name = "Audio Bounce Lighting";
-    AudioBounce.value = LENOVO_LEGION_GEN7_8_MODE_AUDIO_BOUNCE;
-    AudioBounce.flags = MODE_FLAG_HAS_BRIGHTNESS;
-    AudioBounce.color_mode = MODE_COLORS_NONE;
-    AudioBounce.brightness_min = 0;
-    AudioBounce.brightness_max = 9;
-    AudioBounce.brightness = brightness;
-    modes.push_back(AudioBounce);
+        mode AudioBounce;
+        AudioBounce.name = "Audio Bounce Lighting";
+        AudioBounce.value = LENOVO_LEGION_GEN7_8_MODE_AUDIO_BOUNCE;
+        AudioBounce.flags = MODE_FLAG_HAS_BRIGHTNESS;
+        AudioBounce.color_mode = MODE_COLORS_NONE;
+        AudioBounce.brightness_min = 0;
+        AudioBounce.brightness_max = 9;
+        AudioBounce.brightness = brightness;
+        modes.push_back(AudioBounce);
 
-    mode AudioRipple;
-    AudioRipple.name = "Audio Ripple Lighting";
-    AudioRipple.value = LENOVO_LEGION_GEN7_8_MODE_AUDIO_RIPPLE;
-    AudioRipple.flags = MODE_FLAG_HAS_BRIGHTNESS;
-    AudioRipple.color_mode = MODE_COLORS_NONE;
-    AudioRipple.brightness_min = 0;
-    AudioRipple.brightness_max = 9;
-    AudioRipple.brightness = brightness;
-    modes.push_back(AudioRipple);
+        mode AudioRipple;
+        AudioRipple.name = "Audio Ripple Lighting";
+        AudioRipple.value = LENOVO_LEGION_GEN7_8_MODE_AUDIO_RIPPLE;
+        AudioRipple.flags = MODE_FLAG_HAS_BRIGHTNESS;
+        AudioRipple.color_mode = MODE_COLORS_NONE;
+        AudioRipple.brightness_min = 0;
+        AudioRipple.brightness_max = 9;
+        AudioRipple.brightness = brightness;
+        modes.push_back(AudioRipple);
+    }
 
     mode Static;
     Static.name = "Static";
     Static.value = LENOVO_LEGION_GEN7_8_MODE_STATIC;
     Static.flags = MODE_FLAG_HAS_PER_LED_COLOR |
+        MODE_FLAG_HAS_RANDOM_COLOR |
         MODE_FLAG_HAS_BRIGHTNESS |
         MODE_FLAG_AUTOMATIC_SAVE;
     Static.color_mode = MODE_COLORS_PER_LED;
@@ -213,37 +292,43 @@ LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBControll
     Static.brightness = brightness;
     modes.push_back(Static);
 
-    mode Type;
-    Type.name = "Type Lighting";
-    Type.value = LENOVO_LEGION_GEN7_8_MODE_TYPE;
-    Type.flags = MODE_FLAG_HAS_SPEED |
-        MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_RANDOM_COLOR |
-        MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_AUTOMATIC_SAVE;
-    Type.speed_min = 0x01;
-    Type.speed_max = 0x03;
-    Type.speed = 2;
-    Type.colors_min = 1;
-    Type.colors_max = 4;
-    Type.colors.resize(4);
-    Type.colors[0] = 0xFFF500;
-    Type.color_mode = MODE_COLORS_RANDOM;
-    Type.brightness_min = 0;
-    Type.brightness_max = 9;
-    Type.brightness = brightness;
-    modes.push_back(Type);
+    if(!Is24ZoneDevice(controller->getPid()))
+    {
+        mode Type;
+        Type.name = "Type Lighting";
+        Type.value = LENOVO_LEGION_GEN7_8_MODE_TYPE;
+        Type.flags = MODE_FLAG_HAS_SPEED |
+            MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
+            MODE_FLAG_HAS_RANDOM_COLOR |
+            MODE_FLAG_HAS_BRIGHTNESS |
+            MODE_FLAG_AUTOMATIC_SAVE;
+        Type.speed_min = 0x01;
+        Type.speed_max = 0x03;
+        Type.speed = 2;
+        Type.colors_min = 1;
+        Type.colors_max = 4;
+        Type.colors.resize(4);
+        Type.colors[0] = 0xFFF500;
+        Type.color_mode = MODE_COLORS_RANDOM;
+        Type.brightness_min = 0;
+        Type.brightness_max = 9;
+        Type.brightness = brightness;
+        modes.push_back(Type);
+    }
 
-    mode Direct;
-    Direct.name = "Direct";
-    Direct.value = LENOVO_LEGION_GEN7_8_MODE_DIRECT;
-    Direct.flags = MODE_FLAG_HAS_PER_LED_COLOR |
-        MODE_FLAG_HAS_BRIGHTNESS;
-    Direct.color_mode = MODE_COLORS_PER_LED;
-    Direct.brightness_min = 0;
-    Direct.brightness_max = 9;
-    Direct.brightness = brightness;
-    modes.push_back(Direct);
+    if(!IsKeyboardOnlyDevice(controller->getPid()))
+    {
+        mode Direct;
+        Direct.name = "Direct";
+        Direct.value = LENOVO_LEGION_GEN7_8_MODE_DIRECT;
+        Direct.flags = MODE_FLAG_HAS_PER_LED_COLOR |
+            MODE_FLAG_HAS_BRIGHTNESS;
+        Direct.color_mode = MODE_COLORS_PER_LED;
+        Direct.brightness_min = 0;
+        Direct.brightness_max = 9;
+        Direct.brightness = brightness;
+        modes.push_back(Direct);
+    }
 
     name   = controller->getName();
     type   = DEVICE_TYPE_KEYBOARD;
@@ -275,6 +360,10 @@ LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBControll
     case LEGION_7GEN10:
         description = "Lenovo Legion 7 Generation 10";
         break;
+
+    case LEGION_5GEN10:
+        description = "Lenovo Legion 5 Gen 10";
+        break;
     }
 
     brightness = controller->getCurrentBrightness();
@@ -286,15 +375,15 @@ LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBControll
 
     SetupZones();
 
-    /*-----------------*\
-    | Initiliaze Static |
-    \*-----------------*/
+    /*-----------------------------------------------------*\
+    | Initiliaze Static                                     |
+    \*-----------------------------------------------------*/
     active_mode = 0;
     for(size_t i = 0; i < modes.size(); i++)
     {
         if(modes[i].value == LENOVO_LEGION_GEN7_8_MODE_STATIC)
         {
-            active_mode = i;
+            active_mode = (int)i;
             break;
         }
     }
@@ -307,12 +396,22 @@ LenovoRGBController_Gen7_8::~LenovoRGBController_Gen7_8()
     delete controller;
 }
 
-
 void LenovoRGBController_Gen7_8::SetupZones()
 {
     vector<lenovo_zone> lenovo_zones;
-    lenovo_zones.push_back(legion7_gen7and8_kbd_ansi);
-    lenovo_zones.push_back(legion7_gen7and8_neon);
+    if(Is24ZoneDevice(controller->getPid()))
+    {
+        lenovo_zones.push_back(legion_5gen10_kbd_24zone);
+    }
+    else
+    {
+        lenovo_zones.push_back(legion7_gen7and8_kbd_ansi);
+    }
+
+    if(!IsKeyboardOnlyDevice(controller->getPid()))
+    {
+        lenovo_zones.push_back(legion7_gen7and8_neon);
+    }
 
     if (controller->getPid() == LEGION_7GEN7)
     {
@@ -363,9 +462,9 @@ void LenovoRGBController_Gen7_8::SetupZones()
             new_led.value = lenovo_zones[i].id << 8 | lenovo_zones[i].leds[led_idx].led_num ;
             leds.push_back(new_led);
 
-            /*---------------------------------------------------------*\
-            | create led id to index map for fast look up               |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | create led id to index map for fast look up   |
+            \*---------------------------------------------*/
             led_id_to_index[new_led.value]=leds.size() - 1;
         }
     }
@@ -423,7 +522,7 @@ void LenovoRGBController_Gen7_8::DeviceUpdateMode()
         {
             controller->setLedsDirectOn(profile_id);
             direct_enabled = true;
-            if(controller->getPid() != LEGION_7GEN10)
+            if(!UsesGen10PacketFormat(controller->getPid()))
             {
                 controller->setLedsByGroup(profile_id, GetLedGroups());
             }
@@ -447,11 +546,12 @@ void LenovoRGBController_Gen7_8::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_DIRECT)
     {
-        if(controller->getPid() == LEGION_7GEN10)
+        if(UsesGen10PacketFormat(controller->getPid()))
         {
-            /*---------------------------------------------------------*\
-            | Gen10 may ignore A1 updates unless D0 is reasserted.       |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Gen10 may ignore A1 updates unless D0 is      |
+            | reasserted.                                   |
+            \*---------------------------------------------*/
             controller->setLedsDirectOn(profile_id);
             direct_enabled = true;
         }
@@ -570,6 +670,29 @@ void LenovoRGBController_Gen7_8::ReadDeviceSettings()
 
 std::vector<led_group> LenovoRGBController_Gen7_8::GetLedGroups()
 {
+    if(Is24ZoneDevice(controller->getPid()) &&
+       modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_STATIC &&
+       modes[active_mode].color_mode == MODE_COLORS_RANDOM)
+    {
+        vector<led_group> led_groups;
+        led_groups.reserve(leds.size());
+
+        for(size_t i = 0; i < leds.size(); i++)
+        {
+            led_group group;
+            group.mode = modes[active_mode].value;
+            group.speed = modes[active_mode].speed;
+            group.spin = 0x00;
+            group.direction = 0x00;
+            group.color_mode = 0x02;
+            group.colors.push_back(legion_5gen10_zone_visualization_colors[i % 24]);
+            group.leds.push_back(leds[i].value);
+            led_groups.push_back(group);
+        }
+
+        return led_groups;
+    }
+
     std::unordered_map<RGBColor, vector<uint16_t>> led_map;
 
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED &&
@@ -585,9 +708,9 @@ std::vector<led_group> LenovoRGBController_Gen7_8::GetLedGroups()
         size_t start = 0;
         size_t end = leds.size();
 
-        /*---------------------------------------------------------*\
-        | Riplle and Type only apply to keyboard                    |
-        \*---------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Riplle and Type only apply to keyboard            |
+        \*-------------------------------------------------*/
         if(modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_RIPPLE ||
                 modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_TYPE)
         {

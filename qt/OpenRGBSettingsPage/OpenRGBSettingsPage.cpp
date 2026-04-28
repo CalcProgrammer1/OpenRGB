@@ -94,6 +94,7 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     \*---------------------------------------------------------*/
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
 
+    ui->ComboBoxLanguage->blockSignals(true);
     if(ui_settings.contains("language"))
     {
         /*-----------------------------------------------------*\
@@ -115,6 +116,12 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         SaveSettings();
         ui->ComboBoxLanguage->setCurrentIndex(0);
     }
+
+    /*---------------------------------------------------------*\
+    | Explicitly load the current selected language             |
+    \*---------------------------------------------------------*/
+    on_ComboBoxLanguage_currentTextChanged(ui->ComboBoxLanguage->currentText());
+    ui->ComboBoxLanguage->blockSignals(false);
 
     if(ui_settings.contains("greyscale_tray_icon"))
     {
@@ -139,9 +146,24 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         }
     }
 
+    /*-------------------------------------*\
+    | Use PascalCase key for compatibility |
+    | should be removed later on.          |
+    \*-------------------------------------*/
     if(ui_settings.contains("RunZoneChecks"))
     {
-        ui->CheckboxRunZoneChecks->setChecked(ui_settings["RunZoneChecks"]);
+        /*----------------------------------*\
+        | Migrate key to snake_case version |
+        \*----------------------------------*/
+        ui_settings["run_zone_checks"] = ui_settings["RunZoneChecks"];
+        ui_settings.erase("RunZoneChecks");
+        ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+
+        ui->CheckboxRunZoneChecks->setChecked(ui_settings["run_zone_checks"]);
+    }
+    else if (ui_settings.contains("run_zone_checks"))
+    {
+        ui->CheckboxRunZoneChecks->setChecked(ui_settings["run_zone_checks"]);
     }
     else
     {
@@ -224,24 +246,28 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         ui->TextDetectionDelay->setValue(0);
     }
 
+#if defined(_MACOSX_X86_X64)
     /*---------------------------------------------------------*\
-    | Load drivers settings (Windows only or Mac)               |
+    | Load drivers settings (MacOS only)                        |
     \*---------------------------------------------------------*/
-#if defined(WIN32) || defined(_MACOSX_X86_X64)
     json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
+
+    ui->CheckboxSharedSMBusAccess->hide();
+    ui->LabelSMBusSleepMode->hide();
+    ui->ComboBoxSMBusSleepMode->hide();
 
     if(drivers_settings.contains("amd_smbus_reduce_cpu"))
     {
         ui->CheckboxAMDSMBusReduceCPU->setChecked(drivers_settings["amd_smbus_reduce_cpu"]);
     }
-#else
-    ui->DriversSettingsLabel->hide();
-    ui->CheckboxAMDSMBusReduceCPU->hide();
-#endif
+#elif defined(_WIN32)
     /*---------------------------------------------------------*\
     | Load drivers settings (Windows only)                      |
     \*---------------------------------------------------------*/
-#ifdef _WIN32
+    json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
+
+    ui->CheckboxAMDSMBusReduceCPU->hide();
+
     if(drivers_settings.contains("shared_smbus_access"))
     {
         ui->CheckboxSharedSMBusAccess->setChecked(drivers_settings["shared_smbus_access"]);
@@ -250,10 +276,29 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     {
         ui->CheckboxSharedSMBusAccess->setChecked(true);
     }
-#else
-    ui->CheckboxSharedSMBusAccess->hide();
-#endif
 
+    ui->ComboBoxSMBusSleepMode->addItem("Always Busy");
+    ui->ComboBoxSMBusSleepMode->addItem("Short Busy");
+    ui->ComboBoxSMBusSleepMode->addItem("Always Sleep");
+
+    if(drivers_settings.contains("smbus_sleep_mode") && (drivers_settings["smbus_sleep_mode"] <= 2))
+    {
+        ui->ComboBoxSMBusSleepMode->setCurrentIndex(drivers_settings["smbus_sleep_mode"]);
+    }
+    else
+    {
+        ui->ComboBoxSMBusSleepMode->setCurrentIndex(2);
+    }
+#else
+    /*---------------------------------------------------------*\
+    | Hide all drivers settings otherwise                       |
+    \*---------------------------------------------------------*/
+    ui->DriversSettingsLabel->hide();
+    ui->CheckboxAMDSMBusReduceCPU->hide();
+    ui->CheckboxSharedSMBusAccess->hide();
+    ui->LabelSMBusSleepMode->hide();
+    ui->ComboBoxSMBusSleepMode->hide();
+#endif
     UpdateProfiles();
 
     /*---------------------------------------------------------*\
@@ -298,6 +343,14 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
 
     ui->AutoStartStatusLabel->hide();
     autostart_initialized = true;
+
+    /*---------------------------------------------------------*\
+    | Sync the autostart system configuration with settings on  |
+    | startup. This ensures the file is recreated if it was     |
+    | deleted (e.g. by a reinstall) without requiring the user  |
+    | to manually toggle the checkbox.                          |
+    \*---------------------------------------------------------*/
+    ConfigureAutoStart();
 }
 
 OpenRGBSettingsPage::~OpenRGBSettingsPage()
@@ -579,7 +632,7 @@ void OpenRGBSettingsPage::on_CheckboxSaveGeometry_clicked()
 void OpenRGBSettingsPage::on_CheckboxRunZoneChecks_clicked()
 {
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
-    ui_settings["RunZoneChecks"] = ui->CheckboxRunZoneChecks->isChecked();
+    ui_settings["run_zone_checks"] = ui->CheckboxRunZoneChecks->isChecked();
     ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
     SaveSettings();
 }
@@ -1053,6 +1106,14 @@ void OpenRGBSettingsPage::on_CheckboxSharedSMBusAccess_clicked()
 {
     json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
     drivers_settings["shared_smbus_access"] = ui->CheckboxSharedSMBusAccess->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("Drivers", drivers_settings);
+    SaveSettings();
+}
+
+void OpenRGBSettingsPage::on_ComboBoxSMBusSleepMode_currentIndexChanged(int index)
+{
+    json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
+    drivers_settings["smbus_sleep_mode"] = index;
     ResourceManager::get()->GetSettingsManager()->SetSettings("Drivers", drivers_settings);
     SaveSettings();
 }

@@ -33,18 +33,31 @@ static unsigned int keys[] = {0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x
                               0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xF0, 0x31, 0x87,
                               0x88, 0x89, 0x8A, 0x8B, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, //100
                               0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62,
-                              0x63 };
+                              0x63, 0xFB };
 
 SteelSeriesApexController::SteelSeriesApexController(hid_device* dev_handle, steelseries_type type, const char* path, std::string dev_name) : SteelSeriesApexBaseController(dev_handle, path, dev_name)
 {
     proto_type = type;
-    use_new_protocol = false;
+    kbd_quirk = APEX_GEN1;
 
     SendInitialization();
 }
 
 SteelSeriesApexController::~SteelSeriesApexController()
 {
+    /*-----------------------------------------------------*\
+    | Gen 3 models must be explicitly cleared for on-board  |
+    | config selection to apply without power cycling after |
+    | OpenRGB shuts down.                                   |
+    \*-----------------------------------------------------*/
+    if(kbd_quirk == APEX_GEN3)
+    {
+        unsigned char obuf[STEELSERIES_PACKET_OUT_SIZE];
+        memset(obuf, 0x00, sizeof(obuf));
+        obuf[0x00] = 0;
+        obuf[0x01] = APEX_GEN3_PACKET_CLEAR_LIGHTING;
+        hid_write(dev, obuf, STEELSERIES_PACKET_OUT_SIZE);
+    }
     hid_close(dev);
 }
 
@@ -70,10 +83,18 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
 
     num_keys = sizeof(keys) / sizeof(*keys);
 
-    if(use_new_protocol)
+    if(kbd_quirk >= APEX_GEN2)
     {
         struct hid_device_info* info = hid_get_device_info(dev);
-        if(info && (info->product_id == 0x162C || info->product_id == 0x162D)) // Aparently Gen 3 wireless models reuse this protocol, make sure to place their PID here and further below when developing.
+
+        /*-------------------------------------------------*\
+        | Apparently Gen 3 wireless models reuse this       |
+        | protocol, make sure to place their PID here and   |
+        | further below when developing.                    |
+        \*-------------------------------------------------*/
+        if(info && (info->product_id == 0x1630 || info->product_id == 0x1632
+                 || info->product_id == 0x162C || info->product_id == 0x162D
+                 || info->product_id == 0x1644 || info->product_id == 0x1646))
         {
              packet_id = APEX_2023_PACKET_ID_DIRECT_WIRELESS;
         }
@@ -93,7 +114,7 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     \*-----------------------------------------------------*/
     buf[0x00]   = 0;
     buf[0x01]   = packet_id;
-    buf[0x02]   = (use_new_protocol) ? (unsigned char)colors.size() : num_keys;
+    buf[0x02]   = kbd_quirk ? (unsigned char)colors.size() : num_keys;
 
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
@@ -112,10 +133,9 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     hid_send_feature_report(dev, buf, 643);
 }
 
-/*-------------------------------------------------------------------------------------------------*\
-| Private packet sending functions.                                                                 |
-\*-------------------------------------------------------------------------------------------------*/
-
+/*---------------------------------------------------------*\
+| Private packet sending functions.                         |
+\*---------------------------------------------------------*/
 void SteelSeriesApexController::SelectProfile
     (
     unsigned char   profile
@@ -138,35 +158,37 @@ void SteelSeriesApexController::SendInitialization()
     unsigned char buf[FIRMWARE_REQ_LEN];
     unsigned char read_buf[65];
     int res = 0;
-    char version_str[32] = "Unknown";
+    char version_str[65] = "Unknown";
 
     struct hid_device_info* info = hid_get_device_info(dev);
     unsigned short pid = (info) ? info->product_id : 0;
 
-    // Firmware check
+    /*-----------------------------------------------------*\
+    | Firmware check for TKL 2023                           |
+    \*-----------------------------------------------------*/
     if(pid == 0x1628)
     {
-        /*-----------------------------------------------------*\
-        | Zero out buffer                                       |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Zero out buffer                                   |
+        \*-------------------------------------------------*/
         memset(buf, 0x00, sizeof(buf));
         buf[0x00]   = 0x00;
         buf[0x01]   = 0x90;
 
-        /*-----------------------------------------------------*\
-        | Send packet                                           |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Send packet                                       |
+        \*-------------------------------------------------*/
         hid_write(dev, buf, 65);
 
-        /*-----------------------------------------------------*\
-        | Read Response                                         |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Read Response                                     |
+        \*-------------------------------------------------*/
         memset(read_buf, 0x00, sizeof(read_buf));
         res = hid_read_timeout(dev, read_buf, sizeof(read_buf), 200);
 
-        /*-----------------------------------------------------*\
-        | Firmware Check                                        |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Firmware Check                                    |
+        \*-------------------------------------------------*/
         if(res > 2 && read_buf[0] == 0x90)
         {
             int major = 0, minor = 0, patch = 0;
@@ -178,35 +200,43 @@ void SteelSeriesApexController::SendInitialization()
 
             if(count == 3)
             {
-                // Currently set to 1.19.7 or newer.
+                /*-----------------------------------------*\
+                | Currently set to 1.19.7 or newer.         |
+                \*-----------------------------------------*/
                 if(major > 1)
                 {
-                    use_new_protocol = true;
+                    kbd_quirk = APEX_GEN2;
                 }
                 else if(major == 1)
                 {
                     if(minor > 19)
                     {
-                        use_new_protocol = true;
+                        kbd_quirk = APEX_GEN2;
                     }
                     else if(minor == 19 && patch >= 7)
                     {
-                        use_new_protocol = true;
+                        kbd_quirk = APEX_GEN2;
                     }
                 }
             }
         }
     }
-    // // Aparently Gen 3 models reuse this protocol, make sure to place their PID here and further above for wireless when developing.
-    else if(pid == 0x162C || pid == 0x162D)
+    /*-----------------------------------------------------*\
+    | Apparently Gen 3 models reuse this protocol, make     |
+    | sure to place their PID here and further above for    |
+    | wireless when developing.                             |
+    \*-----------------------------------------------------*/
+    else if(pid == 0x1630 || pid == 0x1632
+         || pid == 0x162C || pid == 0x162D
+         || pid == 0x1642 || pid == 0x1644 || pid == 0x1646)
     {
-        use_new_protocol = true;
+        kbd_quirk = APEX_GEN3;
     }
 
     /*-----------------------------------------------------*\
     | Send Initialization packet on new protocol.           |
     \*-----------------------------------------------------*/
-    if(use_new_protocol)
+    if(kbd_quirk >= APEX_GEN2)
     {
         memset(buf, 0x00, sizeof(buf));
         buf[0x00]   = 0x00;
@@ -223,8 +253,64 @@ void SteelSeriesApexController::SendInitialization()
 
 std::string SteelSeriesApexController::GetSerial()
 {
-    if(use_new_protocol)
+    /*-------------------------------------------------*\
+    | Gen 3 doesn't expose the serial number in         |
+    | firmware. A region code is instead set by the     |
+    | user and subsequently read back. This region code |
+    | is used by all 5 on-board configs.                |
+    | For consistency with other Apex keyboards, this   |
+    | region code in combination with the PID is mapped |
+    | to an approximate product number as the region    |
+    | patch logic from that point is identical.         |
+    | The product number used may not be an exact match |
+    | for the keyboard but should reflect the form      |
+    | factor, region and RGB layout                     |
+    \*-------------------------------------------------*/
+    if(kbd_quirk >= APEX_GEN2)
     {
+        unsigned char           obuf[STEELSERIES_PACKET_OUT_SIZE];
+        unsigned char           ibuf[STEELSERIES_PACKET_IN_SIZE];
+        int                     result;
+        struct hid_device_info* info = hid_get_device_info(dev);
+        unsigned short          pid = (info) ? info->product_id : 0;
+
+        memset(obuf, 0x00, sizeof(obuf));
+
+        if(pid == 0x1642)
+        {
+            obuf[0x00] = 0;
+            obuf[0x01] = 0xF5;
+            hid_write(dev, obuf, STEELSERIES_PACKET_OUT_SIZE);
+            result = hid_read_timeout(dev, ibuf, STEELSERIES_PACKET_IN_SIZE, 2);
+
+            if(result > 3 && ibuf[0] == 0xF5)
+            {
+                switch(ibuf[2])
+                {
+                case 0x1:
+                    return "64740";
+                    break;
+                case 0x3:
+                    return "64741";
+                    break;
+                case 0x4:
+                    return "64743";
+                    break;
+                case 0x6:
+                    return "64744";
+                    break;
+                case 0xA:
+                    return "64742";
+                    break;
+                case 0xD:
+                    return "64745";
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+
         return "64865";
     }
 

@@ -707,6 +707,7 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 #-----------------------------------------------------------------------------------------------#
 macx {
     CONFIG += link_pkgconfig
+    CONFIG += sdk_no_version_check
 
     PKGCONFIG +=                                                                                \
     libusb-1.0                                                                                  \

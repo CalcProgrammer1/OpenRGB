@@ -345,7 +345,7 @@ keyboard_keymap_overlay_values razer_blackwidow_v4_pro_layout
     }
 };
 
-keyboard_keymap_overlay_values razer_blackwidow_v4_pro_75_wired_layout
+keyboard_keymap_overlay_values razer_blackwidow_v4_pro_75_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_SEVENTY_FIVE,
     {
@@ -361,27 +361,34 @@ keyboard_keymap_overlay_values razer_blackwidow_v4_pro_75_wired_layout
         \*-------------------------------------------------------------------------------------------------------------------------------------*/
         {   0,      0,      0,          0,          "Left Underglow 0",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      0,      2,          0,          KEY_EN_UNUSED,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Delete gap between ESC and F1
+        {   0,      0,     14,          0,          "Left Underglow 1",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
+        {   0,      0,     15,          0,          "Left Underglow 5",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
+        {   0,      0,     16,          0,          "Left Underglow 8",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
         {   0,      0,     17,          0,          "Right Underglow 0",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,      0,          0,          "Left Underglow 1",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+
+        {   0,      1,      0,          0,          "Left Underglow 2",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      1,     14,          0,          KEY_EN_UNUSED,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Add gap between = and Backspace
         {   0,      1,     16,          0,          KEY_EN_DELETE,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,     17,          0,          "Right Underglow 1",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      0,          0,          "Left Underglow 2",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,     17,          0,          "Right Underglow 2",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          0,          "Left Underglow 3",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      2,     16,          0,          KEY_EN_PAGE_UP,         KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,     17,          0,          "Right Underglow 2",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      0,          0,          "Left Underglow 3",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,     17,          0,          "Right Underglow 3",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          0,          "Left Underglow 4",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      3,     16,          0,          KEY_EN_PAGE_DOWN,       KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,     17,          0,          "Right Underglow 3",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      0,          0,          "Left Underglow 4",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,     17,          0,          "Right Underglow 4",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          0,          "Left Underglow 6",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      4,     15,          0,          KEY_EN_UP_ARROW,        KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      4,     16,          0,          KEY_EN_INSERT,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,     17,          0,          "Right Underglow 4",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      5,      0,          0,          "Left Underglow 5",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,     17,          0,          "Right Underglow 6",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          0,          "Left Underglow 7",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      5,          0,          "Right Underglow 1",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
+        {   0,      5,      6,          0,          "Right Underglow 5",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
+        {   0,      5,      8,          0,          "Right Underglow 8",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
         {   0,      5,     13,          0,          KEY_EN_UNUSED,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Menu key between Fn and RCtrl
         {   0,      5,     14,          0,          KEY_EN_LEFT_ARROW,      KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      5,     15,          0,          KEY_EN_DOWN_ARROW,      KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      5,     16,          0,          KEY_EN_RIGHT_ARROW,     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      5,     17,          0,          "Right Underglow 5",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,     17,          0,          "Right Underglow 7",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     }
 };
 
@@ -405,6 +412,29 @@ keyboard_keymap_overlay_values razer_blackwidow_v4_x_layout
         {   0,      3,      0,          0,          "Key: M3",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M3 macro key (Shifts row)
         {   0,      4,      0,          0,          "Key: M2",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M2 macro key (Shifts row)
         {   0,      5,      0,          0,          "Key: M1",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M1 macro key (Shifts row)
+    }
+};
+
+keyboard_keymap_overlay_values razer_blackwidow_v4_tkl_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode                              |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      10,          0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move F9 1 right (Shifts row)
+        {   0,      1,      14,          0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Insert 1 right (Shifts row)
+        {   0,      2,      14,          0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Del 1 right (Shifts row)
+        {   0,      4,      14,          0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Up Arrow 1 right (Shifts row)
+        {   0,      5,      5,           0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Right Alt 1 right (Shifts row)
+
     }
 };
 
@@ -1817,7 +1847,7 @@ static const razer_device blackwidow_v4_pro_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Blackwidow V4 Pro 75% 1532:02B3                        |
+|  Razer Blackwidow V4 Pro 75% (Wired) 1532:02B3                |
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Matrix                                                  |
@@ -1848,7 +1878,42 @@ static const razer_device blackwidow_v4_pro_75_wired_device =
         NULL,
         NULL
     },
-    &razer_blackwidow_v4_pro_75_wired_layout
+    &razer_blackwidow_v4_pro_75_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V4 Pro 75% (Wireless) 1532:02B4             |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 18 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v4_pro_75_wireless_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    18
+};
+
+static const razer_device blackwidow_v4_pro_75_wireless_device =
+{
+    "Razer Blackwidow V4 Pro 75% (Wireless)",
+    RAZER_BLACKWIDOW_V4_PRO_75_WIRELESS_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    6,
+    18,
+    {
+        &blackwidow_v4_pro_75_wireless_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_blackwidow_v4_pro_75_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -1883,7 +1948,7 @@ static const razer_device blackwidow_v4_75_wired_device =
         NULL,
         NULL
     },
-    &razer_blackwidow_v4_pro_75_wired_layout
+    &razer_blackwidow_v4_pro_75_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -1919,6 +1984,76 @@ static const razer_device blackwidow_v4_x_device =
         NULL
     },
     &razer_blackwidow_v4_x_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V4 TKL (Wired) 1532:02D7                    |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 18 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v4_tkl_wired_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    18
+};
+
+static const razer_device blackwidow_v4_tkl_wired_device =
+{
+    "Razer Blackwidow V4 TKL (Wired)",
+    RAZER_BLACKWIDOW_V4_TKL_WIRED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    6,
+    18,
+    {
+        &blackwidow_v4_tkl_wired_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_blackwidow_v4_tkl_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V4 TKL (Wireless) 1532:02D5                 |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 18 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v4_tkl_wireless_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    18
+};
+
+static const razer_device blackwidow_v4_tkl_wireless_device =
+{
+    "Razer Blackwidow V4 TKL (Wireless)",
+    RAZER_BLACKWIDOW_V4_TKL_WIRELESS_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x9F,
+    6,
+    18,
+    {
+        &blackwidow_v4_tkl_wireless_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_blackwidow_v4_tkl_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4866,6 +5001,102 @@ static const razer_device basilisk_v3_pro_35k_wireless_device =
         &basilisk_v3_pro_35k_wireless_scroll_wheel_zone,
         &basilisk_v3_pro_35k_wireless_logo_zone,
         &basilisk_v3_pro_35k_wireless_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO 35K Phantom Green Wired 1532:00D6      |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       11 LEDs                                                 |
+\*-------------------------------------------------------------*/
+
+static const razer_device basilisk_v3_pro_35k_pg_wired_device =
+{
+    "Razer Basilisk V3 Pro 35K Phantom Green Edition (Wired)",
+    RAZER_BASILISK_V3_PRO_35K_PG_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    13,
+    {
+        &basilisk_v3_pro_35k_wired_scroll_wheel_zone,
+        &basilisk_v3_pro_35k_wired_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO 35K Phantom Green Wireless 1532:00D7   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       11 LEDs                                                  |
+\*-------------------------------------------------------------*/
+
+static const razer_device basilisk_v3_pro_35k_pg_wireless_device =
+{
+    "Razer Basilisk V3 Pro 35K Phantom Green Edition (Wireless)",
+    RAZER_BASILISK_V3_PRO_35K_PG_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    13,
+    {
+        &basilisk_v3_pro_35k_wireless_scroll_wheel_zone,
+        &basilisk_v3_pro_35k_wireless_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO 35K Phantom Green Bluetooth 068E:00D8  |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       11 LEDs                                                  |
+\*-------------------------------------------------------------*/
+
+static const razer_device basilisk_v3_pro_35k_pg_bluetooth_device =
+{
+    "Razer Basilisk V3 Pro 35K Phantom Green Edition (Bluetooth)",
+    RAZER_BASILISK_V3_PRO_35K_PG_BLUETOOTH_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    13,
+    {
+        &basilisk_v3_pro_35k_wireless_scroll_wheel_zone,
+        &basilisk_v3_pro_35k_wireless_ledstrip_zone,
+        NULL,
         NULL,
         NULL,
         NULL
@@ -9093,8 +9324,11 @@ const razer_device* razer_device_list[] =
     &blackwidow_v4_device,
     &blackwidow_v4_pro_device,
     &blackwidow_v4_pro_75_wired_device,
+    &blackwidow_v4_pro_75_wireless_device,
     &blackwidow_v4_75_wired_device,
     &blackwidow_v4_x_device,
+    &blackwidow_v4_tkl_wired_device,
+    &blackwidow_v4_tkl_wireless_device,
     &blackwidow_x_chroma_device,
     &blackwidow_x_chroma_te_device,
     &cynosa_chroma_device,
@@ -9178,6 +9412,9 @@ const razer_device* razer_device_list[] =
     &basilisk_v3_pro_wireless_device,
     &basilisk_v3_pro_35k_wired_device,
     &basilisk_v3_pro_35k_wireless_device,
+    &basilisk_v3_pro_35k_pg_wired_device,
+    &basilisk_v3_pro_35k_pg_wireless_device,
+    &basilisk_v3_pro_35k_pg_bluetooth_device,
     &basilisk_v3_pro_bluetooth_device,
     &basilisk_v3_x_hyperspeed_device,
     &cobra_device,

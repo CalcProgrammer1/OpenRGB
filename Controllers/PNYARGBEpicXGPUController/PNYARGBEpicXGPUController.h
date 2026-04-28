@@ -45,12 +45,14 @@ enum
 class PNYARGBEpicXGPUController
 {
 public:
-    PNYARGBEpicXGPUController(i2c_smbus_interface* bus, unsigned char init_i2c_addr, std::string name);
+    PNYARGBEpicXGPUController(i2c_smbus_interface* bus, unsigned char init_i2c_addr, std::string name, bool large_variant);
     ~PNYARGBEpicXGPUController();
 
 	std::string             GetDeviceLocation();
     std::string             GetDeviceName();
-    
+
+    bool                    IsLargeVariant();
+
     void                    SetZoneMode(unsigned char zone, unsigned char mode, unsigned char speed, unsigned char brightness, unsigned char subcmd, RGBColor color);
     void                    SetLEDDirect(unsigned char zone, unsigned char led, unsigned char mode, RGBColor color);
 
@@ -58,4 +60,5 @@ private:
 	i2c_smbus_interface*    bus;
     unsigned char           i2c_addr;
     std::string             name;
+    bool                    large_variant;
 };

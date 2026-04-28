@@ -123,6 +123,7 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
         case ROCCAT_VULCAN_II_PID:
+        case ROCCAT_VULCAN_II_MAX_PID:
         case TURTLE_BEACH_VULCAN_II_PID:
             dev_led_page   = 0xFF00;
             dev_ctrl_page  = 0xFF01;
@@ -337,6 +338,7 @@ REGISTER_HID_DETECTOR_IP ("Roccat Vulcan TKL",                  DetectRoccatVulc
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan Pro",                  DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_PRO_PID,                      1,          0xFF01);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan TKL Pro",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_TKL_PRO_PID,                  1,          0xFF01);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan II",                   DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_II_PID,                       1,          0xFF01);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan II Max",               DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_II_MAX_PID,                   1,          0xFF01);
 REGISTER_HID_DETECTOR_IP ("Turtle Beach Vulcan II",             DetectRoccatVulcanKeyboardControllers,      TURTLE_BEACH_VID, TURTLE_BEACH_VULCAN_II_PID,           1,          0xFF01);
 REGISTER_HID_DETECTOR_IP ("Turtle Beach Vulcan II TKL",         DetectRoccatVulcanKeyboardControllers,      TURTLE_BEACH_VID, TURTLE_BEACH_VULCAN_II_TKL_PID,       1,          11);
 REGISTER_HID_DETECTOR_IP ("Turtle Beach Vulcan II TKL Pro",     DetectRoccatVulcanKeyboardControllers,      TURTLE_BEACH_VID, TURTLE_BEACH_VULCAN_II_TKL_PRO_PID,   1,          0x0001);

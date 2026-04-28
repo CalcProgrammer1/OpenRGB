@@ -15,11 +15,12 @@
 
 using namespace std::chrono_literals;
 
-RGBFusion2BlackwellGPUController::RGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string dev_name)
+RGBFusion2BlackwellGPUController::RGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string dev_name, int gpu_layout)
 {
-    this->bus   = bus;
-    this->dev   = dev;
-    this->name  = dev_name;
+    this->bus           = bus;
+    this->dev           = dev;
+    this->name          = dev_name;
+    this->gpu_layout    = gpu_layout;
 }
 
 RGBFusion2BlackwellGPUController::~RGBFusion2BlackwellGPUController()
@@ -51,7 +52,7 @@ void RGBFusion2BlackwellGPUController::SaveConfig()
 void RGBFusion2BlackwellGPUController::SetMode(uint8_t type, uint8_t zone, uint8_t mode, fusion2_config zone_config)
 {
     if(zone_config.numberOfColors == 0 && zone < RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES)
-        this->zone_color[zone] = zone_config.colors[zone];
+        this->zone_color[zone] = zone_config.colors[0];
 
     /************************************************************************************\
     *                                                                                    *
@@ -67,6 +68,11 @@ void RGBFusion2BlackwellGPUController::SetMode(uint8_t type, uint8_t zone, uint8
     if(zone_config.numberOfColors > 0)
     {
         int currentPos = 12;
+        if(gpu_layout == RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5080_LAYOUT)
+        {
+            currentPos = 11;
+        }
+
         for(uint8_t i = 0; i < zone_config.numberOfColors; i++)
         {
             zone_pkt[currentPos + 0] = RGBGetRValue(zone_config.colors[i]);

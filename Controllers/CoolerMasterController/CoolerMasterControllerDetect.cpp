@@ -96,18 +96,17 @@ void DetectCoolerMasterARGB(hid_device_info* info, const std::string&)
 
     if(dev)
     {
-        /*-------------------------------------------------*\
-        | Create mutex to prevent the controllers sharing a |
-        |   receiver from interfering with each other       |
-        \*-------------------------------------------------*/
-        std::shared_ptr<std::mutex>       cm_mutex = std::make_shared<std::mutex>();
+        CMARGBController*                   controller     = new CMARGBController(dev, info->path);
 
-        for(unsigned char i = 0; i < CM_ARGB_HEADER_DATA_SIZE; i++)
+        if(controller->GetVersion() != "Unsupported")
         {
-            CMARGBController*               controller     = new CMARGBController(dev, info->path, i, cm_mutex);
             RGBController_CMARGBController* rgb_controller = new RGBController_CMARGBController(controller);
-
             ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+        else
+        {
+            LOG_ERROR("[CMARGBController] Unsupported firmware version");
+            delete controller;
         }
     }
 }

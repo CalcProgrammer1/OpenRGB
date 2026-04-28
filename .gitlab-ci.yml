@@ -516,10 +516,7 @@ before_script:
   - macos
   stage: build
   script:
-  - eval $(/opt/homebrew/bin/brew shellenv)
-  - /opt/homebrew/opt/qt@5/bin/qmake OpenRGB.pro
-  - make -j16
-  - /opt/homebrew/opt/qt@5/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
+  - ./scripts/build-macos.sh qt5 arm
 
   artifacts:
     name: "${CI_PROJECT_NAME}_MacOS_ARM64_${CI_COMMIT_SHORT_SHA}"
@@ -535,10 +532,7 @@ before_script:
   - macos
   stage: build
   script:
-  - eval $(/opt/homebrew/bin/brew shellenv)
-  - qmake OpenRGB.pro
-  - make -j16
-  - macdeployqt OpenRGB.app -codesign=OpenRGB
+  - ./scripts/build-macos.sh qt6 arm
 
   artifacts:
     name: "${CI_PROJECT_NAME}_MacOS_ARM64_Qt6_${CI_COMMIT_SHORT_SHA}"
@@ -554,10 +548,7 @@ before_script:
   - macos
   stage: build
   script:
-  - eval $(/usr/local/bin/brew shellenv)
-  - arch -x86_64 /usr/local/opt/qt@5/bin/qmake OpenRGB.pro
-  - arch -x86_64 make -j16
-  - arch -x86_64 /usr/local/opt/qt@5/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
+  - ./scripts/build-macos.sh qt5 intel
 
   artifacts:
     name: "${CI_PROJECT_NAME}_MacOS_Intel_${CI_COMMIT_SHORT_SHA}"
@@ -573,10 +564,7 @@ before_script:
   - macos
   stage: build
   script:
-  - eval $(/usr/local/bin/brew shellenv)
-  - arch -x86_64 /usr/local/bin/qmake OpenRGB.pro
-  - arch -x86_64 make -j16
-  - arch -x86_64 /usr/local/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
+  - ./scripts/build-macos.sh qt6 intel
 
   artifacts:
     name: "${CI_PROJECT_NAME}_MacOS_Intel_Qt6_${CI_COMMIT_SHORT_SHA}"

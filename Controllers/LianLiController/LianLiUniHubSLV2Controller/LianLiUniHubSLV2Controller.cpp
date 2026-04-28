@@ -235,7 +235,7 @@ void LianLiUniHubSLV2Controller::SetChannelMode(unsigned char channel, const mod
 
 void LianLiUniHubSLV2Controller::SendStartAction(unsigned char channel, unsigned int num_fans)
 {
-    unsigned char usb_buf[65];
+    unsigned char usb_buf[353];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -291,7 +291,7 @@ void LianLiUniHubSLV2Controller::SendColorData(unsigned char   channel, unsigned
 
 void LianLiUniHubSLV2Controller::SendCommitAction(unsigned char channel, unsigned char effect, unsigned char speed, unsigned int direction, unsigned int brightness)
 {
-    unsigned char usb_buf[65];
+    unsigned char usb_buf[353];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |

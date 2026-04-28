@@ -318,7 +318,7 @@ void RGBController_LenovoK510::ReadAndUpdateCurrentDeviceState()
                 current_active_mode.direction = current_active_mode.direction ? MODE_DIRECTION_UP : MODE_DIRECTION_DOWN;
             }
 
-            active_mode = i;
+            active_mode = (int)i;
             break;
         }
     }

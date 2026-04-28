@@ -89,7 +89,7 @@ void AsusMonitorController::SetDirect(std::vector<RGBColor> colors)
     usb_buf[0x00] = 0xEC;
     usb_buf[0x01] = 0x40;
     usb_buf[0x02] = 0x84;
-    usb_buf[0x04] = colors.size();
+    usb_buf[0x04] = (uint8_t)colors.size();
 
     for(size_t i = 0; i < colors.size(); i++)
     {

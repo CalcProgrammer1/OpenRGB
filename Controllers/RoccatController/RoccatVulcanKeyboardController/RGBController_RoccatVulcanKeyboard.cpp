@@ -127,6 +127,9 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
         case TURTLE_BEACH_VULCAN_II_PID:
             keyboard_ptr = &RoccatVulcanIILayouts;
             break;
+        case ROCCAT_VULCAN_II_MAX_PID:
+            keyboard_ptr = &RoccatVulcanIIMaxLayouts;
+            break;
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
             keyboard_ptr = &RoccatMagmaLayouts;
@@ -152,17 +155,96 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
     }
 
 
+    /*---------------------------------------------------------*\
+    | Determine zone sizes                                      |
+    | Vulcan II MAX has 108 keyboard keys + 24 secondary LEDs   |
+    | (physically under parent keys) + 16 palm rest LEDs.       |
+    | Secondary LEDs are split into labeled linear zones.       |
+    \*---------------------------------------------------------*/
+    int keyboard_size = keyboard[layout].size;
+
+    if(pid == ROCCAT_VULCAN_II_MAX_PID)
+    {
+        keyboard_size  = 108;
+    }
+
     zone keyboard_zone;
     keyboard_zone.name               = "Keyboard";
     keyboard_zone.type               = ZONE_TYPE_MATRIX;
-    keyboard_zone.leds_min           = keyboard[layout].size;
-    keyboard_zone.leds_max           = keyboard[layout].size;
-    keyboard_zone.leds_count         = keyboard[layout].size;
+    keyboard_zone.leds_min           = keyboard_size;
+    keyboard_zone.leds_max           = keyboard_size;
+    keyboard_zone.leds_count         = keyboard_size;
     keyboard_zone.matrix_map         = new matrix_map_type;
     keyboard_zone.matrix_map->height = keyboard[layout].rows;
     keyboard_zone.matrix_map->width  = keyboard[layout].cols;
     keyboard_zone.matrix_map->map    = keyboard[layout].matrix_map;
     zones.push_back(keyboard_zone);
+
+    if(pid == ROCCAT_VULCAN_II_MAX_PID)
+    {
+        zone fkey_ind_zone;
+        fkey_ind_zone.name               = "F-Key Indicators";
+        fkey_ind_zone.type               = ZONE_TYPE_LINEAR;
+        fkey_ind_zone.leds_min           = 15;
+        fkey_ind_zone.leds_max           = 15;
+        fkey_ind_zone.leds_count         = 15;
+        fkey_ind_zone.matrix_map         = NULL;
+        zones.push_back(fkey_ind_zone);
+
+        zone nav1_zone;
+        nav1_zone.name               = "Nav Cluster Indicators";
+        nav1_zone.type               = ZONE_TYPE_LINEAR;
+        nav1_zone.leds_min           = 3;
+        nav1_zone.leds_max           = 3;
+        nav1_zone.leds_count         = 3;
+        nav1_zone.matrix_map         = NULL;
+        zones.push_back(nav1_zone);
+
+        zone numlock_zone;
+        numlock_zone.name               = "Num Lock Indicator";
+        numlock_zone.type               = ZONE_TYPE_LINEAR;
+        numlock_zone.leds_min           = 1;
+        numlock_zone.leds_max           = 1;
+        numlock_zone.leds_count         = 1;
+        numlock_zone.matrix_map         = NULL;
+        zones.push_back(numlock_zone);
+
+        zone nav2_zone;
+        nav2_zone.name               = "Nav Cluster Indicators 2";
+        nav2_zone.type               = ZONE_TYPE_LINEAR;
+        nav2_zone.leds_min           = 3;
+        nav2_zone.leds_max           = 3;
+        nav2_zone.leds_count         = 3;
+        nav2_zone.matrix_map         = NULL;
+        zones.push_back(nav2_zone);
+
+        zone caps_zone;
+        caps_zone.name               = "Caps Lock Indicator";
+        caps_zone.type               = ZONE_TYPE_LINEAR;
+        caps_zone.leds_min           = 1;
+        caps_zone.leds_max           = 1;
+        caps_zone.leds_count         = 1;
+        caps_zone.matrix_map         = NULL;
+        zones.push_back(caps_zone);
+
+        zone win_zone;
+        win_zone.name               = "Win Key Indicator";
+        win_zone.type               = ZONE_TYPE_LINEAR;
+        win_zone.leds_min           = 1;
+        win_zone.leds_max           = 1;
+        win_zone.leds_count         = 1;
+        win_zone.matrix_map         = NULL;
+        zones.push_back(win_zone);
+
+        zone palmrest_zone;
+        palmrest_zone.name               = "Palm Rest";
+        palmrest_zone.type               = ZONE_TYPE_LINEAR;
+        palmrest_zone.leds_min           = 16;
+        palmrest_zone.leds_max           = 16;
+        palmrest_zone.leds_count         = 16;
+        palmrest_zone.matrix_map         = NULL;
+        zones.push_back(palmrest_zone);
+    }
 
     for(int led_id = 0; led_id < keyboard[layout].size; led_id++)
     {

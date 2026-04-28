@@ -10,8 +10,9 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "ClevoKeyboardController.h"
 #include <cstring>
+#include "ClevoKeyboardController.h"
+#include "StringUtils.h"
 
 ClevoKeyboardController::ClevoKeyboardController(hid_device* dev_handle, const hid_device_info& info)
 {
@@ -40,10 +41,7 @@ std::string ClevoKeyboardController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string ClevoKeyboardController::GetFirmwareVersion()

@@ -15,9 +15,9 @@
 
 using namespace std::chrono_literals;
 
-/*-------------------------------*\
-| TODO: Detect detached keypad    |
-\*-------------------------------*/
+/*---------------------------------------------------------*\
+| TODO: Detect detached keypad                              |
+\*---------------------------------------------------------*/
 
 std::vector<unsigned int> mountain60_keyboard_key_id_values =
     {
@@ -28,7 +28,7 @@ std::vector<unsigned int> mountain60_keyboard_key_id_values =
         /* CPLK    A     S     D     F     G     H     J     K     L     ;     "         ENTR   */
         63,   64,   65,   66,   67,   68,   69,   70,   71,   72,   73,   74,         76,
         /* LSFT    Z     X     C     V     B     N     M     ,     .     /   RSFT  ARWU   DEL   */
-        84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   94,   97,   94,   56,
+        84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   94,   97,   99,   56,
         /* LCTL  LWIN  LALT               SPC              RALT  RFNC  FNC   ARWL  ARWD  ARWR   */
         105,  106,  107,                110,                  113,  115,  119,  120,  121,
 };
@@ -37,9 +37,9 @@ layout_values mountain60_layout =
     {
         mountain60_keyboard_key_id_values,
         {
-            /*------------------------------------------*\
-            |   No regional layout fix for the moment    |
-            \*------------------------------------------*/
+            /*---------------------------------------------*\
+            |   No regional layout fix for the moment       |
+            \*---------------------------------------------*/
         },
 };
 
@@ -348,9 +348,9 @@ RGBController_Mountain60Keyboard::~RGBController_Mountain60Keyboard()
     mountain_thread->join();
     delete mountain_thread;
 
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Delete the matrix map                                 |
+    \*-----------------------------------------------------*/
     for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
     {
         if(zones[zone_index].type == ZONE_TYPE_MATRIX)
@@ -406,10 +406,10 @@ void RGBController_Mountain60Keyboard::DeviceUpdateLEDs()
 {
     unsigned char* color_data = new unsigned char[(leds.size()*4)];
 
-    /*---------------------------------------------------------*\
-    |   Filling the color_data vector with progressive index    |
-    |   leaving space for RGB data                              |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Filling the color_data vector with progressive index  |
+    | leaving space for RGB data                            |
+    \*-----------------------------------------------------*/
     for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
     {
         const unsigned int idx  = led_idx * 4;
@@ -419,7 +419,7 @@ void RGBController_Mountain60Keyboard::DeviceUpdateLEDs()
         color_data[idx + 3]     = RGBGetBValue(colors[led_idx]);
     }
 
-    controller->SendDirect(modes[active_mode].brightness, color_data, (leds.size()*4));
+    controller->SendDirect(modes[active_mode].brightness, color_data, ((unsigned int)leds.size() * 4));
     delete[] color_data;
 }
 
