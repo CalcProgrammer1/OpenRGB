@@ -22,13 +22,12 @@ CODEOWNERS @Calcprogrammer1
 /Controllers/BlinkyTapeController/
 /Controllers/CoolerMasterController/                        @Dr_No
 /Controllers/CorsairCommanderCoreController/
-/Controllers/CorsairDominatorPlatinumController/
+/Controllers/CorsairDRAMController/
 /Controllers/CorsairHydroController/
 /Controllers/CorsairHydroPlatinumController/
 /Controllers/CorsairLightingNodeController/
 /Controllers/CorsairPeripheralController/
 /Controllers/CorsairVengeanceController/
-/Controllers/CorsairVengeanceProController/
 /Controllers/CorsairWirelessController/
 /Controllers/CreativeController/
 /Controllers/CrucialController/

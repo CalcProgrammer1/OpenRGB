@@ -12,7 +12,7 @@
 #include "OpenRGBFont.h"
 #include "ui_TabLabel.h"
 
-TabLabel::TabLabel(int icon, QString name, char* original, char* context) :
+TabLabel::TabLabel(int icon, char* label, char* context, bool translatable) :
     QWidget(nullptr),
     ui(new Ui::TabLabel)
 {
@@ -24,10 +24,11 @@ TabLabel::TabLabel(int icon, QString name, char* original, char* context) :
     ui->icon->setFont(font);
     ui->icon->setText(OpenRGBFont::icon(icon));
 
-    ui->name->setText(name);
+    this->translatable  = translatable;
+    this->label         = label;
+    this->context       = context;
 
-    label   = original;
-    ctxt    = context;
+    UpdateLabel(true);
 }
 
 TabLabel::~TabLabel()
@@ -39,14 +40,29 @@ void TabLabel::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
-        /*-----------------------------------------------------*\
-        | Storing the base string in label                      |
-        |   enables switching between multiple languages        |
-        | The context needs to be stored as the translation     |
-        |   file requires the originating context               |
-        \*-----------------------------------------------------*/
-        QApplication* app       = static_cast<QApplication *>(QApplication::instance());
+        UpdateLabel(false);
+    }
+}
 
-        ui->name->setText(app->translate(ctxt, label));
+void TabLabel::UpdateLabel(bool in_constructor)
+{
+    if(translatable)
+    {
+        /*-------------------------------------------------*\
+        | Storing the base string in label                  |
+        |   enables switching between multiple languages    |
+        | The context needs to be stored as the translation |
+        |   file requires the originating context           |
+        \*-------------------------------------------------*/
+        QApplication* app = static_cast<QApplication *>(QApplication::instance());
+        ui->name->setText(app->translate(context, label));
+    }
+    else if(in_constructor)
+    {
+        /*-------------------------------------------------*\
+        | Must only be called during constructor if not     |
+        | translatable as label buffer may not exist        |
+        \*-------------------------------------------------*/
+        ui->name->setText(label);
     }
 }

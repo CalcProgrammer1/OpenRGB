@@ -415,6 +415,29 @@ keyboard_keymap_overlay_values razer_blackwidow_v4_x_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_blackwidow_v4_tkl_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode                              |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      10,          0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move F9 1 right (Shifts row)
+        {   0,      1,      14,          0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Insert 1 right (Shifts row)
+        {   0,      2,      14,          0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Del 1 right (Shifts row)
+        {   0,      4,      14,          0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Up Arrow 1 right (Shifts row)
+        {   0,      5,      5,           0,          KEY_EN_UNUSED,                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Right Alt 1 right (Shifts row)
+
+    }
+};
+
 keyboard_keymap_overlay_values razer_blackwidow_x_chroma_te_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
@@ -1961,6 +1984,76 @@ static const razer_device blackwidow_v4_x_device =
         NULL
     },
     &razer_blackwidow_v4_x_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V4 TKL (Wired) 1532:02D7                    |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 18 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v4_tkl_wired_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    18
+};
+
+static const razer_device blackwidow_v4_tkl_wired_device =
+{
+    "Razer Blackwidow V4 TKL (Wired)",
+    RAZER_BLACKWIDOW_V4_TKL_WIRED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    6,
+    18,
+    {
+        &blackwidow_v4_tkl_wired_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_blackwidow_v4_tkl_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V4 TKL (Wireless) 1532:02D5                 |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 18 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v4_tkl_wireless_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    18
+};
+
+static const razer_device blackwidow_v4_tkl_wireless_device =
+{
+    "Razer Blackwidow V4 TKL (Wireless)",
+    RAZER_BLACKWIDOW_V4_TKL_WIRELESS_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x9F,
+    6,
+    18,
+    {
+        &blackwidow_v4_tkl_wireless_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_blackwidow_v4_tkl_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -9234,6 +9327,8 @@ const razer_device* razer_device_list[] =
     &blackwidow_v4_pro_75_wireless_device,
     &blackwidow_v4_75_wired_device,
     &blackwidow_v4_x_device,
+    &blackwidow_v4_tkl_wired_device,
+    &blackwidow_v4_tkl_wireless_device,
     &blackwidow_x_chroma_device,
     &blackwidow_x_chroma_te_device,
     &cynosa_chroma_device,

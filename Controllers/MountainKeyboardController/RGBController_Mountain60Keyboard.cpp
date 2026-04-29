@@ -28,7 +28,7 @@ std::vector<unsigned int> mountain60_keyboard_key_id_values =
         /* CPLK    A     S     D     F     G     H     J     K     L     ;     "         ENTR   */
         63,   64,   65,   66,   67,   68,   69,   70,   71,   72,   73,   74,         76,
         /* LSFT    Z     X     C     V     B     N     M     ,     .     /   RSFT  ARWU   DEL   */
-        84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   94,   97,   94,   56,
+        84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   94,   97,   99,   56,
         /* LCTL  LWIN  LALT               SPC              RALT  RFNC  FNC   ARWL  ARWD  ARWR   */
         105,  106,  107,                110,                  113,  115,  119,  120,  121,
 };

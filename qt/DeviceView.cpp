@@ -736,7 +736,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     /*-----------------------------------------------------*\
     | If controller has resized, reinitialize local data    |
     \*-----------------------------------------------------*/
-    if(controller->leds.size() != led_pos.size())
+    if((controller->zones.size() != zone_pos.size()) || (controller->leds.size() != led_pos.size()))
     {
         InitDeviceView();
     }

@@ -21,13 +21,16 @@ class TabLabel : public QWidget
     Q_OBJECT
 
 public:
-    TabLabel(int icon, QString name, char* original, char* context);
+    TabLabel(int icon, char* label, char* context, bool translatable);
     ~TabLabel();
 
 private:
-    Ui::TabLabel *ui;
-    char* label;
-    char* ctxt;
+    Ui::TabLabel*   ui;
+    char*           label;
+    char*           context;
+    bool            translatable;
+
+    void UpdateLabel(bool in_constructor);
 
 private slots:
     void changeEvent(QEvent *event);

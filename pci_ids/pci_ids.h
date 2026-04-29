@@ -438,6 +438,9 @@
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV2             0x1501
 #define COLORFUL_IGAME_RTX_4090_ADVANCED_OCV            0x1400
 #define COLORFUL_IGAME_RTX_4090_ADVANCED_OCV2           0x1401
+#define COLORFUL_IGAME_RTX_5060TI_ULTRAW_DUO_OC         0x1531
+#define COLORFUL_IGAME_RTX_5070_ULTRAW_OCV              0x1500
+#define COLORFUL_IGAME_RTX_5070_ULTRAW_OCV2             0x1501
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
@@ -571,6 +574,7 @@
 | _D, _H and _P suffixes belong to many-HDMI Aorus GPUs |
 | switching their ID depending on boot-plugged display  |
 \*-----------------------------------------------------*/
+#define GIGABYTE_GTX1050_G1_GAMING_SUB_DEV              0x372B
 #define GIGABYTE_GTX1050TI_G1_GAMING_SUB_DEV            0x372A
 #define GIGABYTE_GTX1060_G1_GAMING_SUB_DEV              0x3716
 #define GIGABYTE_GTX1060_G1_GAMING_OC_SUB_DEV           0x3739
@@ -800,6 +804,7 @@
 #define MSI_RTX4070_GAMING_X_TRIO_SUB_DEV               0x5136
 #define MSI_RTX4070S_GAMING_X_SLIM_SUB_DEV              0x513F
 #define MSI_RTX4070S_GAMING_X_SLIM_WHITE_SUB_DEV        0xE131
+#define MSI_RTX4070S_GAMING_X_SLIM_MLG_SUB_DEV          0xE134
 #define MSI_RTX4070TI_GAMING_X_TRIO_SUB_DEV             0x5132
 #define MSI_RTX4070TI_GAMING_X_SLIM_WHITE_SUB_DEV       0xE132
 #define MSI_RTX4070TI_GAMING_X_TRIO_WHITE_SUB_DEV       0x5139
@@ -817,11 +822,13 @@
 #define MSI_RTX4090_GAMING_X_TRIO_SUB_DEV               0x5103
 #define MSI_RTX4090_SUPRIM_LIQUID_X_SUB_DEV             0x5104
 #define MSI_RTX4090_SUPRIM_X_SUB_DEV                    0x5102
+#define MSI_RTX5070_GAMING_TRIO_SUB_DEV                 0x5322
 #define MSI_RTX5070TI_GAMING_TRIO_SUB_DEV               0x5315
 #define MSI_RTX5070TI_VANGUARD_SOC_SUB_DEV              0X5314
 #define MSI_RTX5080_GAMING_TRIO_OC_SUB_DEV              0x5315
 #define MSI_RTX5080_VANGUARD_SOC_SUB_DEV                0x5314
 #define MSI_RTX5080_SUPRIM_SOC_SUB_DEV                  0x5313
+#define MSI_RTX5080_SUPRIM_LIQUID_SOC_SUB_DEV           0x5312
 #define MSI_RTX5090_GAMING_TRIO_SUB_DEV                 0x5303
 #define MSI_RTX5090_VANGUARD_SOC_SUB_DEV                0x5302
 #define MSI_RTX5090_SUPRIM_SOC_SUB_DEV                  0x5301
@@ -867,6 +874,7 @@
 #define PNY_RTX_4090_VERTO_EPIC_X_OC_SUB_DEV            0x13D9
 #define PNY_RTX_5070_ARGB_EPIC_X_OC_SUB_DEV             0x1439
 #define PNY_RTX_5070TI_ARGB_EPIC_X_OC_SUB_DEV           0x143A
+#define PNY_RTX_5060TI_ARGB_EPIC_X_OC_SUB_DEV           0x143E
 #define PNY_RTX_5080_ARGB_EPIC_X_OC_SUB_DEV             0x1435
 #define PNY_RTX_5090_ARGB_EPIC_X_OC_SUB_DEV             0x1446
 
@@ -980,6 +988,7 @@
 #define ZOTAC_RTX4080_AMP_ALT_SUB_DEV                   0x2688
 #define ZOTAC_RTX4090_TRINITY_SUB_DEV                   0x3675
 #define ZOTAC_RTX4090_AMP_SUB_DEV                       0x4675
+#define ZOTAC_RTX5080_AMP_EXTREME_SUB_DEV               0x1762
 
 /*-----------------------------------------------------*\
 | Manli Sub-Device IDs                                  |

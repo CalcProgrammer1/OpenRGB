@@ -21,6 +21,14 @@
 
 #define GLOBAL_SMBUS_MUTEX_NAME "Global\\Access_SMBUS.HTP.Method"
 
+enum
+{
+    PAWNIO_SLEEPMODE_ALWAYSBUSY     = 0,
+    PAWNIO_SLEEPMODE_SHORTBUSY      = 1,
+    PAWNIO_SLEEPMODE_ALWAYSSLEEP    = 2,
+    PAWNIO_SLEEPMODE_MAX
+};
+
 class i2c_smbus_pawnio : public i2c_smbus_interface
 {
 public:

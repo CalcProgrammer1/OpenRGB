@@ -19,7 +19,10 @@ AsusAuraRyuoAIOController::AsusAuraRyuoAIOController(hid_device* dev_handle, con
     |    Manually adding device info for now                |
     |    TODO: Implement config table accurately            |
     \*-----------------------------------------------------*/
-    device_info.push_back({0x00, 0x00, 12, 0, AuraDeviceType::FIXED});
+    uint8_t leds = (dev_name.find("Ryujin") != std::string::npos) ? 5 : 12;
+
+    device_info.push_back({0x00, 0x00, leds, 0, AuraDeviceType::FIXED});
+
 }
 
 AsusAuraRyuoAIOController::~AsusAuraRyuoAIOController()

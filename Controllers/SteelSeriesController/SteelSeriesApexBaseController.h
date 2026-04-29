@@ -19,6 +19,20 @@
 #define STEELSERIES_PACKET_IN_SIZE  64
 #define STEELSERIES_PACKET_OUT_SIZE STEELSERIES_PACKET_IN_SIZE + 1
 
+/*-------------------------------------------------*\
+| Gen 1: 2019-22 models (all FW) & 2023 FW < 1.19.7 |
+| Gen 2: 2023 models with FW >= 1.19.7              |
+| Gen 3: 2025+ and may feature Gen 3 in the name    |
+\*-------------------------------------------------*/
+
+typedef enum
+{
+    APEX_GEN1                 = 0x00,
+    APEX_GEN2                 = 0x01,
+    APEX_GEN3                 = 0x02,
+
+} protocol_quirk;
+
 class SteelSeriesApexBaseController
 {
 public:
@@ -41,4 +55,5 @@ protected:
     unsigned char       active_mode;
     std::string         location;
     std::string         name;
+    protocol_quirk      kbd_quirk;
 };

@@ -20,6 +20,8 @@ typedef struct
     bool            has_speed;
 } vialrgb_mode;
 
+#define VIALRGB_NUM_MODES (sizeof(vialrgb_modes) / sizeof(vialrgb_mode))
+
 static const vialrgb_mode vialrgb_modes[] =
 {
     { VIALRGB_EFFECT_OFF,                       "Off",                          false },
@@ -85,9 +87,16 @@ RGBController_QMKVialRGB::RGBController_QMKVialRGB(QMKVialRGBController* control
     \*-----------------------------------------------------*/
     for(std::size_t effect_idx = 0; effect_idx < controller->GetEffectCount(); effect_idx++)
     {
-        mode new_mode;
-        new_mode.name           = vialrgb_modes[controller->GetEffect(effect_idx)].name;
-        new_mode.value          = vialrgb_modes[controller->GetEffect(effect_idx)].value;
+        unsigned short  mode_index = controller->GetEffect(effect_idx);
+        mode            new_mode;
+
+        if(mode_index > VIALRGB_NUM_MODES)
+        {
+            continue;
+        }
+
+        new_mode.name           = vialrgb_modes[mode_index].name;
+        new_mode.value          = vialrgb_modes[mode_index].value;
 
         if(new_mode.value == VIALRGB_EFFECT_DIRECT)
         {
@@ -104,7 +113,7 @@ RGBController_QMKVialRGB::RGBController_QMKVialRGB(QMKVialRGBController* control
             new_mode.colors.resize(1);
         }
 
-        if(vialrgb_modes[controller->GetEffect(effect_idx)].has_speed)
+        if(vialrgb_modes[mode_index].has_speed)
         {
             new_mode.flags     |= MODE_FLAG_HAS_SPEED;
             new_mode.speed_min  = 0;

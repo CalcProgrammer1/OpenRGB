@@ -120,6 +120,7 @@
 #define AURA_TERMINAL_PID                                   0x1889
 #define ROG_STRIX_LC120_PID                                 0x879E
 #define AURA_RYUO_AIO_PID                                   0x1887
+#define AURA_RYUJIN_AIO_PID                                 0x18AE
 #define ASUS_ROG_ALLY_PID                                   0x1ABE
 #define ASUS_ROG_ALLY_X_PID                                 0x1B4C
 
@@ -453,6 +454,7 @@ REGISTER_HID_DETECTOR_PU("ASUS ROG PG32UQ",                             DetectAs
 REGISTER_HID_DETECTOR    ("ASUS ROG AURA Terminal",                     DetectAsusAuraUSBTerminal,      AURA_USB_VID, AURA_TERMINAL_PID);
 REGISTER_HID_DETECTOR_PU ("ASUS ROG Strix LC",                          DetectAsusAuraUSBROGStrixLC,    AURA_USB_VID, ROG_STRIX_LC120_PID,                          0x00FF, 1);
 REGISTER_HID_DETECTOR_PU ("ASUS ROG Ryuo AIO",                          DetectAsusAuraUSBRyuoAIO,       AURA_USB_VID, AURA_RYUO_AIO_PID,                        0xFF72, 0x00A1);
+REGISTER_HID_DETECTOR_PU ("ASUS ROG Ryujin AIO",                        DetectAsusAuraUSBRyuoAIO,       AURA_USB_VID, AURA_RYUJIN_AIO_PID,                     0xFF72, 0x00A1);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne",                            DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_PID,                          0);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI",                         DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_PID,                       0);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI GUNDAM",                  DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_GUNDAM_PID,                0);
