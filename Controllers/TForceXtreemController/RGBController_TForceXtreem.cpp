@@ -14,24 +14,25 @@
 #include "ResourceManager.h"
 
 /**------------------------------------------------------------------*\
-    @name T-Force Xtreem
+    @name T-Force Xtreem / Delta
     @category RAM
     @type SMBus
     @save :white_check_mark:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectTForceXtreemControllers
+    @detectors DetectTForceXtreemControllers,DetectTForceDeltaControllers
     @comment
         Verified models:
         TeamGroup T-Force Xtreem ARGB DDR4
+        TeamGroup T-Force Delta RGB DDR5
 \*-------------------------------------------------------------------*/
 
-RGBController_TForceXtreem::RGBController_TForceXtreem(TForceXtreemController * controller_ptr)
+RGBController_TForceXtreem::RGBController_TForceXtreem(TForceXtreemController * controller_ptr, const std::string& device_name)
 {
     controller  = controller_ptr;
 
     type    = DEVICE_TYPE_DRAM;
-    name    = "T-Force Xtreem RGB";
+    name    = device_name;
     vendor  = "TeamGroup";
 
     location    = controller->GetDeviceLocation();
@@ -416,15 +417,17 @@ void RGBController_TForceXtreem::UpdateSingleLED(int led)
 
 void RGBController_TForceXtreem::SetupZones()
 {
+    unsigned int led_count = controller->GetLEDCount();
+
     /*---------------------------------------------------------*\
     | Set up zone                                               |
     \*---------------------------------------------------------*/
     zone new_zone;
     new_zone.name           = "DRAM";
     new_zone.type           = ZONE_TYPE_LINEAR;
-    new_zone.leds_min       = XTREEM_LED_COUNT;
-    new_zone.leds_max       = XTREEM_LED_COUNT;
-    new_zone.leds_count     = XTREEM_LED_COUNT;
+    new_zone.leds_min       = led_count;
+    new_zone.leds_max       = led_count;
+    new_zone.leds_count     = led_count;
     new_zone.matrix_map     = NULL;
     zones.push_back(new_zone);
 
@@ -436,6 +439,7 @@ void RGBController_TForceXtreem::SetupZones()
         led new_led;
         new_led.name        = "DRAM LED ";
         new_led.name.append(std::to_string(led_idx));
+        new_led.value       = led_idx;
         leds.push_back(new_led);
     }
 

@@ -13,10 +13,12 @@
 #include "TForceXtreemController.h"
 #include "LogManager.h"
 
-TForceXtreemController::TForceXtreemController(i2c_smbus_interface *bus, ene_dev_id dev)
+TForceXtreemController::TForceXtreemController(i2c_smbus_interface *bus, ene_dev_id dev, unsigned int led_count, bool folded)
 {
     this->bus           = bus;
     this->dev           = dev;
+    this->led_count     = led_count;
+    this->folded        = folded;
 }
 
 TForceXtreemController::~TForceXtreemController()
@@ -37,59 +39,66 @@ std::string TForceXtreemController::GetDeviceLocation()
 
 unsigned int TForceXtreemController::GetLEDCount()
 {
-    return(XTREEM_LED_COUNT);
+    return(led_count);
 }
 
-/*---------------------------------------------------*\
-| LEDs are in a single strip that is folded in half.  |
-| That makes the LED order: 0-14-1-13-2-...-7-9-8     |
-\*---------------------------------------------------*/
-#define XTREEM_LED_OFFSET(x) ((((x) & 0x01) > 0) ? XTREEM_LED_COUNT - 1 - ((x) >> 1) : ((x) >> 1))
+/*-----------------------------------------------------------*\
+| For folded strips (e.g. Xtreem), LEDs are in a single strip |
+| folded in half, giving order: 0-(N-1)-1-(N-2)-2-...        |
+| For linear strips (e.g. Delta), offset is simply the index. |
+\*-----------------------------------------------------------*/
+unsigned int TForceXtreemController::GetLEDOffset(unsigned int led)
+{
+    if(folded)
+        return (led & 0x01) ? led_count - 1 - (led >> 1) : (led >> 1);
+    else
+        return led;
+}
 
 unsigned char TForceXtreemController::GetLEDRed(unsigned int led)
 {
-    return(ENERegisterRead(XTREEM_REG_COLORS_DIRECT + ( 3 * XTREEM_LED_OFFSET(led) )));
+    return(ENERegisterRead(XTREEM_REG_COLORS_DIRECT + ( 3 * GetLEDOffset(led) )));
 }
 
 unsigned char TForceXtreemController::GetLEDGreen(unsigned int led)
 {
-    return(ENERegisterRead(XTREEM_REG_COLORS_DIRECT + ( 3 * XTREEM_LED_OFFSET(led) ) + 2));
+    return(ENERegisterRead(XTREEM_REG_COLORS_DIRECT + ( 3 * GetLEDOffset(led) ) + 2));
 }
 
 unsigned char TForceXtreemController::GetLEDBlue(unsigned int led)
 {
-    return(ENERegisterRead(XTREEM_REG_COLORS_DIRECT + ( 3 * XTREEM_LED_OFFSET(led) ) + 1));
+    return(ENERegisterRead(XTREEM_REG_COLORS_DIRECT + ( 3 * GetLEDOffset(led) ) + 1));
 }
 
 unsigned char TForceXtreemController::GetLEDRedEffect(unsigned int led)
 {
-    return(ENERegisterRead(XTREEM_REG_COLORS_EFFECT + ( 3 * XTREEM_LED_OFFSET(led) )));
+    return(ENERegisterRead(XTREEM_REG_COLORS_EFFECT + ( 3 * GetLEDOffset(led) )));
 }
 
 unsigned char TForceXtreemController::GetLEDGreenEffect(unsigned int led)
 {
-    return(ENERegisterRead(XTREEM_REG_COLORS_EFFECT + ( 3 * XTREEM_LED_OFFSET(led) ) + 2));
+    return(ENERegisterRead(XTREEM_REG_COLORS_EFFECT + ( 3 * GetLEDOffset(led) ) + 2));
 }
 
 unsigned char TForceXtreemController::GetLEDBlueEffect(unsigned int led)
 {
-    return(ENERegisterRead(XTREEM_REG_COLORS_EFFECT + ( 3 * XTREEM_LED_OFFSET(led) ) + 1));
+    return(ENERegisterRead(XTREEM_REG_COLORS_EFFECT + ( 3 * GetLEDOffset(led) ) + 1));
 }
 
 void TForceXtreemController::SetAllColorsDirect(RGBColor* colors)
 {
-    unsigned char* color_buf   = new unsigned char[XTREEM_LED_COUNT * 3];
+    unsigned char* color_buf   = new unsigned char[led_count * 3];
     unsigned int   bytes_sent  = 0;
 
-    for(unsigned int i = 0; i < XTREEM_LED_COUNT; i++)
+    for(unsigned int i = 0; i < led_count; i++)
     {
-        unsigned int offset = 3 * XTREEM_LED_OFFSET(i);
+        unsigned int offset = 3 * GetLEDOffset(i);
         color_buf[offset + 0] = RGBGetRValue(colors[i]);
         color_buf[offset + 1] = RGBGetBValue(colors[i]);
         color_buf[offset + 2] = RGBGetGValue(colors[i]);
     }
 
-    while(bytes_sent < (XTREEM_LED_COUNT * 3))
+    while(bytes_sent < (led_count * 3))
     {
         ENERegisterWriteBlock(XTREEM_REG_COLORS_DIRECT + bytes_sent, &color_buf[bytes_sent], 3);
 
@@ -101,18 +110,18 @@ void TForceXtreemController::SetAllColorsDirect(RGBColor* colors)
 
 void TForceXtreemController::SetAllColorsEffect(RGBColor* colors)
 {
-    unsigned char* color_buf   = new unsigned char[XTREEM_LED_COUNT * 3];
+    unsigned char* color_buf   = new unsigned char[led_count * 3];
     unsigned int   bytes_sent  = 0;
 
-    for(unsigned int i = 0; i < XTREEM_LED_COUNT; i++)
+    for(unsigned int i = 0; i < led_count; i++)
     {
-        unsigned int offset = 3 * XTREEM_LED_OFFSET(i);
+        unsigned int offset = 3 * GetLEDOffset(i);
         color_buf[offset + 0] = RGBGetRValue(colors[i]);
         color_buf[offset + 1] = RGBGetBValue(colors[i]);
         color_buf[offset + 2] = RGBGetGValue(colors[i]);
     }
 
-    while(bytes_sent < (XTREEM_LED_COUNT * 3))
+    while(bytes_sent < (led_count * 3))
     {
         ENERegisterWriteBlock(XTREEM_REG_COLORS_EFFECT + bytes_sent, &color_buf[bytes_sent], 3);
 
@@ -135,14 +144,14 @@ void TForceXtreemController::SetLEDColorDirect(unsigned int led, unsigned char r
 {
     unsigned char colors[3] = { red, blue, green };
 
-    ENERegisterWriteBlock(XTREEM_REG_COLORS_DIRECT + ( 3 * XTREEM_LED_OFFSET(led) ), colors, 3);
+    ENERegisterWriteBlock(XTREEM_REG_COLORS_DIRECT + ( 3 * GetLEDOffset(led) ), colors, 3);
 }
 
 void TForceXtreemController::SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char colors[3] = { red, blue, green };
 
-    ENERegisterWriteBlock(XTREEM_REG_COLORS_EFFECT + (3 * XTREEM_LED_OFFSET(led)), colors, 3);
+    ENERegisterWriteBlock(XTREEM_REG_COLORS_EFFECT + (3 * GetLEDOffset(led)), colors, 3);
 
     ENERegisterWrite(XTREEM_REG_APPLY, XTREEM_APPLY_VAL);
 }

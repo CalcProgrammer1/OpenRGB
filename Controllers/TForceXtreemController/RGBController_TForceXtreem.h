@@ -11,13 +11,14 @@
 
 #pragma once
 
+#include <string>
 #include "RGBController.h"
 #include "TForceXtreemController.h"
 
 class RGBController_TForceXtreem : public RGBController
 {
 public:
-    RGBController_TForceXtreem(TForceXtreemController* controller_ptr);
+    RGBController_TForceXtreem(TForceXtreemController* controller_ptr, const std::string& device_name = "T-Force Xtreem RGB");
     ~RGBController_TForceXtreem();
 
     void        SetupZones();
