@@ -44,9 +44,9 @@ bool TestForCorsairDRAMController(i2c_smbus_interface *bus, unsigned char addres
 
     res = bus->i2c_smbus_read_byte_data(address, 0x44);
 
-    if(!(res == 0x03 || res == 0x04))
+    if(!(res == 0x01 || res == 0x03 || res == 0x04))
     {
-        LOG_DEBUG("[%s] Failed: expected 0x03 or 0x04, got %04X", CORSAIR_DRAM_NAME, res);
+        LOG_DEBUG("[%s] Failed: expected 0x01, 0x03, or 0x04, got %04X", CORSAIR_DRAM_NAME, res);
         return false;
     }
 
