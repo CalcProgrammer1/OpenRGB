@@ -1,4 +1,4 @@
-﻿/*---------------------------------------------------------*\
+/*---------------------------------------------------------*\
 | RGBController_Nollie.cpp                                  |
 |                                                           |
 |   RGBController for Nollie                                |
@@ -64,11 +64,13 @@ void RGBController_Nollie::SetupZones()
     switch(controller->GetUSBPID())
     {
         case NOLLIE32_PID:
+        case NOLLIE32_OS21_PID:
             channels_num  = NOLLIE32_CHANNELS_NUM;
             ch_led_num    = NOLLIE_HS_CH_LED_NUM;
             channel_index = ch32;
             break;
         case NOLLIE16_PID:
+        case NOLLIE16_OS21_PID:
             channels_num  = NOLLIE16_CHANNELS_NUM;
             ch_led_num    = NOLLIE_HS_CH_LED_NUM;
             channel_index = ch16;
@@ -80,10 +82,13 @@ void RGBController_Nollie::SetupZones()
             ch_led_num    = NOLLIE_12_CH_LED_NUM;
             break;
         case NOLLIE8_PID:
+        case NOLLIE8_OS21_PID:
+        case PRISM8_OS21_PID:
             channels_num  = NOLLIE8_CHANNELS_NUM;
             ch_led_num    = NOLLIE_8_CH_LED_NUM;
             break;
         case NOLLIE1_PID:
+        case NOLLIE1_OS21_PID:
             channels_num  = NOLLIE1_CHANNELS_NUM;
             ch_led_num    = NOLLIE_1_CH_LED_NUM;
             break;
@@ -171,7 +176,7 @@ void RGBController_Nollie::ResizeZone(int zone, int new_size)
     /*-----------------------------------------------------*\
     |  Nollie1 needs to report the number of LEDs           |
     \*-----------------------------------------------------*/
-    if(controller->GetUSBVID() == NOLLIE1_VID && controller->GetUSBPID() == NOLLIE1_PID)
+    if(controller->GetUSBPID() == NOLLIE1_PID)
     {
         controller->InitChLEDs(&new_size,NOLLIE1_CHANNELS_NUM);
     }
@@ -192,7 +197,7 @@ void RGBController_Nollie::ResizeZone(int zone, int new_size)
 void RGBController_Nollie::DeviceUpdateLEDs()
 {
     unsigned int DevPid = controller->GetUSBPID();
-    if(DevPid == NOLLIE32_PID || DevPid == NOLLIE16_PID)
+    if(DevPid == NOLLIE32_PID || DevPid == NOLLIE16_PID || DevPid == NOLLIE32_OS21_PID || DevPid == NOLLIE16_OS21_PID)
     {
         std::vector<int> ChSort;
         for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
