@@ -1,4 +1,4 @@
-/*---------------------------------------------------------*\
+﻿/*---------------------------------------------------------*\
 | NollieController.h                                        |
 |                                                           |
 |   Driver for Nollie                                       |
@@ -26,23 +26,18 @@
 
 #define NOLLIE32_CHANNELS_NUM      32
 #define NOLLIE32_PID               0x4714
-#define NOLLIE32_OS21_PID          0x2A32
 #define NOLLIE32_VID               0x3061
 
 #define NOLLIE16_CHANNELS_NUM      16
 #define NOLLIE16_PID               0x4716
-#define NOLLIE16_OS21_PID          0x2A16
 #define NOLLIE16_VID               0x3061
 
 #define NOLLIE8_CHANNELS_NUM       8
 #define NOLLIE8_PID                0x1F01
-#define NOLLIE8_OS21_PID           0x2A08
-#define PRISM8_OS21_PID            0x2C08
 #define NOLLIE8_VID                0x16D2
 
 #define NOLLIE1_CHANNELS_NUM       1
 #define NOLLIE1_PID                0x1F11
-#define NOLLIE1_OS21_PID           0x2A01
 #define NOLLIE1_VID                0x16D2
 
 #define NOLLIE28_12_CHANNELS_NUM   12
