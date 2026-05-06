@@ -99,7 +99,7 @@ public:
     unsigned int                        GetLogLevel();
     unsigned int                        GetVerbosity();
 
-    void                                SetLogLevel(unsigned int);
+    void                                SetLogLevel(unsigned int, bool local_only = false);
     void                                SetVerbosity(unsigned int);
 
     /*-----------------------------------------------------*\
@@ -111,6 +111,7 @@ public:
     | Log Entry Functions                                   |
     \*-----------------------------------------------------*/
     void                                LogEntry(const char* filename, int line, unsigned int level, const char* fmt, ...);
+    void                                LogEntry_message(PLogMessage message);
     void                                LogEntry_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va);
 
     /*-----------------------------------------------------*\
