@@ -7,8 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#ifndef LOGMANAGER_H
-#define LOGMANAGER_H
+#pragma once
 
 #include <fstream>
 #include <mutex>
@@ -41,77 +40,139 @@ enum
     LL_DIALOG       // Log messages to be shown in a GUI dialog box
 };
 
-struct LogMessage
+typedef struct
 {
-    std::string buffer;
-    unsigned int level;
-    const char* filename;
-    int line;
-    std::chrono::duration<double> counted_second;
-    // int timestamp or float time_offset? TBD
-};
+    unsigned int                    level;
+    unsigned int                    line;
+    unsigned int                    timestamp;
+    std::string                     filename;
+    std::string                     text;
+} LogMessage;
+
 typedef std::shared_ptr<LogMessage> PLogMessage;
-typedef void(*LogDialogShowCallback)(void*, PLogMessage);
+
+/*---------------------------------------------------------*\
+| Callback Types                                            |
+\*---------------------------------------------------------*/
+typedef void(*LogManagerCallback)(void*, unsigned int, PLogMessage);
+
+/*---------------------------------------------------------*\
+| LogManager Update Reason Codes                            |
+\*---------------------------------------------------------*/
+enum
+{
+    LOGMANAGER_UPDATE_REASON_LOG_ENTRY,             /* Log entry                        */
+    LOGMANAGER_UPDATE_REASON_SHOW_DIALOG,           /* Show dialog                      */
+};
 
 class LogManager
 {
-private:
-    LogManager();
-    LogManager(const LogManager&) = delete;
-    LogManager(LogManager&&) = delete;
-    ~LogManager();
-    std::recursive_mutex entry_mutex;
-    std::mutex section_mutex;
-    std::ofstream log_stream;
-
-    std::vector<LogDialogShowCallback>  dialog_show_callbacks;
-    std::vector<void*>                  dialog_show_callback_args;
-
-    // A temporary log message storage to hold them until the stream opens
-    std::vector<PLogMessage> temp_messages;
-
-    // A log message storage that will be displayed in the app
-    std::vector<PLogMessage> all_messages;
-
-    // A flag that marks if the message source file name and line number should be printed on screen
-    bool print_source = false;
-
-    // Logfile max level
-    unsigned int loglevel = LL_INFO;
-
-    // Verbosity (stdout) max level
-    unsigned int verbosity = LL_WARNING;
-
-    //Clock from LogManager creation
-    std::chrono::time_point<std::chrono::steady_clock> base_clock;
-
-    // A non-guarded flush()
-    void _flush();
-
-    void rotate_logs(const filesystem::path& folder, const filesystem::path& templ, int max_count);
-
 public:
-    static LogManager* get();
-    void configure(json config, const filesystem::path & defaultDir);
-    void flush();
-    void append(const char* filename, int line, unsigned int level, const char* fmt, ...);
-    void append_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va);
-    void setLoglevel(unsigned int);
-    void setVerbosity(unsigned int);
-    void setPrintSource(bool);
-    void RegisterDialogShowCallback(LogDialogShowCallback callback, void* receiver);
-    void UnregisterDialogShowCallback(LogDialogShowCallback callback, void* receiver);
-    unsigned int getLoglevel();
-    unsigned int getVerbosity() {return verbosity;}
-    void clearMessages();
-    std::vector<PLogMessage> messages();
+    LogManager();
+    ~LogManager();
 
-    bool log_console_enabled;
-    bool log_file_enabled;
-    static const char* log_codes[];
+    /*-----------------------------------------------------*\
+    | LogManager Global Instance Accessor                   |
+    \*-----------------------------------------------------*/
+    static LogManager*                  get();
+
+    /*-----------------------------------------------------*\
+    | Callback Registration                                 |
+    \*-----------------------------------------------------*/
+    void                                RegisterLogManagerCallback(LogManagerCallback callback, void* receiver);
+    void                                UnregisterLogManagerCallback(LogManagerCallback callback, void* receiver);
+
+    /*-----------------------------------------------------*\
+    | Configuration                                         |
+    \*-----------------------------------------------------*/
+    void                                Configure(json config, const filesystem::path& config_dir);
+
+    /*-----------------------------------------------------*\
+    | Log Buffer Functions                                  |
+    \*-----------------------------------------------------*/
+    void                                ClearLogBuffer();
+    std::vector<PLogMessage>            GetLogBuffer();
+
+    /*-----------------------------------------------------*\
+    | Log Level Functions                                   |
+    \*-----------------------------------------------------*/
+    unsigned int                        GetLogLevel();
+    unsigned int                        GetVerbosity();
+
+    void                                SetLogLevel(unsigned int);
+    void                                SetVerbosity(unsigned int);
+
+    /*-----------------------------------------------------*\
+    | Log Format Functions                                  |
+    \*-----------------------------------------------------*/
+    void                                SetPrintSource(bool print);
+
+    /*-----------------------------------------------------*\
+    | Log Entry Functions                                   |
+    \*-----------------------------------------------------*/
+    void                                LogEntry(const char* filename, int line, unsigned int level, const char* fmt, ...);
+    void                                LogEntry_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va);
+
+    /*-----------------------------------------------------*\
+    | Log Code String Constants                             |
+    \*-----------------------------------------------------*/
+    static const char*                  LOG_CODES[];
+
+private:
+    /*-----------------------------------------------------*\
+    | Static pointer to shared instance of LogManager       |
+    \*-----------------------------------------------------*/
+    static LogManager*                  instance;
+
+    /*-----------------------------------------------------*\
+    | Log Levels                                            |
+    \*-----------------------------------------------------*/
+    unsigned int                        loglevel;
+    unsigned int                        verbosity;
+
+    /*-----------------------------------------------------*\
+    | Log Formatting                                        |
+    \*-----------------------------------------------------*/
+    std::chrono::time_point<std::chrono::steady_clock>
+                                        base_clock;
+    bool                                log_console_enabled;
+    bool                                print_source;
+
+    /*-----------------------------------------------------*\
+    | Log Mutexes                                           |
+    \*-----------------------------------------------------*/
+    std::recursive_mutex                entry_mutex;
+    std::mutex                          section_mutex;
+
+    /*-----------------------------------------------------*\
+    | Log File Output Stream                                |
+    \*-----------------------------------------------------*/
+    std::ofstream                       log_stream;
+
+    /*-----------------------------------------------------*\
+    | LogManager Callbacks                                  |
+    \*-----------------------------------------------------*/
+    std::vector<LogManagerCallback>     LogManagerCallbacks;
+    std::vector<void *>                 LogManagerCallbackArgs;
+    std::mutex                          LogManagerCallbackMutex;
+
+    /*-----------------------------------------------------*\
+    | Log Buffers                                           |
+    \*-----------------------------------------------------*/
+    std::vector<PLogMessage>            temp_messages;
+    std::vector<PLogMessage>            all_messages;
+
+    /*-----------------------------------------------------*\
+    | Private Functions                                     |
+    \*-----------------------------------------------------*/
+    void flush();
+    void rotate_logs(const filesystem::path& folder, const filesystem::path& templ, int max_count);
 };
 
-#define LogAppend(level, ...)   LogManager::get()->append(__FILE__, __LINE__, level, __VA_ARGS__)
+/*---------------------------------------------------------*\
+| Log Macros                                                |
+\*---------------------------------------------------------*/
+#define LogAppend(level, ...)   LogManager::get()->LogEntry(__FILE__, __LINE__, level, __VA_ARGS__)
 #define LOG_FATAL(...)          LogAppend(LL_FATAL,     __VA_ARGS__)
 #define LOG_ERROR(...)          LogAppend(LL_ERROR,     __VA_ARGS__)
 #define LOG_WARNING(...)        LogAppend(LL_WARNING,   __VA_ARGS__)
@@ -120,5 +181,3 @@ public:
 #define LOG_DEBUG(...)          LogAppend(LL_DEBUG,     __VA_ARGS__)
 #define LOG_TRACE(...)          LogAppend(LL_TRACE,     __VA_ARGS__)
 #define LOG_DIALOG(...)         LogAppend(LL_DIALOG,    __VA_ARGS__)
-
-#endif // LOGMANAGER_H

@@ -1471,11 +1471,11 @@ unsigned int cli_pre_detection(int argc, char* argv[])
                     int level = std::stoi(argument);
                     if (level >= 0 && level <= LL_TRACE)
                     {
-                        LogManager::get()->setLoglevel(level);
+                        LogManager::get()->SetLogLevel(level);
                     }
                     else
                     {
-                        LOG_ERROR("[CLI] Loglevel out of range: %d (0-6)", level);
+                        LOG_ERROR("[CLI] LogLevel out of range: %d (0-6)", level);
                         print_help = true;
                         break;
                     }
@@ -1484,31 +1484,31 @@ unsigned int cli_pre_detection(int argc, char* argv[])
                 {
                     if(!strcasecmp(argument.c_str(), "fatal"))
                     {
-                        LogManager::get()->setLoglevel(LL_FATAL);
+                        LogManager::get()->SetLogLevel(LL_FATAL);
                     }
                     else if(!strcasecmp(argument.c_str(), "error"))
                     {
-                        LogManager::get()->setLoglevel(LL_ERROR);
+                        LogManager::get()->SetLogLevel(LL_ERROR);
                     }
                     else if(!strcasecmp(argument.c_str(), "warning"))
                     {
-                        LogManager::get()->setLoglevel(LL_WARNING);
+                        LogManager::get()->SetLogLevel(LL_WARNING);
                     }
                     else if(!strcasecmp(argument.c_str(), "info"))
                     {
-                        LogManager::get()->setLoglevel(LL_INFO);
+                        LogManager::get()->SetLogLevel(LL_INFO);
                     }
                     else if(!strcasecmp(argument.c_str(), "verbose"))
                     {
-                        LogManager::get()->setLoglevel(LL_VERBOSE);
+                        LogManager::get()->SetLogLevel(LL_VERBOSE);
                     }
                     else if(!strcasecmp(argument.c_str(), "debug"))
                     {
-                        LogManager::get()->setLoglevel(LL_DEBUG);
+                        LogManager::get()->SetLogLevel(LL_DEBUG);
                     }
                     else if(!strcasecmp(argument.c_str(), "trace"))
                     {
-                        LogManager::get()->setLoglevel(LL_TRACE);
+                        LogManager::get()->SetLogLevel(LL_TRACE);
                     }
                     else
                     {
@@ -1649,7 +1649,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
         \*---------------------------------------------------------*/
         else if(option == "--verbose" || option == "-v")
         {
-            LogManager::get()->setVerbosity(LL_VERBOSE);
+            LogManager::get()->SetVerbosity(LL_VERBOSE);
             cfg_args++;
         }
 
@@ -1658,7 +1658,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
         \*---------------------------------------------------------*/
         else if(option == "--very-verbose" || option == "-vv")
         {
-            LogManager::get()->setVerbosity(LL_TRACE);
+            LogManager::get()->SetVerbosity(LL_TRACE);
             cfg_args++;
         }
 
@@ -1667,7 +1667,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
         \*---------------------------------------------------------*/
         else if(option == "--print-source")
         {
-            LogManager::get()->setPrintSource(true);
+            LogManager::get()->SetPrintSource(true);
             cfg_args++;
         }
 

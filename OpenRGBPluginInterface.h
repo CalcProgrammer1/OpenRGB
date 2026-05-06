@@ -77,7 +77,7 @@ public:
     /*-----------------------------------------------------*\
     | LogManager APIs                                       |
     \*-----------------------------------------------------*/
-    virtual void                            append(const char* filename, int line, unsigned int level, const char* fmt, ...)    = 0;
+    virtual void                            LogEntry(const char* filename, int line, unsigned int level, const char* fmt, ...)    = 0;
 
     /*-----------------------------------------------------*\
     | PluginManager APIs                                    |

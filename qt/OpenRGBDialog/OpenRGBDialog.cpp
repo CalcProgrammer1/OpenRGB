@@ -45,6 +45,19 @@
 #include "macutils.h"
 #endif
 
+static void OpenRGBDialogLogManagerCallback(void * this_ptr, unsigned int update_reason, PLogMessage message)
+{
+    OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
+
+    switch(update_reason)
+    {
+        case LOGMANAGER_UPDATE_REASON_SHOW_DIALOG:
+            this_obj->SetDialogMessage(message);
+            QMetaObject::invokeMethod(this_obj, "onShowDialogMessage", Qt::QueuedConnection);
+            break;
+    }
+}
+
 static void OpenRGBDialogProfileManagerCallback(void * this_ptr, unsigned int update_reason)
 {
     OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
@@ -111,13 +124,6 @@ static void DeletePluginCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
     this_obj->RemovePlugin(plugin);
 }
 
-static void DialogShowCallback(void * this_ptr, PLogMessage msg)
-{
-    OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
-
-    this_obj->SetDialogMessage(msg);
-    QMetaObject::invokeMethod(this_obj, "onShowDialogMessage", Qt::QueuedConnection);
-}
 
 bool OpenRGBDialog::IsMinimizeOnClose()
 {
@@ -280,9 +286,9 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     ResourceManager::get()->GetSettingsManager()->RegisterSettingsManagerCallback(OpenRGBDialogSettingsManagerCallback, this);
 
     /*-----------------------------------------------------*\
-    | Register dialog show callback with log manager        |
+    | Register log manager callbacks                        |
     \*-----------------------------------------------------*/
-    LogManager::get()->RegisterDialogShowCallback(DialogShowCallback, this);
+    LogManager::get()->RegisterLogManagerCallback(OpenRGBDialogLogManagerCallback, this);
 
     /*-----------------------------------------------------*\
     | Initialize page pointers                              |
@@ -1233,7 +1239,7 @@ void OpenRGBDialog::UpdateDevicesList()
 
 void OpenRGBDialog::SetDialogMessage(PLogMessage msg)
 {
-    dialog_message = QString::fromStdString(msg->buffer);
+    dialog_message = QString::fromStdString(msg->text);
 }
 
 void OpenRGBDialog::SetLanguage(std::string locale)
