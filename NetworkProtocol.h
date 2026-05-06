@@ -71,9 +71,10 @@ typedef struct
 enum
 {
     NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER      = ( 1 << 0 ),   /* Client supports RGBController API            */
-    NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER     = ( 1 << 1 ),   /* Client supports ProfileManager API           */
-    NET_CLIENT_FLAG_SUPPORTS_PLUGINMANAGER      = ( 1 << 2 ),   /* Client supports PluginManager API            */
-    NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER    = ( 1 << 3 ),   /* Client supports SettingsManager API          */
+    NET_CLIENT_FLAG_SUPPORTS_LOGMANAGER         = ( 1 << 1 ),   /* Client supports LogManager API               */
+    NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER     = ( 1 << 2 ),   /* Client supports ProfileManager API           */
+    NET_CLIENT_FLAG_SUPPORTS_PLUGINMANAGER      = ( 1 << 3 ),   /* Client supports PluginManager API            */
+    NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER    = ( 1 << 4 ),   /* Client supports SettingsManager API          */
 
     NET_CLIENT_FLAG_REQUEST_LOCAL_CLIENT        = ( 1 << 16 ),  /* Request local client                         */
 };
@@ -81,10 +82,11 @@ enum
 enum
 {
     NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER      = ( 1 << 0 ),   /* Server supports RGBController API            */
-    NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER     = ( 1 << 1 ),   /* Server supports ProfileManager API           */
-    NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER      = ( 1 << 2 ),   /* Server supports PluginManager API            */
-    NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER    = ( 1 << 3 ),   /* Server supports SettingsManager API          */
-    NET_SERVER_FLAG_SUPPORTS_DETECTION          = ( 1 << 4 ),   /* Server supports detection functions          */
+    NET_SERVER_FLAG_SUPPORTS_LOGMANAGER         = ( 1 << 1 ),   /* Server supports LogManager API               */
+    NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER     = ( 1 << 2 ),   /* Server supports ProfileManager API           */
+    NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER      = ( 1 << 3 ),   /* Server supports PluginManager API            */
+    NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER    = ( 1 << 4 ),   /* Server supports SettingsManager API          */
+    NET_SERVER_FLAG_SUPPORTS_DETECTION          = ( 1 << 5 ),   /* Server supports detection functions          */
 
     NET_SERVER_FLAG_LOCAL_CLIENT                = ( 1 << 16),   /* Confirm that client is local client          */
 };
@@ -152,6 +154,15 @@ enum
     NET_PACKET_ID_SETTINGSMANAGER_MODIFY_SETTINGS   = 252,  /* Modify settings for a given key in JSON format   */
     NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS      = 253,  /* Set settings for a given key in JSON format      */
     NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS     = 254,  /* Save settings                                    */
+
+    /*----------------------------------------------------------------------------------------------------------*\
+    | LogManager functions                                                                                       |
+    \*----------------------------------------------------------------------------------------------------------*/
+    NET_PACKET_ID_LOGMANAGER_CLEAR_LOG_BUFFER       = 300,  /* LogManager::ClearLogBuffer()                     */
+    NET_PACKET_ID_LOGMANAGER_GET_LOG_BUFFER         = 301,  /* LogManager::GetLogBuffer()                       */
+    NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL          = 302,  /* LogManager::GetLogLevel()                        */
+    NET_PACKET_ID_LOGMANAGER_SET_LOG_LEVEL          = 303,  /* LogManager::SetLogLevel()                        */
+    NET_PACKET_ID_LOGMANAGER_LOGGED_ENTRY           = 304,  /* LogManager::LogEntry Callback                    */
 
     /*----------------------------------------------------------------------------------------------------------*\
     | RGBController functions                                                                                    |

@@ -317,6 +317,7 @@ void ResourceManager::SetConfigurationDirectory(const filesystem::path &director
 {
     config_dir = directory;
     settings_manager->LoadSettings(directory / "OpenRGB.json");
+    LogManager::get()->Configure(settings_manager->GetSettings("LogManager"), GetConfigurationDirectory());
     profile_manager->SetConfigurationDirectory(directory);
 }
 
@@ -719,6 +720,17 @@ bool ResourceManager::AttemptLocalConnection()
                 break;
             }
             std::this_thread::sleep_for(5ms);
+        }
+
+        /*-------------------------------------------------*\
+        | If local client, set local log level to server's  |
+        | log level and download log entries                |
+        \*-------------------------------------------------*/
+        if(auto_connection_client->GetLocal() && auto_connection_client->GetSupportsLogManagerAPI())
+        {
+            unsigned int log_level = auto_connection_client->LogManager_GetLogLevel();
+            LogManager::get()->SetLogLevel(log_level, true);
+            auto_connection_client->LogManager_GetLogBuffer();
         }
     }
 
