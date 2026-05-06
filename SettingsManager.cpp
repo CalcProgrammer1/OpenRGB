@@ -25,13 +25,12 @@
 \*---------------------------------------------------------*/
 const char* SETTINGSMANAGER = "SettingsManager";
 
-static const std::string ui_settings_keys[7] =
+static const std::string ui_settings_keys[4] =
 {
     "UserInterface",
     "AutoStart",
     "Plugins",
     "Client",
-    "LogManager",
 };
 
 SettingsManager::SettingsManager()
@@ -49,7 +48,7 @@ json SettingsManager::GetSettings(std::string settings_key)
     json result;
     bool ui_settings_key = false;
 
-    for(std::size_t settings_key_idx = 0; settings_key_idx < 7; settings_key_idx++)
+    for(std::size_t settings_key_idx = 0; settings_key_idx < 4; settings_key_idx++)
     {
         if(settings_key == ui_settings_keys[settings_key_idx])
         {
@@ -126,7 +125,7 @@ void SettingsManager::ModifySettings(std::string settings_key, json new_settings
 {
     bool ui_settings_key = false;
 
-    for(std::size_t settings_key_idx = 0; settings_key_idx < 7; settings_key_idx++)
+    for(std::size_t settings_key_idx = 0; settings_key_idx < 4; settings_key_idx++)
     {
         if(settings_key == ui_settings_keys[settings_key_idx])
         {
@@ -181,7 +180,7 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings)
 {
     bool ui_settings_key = false;
 
-    for(std::size_t settings_key_idx = 0; settings_key_idx < 7; settings_key_idx++)
+    for(std::size_t settings_key_idx = 0; settings_key_idx < 4; settings_key_idx++)
     {
         if(settings_key == ui_settings_keys[settings_key_idx])
         {

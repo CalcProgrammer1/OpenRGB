@@ -17,6 +17,7 @@
 #include <mutex>
 #include <thread>
 #include <queue>
+#include "LogManager.h"
 #include "RGBController.h"
 #include "NetworkProtocol.h"
 #include "net_port.h"
@@ -103,6 +104,7 @@ public:
     /*-----------------------------------------------------*\
     | Functions for forwarding callback sigals over network |
     \*-----------------------------------------------------*/
+    void                                SignalLogManagerLoggedEntry(LogMessage& logged_entry);
     void                                SignalProfileManagerUpdate(unsigned int update_reason);
     void                                SignalResourceManagerUpdate(unsigned int update_reason);
 
@@ -228,6 +230,11 @@ private:
     NetPacketStatus                     ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
     NetPacketStatus                     ProcessRequest_RescanDevices();
 
+    NetPacketStatus                     ProcessRequest_LogManager_ClearLogBuffer(NetworkClientInfo* client_info);
+    NetPacketStatus                     ProcessRequest_LogManager_GetLogBuffer(NetworkClientInfo* client_info);
+    NetPacketStatus                     ProcessRequest_LogManager_GetLogLevel(NetworkClientInfo* client_info);
+    NetPacketStatus                     ProcessRequest_LogManager_SetLogLevel(NetworkClientInfo* client_info, unsigned int data_size, char* data);
+
     NetPacketStatus                     ProcessRequest_ProfileManager_ClearActiveProfile(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_ProfileManager_DeleteProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data);
     NetPacketStatus                     ProcessRequest_ProfileManager_DownloadProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data);
@@ -271,6 +278,8 @@ private:
     void                                SendRequest_DetectionProgress(SOCKET client_sock, unsigned int protocol_version, unsigned int detection_percent, std::string detection_string);
     void                                SendRequest_DetectionStarted(SOCKET client_sock, unsigned int protocol_version);
     void                                SendRequest_DeviceListChanged(SOCKET client_sock);
+
+    void                                SendRequest_LoggedEntry(NetworkClientInfo* client_info, unsigned char* data, unsigned int data_size);
 
     void                                SendRequest_ProfileManager_ActiveProfileChanged(SOCKET client_sock, std::string active_profile);
     void                                SendRequest_ProfileManager_ProfileAboutToLoad();
