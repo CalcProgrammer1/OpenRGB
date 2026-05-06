@@ -1308,7 +1308,7 @@ void DetectionManager::BackgroundHIDInit()
 \*---------------------------------------------------------*/
 void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json detector_settings)
 {
-    if(LogManager::get()->getLoglevel() >= LL_DEBUG)
+    if(LogManager::get()->GetLogLevel() >= LL_DEBUG)
     {
         const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
         const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
@@ -1422,7 +1422,7 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json 
 
 void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_device_info* current_hid_device, json detector_settings)
 {
-    if(LogManager::get()->getLoglevel() >= LL_DEBUG)
+    if(LogManager::get()->GetLogLevel() >= LL_DEBUG)
     {
         const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
         const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);

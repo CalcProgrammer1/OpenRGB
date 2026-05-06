@@ -230,7 +230,7 @@ ResourceManager::ResourceManager()
     /*-----------------------------------------------------*\
     | Configure the log manager                             |
     \*-----------------------------------------------------*/
-    LogManager::get()->configure(settings_manager->GetSettings("LogManager"), GetConfigurationDirectory());
+    LogManager::get()->Configure(settings_manager->GetSettings("LogManager"), GetConfigurationDirectory());
 
     /*-----------------------------------------------------*\
     | Load sizes list from file                             |
