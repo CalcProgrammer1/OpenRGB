@@ -74,7 +74,7 @@ RGBController_LenovoUSB::RGBController_LenovoUSB(LenovoUSBController* controller
     type    = DEVICE_TYPE_KEYBOARD;
     vendor  = "Lenovo";
 
-    if(LogManager::get()->getLoglevel() >= LL_TRACE)
+    if(LogManager::get()->GetLogLevel() >= LL_TRACE)
     {
         DumpControllerInformation();
     }

@@ -23,12 +23,12 @@ OpenRGBPluginAPI::OpenRGBPluginAPI()
 /*---------------------------------------------------------*\
 | LogManager APIs                                           |
 \*---------------------------------------------------------*/
-void OpenRGBPluginAPI::append(const char* filename, int line, unsigned int level, const char* fmt, ...)
+void OpenRGBPluginAPI::LogEntry(const char* filename, int line, unsigned int level, const char* fmt, ...)
 {
     va_list va;
     va_start(va, fmt);
 
-    log_manager->append_va(filename, line, level, fmt, va);
+    log_manager->LogEntry_va(filename, line, level, fmt, va);
 
     va_end(va);
 }

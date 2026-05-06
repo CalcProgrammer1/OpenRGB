@@ -28,7 +28,7 @@ OpenRGBConsolePage::OpenRGBConsolePage(QWidget *parent) :
                                 "Trace"
                             });
 
-    ui->log_level->setCurrentIndex(LogManager::get()->getLoglevel());
+    ui->log_level->setCurrentIndex(LogManager::get()->GetLogLevel());
     ui->log_level->blockSignals(false);
 
 #ifdef _WIN32
@@ -41,18 +41,18 @@ void OpenRGBConsolePage::Refresh()
 {
     QString log;
 
-    unsigned int current_level = LogManager::get()->getLoglevel();
+    unsigned int current_level = LogManager::get()->GetLogLevel();
 
-    for(PLogMessage& message: LogManager::get()->messages())
+    for(PLogMessage& message: LogManager::get()->GetLogBuffer())
     {
         unsigned int message_level = message.get()->level;
 
         if(message_level <= current_level || message_level == LL_DIALOG)
         {
             log += "[";
-            log += LogManager::log_codes[message_level];
+            log += LogManager::LOG_CODES[message_level];
             log += "] ";
-            log += QString::fromStdString(message.get()->buffer);
+            log += QString::fromStdString(message.get()->text);
             log += "\n";
         }
     }
@@ -62,12 +62,12 @@ void OpenRGBConsolePage::Refresh()
 
 void OpenRGBConsolePage::on_log_level_currentIndexChanged(int index)
 {
-    LogManager::get()->setLoglevel(index);
+    LogManager::get()->SetLogLevel(index);
 }
 
 void OpenRGBConsolePage::on_clear_clicked()
 {
-    LogManager::get()->clearMessages();
+    LogManager::get()->ClearLogBuffer();
     ui->logs->clear();
 }
 
