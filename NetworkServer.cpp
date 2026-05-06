@@ -27,7 +27,6 @@
 #include <memory.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <iostream>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -104,6 +103,7 @@ NetworkServer::NetworkServer()
     controller_next_idx         = 0;
     controller_updating         = false;
     server_flags                = NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER
+                                | NET_SERVER_FLAG_SUPPORTS_LOGMANAGER
                                 | NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER
                                 | NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER
                                 | NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER
@@ -224,6 +224,68 @@ unsigned int NetworkServer::GetClientProtocolVersion(unsigned int client_num)
 /*---------------------------------------------------------*\
 | Callback functions                                        |
 \*---------------------------------------------------------*/
+void NetworkServer::SignalLogManagerLoggedEntry(LogMessage& logged_entry)
+{
+    if(ServerClients.size() > 0)
+    {
+        /*-------------------------------------------------*\
+        | Create data buffer for message                    |
+        \*-------------------------------------------------*/
+        unsigned int    data_size       = 0;
+        unsigned short  filename_size   = (unsigned short)strlen(logged_entry.filename.c_str()) + 1;
+        unsigned short  text_size       = (unsigned short)strlen(logged_entry.text.c_str()) + 1;
+
+        data_size                      += sizeof(data_size);
+        data_size                      += sizeof(logged_entry.level);
+        data_size                      += sizeof(logged_entry.line);
+        data_size                      += sizeof(logged_entry.timestamp);
+        data_size                      += sizeof(filename_size);
+        data_size                      += filename_size;
+        data_size                      += sizeof(text_size);
+        data_size                      += text_size;
+
+        unsigned char*  data_buf        = new unsigned char[data_size];
+        unsigned char*  data_ptr        = data_buf;
+
+        memcpy(data_ptr, &data_size, sizeof(data_size));
+        data_ptr += sizeof(data_size);
+
+        memcpy(data_ptr, &logged_entry.level, sizeof(logged_entry.level));
+        data_ptr += sizeof(logged_entry.level);
+
+        memcpy(data_ptr, &logged_entry.line, sizeof(logged_entry.line));
+        data_ptr += sizeof(logged_entry.line);
+
+        memcpy(data_ptr, &logged_entry.timestamp, sizeof(logged_entry.timestamp));
+        data_ptr += sizeof(logged_entry.timestamp);
+
+        memcpy(data_ptr, &filename_size, sizeof(filename_size));
+        data_ptr += sizeof(filename_size);
+
+        memcpy(data_ptr, logged_entry.filename.c_str(), filename_size);
+        data_ptr += filename_size;
+
+        memcpy(data_ptr, &text_size, sizeof(text_size));
+        data_ptr += sizeof(text_size);
+
+        memcpy(data_ptr, logged_entry.text.c_str(), text_size);
+        data_ptr += text_size;
+
+        /*-------------------------------------------------*\
+        | Send Logged Entry request for all clients         |
+        \*-------------------------------------------------*/
+        for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+        {
+            if(ServerClients[client_idx]->client_is_local_client)
+            {
+                SendRequest_LoggedEntry(ServerClients[client_idx], data_buf, data_size);
+            }
+        }
+
+        delete[] data_buf;
+    }
+}
+
 void NetworkServer::SignalProfileManagerUpdate(unsigned int update_reason)
 {
     switch(update_reason)
@@ -1185,6 +1247,25 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
         /*-------------------------------------------------*\
+        | LogManager functions                              |
+        \*-------------------------------------------------*/
+            case NET_PACKET_ID_LOGMANAGER_CLEAR_LOG_BUFFER:
+                status = ProcessRequest_LogManager_ClearLogBuffer(client_info);
+                break;
+
+            case NET_PACKET_ID_LOGMANAGER_GET_LOG_BUFFER:
+                status = ProcessRequest_LogManager_GetLogBuffer(client_info);
+                break;
+
+            case NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL:
+                status = ProcessRequest_LogManager_GetLogLevel(client_info);
+                break;
+
+            case NET_PACKET_ID_LOGMANAGER_SET_LOG_LEVEL:
+                status = ProcessRequest_LogManager_SetLogLevel(client_info, header.pkt_size, data);
+                break;
+
+        /*-------------------------------------------------*\
         | ProfileManager functions are handled in a         |
         | separate thread, queue the messages               |
         \*-------------------------------------------------*/
@@ -1572,6 +1653,119 @@ NetPacketStatus NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, u
 NetPacketStatus NetworkServer::ProcessRequest_RescanDevices()
 {
     ResourceManager::get()->RescanDevices();
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_LogManager_ClearLogBuffer(NetworkClientInfo* client_info)
+{
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    LogManager::get()->ClearLogBuffer();
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_LogManager_GetLogBuffer(NetworkClientInfo* client_info)
+{
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    for(PLogMessage& logged_entry: LogManager::get()->GetLogBuffer())
+    {
+        /*-------------------------------------------------*\
+        | Create data buffer for message                    |
+        \*-------------------------------------------------*/
+        unsigned int    data_size       = 0;
+        unsigned short  filename_size   = (unsigned short)strlen(logged_entry->filename.c_str()) + 1;
+        unsigned short  text_size       = (unsigned short)strlen(logged_entry->text.c_str()) + 1;
+
+        data_size                      += sizeof(data_size);
+        data_size                      += sizeof(logged_entry->level);
+        data_size                      += sizeof(logged_entry->line);
+        data_size                      += sizeof(filename_size);
+        data_size                      += filename_size;
+        data_size                      += sizeof(text_size);
+        data_size                      += text_size;
+
+        unsigned char*  data_buf        = new unsigned char[data_size];
+        unsigned char*  data_ptr        = data_buf;
+
+        memcpy(data_ptr, &data_size, sizeof(data_size));
+        data_ptr += sizeof(data_size);
+
+        memcpy(data_ptr, &logged_entry->level, sizeof(logged_entry->level));
+        data_ptr += sizeof(logged_entry->level);
+
+        memcpy(data_ptr, &logged_entry->line, sizeof(logged_entry->line));
+        data_ptr += sizeof(logged_entry->line);
+
+        memcpy(data_ptr, &filename_size, sizeof(filename_size));
+        data_ptr += sizeof(filename_size);
+
+        memcpy(data_ptr, logged_entry->filename.c_str(), filename_size);
+        data_ptr += filename_size;
+
+        memcpy(data_ptr, &text_size, sizeof(text_size));
+        data_ptr += sizeof(text_size);
+
+        memcpy(data_ptr, logged_entry->text.c_str(), text_size);
+        data_ptr += text_size;
+
+        /*---------------------------------------------*\
+        | Send Logged Entry request to client           |
+        \*---------------------------------------------*/
+        SendRequest_LoggedEntry(client_info, data_buf, data_size);
+
+        delete[] data_buf;
+    }
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_LogManager_GetLogLevel(NetworkClientInfo* client_info)
+{
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    unsigned int log_level = LogManager::get()->GetLogLevel();
+
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL, sizeof(log_level));
+
+    send_in_progress.lock();
+    send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_info->client_sock, (char *)&log_level, reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_LogManager_SetLogLevel(NetworkClientInfo* client_info, unsigned int data_size, char* data)
+{
+    unsigned int log_level;
+
+    if(data_size < sizeof(log_level))
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    memcpy(&log_level, data, sizeof(log_level));
+
+    LogManager::get()->SetLogLevel(log_level);
 
     return(NET_PACKET_STATUS_OK);
 }
@@ -2880,6 +3074,18 @@ void NetworkServer::SendReply_PluginSpecific(SOCKET client_sock, unsigned int pk
     send_in_progress.unlock();
 
     delete [] data;
+}
+
+void NetworkServer::SendRequest_LoggedEntry(NetworkClientInfo* client_info, unsigned char* data, unsigned int data_size)
+{
+    NetPacketHeader pkt_hdr;
+
+    InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_LOGMANAGER_LOGGED_ENTRY, data_size);
+
+    send_in_progress.lock();
+    send(client_info->client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_info->client_sock, (char *)data, pkt_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
 }
 
 void NetworkServer::SendRequest_ProfileManager_ActiveProfileChanged(SOCKET client_sock, std::string active_profile)
