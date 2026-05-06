@@ -26,7 +26,7 @@ public:
     /*-----------------------------------------------------*\
     | LogManager APIs                                       |
     \*-----------------------------------------------------*/
-    void                            append(const char* filename, int line, unsigned int level, const char* fmt, ...);
+    void                            LogEntry(const char* filename, int line, unsigned int level, const char* fmt, ...);
 
     /*-----------------------------------------------------*\
     | PluginManager APIs                                    |
