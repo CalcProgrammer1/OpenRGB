@@ -720,6 +720,17 @@ bool ResourceManager::AttemptLocalConnection()
             }
             std::this_thread::sleep_for(5ms);
         }
+
+        /*-------------------------------------------------*\
+        | If local client, set local log level to server's  |
+        | log level and download log entries                |
+        \*-------------------------------------------------*/
+        if(auto_connection_client->GetLocal() && auto_connection_client->GetSupportsLogManagerAPI())
+        {
+            unsigned int log_level = auto_connection_client->LogManager_GetLogLevel();
+            LogManager::get()->SetLogLevel(log_level, true);
+            auto_connection_client->LogManager_GetLogBuffer();
+        }
     }
 
     return success;

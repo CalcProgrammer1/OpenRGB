@@ -15,6 +15,9 @@
 #include "filesystem.h"
 #include "JsonUtils.h"
 #include "LogManager.h"
+#include "NetworkClient.h"
+#include "NetworkServer.h"
+#include "ResourceManager.h"
 
 const char* LogManager::LOG_CODES[] = {"Fatal", "Error", "Warning", "Info", "Verbose", "Debug", "Trace", "Dialog"};
 
@@ -244,6 +247,11 @@ void LogManager::Configure(json config, const filesystem::path& config_dir)
 \*---------------------------------------------------------*/
 void LogManager::ClearLogBuffer()
 {
+    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
+    {
+        ResourceManager::get()->GetLocalClient()->LogManager_ClearLogBuffer();
+    }
+
     all_messages.clear();
 }
 
@@ -265,7 +273,7 @@ unsigned int LogManager::GetVerbosity()
     return(verbosity);
 }
 
-void LogManager::SetLogLevel(unsigned int level)
+void LogManager::SetLogLevel(unsigned int level, bool local_only)
 {
     /*-----------------------------------------------------*\
     | Check that the new log level is valid, otherwise set  |
@@ -274,6 +282,14 @@ void LogManager::SetLogLevel(unsigned int level)
     if(level > LL_TRACE)
     {
         level = LL_TRACE;
+    }
+
+    /*-----------------------------------------------------*\
+    | Set the server's log level if local client            |
+    \*-----------------------------------------------------*/
+    if(!local_only && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsLogManagerAPI()))
+    {
+        ResourceManager::get()->GetLocalClient()->LogManager_SetLogLevel(level);
     }
 
     LOG_DEBUG("[%s] LogLevel set to %d", LOGMANAGER, level);
@@ -325,13 +341,73 @@ void LogManager::LogEntry(const char* filename, int line, unsigned int level, co
     va_end(va);
 }
 
-void LogManager::LogEntry_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
+void LogManager::LogEntry_message(PLogMessage message)
 {
     /*-----------------------------------------------------*\
     | Lock the entry mutex while adding an entry            |
     \*-----------------------------------------------------*/
     std::lock_guard<std::recursive_mutex> guard(entry_mutex);
 
+    /*-----------------------------------------------------*\
+    | If this is a dialog message, call the dialog show     |
+    | callback                                              |
+    \*-----------------------------------------------------*/
+    if(message->level == LL_DIALOG)
+    {
+        for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+        {
+            LogManagerCallbacks[idx](LogManagerCallbackArgs[idx], LOGMANAGER_UPDATE_REASON_SHOW_DIALOG, message);
+        }
+    }
+    else
+    {
+        for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+        {
+            LogManagerCallbacks[idx](LogManagerCallbackArgs[idx], LOGMANAGER_UPDATE_REASON_LOG_ENTRY, message);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | If the message is within the current verbosity, print |
+    | it on the screen                                      |
+    \*-----------------------------------------------------*/
+    if(message->level <= verbosity || message->level == LL_DIALOG)
+    {
+        std::cout << std::left << "[" << std::setw(10) << message->timestamp  << "]";
+        std::cout << std::left << "[" << std::setw(7) << LOG_CODES[message->level] << "]";
+        if(print_source)
+        {
+            std::cout << " [" << message->filename << ":" << message->line << "]";
+        }
+        std::cout << message->text;
+        std::cout << std::endl;
+    }
+
+    /*-----------------------------------------------------*\
+    | Add the message to the logfile queue                  |
+    \*-----------------------------------------------------*/
+    temp_messages.push_back(message);
+
+    if(log_console_enabled)
+    {
+        all_messages.push_back(message);
+
+        NetworkServer* server = ResourceManager::get()->GetServer();
+
+        if(server)
+        {
+            server->SignalLogManagerLoggedEntry(*message);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Flush the queues                                      |
+    \*-----------------------------------------------------*/
+    flush();
+}
+
+void LogManager::LogEntry_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
+{
     /*-----------------------------------------------------*\
     | If a critical message occurs, enable source           |
     | printing and set loglevel and verbosity to highest    |
@@ -376,55 +452,7 @@ void LogManager::LogEntry_va(const char* filename, int line, unsigned int level,
         message->text.erase(std::remove(message->text.begin(), message->text.end(), '\r'), message->text.end());
     }
 
-    /*-----------------------------------------------------*\
-    | If this is a dialog message, call the dialog show     |
-    | callback                                              |
-    \*-----------------------------------------------------*/
-    if(level == LL_DIALOG)
-    {
-        for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
-        {
-            LogManagerCallbacks[idx](LogManagerCallbackArgs[idx], LOGMANAGER_UPDATE_REASON_SHOW_DIALOG, message);
-        }
-    }
-    else
-    {
-        for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
-        {
-            LogManagerCallbacks[idx](LogManagerCallbackArgs[idx], LOGMANAGER_UPDATE_REASON_LOG_ENTRY, message);
-        }
-    }
-
-    /*-----------------------------------------------------*\
-    | If the message is within the current verbosity, print |
-    | it on the screen                                      |
-    \*-----------------------------------------------------*/
-    if(level <= verbosity || level == LL_DIALOG)
-    {
-        std::cout << std::left << "[" << std::setw(10) << message->timestamp  << "]";
-        std::cout << std::left << "[" << std::setw(7) << LOG_CODES[message->level] << "]";
-        if(print_source)
-        {
-            std::cout << " [" << message->filename << ":" << message->line << "]";
-        }
-        std::cout << message->text;
-        std::cout << std::endl;
-    }
-
-    /*-----------------------------------------------------*\
-    | Add the message to the logfile queue                  |
-    \*-----------------------------------------------------*/
-    temp_messages.push_back(message);
-
-    if(log_console_enabled)
-    {
-        all_messages.push_back(message);
-    }
-
-    /*-----------------------------------------------------*\
-    | Flush the queues                                      |
-    \*-----------------------------------------------------*/
-    flush();
+    LogEntry_message(message);
 }
 
 /*---------------------------------------------------------*\

@@ -62,6 +62,7 @@ public:
     bool                                GetOnline();
     std::string                         GetServerName();
     bool                                GetSupportsRGBControllerAPI();
+    bool                                GetSupportsLogManagerAPI();
     bool                                GetSupportsProfileManagerAPI();
     bool                                GetSupportsPluginManagerAPI();
     bool                                GetSupportsSettingsManagerAPI();
@@ -92,6 +93,14 @@ public:
     \*-----------------------------------------------------*/
     unsigned int                        DetectionManager_GetDetectionPercent();
     std::string                         DetectionManager_GetDetectionString();
+
+    /*-----------------------------------------------------*\
+    | LogManager functions                                  |
+    \*-----------------------------------------------------*/
+    void                                LogManager_ClearLogBuffer();
+    void                                LogManager_GetLogBuffer();
+    unsigned int                        LogManager_GetLogLevel();
+    void                                LogManager_SetLogLevel(unsigned int log_level);
 
     /*-----------------------------------------------------*\
     | ProfileManager functions                              |
@@ -234,6 +243,8 @@ private:
     void                                ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, char * data, unsigned int dev_id);
     void                                ProcessRequest_ServerFlags(unsigned int data_size, char * data);
     void                                ProcessRequest_ServerString(unsigned int data_size, char * data);
+
+    void                                ProcessRequest_LogManager_LoggedEntry(unsigned int data_size, char * data);
 
     void                                ProcessRequest_ProfileManager_ActiveProfileChanged(unsigned int data_size, char * data);
     void                                ProcessRequest_ProfileManager_ProfileAboutToLoad();

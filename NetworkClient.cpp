@@ -50,6 +50,7 @@ NetworkClient::NetworkClient()
     port_ip                             = "127.0.0.1";
     port_num                            = OPENRGB_SDK_PORT;
     client_flags                        = NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER
+                                        | NET_CLIENT_FLAG_SUPPORTS_LOGMANAGER
                                         | NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER
                                         | NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER;
     client_flags_sent                   = false;
@@ -118,6 +119,11 @@ std::string NetworkClient::GetServerName()
 bool NetworkClient::GetSupportsRGBControllerAPI()
 {
     return(server_flags & NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER);
+}
+
+bool NetworkClient::GetSupportsLogManagerAPI()
+{
+    return(server_flags & NET_SERVER_FLAG_SUPPORTS_LOGMANAGER);
 }
 
 bool NetworkClient::GetSupportsProfileManagerAPI()
@@ -339,6 +345,71 @@ unsigned int NetworkClient::DetectionManager_GetDetectionPercent()
 std::string NetworkClient::DetectionManager_GetDetectionString()
 {
     return(detection_string);
+}
+
+/*---------------------------------------------------------*\
+| LogManager functions                                      |
+\*---------------------------------------------------------*/
+void NetworkClient::LogManager_ClearLogBuffer()
+{
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_LOGMANAGER_CLEAR_LOG_BUFFER, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::LogManager_GetLogBuffer()
+{
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_LOGMANAGER_GET_LOG_BUFFER, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+unsigned int NetworkClient::LogManager_GetLogLevel()
+{
+    unsigned int    log_level = 0;
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+
+    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+    waiting_on_response_cv.wait(wait_lock);
+
+    if(response_header.pkt_id == NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL && response_data_ptr != NULL)
+    {
+        if(response_header.pkt_size >= sizeof(log_level))
+        {
+            memcpy(&log_level, response_data_ptr, sizeof(log_level));
+        }
+
+        delete[] response_data_ptr;
+        response_data_ptr = NULL;
+    }
+
+    return(log_level);
+}
+
+void NetworkClient::LogManager_SetLogLevel(unsigned int log_level)
+{
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_LOGMANAGER_SET_LOG_LEVEL, sizeof(log_level));
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char*)&log_level, sizeof(log_level), MSG_NOSIGNAL);
+    send_in_progress.unlock();
 }
 
 /*---------------------------------------------------------*\
@@ -1176,6 +1247,11 @@ void NetworkClient::ListenThreadFunction()
                 SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE);
                 break;
 
+            case NET_PACKET_ID_LOGMANAGER_LOGGED_ENTRY:
+                ProcessRequest_LogManager_LoggedEntry(header.pkt_size, data);
+                break;
+
+            case NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL:
             case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
             case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
             case NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS:
@@ -1444,6 +1520,37 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
     server_controller_ids_requested     = false;
     server_controller_ids_received      = false;
     server_initialized                  = false;
+}
+
+void NetworkClient::ProcessRequest_LogManager_LoggedEntry(unsigned int data_size, char * data)
+{
+    PLogMessage message = std::make_shared<LogMessage>();
+
+    data += sizeof(unsigned int);
+
+    memcpy(&message->level, data, sizeof(message->level));
+    data += sizeof(message->level);
+
+    memcpy(&message->line, data, sizeof(message->line));
+    data += sizeof(message->line);
+
+    unsigned short filename_size;
+    memcpy(&filename_size, data, sizeof(filename_size));
+    data += sizeof(filename_size);
+
+    message->filename.assign(data, filename_size);
+    data += filename_size;
+    message->filename = StringUtils::remove_null_terminating_chars(message->filename);
+
+    unsigned short text_size;
+    memcpy(&text_size, data, sizeof(text_size));
+    data += sizeof(text_size);
+
+    message->text.assign(data, text_size);
+    data += text_size;
+    message->text = StringUtils::remove_null_terminating_chars(message->text);
+
+    LogManager::get()->LogEntry_message(message);
 }
 
 void NetworkClient::ProcessRequest_ProfileManager_ActiveProfileChanged(unsigned int data_size, char * data)
