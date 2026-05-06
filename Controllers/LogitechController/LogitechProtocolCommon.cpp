@@ -172,7 +172,7 @@ void logitech_device::initialiseDevice()
         | If this is running with DEBUG or higher loglevel then             |
         |   dump the entire Feature list to log                             |
         \*-----------------------------------------------------------------*/
-        if(LogManager::get()->getLoglevel() > 4)
+        if(LogManager::get()->GetLogLevel() >= LL_DEBUG)
         {
             getDeviceFeatureList();     //This will populate the feature list
         }

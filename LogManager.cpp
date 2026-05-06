@@ -16,7 +16,7 @@
 #include "JsonUtils.h"
 #include "LogManager.h"
 
-const char* LogManager::log_codes[] = {"FATAL:", "ERROR:", "Warning:", "Info:", "Verbose:", "Debug:", "Trace:", "Dialog:"};
+const char* LogManager::LOG_CODES[] = {"Fatal", "Error", "Warning", "Info", "Verbose", "Debug", "Trace", "Dialog"};
 
 const char* TimestampPattern = "%04d%02d%02d_%02d%02d%02d";
 
@@ -25,45 +25,119 @@ const char* TimestampPattern = "%04d%02d%02d_%02d%02d%02d";
 \*---------------------------------------------------------*/
 const char* TimestampRegex = "[0-9]{8}_[0-9]{6}";
 
+/*---------------------------------------------------------*\
+| LogManager name for log entries                           |
+\*---------------------------------------------------------*/
+const char* LOGMANAGER = "LogManager";
+
+/*---------------------------------------------------------*\
+| LogManager Global Instance Pointer                        |
+\*---------------------------------------------------------*/
+LogManager* LogManager::instance;
+
 LogManager::LogManager()
 {
-    base_clock          = std::chrono::steady_clock::now();
-    log_console_enabled = false;
-    log_file_enabled    = true;
-}
-
-LogManager* LogManager::get()
-{
-    static LogManager* _instance = nullptr;
-    static std::mutex instance_mutex;
-    std::lock_guard<std::mutex> grd(instance_mutex);
-
     /*-----------------------------------------------------*\
-    | Create a new instance if one does not exist           |
+    | Initialize global instance pointer the when created   |
+    | There should only ever be one instance of             |
+    | LogManager                                            |
     \*-----------------------------------------------------*/
-    if(!_instance)
+    if(!instance)
     {
-        _instance = new LogManager();
+        instance = this;
     }
-
-    return _instance;
-}
-
-unsigned int LogManager::getLoglevel()
-{
-    if(log_console_enabled)
-    {
-        return(LL_TRACE);
-    }
+    /*-----------------------------------------------------*\
+    | If, for whatever reason, LogManager already exists,   |
+    | delete this instance as only one should exist         |
+    \*-----------------------------------------------------*/
     else
     {
-        return(loglevel);
+        delete this;
+        return;
     }
+
+    base_clock          = std::chrono::steady_clock::now();
+    log_console_enabled = false;
+    loglevel            = LL_INFO;
+    print_source        = false;
+    verbosity           = LL_WARNING;
 }
 
-void LogManager::configure(json config, const filesystem::path& defaultDir)
+LogManager::~LogManager()
 {
-    std::lock_guard<std::recursive_mutex> grd(entry_mutex);
+
+}
+
+/*---------------------------------------------------------*\
+| LogManager Global Instance Accessor                       |
+\*---------------------------------------------------------*/
+LogManager* LogManager::get()
+{
+    /*-----------------------------------------------------*\
+    | If LogManager does not exist yet, create it           |
+    \*-----------------------------------------------------*/
+    if(!instance)
+    {
+        instance = new LogManager();
+    }
+
+    return instance;
+}
+
+/*---------------------------------------------------------*\
+| Callback Registration                                     |
+\*---------------------------------------------------------*/
+void LogManager::RegisterLogManagerCallback(LogManagerCallback new_callback, void * new_callback_arg)
+{
+    LogManagerCallbackMutex.lock();
+
+    for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+    {
+        if(LogManagerCallbacks[idx] == new_callback && LogManagerCallbackArgs[idx] == new_callback_arg)
+        {
+            LogManagerCallbackMutex.unlock();
+
+            LOG_TRACE("[%s] Tried to register an already registered LogManager callback, skipping.  Total callbacks registered: %d", LOGMANAGER, LogManagerCallbacks.size());
+
+            return;
+        }
+    }
+
+    LogManagerCallbacks.push_back(new_callback);
+    LogManagerCallbackArgs.push_back(new_callback_arg);
+
+    LogManagerCallbackMutex.unlock();
+
+    LOG_TRACE("[%s] Registered LogManager callback.  Total callbacks registered: %d", LOGMANAGER, LogManagerCallbacks.size());
+}
+
+void LogManager::UnregisterLogManagerCallback(LogManagerCallback callback, void * callback_arg)
+{
+    LogManagerCallbackMutex.lock();
+
+    for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+    {
+        if(LogManagerCallbacks[idx] == callback && LogManagerCallbackArgs[idx] == callback_arg)
+        {
+            LogManagerCallbacks.erase(LogManagerCallbacks.begin() + idx);
+            LogManagerCallbackArgs.erase(LogManagerCallbackArgs.begin() + idx);
+        }
+    }
+
+    LogManagerCallbackMutex.unlock();
+
+    LOG_TRACE("[%s] Unregistered LogManager callback.  Total callbacks registered: %d", LOGMANAGER, LogManagerCallbackArgs.size());
+}
+
+/*---------------------------------------------------------*\
+| Configuration                                             |
+\*---------------------------------------------------------*/
+void LogManager::Configure(json config, const filesystem::path& config_dir)
+{
+    /*-----------------------------------------------------*\
+    | Lock the entry mitex while configuring                |
+    \*-----------------------------------------------------*/
+    std::lock_guard<std::recursive_mutex> guard(entry_mutex);
 
     /*-----------------------------------------------------*\
     | If the log is not open, create a new log file         |
@@ -79,8 +153,8 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
         | i.e. with the lexicographically smallest filename |
         | 0 or less equals no limit (default)               |
         \*-------------------------------------------------*/
-        int loglimit        = JsonUtils::JsonGetInt(config, "file_count_limit");
-        log_file_enabled    = JsonUtils::JsonGetBool(config, "log_file");
+        int     loglimit            = JsonUtils::JsonGetInt(config, "file_count_limit");
+        bool    log_file_enabled    = JsonUtils::JsonGetBool(config, "log_file", true);
 
         /*-------------------------------------------------*\
         | Default template for the logfile name             |
@@ -112,7 +186,7 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
             filesystem::path p = filesystem::u8path(logname);
             if(p.is_relative())
             {
-                p = defaultDir / "logs" / logname;
+                p = config_dir / "logs" / logname;
             }
             filesystem::create_directories(p.parent_path());
 
@@ -157,41 +231,228 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
     /*-----------------------------------------------------*\
     | Check log console configuration                       |
     \*-----------------------------------------------------*/
-    if(config.contains("log_console"))
-    {
-        log_console_enabled = config["log_console"];
-    }
+    log_console_enabled = JsonUtils::JsonGetBool(config, "log_console");
 
     /*-----------------------------------------------------*\
     | Flush the log                                         |
     \*-----------------------------------------------------*/
-    _flush();
+    flush();
 }
 
-void LogManager::_flush()
+/*---------------------------------------------------------*\
+| Log Buffer Functions                                      |
+\*---------------------------------------------------------*/
+void LogManager::ClearLogBuffer()
 {
+    all_messages.clear();
+}
+
+std::vector<PLogMessage> LogManager::GetLogBuffer()
+{
+    return(all_messages);
+}
+
+/*---------------------------------------------------------*\
+| Log Level Functions                                       |
+\*---------------------------------------------------------*/
+unsigned int LogManager::GetLogLevel()
+{
+    return(loglevel);
+}
+
+unsigned int LogManager::GetVerbosity()
+{
+    return(verbosity);
+}
+
+void LogManager::SetLogLevel(unsigned int level)
+{
+    /*-----------------------------------------------------*\
+    | Check that the new log level is valid, otherwise set  |
+    | it within the valid range                             |
+    \*-----------------------------------------------------*/
+    if(level > LL_TRACE)
+    {
+        level = LL_TRACE;
+    }
+
+    LOG_DEBUG("[%s] LogLevel set to %d", LOGMANAGER, level);
+
+    /*-----------------------------------------------------*\
+    | Set the new log level                                 |
+    \*-----------------------------------------------------*/
+    loglevel = level;
+}
+
+void LogManager::SetVerbosity(unsigned int level)
+{
+    /*-----------------------------------------------------*\
+    | Check that the new verbosity is valid, otherwise set  |
+    | it within the valid range                             |
+    \*-----------------------------------------------------*/
+    if(level > LL_TRACE)
+    {
+        level = LL_TRACE;
+    }
+
+    LOG_DEBUG("[%s] Verbosity set to %d", LOGMANAGER, level);
+
+    /*-----------------------------------------------------*\
+    | Set the new verbosity                                 |
+    \*-----------------------------------------------------*/
+    verbosity = level;
+}
+
+/*---------------------------------------------------------*\
+| Log Format Functions                                      |
+\*---------------------------------------------------------*/
+void LogManager::SetPrintSource(bool print)
+{
+    LOG_DEBUG("[LogManager] Source code location printouts were %s", print ? "enabled" : "disabled");
+    print_source = print;
+}
+
+/*---------------------------------------------------------*\
+| Logging Functions                                         |
+\*---------------------------------------------------------*/
+void LogManager::LogEntry(const char* filename, int line, unsigned int level, const char* fmt, ...)
+{
+    va_list va;
+    va_start(va, fmt);
+
+    LogEntry_va(filename, line, level, fmt, va);
+
+    va_end(va);
+}
+
+void LogManager::LogEntry_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
+{
+    /*-----------------------------------------------------*\
+    | Lock the entry mutex while adding an entry            |
+    \*-----------------------------------------------------*/
+    std::lock_guard<std::recursive_mutex> guard(entry_mutex);
+
+    /*-----------------------------------------------------*\
+    | If a critical message occurs, enable source           |
+    | printing and set loglevel and verbosity to highest    |
+    \*-----------------------------------------------------*/
+    if(level == LL_FATAL)
+    {
+        print_source    = true;
+        loglevel        = LL_DEBUG;
+        verbosity       = LL_DEBUG;
+    }
+
+    /*-----------------------------------------------------*\
+    | Create a new message                                  |
+    \*-----------------------------------------------------*/
+    PLogMessage message = std::make_shared<LogMessage>();
+
+    /*-----------------------------------------------------*\
+    | Resize the buffer, then fill in the message text      |
+    \*-----------------------------------------------------*/
+    va_list va2;
+    va_copy(va2, va);
+    int len = vsnprintf(nullptr, 0, fmt, va);
+    message->text.resize(len);
+    vsnprintf(&(message->text[0]), len + 1, fmt, va2);
+    va_end(va2);
+
+    /*-----------------------------------------------------*\
+    | Fill in message information                           |
+    \*-----------------------------------------------------*/
+    message->level                      = level;
+    message->filename                   = filename;
+    message->line                       = line;
+    message->timestamp                  = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - base_clock).count();
+
+    /*-----------------------------------------------------*\
+    | Remove newlines in the log text unless this is a      |
+    | dialog                                                |
+    \*-----------------------------------------------------*/
+    if(level != LL_DIALOG)
+    {
+        message->text.erase(std::remove(message->text.begin(), message->text.end(), '\n'), message->text.end());
+        message->text.erase(std::remove(message->text.begin(), message->text.end(), '\r'), message->text.end());
+    }
+
+    /*-----------------------------------------------------*\
+    | If this is a dialog message, call the dialog show     |
+    | callback                                              |
+    \*-----------------------------------------------------*/
+    if(level == LL_DIALOG)
+    {
+        for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+        {
+            LogManagerCallbacks[idx](LogManagerCallbackArgs[idx], LOGMANAGER_UPDATE_REASON_SHOW_DIALOG, message);
+        }
+    }
+    else
+    {
+        for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+        {
+            LogManagerCallbacks[idx](LogManagerCallbackArgs[idx], LOGMANAGER_UPDATE_REASON_LOG_ENTRY, message);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | If the message is within the current verbosity, print |
+    | it on the screen                                      |
+    \*-----------------------------------------------------*/
+    if(level <= verbosity || level == LL_DIALOG)
+    {
+        std::cout << std::left << "[" << std::setw(10) << message->timestamp  << "]";
+        std::cout << std::left << "[" << std::setw(7) << LOG_CODES[message->level] << "]";
+        if(print_source)
+        {
+            std::cout << " [" << message->filename << ":" << message->line << "]";
+        }
+        std::cout << message->text;
+        std::cout << std::endl;
+    }
+
+    /*-----------------------------------------------------*\
+    | Add the message to the logfile queue                  |
+    \*-----------------------------------------------------*/
+    temp_messages.push_back(message);
+
+    if(log_console_enabled)
+    {
+        all_messages.push_back(message);
+    }
+
+    /*-----------------------------------------------------*\
+    | Flush the queues                                      |
+    \*-----------------------------------------------------*/
+    flush();
+}
+
+/*---------------------------------------------------------*\
+| Private Functions                                         |
+\*---------------------------------------------------------*/
+void LogManager::flush()
+{
+    /*-----------------------------------------------------*\
+    | Lock the entry mutex while flushing                   |
+    \*-----------------------------------------------------*/
+    std::lock_guard<std::recursive_mutex> guard(entry_mutex);
+
     /*-----------------------------------------------------*\
     | If the log is open, write out buffered messages       |
     \*-----------------------------------------------------*/
     if(log_stream.is_open())
     {
-        for(size_t msg = 0; msg < temp_messages.size(); ++msg)
+        for(std::size_t message_idx = 0; message_idx < temp_messages.size(); message_idx++)
         {
-            if(temp_messages[msg]->level <= loglevel || temp_messages[msg]->level == LL_DIALOG)
+            if(temp_messages[message_idx]->level <= loglevel || temp_messages[message_idx]->level == LL_DIALOG)
             {
-                /*-----------------------------------------*\
-                | Put the timestamp here                    |
-                \*-----------------------------------------*/
-                std::chrono::milliseconds counter = std::chrono::duration_cast<std::chrono::milliseconds>(temp_messages[msg]->counted_second);
-                log_stream << std::left << std::setw(6) << counter.count()  << "|";
-                log_stream << std::left << std::setw(9) << log_codes[temp_messages[msg]->level];
-                log_stream << temp_messages[msg]->buffer;
-
+                log_stream << std::left << "[" << std::setw(10) << temp_messages[message_idx]->timestamp  << "]";
+                log_stream << std::left << "[" << std::setw(7) << LOG_CODES[temp_messages[message_idx]->level] << "]";
                 if(print_source)
                 {
-                    log_stream << " [" << temp_messages[msg]->filename << ":" << temp_messages[msg]->line << "]";
+                    std::cout << " [" << temp_messages[message_idx]->filename << ":" << temp_messages[message_idx]->line << "]";
                 }
-
+                log_stream << temp_messages[message_idx]->text;
                 log_stream << std::endl;
             }
         }
@@ -205,176 +466,6 @@ void LogManager::_flush()
         | Flush the stream                                  |
         \*-------------------------------------------------*/
         log_stream.flush();
-    }
-}
-
-void LogManager::flush()
-{
-    std::lock_guard<std::recursive_mutex> grd(entry_mutex);
-    _flush();
-}
-
-void LogManager::append_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
-{
-    std::lock_guard<std::recursive_mutex> grd(entry_mutex);
-
-    /*-----------------------------------------------------*\
-    | If a critical message occurs, enable source           |
-    | printing and set loglevel and verbosity to highest    |
-    \*-----------------------------------------------------*/
-    if(level == LL_FATAL)
-    {
-        print_source = true;
-        loglevel = LL_DEBUG;
-        verbosity = LL_DEBUG;
-    }
-
-    /*-----------------------------------------------------*\
-    | Create a new message                                  |
-    \*-----------------------------------------------------*/
-    PLogMessage mes = std::make_shared<LogMessage>();
-
-    /*-----------------------------------------------------*\
-    | Resize the buffer, then fill in the message text      |
-    \*-----------------------------------------------------*/
-    va_list va2;
-    va_copy(va2, va);
-    int len = vsnprintf(nullptr, 0, fmt, va);
-    mes->buffer.resize(len);
-    vsnprintf(&(mes->buffer[0]), len + 1, fmt, va2);
-    va_end(va2);
-
-    /*-----------------------------------------------------*\
-    | Fill in message information                           |
-    \*-----------------------------------------------------*/
-    mes->level          = level;
-    mes->filename       = filename;
-    mes->line           = line;
-    mes->counted_second = std::chrono::steady_clock::now() - base_clock;
-
-    /*-----------------------------------------------------*\
-    | If this is a dialog message, call the dialog show     |
-    | callback                                              |
-    \*-----------------------------------------------------*/
-    if(level == LL_DIALOG)
-    {
-        for(size_t idx = 0; idx < dialog_show_callbacks.size(); idx++)
-        {
-            dialog_show_callbacks[idx](dialog_show_callback_args[idx], mes);
-        }
-    }
-
-    /*-----------------------------------------------------*\
-    | If the message is within the current verbosity, print |
-    | it on the screen                                      |
-    | TODO: Put the timestamp here                          |
-    \*-----------------------------------------------------*/
-    if(level <= verbosity || level == LL_DIALOG)
-    {
-        std::cout << mes->buffer;
-        if(print_source)
-        {
-            std::cout << " [" << mes->filename << ":" << mes->line << "]";
-        }
-        std::cout << std::endl;
-    }
-
-    /*-----------------------------------------------------*\
-    | Add the message to the logfile queue                  |
-    \*-----------------------------------------------------*/
-    temp_messages.push_back(mes);
-
-    if(log_console_enabled)
-    {
-        all_messages.push_back(mes);
-    }
-
-    /*-----------------------------------------------------*\
-    | Flush the queues                                      |
-    \*-----------------------------------------------------*/
-    _flush();
-}
-
-std::vector<PLogMessage> LogManager::messages()
-{
-    return all_messages;
-}
-
-void LogManager::clearMessages()
-{
-    all_messages.clear();
-}
-
-void LogManager::append(const char* filename, int line, unsigned int level, const char* fmt, ...)
-{
-    va_list va;
-    va_start(va, fmt);
-
-    append_va(filename, line, level, fmt, va);
-
-    va_end(va);
-}
-
-void LogManager::setLoglevel(unsigned int level)
-{
-    /*-----------------------------------------------------*\
-    | Check that the new log level is valid, otherwise set  |
-    | it within the valid range                             |
-    \*-----------------------------------------------------*/
-    if(level > LL_TRACE)
-    {
-        level = LL_TRACE;
-    }
-
-    LOG_DEBUG("[LogManager] Loglevel set to %d", level);
-
-    /*-----------------------------------------------------*\
-    | Set the new log level                                 |
-    \*-----------------------------------------------------*/
-    loglevel = level;
-}
-
-void LogManager::setVerbosity(unsigned int level)
-{
-    /*-----------------------------------------------------*\
-    | Check that the new verbosity is valid, otherwise set  |
-    | it within the valid range                             |
-    \*-----------------------------------------------------*/
-    if(level > LL_TRACE)
-    {
-        level = LL_TRACE;
-    }
-
-    LOG_DEBUG("[LogManager] Verbosity set to %d", level);
-
-    /*-----------------------------------------------------*\
-    | Set the new verbosity                                 |
-    \*-----------------------------------------------------*/
-    verbosity = level;
-}
-
-void LogManager::setPrintSource(bool v)
-{
-    LOG_DEBUG("[LogManager] Source code location printouts were %s", v ? "enabled" : "disabled");
-    print_source = v;
-}
-
-void LogManager::RegisterDialogShowCallback(LogDialogShowCallback callback, void* receiver)
-{
-    LOG_DEBUG("[LogManager] dialog show callback registered");
-    dialog_show_callbacks.push_back(callback);
-    dialog_show_callback_args.push_back(receiver);
-}
-
-void LogManager::UnregisterDialogShowCallback(LogDialogShowCallback callback, void* receiver)
-{
-    for(size_t idx = 0; idx < dialog_show_callbacks.size(); idx++)
-    {
-        if(dialog_show_callbacks[idx] == callback && dialog_show_callback_args[idx] == receiver)
-        {
-            dialog_show_callbacks.erase(dialog_show_callbacks.begin() + idx);
-            dialog_show_callback_args.erase(dialog_show_callback_args.begin() + idx);
-        }
     }
 }
 

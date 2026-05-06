@@ -53,7 +53,7 @@ ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id 
         | If this is running with TRACE or higher loglevel  |
         | then dump the entire Feature list to log          |
         \*-------------------------------------------------*/
-        if(LogManager::get()->getLoglevel() >= LL_TRACE)
+        if(LogManager::get()->GetLogLevel() >= LL_TRACE)
         {
             LOG_TRACE("[ENE SMBus] ENE config table for 0x%02X:", dev);
             LOG_TRACE("    %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X", config_table[0],  config_table[1],  config_table[2],  config_table[3],

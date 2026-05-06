@@ -433,7 +433,7 @@ void CorsairDRAMController::ReadDeviceInfo()
     /*-----------------------------------------------------*\
     | Log Device Information Data                           |
     \*-----------------------------------------------------*/
-    if(LogManager::get()->getLoglevel() >= LL_TRACE)
+    if(LogManager::get()->GetLogLevel() >= LL_TRACE)
     {
         char            device_info_buf[256];
         unsigned int    pos;
