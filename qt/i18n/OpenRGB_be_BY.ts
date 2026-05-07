@@ -44,17 +44,13 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBConsolePage</name>
+    <name>OpenRGBLogConsolePage</name>
     <message>
-        <source>Log level</source>
+        <source>Log Level:</source>
         <translation>Узровень вядзення журнала</translation>
     </message>
     <message>
-        <source>Refresh logs</source>
-        <translation>Абнавіць журнал</translation>
-    </message>
-    <message>
-        <source>Clear log</source>
+        <source>Clear</source>
         <translation>Ачысціць журнал</translation>
     </message>
 </context>
