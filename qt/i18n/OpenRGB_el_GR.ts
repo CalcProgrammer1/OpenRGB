@@ -44,17 +44,13 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBConsolePage</name>
+    <name>OpenRGBLogConsolePage</name>
     <message>
-        <source>Log level</source>
+        <source>Log Level:</source>
         <translation>Επίπεδο καταγραφής</translation>
     </message>
     <message>
-        <source>Refresh logs</source>
-        <translation>Ανανέωση αρχείων καταγραφής</translation>
-    </message>
-    <message>
-        <source>Clear log</source>
+        <source>Clear</source>
         <translation>Εκκαθάριση αρχείου καταγραφής</translation>
     </message>
 </context>

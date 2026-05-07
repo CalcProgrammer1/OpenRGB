@@ -44,17 +44,13 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBConsolePage</name>
+    <name>OpenRGBLogConsolePage</name>
     <message>
-        <source>Log level</source>
+        <source>Log Level:</source>
         <translation>Nível de registro</translation>
     </message>
     <message>
-        <source>Refresh logs</source>
-        <translation>Atualizar registros</translation>
-    </message>
-    <message>
-        <source>Clear log</source>
+        <source>Clear</source>
         <translation>Limpar registros</translation>
     </message>
 </context>
