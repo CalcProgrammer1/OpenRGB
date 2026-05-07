@@ -45,17 +45,13 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBConsolePage</name>
+    <name>OpenRGBLogConsolePage</name>
     <message>
-        <source>Log level</source>
+        <source>Log Level:</source>
         <translation>Razina zapisa</translation>
     </message>
     <message>
-        <source>Refresh logs</source>
-        <translation>Osvježi zapise</translation>
-    </message>
-    <message>
-        <source>Clear log</source>
+        <source>Clear</source>
         <translation>Ukloni zapise</translation>
     </message>
 </context>

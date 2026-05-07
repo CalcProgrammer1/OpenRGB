@@ -44,17 +44,13 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBConsolePage</name>
+    <name>OpenRGBLogConsolePage</name>
     <message>
-        <source>Log level</source>
+        <source>Log Level:</source>
         <translation>ログレベル</translation>
     </message>
     <message>
-        <source>Refresh logs</source>
-        <translation>ログ更新</translation>
-    </message>
-    <message>
-        <source>Clear log</source>
+        <source>Clear</source>
         <translation>ログをクリア</translation>
     </message>
 </context>
