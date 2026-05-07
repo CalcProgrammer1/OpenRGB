@@ -15,7 +15,7 @@
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
 #include "OpenRGBServerInfoPage.h"
-#include "OpenRGBConsolePage.h"
+#include "OpenRGBLogConsolePage.h"
 #include "OpenRGBPluginContainer.h"
 #include "OpenRGBProfileEditorDialog.h"
 #include "OpenRGBProfileListDialog.h"
@@ -123,7 +123,6 @@ static void DeletePluginCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
 
     this_obj->RemovePlugin(plugin);
 }
-
 
 bool OpenRGBDialog::IsMinimizeOnClose()
 {
@@ -2044,14 +2043,14 @@ void OpenRGBDialog::AddConsolePage()
     int         index   = (ui->InformationTabBar->tabBar()->count() - 1);
     QWidget*    tab     = ui->InformationTabBar->widget(index);
 
-    if(dynamic_cast<OpenRGBConsolePage*>(tab) != nullptr)
+    if(dynamic_cast<OpenRGBLogConsolePage*>(tab) != nullptr)
     {
         found = true;
     }
 
     if(!found)
     {
-        OpenRGBConsolePage* page = new OpenRGBConsolePage();
+        OpenRGBLogConsolePage* page = new OpenRGBLogConsolePage();
 
         ui->InformationTabBar->addTab(page, "");
 
@@ -2069,7 +2068,7 @@ void OpenRGBDialog::RemoveConsolePage()
     int         index   = (ui->InformationTabBar->tabBar()->count() - 1);
     QWidget*    tab     = ui->InformationTabBar->widget(index);
 
-    if(dynamic_cast<OpenRGBConsolePage*>(tab) != nullptr)
+    if(dynamic_cast<OpenRGBLogConsolePage*>(tab) != nullptr)
     {
         ui->InformationTabBar->removeTab(index);
         delete tab;
