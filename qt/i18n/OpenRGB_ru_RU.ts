@@ -336,17 +336,13 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBConsolePage</name>
+    <name>OpenRGBLogConsolePage</name>
     <message>
-        <source>Log level</source>
+        <source>Log Level:</source>
         <translation>Уровень логирования</translation>
     </message>
     <message>
-        <source>Refresh logs</source>
-        <translation>Обновить лог</translation>
-    </message>
-    <message>
-        <source>Clear log</source>
+        <source>Clear</source>
         <translation>Очистить лог</translation>
     </message>
 </context>
