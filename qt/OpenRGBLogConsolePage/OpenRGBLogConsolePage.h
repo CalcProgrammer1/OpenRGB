@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBConsolePage.h                                      |
+| OpenRGBLogConsolePage.h                                   |
 |                                                           |
 |   User interface for OpenRGB console page                 |
 |                                                           |
@@ -10,28 +10,29 @@
 #pragma once
 
 #include <QFrame>
+#include "LogManager.h"
 
 namespace Ui
 {
-    class OpenRGBConsolePage;
+    class OpenRGBLogConsolePage;
 }
 
-class OpenRGBConsolePage : public QFrame
+class OpenRGBLogConsolePage : public QFrame
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBConsolePage(QWidget *parent = nullptr);
-    ~OpenRGBConsolePage();
+    explicit OpenRGBLogConsolePage(QWidget *parent = nullptr);
+    ~OpenRGBLogConsolePage();
 
 private slots:
+    void AddLogEntry(PLogMessage message);
     void changeEvent(QEvent *event);
-    void on_log_level_currentIndexChanged(int);
-    void on_clear_clicked();
-    void on_refresh_clicked();
+    void on_ComboBoxLogLevel_currentIndexChanged(int);
+    void on_ButtonClear_clicked();
 
 private:
-    Ui::OpenRGBConsolePage *ui;
+    Ui::OpenRGBLogConsolePage *ui;
 
     void Refresh();
 };
