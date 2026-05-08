@@ -166,8 +166,8 @@ private:
     /*-----------------------------------------------------*\
     | Private Functions                                     |
     \*-----------------------------------------------------*/
-    void flush();
-    void rotate_logs(const filesystem::path& folder, const filesystem::path& templ, int max_count);
+    void                                LogFlush();
+    void                                LogRotate(const filesystem::path& folder, const filesystem::path& templ, std::size_t max_count);
 };
 
 /*---------------------------------------------------------*\

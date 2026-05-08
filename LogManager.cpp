@@ -94,7 +94,7 @@ void LogManager::RegisterLogManagerCallback(LogManagerCallback new_callback, voi
 {
     LogManagerCallbackMutex.lock();
 
-    for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+    for(std::size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
     {
         if(LogManagerCallbacks[idx] == new_callback && LogManagerCallbackArgs[idx] == new_callback_arg)
         {
@@ -118,7 +118,7 @@ void LogManager::UnregisterLogManagerCallback(LogManagerCallback callback, void 
 {
     LogManagerCallbackMutex.lock();
 
-    for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+    for(std::size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
     {
         if(LogManagerCallbacks[idx] == callback && LogManagerCallbackArgs[idx] == callback_arg)
         {
@@ -162,9 +162,9 @@ void LogManager::Configure(json config, const filesystem::path& config_dir)
         | current "logfile", starting with the oldest ones  |
         | (according to the timestamp in their filename)    |
         | i.e. with the lexicographically smallest filename |
-        | 0 or less equals no limit (default)               |
+        | 0 or less equals no limit                         |
         \*-------------------------------------------------*/
-        int     loglimit            = JsonUtils::JsonGetInt(config, "file_count_limit");
+        int     loglimit            = JsonUtils::JsonGetInt(config, "file_count_limit", 10);
         bool    log_file_enabled    = JsonUtils::JsonGetBool(config, "log_file", true);
 
         /*-------------------------------------------------*\
@@ -185,7 +185,7 @@ void LogManager::Configure(json config, const filesystem::path& config_dir)
             snprintf(time_string, 64, TimestampPattern, 1900 + tmp->tm_year, tmp->tm_mon + 1, tmp->tm_mday, tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 
             std::string logname = logtemp;
-            size_t oct = logname.find("#");
+            std::size_t oct = logname.find("#");
             if(oct != logname.npos)
             {
                 logname.replace(oct, 1, time_string);
@@ -205,7 +205,7 @@ void LogManager::Configure(json config, const filesystem::path& config_dir)
             | "Log rotation": remove old log files          |
             | exceeding the current configured limit        |
             \*---------------------------------------------*/
-            rotate_logs(p.parent_path(), filesystem::u8path(logtemp).filename(), loglimit);
+            LogRotate(p.parent_path(), filesystem::u8path(logtemp).filename(), loglimit);
 
             /*---------------------------------------------*\
             | Open the logfile                              |
@@ -236,7 +236,7 @@ void LogManager::Configure(json config, const filesystem::path& config_dir)
     /*-----------------------------------------------------*\
     | Flush the log                                         |
     \*-----------------------------------------------------*/
-    flush();
+    LogFlush();
 }
 
 /*---------------------------------------------------------*\
@@ -351,14 +351,14 @@ void LogManager::LogEntry_message(PLogMessage message)
     \*-----------------------------------------------------*/
     if(message->level == LL_DIALOG)
     {
-        for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+        for(std::size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
         {
             LogManagerCallbacks[idx](LogManagerCallbackArgs[idx], LOGMANAGER_UPDATE_REASON_SHOW_DIALOG, message);
         }
     }
     else
     {
-        for(size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
+        for(std::size_t idx = 0; idx < LogManagerCallbacks.size(); idx++)
         {
             LogManagerCallbacks[idx](LogManagerCallbackArgs[idx], LOGMANAGER_UPDATE_REASON_LOG_ENTRY, message);
         }
@@ -400,7 +400,7 @@ void LogManager::LogEntry_message(PLogMessage message)
     /*-----------------------------------------------------*\
     | Flush the queues                                      |
     \*-----------------------------------------------------*/
-    flush();
+    LogFlush();
 }
 
 void LogManager::LogEntry_va(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
@@ -455,7 +455,7 @@ void LogManager::LogEntry_va(const char* filename, int line, unsigned int level,
 /*---------------------------------------------------------*\
 | Private Functions                                         |
 \*---------------------------------------------------------*/
-void LogManager::flush()
+void LogManager::LogFlush()
 {
     /*-----------------------------------------------------*\
     | Lock the entry mutex while flushing                   |
@@ -494,7 +494,7 @@ void LogManager::flush()
     }
 }
 
-void LogManager::rotate_logs(const filesystem::path& folder, const filesystem::path& templ, int max_count)
+void LogManager::LogRotate(const filesystem::path& folder, const filesystem::path& templ, std::size_t max_count)
 {
     if(max_count < 1)
     {
@@ -510,7 +510,7 @@ void LogManager::rotate_logs(const filesystem::path& folder, const filesystem::p
     | backslash                                             |
     \*-----------------------------------------------------*/
     std::string regex_templ = "^";
-    for(size_t i = 0; i < templ2.size(); ++i)
+    for(std::size_t i = 0; i < templ2.size(); ++i)
     {
         switch(templ2[i])
         {
@@ -577,26 +577,29 @@ void LogManager::rotate_logs(const filesystem::path& folder, const filesystem::p
     | the one we're about to create for max_count <= 0 and  |
     | to prevent any possible errors in the above logic     |
     \*-----------------------------------------------------*/
-    size_t remove_count = valid_paths.size() - max_count + 1;
-    if(remove_count > valid_paths.size())
+    if(valid_paths.size() > (max_count - 1))
     {
-        remove_count = valid_paths.size();
-    }
-
-    for(size_t i = 0; i < remove_count; ++i)
-    {
-        /*-------------------------------------------------*\
-        | Uses error code to force the `remove` call to be  |
-        | `noexcept`                                        |
-        \*-------------------------------------------------*/
-        std::error_code ec;
-        if(filesystem::remove(valid_paths[i], ec))
+        std::size_t remove_count = valid_paths.size() - max_count + 1;
+        if(remove_count > valid_paths.size())
         {
-            LOG_VERBOSE("[LogManager] Removed log file [%s] during rotation", valid_paths[i].u8string().c_str());
+            remove_count = valid_paths.size();
         }
-        else
+
+        for(std::size_t i = 0; i < remove_count; ++i)
         {
-            LOG_WARNING("[LogManager] Failed to remove log file [%s] during rotation: %s", valid_paths[i].u8string().c_str(), ec.message().c_str());
+            /*-------------------------------------------------*\
+            | Uses error code to force the `remove` call to be  |
+            | `noexcept`                                        |
+            \*-------------------------------------------------*/
+            std::error_code ec;
+            if(filesystem::remove(valid_paths[i], ec))
+            {
+                LOG_VERBOSE("[LogManager] Removed log file [%s] during rotation", valid_paths[i].u8string().c_str());
+            }
+            else
+            {
+                LOG_WARNING("[LogManager] Failed to remove log file [%s] during rotation: %s", valid_paths[i].u8string().c_str(), ec.message().c_str());
+            }
         }
     }
 }
