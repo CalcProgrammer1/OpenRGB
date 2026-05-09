@@ -37,19 +37,22 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
         \*-----------------------------------------------------------------*/
         case 0x32:
             res  = bus->i2c_smbus_read_byte_data(address, 0x00);
-            if(res == 0x27 || res == 0x26) {
+            if(res == 0x27 || res == 0x26)
+            {
                 res = bus->i2c_smbus_read_byte_data(address, 0x01);
-                if (res == 0x10 || res == 0x20)
+                if(res == 0x10 || res == 0x20)
+                {
                     pass = true;
+                }
             }
             break;
 
         /*-----------------------------------------------------------------*\
-        | V1 Controller - RTX 3080                                          |
+        | V1 Controller                                                     |
         \*-----------------------------------------------------------------*/
         case 0x23:
             res = bus->i2c_smbus_read_byte_data(address, 0x00);
-            if(res == 0x30)
+            if(res == 0x27 || res == 0x30)
             {
                 pass = true;
             }
@@ -60,8 +63,10 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
         \*-----------------------------------------------------------------*/
         case 0x51:
             res = bus->i2c_smbus_read_byte_data(address, 0x00);
-            if (res == 0x80)
+            if(res == 0x80)
+            {
                 pass = true;
+            }
             break;
     }
 
