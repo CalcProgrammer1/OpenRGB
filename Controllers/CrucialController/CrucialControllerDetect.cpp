@@ -145,7 +145,7 @@ DetectedControllers DetectCrucialControllers(std::vector<i2c_smbus_interface*> &
     {
         int address_list_idx = -1;
 
-        IF_DRAM_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
+        IF_DRAM_SMBUS(buses[bus]->info.pci_vendor, buses[bus]->info.pci_device)
         {
             for(unsigned int slot = 0; slot < 4; slot++)
             {
@@ -182,7 +182,7 @@ DetectedControllers DetectCrucialControllers(std::vector<i2c_smbus_interface*> &
                 std::this_thread::sleep_for(1ms);
             }
 
-            LOG_DEBUG("[%s] In bus: %02X:%02X looking for devices at [%s]", CRUCIAL_CONTROLLER_NAME, buses[bus]->pci_vendor, buses[bus]->pci_device, TESTING_ADDRESSES);
+            LOG_DEBUG("[%s] In bus: %02X:%02X looking for devices at [%s]", CRUCIAL_CONTROLLER_NAME, buses[bus]->info.pci_vendor, buses[bus]->info.pci_device, TESTING_ADDRESSES);
 
             // Add Crucial controllers
             for(unsigned int address_list_idx = 0; address_list_idx < CRUCIAL_ADDRESS_COUNT; address_list_idx++)

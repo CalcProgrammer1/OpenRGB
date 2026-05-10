@@ -42,7 +42,7 @@ std::string RGBFusionController::GetDeviceName()
 
 std::string RGBFusionController::GetDeviceLocation()
 {
-    std::string return_string(bus->device_name);
+    std::string return_string(bus->info.device_name);
     char addr[5];
     snprintf(addr, 5, "0x%02X", dev);
     return_string.append(", address ");

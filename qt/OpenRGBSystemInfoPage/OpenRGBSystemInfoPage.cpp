@@ -83,7 +83,7 @@ void OpenRGBSystemInfoPage::UpdateBusList()
 
     for (std::size_t i = 0; i < buses.size(); i++)
     {
-        ui->SMBusAdaptersBox->addItem(buses[i]->device_name);
+        ui->SMBusAdaptersBox->addItem(buses[i]->info.device_name);
     }
 
     ui->SMBusAdaptersBox->setCurrentIndex(0);

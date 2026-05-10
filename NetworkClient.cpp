@@ -334,6 +334,50 @@ void NetworkClient::RegisterNetworkClientCallback(NetworkClientCallback new_call
     NetworkClientCallbackArgs.push_back(new_callback_arg);
 }
 
+/*-----------------------------------------------------*\
+| Device Info Functions                                 |
+\*-----------------------------------------------------*/
+std::vector<i2c_smbus_info> NetworkClient::GetI2CBusInfo()
+{
+    std::vector<i2c_smbus_info> bus_info;
+    NetPacketHeader             reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_I2C_BUS_INFO, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+
+    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+    waiting_on_response_cv.wait(wait_lock);
+
+    if(response_header.pkt_id == NET_PACKET_ID_GET_I2C_BUS_INFO && response_data_ptr != NULL)
+    {
+        unsigned char*          data_ptr    = (unsigned char*)response_data_ptr;
+        unsigned int            bus_count   = 0;
+
+        data_ptr                           += sizeof(unsigned int);
+
+        memcpy(&bus_count, data_ptr, sizeof(bus_count));
+        data_ptr                           += sizeof(bus_count);
+
+        for(unsigned int bus_idx = 0; bus_idx < bus_count; bus_idx++)
+        {
+            i2c_smbus_info      bus;
+
+            memcpy(&bus, data_ptr, sizeof(bus));
+            data_ptr                       += sizeof(bus);
+
+            bus_info.push_back(bus);
+        }
+
+        delete[] response_data_ptr;
+        response_data_ptr = NULL;
+    }
+
+    return(bus_info);
+}
+
 /*---------------------------------------------------------*\
 | DetectionManager functions                                |
 \*---------------------------------------------------------*/
@@ -1251,6 +1295,7 @@ void NetworkClient::ListenThreadFunction()
                 ProcessRequest_LogManager_LoggedEntry(header.pkt_size, data);
                 break;
 
+            case NET_PACKET_ID_GET_I2C_BUS_INFO:
             case NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL:
             case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
             case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:

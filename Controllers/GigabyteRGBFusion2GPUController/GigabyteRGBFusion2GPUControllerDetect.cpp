@@ -20,7 +20,7 @@
 
 bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned char address)
 {
-    if(bus->pci_vendor == AMD_GPU_VEN && !is_amd_gpu_i2c_bus(bus))
+    if(bus->info.pci_vendor == AMD_GPU_VEN && !is_amd_gpu_i2c_bus(bus))
     {
         return false;
     }

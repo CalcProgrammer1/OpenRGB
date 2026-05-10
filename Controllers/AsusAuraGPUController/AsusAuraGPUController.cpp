@@ -32,7 +32,7 @@ std::string AuraGPUController::GetDeviceName()
 
 std::string AuraGPUController::GetDeviceLocation()
 {
-    std::string return_string(bus->device_name);
+    std::string return_string(bus->info.device_name);
     char addr[5];
     snprintf(addr, 5, "0x%02X", dev);
     return_string.append(", address ");
@@ -79,7 +79,7 @@ void AuraGPUController::AuraGPURegisterWrite(unsigned char reg, unsigned char va
 
 bool AuraGPUController::SaveOnlyApplies()
 {
-    switch (bus->pci_subsystem_device)
+    switch (bus->info.pci_subsystem_device)
     {
         case ASUS_VEGA64_STRIX:
             return false;

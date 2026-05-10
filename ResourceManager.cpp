@@ -286,6 +286,26 @@ std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBuses()
     return DetectionManager::get()->GetI2CBuses();
 }
 
+std::vector<i2c_smbus_info> ResourceManager::GetI2CBusInfo()
+{
+    if(IsLocalClient())
+    {
+        return(GetLocalClient()->GetI2CBusInfo());
+    }
+    else
+    {
+        std::vector<i2c_smbus_info>         bus_info;
+        std::vector<i2c_smbus_interface*>   buses       = GetI2CBuses();
+
+        for(std::size_t bus_idx = 0; bus_idx < buses.size(); bus_idx++)
+        {
+            bus_info.push_back(buses[bus_idx]->info);
+        }
+
+        return(bus_info);
+    }
+}
+
 LogManager* ResourceManager::GetLogManager()
 {
     return LogManager::get();
