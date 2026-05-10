@@ -27,7 +27,7 @@ PNYARGBEpicXGPUController::~PNYARGBEpicXGPUController()
 
 std::string PNYARGBEpicXGPUController::GetDeviceLocation()
 {
-    std::string return_string(bus->device_name);
+    std::string return_string(bus->info.device_name);
     char addr[5];
     snprintf(addr, 5, "0x%02X", i2c_addr);
     return_string.append(", address ");

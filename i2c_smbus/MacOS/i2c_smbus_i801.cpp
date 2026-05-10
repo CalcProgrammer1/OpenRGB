@@ -520,19 +520,19 @@ bool i2c_smbus_i801_detect()
     }
 
     i2c_smbus_interface * bus;
-    bus                         = new i2c_smbus_i801();
+    bus                             = new i2c_smbus_i801();
     // addresses are referenced from: https://opensource.apple.com/source/IOPCIFamily/IOPCIFamily-146/IOKit/pci/IOPCIDevice.h.auto.html
-    bus->pci_vendor             = ReadConfigPortWord(0x00);
-    bus->pci_device             = ReadConfigPortWord(0x02);
-    bus->pci_subsystem_vendor   = ReadConfigPortWord(0x2c);
-    bus->pci_subsystem_device   = ReadConfigPortWord(0x2e);
+    bus->info.pci_vendor            = ReadConfigPortWord(0x00);
+    bus->info.pci_device            = ReadConfigPortWord(0x02);
+    bus->info.pci_subsystem_vendor  = ReadConfigPortWord(0x2c);
+    bus->info.pci_subsystem_device  = ReadConfigPortWord(0x2e);
 
-    if(!bus->pci_vendor || !bus->pci_device || !bus->pci_subsystem_vendor || !bus->pci_subsystem_device)
+    if(!bus->info.pci_vendor || !bus->info.pci_device || !bus->info.pci_subsystem_vendor || !bus->info.pci_subsystem_device)
     {
         return(false);
     }
 
-    snprintf(bus->device_name, 512, "Intel(R) SMBus - %X", bus->pci_device);
+    snprintf(bus->info.device_name, 512, "Intel(R) SMBus - %X", bus->info.pci_device);
     ((i2c_smbus_i801 *)bus)->i801_smba = ReadConfigPortWord(0x20) & 0xFFFE;
     DetectionManager::get()->RegisterI2CBus(bus);
 

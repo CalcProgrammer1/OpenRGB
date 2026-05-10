@@ -49,9 +49,9 @@ DetectedControllers DetectGigabyteRGBFusionControllers(std::vector<i2c_smbus_int
 
     for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
-        IF_MOBO_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
+        IF_MOBO_SMBUS(buses[bus]->info.pci_vendor, buses[bus]->info.pci_device)
         {
-            if(buses[bus]->pci_subsystem_vendor == GIGABYTE_SUB_VEN)
+            if(buses[bus]->info.pci_subsystem_vendor == GIGABYTE_SUB_VEN)
             {
                 LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, SMBUS_ADDRESS);
 

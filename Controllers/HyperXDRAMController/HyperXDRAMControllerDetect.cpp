@@ -36,7 +36,7 @@ DetectedControllers DetectHyperXDRAMControllers(i2c_smbus_interface* bus, std::v
     unsigned char       slots_valid   = 0x00;
 
     // Check for HyperX controller at 0x27
-    LOG_DEBUG("[%s] Testing bus %d at address 0x27", HYPERX_CONTROLLER_NAME, bus->port_id);
+    LOG_DEBUG("[%s] Testing bus %d at address 0x27", HYPERX_CONTROLLER_NAME, bus->info.port_id);
 
     if(TestForHyperXDRAMController(bus, 0x27))
     {

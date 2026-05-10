@@ -54,7 +54,7 @@ DetectedControllers DetectGigabyteRGBFusion2DRAMControllers(std::vector<i2c_smbu
 
     for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
-        IF_DRAM_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
+        IF_DRAM_SMBUS(buses[bus]->info.pci_vendor, buses[bus]->info.pci_device)
         {
             // Check for RGB Fusion 2 DRAM controller at 0x67
             if(TestForGigabyteRGBFusion2DRAMController(buses[bus], 0x67))

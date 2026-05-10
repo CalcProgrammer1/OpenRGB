@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include <queue>
+#include "i2c_smbus.h"
 #include "JsonUtils.h"
 #include "LogManager.h"
 #include "NetworkServer.h"
@@ -1246,6 +1247,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 status = ProcessRequest_RescanDevices();
                 break;
 
+            case NET_PACKET_ID_GET_I2C_BUS_INFO:
+                status = ProcessRequest_GetI2CBusInfo(client_info);
+                break;
+
         /*-------------------------------------------------*\
         | LogManager functions                              |
         \*-------------------------------------------------*/
@@ -1653,6 +1658,48 @@ NetPacketStatus NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, u
 NetPacketStatus NetworkServer::ProcessRequest_RescanDevices()
 {
     ResourceManager::get()->RescanDevices();
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_GetI2CBusInfo(NetworkClientInfo* client_info)
+{
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    std::vector<i2c_smbus_info> bus_info    = ResourceManager::get()->GetI2CBusInfo();
+
+    unsigned int                data_size   = 0;
+    unsigned int                bus_count   = bus_info.size();
+    data_size                              += sizeof(data_size);
+    data_size                              += sizeof(bus_count);
+    data_size                              += bus_count * sizeof(i2c_smbus_info);
+
+    unsigned char*              data_buf    = new unsigned char[data_size];
+    unsigned char*              data_ptr    = data_buf;
+
+    memcpy(data_ptr, &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
+
+    memcpy(data_ptr, &bus_count, sizeof(bus_count));
+    data_ptr += sizeof(bus_count);
+
+    for(std::size_t bus_idx = 0; bus_idx < bus_info.size(); bus_idx++)
+    {
+        memcpy(data_ptr, &bus_info[bus_idx], sizeof(bus_info[bus_idx]));
+        data_ptr += sizeof(bus_info[bus_idx]);
+    }
+
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_I2C_BUS_INFO, data_size);
+
+    send_in_progress.lock();
+    send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_info->client_sock, (char *)data_buf, reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
 
     return(NET_PACKET_STATUS_OK);
 }

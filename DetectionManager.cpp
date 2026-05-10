@@ -366,7 +366,7 @@ void DetectionManager::UnregisterDetectionCallback(DetectionCallback callback, v
 \*---------------------------------------------------------*/
 void DetectionManager::RegisterI2CBus(i2c_smbus_interface *bus)
 {
-    LOG_INFO("[%s] Registering I2C interface: %s Device %04X:%04X Subsystem: %04X:%04X", DETECTIONMANAGER, bus->device_name, bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device);
+    LOG_INFO("[%s] Registering I2C interface: %s Device %04X:%04X Subsystem: %04X:%04X", DETECTIONMANAGER, bus->info.device_name, bus->info.pci_vendor, bus->info.pci_device, bus->info.pci_subsystem_vendor, bus->info.pci_subsystem_device);
 
     /*-----------------------------------------------------*\
     | Add the new bus to the list                           |
@@ -910,7 +910,7 @@ void DetectionManager::BackgroundDetectI2CDRAMDevices(json detector_settings)
 
     for(std::size_t bus = 0; bus < i2c_buses.size() && IsAnyDimmDetectorEnabled(detector_settings); bus++)
     {
-        IF_DRAM_SMBUS(i2c_buses[bus]->pci_vendor, i2c_buses[bus]->pci_device)
+        IF_DRAM_SMBUS(i2c_buses[bus]->info.pci_vendor, i2c_buses[bus]->info.pci_device)
         {
             std::vector<SPDWrapper> slots;
             SPDMemoryType dram_type = SPD_RESERVED;
@@ -1003,10 +1003,10 @@ void DetectionManager::BackgroundDetectI2CPCIDevices(json detector_settings)
 
             for(std::size_t bus = 0; bus < i2c_buses.size(); bus++)
             {
-                if(i2c_buses[bus]->pci_vendor           == i2c_pci_device_detectors[i2c_detector_idx].ven_id    &&
-                   i2c_buses[bus]->pci_device           == i2c_pci_device_detectors[i2c_detector_idx].dev_id    &&
-                   i2c_buses[bus]->pci_subsystem_vendor == i2c_pci_device_detectors[i2c_detector_idx].subven_id &&
-                   i2c_buses[bus]->pci_subsystem_device == i2c_pci_device_detectors[i2c_detector_idx].subdev_id)
+                if(i2c_buses[bus]->info.pci_vendor           == i2c_pci_device_detectors[i2c_detector_idx].ven_id    &&
+                   i2c_buses[bus]->info.pci_device           == i2c_pci_device_detectors[i2c_detector_idx].dev_id    &&
+                   i2c_buses[bus]->info.pci_subsystem_vendor == i2c_pci_device_detectors[i2c_detector_idx].subven_id &&
+                   i2c_buses[bus]->info.pci_subsystem_device == i2c_pci_device_detectors[i2c_detector_idx].subdev_id)
                 {
                     DetectedControllers detected_controllers = i2c_pci_device_detectors[i2c_detector_idx].function(i2c_buses[bus], i2c_pci_device_detectors[i2c_detector_idx].i2c_addr, i2c_pci_device_detectors[i2c_detector_idx].name);
 

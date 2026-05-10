@@ -275,14 +275,14 @@ bool i2c_smbus_linux_detect()
                     }
 
                     bus = new i2c_smbus_linux();
-                    snprintf(bus->device_name, sizeof(bus->device_name), "%s (%s)", device_string, device_path);
-                    bus->handle               = test_fd;
-                    bus->pci_device           = pci_device;
-                    bus->pci_vendor           = pci_vendor;
-                    bus->pci_subsystem_device = pci_subsystem_device;
-                    bus->pci_subsystem_vendor = pci_subsystem_vendor;
-                    bus->port_id              = port_id;
-                    bus->bus_id               = bus_id;
+                    snprintf(bus->info.device_name, sizeof(bus->info.device_name), "%s (%s)", device_string, device_path);
+                    bus->handle                     = test_fd;
+                    bus->info.pci_device            = pci_device;
+                    bus->info.pci_vendor            = pci_vendor;
+                    bus->info.pci_subsystem_device  = pci_subsystem_device;
+                    bus->info.pci_subsystem_vendor  = pci_subsystem_vendor;
+                    bus->info.port_id               = port_id;
+                    bus->info.bus_id                = bus_id;
                     DetectionManager::get()->RegisterI2CBus(bus);
                 }
                 else

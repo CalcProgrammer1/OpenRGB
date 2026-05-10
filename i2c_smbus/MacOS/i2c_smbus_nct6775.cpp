@@ -233,11 +233,11 @@ bool i2c_smbus_nct6775_detect()
     case SIO_NCT6796_ID:
     case SIO_NCT6798_ID:
         // Create new nct6775 bus and invalidate the PCI ID information
-        bus                         = new i2c_smbus_nct6775();
-        bus->pci_vendor             = 0xFFFF;
-        bus->pci_device             = 0xFFFF;
-        bus->pci_subsystem_vendor   = 0xFFFF;
-        bus->pci_subsystem_device   = 0xFFFF;
+        bus                             = new i2c_smbus_nct6775();
+        bus->info.pci_vendor            = 0xFFFF;
+        bus->info.pci_device            = 0xFFFF;
+        bus->info.pci_subsystem_vendor  = 0xFFFF;
+        bus->info.pci_subsystem_device  = 0xFFFF;
 
         // Set logical device register to get SMBus base address
         superio_outb(sioaddr, SIO_REG_LOGDEV, SIO_LOGDEV_SMBUS);
@@ -250,19 +250,19 @@ bool i2c_smbus_nct6775_detect()
         switch (val & SIO_ID_MASK)
         {
         case SIO_NCT5577_ID:
-            snprintf(bus->device_name, 512, "Nuvoton NCT5577D SMBus at %X", smba);
+            snprintf(bus->info.device_name, 512, "Nuvoton NCT5577D SMBus at %X", smba);
             break;
         case SIO_NCT6102_ID:
-            snprintf(bus->device_name, 512, "Nuvoton NCT6102D/NCT6106D SMBus at %X", smba);
+            snprintf(bus->info.device_name, 512, "Nuvoton NCT6102D/NCT6106D SMBus at %X", smba);
             break;
         case SIO_NCT6793_ID:
-            snprintf(bus->device_name, 512, "Nuvoton NCT6793D SMBus at %X", smba);
+            snprintf(bus->info.device_name, 512, "Nuvoton NCT6793D SMBus at %X", smba);
             break;
         case SIO_NCT6796_ID:
-            snprintf(bus->device_name, 512, "Nuvoton NCT6796D SMBus at %X", smba);
+            snprintf(bus->info.device_name, 512, "Nuvoton NCT6796D SMBus at %X", smba);
             break;
         case SIO_NCT6798_ID:
-            snprintf(bus->device_name, 512, "Nuvoton NCT6798D SMBus at %X", smba);
+            snprintf(bus->info.device_name, 512, "Nuvoton NCT6798D SMBus at %X", smba);
             break;
         }
 

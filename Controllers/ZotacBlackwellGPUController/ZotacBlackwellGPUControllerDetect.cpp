@@ -26,8 +26,8 @@ DetectedControllers DetectZotacBlackwellGPUControllersPCI(i2c_smbus_interface* b
     {
         ZotacBlackwellGPUController*     controller     = new ZotacBlackwellGPUController(bus, i2c_addr, name);
         RGBController_ZotacBlackwellGPU* rgb_controller = new RGBController_ZotacBlackwellGPU(controller,
-                                                                                              bus->pci_device,
-                                                                                              bus->pci_subsystem_device);
+                                                                                              bus->info.pci_device,
+                                                                                              bus->info.pci_subsystem_device);
 
         detected_controllers.push_back(rgb_controller);
     }
