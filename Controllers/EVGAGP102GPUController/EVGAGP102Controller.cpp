@@ -25,7 +25,7 @@ EVGAGP102Controller::~EVGAGP102Controller()
 
 std::string EVGAGP102Controller::GetDeviceLocation()
 {
-    std::string return_string(bus->device_name);
+    std::string return_string(bus->info.device_name);
     char addr[5];
     snprintf(addr, 5, "0x%02X", zi.dev_addr);
     return_string.append(", address ");

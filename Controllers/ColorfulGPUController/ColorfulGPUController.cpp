@@ -26,7 +26,7 @@ ColorfulGPUController::~ColorfulGPUController()
 
 std::string ColorfulGPUController::GetDeviceLocation()
 {
-    std::string return_string(bus->device_name);
+    std::string return_string(bus->info.device_name);
     char addr[5];
     snprintf(addr, 5, "0x%02X", dev);
     return_string.append(", address ");
@@ -45,7 +45,7 @@ void ColorfulGPUController::SetDirect(RGBColor color)
     uint8_t g = RGBGetGValue(color);
     uint8_t b = RGBGetBValue(color);
 
-    if(this->bus->pci_subsystem_device == COLORFUL_IGAME_RTX_4070_VULCAN_OCV)
+    if(this->bus->info.pci_subsystem_device == COLORFUL_IGAME_RTX_4070_VULCAN_OCV)
     {
         uint8_t data_pkt[COLORFUL_PACKET_LENGTH_V2] = { 0xAA, 0xEF, 0x01, 0x04, 0x88, 0x26 };
         for(int i=6; i < COLORFUL_PACKET_LENGTH_V2 -2; i = i + 3)

@@ -28,7 +28,7 @@ ene_interface_type ENESMBusInterface_i2c_smbus::GetInterfaceType()
 
 std::string ENESMBusInterface_i2c_smbus::GetLocation()
 {
-    std::string return_string(bus->device_name);
+    std::string return_string(bus->info.device_name);
     return("I2C: " + return_string);
 }
 

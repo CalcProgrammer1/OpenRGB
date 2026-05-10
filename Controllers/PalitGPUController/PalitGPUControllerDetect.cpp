@@ -21,7 +21,7 @@ DetectedControllers DetectPalitGPUControllers(i2c_smbus_interface* bus, uint8_t 
 {
     DetectedControllers detected_controllers;
 
-    if(bus->port_id == 1)
+    if(bus->info.port_id == 1)
     {
         /*-----------------------------------------------------*\
         | Check for PALIT string                                |
