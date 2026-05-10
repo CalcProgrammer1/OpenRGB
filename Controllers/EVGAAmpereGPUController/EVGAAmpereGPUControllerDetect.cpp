@@ -20,7 +20,7 @@ DetectedControllers DetectEVGAAmpereGPUControllers(i2c_smbus_interface* bus, uin
 {
     DetectedControllers detected_controllers;
 
-    if(bus->port_id == 1)
+    if(bus->info.port_id == 1)
     {
         EVGAGPUv3Controller*     controller;
         RGBController_EVGAGPUv3* rgb_controller;

@@ -15,6 +15,7 @@
 #include <mutex>
 #include <thread>
 #include <condition_variable>
+#include "i2c_smbus.h"
 #include "RGBController.h"
 #include "NetworkProtocol.h"
 #include "net_port.h"
@@ -87,6 +88,11 @@ public:
     \*-----------------------------------------------------*/
     void                                ClearCallbacks();
     void                                RegisterNetworkClientCallback(NetworkClientCallback new_callback, void * new_callback_arg);
+
+    /*-----------------------------------------------------*\
+    | Device Info Functions                                 |
+    \*-----------------------------------------------------*/
+    std::vector<i2c_smbus_info>         GetI2CBusInfo();
 
     /*-----------------------------------------------------*\
     | DetectionManager functions                            |

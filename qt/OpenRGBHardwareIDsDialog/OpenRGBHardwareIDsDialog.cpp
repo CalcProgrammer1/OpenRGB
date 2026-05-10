@@ -34,36 +34,36 @@ OpenRGBHardwareIDsDialog::~OpenRGBHardwareIDsDialog()
 
 int OpenRGBHardwareIDsDialog::show()
 {
-    /*---------------------------------------------------------*\
-    | Add i2c buses infos                                       |
-    \*---------------------------------------------------------*/
-    std::vector<i2c_smbus_interface*> i2c_buses = ResourceManager::get()->GetI2CBuses();
+    /*-----------------------------------------------------*\
+    | Add I2C Buses                                         |
+    \*-----------------------------------------------------*/
+    std::vector<i2c_smbus_info> i2c_bus_info    = ResourceManager::get()->GetI2CBusInfo();
+    QTreeWidgetItem*            i2c_top         = new QTreeWidgetItem(ui->HardwareIdsList, {"I2C Buses"});
 
-    // The widget takes control over items after creation
-    QTreeWidgetItem* i2c_top = new QTreeWidgetItem(ui->HardwareIdsList, {"i2c buses"});
-    strings.push_back("[ i2c buses ]");
+    strings.push_back("[ I2C Buses ]");
 
-    for(i2c_smbus_interface* bus : i2c_buses)
+    for(i2c_smbus_info bus_info : i2c_bus_info)
     {
         char line[550];
-        snprintf(line, 550, "%04X:%04X %04X:%04X", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device);
-        new QTreeWidgetItem(i2c_top, {line, bus->device_name});
+        snprintf(line, 550, "%04X:%04X %04X:%04X", bus_info.pci_vendor, bus_info.pci_device, bus_info.pci_subsystem_vendor, bus_info.pci_subsystem_device);
+        new QTreeWidgetItem(i2c_top, {line, bus_info.device_name});
 
-        snprintf(line, 550, "%04X:%04X %04X:%04X - %s", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device, bus->device_name);
+        snprintf(line, 550, "%04X:%04X %04X:%04X - %s", bus_info.pci_vendor, bus_info.pci_device, bus_info.pci_subsystem_vendor, bus_info.pci_subsystem_device, bus_info.device_name);
         strings.push_back(line);
     }
 
-    /*---------------------------------------------------------*\
-    | Add HID devices infos                                     |
-    \*---------------------------------------------------------*/
-    hid_device_info*    hid_devices         = NULL;
-    hid_devices = hid_enumerate(0,0);
+    /*-----------------------------------------------------*\
+    | Add HID Devices                                       |
+    \*-----------------------------------------------------*/
+    hid_device_info*            hid_devices     = NULL;
+    hid_devices                                 = hid_enumerate(0,0);
 
-    hid_device_info*    current_hid_device;
-    current_hid_device  = hid_devices;
+    hid_device_info*            current_hid_device;
+    current_hid_device                          = hid_devices;
 
-    QTreeWidgetItem* hid_top = new QTreeWidgetItem(ui->HardwareIdsList, {"HID devices"});
-    strings.push_back("\n[ HID devices ]");
+    QTreeWidgetItem*            hid_top         = new QTreeWidgetItem(ui->HardwareIdsList, {"HID Devices"});
+
+    strings.push_back("\n[ HID Devices ]");
 
     while(current_hid_device)
     {
@@ -81,13 +81,13 @@ int OpenRGBHardwareIDsDialog::show()
         current_hid_device = current_hid_device->next;
     }
 
-    /*---------------------------------------------------------*\
-    | Add LibUSB devices infos                                  |
-    \*---------------------------------------------------------*/
-    libusb_device** devices = nullptr;
+    /*-----------------------------------------------------*\
+    | Add USB Devices                                       |
+    \*-----------------------------------------------------*/
+    libusb_device**             devices         = nullptr;
+    QTreeWidgetItem*            libusb_top      = new QTreeWidgetItem(ui->HardwareIdsList, {"USB devices"});
 
-    QTreeWidgetItem* libusb_top = new QTreeWidgetItem(ui->HardwareIdsList, {"LibUSB devices"});
-    strings.push_back("\n[ LibUSB devices ]");
+    strings.push_back("\n[ USB devices ]");
 
     int ret;
 

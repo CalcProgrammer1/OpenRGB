@@ -154,7 +154,7 @@ DetectedControllers DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interfac
     {
         int address_list_idx = -1;
 
-        IF_DRAM_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
+        IF_DRAM_SMBUS(buses[bus]->info.pci_vendor, buses[bus]->info.pci_device)
         {
             LOG_DEBUG("[ENE SMBus DRAM] Remapping ENE SMBus RAM modules on 0x77");
 
@@ -220,9 +220,9 @@ DetectedControllers DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_i
     for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
         // Add ENE (ASUS Aura) motherboard controllers
-        IF_MOBO_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
+        IF_MOBO_SMBUS(buses[bus]->info.pci_vendor, buses[bus]->info.pci_device)
         {
-            if(buses[bus]->pci_subsystem_vendor == ASUS_SUB_VEN || buses[bus]->pci_subsystem_vendor == 0 || buses[bus]->pci_subsystem_vendor == 0xFFFF)
+            if(buses[bus]->info.pci_subsystem_vendor == ASUS_SUB_VEN || buses[bus]->info.pci_subsystem_vendor == 0 || buses[bus]->info.pci_subsystem_vendor == 0xFFFF)
             {
                 for(unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
                 {

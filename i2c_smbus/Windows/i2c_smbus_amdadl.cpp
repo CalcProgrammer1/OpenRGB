@@ -124,12 +124,12 @@ i2c_smbus_amdadl::i2c_smbus_amdadl(ADL_CONTEXT_HANDLE context, int adapter_index
             int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
             int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
 
-            this->pci_vendor           = ven_id;
-            this->pci_device           = dev_id;
-            this->pci_subsystem_vendor = sbv_id;
-            this->pci_subsystem_device = sbd_id;
-            this->port_id              = 1;
-            strcpy(this->device_name, "AMD ADL");
+            this->info.pci_vendor           = ven_id;
+            this->info.pci_device           = dev_id;
+            this->info.pci_subsystem_vendor = sbv_id;
+            this->info.pci_subsystem_device = sbd_id;
+            this->info.port_id              = 1;
+            strcpy(this->info.device_name, "AMD ADL");
         }
     }
 }
@@ -290,13 +290,13 @@ bool i2c_smbus_amdadl_detect()
                     last_bus_number = current.iBusNumber;
                     i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(context, current.iAdapterIndex);
 
-                    if(adl_bus->pci_vendor != AMD_GPU_VEN)
+                    if(adl_bus->info.pci_vendor != AMD_GPU_VEN)
                     {
                         delete adl_bus;
                         continue;
                     }
 
-                    LOG_INFO("ADL GPU Device %04X:%04X Subsystem: %04X:%04X", adl_bus->pci_vendor, adl_bus->pci_device,adl_bus->pci_subsystem_vendor,adl_bus->pci_subsystem_device);
+                    LOG_INFO("ADL GPU Device %04X:%04X Subsystem: %04X:%04X", adl_bus->info.pci_vendor, adl_bus->info.pci_device, adl_bus->info.pci_subsystem_vendor, adl_bus->info.pci_subsystem_device);
                     DetectionManager::get()->RegisterI2CBus(adl_bus);
                 }
             }

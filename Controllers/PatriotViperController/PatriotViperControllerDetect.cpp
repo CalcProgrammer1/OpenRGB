@@ -45,7 +45,7 @@ DetectedControllers DetectPatriotViperControllers(i2c_smbus_interface* bus, std:
     /*-----------------------------------------------------*\
     | Check for Patriot Viper controller at 0x77            |
     \*-----------------------------------------------------*/
-    LOG_DEBUG("[%s] Testing bus %d at address 0x77", PATRIOT_CONTROLLER_NAME, bus->port_id);
+    LOG_DEBUG("[%s] Testing bus %d at address 0x77", PATRIOT_CONTROLLER_NAME, bus->info.port_id);
 
     if(TestForPatriotViperController(bus, 0x77))
     {

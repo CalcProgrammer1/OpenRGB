@@ -21,12 +21,12 @@
 
 i2c_smbus_interface::i2c_smbus_interface()
 {
-    this->port_id              = -1;
-    this->pci_device           = -1;
-    this->pci_vendor           = -1;
-    this->pci_subsystem_device = -1;
-    this->pci_subsystem_vendor = -1;
-    this->bus_id               = -1;
+    info.port_id                = -1;
+    info.pci_device             = -1;
+    info.pci_vendor             = -1;
+    info.pci_subsystem_device   = -1;
+    info.pci_subsystem_vendor   = -1;
+    info.bus_id                 = -1;
 }
 
 i2c_smbus_interface::~i2c_smbus_interface()

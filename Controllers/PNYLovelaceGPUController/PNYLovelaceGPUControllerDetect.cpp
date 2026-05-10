@@ -19,7 +19,7 @@ DetectedControllers DetectPNYLovelaceGPUControllers(i2c_smbus_interface* bus, ui
 {
     DetectedControllers detected_controllers;
 
-    if(bus->port_id == 1)
+    if(bus->info.port_id == 1)
     {
         PNYLovelaceGPUController*     controller        = new PNYLovelaceGPUController(bus, i2c_addr, name);
         RGBController_PNYLovelaceGPU* rgb_controller    = new RGBController_PNYLovelaceGPU(controller);
