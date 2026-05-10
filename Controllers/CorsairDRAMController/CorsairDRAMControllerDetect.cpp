@@ -59,7 +59,7 @@ DetectedControllers DetectCorsairDRAMControllers(std::vector<i2c_smbus_interface
 
     for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
-        IF_DRAM_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
+        IF_DRAM_SMBUS(buses[bus]->info.pci_vendor, buses[bus]->info.pci_device)
         {
             LOG_DEBUG("[%s] Testing bus %d", CORSAIR_DRAM_NAME, bus);
 

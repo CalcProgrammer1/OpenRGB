@@ -17,7 +17,7 @@ DetectedControllers DetectColorfulTuringGPUControllers(i2c_smbus_interface* bus,
 {
     DetectedControllers detected_controllers;
 
-    if(bus->port_id == 1)
+    if(bus->info.port_id == 1)
     {
         ColorfulTuringGPUController*     controller     = new ColorfulTuringGPUController(bus, i2c_addr, name);
         RGBController_ColorfulTuringGPU* rgb_controller = new RGBController_ColorfulTuringGPU(controller);

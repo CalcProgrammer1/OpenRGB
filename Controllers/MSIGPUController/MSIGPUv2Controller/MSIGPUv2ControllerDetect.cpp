@@ -19,9 +19,9 @@ DetectedControllers DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t 
 {
     DetectedControllers detected_controllers;
 
-    if(bus->pci_vendor != NVIDIA_VEN || bus->port_id == 1)
+    if(bus->info.pci_vendor != NVIDIA_VEN || bus->info.port_id == 1)
     {
-        int msi_gpu_id                          = bus->pci_subsystem_device | bus->pci_device << 16;
+        int msi_gpu_id                          = bus->info.pci_subsystem_device | bus->info.pci_device << 16;
         MSIGPUv2Controller*     controller      = new MSIGPUv2Controller(bus, i2c_addr, name);
         RGBController_MSIGPUv2* rgb_controller  = new RGBController_MSIGPUv2(controller, msi_gpu_id);
 

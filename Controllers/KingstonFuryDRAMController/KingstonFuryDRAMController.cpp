@@ -28,7 +28,7 @@ KingstonFuryDRAMController::KingstonFuryDRAMController(i2c_smbus_interface* bus,
 
 std::string KingstonFuryDRAMController::GetDeviceLocation()
 {
-    std::string return_string(bus->device_name);
+    std::string return_string(bus->info.device_name);
     return_string.append(", addresses [");
     for(std::size_t idx = 0; idx < slots.size(); idx++)
     {

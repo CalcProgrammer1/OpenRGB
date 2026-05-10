@@ -114,16 +114,16 @@ DetectedControllers DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smb
         LOG_DEBUG(GIGABYTE_FOUND_MB_MESSAGE_EN, DETECTOR_NAME, dmi.getMainboard().c_str());
         for(unsigned int bus = 0; bus < buses.size(); bus++)
         {
-            IF_MOBO_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
+            IF_MOBO_SMBUS(buses[bus]->info.pci_vendor, buses[bus]->info.pci_device)
             {
-                if(buses[bus]->pci_subsystem_vendor == GIGABYTE_SUB_VEN)
+                if(buses[bus]->info.pci_subsystem_vendor == GIGABYTE_SUB_VEN)
                 {
                     /*-------------------------------------*\
                     | TODO - Is this necessary? Or an       |
                     | artifact of my own system?  Skip dmcd |
                     | devices                               |
                     \*-------------------------------------*/
-                    std::string device_name = std::string(buses[bus]->device_name);
+                    std::string device_name = std::string(buses[bus]->info.device_name);
 
                     if(device_name.find("dmdc") == std::string::npos)
                     {

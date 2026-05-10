@@ -21,7 +21,7 @@ DetectedControllers DetectPNYARGBEpicXGPUSmallControllers(i2c_smbus_interface* b
 {
     DetectedControllers detected_controllers;
 
-    if(bus->port_id == 1)
+    if(bus->info.port_id == 1)
     {
         PNYARGBEpicXGPUController*     controller     = new PNYARGBEpicXGPUController(bus, i2c_addr, name, false);
         RGBController_PNYARGBEpicXGPU* rgb_controller = new RGBController_PNYARGBEpicXGPU(controller);
@@ -36,7 +36,7 @@ DetectedControllers DetectPNYARGBEpicXGPULargeControllers(i2c_smbus_interface* b
 {
     DetectedControllers detected_controllers;
 
-    if(bus->port_id == 1)
+    if(bus->info.port_id == 1)
     {
         PNYARGBEpicXGPUController*     controller     = new PNYARGBEpicXGPUController(bus, i2c_addr, name, true);
         RGBController_PNYARGBEpicXGPU* rgb_controller = new RGBController_PNYARGBEpicXGPU(controller);

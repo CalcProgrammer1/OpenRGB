@@ -21,7 +21,7 @@ DetectedControllers DetectEVGAGP102GPUControllers(i2c_smbus_interface* bus, uint
 {
     DetectedControllers detected_controllers;
 
-    if(bus->port_id == 1)
+    if(bus->info.port_id == 1)
     {
         std::vector<EVGAGP102Controller*>   controllers;
 

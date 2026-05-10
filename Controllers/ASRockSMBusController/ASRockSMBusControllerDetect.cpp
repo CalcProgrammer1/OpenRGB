@@ -91,9 +91,9 @@ DetectedControllers DetectASRockSMBusControllers(std::vector<i2c_smbus_interface
 
     for(unsigned int bus = 0; bus < buses.size(); bus++)
     {
-        IF_MOBO_SMBUS(buses[bus]->pci_vendor, buses[bus]->pci_device)
+        IF_MOBO_SMBUS(buses[bus]->info.pci_vendor, buses[bus]->info.pci_device)
         {
-            if(buses[bus]->pci_subsystem_vendor == ASROCK_SUB_VEN)
+            if(buses[bus]->info.pci_subsystem_vendor == ASROCK_SUB_VEN)
             {
                 LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, ASROCK_DETECTOR_NAME, bus, VENDOR_NAME, SMBUS_ADDRESS);
                 // Check for Polychrome controller at 0x6A
