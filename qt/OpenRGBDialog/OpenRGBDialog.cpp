@@ -195,26 +195,36 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     ui_settings_schema["hex_format"]["enum"][1]                                     = "RGB";
     ui_settings_schema["hex_format"]["order"]                                       = 3;
 
+    ui_settings_schema["compact_tabs"]["title"]                                     = QT_TRANSLATE_NOOP("Settings", "Compact Tabs");
+    ui_settings_schema["compact_tabs"]["type"]                                      = "bool";
+    ui_settings_schema["compact_tabs"]["description"]                               = QT_TRANSLATE_NOOP("Settings", "Display sidebar tabs as icons only");
+    ui_settings_schema["compact_tabs"]["order"]                                     = 4;
+
+    ui_settings_schema["tabs_on_top"]["title"]                                      = QT_TRANSLATE_NOOP("Settings", "Tabs on Top");
+    ui_settings_schema["tabs_on_top"]["type"]                                       = "bool";
+    ui_settings_schema["tabs_on_top"]["description"]                                = QT_TRANSLATE_NOOP("Settings", "Display tabs on top instead of on the left");
+    ui_settings_schema["tabs_on_top"]["order"]                                      = 5;
+
     ui_settings_schema["show_led_view"]["title"]                                    = QT_TRANSLATE_NOOP("Settings", "Show LED View by Default");
     ui_settings_schema["show_led_view"]["type"]                                     = "bool";
-    ui_settings_schema["show_led_view"]["order"]                                    = 4;
+    ui_settings_schema["show_led_view"]["order"]                                    = 6;
 
     ui_settings_schema["numerical_labels"]["title"]                                 = QT_TRANSLATE_NOOP("Settings", "Numerical Labels");
     ui_settings_schema["numerical_labels"]["description"]                           = QT_TRANSLATE_NOOP("Settings", "Display numerical labels for otherwise non-labeled LEDs in the LED view");
     ui_settings_schema["numerical_labels"]["type"]                                  = "bool";
-    ui_settings_schema["numerical_labels"]["order"]                                 = 5;
+    ui_settings_schema["numerical_labels"]["order"]                                 = 7;
 
     ui_settings_schema["disable_key_expansion"]["title"]                            = QT_TRANSLATE_NOOP("Settings", "Disable Key Expansion");
     ui_settings_schema["disable_key_expansion"]["type"]                             = "bool";
-    ui_settings_schema["disable_key_expansion"]["order"]                            = 6;
+    ui_settings_schema["disable_key_expansion"]["order"]                            = 8;
 
     ui_settings_schema["run_zone_checks"]["title"]                                  = QT_TRANSLATE_NOOP("Settings", "Run Zone Checks on Rescan");
     ui_settings_schema["run_zone_checks"]["type"]                                   = "bool";
-    ui_settings_schema["run_zone_checks"]["order"]                                  = 7;
+    ui_settings_schema["run_zone_checks"]["order"]                                  = 9;
 
     ui_settings_schema["geometry"]["title"]                                         = QT_TRANSLATE_NOOP("Settings", "Window Geometry");
     ui_settings_schema["geometry"]["type"]                                          = "object";
-    ui_settings_schema["geometry"]["order"]                                         = 8;
+    ui_settings_schema["geometry"]["order"]                                         = 10;
 
     ui_settings_schema["geometry"]["properties"]["load_geometry"]["title"]          = QT_TRANSLATE_NOOP("Settings", "Load Window Geometry");
     ui_settings_schema["geometry"]["properties"]["load_geometry"]["type"]           = "bool";
@@ -588,10 +598,10 @@ bool OpenRGBDialog::isCompactTabMode()
 {
     QScreen* screen  = QGuiApplication::primaryScreen();
     qreal    scale   = screen->devicePixelRatio();
-    return (width() < (700 * scale));
+    return((width() < (700 * scale)) | force_compact_tabs);
 }
 
-void OpenRGBDialog::resizeEvent(QResizeEvent *event)
+void OpenRGBDialog::UpdateTabs()
 {
     bool compact_mode = isCompactTabMode();
 
@@ -619,6 +629,11 @@ void OpenRGBDialog::resizeEvent(QResizeEvent *event)
     ui->DevicesTabBar->tabBar()->setIconSize(ui->DevicesTabBar->tabBar()->iconSize());
     ui->InformationTabBar->tabBar()->setIconSize(ui->InformationTabBar->tabBar()->iconSize());
     ui->SettingsTabBar->tabBar()->setIconSize(ui->SettingsTabBar->tabBar()->iconSize());
+}
+
+void OpenRGBDialog::resizeEvent(QResizeEvent *event)
+{
+    UpdateTabs();
 
     QWidget::resizeEvent(event);
 }
@@ -1475,6 +1490,22 @@ void OpenRGBDialog::onSettingsUpdated()
     if(JsonUtils::JsonGetBool(ui_settings, "show_led_view"))
     {
         ShowLEDView();
+    }
+
+    force_compact_tabs                      = JsonUtils::JsonGetBool(ui_settings, "compact_tabs");
+    UpdateTabs();
+
+    if(JsonUtils::JsonGetBool(ui_settings, "tabs_on_top"))
+    {
+        ui->DevicesTabBar->setTabPosition(QTabWidget::North);
+        ui->InformationTabBar->setTabPosition(QTabWidget::North);
+        ui->SettingsTabBar->setTabPosition(QTabWidget::North);
+    }
+    else
+    {
+        ui->DevicesTabBar->setTabPosition(QTabWidget::West);
+        ui->InformationTabBar->setTabPosition(QTabWidget::West);
+        ui->SettingsTabBar->setTabPosition(QTabWidget::West);
     }
 
     /*-----------------------------------------------------*\
