@@ -37,7 +37,7 @@
         <item row="1" column="0">
          <widget class="QTabWidget" name="DevicesTabBar">
           <property name="tabPosition">
-           <enum>QTabWidget::TabPosition::West</enum>
+           <enum>QTabWidget::TabPosition::North</enum>
           </property>
          </widget>
         </item>
