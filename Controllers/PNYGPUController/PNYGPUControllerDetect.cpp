@@ -19,7 +19,7 @@ DetectedControllers DetectPNYGPUControllers(i2c_smbus_interface* bus, uint8_t i2
 {
     DetectedControllers detected_controllers;
 
-    if(bus->port_id == 1)
+    if(bus->info.port_id == 1)
     {
         PNYGPUController*     controller        = new PNYGPUController(bus, i2c_addr, name);
         RGBController_PNYGPU* rgb_controller    = new RGBController_PNYGPU(controller);

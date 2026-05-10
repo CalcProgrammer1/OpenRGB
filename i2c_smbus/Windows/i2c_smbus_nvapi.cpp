@@ -182,17 +182,17 @@ bool i2c_smbus_nvapi_detect()
     {
         i2c_smbus_nvapi * nvapi_bus = new i2c_smbus_nvapi(gpu_handles[gpu_idx]);
 
-        snprintf(nvapi_bus->device_name, 512, "Nvidia NvAPI I2C on GPU %d", gpu_idx);
+        snprintf(nvapi_bus->info.device_name, 512, "Nvidia NvAPI I2C on GPU %d", gpu_idx);
 
         res = NvAPI_GPU_GetPCIIdentifiers(gpu_handles[gpu_idx], &device_id, &sub_system_id, &revision_id, &ext_device_id);
 
         if (res == 0)
         {
-            nvapi_bus->pci_device           = device_id >> 16;
-            nvapi_bus->pci_vendor           = device_id & 0xffff;
-            nvapi_bus->pci_subsystem_device = sub_system_id >> 16;
-            nvapi_bus->pci_subsystem_vendor = sub_system_id & 0xffff;
-            nvapi_bus->port_id              = 1;
+            nvapi_bus->info.pci_device           = device_id >> 16;
+            nvapi_bus->info.pci_vendor           = device_id & 0xffff;
+            nvapi_bus->info.pci_subsystem_device = sub_system_id >> 16;
+            nvapi_bus->info.pci_subsystem_vendor = sub_system_id & 0xffff;
+            nvapi_bus->info.port_id              = 1;
         }
 
         DetectionManager::get()->RegisterI2CBus(nvapi_bus);

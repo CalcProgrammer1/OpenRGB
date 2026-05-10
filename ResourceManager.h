@@ -56,6 +56,7 @@ public:
     unsigned short                      GetDefaultServerPort();
     LogManager*                         GetLogManager();
     std::vector<i2c_smbus_interface*>&  GetI2CBuses();
+    std::vector<i2c_smbus_info>         GetI2CBusInfo();
     PluginManagerInterface*             GetPluginManager();
     ProfileManager*                     GetProfileManager();
     std::vector<RGBController*>&        GetRGBControllers();

@@ -230,6 +230,8 @@ private:
     NetPacketStatus                     ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
     NetPacketStatus                     ProcessRequest_RescanDevices();
 
+    NetPacketStatus                     ProcessRequest_GetI2CBusInfo(NetworkClientInfo* client_info);
+
     NetPacketStatus                     ProcessRequest_LogManager_ClearLogBuffer(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_LogManager_GetLogBuffer(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_LogManager_GetLogLevel(NetworkClientInfo* client_info);

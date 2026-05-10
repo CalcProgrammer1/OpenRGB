@@ -20,7 +20,7 @@ PowerColorRedDevilV1Controller::PowerColorRedDevilV1Controller(i2c_smbus_interfa
     this->dev   = dev;
     this->name  = dev_name;
 
-    if(bus->pci_device > AMD_NAVI10_DEV)                // Only Navi 2 cards have this mode
+    if(bus->info.pci_device > AMD_NAVI10_DEV)                // Only Navi 2 cards have this mode
     {
         this->has_sync_mode = true;
     }
@@ -33,7 +33,7 @@ PowerColorRedDevilV1Controller::~PowerColorRedDevilV1Controller()
 
 std::string PowerColorRedDevilV1Controller::GetDeviceLocation()
 {
-    std::string return_string(bus->device_name);
+    std::string return_string(bus->info.device_name);
     char addr[5];
     snprintf(addr, 5, "0x%02X", dev);
     return_string.append(", address ");

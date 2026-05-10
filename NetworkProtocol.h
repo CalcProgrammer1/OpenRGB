@@ -116,6 +116,8 @@ enum
     NET_PACKET_ID_DETECTION_PROGRESS_CHANGED    = 102,  /* Indicate to clients that detection progress changed  */
     NET_PACKET_ID_DETECTION_COMPLETE            = 103,  /* Indicate to clients that detection completed         */
 
+    NET_PACKET_ID_GET_I2C_BUS_INFO              = 120,  /* Request list of I2C bus info                         */
+
     NET_PACKET_ID_REQUEST_RESCAN_DEVICES        = 140,  /* Request rescan of devices                            */
 
     /*----------------------------------------------------------------------------------------------------------*\

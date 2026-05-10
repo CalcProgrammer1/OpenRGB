@@ -19,7 +19,7 @@ DetectedControllers DetectEVGATuringGPUControllers(i2c_smbus_interface* bus, uin
 {
     DetectedControllers detected_controllers;
 
-    if(bus->port_id == 1)
+    if(bus->info.port_id == 1)
     {
         EVGAGPUv2Controller*     controller     = new EVGAGPUv2Controller(bus, address, name);
         RGBController_EVGAGPUv2* rgb_controller = new RGBController_EVGAGPUv2(controller);

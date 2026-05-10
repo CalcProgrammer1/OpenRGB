@@ -72,10 +72,8 @@ union i2c_smbus_data
 #define I2C_SMBUS_BLOCK_PROC_CALL   7           /* SMBus 2.0 */
 #define I2C_SMBUS_I2C_BLOCK_DATA    8
 
-
-class i2c_smbus_interface
+typedef struct
 {
-public:
     char device_name[512];
 
     int port_id;
@@ -85,6 +83,12 @@ public:
     int pci_subsystem_vendor;
 
     int bus_id;
+} i2c_smbus_info;
+
+class i2c_smbus_interface
+{
+public:
+    i2c_smbus_info info;
 
     i2c_smbus_interface();
     virtual ~i2c_smbus_interface();
