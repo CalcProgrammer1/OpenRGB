@@ -97,6 +97,7 @@ private:
     PluginManager *                 plugin_manager      = nullptr;
 
     bool                            device_view_showing = false;
+    bool                            force_compact_tabs  = false;
     bool                            ShowI2CTools        = false;
     bool                            plugins_loaded      = false;
 
@@ -151,6 +152,7 @@ private:
     void OnSuspend() override;
     void OnResume() override;
 
+    void UpdateTabs();
     bool isCompactTabMode();
 
 private slots:
