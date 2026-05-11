@@ -7,18 +7,26 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <QSysInfo>
 #include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBPluginInterface.h"
 #include "NetworkProtocol.h"
-
+#include "ResourceManager.h"
 #include "ui_OpenRGBSoftwareInfoPage.h"
-#include <QSysInfo>
 
 OpenRGBSoftwareInfoPage::OpenRGBSoftwareInfoPage(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OpenRGBSoftwareInfoPage)
 {
     ui->setupUi(this);
+    if(ResourceManager::get()->IsLocalClient())
+    {
+        ui->ModeValue->setText(tr("Local Client"));
+    }
+    else
+    {
+        ui->ModeValue->setText(tr("Standalone"));
+    }
     ui->SDKVersionValue->setText(QString::number(OPENRGB_SDK_PROTOCOL_VERSION));
     ui->PluginAPIVersionValue->setText(QString::number(OPENRGB_PLUGIN_API_VERSION));
     ui->QtVersionValue->setText(QT_VERSION_STR);
