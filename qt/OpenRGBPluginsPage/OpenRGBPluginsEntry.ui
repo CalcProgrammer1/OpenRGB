@@ -51,7 +51,7 @@
          <string notr="true">Icon</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -183,7 +183,7 @@
       <item row="6" column="2">
        <widget class="QLabel" name="APIVersionValue">
         <property name="text">
-         <string>API Version Value</string>
+         <string notr="true">API Version Value</string>
         </property>
        </widget>
       </item>
