@@ -29,7 +29,7 @@
 #define MAXSOCK 32
 #define TCP_TIMEOUT_SECONDS 5
 
-typedef void (*NetServerCallback)(void *);
+typedef void (*NetServerCallback)(void*);
 
 class NetworkClientInfo
 {
@@ -39,7 +39,7 @@ public:
 
     SOCKET          client_sock;
     unsigned int    client_flags;
-    std::thread *   client_listen_thread;
+    std::thread*    client_listen_thread;
     std::string     client_string;
     unsigned int    client_protocol_version;
     std::string     client_ip;
@@ -49,15 +49,15 @@ public:
 
 typedef struct
 {
-    RGBController * controller;
+    RGBController*  controller;
     unsigned int    id;
 } NetworkControllerID;
 
 typedef struct
 {
     NetPacketHeader             header;
-    char *                      data;
-    NetworkClientInfo *         client_info;
+    unsigned char*              data;
+    NetworkClientInfo*          client_info;
 } NetworkServerControllerThreadQueueEntry;
 
 typedef struct
@@ -68,7 +68,7 @@ typedef struct
     std::mutex                                          queue_mutex;
     std::mutex                                          start_mutex;
     std::condition_variable                             start_cv;
-    std::thread *                                       thread;
+    std::thread*                                        thread;
     std::atomic<bool>                                   online;
 } NetworkServerControllerThread;
 
@@ -98,8 +98,8 @@ public:
     /*-----------------------------------------------------*\
     | Callback functions                                    |
     \*-----------------------------------------------------*/
-    void                                RegisterClientInfoChangeCallback(NetServerCallback, void * new_callback_arg);
-    void                                RegisterServerListeningChangeCallback(NetServerCallback, void * new_callback_arg);
+    void                                RegisterClientInfoChangeCallback(NetServerCallback, void* new_callback_arg);
+    void                                RegisterServerListeningChangeCallback(NetServerCallback, void* new_callback_arg);
 
     /*-----------------------------------------------------*\
     | Functions for forwarding callback sigals over network |
@@ -125,7 +125,7 @@ public:
     /*-----------------------------------------------------*\
     | Server Interface functions                            |
     \*-----------------------------------------------------*/
-    void                                SetControllers(std::vector<RGBController *>);
+    void                                SetControllers(std::vector<RGBController*>);
     void                                SetPluginManager(PluginManagerInterface* plugin_manager_pointer);
     void                                SetProfileManager(ProfileManagerInterface* profile_manager_pointer);
     void                                SetSettingsManager(SettingsManagerInterface* settings_manager_pointer);
@@ -134,7 +134,7 @@ public:
 
     void                                SendRequest_ProfileManager_ActiveProfileChanged(std::string profile_name);
     void                                SendRequest_ProfileManager_ProfileLoaded(std::string profile_json_string);
-    void                                SendRequest_RGBController_SignalUpdate(RGBController * controller_ptr, unsigned int update_reason);
+    void                                SendRequest_RGBController_SignalUpdate(RGBController* controller_ptr, unsigned int update_reason);
 
 private:
     /*-----------------------------------------------------*\
@@ -157,33 +157,33 @@ private:
     std::vector<NetworkControllerID>                controller_ids;
     std::shared_mutex                               controller_ids_mutex;
     unsigned int                                    controller_next_idx;
-    std::vector<RGBController *>                    controllers;
-    std::vector<NetworkServerControllerThread *>    controller_threads;
+    std::vector<RGBController*>                     controllers;
+    std::vector<NetworkServerControllerThread*>     controller_threads;
     std::shared_mutex                               controller_threads_mutex;
     bool                                            controller_updating;
 
-    NetworkServerControllerThread *                 profilemanager_thread;
+    NetworkServerControllerThread*                  profilemanager_thread;
 
     /*-----------------------------------------------------*\
     | Server clients                                        |
     \*-----------------------------------------------------*/
     std::mutex                          ServerClientsMutex;
-    std::vector<NetworkClientInfo *>    ServerClients;
-    std::thread *                       ConnectionThread[MAXSOCK];
+    std::vector<NetworkClientInfo*>     ServerClients;
+    std::thread*                        ConnectionThread[MAXSOCK];
 
     /*-----------------------------------------------------*\
     | Client information change callbacks                   |
     \*-----------------------------------------------------*/
     std::mutex                          ClientInfoChangeMutex;
     std::vector<NetServerCallback>      ClientInfoChangeCallbacks;
-    std::vector<void *>                 ClientInfoChangeCallbackArgs;
+    std::vector<void*>                  ClientInfoChangeCallbackArgs;
 
     /*-----------------------------------------------------*\
     | Server listening change callbacks                     |
     \*-----------------------------------------------------*/
     std::mutex                          ServerListeningChangeMutex;
     std::vector<NetServerCallback>      ServerListeningChangeCallbacks;
-    std::vector<void *>                 ServerListeningChangeCallbackArgs;
+    std::vector<void*>                  ServerListeningChangeCallbackArgs;
 
     /*-----------------------------------------------------*\
     | Pointers to components that integrate with server     |
@@ -218,16 +218,16 @@ private:
     | Server Thread functions                               |
     \*-----------------------------------------------------*/
     void                                ConnectionThreadFunction(int socket_idx);
-    void                                ControllerListenThread(NetworkServerControllerThread * this_thread);
-    void                                ListenThreadFunction(NetworkClientInfo * client_sock);
-    void                                ProfileManagerListenThread(NetworkServerControllerThread * this_thread);
+    void                                ControllerListenThread(NetworkServerControllerThread* this_thread);
+    void                                ListenThreadFunction(NetworkClientInfo* client_info);
+    void                                ProfileManagerListenThread(NetworkServerControllerThread* this_thread);
 
     /*-----------------------------------------------------*\
     | Server Protocol functions                             |
     \*-----------------------------------------------------*/
-    NetPacketStatus                     ProcessRequest_ClientFlags(SOCKET client_sock, unsigned int data_size, char * data);
-    NetPacketStatus                     ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data);
-    NetPacketStatus                     ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
+    NetPacketStatus                     ProcessRequest_ClientFlags(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
+    NetPacketStatus                     ProcessRequest_ClientProtocolVersion(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
+    NetPacketStatus                     ProcessRequest_ClientString(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
     NetPacketStatus                     ProcessRequest_RescanDevices();
 
     NetPacketStatus                     ProcessRequest_GetI2CBusInfo(NetworkClientInfo* client_info);
@@ -235,57 +235,57 @@ private:
     NetPacketStatus                     ProcessRequest_LogManager_ClearLogBuffer(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_LogManager_GetLogBuffer(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_LogManager_GetLogLevel(NetworkClientInfo* client_info);
-    NetPacketStatus                     ProcessRequest_LogManager_SetLogLevel(NetworkClientInfo* client_info, unsigned int data_size, char* data);
+    NetPacketStatus                     ProcessRequest_LogManager_SetLogLevel(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
 
     NetPacketStatus                     ProcessRequest_ProfileManager_ClearActiveProfile(NetworkClientInfo* client_info);
-    NetPacketStatus                     ProcessRequest_ProfileManager_DeleteProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data);
-    NetPacketStatus                     ProcessRequest_ProfileManager_DownloadProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data);
+    NetPacketStatus                     ProcessRequest_ProfileManager_DeleteProfile(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
+    NetPacketStatus                     ProcessRequest_ProfileManager_DownloadProfile(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
     NetPacketStatus                     ProcessRequest_ProfileManager_GetActiveProfile(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_ProfileManager_GetProfileList(NetworkClientInfo* client_info);
-    NetPacketStatus                     ProcessRequest_ProfileManager_LoadProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data);
-    NetPacketStatus                     ProcessRequest_ProfileManager_SaveProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data);
-    NetPacketStatus                     ProcessRequest_ProfileManager_UploadProfile(NetworkClientInfo* client_info, unsigned int data_size, char* data);
+    NetPacketStatus                     ProcessRequest_ProfileManager_LoadProfile(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
+    NetPacketStatus                     ProcessRequest_ProfileManager_SaveProfile(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
+    NetPacketStatus                     ProcessRequest_ProfileManager_UploadProfile(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
 
-    NetPacketStatus                     ProcessRequest_SettingsManager_GetSettings(NetworkClientInfo* client_info, unsigned int data_size, char* data);
-    NetPacketStatus                     ProcessRequest_SettingsManager_GetSettingsSchema(NetworkClientInfo* client_info, unsigned int data_size, char* data);
-    NetPacketStatus                     ProcessRequest_SettingsManager_ModifySettings(NetworkClientInfo* client_info, unsigned int data_size, char* data);
-    NetPacketStatus                     ProcessRequest_SettingsManager_SetSettings(NetworkClientInfo* client_info, unsigned int data_size, char* data);
+    NetPacketStatus                     ProcessRequest_SettingsManager_GetSettings(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
+    NetPacketStatus                     ProcessRequest_SettingsManager_GetSettingsSchema(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
+    NetPacketStatus                     ProcessRequest_SettingsManager_ModifySettings(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
+    NetPacketStatus                     ProcessRequest_SettingsManager_SetSettings(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
     NetPacketStatus                     ProcessRequest_SettingsManager_SaveSettings(NetworkClientInfo* client_info);
 
-    NetPacketStatus                     ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_ConfigureZone(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version, bool save_mode);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
-    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char* data_ptr, unsigned int data_size, unsigned int protocol_version);
+    NetPacketStatus                     ProcessRequest_RGBController_AddSegment(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_ClearSegments(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_ConfigureZone(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_ResizeZone(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_SetCustomMode(NetworkClientInfo* client_info, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_SetDeviceSpecificConfiguration(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_SetDeviceSpecificZoneConfiguration(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateLEDs(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateSaveMode(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id, bool save_mode);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateSingleLED(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneLEDs(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_UpdateZoneMode(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
 
-    void                                SendAck(SOCKET client_sock, unsigned int acked_pkt_dev_id, unsigned int acked_pkt_id, NetPacketStatus status, unsigned int protocol_version);
+    void                                SendAck(NetworkClientInfo* client_info, unsigned int acked_pkt_dev_id, unsigned int acked_pkt_id, NetPacketStatus status);
 
-    void                                SendReply_ControllerCount(SOCKET client_sock, unsigned int protocol_version);
-    void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_id, unsigned int protocol_version);
-    void                                SendReply_ProtocolVersion(SOCKET client_sock);
-    void                                SendReply_ServerFlags(SOCKET client_sock);
-    void                                SendReply_ServerString(SOCKET client_sock);
+    void                                SendReply_ControllerCount(NetworkClientInfo* client_info);
+    void                                SendReply_ControllerData(NetworkClientInfo* client_info, unsigned int dev_id, unsigned int protocol_version);
+    void                                SendReply_ProtocolVersion(NetworkClientInfo* client_info);
+    void                                SendReply_ServerFlags(NetworkClientInfo* client_info);
+    void                                SendReply_ServerString(NetworkClientInfo* client_info);
 
-    void                                SendReply_PluginList(SOCKET client_sock);
-    void                                SendReply_PluginSpecific(SOCKET client_sock, unsigned int pkt_type, unsigned char* data, unsigned int data_size);
+    void                                SendReply_PluginList(NetworkClientInfo* client_info);
+    void                                SendReply_PluginSpecific(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int pkt_id);
 
-    void                                SendRequest_DetectionCompleted(SOCKET client_sock, unsigned int protocol_version);
-    void                                SendRequest_DetectionProgress(SOCKET client_sock, unsigned int protocol_version, unsigned int detection_percent, std::string detection_string);
-    void                                SendRequest_DetectionStarted(SOCKET client_sock, unsigned int protocol_version);
-    void                                SendRequest_DeviceListChanged(SOCKET client_sock);
+    void                                SendRequest_DetectionCompleted(NetworkClientInfo* client_info);
+    void                                SendRequest_DetectionProgress(NetworkClientInfo* client_info, unsigned int detection_percent, std::string detection_string);
+    void                                SendRequest_DetectionStarted(NetworkClientInfo* client_info);
+    void                                SendRequest_DeviceListChanged(NetworkClientInfo* client_info);
 
-    void                                SendRequest_LoggedEntry(NetworkClientInfo* client_info, unsigned char* data, unsigned int data_size);
+    void                                SendRequest_LoggedEntry(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
 
-    void                                SendRequest_ProfileManager_ActiveProfileChanged(SOCKET client_sock, std::string active_profile);
+    void                                SendRequest_ProfileManager_ActiveProfileChanged(NetworkClientInfo* client_info, std::string active_profile);
     void                                SendRequest_ProfileManager_ProfileAboutToLoad();
-    void                                SendRequest_ProfileManager_ProfileListChanged(SOCKET client_sock, unsigned char *profile_list_description);
+    void                                SendRequest_ProfileManager_ProfileListChanged(NetworkClientInfo* client_info, unsigned char* profile_list_description);
 
     /*-----------------------------------------------------*\
     | Private helper functions                              |
