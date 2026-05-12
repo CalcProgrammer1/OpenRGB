@@ -161,7 +161,7 @@ ResourceManager::ResourceManager()
     detection_settings_schema["initial_detection_delay_ms"]["type"]         = "integer";
     detection_settings_schema["initial_detection_delay_ms"]["description"]  = QT_TRANSLATE_NOOP("Settings", "Amount of time, in milliseconds, to wait before detecting devices when started");
 
-    settings_manager->RegisterSettingsSchema("Detectors", "Detection", detection_settings_schema);
+    settings_manager->RegisterSettingsSchema("Detectors", QT_TRANSLATE_NOOP("Settings", "Detection"), detection_settings_schema);
 
     /*-----------------------------------------------------*\
     | Create LogManager settings schema                     |
@@ -199,7 +199,7 @@ ResourceManager::ResourceManager()
     logmanager_settings_schema["file_count_limit"]["default"]               = 10;
     logmanager_settings_schema["file_count_limit"]["minimum"]               = 0;
 
-    settings_manager->RegisterSettingsSchema("LogManager", "Log Manager", logmanager_settings_schema);
+    settings_manager->RegisterSettingsSchema("LogManager", QT_TRANSLATE_NOOP("Settings", "Log Manager"), logmanager_settings_schema);
 
     /*-----------------------------------------------------*\
     | Create Server settings schema                         |
@@ -224,7 +224,7 @@ ResourceManager::ResourceManager()
     server_settings_schema["legacy_workaround"]["type"]                     = "bool";
     server_settings_schema["legacy_workaround"]["description"]              = QT_TRANSLATE_NOOP("Settings", "Workaround for some older SDK implementations that sent incorrect packet size for certain packets");
 
-    settings_manager->RegisterSettingsSchema("Server", "Server", server_settings_schema);
+    settings_manager->RegisterSettingsSchema("Server", QT_TRANSLATE_NOOP("Settings", "Server"), server_settings_schema);
 
     /*-----------------------------------------------------*\
     | Configure the log manager                             |
