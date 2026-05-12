@@ -19,6 +19,26 @@ OpenRGBSoftwareInfoPage::OpenRGBSoftwareInfoPage(QWidget *parent) :
     ui(new Ui::OpenRGBSoftwareInfoPage)
 {
     ui->setupUi(this);
+    UpdateInterface();
+}
+
+OpenRGBSoftwareInfoPage::~OpenRGBSoftwareInfoPage()
+{
+    delete ui;
+}
+
+void OpenRGBSoftwareInfoPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+
+        UpdateInterface();
+    }
+}
+
+void OpenRGBSoftwareInfoPage::UpdateInterface()
+{
     if(ResourceManager::get()->IsLocalClient())
     {
         ui->ModeValue->setText(tr("Local Client"));
@@ -37,21 +57,8 @@ OpenRGBSoftwareInfoPage::OpenRGBSoftwareInfoPage(QWidget *parent) :
     ui->GitBranchValue->setText(GIT_BRANCH);
     ui->OsVersionValue->setText(QSysInfo::prettyProductName());
 #if(HID_HOTPLUG_ENABLED)
-    ui->HIDHotplugValue->setText("Supported");
+    ui->HIDHotplugValue->setText(tr("Supported"));
 #else
-    ui->HIDHotplugValue->setText("Unsupported");
+    ui->HIDHotplugValue->setText(tr("Unsupported"));
 #endif
-}
-
-OpenRGBSoftwareInfoPage::~OpenRGBSoftwareInfoPage()
-{
-    delete ui;
-}
-
-void OpenRGBSoftwareInfoPage::changeEvent(QEvent *event)
-{
-    if(event->type() == QEvent::LanguageChange)
-    {
-        ui->retranslateUi(this);
-    }
 }
