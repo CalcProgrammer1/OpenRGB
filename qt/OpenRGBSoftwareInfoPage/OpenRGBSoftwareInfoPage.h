@@ -27,6 +27,8 @@ public:
 private:
     Ui::OpenRGBSoftwareInfoPage *ui;
 
+    void UpdateInterface();
+
 private slots:
     void changeEvent(QEvent *event);
 };
