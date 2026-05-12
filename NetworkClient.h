@@ -23,7 +23,7 @@
 /*---------------------------------------------------------*\
 | Callback Types                                            |
 \*---------------------------------------------------------*/
-typedef void (*NetworkClientCallback)(void *, unsigned int);
+typedef void (*NetworkClientCallback)(void*, unsigned int);
 
 /*---------------------------------------------------------*\
 | NetworkClient Update Reason Codes                         |
@@ -87,7 +87,7 @@ public:
     | Client Callback functions                             |
     \*-----------------------------------------------------*/
     void                                ClearCallbacks();
-    void                                RegisterNetworkClientCallback(NetworkClientCallback new_callback, void * new_callback_arg);
+    void                                RegisterNetworkClientCallback(NetworkClientCallback new_callback, void* new_callback_arg);
 
     /*-----------------------------------------------------*\
     | Device Info Functions                                 |
@@ -135,22 +135,22 @@ public:
     std::vector<RGBController*>&        GetRGBControllers();
 
     void                                SendRequest_RGBController_ClearSegments(unsigned int dev_idx, int zone);
-    void                                SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char * data, unsigned int size);
-    void                                SendRequest_RGBController_ConfigureZone(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void                                SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
+    void                                SendRequest_RGBController_ConfigureZone(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
     void                                SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
 
-    void                                SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size);
-    void                                SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size);
-    void                                SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void                                SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
+    void                                SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
+    void                                SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
 
     void                                SendRequest_RGBController_SetCustomMode(unsigned int dev_idx);
 
-    void                                SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
-    void                                SendRequest_RGBController_UpdateZoneMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
-    void                                SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void                                SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
+    void                                SendRequest_RGBController_UpdateZoneMode(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
+    void                                SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
 
-    void                                SendRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size);
-    void                                SendRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void                                SendRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
+    void                                SendRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
 
     void                                WaitOnControllerData();
 
@@ -171,7 +171,7 @@ private:
     std::mutex                          send_in_progress;
 
     NetPacketHeader                     response_header;
-    char *                              response_data_ptr;
+    unsigned char*                      response_data_ptr;
     std::mutex                          waiting_on_response_mutex;
     std::condition_variable             waiting_on_response_cv;
 
@@ -218,7 +218,7 @@ private:
     | Controller list                                       |
     \*-----------------------------------------------------*/
     std::mutex                          ControllerListMutex;
-    std::vector<RGBController *>        server_controllers;
+    std::vector<RGBController*>         server_controllers;
     std::vector<unsigned int>           server_controller_ids;
 
     /*-----------------------------------------------------*\
@@ -241,21 +241,21 @@ private:
     /*-----------------------------------------------------*\
     | Private Client functions                              |
     \*-----------------------------------------------------*/
-    void                                ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_id);
-    void                                ProcessReply_ControllerIDs(unsigned int data_size, char * data_ptr);
-    void                                ProcessReply_ProtocolVersion(unsigned int data_size, char * data);
-    void                                ProcessRequest_DetectionProgressChanged(unsigned int data_size, char * data);
+    void                                ProcessReply_ControllerData(unsigned int data_size, unsigned char* data_ptr, unsigned int dev_id);
+    void                                ProcessReply_ControllerIDs(unsigned int data_size, unsigned char* data_ptr);
+    void                                ProcessReply_ProtocolVersion(unsigned int data_size, unsigned char* data_ptr);
+    void                                ProcessRequest_DetectionProgressChanged(unsigned int data_size, unsigned char* data_ptr);
     void                                ProcessRequest_DeviceListChanged();
-    void                                ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, char * data, unsigned int dev_id);
-    void                                ProcessRequest_ServerFlags(unsigned int data_size, char * data);
-    void                                ProcessRequest_ServerString(unsigned int data_size, char * data);
+    void                                ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, unsigned char* data_ptr, unsigned int dev_id);
+    void                                ProcessRequest_ServerFlags(unsigned int data_size, unsigned char* data_ptr);
+    void                                ProcessRequest_ServerString(unsigned int data_size, unsigned char* data_ptr);
 
-    void                                ProcessRequest_LogManager_LoggedEntry(unsigned int data_size, char * data);
+    void                                ProcessRequest_LogManager_LoggedEntry(unsigned int data_size, unsigned char* data_ptr);
 
-    void                                ProcessRequest_ProfileManager_ActiveProfileChanged(unsigned int data_size, char * data);
+    void                                ProcessRequest_ProfileManager_ActiveProfileChanged(unsigned int data_size, unsigned char* data_ptr);
     void                                ProcessRequest_ProfileManager_ProfileAboutToLoad();
-    void                                ProcessRequest_ProfileManager_ProfileListUpdated(unsigned int data_size, char * data);
-    void                                ProcessRequest_ProfileManager_ProfileLoaded(unsigned int data_size, char * data);
+    void                                ProcessRequest_ProfileManager_ProfileListUpdated(unsigned int data_size, unsigned char* data_ptr);
+    void                                ProcessRequest_ProfileManager_ProfileLoaded(unsigned int data_size, unsigned char* data_ptr);
 
     void                                SendData_ClientFlags();
     void                                SendData_ClientString();
@@ -267,7 +267,7 @@ private:
     /*-----------------------------------------------------*\
     | Private ProfileManager functions                      |
     \*-----------------------------------------------------*/
-    std::vector<std::string> *          ProcessReply_ProfileList(unsigned int data_size, char * data);
+    std::vector<std::string>*           ProcessReply_ProfileList(unsigned int data_size, unsigned char* data_ptr);
 
     /*-----------------------------------------------------*\
     | Private helper functions                              |
