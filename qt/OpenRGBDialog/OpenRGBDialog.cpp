@@ -166,7 +166,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     autostart_settings_schema["custom_arguments"]["description"]            = QT_TRANSLATE_NOOP("Settings", "Additional command line arguments to pass to OpenRGB when starting on login");
     autostart_settings_schema["custom_arguments"]["order"]                  = 2;
 
-    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("AutoStart", "Start at Login", autostart_settings_schema, 2);
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("AutoStart", QT_TRANSLATE_NOOP("Settings", "Start at Login"), autostart_settings_schema, 2);
 
     /*-----------------------------------------------------*\
     | Create UserInterface settings schema                  |
@@ -251,7 +251,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     ui_settings_schema["geometry"]["properties"]["height"]["type"]                  = "integer";
     ui_settings_schema["geometry"]["properties"]["height"]["order"]                 = 5;
 
-    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("UserInterface", "User Interface", ui_settings_schema, 0);
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("UserInterface", QT_TRANSLATE_NOOP("Settings", "User Interface"), ui_settings_schema, 0);
 
 #if defined(_WIN32) || defined(_MACOSX_X86_X64)
     /*-----------------------------------------------------*\
@@ -276,7 +276,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     drivers_settings_schema["amd_smbus_reduce_cpu"]["type"]                         = "bool";
 #endif
 
-    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("Drivers", "Drivers", drivers_settings_schema);
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("Drivers", QT_TRANSLATE_NOOP("Settings", "Drivers"), drivers_settings_schema);
 #endif
 
     /*-----------------------------------------------------*\
@@ -655,7 +655,7 @@ void OpenRGBDialog::AddPluginsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* PluginTabLabel = new TabLabel(OpenRGBFont::extension, (char *)"Plugins", (char *)context, true);
+    TabLabel* PluginTabLabel = new TabLabel(OpenRGBFont::extension, (char *)QT_TR_NOOP("Plugins"), (char *)context, true);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, PluginTabLabel);
 }
@@ -672,7 +672,7 @@ void OpenRGBDialog::AddSoftwareInfoPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SoftwareTabLabel = new TabLabel(OpenRGBFont::info, (char *)"About OpenRGB", (char *)context, true);
+    TabLabel* SoftwareTabLabel = new TabLabel(OpenRGBFont::info, (char *)QT_TR_NOOP("About OpenRGB"), (char *)context, true);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
@@ -689,7 +689,7 @@ void OpenRGBDialog::AddSupportedDevicesPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SupportedTabLabel = new TabLabel(OpenRGBFont::controller, (char *)"Supported Devices", (char *)context, true);
+    TabLabel* SupportedTabLabel = new TabLabel(OpenRGBFont::controller, (char *)QT_TR_NOOP("Supported Devices"), (char *)context, true);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SupportedTabLabel);
 }
@@ -706,7 +706,7 @@ void OpenRGBDialog::AddSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::options, (char *)"General Settings", (char *)context, true);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::options, (char *)QT_TR_NOOP("General Settings"), (char *)context, true);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -723,7 +723,7 @@ void OpenRGBDialog::AddManualDevicesSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, (char *)"Manually Added Devices", (char *)context, true);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, (char *)QT_TR_NOOP("Manually Added Devices"), (char *)context, true);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -886,7 +886,7 @@ void OpenRGBDialog::AddI2CToolsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SMBusToolsTabLabel = new TabLabel(OpenRGBFont::toolbox, (char *)"SMBus Tools", (char *)context, true);
+    TabLabel* SMBusToolsTabLabel = new TabLabel(OpenRGBFont::toolbox, (char *)QT_TR_NOOP("SMBus Tools"), (char *)context, true);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
 }
@@ -2093,7 +2093,7 @@ void OpenRGBDialog::AddConsolePage()
         /*-----------------------------------------------------*\
         | Create the tab label                                  |
         \*-----------------------------------------------------*/
-        TabLabel* ConsoleTabLabel = new TabLabel(OpenRGBFont::terminal, (char *)"Log Console", (char *)context, true);
+        TabLabel* ConsoleTabLabel = new TabLabel(OpenRGBFont::terminal, (char *)QT_TR_NOOP("Log Console"), (char *)context, true);
 
         ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, ConsoleTabLabel);
     }

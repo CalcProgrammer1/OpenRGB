@@ -64,7 +64,7 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
     profilemanager_settings_schema["suspend_profile"]["type"]           = "profile";
     profilemanager_settings_schema["suspend_profile"]["description"]    = QT_TRANSLATE_NOOP("Settings", "Profile to load before system enters sleep mode");
 
-    settings_manager->RegisterSettingsSchema("ProfileManager", "Profile Manager", profilemanager_settings_schema, 1);
+    settings_manager->RegisterSettingsSchema("ProfileManager", QT_TRANSLATE_NOOP("Settings", "Profile Manager"), profilemanager_settings_schema, 1);
 
     /*-----------------------------------------------------*\
     | Read in profile manager settings and initialize any   |

@@ -91,13 +91,13 @@ OpenRGBDynamicSettingsWidget::OpenRGBDynamicSettingsWidget(std::string key, nloh
             /*---------------------------------------------*\
             | Create the groupbox and layout                |
             \*---------------------------------------------*/
-            QGroupBox*                      groupbox            = new QGroupBox(QString::fromStdString(title));
+            left_widget                                         = (QGroupBox*)new QGroupBox(QString::fromStdString(title));
             QVBoxLayout*                    groupbox_layout     = new QVBoxLayout();
             nlohmann::json&                 properties_json     = schema["properties"];
             std::vector<ordered_settings_t> setting_entries;
             nlohmann::json&                 settings_json       = settings[key];
 
-            groupbox->setLayout(groupbox_layout);
+            ((QGroupBox*)left_widget)->setLayout(groupbox_layout);
 
             /*---------------------------------------------*\
             | Loop through the schema and build a vector    |
@@ -152,7 +152,9 @@ OpenRGBDynamicSettingsWidget::OpenRGBDynamicSettingsWidget(std::string key, nloh
                 groupbox_layout->addWidget(item_widget);
             }
 
-            layout->addWidget(groupbox);
+            layout->addWidget((QGroupBox*)left_widget);
+
+            UpdateLabels();
         }
         /*-------------------------------------------------*\
         | Otherwise, create a single settings entry         |
@@ -490,6 +492,15 @@ void OpenRGBDynamicSettingsWidget::UpdateLabels()
         if(left_widget)
         {
             ((QLabel*)left_widget)->setText(app->translate("Settings", title.c_str()) + ":");
+        }
+
+        setToolTip(app->translate("Settings", description.c_str()));
+    }
+    else
+    {
+        if(left_widget)
+        {
+            ((QGroupBox*)left_widget)->setTitle(app->translate("Settings", title.c_str()));
         }
 
         setToolTip(app->translate("Settings", description.c_str()));
