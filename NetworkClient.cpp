@@ -41,6 +41,33 @@ const char yes = 1;
 using namespace std::chrono_literals;
 
 /*---------------------------------------------------------*\
+| Macros for copying data fields from set descriptor buffer |
+| while ensuring we don't access out of bounds              |
+\*---------------------------------------------------------*/
+#define COPY_DATA_FIELD(data_ptr, data_start, field)                                \
+    if((unsigned)(data_ptr + sizeof(field) - data_start) <= (unsigned)data_size)    \
+    {                                                                               \
+        memcpy(&field, data_ptr, sizeof(field));                                    \
+        data_ptr += sizeof(field);                                                  \
+    }                                                                               \
+    else                                                                            \
+    {                                                                               \
+        goto COPY_DATA_ERROR;                                                       \
+    }                                                                               \
+
+#define COPY_STRING_FIELD(data_ptr, data_start, length, field)                      \
+    if((unsigned)(data_ptr + length - data_start) <= (unsigned)data_size)           \
+    {                                                                               \
+        field.assign((char *)data_ptr, length);                                     \
+        field = StringUtils::remove_null_terminating_chars(field);                  \
+        data_ptr += length;                                                         \
+    }                                                                               \
+    else                                                                            \
+    {                                                                               \
+        goto COPY_DATA_ERROR;                                                       \
+    }                                                                               \
+
+/*---------------------------------------------------------*\
 | NetworkClient name for log entries                        |
 \*---------------------------------------------------------*/
 const char* NETWORKCLIENT = "NetworkClient";
@@ -200,9 +227,9 @@ void NetworkClient::SetPort(unsigned short new_port)
 
 void NetworkClient::StartClient()
 {
-    /*---------------------------------------------------------*\
-    | Start a TCP server and launch threads                     |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Start a TCP server and launch threads                 |
+    \*-----------------------------------------------------*/
     char port_str[6];
     snprintf(port_str, 6, "%d", port_num);
 
@@ -210,28 +237,28 @@ void NetworkClient::StartClient()
 
     client_active = true;
 
-    /*---------------------------------------------------------*\
-    | Start the connection thread                               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Start the connection thread                           |
+    \*-----------------------------------------------------*/
     ConnectionThread = new std::thread(&NetworkClient::ConnectionThreadFunction, this);
 
-    /*---------------------------------------------------------*\
-    | Client info has changed, call the callbacks               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Client info has changed, call the callbacks           |
+    \*-----------------------------------------------------*/
     SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_STARTED);
 }
 
 void NetworkClient::StopClient()
 {
-    /*---------------------------------------------------------*\
-    | Disconnect the server and set it as inactive              |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Disconnect the server and set it as inactive          |
+    \*-----------------------------------------------------*/
     server_connected = false;
     client_active    = false;
 
-    /*---------------------------------------------------------*\
-    | Shut down and close the client socket                     |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Shut down and close the client socket                 |
+    \*-----------------------------------------------------*/
     if(server_connected)
     {
         shutdown(client_sock, SD_RECEIVE);
@@ -241,9 +268,9 @@ void NetworkClient::StopClient()
     client_active    = false;
     server_connected = false;
 
-    /*---------------------------------------------------------*\
-    | Close the listen thread                                   |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Close the listen thread                               |
+    \*-----------------------------------------------------*/
     if(ListenThread)
     {
         ListenThread->join();
@@ -251,9 +278,9 @@ void NetworkClient::StopClient()
         ListenThread = nullptr;
     }
 
-    /*---------------------------------------------------------*\
-    | Close the connection thread                               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Close the connection thread                           |
+    \*-----------------------------------------------------*/
     if(ConnectionThread)
     {
         connection_cv.notify_all();
@@ -262,9 +289,9 @@ void NetworkClient::StopClient()
         ConnectionThread = nullptr;
     }
 
-    /*---------------------------------------------------------*\
-    | Client info has changed, call the callbacks               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Client info has changed, call the callbacks           |
+    \*-----------------------------------------------------*/
     SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_STOPPED);
 }
 
@@ -272,15 +299,15 @@ void NetworkClient::SendRequest_ControllerData(unsigned int dev_id)
 {
     NetPacketHeader request_hdr;
 
-    /*---------------------------------------------------------*\
-    | Clear the controller data received flag                   |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Clear the controller data received flag               |
+    \*-----------------------------------------------------*/
     controller_data_received = false;
 
-    /*---------------------------------------------------------*\
-    | Protocol version 0 sends no data, all other protocols     |
-    | send the protocol version                                 |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Protocol version 0 sends no data, all other protocols |
+    | send the protocol version                             |
+    \*-----------------------------------------------------*/
     if(protocol_version == 0)
     {
         InitNetPacketHeader(&request_hdr, dev_id, NET_PACKET_ID_REQUEST_CONTROLLER_DATA, 0);
@@ -290,10 +317,10 @@ void NetworkClient::SendRequest_ControllerData(unsigned int dev_id)
         InitNetPacketHeader(&request_hdr, dev_id, NET_PACKET_ID_REQUEST_CONTROLLER_DATA, sizeof(protocol_version));
     }
 
-    /*---------------------------------------------------------*\
-    | Send the packet, including the data field if protocol is  |
-    | greater than 0.                                           |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Send the packet, including the data field if protocol |
+    | is greater than 0.                                    |
+    \*-----------------------------------------------------*/
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
 
@@ -328,17 +355,20 @@ void NetworkClient::ClearCallbacks()
     NetworkClientCallbackArgs.clear();
 }
 
-void NetworkClient::RegisterNetworkClientCallback(NetworkClientCallback new_callback, void * new_callback_arg)
+void NetworkClient::RegisterNetworkClientCallback(NetworkClientCallback new_callback, void* new_callback_arg)
 {
     NetworkClientCallbacks.push_back(new_callback);
     NetworkClientCallbackArgs.push_back(new_callback_arg);
 }
 
-/*-----------------------------------------------------*\
-| Device Info Functions                                 |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Device Info Functions                                     |
+\*---------------------------------------------------------*/
 std::vector<i2c_smbus_info> NetworkClient::GetI2CBusInfo()
 {
+    /*-----------------------------------------------------*\
+    | Send request                                          |
+    \*-----------------------------------------------------*/
     std::vector<i2c_smbus_info> bus_info;
     NetPacketHeader             reply_hdr;
 
@@ -348,29 +378,39 @@ std::vector<i2c_smbus_info> NetworkClient::GetI2CBusInfo()
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send_in_progress.unlock();
 
+    /*-----------------------------------------------------*\
+    | Wait for response                                     |
+    \*-----------------------------------------------------*/
     std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
     waiting_on_response_cv.wait(wait_lock);
 
+    /*-----------------------------------------------------*\
+    | Parse response into bus list                          |
+    \*-----------------------------------------------------*/
     if(response_header.pkt_id == NET_PACKET_ID_GET_I2C_BUS_INFO && response_data_ptr != NULL)
     {
-        unsigned char*          data_ptr    = (unsigned char*)response_data_ptr;
-        unsigned int            bus_count   = 0;
+        unsigned int            bus_count       = 0;
+        unsigned char*          data_ptr        = response_data_ptr;
+        unsigned int&           data_size       = response_header.pkt_size;
+        unsigned int            data_size_pkt;
 
-        data_ptr                           += sizeof(unsigned int);
+        COPY_DATA_FIELD(data_ptr, response_data_ptr, data_size_pkt);
 
-        memcpy(&bus_count, data_ptr, sizeof(bus_count));
-        data_ptr                           += sizeof(bus_count);
-
-        for(unsigned int bus_idx = 0; bus_idx < bus_count; bus_idx++)
+        if(data_size_pkt == data_size)
         {
-            i2c_smbus_info      bus;
+            COPY_DATA_FIELD(data_ptr, response_data_ptr, bus_count);
 
-            memcpy(&bus, data_ptr, sizeof(bus));
-            data_ptr                       += sizeof(bus);
+            for(unsigned int bus_idx = 0; bus_idx < bus_count; bus_idx++)
+            {
+                i2c_smbus_info      bus;
 
-            bus_info.push_back(bus);
+                COPY_DATA_FIELD(data_ptr, response_data_ptr, bus);
+
+                bus_info.push_back(bus);
+            }
         }
 
+        COPY_DATA_ERROR:
         delete[] response_data_ptr;
         response_data_ptr = NULL;
     }
@@ -418,6 +458,9 @@ void NetworkClient::LogManager_GetLogBuffer()
 
 unsigned int NetworkClient::LogManager_GetLogLevel()
 {
+    /*-----------------------------------------------------*\
+    | Send request                                          |
+    \*-----------------------------------------------------*/
     unsigned int    log_level = 0;
     NetPacketHeader reply_hdr;
 
@@ -427,9 +470,15 @@ unsigned int NetworkClient::LogManager_GetLogLevel()
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send_in_progress.unlock();
 
+    /*-----------------------------------------------------*\
+    | Wait for response                                     |
+    \*-----------------------------------------------------*/
     std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
     waiting_on_response_cv.wait(wait_lock);
 
+    /*-----------------------------------------------------*\
+    | Parse response into bus list                          |
+    \*-----------------------------------------------------*/
     if(response_header.pkt_id == NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL && response_data_ptr != NULL)
     {
         if(response_header.pkt_size >= sizeof(log_level))
@@ -520,6 +569,9 @@ void NetworkClient::ProfileManager_UploadProfile(std::string profile_json_str)
 
 std::string NetworkClient::ProfileManager_DownloadProfile(std::string profile_name)
 {
+    /*-----------------------------------------------------*\
+    | Send request                                          |
+    \*-----------------------------------------------------*/
     NetPacketHeader request_hdr;
     std::string     response_string;
 
@@ -530,13 +582,23 @@ std::string NetworkClient::ProfileManager_DownloadProfile(std::string profile_na
     send(client_sock, (char *)profile_name.c_str(), request_hdr.pkt_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 
+    /*-----------------------------------------------------*\
+    | Wait for response                                     |
+    \*-----------------------------------------------------*/
     std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
     waiting_on_response_cv.wait(wait_lock);
 
+    /*-----------------------------------------------------*\
+    | Parse response into bus list                          |
+    \*-----------------------------------------------------*/
     if(response_header.pkt_id == NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE && response_data_ptr != NULL)
     {
-        response_string.assign(response_data_ptr, response_header.pkt_size);
-        response_string = StringUtils::remove_null_terminating_chars(response_string);
+        unsigned int&   data_size   = response_header.pkt_size;
+        unsigned char*  data_ptr    = response_data_ptr;
+
+        COPY_STRING_FIELD(data_ptr, response_data_ptr, data_size, response_string);
+
+        COPY_DATA_ERROR:
         delete[] response_data_ptr;
         response_data_ptr = NULL;
     }
@@ -546,6 +608,9 @@ std::string NetworkClient::ProfileManager_DownloadProfile(std::string profile_na
 
 std::string NetworkClient::ProfileManager_GetActiveProfile()
 {
+    /*-----------------------------------------------------*\
+    | Send request                                          |
+    \*-----------------------------------------------------*/
     NetPacketHeader request_hdr;
     std::string     response_string;
 
@@ -555,13 +620,23 @@ std::string NetworkClient::ProfileManager_GetActiveProfile()
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send_in_progress.unlock();
 
+    /*-----------------------------------------------------*\
+    | Wait for response                                     |
+    \*-----------------------------------------------------*/
     std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
     waiting_on_response_cv.wait(wait_lock);
 
+    /*-----------------------------------------------------*\
+    | Parse response into bus list                          |
+    \*-----------------------------------------------------*/
     if(response_header.pkt_id == NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE && response_data_ptr != NULL)
     {
-        response_string.assign(response_data_ptr, response_header.pkt_size);
-        response_string = StringUtils::remove_null_terminating_chars(response_string);
+        unsigned int&   data_size   = response_header.pkt_size;
+        unsigned char*  data_ptr    = response_data_ptr;
+
+        COPY_STRING_FIELD(data_ptr, response_data_ptr, data_size, response_string);
+
+        COPY_DATA_ERROR:
         delete[] response_data_ptr;
         response_data_ptr = NULL;
     }
@@ -585,6 +660,9 @@ void NetworkClient::ProfileManager_ClearActiveProfile()
 \*---------------------------------------------------------*/
 std::string NetworkClient::SettingsManager_GetSettings(std::string settings_key)
 {
+    /*-----------------------------------------------------*\
+    | Send request                                          |
+    \*-----------------------------------------------------*/
     NetPacketHeader request_hdr;
     std::string     response_string;
 
@@ -595,14 +673,23 @@ std::string NetworkClient::SettingsManager_GetSettings(std::string settings_key)
     send(client_sock, (char *)settings_key.c_str(), request_hdr.pkt_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 
+    /*-----------------------------------------------------*\
+    | Wait for response                                     |
+    \*-----------------------------------------------------*/
     std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
     waiting_on_response_cv.wait(wait_lock);
 
+    /*-----------------------------------------------------*\
+    | Parse response into bus list                          |
+    \*-----------------------------------------------------*/
     if(response_header.pkt_id == NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS && response_data_ptr != NULL)
     {
-        response_string.assign(response_data_ptr, response_header.pkt_size);
-        response_string = StringUtils::remove_null_terminating_chars(response_string);
-        delete[] response_data_ptr;
+        unsigned int&   data_size   = response_header.pkt_size;
+        unsigned char*  data_ptr    = response_data_ptr;
+
+        COPY_STRING_FIELD(data_ptr, response_data_ptr, data_size, response_string);
+
+        COPY_DATA_ERROR:
         response_data_ptr = NULL;
     }
 
@@ -611,6 +698,9 @@ std::string NetworkClient::SettingsManager_GetSettings(std::string settings_key)
 
 std::string NetworkClient::SettingsManager_GetSettingsSchema(std::string settings_key)
 {
+    /*-----------------------------------------------------*\
+    | Send request                                          |
+    \*-----------------------------------------------------*/
     NetPacketHeader request_hdr;
     std::string     response_string;
 
@@ -621,13 +711,23 @@ std::string NetworkClient::SettingsManager_GetSettingsSchema(std::string setting
     send(client_sock, (char *)settings_key.c_str(), request_hdr.pkt_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 
+    /*-----------------------------------------------------*\
+    | Wait for response                                     |
+    \*-----------------------------------------------------*/
     std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
     waiting_on_response_cv.wait(wait_lock);
 
+    /*-----------------------------------------------------*\
+    | Parse response into bus list                          |
+    \*-----------------------------------------------------*/
     if(response_header.pkt_id == NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS_SCHEMA && response_data_ptr != NULL)
     {
-        response_string.assign(response_data_ptr, response_header.pkt_size);
-        response_string = StringUtils::remove_null_terminating_chars(response_string);
+        unsigned int&   data_size   = response_header.pkt_size;
+        unsigned char*  data_ptr    = response_data_ptr;
+
+        COPY_STRING_FIELD(data_ptr, response_data_ptr, data_size, response_string);
+
+        COPY_DATA_ERROR:
         delete[] response_data_ptr;
         response_data_ptr = NULL;
     }
@@ -698,7 +798,7 @@ void NetworkClient::SendRequest_RGBController_ClearSegments(unsigned int dev_idx
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
     {
@@ -707,15 +807,15 @@ void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, u
 
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, 0);
+    send(client_sock, (char *)data_ptr, data_size, 0);
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_ConfigureZone(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_ConfigureZone(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
     {
@@ -724,11 +824,11 @@ void NetworkClient::SendRequest_RGBController_ConfigureZone(unsigned int dev_idx
 
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, 0);
+    send(client_sock, (char *)data_ptr, data_size, 0);
     send_in_progress.unlock();
 }
 
@@ -753,7 +853,7 @@ void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, i
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
     {
@@ -762,15 +862,15 @@ void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, u
 
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, 0);
+    send(client_sock, (char *)data_ptr, data_size, 0);
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
     {
@@ -779,15 +879,15 @@ void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_id
 
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send(client_sock, (char *)data_ptr, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
     {
@@ -796,11 +896,11 @@ void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_i
 
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send(client_sock, (char *)data_ptr, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
@@ -820,7 +920,7 @@ void NetworkClient::SendRequest_RGBController_SetCustomMode(unsigned int dev_idx
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
     {
@@ -829,15 +929,15 @@ void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, u
 
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send(client_sock, (char *)data_ptr, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_UpdateZoneMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_UpdateZoneMode(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
     {
@@ -846,15 +946,15 @@ void NetworkClient::SendRequest_RGBController_UpdateZoneMode(unsigned int dev_id
 
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send(client_sock, (char *)data_ptr, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
     {
@@ -863,35 +963,35 @@ void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, uns
 
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SAVEMODE, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SAVEMODE, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send(client_sock, (char *)data_ptr, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send(client_sock, (char *)data_ptr, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int dev_idx, unsigned char * data, unsigned int size)
+void NetworkClient::SendRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     NetPacketHeader request_hdr;
 
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION, size);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION, data_size);
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send(client_sock, (char *)data_ptr, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
@@ -916,9 +1016,9 @@ void NetworkClient::SignalNetworkClientUpdate(unsigned int update_reason)
 {
     NetworkClientCallbackMutex.lock();
 
-    /*---------------------------------------------------------*\
-    | Client info has changed, call the callbacks               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Client info has changed, call the callbacks           |
+    \*-----------------------------------------------------*/
     for(unsigned int callback_idx = 0; callback_idx < NetworkClientCallbacks.size(); callback_idx++)
     {
         NetworkClientCallbacks[callback_idx](NetworkClientCallbackArgs[callback_idx], update_reason);
@@ -934,44 +1034,46 @@ void NetworkClient::ConnectionThreadFunction()
 {
     std::unique_lock<std::mutex> lock(connection_mutex);
 
-    /*---------------------------------------------------------*\
-    | This thread manages the connection to the server          |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | This thread manages the connection to the server      |
+    \*-----------------------------------------------------*/
     while(client_active == true)
     {
         if(server_connected == false)
         {
-            /*---------------------------------------------------------*\
-            | Connect to server and reconnect if the connection is lost |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Connect to server and reconnect if the        |
+            | connection is lost                            |
+            \*---------------------------------------------*/
             server_initialized = false;
 
-            /*---------------------------------------------------------*\
-            | Try to connect to server                                  |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Try to connect to server                      |
+            \*---------------------------------------------*/
             if(port.tcp_client_connect() == true)
             {
                 client_sock = port.sock;
                 LOG_INFO("[%s] Connected to server", NETWORKCLIENT);
 
-                /*---------------------------------------------------------*\
-                | Server is now connected                                   |
-                \*---------------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Server is now connected                   |
+                \*-----------------------------------------*/
                 server_connected = true;
 
-                /*---------------------------------------------------------*\
-                | Start the listener thread                                 |
-                \*---------------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Start the listener thread                 |
+                \*-----------------------------------------*/
                 ListenThread = new std::thread(&NetworkClient::ListenThreadFunction, this);
 
-                /*---------------------------------------------------------*\
-                | Server is not initialized                                 |
-                \*---------------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Server is not initialized                 |
+                \*-----------------------------------------*/
                 server_initialized = false;
 
-                /*---------------------------------------------------------*\
-                | Client info has changed, call the callbacks               |
-                \*---------------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Client info has changed, call the         |
+                | callbacks                                 |
+                \*-----------------------------------------*/
                 SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_CONNECTED);
             }
             else
@@ -980,27 +1082,28 @@ void NetworkClient::ConnectionThreadFunction()
             }
         }
 
-        /*-------------------------------------------------------------*\
-        | Double-check client_active as it could have changed           |
-        \*-------------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Double-check client_active as it could have       |
+        | changed                                           |
+        \*-------------------------------------------------*/
         if(client_active && ( protocol_initialized == false || client_string_sent == false || server_initialized == false ) && server_connected == true)
         {
-            /*---------------------------------------------------------*\
-            | Initialize protocol version if it hasn't already been     |
-            | initialized                                               |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Initialize protocol version if it hasn't      |
+            | already been initialized                      |
+            \*---------------------------------------------*/
             if(!protocol_initialized)
             {
-                /*-----------------------------------------------------*\
-                | Request protocol version                              |
-                \*-----------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Request protocol version                  |
+                \*-----------------------------------------*/
                 server_protocol_version_received = false;
 
                 SendRequest_ProtocolVersion();
 
-                /*-----------------------------------------------------*\
-                | Wait up to 1s for protocol version reply              |
-                \*-----------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Wait up to 1s for protocol version reply  |
+                \*-----------------------------------------*/
                 unsigned int timeout_counter = 0;
 
                 while(!server_protocol_version_received)
@@ -1013,11 +1116,12 @@ void NetworkClient::ConnectionThreadFunction()
 
                     timeout_counter++;
 
-                    /*-------------------------------------------------*\
-                    | If no protocol version received within 1s, assume |
-                    | the server doesn't support protocol versioning    |
-                    | and use protocol version 0                        |
-                    \*-------------------------------------------------*/
+                    /*-------------------------------------*\
+                    | If no protocol version received       |
+                    | within 1s, assume the server doesn't  |
+                    | support protocol versioning and use   |
+                    | protocol version 0                    |
+                    \*-------------------------------------*/
                     if(timeout_counter > 200)
                     {
                         server_protocol_version          = 0;
@@ -1025,10 +1129,11 @@ void NetworkClient::ConnectionThreadFunction()
                     }
                 }
 
-                /*-------------------------------------------------------------*\
-                | Limit the protocol version to the highest supported by both   |
-                | the client and the server.                                    |
-                \*-------------------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Limit the protocol version to the highest |
+                | supported by both the client and the      |
+                | server.                                   |
+                \*-----------------------------------------*/
                 if(server_protocol_version > OPENRGB_SDK_PROTOCOL_VERSION)
                 {
                     protocol_version = OPENRGB_SDK_PROTOCOL_VERSION;
@@ -1038,13 +1143,15 @@ void NetworkClient::ConnectionThreadFunction()
                     protocol_version = server_protocol_version;
                 }
 
-                /*-------------------------------------------------------------*\
-                | If the protocol version is less than 6, feature flags were    |
-                | not part of this protocol, initialize the server flags to a   |
-                | default value that represents what that protocol version      |
-                | supported.  Protocol 5 introduced rescan so set the supports  |
-                | detection flag.                                               |
-                \*-------------------------------------------------------------*/
+                /*-----------------------------------------*\
+                | If the protocol version is less than 6,   |
+                | feature flags were not part of this       |
+                | protocol, initialize the server flags to  |
+                | a default value that represents what that |
+                | protocol version supported.  Protocol 5   |
+                | introduced rescan so set the supports     |
+                | detection flag.                           |
+                \*-----------------------------------------*/
                 if(protocol_version < 6)
                 {
                     server_flags = NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER;
@@ -1062,14 +1169,16 @@ void NetworkClient::ConnectionThreadFunction()
                 protocol_initialized = true;
             }
 
-            /*---------------------------------------------------------*\
-            | Send client string if it hasn't already been sent         |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Send client string if it hasn't already been  |
+            | sent                                          |
+            \*---------------------------------------------*/
             if(!client_string_sent)
             {
-                /*-----------------------------------------------------*\
-                | Once server is connected, send client string          |
-                \*-----------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Once server is connected, send client     |
+                | string                                    |
+                \*-----------------------------------------*/
                 SendData_ClientString();
 
                 client_string_sent = true;
@@ -1077,23 +1186,24 @@ void NetworkClient::ConnectionThreadFunction()
 
             if((!client_flags_sent) && (protocol_version >= 6))
             {
-                /*-----------------------------------------------------*\
-                | Once server is connected, send client string          |
-                \*-----------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Once server is connected, send client     |
+                | string                                    |
+                \*-----------------------------------------*/
                 SendData_ClientFlags();
 
                 client_flags_sent = true;
             }
 
-            /*---------------------------------------------------------*\
-            | Initialize the server device list if it hasn't already    |
-            | been initialized                                          |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Initialize the server device list if it       |
+            | hasn't already been initialized               |
+            \*---------------------------------------------*/
             if(!server_initialized)
             {
-                /*-----------------------------------------------------*\
-                | Request the server controller count                   |
-                \*-----------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Request the server controller count       |
+                \*-----------------------------------------*/
                 if(!server_controller_ids_requested)
                 {
                     SendRequest_ControllerIDs();
@@ -1102,18 +1212,20 @@ void NetworkClient::ConnectionThreadFunction()
                 }
                 else
                 {
-                    /*-------------------------------------------------*\
-                    | Wait for the server controller count to be        |
-                    | received                                          |
-                    \*-------------------------------------------------*/
+                    /*-------------------------------------*\
+                    | Wait for the server controller count  |
+                    | to be received                        |
+                    \*-------------------------------------*/
                     if(server_controller_ids_received)
                     {
-                        /*---------------------------------------------*\
-                        | Once count is received, request controllers   |
-                        | When data is received, increment count of     |
-                        | requested controllers until all controllers   |
-                        | have been received                            |
-                        \*---------------------------------------------*/
+                        /*---------------------------------*\
+                        | Once count is received, request   |
+                        | controllers                       |
+                        | When data is received, increment  |
+                        | count of requested controllers    |
+                        | until all controllers have been   |
+                        | received                          |
+                        \*---------------------------------*/
                         if(requested_controller_index < server_controller_ids.size())
                         {
                             if(!controller_data_requested)
@@ -1153,16 +1265,18 @@ void NetworkClient::ConnectionThreadFunction()
                 }
             }
 
-            /*---------------------------------------------------------*\
-            | Wait 1 ms or until the thread is requested to stop        |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Wait 1 ms or until the thread is requested to |
+            | stop                                          |
+            \*---------------------------------------------*/
             connection_cv.wait_for(lock, 1ms);
         }
         else
         {
-            /*---------------------------------------------------------*\
-            | Wait 1 sec or until the thread is requested to stop       |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Wait 1 sec or until the thread is requested   |
+            | to stop                                       |
+            \*---------------------------------------------*/
             connection_cv.wait_for(lock, 1s);
         }
     }
@@ -1172,21 +1286,21 @@ void NetworkClient::ListenThreadFunction()
 {
     LOG_INFO("[%s] Listener thread started", NETWORKCLIENT);
 
-    /*---------------------------------------------------------*\
-    | This thread handles messages received from the server     |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | This thread handles messages received from the server |
+    \*-----------------------------------------------------*/
     while(server_connected == true)
     {
         NetPacketHeader header;
         int             bytes_read  = 0;
-        char *          data        = NULL;
+        unsigned char*  data        = NULL;
         bool            delete_data = true;
 
         for(unsigned int i = 0; i < 4; i++)
         {
-            /*---------------------------------------------------------*\
-            | Read byte of magic                                        |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Read byte of magic                            |
+            \*---------------------------------------------*/
             bytes_read = recv_select(client_sock, &header.pkt_magic[i], 1, 0);
 
             if(bytes_read <= 0)
@@ -1195,9 +1309,9 @@ void NetworkClient::ListenThreadFunction()
                 goto listen_done;
             }
 
-            /*---------------------------------------------------------*\
-            | Test characters of magic "ORGB"                           |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Test characters of magic "ORGB"               |
+            \*---------------------------------------------*/
             if(header.pkt_magic[i] != openrgb_sdk_magic[i])
             {
                 LOG_ERROR("[%s] Invalid magic received, closing listener", NETWORKCLIENT);
@@ -1205,10 +1319,10 @@ void NetworkClient::ListenThreadFunction()
             }
         }
 
-        /*---------------------------------------------------------*\
-        | If we get to this point, the magic is correct.  Read the  |
-        | rest of the header                                        |
-        \*---------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | If we get to this point, the magic is correct.    |
+        | Read the rest of the header                       |
+        \*-------------------------------------------------*/
         bytes_read = 0;
         do
         {
@@ -1225,20 +1339,20 @@ void NetworkClient::ListenThreadFunction()
 
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
 
-        /*---------------------------------------------------------*\
-        | Header received, now receive the data                     |
-        \*---------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Header received, now receive the data             |
+        \*-------------------------------------------------*/
         if(header.pkt_size > 0)
         {
             bytes_read = 0;
 
-            data = new char[header.pkt_size];
+            data = new unsigned char[header.pkt_size];
 
             do
             {
                 int tmp_bytes_read = 0;
 
-                tmp_bytes_read = recv_select(client_sock, &data[(unsigned int)bytes_read], header.pkt_size - bytes_read, 0);
+                tmp_bytes_read = recv_select(client_sock, (char*)&data[(unsigned int)bytes_read], header.pkt_size - bytes_read, 0);
 
                 if(tmp_bytes_read <= 0)
                 {
@@ -1249,10 +1363,10 @@ void NetworkClient::ListenThreadFunction()
             } while ((unsigned int)bytes_read < header.pkt_size);
         }
 
-        /*---------------------------------------------------------*\
-        | Entire request received, select functionality based on    |
-        | request ID                                                |
-        \*---------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Entire request received, select functionality     |
+        | based on request ID                               |
+        \*-------------------------------------------------*/
         switch(header.pkt_id)
         {
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
@@ -1381,163 +1495,165 @@ listen_done:
 /*---------------------------------------------------------*\
 | Private Client functions                                  |
 \*---------------------------------------------------------*/
-void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_id)
+void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, unsigned char* data_ptr, unsigned int dev_id)
 {
-    /*-----------------------------------------------------*\
-    | Verify the controller description size (first 4 bytes |
-    | of data) matches the packet size in the header        |
-    \*-----------------------------------------------------*/
-    if(data_size == *((unsigned int*)data))
+    unsigned int            data_size_pkt;
+    unsigned char*          data_start          = data_ptr;
+    RGBController*          existing_controller = controller_from_id(dev_id);
+    RGBController_Network*  new_controller      = NULL;
+
+    COPY_DATA_FIELD(data_ptr, data_start, data_size_pkt);
+
+    if(data_size != data_size_pkt)
     {
-        data += sizeof(data_size);
-
-        /*-------------------------------------------------*\
-        | Create a new controller from the received data    |
-        \*-------------------------------------------------*/
-        RGBController_Network * new_controller   = new RGBController_Network(this, dev_id);
-
-        RGBController::SetDeviceDescription((unsigned char *)data, data_size, new_controller, GetProtocolVersion());
-
-        /*-------------------------------------------------*\
-        | Mark this controller as remote owned              |
-        \*-------------------------------------------------*/
-        new_controller->flags &= ~CONTROLLER_FLAG_LOCAL;
-        new_controller->flags |= CONTROLLER_FLAG_REMOTE;
-
-        /*-------------------------------------------------*\
-        | If no controller exists with this ID, add it to   |
-        | the list                                          |
-        \*-------------------------------------------------*/
-        RGBController * existing_controller     = controller_from_id(dev_id);
-
-        if(existing_controller == NULL)
-        {
-            UpdateDeviceList(new_controller);
-        }
-
-        /*-------------------------------------------------*\
-        | Otherwise, update the existing controller with    |
-        | the new controller's data                         |
-        \*-------------------------------------------------*/
-        else
-        {
-            existing_controller->active_mode        = new_controller->active_mode;
-            existing_controller->modes.clear();
-            existing_controller->modes              = new_controller->modes;
-            existing_controller->leds.clear();
-            existing_controller->leds               = new_controller->leds;
-            existing_controller->colors.clear();
-            existing_controller->colors             = new_controller->colors;
-            existing_controller->zones.clear();
-            existing_controller->zones              = new_controller->zones;
-            existing_controller->SetupColors();
-
-            delete new_controller;
-        }
-
-        controller_data_received = true;
+        return;
     }
+
+    /*-------------------------------------------------*\
+    | Create a new controller from the received data    |
+    \*-------------------------------------------------*/
+    new_controller = new RGBController_Network(this, dev_id);
+    RGBController::SetDeviceDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), new_controller, GetProtocolVersion());
+
+    /*-------------------------------------------------*\
+    | Mark this controller as remote owned              |
+    \*-------------------------------------------------*/
+    new_controller->flags &= ~CONTROLLER_FLAG_LOCAL;
+    new_controller->flags |= CONTROLLER_FLAG_REMOTE;
+
+    /*-------------------------------------------------*\
+    | If no controller exists with this ID, add it to   |
+    | the list                                          |
+    \*-------------------------------------------------*/
+    if(existing_controller == NULL)
+    {
+        UpdateDeviceList(new_controller);
+    }
+
+    /*-------------------------------------------------*\
+    | Otherwise, update the existing controller with    |
+    | the new controller's data                         |
+    \*-------------------------------------------------*/
+    else
+    {
+        existing_controller->active_mode        = new_controller->active_mode;
+        existing_controller->modes.clear();
+        existing_controller->modes              = new_controller->modes;
+        existing_controller->leds.clear();
+        existing_controller->leds               = new_controller->leds;
+        existing_controller->colors.clear();
+        existing_controller->colors             = new_controller->colors;
+        existing_controller->zones.clear();
+        existing_controller->zones              = new_controller->zones;
+        existing_controller->SetupColors();
+
+        delete new_controller;
+    }
+
+    controller_data_received = true;
+
+    COPY_DATA_ERROR:
+    return;
 }
 
-void NetworkClient::ProcessReply_ControllerIDs(unsigned int data_size, char * data_ptr)
+void NetworkClient::ProcessReply_ControllerIDs(unsigned int data_size, unsigned char* data_ptr)
 {
-    unsigned int controller_count           = 0;
+    unsigned int    controller_count    = 0;
+    unsigned char*  data_start          = data_ptr;
 
     /*-----------------------------------------------------*\
-    | Validate packet size                                  |
+    | Copy out controller count from data                   |
     \*-----------------------------------------------------*/
-    if(data_size >= sizeof(unsigned int))
+    COPY_DATA_FIELD(data_ptr, data_start, controller_count);
+
+    /*-----------------------------------------------------*\
+    | On protocol versions >= 6, the server sends a list of |
+    | unique 32-bit IDs, one per controller.                |
+    \*-----------------------------------------------------*/
+    if(protocol_version >= 6)
     {
         /*-------------------------------------------------*\
-        | Copy out controller count from data               |
+        | Validate protocol >= 6 packet size                |
         \*-------------------------------------------------*/
-        memcpy(&controller_count, data_ptr, sizeof(controller_count));
-        data_ptr += sizeof(controller_count);
-
-        /*-------------------------------------------------*\
-        | On protocol versions >= 6, the server sends a     |
-        | list of unique 32-bit IDs, one per controller.    |
-        \*-------------------------------------------------*/
-        if(protocol_version >= 6)
-        {
-            /*---------------------------------------------*\
-            | Validate protocol >= 6 packet size            |
-            \*---------------------------------------------*/
-            if(data_size == (sizeof(controller_count) + (controller_count * sizeof(unsigned int))))
-            {
-                server_controller_ids.clear();
-                server_controller_ids.resize(controller_count);
-
-                for(unsigned int controller_id_idx = 0; controller_id_idx < controller_count; controller_id_idx++)
-                {
-                    memcpy(&server_controller_ids[controller_id_idx], data_ptr, sizeof(server_controller_ids[controller_id_idx]));
-                    data_ptr += sizeof(server_controller_ids[controller_id_idx]);
-                }
-            }
-            else
-            {
-                server_controller_ids.clear();
-                LOG_INFO("[%s] Received incorrect packet size for controller list, list cleared", NETWORKCLIENT);
-            }
-        }
-        /*-------------------------------------------------*\
-        | On protocol versions < 6, the server only sends   |
-        | the controller count, using the index as the ID.  |
-        \*-------------------------------------------------*/
-        else
+        if(data_size == (sizeof(controller_count) + (controller_count * sizeof(unsigned int))))
         {
             server_controller_ids.clear();
             server_controller_ids.resize(controller_count);
 
             for(unsigned int controller_id_idx = 0; controller_id_idx < controller_count; controller_id_idx++)
             {
-                server_controller_ids[controller_id_idx] = controller_id_idx;
+                COPY_DATA_FIELD(data_ptr, data_start, server_controller_ids[controller_id_idx]);
             }
         }
-
-        /*-------------------------------------------------*\
-        | Update the device list to remove any controllers  |
-        | no longer in the list                             |
-        \*-------------------------------------------------*/
-        UpdateDeviceList(NULL);
-
-        /*-------------------------------------------------*\
-        | Reset the controller data requested index and     |
-        | flag to begin the controller request cycle        |
-        \*-------------------------------------------------*/
-        server_controller_ids_received      = true;
-        requested_controller_index          = 0;
-        controller_data_requested           = false;
+        else
+        {
+            server_controller_ids.clear();
+            LOG_INFO("[%s] Received incorrect packet size for controller list, list cleared", NETWORKCLIENT);
+        }
     }
+    /*-------------------------------------------------*\
+    | On protocol versions < 6, the server only sends   |
+    | the controller count, using the index as the ID.  |
+    \*-------------------------------------------------*/
+    else
+    {
+        server_controller_ids.clear();
+        server_controller_ids.resize(controller_count);
+
+        for(unsigned int controller_id_idx = 0; controller_id_idx < controller_count; controller_id_idx++)
+        {
+            server_controller_ids[controller_id_idx] = controller_id_idx;
+        }
+    }
+
+    /*-------------------------------------------------*\
+    | Update the device list to remove any controllers  |
+    | no longer in the list                             |
+    \*-------------------------------------------------*/
+    UpdateDeviceList(NULL);
+
+    /*-------------------------------------------------*\
+    | Reset the controller data requested index and     |
+    | flag to begin the controller request cycle        |
+    \*-------------------------------------------------*/
+    server_controller_ids_received      = true;
+    requested_controller_index          = 0;
+    controller_data_requested           = false;
+
+    COPY_DATA_ERROR:
+    return;
 }
 
-void NetworkClient::ProcessReply_ProtocolVersion(unsigned int data_size, char * data)
+void NetworkClient::ProcessReply_ProtocolVersion(unsigned int data_size, unsigned char* data_ptr)
 {
     if(data_size == sizeof(unsigned int))
     {
-        memcpy(&server_protocol_version, data, sizeof(unsigned int));
+        memcpy(&server_protocol_version, data_ptr, sizeof(unsigned int));
         server_protocol_version_received = true;
     }
 }
 
-void NetworkClient::ProcessRequest_DetectionProgressChanged(unsigned int data_size, char * data)
+void NetworkClient::ProcessRequest_DetectionProgressChanged(unsigned int data_size, unsigned char* data_ptr)
 {
-    if(data_size == *((unsigned int*) data))
+    unsigned int    data_size_pkt;
+    unsigned char*  data_start      = data_ptr;
+    unsigned short  string_length;
+
+    COPY_DATA_FIELD(data_ptr, data_start, data_size_pkt);
+
+    if(data_size != data_size_pkt)
     {
-        data += sizeof(data_size);
-
-        memcpy(&detection_percent, data, sizeof(detection_percent));
-        data += sizeof(detection_percent);
-
-        unsigned short string_length;
-        memcpy(&string_length, data, sizeof(string_length));
-        data += sizeof(string_length);
-
-        detection_string.assign(data, string_length);
-        detection_string = StringUtils::remove_null_terminating_chars(detection_string);
-
-        SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+        return;
     }
+
+    COPY_DATA_FIELD(data_ptr, data_start, detection_percent);
+    COPY_DATA_FIELD(data_ptr, data_start, string_length);
+    COPY_STRING_FIELD(data_ptr, data_start, string_length, detection_string);
+
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+
+    COPY_DATA_ERROR:
+    return;
 }
 
 void NetworkClient::ProcessRequest_DeviceListChanged()
@@ -1567,49 +1683,47 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
     server_initialized                  = false;
 }
 
-void NetworkClient::ProcessRequest_LogManager_LoggedEntry(unsigned int data_size, char * data)
+void NetworkClient::ProcessRequest_LogManager_LoggedEntry(unsigned int data_size, unsigned char* data_ptr)
 {
-    PLogMessage message = std::make_shared<LogMessage>();
+    unsigned char*  data_start      = data_ptr;
+    unsigned int    data_size_pkt;
+    unsigned short  filename_size;
+    PLogMessage     message         = std::make_shared<LogMessage>();
+    unsigned short  text_size;
 
-    data += sizeof(unsigned int);
+    COPY_DATA_FIELD(data_ptr, data_start, data_size_pkt);
 
-    memcpy(&message->level, data, sizeof(message->level));
-    data += sizeof(message->level);
+    if(data_size != data_size_pkt)
+    {
+        return;
+    }
 
-    memcpy(&message->line, data, sizeof(message->line));
-    data += sizeof(message->line);
-
-    memcpy(&message->timestamp, data, sizeof(message->timestamp));
-    data += sizeof(message->timestamp);
-
-    unsigned short filename_size;
-    memcpy(&filename_size, data, sizeof(filename_size));
-    data += sizeof(filename_size);
-
-    message->filename.assign(data, filename_size);
-    data += filename_size;
-    message->filename = StringUtils::remove_null_terminating_chars(message->filename);
-
-    unsigned short text_size;
-    memcpy(&text_size, data, sizeof(text_size));
-    data += sizeof(text_size);
-
-    message->text.assign(data, text_size);
-    data += text_size;
-    message->text = StringUtils::remove_null_terminating_chars(message->text);
+    COPY_DATA_FIELD(data_ptr, data_start, message->level);
+    COPY_DATA_FIELD(data_ptr, data_start, message->line);
+    COPY_DATA_FIELD(data_ptr, data_start, message->timestamp);
+    COPY_DATA_FIELD(data_ptr, data_start, filename_size);
+    COPY_STRING_FIELD(data_ptr, data_start, filename_size, message->filename);
+    COPY_DATA_FIELD(data_ptr, data_start, text_size);
+    COPY_STRING_FIELD(data_ptr, data_start, text_size, message->text);
 
     LogManager::get()->LogEntry_message(message);
+
+    COPY_DATA_ERROR:
+    return;
 }
 
-void NetworkClient::ProcessRequest_ProfileManager_ActiveProfileChanged(unsigned int data_size, char * data)
+void NetworkClient::ProcessRequest_ProfileManager_ActiveProfileChanged(unsigned int data_size, unsigned char* data_ptr)
 {
-    if(data_size == 0 || data == NULL)
+    /*-----------------------------------------------------*\
+    | Validate inputs                                       |
+    \*-----------------------------------------------------*/
+    if((data_size == 0) || (data_ptr == NULL))
     {
         return;
     }
 
     std::string profile_name;
-    profile_name.assign(data, data_size);
+    profile_name.assign((char*)data_ptr, data_size);
     profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
     ResourceManager::get()->GetProfileManager()->SetActiveProfile(profile_name);
@@ -1628,29 +1742,32 @@ void NetworkClient::ProcessRequest_ProfileManager_ProfileAboutToLoad()
     send_in_progress.unlock();
 }
 
-void NetworkClient::ProcessRequest_ProfileManager_ProfileListUpdated(unsigned int data_size, char * data)
+void NetworkClient::ProcessRequest_ProfileManager_ProfileListUpdated(unsigned int data_size, unsigned char* data_ptr)
 {
-    ResourceManager::get()->GetProfileManager()->SetProfileListFromDescription(data_size, data);
+    ResourceManager::get()->GetProfileManager()->SetProfileListFromDescription(data_size, (char*)data_ptr);
 }
 
-void NetworkClient::ProcessRequest_ProfileManager_ProfileLoaded(unsigned int data_size, char * data)
+void NetworkClient::ProcessRequest_ProfileManager_ProfileLoaded(unsigned int data_size, unsigned char* data_ptr)
 {
-    if(data_size == 0 || data == NULL)
+    /*-----------------------------------------------------*\
+    | Validate inputs                                       |
+    \*-----------------------------------------------------*/
+    if((data_size == 0) || (data_ptr == NULL))
     {
         return;
     }
 
     std::string profile_json_str;
-    profile_json_str.assign(data, data_size);
+    profile_json_str.assign((char*)data_ptr, data_size);
     profile_json_str = StringUtils::remove_null_terminating_chars(profile_json_str);
 
     ResourceManager::get()->GetProfileManager()->OnProfileLoaded(profile_json_str);
 }
 
-void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, char * data, unsigned int dev_id)
+void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, unsigned char* data_ptr, unsigned int dev_id)
 {
-    RGBController * controller;
-    unsigned int    pkt_data_size;
+    RGBController*  controller;
+    unsigned int    data_size_pkt;
     unsigned int    update_reason;
 
     /*-----------------------------------------------------*\
@@ -1667,15 +1784,14 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
     /*-----------------------------------------------------*\
     | Create data buffer                                    |
     \*-----------------------------------------------------*/
-    char * data_ptr                     = data;
+    unsigned char*  data_start                    = data_ptr;
 
     /*-----------------------------------------------------*\
     | Copy in data size                                     |
     \*-----------------------------------------------------*/
-    memcpy(&pkt_data_size, data_ptr, sizeof(pkt_data_size));
-    data_ptr += sizeof(pkt_data_size);
+    COPY_DATA_FIELD(data_ptr, data_start, data_size_pkt);
 
-    if(pkt_data_size != data_size)
+    if(data_size != data_size_pkt)
     {
         return;
     }
@@ -1683,8 +1799,7 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
     /*-----------------------------------------------------*\
     | Copy in update reason                                 |
     \*-----------------------------------------------------*/
-    memcpy(&update_reason, data_ptr, sizeof(update_reason));
-    data_ptr += sizeof(update_reason);
+    COPY_DATA_FIELD(data_ptr, data_start, update_reason);
 
     /*-----------------------------------------------------*\
     | Process received data according to update reason      |
@@ -1695,7 +1810,7 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
         | UpdateLEDs() sends color description              |
         \*-------------------------------------------------*/
         case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:
-            RGBController::SetColorDescription((unsigned char *)data_ptr, data_size, controller, GetProtocolVersion());
+            RGBController::SetColorDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), controller, GetProtocolVersion());
             break;
 
         /*-------------------------------------------------*\
@@ -1712,21 +1827,40 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
         case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICCONFIGURATION:
         case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICZONECONFIGURATION:
         default:
-            RGBController::SetDeviceDescription((unsigned char *)data_ptr, data_size, controller, GetProtocolVersion());
+<<<<<<< Updated upstream
+            RGBController::SetDeviceDescription(data_ptr, data_size - (data_ptr - data_start), controller, GetProtocolVersion());
+=======
+            RGBController::SetDeviceDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), controller, GetProtocolVersion());
+
+            /*---------------------------------------------*\
+            | Mark this controller as remote owned          |
+            \*---------------------------------------------*/
+            controller->flags &= ~CONTROLLER_FLAG_LOCAL;
+            controller->flags |= CONTROLLER_FLAG_REMOTE;
+>>>>>>> Stashed changes
             break;
     }
 
     controller->SignalUpdate(update_reason);
+
+    COPY_DATA_ERROR:
+    return;
 }
 
-void NetworkClient::ProcessRequest_ServerFlags(unsigned int data_size, char * data)
+void NetworkClient::ProcessRequest_ServerFlags(unsigned int data_size, unsigned char* data_ptr)
 {
-    if(data == NULL || data_size < sizeof(unsigned int))
+    /*-----------------------------------------------------*\
+    | Validate inputs                                       |
+    \*-----------------------------------------------------*/
+    if((data_size < sizeof(unsigned int)) || (data_ptr == NULL))
     {
         return;
     }
 
-    server_flags = *(unsigned int *)data;
+    /*-----------------------------------------------------*\
+    | Store received server flags                           |
+    \*-----------------------------------------------------*/
+    server_flags = *(unsigned int *)data_ptr;
 
     /*-----------------------------------------------------*\
     | Update the local client status based on the server's  |
@@ -1744,14 +1878,17 @@ void NetworkClient::ProcessRequest_ServerFlags(unsigned int data_size, char * da
     server_flags_initialized = true;
 }
 
-void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, char * data)
+void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, unsigned char* data_ptr)
 {
-    if(data == NULL)
+    /*-----------------------------------------------------*\
+    | Validate inputs                                       |
+    \*-----------------------------------------------------*/
+    if((data_size == 0) || (data_ptr == NULL))
     {
         return;
     }
 
-    server_name.assign(data, data_size);
+    server_name.assign((char*)data_ptr, data_size);
     server_name = StringUtils::remove_null_terminating_chars(server_name);
 
     /*-----------------------------------------------------*\
@@ -1891,44 +2028,35 @@ void NetworkClient::UpdateDeviceList(RGBController* new_controller)
 /*---------------------------------------------------------*\
 | Private ProfileManager functions                          |
 \*---------------------------------------------------------*/
-std::vector<std::string> * NetworkClient::ProcessReply_ProfileList(unsigned int data_size, char * data)
+std::vector<std::string>* NetworkClient::ProcessReply_ProfileList(unsigned int data_size, unsigned char* data_ptr)
 {
-    std::vector<std::string> * profile_list;
+    unsigned int                data_size_pkt;
+    unsigned char*              data_start      = data_ptr;
+    unsigned short              num_profiles;
+    std::vector<std::string>*   profile_list    = new std::vector<std::string>;
 
-    if(data_size > 0)
+    COPY_DATA_FIELD(data_ptr, data_start, data_size_pkt);
+
+    if(data_size != data_size_pkt)
     {
-        profile_list = new std::vector<std::string>(data_size);
-
-        /*---------------------------------------------------------*\
-        | Skip 4 first bytes (data length, unused)                  |
-        \*---------------------------------------------------------*/
-        unsigned short data_ptr = sizeof(unsigned short);
-        unsigned short num_profile;
-
-        memcpy(&num_profile, data, sizeof(unsigned short));
-        data_ptr += sizeof(unsigned short);
-
-        for(int i = 0; i < num_profile; i++)
-        {
-            unsigned short name_len;
-
-            memcpy(&name_len, data, sizeof(unsigned short));
-            data_ptr += sizeof(unsigned short);
-
-            std::string profile_name(data, name_len);
-            profile_list->push_back(profile_name);
-
-            data_ptr += name_len;
-        }
-
-        server_controller_ids_received = true;
-    }
-    else
-    {
-        profile_list = new std::vector<std::string>(0);
+        return(profile_list);
     }
 
-    return profile_list;
+    COPY_DATA_FIELD(data_ptr, data_start, num_profiles);
+
+    for(unsigned short profile_idx = 0; profile_idx < num_profiles; profile_idx++)
+    {
+        std::string             profile_name;
+        unsigned short          profile_name_len;
+
+        COPY_DATA_FIELD(data_ptr, data_start, profile_name_len);
+        COPY_STRING_FIELD(data_ptr, data_start, profile_name_len, profile_name);
+
+        profile_list->push_back(profile_name);
+    }
+
+    COPY_DATA_ERROR:
+    return(profile_list);
 }
 
 /*---------------------------------------------------------*\
