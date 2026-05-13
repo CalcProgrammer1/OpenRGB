@@ -187,49 +187,20 @@ static const char *led_names[] =
 \*---------------------------------------------------------*/
 RGBController_XPGSummoner::RGBController_XPGSummoner(XPGSummonerController *controller_ptr)
 {
-    controller   = controller_ptr;
-    name         = controller->GetNameString();
-    vendor       = "XPG";
-    description  = "XPG Summoner Keyboard Device";
-    location     = controller->GetLocationString();
-    serial       = controller->GetSerialString();
-    type         = DEVICE_TYPE_KEYBOARD;
+    controller          = controller_ptr;
+    name                = controller->GetNameString();
+    vendor              = "XPG";
+    description         = "XPG Summoner Keyboard Device";
+    location            = controller->GetLocationString();
+    serial              = controller->GetSerialString();
+    type                = DEVICE_TYPE_KEYBOARD;
 
     mode Direct;
-    Direct.name        = "Direct";
-    Direct.value       = XPG_SUMMONER_MODE_DIRECT;
-    Direct.flags       = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode  = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = XPG_SUMMONER_MODE_DIRECT;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
-
-    mode Static;
-    Static.name           = "Static";
-    Static.value          = XPG_SUMMONER_MODE_STATIC;
-    Static.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Static.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Static.colors_min     = 1;
-    Static.colors_max     = 1;
-    Static.brightness_min = 5;
-    Static.brightness_max = 64;
-    Static.colors.resize(1);
-    modes.push_back(Static);
-
-    mode Stars;
-    Stars.name         = "Stars";
-    Stars.value        = XPG_SUMMONER_MODE_STARS;
-    Stars.flags        = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Stars.colors_min   = 1;
-    Stars.colors_max   = 1;
-    Stars.color_mode   = MODE_COLORS_MODE_SPECIFIC;
-    Stars.colors.resize(1);
-    modes.push_back(Stars);
-
-    mode Off;
-    Off.name           = "Off";
-    Off.value          = XPG_SUMMONER_MODE_OFF;
-    Off.flags          = 0;
-    Off.color_mode     = MODE_COLORS_NONE;
-    modes.push_back(Off);
 
     SetupZones();
 }
@@ -321,7 +292,9 @@ void RGBController_XPGSummoner::DeviceUpdateLEDs()
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
         if(leds[led_idx].value == NA)
+        {
             continue;
+        }
         if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
         {
             std::size_t real_idx          = leds[led_idx].value;
@@ -329,76 +302,6 @@ void RGBController_XPGSummoner::DeviceUpdateLEDs()
             frame_buf[(real_idx * 4) + 1] = RGBGetRValue(colors[led_idx]);
             frame_buf[(real_idx * 4) + 2] = RGBGetGValue(colors[led_idx]);
             frame_buf[(real_idx * 4) + 3] = RGBGetBValue(colors[led_idx]);
-        }
-        else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC && modes[active_mode].value == XPG_SUMMONER_MODE_STATIC)
-        {
-            std::size_t real_idx          = leds[led_idx].value;
-            frame_buf[(real_idx * 4) + 0] = modes[active_mode].brightness;
-            frame_buf[(real_idx * 4) + 1] = RGBGetRValue(modes[active_mode].colors[0]);
-            frame_buf[(real_idx * 4) + 2] = RGBGetGValue(modes[active_mode].colors[0]);
-            frame_buf[(real_idx * 4) + 3] = RGBGetBValue(modes[active_mode].colors[0]);
-        }
-        else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC && modes[active_mode].value == XPG_SUMMONER_MODE_STARS)
-        {
-            for(std::size_t i = 0; i < leds.size(); ++i)
-            {
-                std::size_t real_idx          = leds[i].value;
-                frame_buf[(real_idx * 4) + 0] = 0;
-                frame_buf[(real_idx * 4) + 1] = 0;
-                frame_buf[(real_idx * 4) + 2] = 0;
-                frame_buf[(real_idx * 4) + 3] = 0;
-            }
-            controller->SendColors(frame_buf, sizeof(frame_buf));
-
-            /*---------------------------------------------------*\
-            | Select a random central LED in the physical matrix  |
-            \*---------------------------------------------------*/
-            int rows                = 6;
-            int cols                = 21;
-            int center_row          = rand() % rows;
-            int center_col          = rand() % cols;
-            unsigned int center_led = matrix_map[center_row][center_col];
-
-            if(center_led != NA)
-            {
-                frame_buf[(center_led * 4) + 0] = brightness;
-                frame_buf[(center_led * 4) + 1] = RGBGetRValue(modes[active_mode].colors[0]);
-                frame_buf[(center_led * 4) + 2] = RGBGetGValue(modes[active_mode].colors[0]);
-                frame_buf[(center_led * 4) + 3] = RGBGetBValue(modes[active_mode].colors[0]);
-            }
-
-            /*---------------------------------------------------*\
-            | Neighbors (fade effect)                             |
-            \*---------------------------------------------------*/
-            unsigned char fade_brightness = 0x32;
-            int neighbor_offsets[4][2]    = { {0, -1}, {0, +1}, {-1, 0}, {+1, 0} };
-
-            for(int k = 0; k < 4; ++k)
-            {
-                int n_row = center_row + neighbor_offsets[k][0];
-                int n_col = center_col + neighbor_offsets[k][1];
-                if(n_row >= 0 && n_row < rows && n_col >= 0 && n_col < cols)
-                {
-                    unsigned int neighbor_led = matrix_map[n_row][n_col];
-                    if(neighbor_led != NA)
-                    {
-                        frame_buf[(neighbor_led * 4) + 0] = fade_brightness;
-                        frame_buf[(neighbor_led * 4) + 1] = RGBGetRValue(modes[active_mode].colors[0]);
-                        frame_buf[(neighbor_led * 4) + 2] = RGBGetGValue(modes[active_mode].colors[0]);
-                        frame_buf[(neighbor_led * 4) + 3] = RGBGetBValue(modes[active_mode].colors[0]);
-                    }
-                }
-            }
-            controller->SendColors(frame_buf, sizeof(frame_buf));
-            std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        }
-        else if(modes[active_mode].color_mode == MODE_COLORS_NONE)
-        {
-            std::size_t real_idx          = leds[led_idx].value;
-            frame_buf[(real_idx * 4) + 0] = 0;
-            frame_buf[(real_idx * 4) + 1] = 0;
-            frame_buf[(real_idx * 4) + 2] = 0;
-            frame_buf[(real_idx * 4) + 3] = 0;
         }
     }
     controller->SendColors(frame_buf, sizeof(frame_buf));

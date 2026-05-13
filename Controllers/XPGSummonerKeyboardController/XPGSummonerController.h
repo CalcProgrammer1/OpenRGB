@@ -27,10 +27,7 @@
 
 enum
 {
-    XPG_SUMMONER_MODE_OFF           =    0x00,
-    XPG_SUMMONER_MODE_DIRECT        =    0x01,
-    XPG_SUMMONER_MODE_STATIC        =    0x02,
-    XPG_SUMMONER_MODE_STARS         =    0x03
+    XPG_SUMMONER_MODE_DIRECT        =    0x01
 };
 
 class XPGSummonerController
