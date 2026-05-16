@@ -321,9 +321,14 @@ ProfileManager* ResourceManager::GetProfileManager()
     return(profile_manager);
 }
 
-std::vector<RGBController*> & ResourceManager::GetRGBControllers()
+std::vector<RGBController*>& ResourceManager::GetRGBControllers()
 {
-    return rgb_controllers;
+    return(rgb_controllers);
+}
+
+std::vector<RGBControllerInterface*>& ResourceManager::GetRGBControllerInterfaces()
+{
+    return(rgb_controller_interfaces);
 }
 
 NetworkServer* ResourceManager::GetServer()
@@ -546,6 +551,7 @@ void ResourceManager::UpdateDeviceList()
     | Clear the controller list                             |
     \*-----------------------------------------------------*/
     rgb_controllers.clear();
+    rgb_controller_interfaces.clear();
 
     /*-----------------------------------------------------*\
     | Insert hardware controllers into controller list      |
@@ -604,6 +610,16 @@ void ResourceManager::UpdateDeviceList()
         {
             server->SetControllers(rgb_controllers_hw);
         }
+    }
+
+    /*-----------------------------------------------------*\
+    | Synchronize interfaces with controllers               |
+    \*-----------------------------------------------------*/
+    rgb_controller_interfaces.reserve(rgb_controllers.size());
+
+    for(RGBController* rgb_controller : rgb_controllers)
+    {
+        rgb_controller_interfaces.push_back((RGBControllerInterface*)rgb_controller);
     }
 
     /*-----------------------------------------------------*\
