@@ -11,7 +11,7 @@
 
 #include "BaseManualDeviceEntry.h"
 #include "ManualDevicesTypeManager.h"
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 #include <QWidget>
 #include <QMenu>
 #include <QListWidgetItem>

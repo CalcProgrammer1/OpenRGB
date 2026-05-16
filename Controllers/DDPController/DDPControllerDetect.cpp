@@ -9,7 +9,7 @@
 
 #include <string>
 #include <vector>
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 #include "DetectionManager.h"
 #include "LogManager.h"
 #include "ResourceManager.h"

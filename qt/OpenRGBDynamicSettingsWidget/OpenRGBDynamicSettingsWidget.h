@@ -14,7 +14,7 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QWidget>
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 
 /*---------------------------------------------------------*\
 | Callback Type                                             |
