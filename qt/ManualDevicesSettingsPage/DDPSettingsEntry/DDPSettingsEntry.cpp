@@ -10,7 +10,7 @@
 #include "DDPSettingsEntry.h"
 #include "ui_DDPSettingsEntry.h"
 #include "ManualDevicesTypeManager.h"
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
