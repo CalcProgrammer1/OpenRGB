@@ -17,12 +17,14 @@
 #include <QDir>
 #include "OpenRGBPluginInterface.h"
 #include "PluginManagerInterface.h"
+#include "RGBController.h"
 
 struct OpenRGBPluginEntry
 {
     OpenRGBPluginInfo           info;
     OpenRGBPluginInterface*     plugin;
     OpenRGBPluginAPIInterface*  api;
+    QString                     id;
     QPluginLoader*              loader;
     QWidget*                    widget;
     QMenu*                      traymenu;

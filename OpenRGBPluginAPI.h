@@ -26,50 +26,53 @@ public:
     /*-----------------------------------------------------*\
     | LogManager APIs                                       |
     \*-----------------------------------------------------*/
-    void                            LogEntry(const char* filename, int line, unsigned int level, const char* fmt, ...);
+    void                                    LogEntry(const char* filename, int line, unsigned int level, const char* fmt, ...);
 
     /*-----------------------------------------------------*\
     | PluginManager APIs                                    |
     \*-----------------------------------------------------*/
-    void                            RegisterRGBController(RGBController * rgb_controller);
-    void                            RegisterRGBControllerInThread(RGBController * rgb_controller);
-    void                            UnregisterRGBController(RGBController * rgb_controller);
-    void                            UnregisterRGBControllerInThread(RGBController * rgb_controller);
+    RGBControllerInterface*                 CreateVirtualRGBController(RGBController_Setup* setup);
+    void                                    DeleteVirtualRGBController(RGBControllerInterface* rgb_controller);
+    void                                    RegisterVirtualRGBController(RGBControllerInterface* rgb_controller);
+    void                                    RegisterVirtualRGBControllerInThread(RGBControllerInterface* rgb_controller);
+    void                                    UnregisterVirtualRGBController(RGBControllerInterface* rgb_controller);
+    void                                    UpdateVirtualRGBController(RGBControllerInterface* rgb_controller, RGBController_Setup* setup);
+    void                                    UnregisterVirtualRGBControllerInThread(RGBControllerInterface* rgb_controller);
 
     /*-----------------------------------------------------*\
     | ProfileManager APIs                                   |
     \*-----------------------------------------------------*/
-    void                            ClearActiveProfile();
-    std::vector<std::string>        GetProfileList();
-    bool                            LoadProfile(std::string profile_name);
+    void                                    ClearActiveProfile();
+    std::vector<std::string>                GetProfileList();
+    bool                                    LoadProfile(std::string profile_name);
 
     /*-----------------------------------------------------*\
     | ResourceManager APIs                                  |
     \*-----------------------------------------------------*/
-    filesystem::path                GetConfigurationDirectory();
-    bool                            GetDetectionEnabled();
-    unsigned int                    GetDetectionPercent();
-    std::string                     GetDetectionString();
-    void                            RescanDevices();
-    void                            WaitForDetection();
-    std::vector<RGBController*> &   GetRGBControllers();
+    filesystem::path                        GetConfigurationDirectory();
+    bool                                    GetDetectionEnabled();
+    unsigned int                            GetDetectionPercent();
+    std::string                             GetDetectionString();
+    void                                    RescanDevices();
+    void                                    WaitForDetection();
+    std::vector<RGBControllerInterface*>    GetRGBControllers();
 
     /*-----------------------------------------------------*\
     | SettingsManager APIs                                  |
     \*-----------------------------------------------------*/
-    nlohmann::json                  GetSettings(std::string settings_key);
-    void                            SaveSettings();
-    void                            SetSettings(std::string settings_key, nlohmann::json new_settings);
+    nlohmann::json                          GetSettings(std::string settings_key);
+    void                                    SaveSettings();
+    void                                    SetSettings(std::string settings_key, nlohmann::json new_settings);
 
     /*-----------------------------------------------------*\
     | RGBControllers registered by plugin                   |
     \*-----------------------------------------------------*/
-    std::vector<RGBController*>     rgb_controllers;
+    std::vector<RGBController*>             rgb_controllers;
 
 private:
-    LogManager *                    log_manager;
-    PluginManagerInterface *        plugin_manager;
-    ProfileManager *                profile_manager;
-    ResourceManager *               resource_manager;
-    SettingsManager *               settings_manager;
+    LogManager *                            log_manager;
+    PluginManagerInterface *                plugin_manager;
+    ProfileManager *                        profile_manager;
+    ResourceManager *                       resource_manager;
+    SettingsManager *                       settings_manager;
 };
