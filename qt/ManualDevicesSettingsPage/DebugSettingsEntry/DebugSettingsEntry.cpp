@@ -12,7 +12,7 @@
 #include "DebugSettingsEntry.h"
 #include "ui_DebugSettingsEntry.h"
 #include "ManualDevicesTypeManager.h"
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 

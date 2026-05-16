@@ -472,7 +472,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         /*---------------------------------------------------------*\
         | Print device type                                         |
         \*---------------------------------------------------------*/
-            std::cout << "  Type:           " << device_type_to_str(controller->GetDeviceType()) << std::endl;
+            std::cout << "  Type:           " << RGBController::DeviceTypeToString(controller->GetDeviceType()) << std::endl;
 
         /*---------------------------------------------------------*\
         | Print device description                                  |

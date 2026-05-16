@@ -12,7 +12,7 @@
 #pragma once
 
 #include <QDialog>
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 
 namespace Ui
 {

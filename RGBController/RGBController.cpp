@@ -10,8 +10,6 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include <cstring>
-#include "nlohmann/json.hpp"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "StringUtils.h"
@@ -69,104 +67,6 @@
     }                                                                               \
 
 using namespace std::chrono_literals;
-
-matrix_map_type::matrix_map_type()
-{
-    Reset();
-}
-
-matrix_map_type::matrix_map_type(unsigned int height, unsigned int width, unsigned int * map)
-{
-    Set(height, width, map);
-}
-
-matrix_map_type::~matrix_map_type()
-{
-}
-
-void matrix_map_type::Reset()
-{
-    Set(0, 0, NULL);
-}
-
-void matrix_map_type::Set(unsigned int height, unsigned int width, unsigned int * map)
-{
-    this->height        = height;
-    this->width         = width;
-    this->map.resize(height * width);
-
-    if(map != NULL)
-    {
-        memcpy(this->map.data(), map, (height * width * sizeof(unsigned int)));
-    }
-    else
-    {
-        memset(this->map.data(), 0, (height * width * sizeof(unsigned int)));
-    }
-}
-
-mode::mode()
-{
-    /*-----------------------------------------------------*\
-    | Initialize mode variables                             |
-    \*-----------------------------------------------------*/
-    name           = "";
-    value          = 0;
-    flags          = 0;
-    speed_min      = 0;
-    speed_max      = 0;
-    brightness_min = 0;
-    brightness_max = 0;
-    colors_min     = 0;
-    colors_max     = 0;
-    speed          = 0;
-    brightness     = 0;
-    direction      = 0;
-    color_mode     = 0;
-}
-
-mode::~mode()
-{
-    colors.clear();
-}
-
-segment::segment()
-{
-    /*-----------------------------------------------------*\
-    | Initialize zone variables                             |
-    \*-----------------------------------------------------*/
-    name        = "";
-    type        = 0;
-    start_idx   = 0;
-    leds_count  = 0;
-    flags       = 0;
-}
-
-segment::~segment()
-{
-}
-
-zone::zone()
-{
-    /*-----------------------------------------------------*\
-    | Initialize zone variables                             |
-    \*-----------------------------------------------------*/
-    name        = "";
-    type        = 0;
-    leds        = NULL;
-    colors      = NULL;
-    start_idx   = 0;
-    leds_count  = 0;
-    leds_min    = 0;
-    leds_max    = 0;
-    flags       = 0;
-    active_mode = -1;
-}
-
-zone::~zone()
-{
-    segments.clear();
-}
 
 RGBController::RGBController()
 {
@@ -4387,56 +4287,53 @@ zone RGBController::SetZoneDescriptionJSON(nlohmann::json zone_json)
     return(new_zone);
 }
 
-/*---------------------------------------------------------*\
-| Non-class functions                                       |
-\*---------------------------------------------------------*/
-std::string device_type_to_str(device_type type)
+std::string RGBController::DeviceTypeToString(device_type type)
 {
     switch(type)
     {
-    case DEVICE_TYPE_MOTHERBOARD:
-        return "Motherboard";
-    case DEVICE_TYPE_DRAM:
-        return "DRAM";
-    case DEVICE_TYPE_GPU:
-        return "GPU";
-    case DEVICE_TYPE_COOLER:
-        return "Cooler";
-    case DEVICE_TYPE_LEDSTRIP:
-        return "LED Strip";
-    case DEVICE_TYPE_KEYBOARD:
-        return "Keyboard";
-    case DEVICE_TYPE_MOUSE:
-        return "Mouse";
-    case DEVICE_TYPE_MOUSEMAT:
-        return "Mousemat";
-    case DEVICE_TYPE_HEADSET:
-        return "Headset";
-    case DEVICE_TYPE_HEADSET_STAND:
-        return "Headset Stand";
-    case DEVICE_TYPE_GAMEPAD:
-        return "Gamepad";
-    case DEVICE_TYPE_LIGHT:
-        return "Light";
-    case DEVICE_TYPE_SPEAKER:
-        return "Speaker";
-    case DEVICE_TYPE_VIRTUAL:
-        return "Virtual";
-    case DEVICE_TYPE_STORAGE:
-        return "Storage";
-    case DEVICE_TYPE_CASE:
-        return "Case";
-    case DEVICE_TYPE_MICROPHONE:
-        return "Microphone";
-    case DEVICE_TYPE_ACCESSORY:
-        return "Accessory";
-    case DEVICE_TYPE_KEYPAD:
-        return "Keypad";
-    case DEVICE_TYPE_LAPTOP:
-        return "Laptop";
-    case DEVICE_TYPE_MONITOR:
-        return "Monitor";
-    default:
-        return "Unknown";
+        case DEVICE_TYPE_MOTHERBOARD:
+            return "Motherboard";
+        case DEVICE_TYPE_DRAM:
+            return "DRAM";
+        case DEVICE_TYPE_GPU:
+            return "GPU";
+        case DEVICE_TYPE_COOLER:
+            return "Cooler";
+        case DEVICE_TYPE_LEDSTRIP:
+            return "LED Strip";
+        case DEVICE_TYPE_KEYBOARD:
+            return "Keyboard";
+        case DEVICE_TYPE_MOUSE:
+            return "Mouse";
+        case DEVICE_TYPE_MOUSEMAT:
+            return "Mousemat";
+        case DEVICE_TYPE_HEADSET:
+            return "Headset";
+        case DEVICE_TYPE_HEADSET_STAND:
+            return "Headset Stand";
+        case DEVICE_TYPE_GAMEPAD:
+            return "Gamepad";
+        case DEVICE_TYPE_LIGHT:
+            return "Light";
+        case DEVICE_TYPE_SPEAKER:
+            return "Speaker";
+        case DEVICE_TYPE_VIRTUAL:
+            return "Virtual";
+        case DEVICE_TYPE_STORAGE:
+            return "Storage";
+        case DEVICE_TYPE_CASE:
+            return "Case";
+        case DEVICE_TYPE_MICROPHONE:
+            return "Microphone";
+        case DEVICE_TYPE_ACCESSORY:
+            return "Accessory";
+        case DEVICE_TYPE_KEYPAD:
+            return "Keypad";
+        case DEVICE_TYPE_LAPTOP:
+            return "Laptop";
+        case DEVICE_TYPE_MONITOR:
+            return "Monitor";
+        default:
+            return "Unknown";
     }
 }

@@ -23,7 +23,7 @@
 #include "DetectionManager.h"
 #include "hidapi_wrapper.h"
 #include "i2c_smbus.h"
-#include "ResourceManagerInterface.h"
+#include "ResourceManagerCallback.h"
 #include "filesystem.h"
 
 using json = nlohmann::json;
@@ -36,7 +36,7 @@ class ProfileManager;
 class RGBController;
 class SettingsManager;
 
-class ResourceManager: public ResourceManagerInterface
+class ResourceManager
 {
 public:
     ResourceManager();
@@ -60,6 +60,7 @@ public:
     PluginManagerInterface*             GetPluginManager();
     ProfileManager*                     GetProfileManager();
     std::vector<RGBController*>&        GetRGBControllers();
+    std::vector<RGBControllerInterface*>&   GetRGBControllerInterfaces();
     NetworkServer*                      GetServer();
     SettingsManager*                    GetSettingsManager();
 
@@ -172,6 +173,7 @@ private:
     \*-----------------------------------------------------*/
     std::vector<RGBController*>                 rgb_controllers;
     std::vector<RGBController*>                 rgb_controllers_hw;
+    std::vector<RGBControllerInterface*>        rgb_controller_interfaces;
 
     /*-----------------------------------------------------*\
     | Network Server                                        |
