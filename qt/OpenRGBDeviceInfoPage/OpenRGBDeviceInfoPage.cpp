@@ -18,7 +18,7 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
 
     ui->setupUi(this);
 
-    ui->TypeValue->setText(device_type_to_str(dev->GetDeviceType()).c_str());
+    ui->TypeValue->setText(RGBController::DeviceTypeToString(dev->GetDeviceType()).c_str());
 
     ui->NameValue->setText(QString::fromStdString(dev->GetName()));
     ui->VendorValue->setText(QString::fromStdString(dev->GetVendor()));

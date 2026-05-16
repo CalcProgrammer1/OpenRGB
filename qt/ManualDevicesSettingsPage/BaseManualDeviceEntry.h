@@ -10,7 +10,7 @@
 #pragma once
 
 #include <QWidget>
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 

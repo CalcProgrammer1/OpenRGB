@@ -175,7 +175,7 @@ HEADERS +=                                                                      
     PluginManager.h                                                                             \
     ProfileManager.h                                                                            \
     ResourceManager.h                                                                           \
-    ResourceManagerInterface.h                                                                  \
+    ResourceManagerCallback.h                                                                   \
     SettingsManager.h                                                                           \
     DetectionManager.h                                                                          \
     dmiinfo/dmiinfo.h                                                                           \
@@ -270,6 +270,7 @@ SOURCES +=                                                                      
     RGBController/RGBController_Dummy.cpp                                                       \
     RGBController/RGBControllerKeyNames.cpp                                                     \
     RGBController/RGBController_Network.cpp                                                     \
+    RGBController/RGBController_Virtual.cpp                                                     \
 
 RESOURCES +=                                                                                    \
     qt/resources.qrc                                                                            \
