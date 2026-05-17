@@ -147,7 +147,7 @@ bool i2c_smbus_linux_detect()
                     path[sizeof(path) - 1] = '\0';
                     strncat(path, ent->d_name, sizeof(path) - strlen(path) - 1);
                     path[sizeof(path) - 1] = '\0';
-                    if(ent->d_type == DT_LNK)
+                    if(ent->d_type == DT_LNK || ent->d_type == DT_UNKNOWN)
                     {
                         ptr = realpath(path, NULL);
                         if(ptr == NULL)
@@ -155,9 +155,20 @@ bool i2c_smbus_linux_detect()
 
                         strncpy(path, ptr, sizeof(path) - 1);
                         path[sizeof(path) - 1] = '\0';
-                        strncat(path, "/..", sizeof(path) - strlen(path) - 1);
-                        path[sizeof(path) - 1] = '\0';
                         free(ptr);
+
+                        /*-------------------------------------------------------------*\
+                        | Truncate at last '/' to get the parent PCI device directory.  |
+                        | For AMDGPU i2c buses the realpath resolves to something like:  |
+                        |   /sys/devices/pci.../0000:03:00.0/i2c-4                      |
+                        | The parent (0000:03:00.0) contains vendor/device/subsystem    |
+                        | files. Using /..' traversal is unreliable in sysfs; directly  |
+                        | truncating the path is correct and portable.                   |
+                        \*-------------------------------------------------------------*/
+                        char* last_slash = strrchr(path, '/');
+                        if(last_slash == NULL || last_slash == path)
+                            continue;
+                        *last_slash = '\0';
                     }
                     else
                     {
