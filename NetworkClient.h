@@ -13,6 +13,7 @@
 
 #include <condition_variable>
 #include <mutex>
+#include <queue>
 #include <thread>
 #include <condition_variable>
 #include "i2c_smbus.h"
@@ -44,7 +45,23 @@ enum
     NETWORKCLIENT_UPDATE_REASON_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED,  /* Active profile changed           */
 };
 
+typedef struct
+{
+    NetPacketHeader             header;
+    unsigned char*              data;
+} NetworkClientListenerThreadQueueEntry;
 
+typedef struct
+{
+    unsigned int                                        id;
+    unsigned int                                        index;
+    std::queue<NetworkClientListenerThreadQueueEntry>   queue;
+    std::mutex                                          queue_mutex;
+    std::mutex                                          start_mutex;
+    std::condition_variable                             start_cv;
+    std::thread*                                        thread;
+    std::atomic<bool>                                   online;
+} NetworkClientListenerThread;
 
 class NetworkClient
 {
@@ -206,6 +223,7 @@ private:
     std::condition_variable             connection_cv;
     std::thread *                       ConnectionThread;
     std::thread *                       ListenThread;
+    NetworkClientListenerThread*        profilemanager_thread;
 
     /*-----------------------------------------------------*\
     | Callbacks                                             |
@@ -237,6 +255,7 @@ private:
     \*-----------------------------------------------------*/
     void                                ConnectionThreadFunction();
     void                                ListenThreadFunction();
+    void                                ProfileManagerListenThread(NetworkClientListenerThread* this_thread);
 
     /*-----------------------------------------------------*\
     | Private Client functions                              |

@@ -243,6 +243,16 @@ void NetworkClient::StartClient()
     ConnectionThread = new std::thread(&NetworkClient::ConnectionThreadFunction, this);
 
     /*-----------------------------------------------------*\
+    | Start the ProfileManager listen thread                |
+    \*-----------------------------------------------------*/
+    profilemanager_thread                           = new NetworkClientListenerThread;
+
+    profilemanager_thread->id                       = 0;
+    profilemanager_thread->index                    = 0;
+    profilemanager_thread->online                   = true;
+    profilemanager_thread->thread                   = new std::thread(&NetworkClient::ProfileManagerListenThread, this, profilemanager_thread);
+
+    /*-----------------------------------------------------*\
     | Client info has changed, call the callbacks           |
     \*-----------------------------------------------------*/
     SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_STARTED);
@@ -276,6 +286,19 @@ void NetworkClient::StopClient()
         ListenThread->join();
         delete ListenThread;
         ListenThread = nullptr;
+    }
+
+    /*-----------------------------------------------------*\
+    | Close the ProfileManager listen thread                |
+    \*-----------------------------------------------------*/
+    if(profilemanager_thread->thread)
+    {
+        profilemanager_thread->online = false;
+        profilemanager_thread->start_cv.notify_all();
+        profilemanager_thread->thread->join();
+        delete profilemanager_thread->thread;
+        profilemanager_thread->thread = nullptr;
+        delete profilemanager_thread;
     }
 
     /*-----------------------------------------------------*\
@@ -1027,6 +1050,51 @@ void NetworkClient::SignalNetworkClientUpdate(unsigned int update_reason)
     NetworkClientCallbackMutex.unlock();
 }
 
+void NetworkClient::ProfileManagerListenThread(NetworkClientListenerThread* this_thread)
+{
+    while(this_thread->online == true)
+    {
+        std::unique_lock<std::mutex> start_lock(this_thread->start_mutex);
+        this_thread->start_cv.wait(start_lock);
+
+        while(this_thread->queue.size() > 0)
+        {
+            NetworkClientListenerThreadQueueEntry   queue_entry;
+
+            this_thread->queue_mutex.lock();
+            queue_entry = this_thread->queue.front();
+            this_thread->queue.pop();
+            this_thread->queue_mutex.unlock();
+
+            switch(queue_entry.header.pkt_id)
+            {
+                case NET_PACKET_ID_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED:
+                    ProcessRequest_ProfileManager_ActiveProfileChanged(queue_entry.header.pkt_size, queue_entry.data);
+                    break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_PROFILE_LOADED:
+                    ProcessRequest_ProfileManager_ProfileLoaded(queue_entry.header.pkt_size, queue_entry.data);
+                    break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD:
+                    ProcessRequest_ProfileManager_ProfileAboutToLoad();
+                    break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
+                case NET_PACKET_ID_PROFILEMANAGER_PROFILE_LIST_UPDATED:
+                    ProcessRequest_ProfileManager_ProfileListUpdated(queue_entry.header.pkt_size, queue_entry.data);
+                    break;
+
+                case NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE:
+                    ProcessRequest_RGBController_SignalUpdate(queue_entry.header.pkt_size, queue_entry.data, queue_entry.header.pkt_dev_id);
+                    break;
+            }
+
+            delete[] queue_entry.data;
+        }
+    }
+}
+
 /*---------------------------------------------------------*\
 | Client thread functions                                   |
 \*---------------------------------------------------------*/
@@ -1426,25 +1494,29 @@ void NetworkClient::ListenThreadFunction()
                 }
                 break;
 
-            case NET_PACKET_ID_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED:
-                ProcessRequest_ProfileManager_ActiveProfileChanged(header.pkt_size, data);
-                break;
-
-            case NET_PACKET_ID_PROFILEMANAGER_PROFILE_LOADED:
-                ProcessRequest_ProfileManager_ProfileLoaded(header.pkt_size, data);
-                break;
-
+        /*-------------------------------------------------*\
+        | ProfileManager functions are handled in a         |
+        | separate thread, queue the messages               |
+        \*-------------------------------------------------*/
             case NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD:
-                ProcessRequest_ProfileManager_ProfileAboutToLoad();
-                break;
-
+            case NET_PACKET_ID_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED:
+            case NET_PACKET_ID_PROFILEMANAGER_PROFILE_LOADED:
             case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
             case NET_PACKET_ID_PROFILEMANAGER_PROFILE_LIST_UPDATED:
-                ProcessRequest_ProfileManager_ProfileListUpdated(header.pkt_size, data);
-                break;
-
             case NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE:
-                ProcessRequest_RGBController_SignalUpdate(header.pkt_size, data, header.pkt_dev_id);
+                {
+                    profilemanager_thread->queue_mutex.lock();
+
+                    NetworkClientListenerThreadQueueEntry new_entry;
+                    new_entry.data                      = data;
+                    new_entry.header                    = header;
+
+                    profilemanager_thread->queue.push(new_entry);
+                    profilemanager_thread->queue_mutex.unlock();
+                    profilemanager_thread->start_cv.notify_all();
+
+                    delete_data = false;
+                }
                 break;
         }
 
