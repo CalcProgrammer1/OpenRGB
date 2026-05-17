@@ -101,18 +101,28 @@ void EVisionKeyboardController::SendKeyboardModeEx
     unsigned char       blue
     )
 {
-    unsigned char parameter_data[8];
+    /*-----------------------------------------------------*\
+    | Build 27-byte compound parameter (param_id = 0x00)   |
+    | as observed in Windows firmware captures             |
+    \*-----------------------------------------------------*/
+    unsigned char profile[27];
 
-    parameter_data[0]   = mode;
-    parameter_data[1]   = brightness;
-    parameter_data[2]   = speed;
-    parameter_data[3]   = direction;
-    parameter_data[4]   = random_flag;
-    parameter_data[5]   = red;
-    parameter_data[6]   = green;
-    parameter_data[7]   = blue;
+    memset(profile, 0x00, sizeof(profile));
+    profile[0]  = 0x00;     /* profile index                */
+    profile[1]  = mode;
+    profile[2]  = brightness;
+    profile[3]  = speed;
+    profile[4]  = direction;
+    profile[5]  = random_flag;
+    profile[6]  = red;
+    profile[7]  = green;
+    profile[8]  = blue;
+    profile[18] = 0x03;
+    profile[22] = 0x03;
 
-    SendKeyboardParameter(0, 8, parameter_data);
+    SendKeyboardBegin();
+    SendKeyboardParameter(EVISION_KB_PARAMETER_MODE, sizeof(profile), profile);
+    SendKeyboardEnd();
 }
 
 /*-------------------------------------------------------------------------------------------------*\
@@ -158,7 +168,7 @@ void EVisionKeyboardController::SendKeyboardBegin()
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, (unsigned char *)usb_buf, 64);
-    hid_read(dev, (unsigned char *)usb_buf, 64);
+    hid_read_timeout(dev, (unsigned char *)usb_buf, 64, 100);
 }
 
 void EVisionKeyboardController::SendKeyboardEnd()
@@ -184,14 +194,14 @@ void EVisionKeyboardController::SendKeyboardEnd()
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, (unsigned char *)usb_buf, 64);
-    hid_read(dev, (unsigned char *)usb_buf, 64);
+    hid_read_timeout(dev, (unsigned char *)usb_buf, 64, 100);
 }
 
 void EVisionKeyboardController::SendKeyboardData
     (
     unsigned char *     data,
     unsigned char       data_size,
-    unsigned short      data_offset
+    unsigned int        data_offset
     )
 {
     char usb_buf[64];
@@ -202,14 +212,15 @@ void EVisionKeyboardController::SendKeyboardData
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
-    | Set up Keyboard Color Data (0x11) packet              |
+    | Set up Keyboard Color Data (0x12) packet              |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
-    usb_buf[0x03]           = 0x11;
+    usb_buf[0x03]           = 0x12;
 
     usb_buf[0x04]           = data_size;
-    usb_buf[0x05]           = data_offset & 0x00FF;
-    usb_buf[0x06]           = data_offset >> 8;
+    usb_buf[0x05]           = data_offset & 0xFF;
+    usb_buf[0x06]           = (data_offset >> 8) & 0xFF;
+    usb_buf[0x07]           = (data_offset >> 16) & 0xFF;
 
     /*-----------------------------------------------------*\
     | Copy in data bytes                                    |
@@ -225,7 +236,7 @@ void EVisionKeyboardController::SendKeyboardData
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, (unsigned char *)usb_buf, 64);
-    hid_read(dev, (unsigned char *)usb_buf, 64);
+    hid_read_timeout(dev, (unsigned char *)usb_buf, 64, 100);
 }
 
 void EVisionKeyboardController::SendKeyboardParameter
@@ -264,5 +275,5 @@ void EVisionKeyboardController::SendKeyboardParameter
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, (unsigned char *)usb_buf, 64);
-    hid_read(dev, (unsigned char *)usb_buf, 64);
+    hid_read_timeout(dev, (unsigned char *)usb_buf, 64, 100);
 }
