@@ -564,6 +564,19 @@ void NetworkServer::StopServer()
     socket_count = 0;
 
     /*-----------------------------------------------------*\
+    | Close the ProfileManager listen thread                |
+    \*-----------------------------------------------------*/
+    if(profilemanager_thread->thread)
+    {
+        profilemanager_thread->online = false;
+        profilemanager_thread->start_cv.notify_all();
+        profilemanager_thread->thread->join();
+        delete profilemanager_thread->thread;
+        profilemanager_thread->thread = nullptr;
+        delete profilemanager_thread;
+    }
+
+    /*-----------------------------------------------------*\
     | Client info has changed, call the callbacks           |
     \*-----------------------------------------------------*/
     SignalClientInfoChanged();
@@ -1066,7 +1079,7 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread* this_t
 
 void NetworkServer::ProfileManagerListenThread(NetworkServerControllerThread* this_thread)
 {
-    while(this_thread->online ==  true)
+    while(this_thread->online == true)
     {
         std::unique_lock<std::mutex> start_lock(this_thread->start_mutex);
         this_thread->start_cv.wait(start_lock);
