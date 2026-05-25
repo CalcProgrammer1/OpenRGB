@@ -22,6 +22,7 @@
 #define AURA_ROG_GLADIUS_II_WIRELESS_1_PID              0x189E
 #define AURA_ROG_GLADIUS_II_WIRELESS_2_PID              0x18A0
 #define AURA_ROG_GLADIUS_III_PID                        0x197B
+#define AURA_ROG_GLADIUS_III_CORE_PID                   0x1C8D
 #define AURA_ROG_GLADIUS_III_WIRELESS_USB_PID           0x197D
 #define AURA_ROG_GLADIUS_III_WIRELESS_2_4_PID           0x197F
 #define AURA_ROG_GLADIUS_III_WIRELESS_BT_PID            0x1981
@@ -215,6 +216,20 @@ static std::map<int,mouse_type> aura_mouse_devices =
             false,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_GLADIUS_III_CORE_PID, // ROG Gladius III Core
+        {
+            0,
+            0,
+            0,
+            100,
+            false,
+            1,
+            false,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE }
         }
     },
     {
