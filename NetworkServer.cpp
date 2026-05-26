@@ -1469,6 +1469,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo* client_info)
                 status = ProcessRequest_RGBController_ConfigureZone(client_info, header.pkt_size, data, header.pkt_dev_id);
                 break;
 
+            case NET_PACKET_ID_RGBCONTROLLER_SETHIDDEN:
+                status = ProcessRequest_RGBController_SetHidden(client_info, header.pkt_size, data, header.pkt_dev_id);
+                break;
+
             case NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION:
                 status = ProcessRequest_RGBController_SetDeviceSpecificConfiguration(client_info, header.pkt_size, data, header.pkt_dev_id);
                 break;
@@ -2532,6 +2536,43 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_SetDeviceSpecificZon
     JsonUtils::JsonParse(configuration_string, configuration);
 
     controllers[controller_idx]->SetDeviceSpecificZoneConfiguration(zone_idx, configuration);
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_SetHidden(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id)
+{
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            controller_idx_valid;
+    unsigned int    controller_idx          = index_from_id(controller_id, client_info->client_protocol_version, &controller_idx_valid);
+
+    /*-----------------------------------------------------*\
+    | If data pointer is null, return                       |
+    \*-----------------------------------------------------*/
+    if(data_ptr == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    /*-----------------------------------------------------*\
+    | If data size is invalid, return                       |
+    \*-----------------------------------------------------*/
+    if(data_size < sizeof(bool))
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!controller_idx_valid)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
+    }
+
+    controllers[controller_idx]->SetHidden((bool*)data_ptr);
 
     return(NET_PACKET_STATUS_OK);
 }
