@@ -23,6 +23,8 @@ public:
 
     unsigned int    GetID();
 
+    void            SetHidden(bool hidden);
+
     void            ClearSegments(int zone);
     void            AddSegment(int zone, segment new_segment);
 
