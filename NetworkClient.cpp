@@ -876,6 +876,23 @@ void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, i
     send_in_progress.unlock();
 }
 
+void NetworkClient::SendRequest_RGBController_SetHidden(unsigned int dev_idx, bool hidden)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETHIDDEN, sizeof(hidden));
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)&hidden, sizeof(hidden), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
 void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
@@ -889,7 +906,7 @@ void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, u
 
     send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data_ptr, data_size, 0);
+    send(client_sock, (char *)data_ptr, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
@@ -1900,6 +1917,12 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
         case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICZONECONFIGURATION:
         default:
             RGBController::SetDeviceDescription(data_ptr, data_size - (data_ptr - data_start), controller, GetProtocolVersion());
+
+            /*---------------------------------------------*\
+            | Mark this controller as remote owned          |
+            \*---------------------------------------------*/
+            controller->flags &= ~CONTROLLER_FLAG_LOCAL;
+            controller->flags |= CONTROLLER_FLAG_REMOTE;
             break;
     }
 

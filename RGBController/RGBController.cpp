@@ -154,7 +154,13 @@ device_type RGBController::GetDeviceType()
 
 unsigned int RGBController::GetFlags()
 {
-    return(flags);
+    unsigned int controller_flags;
+
+    AccessMutex.lock_shared();
+    controller_flags = flags;
+    AccessMutex.unlock_shared();
+
+    return(controller_flags);
 }
 
 /*---------------------------------------------------------*\
@@ -162,19 +168,31 @@ unsigned int RGBController::GetFlags()
 \*---------------------------------------------------------*/
 bool RGBController::GetHidden()
 {
-    return(flags & CONTROLLER_FLAG_HIDDEN);
+    bool hidden;
+
+    AccessMutex.lock_shared();
+    hidden = flags & CONTROLLER_FLAG_HIDDEN;
+    AccessMutex.unlock_shared();
+
+    return(hidden);
 }
 
 void RGBController::SetHidden(bool hidden)
 {
     if(hidden)
     {
+        AccessMutex.lock();
         flags |= CONTROLLER_FLAG_HIDDEN;
+        AccessMutex.unlock();
+
         SignalUpdate(RGBCONTROLLER_UPDATE_REASON_HIDDEN);
     }
     else
     {
+        AccessMutex.lock();
         flags &= ~CONTROLLER_FLAG_HIDDEN;
+        AccessMutex.unlock();
+
         SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UNHIDDEN);
     }
 }
@@ -256,20 +274,20 @@ std::size_t RGBController::GetZoneCount()
 
 unsigned int RGBController::GetZoneFlags(unsigned int zone)
 {
-    unsigned int flags;
+    unsigned int zone_flags;
 
     AccessMutex.lock_shared();
     if(zone < zones.size())
     {
-        flags = zones[zone].flags;
+        zone_flags = zones[zone].flags;
     }
     else
     {
-        flags = 0;
+        zone_flags = 0;
     }
     AccessMutex.unlock_shared();
 
-    return(flags);
+    return(zone_flags);
 }
 
 unsigned int RGBController::GetZoneLEDsCount(unsigned int zone)
@@ -581,20 +599,20 @@ unsigned int RGBController::GetZoneModeDirection(unsigned int zone, unsigned int
 
 unsigned int RGBController::GetZoneModeFlags(unsigned int zone, unsigned int mode)
 {
-    unsigned int flags;
+    unsigned int mode_flags;
 
     AccessMutex.lock_shared();
     if((zone < zones.size()) && (mode < zones[zone].modes.size()))
     {
-        flags = zones[zone].modes[mode].flags;
+        mode_flags = zones[zone].modes[mode].flags;
     }
     else
     {
-        flags = 0;
+        mode_flags = 0;
     }
     AccessMutex.unlock_shared();
 
-    return(flags);
+    return(mode_flags);
 }
 
 std::string RGBController::GetZoneModeName(unsigned int zone, unsigned int mode)
@@ -725,20 +743,20 @@ std::size_t RGBController::GetZoneSegmentCount(unsigned int zone)
 
 unsigned int RGBController::GetZoneSegmentFlags(unsigned int zone, unsigned int segment)
 {
-    unsigned int flags;
+    unsigned int segment_flags;
 
     AccessMutex.lock_shared();
     if((zone < zones.size()) && (segment < zones[zone].segments.size()))
     {
-        flags = zones[zone].segments[segment].flags;
+        segment_flags = zones[zone].segments[segment].flags;
     }
     else
     {
-        flags = 0;
+        segment_flags = 0;
     }
     AccessMutex.unlock_shared();
 
-    return(flags);
+    return(segment_flags);
 }
 
 unsigned int RGBController::GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment)
@@ -1242,20 +1260,20 @@ unsigned int RGBController::GetModeDirection(unsigned int mode)
 
 unsigned int RGBController::GetModeFlags(unsigned int mode)
 {
-    unsigned int flags;
+    unsigned int mode_flags;
 
     AccessMutex.lock_shared();
     if(mode < modes.size())
     {
-        flags = modes[mode].flags;
+        mode_flags = modes[mode].flags;
     }
     else
     {
-        flags = 0;
+        mode_flags = 0;
     }
     AccessMutex.unlock_shared();
 
-    return(flags);
+    return(mode_flags);
 }
 
 std::string RGBController::GetModeName(unsigned int mode)
