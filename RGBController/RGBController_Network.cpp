@@ -30,6 +30,11 @@ unsigned int RGBController_Network::GetID()
     return(dev_id);
 }
 
+void RGBController_Network::SetHidden(bool hidden)
+{
+    client->SendRequest_RGBController_SetHidden(dev_id, hidden);
+}
+
 void RGBController_Network::ClearSegments(int zone)
 {
     client->SendRequest_RGBController_ClearSegments(dev_id, zone);
