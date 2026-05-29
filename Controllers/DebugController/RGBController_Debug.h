@@ -23,8 +23,10 @@ public:
     RGBController_Debug(bool custom, json settings);
     ~RGBController_Debug();
 
+    void        SetupDevice();
     void        SetupZones();
 
+    void        DeviceConfigureDevice();
     void        DeviceConfigureZone(int zone_idx);
 
     void        DeviceUpdateLEDs();
