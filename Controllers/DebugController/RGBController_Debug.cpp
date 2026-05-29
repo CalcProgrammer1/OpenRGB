@@ -52,6 +52,29 @@ RGBController_Debug::RGBController_Debug(bool custom, json settings)
     custom_controller   = custom;
     debug_settings      = settings;
 
+    /*-----------------------------------------------------*\
+    | Create the mode                                       |
+    \*-----------------------------------------------------*/
+    mode Direct;
+
+    Direct.name                         = "Direct";
+    Direct.value                        = 0;
+    Direct.flags                        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode                   = MODE_COLORS_PER_LED;
+
+    modes.push_back(Direct);
+
+    SetupDevice();
+    SetupZones();
+}
+
+RGBController_Debug::~RGBController_Debug()
+{
+    Shutdown();
+}
+
+void RGBController_Debug::SetupDevice()
+{
     if(custom_controller)
     {
         /*-------------------------------------------------*\
@@ -86,52 +109,59 @@ RGBController_Debug::RGBController_Debug(bool custom, json settings)
     }
     else
     {
+        std::string name_value;
         std::string name_setting        = JsonUtils::JsonGetString(debug_settings, "name");
         std::string type_setting        = JsonUtils::JsonGetString(debug_settings, "type", "keyboard");
 
         if(type_setting == "motherboard")
         {
-            name                        = "Debug Motherboard";
+            name_value                  = "Debug Motherboard";
             type                        = DEVICE_TYPE_MOTHERBOARD;
         }
         else if(type_setting == "dram")
         {
-            name                        = "Debug DRAM";
+            name_value                  = "Debug DRAM";
             type                        = DEVICE_TYPE_DRAM;
         }
         else if(type_setting == "gpu")
         {
-            name                        = "Debug GPU";
+            name_value                  = "Debug GPU";
             type                        = DEVICE_TYPE_GPU;
         }
         else if(type_setting == "keyboard")
         {
-            name                        = "Debug Keyboard";
+            name_value                  = "Debug Keyboard";
             type                        = DEVICE_TYPE_KEYBOARD;
         }
-      else if(type_setting == "mouse")
+        else if(type_setting == "mouse")
         {
-            name                        = "Debug Mouse";
+            name_value                  = "Debug Mouse";
             type                        = DEVICE_TYPE_MOUSE;
         }
         else if(type_setting == "argb")
         {
-            name                        = "Debug ARGB Controller";
+            name_value                  = "Debug ARGB Controller";
             type                        = DEVICE_TYPE_LEDSTRIP;
         }
 
         /*---------------------------------------------------------*\
         | Fill in debug controller information                      |
         \*---------------------------------------------------------*/
-        description                     = name + " Device";
-        vendor                          = name + " Vendor String";
-        location                        = name + " Location String";
-        version                         = name + " Version String";
-        serial                          = name + " Serial String";
+        description                     = name_value + " Device";
+        vendor                          = name_value + " Vendor String";
+        location                        = name_value + " Location String";
+        version                         = name_value + " Version String";
+        serial                          = name_value + " Serial String";
+        flags                          |= CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_NAME | CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC;
 
         if(name_setting != "")
         {
-            name                        = name_setting;
+            name_value                  = name_setting;
+        }
+
+        if((flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME) == 0)
+        {
+            name                        = name_value;
         }
 
         /*---------------------------------------------------------*\
@@ -161,33 +191,17 @@ RGBController_Debug::RGBController_Debug(bool custom, json settings)
         configuration_json["schema"]["test_int"]["title"]        = "Integer Setting";
         configuration_json["schema"]["test_int"]["type"]         = "integer";
 
-        configuration_json["configuration"]["test_string"]       = "This is a test";
-        configuration_json["configuration"]["test_bool"]         = true;
-        configuration_json["configuration"]["test_enum"]         = "Option 2";
-        configuration_json["configuration"]["test_enum_int"]     = 4;
-        configuration_json["configuration"]["test_int"]          = 12345;
+        if((flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC) == 0)
+        {
+            configuration_json["configuration"]["test_string"]   = "This is a test";
+            configuration_json["configuration"]["test_bool"]     = true;
+            configuration_json["configuration"]["test_enum"]     = "Option 2";
+            configuration_json["configuration"]["test_enum_int"] = 4;
+            configuration_json["configuration"]["test_int"]      = 12345;
+        }
 
         configuration = configuration_json.dump();
     }
-
-    /*-----------------------------------------------------*\
-    | Create the mode                                       |
-    \*-----------------------------------------------------*/
-    mode Direct;
-
-    Direct.name                         = "Direct";
-    Direct.value                        = 0;
-    Direct.flags                        = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode                   = MODE_COLORS_PER_LED;
-
-    modes.push_back(Direct);
-
-    SetupZones();
-}
-
-RGBController_Debug::~RGBController_Debug()
-{
-    Shutdown();
 }
 
 void RGBController_Debug::SetupZones()
@@ -713,6 +727,11 @@ void RGBController_Debug::SetupZones()
     }
 
     SetupColors();
+}
+
+void RGBController_Debug::DeviceConfigureDevice()
+{
+    SetupDevice();
 }
 
 void RGBController_Debug::DeviceConfigureZone(int zone_idx)

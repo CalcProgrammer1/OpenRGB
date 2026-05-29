@@ -984,6 +984,11 @@ void OpenRGBDialog::UpdateDevicesList()
                     found = true;
 
                     /*-------------------------------------*\
+                    | Update the device name on the tab     |
+                    \*-------------------------------------*/
+                    ((TabLabel*)(ui->DevicesTabBar->tabBar()->tabButton(tab_idx, QTabBar::LeftSide)))->SetText((char *)controllers[controller_idx]->GetName().c_str());
+
+                    /*-------------------------------------*\
                     | If the controller for this page is    |
                     | hidden, remove the page from the tab  |
                     | bar and store it in the hidden pages  |
@@ -1163,6 +1168,12 @@ void OpenRGBDialog::UpdateDevicesList()
                 if(controllers[controller_idx] == page->GetController())
                 {
                     found = true;
+
+                    /*-------------------------------------*\
+                    | Update the device name on the tab     |
+                    \*-------------------------------------*/
+                    ((TabLabel*)(ui->InformationTabBar->tabBar()->tabButton(tab_idx, QTabBar::LeftSide)))->SetText((char *)controllers[controller_idx]->GetName().c_str());
+
                     ui->InformationTabBar->tabBar()->moveTab(tab_idx, controller_idx);
                     break;
                 }

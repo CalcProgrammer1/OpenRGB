@@ -24,6 +24,7 @@ public:
     TabLabel(int icon, char* label, char* context, bool translatable);
     ~TabLabel();
 
+    void SetText(char* label);
     void SetTextHidden(bool hidden);
 
 private:

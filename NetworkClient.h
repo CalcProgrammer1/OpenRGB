@@ -155,6 +155,7 @@ public:
     void                                SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
     void                                SendRequest_RGBController_ConfigureZone(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
     void                                SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
+    void                                SendRequest_RGBController_ConfigureDevice(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);
     void                                SendRequest_RGBController_SetHidden(unsigned int dev_idx, bool hidden);
 
     void                                SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size);

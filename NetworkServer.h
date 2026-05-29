@@ -256,6 +256,7 @@ private:
     NetPacketStatus                     ProcessRequest_RGBController_ClearSegments(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
     NetPacketStatus                     ProcessRequest_RGBController_ConfigureZone(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
     NetPacketStatus                     ProcessRequest_RGBController_ResizeZone(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
+    NetPacketStatus                     ProcessRequest_RGBController_ConfigureDevice(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
     NetPacketStatus                     ProcessRequest_RGBController_SetCustomMode(NetworkClientInfo* client_info, unsigned int controller_id);
     NetPacketStatus                     ProcessRequest_RGBController_SetDeviceSpecificConfiguration(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
     NetPacketStatus                     ProcessRequest_RGBController_SetDeviceSpecificZoneConfiguration(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id);
