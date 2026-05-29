@@ -199,6 +199,7 @@ HEADERS +=                                                                      
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
     super_io/super_io.h                                                                         \
+    MathUtils.h                                                                                 \
     StringUtils.h                                                                               \
     SuspendResume/SuspendResume.h                                                               \
     AutoStart/AutoStart.h                                                                       \
@@ -265,6 +266,7 @@ SOURCES +=                                                                      
     interop/DeviceGuardManager.cpp                                                              \
     net_port/net_port.cpp                                                                       \
     serial_port/serial_port.cpp                                                                 \
+    MathUtils.cpp                                                                               \
     StringUtils.cpp                                                                             \
     AutoStart/AutoStart.cpp                                                                     \
     KeyboardLayoutManager/KeyboardLayoutManager.cpp                                             \

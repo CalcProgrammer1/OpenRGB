@@ -94,3 +94,10 @@ const std::string StringUtils::remove_null_terminating_chars(std::string input)
 
     return(input);
 }
+
+std::string StringUtils::u32int_to_hexString(unsigned int value)
+{
+    char hex_str[20] = {0};
+    snprintf(hex_str, sizeof(hex_str), "%X", value);
+    return std::string(hex_str);
+}
