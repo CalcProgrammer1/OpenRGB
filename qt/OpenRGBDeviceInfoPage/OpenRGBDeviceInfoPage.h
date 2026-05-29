@@ -32,5 +32,13 @@ private:
     Ui::OpenRGBDeviceInfoPage* ui;
 
 private slots:
+    /*-----------------------------------------------------*\
+    | Callback handler                                      |
+    \*-----------------------------------------------------*/
+    void UpdateInterface();
+
+    /*-----------------------------------------------------*\
+    | Retranslate Event Slot                                |
+    \*-----------------------------------------------------*/
     void changeEvent(QEvent *event);
 };

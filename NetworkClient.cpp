@@ -876,6 +876,23 @@ void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, i
     send_in_progress.unlock();
 }
 
+void NetworkClient::SendRequest_RGBController_ConfigureDevice(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_CONFIGUREDEVICE, data_size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data_ptr, data_size, 0);
+    send_in_progress.unlock();
+}
+
 void NetworkClient::SendRequest_RGBController_SetHidden(unsigned int dev_idx, bool hidden)
 {
     if(change_in_progress)

@@ -31,6 +31,8 @@ public:
     void            ConfigureZone(int zone_idx, zone new_zone);
     void            ResizeZone(int zone, int new_size);
 
+    void            ConfigureDevice(controller_flags new_flags, std::string new_name);
+
     void            DeviceUpdateLEDs();
     void            DeviceUpdateZoneLEDs(int zone);
     void            DeviceUpdateSingleLED(int led);

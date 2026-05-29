@@ -227,9 +227,9 @@
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QPushButton" name="EditZoneButton">
+       <widget class="QPushButton" name="EditButton">
         <property name="text">
-         <string>Edit Zone</string>
+         <string>Edit</string>
         </property>
        </widget>
       </item>
@@ -421,7 +421,7 @@
  </customwidgets>
  <tabstops>
   <tabstop>ZoneBox</tabstop>
-  <tabstop>EditZoneButton</tabstop>
+  <tabstop>EditButton</tabstop>
   <tabstop>LEDBox</tabstop>
   <tabstop>ApplyColorsButton</tabstop>
   <tabstop>SetAllButton</tabstop>

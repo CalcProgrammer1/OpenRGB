@@ -1469,6 +1469,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo* client_info)
                 status = ProcessRequest_RGBController_ConfigureZone(client_info, header.pkt_size, data, header.pkt_dev_id);
                 break;
 
+            case NET_PACKET_ID_RGBCONTROLLER_CONFIGUREDEVICE:
+                status = ProcessRequest_RGBController_ConfigureDevice(client_info, header.pkt_size, data, header.pkt_dev_id);
+                break;
+
             case NET_PACKET_ID_RGBCONTROLLER_SETHIDDEN:
                 status = ProcessRequest_RGBController_SetHidden(client_info, header.pkt_size, data, header.pkt_dev_id);
                 break;
@@ -2425,6 +2429,71 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ResizeZone(NetworkCl
     | Call ResizeZone on the given controller               |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->ResizeZone(zone_idx, new_size);
+
+    /*-----------------------------------------------------*\
+    | Save configuration                                    |
+    \*-----------------------------------------------------*/
+    profile_manager->SaveConfiguration();
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_RGBController_ConfigureDevice(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int controller_id)
+{
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool                controller_idx_valid;
+    unsigned int        controller_idx          = index_from_id(controller_id, client_info->client_protocol_version, &controller_idx_valid);
+    unsigned int        data_size_pkt;
+    unsigned char*      data_start              = data_ptr;
+    controller_flags    new_flags;
+    unsigned short      new_name_size;
+    std::string         new_name;
+
+    /*-----------------------------------------------------*\
+    | If data pointer is null, return                       |
+    \*-----------------------------------------------------*/
+    if(data_ptr == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!controller_idx_valid)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_ID);
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy in data size                                     |
+    \*-----------------------------------------------------*/
+    COPY_DATA_FIELD(data_ptr, data_start, data_size_pkt);
+
+    /*-----------------------------------------------------*\
+    | If packet size is invalid, return                     |
+    \*-----------------------------------------------------*/
+    if(data_size_pkt != data_size)
+    {
+        LOG_ERROR("[%s] ConfigureDevice packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy in flags                                         |
+    \*-----------------------------------------------------*/
+    COPY_DATA_FIELD(data_ptr, data_start, new_flags);
+
+    /*-----------------------------------------------------*\
+    | Copy in name                                          |
+    \*-----------------------------------------------------*/
+    COPY_DATA_FIELD(data_ptr, data_start, new_name_size);
+    COPY_STRING_FIELD(data_ptr, data_start, new_name_size, new_name);
+
+    controllers[controller_idx]->ConfigureDevice(new_flags, new_name);
 
     /*-----------------------------------------------------*\
     | Save configuration                                    |

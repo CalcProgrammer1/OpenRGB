@@ -8,26 +8,73 @@
 \*---------------------------------------------------------*/
 
 #include "OpenRGBDeviceInfoPage.h"
+#include "ResourceManager.h"
 #include "ui_OpenRGBDeviceInfoPage.h"
+
+static void UpdateCallback(void * this_ptr, unsigned int update_reason, void * /*controller_ptr*/)
+{
+    OpenRGBDeviceInfoPage * this_obj = (OpenRGBDeviceInfoPage *)this_ptr;
+
+    switch(update_reason)
+    {
+        case RGBCONTROLLER_UPDATE_REASON_CONFIGUREDEVICE:
+            QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection);
+            break;
+    }
+}
 
 OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OpenRGBDeviceInfoPage)
 {
-    controller = dev;
-
     ui->setupUi(this);
 
-    ui->TypeValue->setText(RGBController::DeviceTypeToString(dev->GetDeviceType()).c_str());
+    /*-----------------------------------------------------*\
+    | Store device pointer                                  |
+    \*-----------------------------------------------------*/
+    controller = dev;
 
-    ui->NameValue->setText(QString::fromStdString(dev->GetName()));
-    ui->VendorValue->setText(QString::fromStdString(dev->GetVendor()));
-    ui->DescriptionValue->setText(QString::fromStdString(dev->GetDescription()));
-    ui->VersionValue->setText(QString::fromStdString(dev->GetVersion()));
-    ui->LocationValue->setText(QString::fromStdString(dev->GetLocation()));
-    ui->SerialValue->setText(QString::fromStdString(dev->GetSerial()));
+    /*-----------------------------------------------------*\
+    | Register update callback with the device              |
+    \*-----------------------------------------------------*/
+    controller->RegisterUpdateCallback(UpdateCallback, this);
 
-    unsigned int    flags           = dev->GetFlags();
+    UpdateInterface();
+}
+
+OpenRGBDeviceInfoPage::~OpenRGBDeviceInfoPage()
+{
+    /*-----------------------------------------------------*\
+    | Unregister update callback from the controller if the |
+    | controller still exists                               |
+    \*-----------------------------------------------------*/
+    for(unsigned int controller_idx = 0; controller_idx < ResourceManager::get()->GetRGBControllers().size(); controller_idx++)
+    {
+        if(ResourceManager::get()->GetRGBControllers()[controller_idx] == controller)
+        {
+            controller->UnregisterUpdateCallback(this);
+            break;
+        }
+    }
+
+    delete ui;
+}
+
+/*---------------------------------------------------------*\
+| Callback handler                                          |
+\*---------------------------------------------------------*/
+void OpenRGBDeviceInfoPage::UpdateInterface()
+{
+    ui->TypeValue->setText(RGBController::DeviceTypeToString(controller->GetDeviceType()).c_str());
+
+    ui->NameValue->setText(QString::fromStdString(controller->GetName()));
+    ui->VendorValue->setText(QString::fromStdString(controller->GetVendor()));
+    ui->DescriptionValue->setText(QString::fromStdString(controller->GetDescription()));
+    ui->VersionValue->setText(QString::fromStdString(controller->GetVersion()));
+    ui->LocationValue->setText(QString::fromStdString(controller->GetLocation()));
+    ui->SerialValue->setText(QString::fromStdString(controller->GetSerial()));
+
+    unsigned int    flags           = controller->GetFlags();
     std::string     flags_string    = "";
     bool            need_separator  = false;
 
@@ -76,13 +123,14 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
     ui->FlagsValue->setText(QString::fromStdString(flags_string));
 }
 
-OpenRGBDeviceInfoPage::~OpenRGBDeviceInfoPage()
-{
-    delete ui;
-}
-
+/*---------------------------------------------------------*\
+| Retranslate Event Slot                                    |
+\*---------------------------------------------------------*/
 void OpenRGBDeviceInfoPage::changeEvent(QEvent *event)
 {
+    /*-----------------------------------------------------*\
+    | Retranslate the UI when a language change event occurs|
+    \*-----------------------------------------------------*/
     if(event->type() == QEvent::LanguageChange)
     {
         ui->retranslateUi(this);
