@@ -107,7 +107,7 @@ private slots:
     void on_DeviceSaveButton_clicked();
     void on_DeviceViewBox_selectionChanged(int selected_zone, int selected_segment, std::vector<std::size_t>);
     void on_DirectionBox_currentIndexChanged(int index);
-    void on_EditZoneButton_clicked();
+    void on_EditButton_clicked();
     void on_GreenSpinBox_valueChanged(int green);
     void on_HexLineEdit_textChanged(const QString &arg1);
     void on_HueSpinBox_valueChanged(int hue);

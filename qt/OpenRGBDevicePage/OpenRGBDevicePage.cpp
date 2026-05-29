@@ -520,11 +520,20 @@ void OpenRGBDevicePage::UpdateLEDList()
                 }
 
                 /*-----------------------------------------*\
-                | Editing is not allowed when all zones are |
-                | selected at once                          |
+                | Enable editing if controller has any      |
+                | MANUALLY_CONFIGURABLE flag                |
                 \*-----------------------------------------*/
-                ui->EditZoneButton->setEnabled(true);
-                ui->EditZoneButton->setText("Edit Device");
+                bool is_editable = false;
+
+                controller_flags flags = device->GetFlags();
+
+                if((flags & CONTROLLER_FLAGS_MANUALLY_CONFIGURABLE) > 0)
+                {
+                    is_editable = true;
+                }
+
+                ui->EditButton->setEnabled(is_editable);
+                ui->EditButton->setText(tr("Edit Device"));
 
                 if(!ui->ZoneBox->signalsBlocked())
                 {
@@ -567,10 +576,8 @@ void OpenRGBDevicePage::UpdateLEDList()
                 }
 
                 /*-----------------------------------------*\
-                | Enable editing if:                        |
-                |   Zone has variable size                  |
-                | OR                                        |
-                |   Zone has any MANUALLY_CONFIGURABLE flag |
+                | Enable editing if zone has any            |
+                | MANUALLY_CONFIGURABLE flag                |
                 \*-----------------------------------------*/
                 bool zone_is_editable = false;
 
@@ -581,8 +588,8 @@ void OpenRGBDevicePage::UpdateLEDList()
                     zone_is_editable = true;
                 }
 
-                ui->EditZoneButton->setEnabled(true);
-                ui->EditZoneButton->setText("Edit Zone");
+                ui->EditButton->setEnabled(zone_is_editable);
+                ui->EditButton->setText(tr("Edit Zone"));
 
                 if(!ui->ZoneBox->signalsBlocked())
                 {
@@ -626,7 +633,7 @@ void OpenRGBDevicePage::UpdateLEDList()
                 | Editing is not allowed when a segment is  |
                 | selected                                  |
                 \*-----------------------------------------*/
-                ui->EditZoneButton->setEnabled(false);
+                ui->EditButton->setEnabled(false);
 
                 if(!ui->ZoneBox->signalsBlocked())
                 {
@@ -1662,7 +1669,7 @@ void OpenRGBDevicePage::UpdateModeUi()
                 ui->LEDBox->clear();
                 ui->LEDBox->blockSignals(false);
 
-                ui->EditZoneButton->setEnabled(false);
+                ui->EditButton->setEnabled(false);
                 ui->ApplyColorsButton->setEnabled(false);
                 break;
 
@@ -1720,11 +1727,11 @@ void OpenRGBDevicePage::UpdateModeUi()
 
                 if(device->GetModeColorsMin(selected_mode) == device->GetModeColorsMax(selected_mode))
                 {
-                    ui->EditZoneButton->setEnabled(false);
+                    ui->EditButton->setEnabled(false);
                 }
                 else
                 {
-                    ui->EditZoneButton->setEnabled(true);
+                    ui->EditButton->setEnabled(true);
                 }
 
                 for(unsigned int i = 0; i < device->GetModeColorsCount(selected_mode); i++)
@@ -1783,11 +1790,6 @@ void OpenRGBDevicePage::UpdateZoneList()
     ui->ZoneBox->setCurrentIndex(0);
     ui->ZoneBox->blockSignals(false);
     ui->ApplyColorsButton->setEnabled(true);
-
-    /*-----------------------------------------------------*\
-    | Update color picker with color of first LED           |
-    \*-----------------------------------------------------*/
-    //on_LEDBox_currentIndexChanged(0);
 }
 
 /*---------------------------------------------------------*\
@@ -2052,6 +2054,9 @@ void OpenRGBDevicePage::changeEvent(QEvent *event)
     if(event->type() == QEvent::LanguageChange)
     {
         ui->retranslateUi(this);
+        UpdateZoneList();
+        UpdateModeList();
+        UpdateLEDList();
     }
 }
 
@@ -2192,7 +2197,7 @@ void OpenRGBDevicePage::on_DirectionBox_currentIndexChanged(int /*index*/)
     UpdateMode();
 }
 
-void OpenRGBDevicePage::on_EditZoneButton_clicked()
+void OpenRGBDevicePage::on_EditButton_clicked()
 {
     /*-----------------------------------------------------*\
     | Determine what is selected, either all zones, a zone, |

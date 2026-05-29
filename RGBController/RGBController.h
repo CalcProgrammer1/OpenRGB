@@ -39,7 +39,7 @@ public:
     std::string             GetLocation();
 
     device_type             GetDeviceType();
-    unsigned int            GetFlags();
+    controller_flags        GetFlags();
 
     /*-----------------------------------------------------*\
     | Hidden Flag Functions                                 |
@@ -55,7 +55,7 @@ public:
     RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index);
     RGBColor*               GetZoneColorsPointer(unsigned int zone);
     std::size_t             GetZoneCount();
-    unsigned int            GetZoneFlags(unsigned int zone);
+    zone_flags              GetZoneFlags(unsigned int zone);
     unsigned int            GetZoneLEDsCount(unsigned int zone);
     unsigned int            GetZoneLEDsMax(unsigned int zone);
     unsigned int            GetZoneLEDsMin(unsigned int zone);
@@ -81,7 +81,7 @@ public:
     int                     GetZoneModeValue(unsigned int zone, unsigned int mode);
     std::string             GetZoneName(unsigned int zone);
     std::size_t             GetZoneSegmentCount(unsigned int zone);
-    unsigned int            GetZoneSegmentFlags(unsigned int zone, unsigned int segment);
+    segment_flags           GetZoneSegmentFlags(unsigned int zone, unsigned int segment);
     unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment);
     matrix_map_type         GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment);
     const unsigned int *    GetZoneSegmentMatrixMapData(unsigned int zone, unsigned int segment);
@@ -195,9 +195,12 @@ public:
     void                    ConfigureZone(int zone_idx, zone new_zone);
     void                    ResizeZone(int zone, int new_size);
 
+    void                    ConfigureDevice(controller_flags new_flags, std::string new_name);
+
     /*-----------------------------------------------------*\
     | Functions to be implemented in device implementation  |
     \*-----------------------------------------------------*/
+    virtual void            DeviceConfigureDevice();
     virtual void            DeviceConfigureZone(int zone_idx);
 
     virtual void            DeviceUpdateLEDs();
@@ -273,7 +276,7 @@ protected:
     | Controller variables                                  |
     \*-----------------------------------------------------*/
     int                     active_mode = 0;/* active mode              */
-    unsigned int            flags;          /* controller flags         */
+    controller_flags        flags;          /* controller flags         */
     device_type             type;           /* device type              */
 
     /*-----------------------------------------------------*\

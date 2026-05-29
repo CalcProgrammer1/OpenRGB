@@ -659,8 +659,9 @@
         <translation>Светодиод: </translation>
     </message>
     <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
         <source>Edit</source>
-        <translation type="vanished">Редактировать</translation>
+        <translation>Редактировать</translation>
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="218"/>
@@ -719,7 +720,7 @@
         <translation>V:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="592"/>
         <source>Edit Zone</source>
         <translation>Редактировать зону</translation>
     </message>
@@ -740,113 +741,118 @@
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="183"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1610"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1617"/>
         <source>Save To Device</source>
         <translation>Сохранить на устройстве</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1966"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
         <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
         <translation>Устанавливает статичный цвет для каждого светодиода. Безопасен для использования с программными эффектами.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1967"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
         <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
         <translation>Устанавливает статичный цвет для каждого светодиода. Небезопасен для использования с программными эффектами.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
         <source>Sets the entire device or a zone to a single color.</source>
         <translation>Задаёт один цвет для всего устройства или области.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
         <source>Gradually fades between fully off and fully on.</source>
         <translation>Плавно включается и выключается.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
         <source>Abruptly changes between fully off and fully on.</source>
         <translation>Резко включается и выключается.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
         <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
         <translation>Плавно меняет цвет по радуге. Все светодиоды устройства одного цвета.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1974"/>
         <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
         <translation>Плавно меняет цвет. Создаёт движущуюся радугу.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1975"/>
         <source>Flashes lights when keys or buttons are pressed.</source>
         <translation>Вспыхивает при нажатии клавишей или кнопок.</translation>
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="505"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1759"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1766"/>
         <source>Entire Device</source>
         <translation>Устройство целиком</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="552"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="536"/>
+        <source>Edit Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="561"/>
         <source>Entire Zone</source>
         <translation>Область целиком</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="608"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="615"/>
         <source>Entire Segment</source>
         <translation>Сегмент целиком</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1492"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
         <source>Left</source>
         <translation>Влево</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1493"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1500"/>
         <source>Right</source>
         <translation>Вправо</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1498"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
         <source>Up</source>
         <translation>Вверх</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1506"/>
         <source>Down</source>
         <translation>Вниз</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1504"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1511"/>
         <source>Horizontal</source>
         <translation>Горизонтально</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1512"/>
         <source>Vertical</source>
         <translation>Вертикально</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1605"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1612"/>
         <source>Saved To Device</source>
         <translation>Сохранено на устройстве</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1615"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1622"/>
         <source>Saving Not Supported</source>
         <translation>Сохранение не поддерживается</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1675"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1682"/>
         <source>All Zones</source>
         <translation>Все области</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1713"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1720"/>
         <source>Mode Specific</source>
         <translation>Задаётся режимом</translation>
     </message>

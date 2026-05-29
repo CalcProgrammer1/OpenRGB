@@ -648,8 +648,9 @@
         <translation>S:</translation>
     </message>
     <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
         <source>Edit</source>
-        <translation type="vanished">Rediger</translation>
+        <translation>Rediger</translation>
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="333"/>
@@ -687,7 +688,7 @@
         <translation>V:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="592"/>
         <source>Edit Zone</source>
         <translation>Rediger zone</translation>
     </message>
@@ -708,7 +709,7 @@
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="183"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1610"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1617"/>
         <source>Save To Device</source>
         <translation>Lagre til enheten</translation>
     </message>
@@ -718,108 +719,113 @@
         <translation>Hex:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1966"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
         <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
         <translation>Sett individuelle LEDer til statiske farger.  Trygt for bruk med programvaredrevne effekter.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1967"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
         <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
         <translation>Sett individuelle LEDer til statiske farger.  Ikke trygt for bruk med programvaredrevne effekter.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
         <source>Sets the entire device or a zone to a single color.</source>
         <translation>Setter hele enheten eller en sone til en enkelt farge.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
         <source>Gradually fades between fully off and fully on.</source>
         <translation>Tones gradvis mellom helt av og helt på.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
         <source>Abruptly changes between fully off and fully on.</source>
         <translation>Skifter brått mellom helt av og helt på.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
         <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
         <translation>Går gradvis gjennom hele fargespekteret.  Alle lysene på enheten er samme farge.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1974"/>
         <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
         <translation>Går gradvis gjennom hele fargespekteret.  Gir et regnbuemønster som beveger seg.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1975"/>
         <source>Flashes lights when keys or buttons are pressed.</source>
         <translation>Blinker lyser når taster eller knapper trykkes.</translation>
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="505"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1759"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1766"/>
         <source>Entire Device</source>
         <translation>Hele enheten</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="552"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="536"/>
+        <source>Edit Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="561"/>
         <source>Entire Zone</source>
         <translation>Hele sonen</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1492"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
         <source>Left</source>
         <translation>Venstre</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1493"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1500"/>
         <source>Right</source>
         <translation>Høyre</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1498"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
         <source>Up</source>
         <translation>Opp</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1506"/>
         <source>Down</source>
         <translation>Ned</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1504"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1511"/>
         <source>Horizontal</source>
         <translation>Horisontal</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1512"/>
         <source>Vertical</source>
         <translation>Vertikal</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1605"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1612"/>
         <source>Saved To Device</source>
         <translation>Lagret til enhet</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1615"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1622"/>
         <source>Saving Not Supported</source>
         <translation>Lagring ikke støttet</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1675"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1682"/>
         <source>All Zones</source>
         <translation>Alle soner</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1713"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1720"/>
         <source>Mode Specific</source>
         <translation>Modus spesifikk</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="608"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="615"/>
         <source>Entire Segment</source>
         <translation>Hele segmentet</translation>
     </message>
