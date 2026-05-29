@@ -699,7 +699,7 @@
         <translation>明度（V）：</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="592"/>
         <source>Edit Zone</source>
         <translation>编辑区域</translation>
     </message>
@@ -720,7 +720,7 @@
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="183"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1610"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1617"/>
         <source>Save To Device</source>
         <translation>保存到设备</translation>
     </message>
@@ -730,112 +730,118 @@
         <translation>HEX：</translation>
     </message>
     <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
         <source>Edit</source>
-        <translation type="vanished">编辑</translation>
+        <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1966"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
         <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
         <translation>将单个 LED 设置为静态颜色。 可安全地与软件驱动的效果一起使用。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1967"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
         <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
         <translation>将单个 LED 设置为静态颜色。 与软件驱动的效果一起使用不安全。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
         <source>Sets the entire device or a zone to a single color.</source>
         <translation>将整个设备或区域设置为单一颜色。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
         <source>Gradually fades between fully off and fully on.</source>
         <translation>在完全关闭和完全打开之间逐渐淡出。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
         <source>Abruptly changes between fully off and fully on.</source>
         <translation>在完全关闭和完全打开之间突然变化。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
         <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
         <translation>在整个色谱中逐渐循环。 设备上的所有指示灯都是相同的颜色。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1974"/>
         <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
         <translation>在整个色谱中逐渐循环。 生成移动的彩虹图案。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1975"/>
         <source>Flashes lights when keys or buttons are pressed.</source>
         <translation>按下按键或按钮时闪烁。</translation>
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="505"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1759"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1766"/>
         <source>Entire Device</source>
         <translation>整个设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="552"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="536"/>
+        <source>Edit Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="561"/>
         <source>Entire Zone</source>
         <translation>整个区域</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1492"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
         <source>Left</source>
         <translation>左</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1493"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1500"/>
         <source>Right</source>
         <translation>右</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1498"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
         <source>Up</source>
         <translation>上</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1506"/>
         <source>Down</source>
         <translation>下</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1504"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1511"/>
         <source>Horizontal</source>
         <translation>水平</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1512"/>
         <source>Vertical</source>
         <translation>垂直</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1605"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1612"/>
         <source>Saved To Device</source>
         <translation>已保存到设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1615"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1622"/>
         <source>Saving Not Supported</source>
         <translation>不支持保存</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1675"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1682"/>
         <source>All Zones</source>
         <translation>所有区域</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1713"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1720"/>
         <source>Mode Specific</source>
         <translation>特定模式</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="608"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="615"/>
         <source>Entire Segment</source>
         <translation>整个区段</translation>
     </message>

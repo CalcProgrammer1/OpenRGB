@@ -189,14 +189,25 @@ bool ProfileManager::CompareControllers(RGBController* controller_1, RGBControll
     }
 
     /*-----------------------------------------------------*\
+    | Do not check zonedevice name if manually configured   |
+    \*-----------------------------------------------------*/
+    bool    check_device_name   = true;
+
+    if((controller_1->GetFlags() & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME)
+    || (controller_2->GetFlags() & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME))
+    {
+        check_device_name = false;
+    }
+
+    /*-----------------------------------------------------*\
     | Compare top-level controller information              |
     \*-----------------------------------------------------*/
-    if((controller_1->GetDeviceType()    != controller_2->GetDeviceType() )
-    || (controller_1->GetName()          != controller_2->GetName()       )
-    || (controller_1->GetDescription()   != controller_2->GetDescription())
-    || (controller_1->GetVersion()       != controller_2->GetVersion()    )
-    || (controller_1->GetSerial()        != controller_2->GetSerial()     )
-    || (location_check                   != true                          ))
+    if(                      (controller_1->GetDeviceType()    != controller_2->GetDeviceType() )
+    || (check_device_name && (controller_1->GetName()          != controller_2->GetName()       ))
+    ||                       (controller_1->GetDescription()   != controller_2->GetDescription())
+    ||                       (controller_1->GetVersion()       != controller_2->GetVersion()    )
+    ||                       (controller_1->GetSerial()        != controller_2->GetSerial()     )
+    ||                       (location_check                   != true                          ))
     {
         return(false);
     }
@@ -867,6 +878,8 @@ bool ProfileManager::SaveConfiguration()
 
     for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
     {
+        bool save_controller = false;
+
         /*-------------------------------------------------*\
         | Ignore remote and virtual controllers when saving |
         | configuration                                     |
@@ -877,19 +890,28 @@ bool ProfileManager::SaveConfiguration()
             break;
         }
 
+        if(controllers[controller_index]->GetFlags() & CONTROLLER_FLAGS_MANUALLY_CONFIGURED)
+        {
+            save_controller = true;
+        }
+
         for(std::size_t zone_index = 0; zone_index < controllers[controller_index]->GetZoneCount(); zone_index++)
         {
             if(controllers[controller_index]->GetZoneFlags(zone_index) & ZONE_FLAGS_MANUALLY_CONFIGURED)
             {
+                save_controller = true;
+                break;
+            }
+        }
+
+        if(save_controller)
+        {
             /*---------------------------------------------*\
             | Read the controller data for this controller  |
             | into the profile json if manually configured  |
             \*---------------------------------------------*/
             profile_json["controllers"][new_saved_controller_index] = RGBController::GetDeviceDescriptionJSON(controllers[controller_index]);
             new_saved_controller_index++;
-
-            break;
-            }
         }
     }
 
@@ -1147,15 +1169,27 @@ bool ProfileManager::LoadControllerFromListWithOptions
         }
 
         /*-------------------------------------------------*\
+        | Do not check zonedevice name if manually          |
+        | configured                                        |
+        \*-------------------------------------------------*/
+        bool    check_device_name   = true;
+
+        if((load_controller->GetFlags()    & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME)
+        || (profile_controller->GetFlags() & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME))
+        {
+            check_device_name = false;
+        }
+
+        /*-------------------------------------------------*\
         | Test if saved controller data matches this        |
         | controller                                        |
         \*-------------------------------------------------*/
-        if((profile_controller->GetDeviceType()    == load_controller->GetDeviceType() )
-         &&(profile_controller->GetName()          == load_controller->GetName()       )
-         &&(profile_controller->GetDescription()   == load_controller->GetDescription())
-         &&(profile_controller->GetVersion()       == load_controller->GetVersion()    )
-         &&(profile_controller->GetSerial()        == load_controller->GetSerial()     )
-         &&(location_check                         == true                             ))
+        if(                       (profile_controller->GetDeviceType()    == load_controller->GetDeviceType() )
+         &&(!check_device_name || (profile_controller->GetName()          == load_controller->GetName()       ))
+         &&                       (profile_controller->GetDescription()   == load_controller->GetDescription())
+         &&                       (profile_controller->GetVersion()       == load_controller->GetVersion()    )
+         &&                       (profile_controller->GetSerial()        == load_controller->GetSerial()     )
+         &&                       (location_check                         == true                             ))
         {
             /*---------------------------------------------*\
             | Update device configuration if requested      |
@@ -1168,6 +1202,7 @@ bool ProfileManager::LoadControllerFromListWithOptions
                 nlohmann::json configuration_json;
                 JsonUtils::JsonParse(profile_controller->configuration, configuration_json);
 
+                load_controller->ConfigureDevice(profile_controller->flags, profile_controller->name);
                 load_controller->SetDeviceSpecificConfiguration(configuration_json["configuration"]);
 
                 /*-----------------------------------------*\

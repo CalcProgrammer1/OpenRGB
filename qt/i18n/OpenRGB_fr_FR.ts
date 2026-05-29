@@ -699,7 +699,7 @@
         <translation>V :</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="592"/>
         <source>Edit Zone</source>
         <translation>Éditer la zone</translation>
     </message>
@@ -720,7 +720,7 @@
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="183"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1610"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1617"/>
         <source>Save To Device</source>
         <translation>Sauvegarder dans le périphérique</translation>
     </message>
@@ -730,112 +730,118 @@
         <translation>Hexadécimal :</translation>
     </message>
     <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
         <source>Edit</source>
-        <translation type="vanished">Éditer</translation>
+        <translation>Éditer</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1966"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
         <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
         <translation>Défini individuellement la couleur de chaque LED. Fiable pour utiliser des effets logiciels.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1967"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
         <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
         <translation>Défini individuellement la couleur de chaque LED. Non fiable pour utiliser des effets logiciels.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
         <source>Sets the entire device or a zone to a single color.</source>
         <translation>Défini la couleur pour un périphérique ou une zone entière.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
         <source>Gradually fades between fully off and fully on.</source>
         <translation>Change graduellement entre allumé et éteint.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
         <source>Abruptly changes between fully off and fully on.</source>
         <translation>Change directement entre allumé et éteint.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
         <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
         <translation>Change graduellement la couleur pour couvrir tout le spectre lumineux. Toutes les LEDs sont de la même couleur.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1974"/>
         <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
         <translation>Change graduellement la couleur pour couvrir tout le spectre lumineux. Produit un motif d&apos;arc en ciel en mouvement.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1975"/>
         <source>Flashes lights when keys or buttons are pressed.</source>
         <translation>Illumine les touches lors d&apos;un appui clavier.</translation>
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="505"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1759"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1766"/>
         <source>Entire Device</source>
         <translation>Périphérique entier</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="552"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="536"/>
+        <source>Edit Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="561"/>
         <source>Entire Zone</source>
         <translation>Zone entière</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="608"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="615"/>
         <source>Entire Segment</source>
         <translation>Segment entier</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1492"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
         <source>Left</source>
         <translation>Gauche</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1493"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1500"/>
         <source>Right</source>
         <translation>Droite</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1498"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
         <source>Up</source>
         <translation>Haut</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1506"/>
         <source>Down</source>
         <translation>Bas</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1504"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1511"/>
         <source>Horizontal</source>
         <translation>Horizontal</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1512"/>
         <source>Vertical</source>
         <translation>Vertical</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1605"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1612"/>
         <source>Saved To Device</source>
         <translation>Sauvegardé dans le périphérique</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1615"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1622"/>
         <source>Saving Not Supported</source>
         <translation>Sauvegarde matérielle non supportée</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1675"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1682"/>
         <source>All Zones</source>
         <translation>Toutes les zones</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1713"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1720"/>
         <source>Mode Specific</source>
         <translation>Spécifique au mode</translation>
     </message>

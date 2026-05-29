@@ -52,6 +52,7 @@ enum
                                                     /* SetDeviceSpecificConfiguration() called      */
     RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICZONECONFIGURATION,
                                                     /* SetDeviceSpecificZoneConfiguration() called  */
+    RGBCONTROLLER_UPDATE_REASON_CONFIGUREDEVICE,    /* ConfigureDevice() called         */
 };
 
 /*---------------------------------------------------------*\
@@ -155,6 +156,8 @@ enum
 /*---------------------------------------------------------*\
 | Segment Flags                                             |
 \*---------------------------------------------------------*/
+typedef unsigned int segment_flags;
+
 enum
 {
     SEGMENT_FLAG_GROUP_START    = (1 << 0), /* Start of segment group   */
@@ -199,15 +202,29 @@ enum
 /*---------------------------------------------------------*\
 | Controller Flags                                          |
 \*---------------------------------------------------------*/
+typedef unsigned int controller_flags;
+
+#define CONTROLLER_FLAGS_MANUALLY_CONFIGURABLE         (CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_NAME              |   \
+                                                        CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC)
+
+#define CONTROLLER_FLAGS_MANUALLY_CONFIGURED           (CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME                |   \
+                                                        CONTROLLER_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC)
+
 enum
 {
-    CONTROLLER_FLAG_LOCAL               = (1 << 0), /* Device is local to this instance */
-    CONTROLLER_FLAG_REMOTE              = (1 << 1), /* Device is on a remote instance   */
-    CONTROLLER_FLAG_VIRTUAL             = (1 << 2), /* Device is a virtual device       */
-    CONTROLLER_FLAG_HIDDEN              = (1 << 3), /* Device is hidden                 */
+    CONTROLLER_FLAG_LOCAL                                   = (1 << 0), /* Device is local to this instance                 */
+    CONTROLLER_FLAG_REMOTE                                  = (1 << 1), /* Device is on a remote instance                   */
+    CONTROLLER_FLAG_VIRTUAL                                 = (1 << 2), /* Device is a virtual device                       */
+    CONTROLLER_FLAG_HIDDEN                                  = (1 << 3), /* Device is hidden                                 */
 
-    CONTROLLER_FLAG_RESET_BEFORE_UPDATE = (1 << 8), /* Device resets update flag before */
-                                                    /* calling update function          */
+    CONTROLLER_FLAG_RESET_BEFORE_UPDATE                     = (1 << 8), /* Device resets update flag before                 */
+                                                                        /* calling update function                          */
+
+    CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_NAME              = (1 << 16),/* Device name is manually configurable             */
+    CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC   = (1 << 17),/* Device dev-specific cfg manually configurable    */
+
+    CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME                = (1 << 24),/* Device name is manually configured               */
+    CONTROLLER_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC     = (1 << 25),/* Device dev-specific cfg is manually configured   */
 };
 
 /*---------------------------------------------------------*\
@@ -362,7 +379,7 @@ public:
     unsigned int            start_idx;      /* Start index within zone      */
     unsigned int            leds_count;     /* Number of LEDs in segment    */
     matrix_map_type         matrix_map;     /* Matrix map                   */
-    unsigned int            flags;          /* Segment flags                */
+    segment_flags           flags;          /* Segment flags                */
 
     /*-----------------------------------------------------*\
     | Functionality defined inline so that it can be used   |
@@ -451,6 +468,7 @@ typedef struct
     | Controller variables                                  |
     \*-----------------------------------------------------*/
     int                     active_mode;    /* active mode              */
+    controller_flags        flags;          /* controller flags         */
     device_type             type;           /* device type              */
 
     /*-----------------------------------------------------*\
@@ -496,7 +514,7 @@ public:
     virtual std::string             GetLocation()                                                                                                       = 0;
 
     virtual device_type             GetDeviceType()                                                                                                     = 0;
-    virtual unsigned int            GetFlags()                                                                                                          = 0;
+    virtual controller_flags        GetFlags()                                                                                                          = 0;
 
     /*-----------------------------------------------------*\
     | Hidden Flag Functions                                 |
@@ -512,7 +530,7 @@ public:
     virtual RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index)                                                           = 0;
     virtual RGBColor*               GetZoneColorsPointer(unsigned int zone)                                                                             = 0;
     virtual std::size_t             GetZoneCount()                                                                                                      = 0;
-    virtual unsigned int            GetZoneFlags(unsigned int zone)                                                                                     = 0;
+    virtual zone_flags              GetZoneFlags(unsigned int zone)                                                                                     = 0;
     virtual unsigned int            GetZoneLEDsCount(unsigned int zone)                                                                                 = 0;
     virtual unsigned int            GetZoneLEDsMax(unsigned int zone)                                                                                   = 0;
     virtual unsigned int            GetZoneLEDsMin(unsigned int zone)                                                                                   = 0;
@@ -538,7 +556,7 @@ public:
     virtual int                     GetZoneModeValue(unsigned int zone, unsigned int mode)                                                              = 0;
     virtual std::string             GetZoneName(unsigned int zone)                                                                                      = 0;
     virtual std::size_t             GetZoneSegmentCount(unsigned int zone)                                                                              = 0;
-    virtual unsigned int            GetZoneSegmentFlags(unsigned int zone, unsigned int segment)                                                        = 0;
+    virtual segment_flags           GetZoneSegmentFlags(unsigned int zone, unsigned int segment)                                                        = 0;
     virtual unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment)                                                    = 0;
     virtual matrix_map_type         GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment)                                                    = 0;
     virtual const unsigned int *    GetZoneSegmentMatrixMapData(unsigned int zone, unsigned int segment)                                                = 0;
@@ -648,4 +666,6 @@ public:
 
     virtual void                    ConfigureZone(int zone_idx, zone new_zone)                                                                          = 0;
     virtual void                    ResizeZone(int zone, int new_size)                                                                                  = 0;
+
+    virtual void                    ConfigureDevice(controller_flags new_flags, std::string new_name)                                                   = 0;
 };

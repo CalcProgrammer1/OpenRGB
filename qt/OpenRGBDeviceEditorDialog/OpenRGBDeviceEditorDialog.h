@@ -30,6 +30,11 @@ public:
     int show();
     void OnSettingChanged(std::string key, nlohmann::json settings);
 
+private slots:
+    void changeEvent(QEvent *event);
+    void on_ButtonResetDeviceConfiguration_clicked();
+    void on_LineEditDeviceName_textChanged(const QString& arg1);
+
 private:
     /*-----------------------------------------------------*\
     | UI Pointer                                            |
@@ -40,6 +45,11 @@ private:
     | Device pointer                                        |
     \*-----------------------------------------------------*/
     RGBController*                  edit_dev;
+
+    /*-----------------------------------------------------*\
+    | Device flags                                          |
+    \*-----------------------------------------------------*/
+    controller_flags                edit_flags;
 
     /*-----------------------------------------------------*\
     | Device configuration                                  |

@@ -192,6 +192,77 @@ void RGBController_Network::ResizeZone(int zone, int new_size)
     client->WaitOnControllerData();
 }
 
+void RGBController_Network::ConfigureDevice(controller_flags new_flags, std::string new_name)
+{
+    /*-----------------------------------------------------*\
+    | ConfigureDevice was introduced in protocol version 6  |
+    \*-----------------------------------------------------*/
+    if(client->GetProtocolVersion() < 6)
+    {
+        return;
+    }
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock_shared();
+
+    /*-----------------------------------------------------*\
+    | Initialize variables                                  |
+    \*-----------------------------------------------------*/
+    unsigned int    data_size               = 0;
+    unsigned short  name_size               = (unsigned short)strlen(new_name.c_str()) + 1;
+
+    /*-----------------------------------------------------*\
+    | Calculate data size                                   |
+    \*-----------------------------------------------------*/
+    data_size                              += sizeof(data_size);
+    data_size                              += sizeof(new_flags);
+    data_size                              += sizeof(name_size);
+    data_size                              += name_size;
+
+    /*-----------------------------------------------------*\
+    | Create data buffer                                    |
+    \*-----------------------------------------------------*/
+    unsigned char * data_buf                = new unsigned char[data_size];
+    unsigned char * data_ptr                = data_buf;
+
+    /*-----------------------------------------------------*\
+    | Copy in data size                                     |
+    \*-----------------------------------------------------*/
+    memcpy(data_ptr, &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
+
+    /*-----------------------------------------------------*\
+    | Copy in flags                                         |
+    \*-----------------------------------------------------*/
+    memcpy(data_ptr, &new_flags, sizeof(new_flags));
+    data_ptr += sizeof(new_flags);
+
+    /*-----------------------------------------------------*\
+    | Copy in name size                                     |
+    \*-----------------------------------------------------*/
+    memcpy(data_ptr, &name_size, sizeof(name_size));
+    data_ptr += sizeof(name_size);
+
+    /*-----------------------------------------------------*\
+    | Copy in name                                         |
+    \*-----------------------------------------------------*/
+    memcpy(data_ptr, new_name.c_str(), name_size);
+    data_ptr += name_size;
+
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock_shared();
+
+    client->SendRequest_RGBController_ConfigureDevice(dev_id, data_buf, data_size);
+
+    delete[] data_buf;
+
+    client->SendRequest_ControllerData(dev_id);
+    client->WaitOnControllerData();
+}
+
 void RGBController_Network::DeviceUpdateLEDs()
 {
     unsigned char * data = CreateUpdateLEDsPacket(client->GetProtocolVersion());

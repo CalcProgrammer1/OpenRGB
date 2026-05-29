@@ -56,6 +56,19 @@ TabLabel::~TabLabel()
     delete ui;
 }
 
+void TabLabel::SetText(char* label)
+{
+    /*-----------------------------------------------------*\
+    | Store data                                            |
+    \*-----------------------------------------------------*/
+    this->label         = label;
+
+    /*-----------------------------------------------------*\
+    | Update label                                          |
+    \*-----------------------------------------------------*/
+    UpdateLabel(true);
+}
+
 void TabLabel::SetTextHidden(bool hidden)
 {
     if(hidden)

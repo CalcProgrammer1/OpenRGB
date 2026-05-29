@@ -173,7 +173,8 @@ enum
     NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS       = 1001, /* RGBController::ClearSegments()                   */
     NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT          = 1002, /* RGBController::AddSegment()                      */
     NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE       = 1003, /* RGBController::ConfigureZone()                   */
-    NET_PACKET_ID_RGBCONTROLLER_SETHIDDEN           = 1004, /* RGBController::SetHidden()                       */
+    NET_PACKET_ID_RGBCONTROLLER_CONFIGUREDEVICE     = 1004, /* RGBController::ConfigureDevice()                 */
+    NET_PACKET_ID_RGBCONTROLLER_SETHIDDEN           = 1005, /* RGBController::SetHidden()                       */
 
     NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS          = 1050, /* RGBController::UpdateLEDs()                      */
     NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS      = 1051, /* RGBController::UpdateZoneLEDs()                  */

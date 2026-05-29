@@ -152,15 +152,15 @@ device_type RGBController::GetDeviceType()
     return(type);
 }
 
-unsigned int RGBController::GetFlags()
+controller_flags RGBController::GetFlags()
 {
-    unsigned int controller_flags;
+    controller_flags flags_value;
 
     AccessMutex.lock_shared();
-    controller_flags = flags;
+    flags_value = flags;
     AccessMutex.unlock_shared();
 
-    return(controller_flags);
+    return(flags_value);
 }
 
 /*---------------------------------------------------------*\
@@ -272,22 +272,22 @@ std::size_t RGBController::GetZoneCount()
     return(zones.size());
 }
 
-unsigned int RGBController::GetZoneFlags(unsigned int zone)
+zone_flags RGBController::GetZoneFlags(unsigned int zone)
 {
-    unsigned int zone_flags;
+    zone_flags flags_value;
 
     AccessMutex.lock_shared();
     if(zone < zones.size())
     {
-        zone_flags = zones[zone].flags;
+        flags_value = zones[zone].flags;
     }
     else
     {
-        zone_flags = 0;
+        flags_value = 0;
     }
     AccessMutex.unlock_shared();
 
-    return(zone_flags);
+    return(flags_value);
 }
 
 unsigned int RGBController::GetZoneLEDsCount(unsigned int zone)
@@ -741,22 +741,22 @@ std::size_t RGBController::GetZoneSegmentCount(unsigned int zone)
     return(count);
 }
 
-unsigned int RGBController::GetZoneSegmentFlags(unsigned int zone, unsigned int segment)
+segment_flags RGBController::GetZoneSegmentFlags(unsigned int zone, unsigned int segment)
 {
-    unsigned int segment_flags;
+    segment_flags flags_value;
 
     AccessMutex.lock_shared();
     if((zone < zones.size()) && (segment < zones[zone].segments.size()))
     {
-        segment_flags = zones[zone].segments[segment].flags;
+        flags_value = zones[zone].segments[segment].flags;
     }
     else
     {
-        segment_flags = 0;
+        flags_value = 0;
     }
     AccessMutex.unlock_shared();
 
-    return(segment_flags);
+    return(flags_value);
 }
 
 unsigned int RGBController::GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment)
@@ -2116,6 +2116,36 @@ void RGBController::ResizeZone(int zone_idx, int new_size)
     }
 }
 
+void RGBController::ConfigureDevice(controller_flags new_flags, std::string new_name)
+{
+    AccessMutex.lock();
+
+    if(flags & CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_NAME)
+    {
+        if(new_flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME)
+        {
+            flags |= CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME;
+            name = new_name;
+        }
+        else
+        {
+            flags &= ~CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME;
+        }
+    }
+
+    if(flags & CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC)
+    {
+        flags &= ~CONTROLLER_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC;
+        flags |= (new_flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC);
+    }
+
+    DeviceConfigureDevice();
+
+    AccessMutex.unlock();
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_CONFIGUREDEVICE);
+}
+
 /*---------------------------------------------------------*\
 | Functions not part of interface for internal use only     |
 \*---------------------------------------------------------*/
@@ -2197,6 +2227,13 @@ void RGBController::UpdateLEDsInternal()
 /*---------------------------------------------------------*\
 | Functions to be implemented in device implementation      |
 \*---------------------------------------------------------*/
+void RGBController::DeviceConfigureDevice()
+{
+    /*-----------------------------------------------------*\
+    | If not implemented by controller, does nothing        |
+    \*-----------------------------------------------------*/
+}
+
 void RGBController::DeviceConfigureZone(int /*zone_idx*/)
 {
     /*-----------------------------------------------------*\

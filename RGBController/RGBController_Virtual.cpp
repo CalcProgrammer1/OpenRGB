@@ -69,7 +69,7 @@ void RGBController_Virtual::UpdateVirtualController(RGBController_Setup* setup)
 
     active_mode                                     = setup->active_mode;
     type                                            = setup->type;
-    flags                                           = CONTROLLER_FLAG_VIRTUAL;
+    flags                                           = setup->flags & CONTROLLER_FLAG_VIRTUAL;
 
     DeviceConfigureZone_ptr                         = setup->DeviceConfigureZone;
     DeviceUpdateLEDs_ptr                            = setup->DeviceUpdateLEDs;

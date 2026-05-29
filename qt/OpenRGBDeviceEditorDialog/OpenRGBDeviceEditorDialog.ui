@@ -15,11 +15,48 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
+    <widget class="QGroupBox" name="GroupBoxDeviceConfiguration">
+     <property name="title">
+      <string>Device Configuration</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="LabelDeviceName">
+        <property name="text">
+         <string>Device Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="LineEditDeviceName"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
     <widget class="QGroupBox" name="GroupBoxDeviceSpecificConfiguration">
      <property name="title">
       <string>Device-Specific Configuration</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="2" column="0">
+       <layout class="QHBoxLayout" name="HorizontalLayoutButtonBox">
+        <item>
+         <widget class="QPushButton" name="ButtonResetDeviceConfiguration">
+          <property name="text">
+           <string>Reset Device Configuration</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDialogButtonBox" name="ButtonBox">
+          <property name="standardButtons">
+           <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item row="0" column="0">
        <widget class="QScrollArea" name="ScrollAreaDeviceConfiguration">
         <property name="widgetResizable">
@@ -31,18 +68,11 @@
            <x>0</x>
            <y>0</y>
            <width>368</width>
-           <height>232</height>
+           <height>172</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="ScrollAreaDeviceConfigurationLayout"/>
         </widget>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QDialogButtonBox" name="ButtonBox">
-        <property name="standardButtons">
-         <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
-        </property>
        </widget>
       </item>
      </layout>
@@ -51,19 +81,38 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
-  <connections>
+ <connections>
   <connection>
    <sender>ButtonBox</sender>
    <signal>accepted()</signal>
    <receiver>OpenRGBDeviceEditorDialog</receiver>
    <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>ButtonBox</sender>
    <signal>rejected()</signal>
    <receiver>OpenRGBDeviceEditorDialog</receiver>
    <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
  </connections>
 </ui>
