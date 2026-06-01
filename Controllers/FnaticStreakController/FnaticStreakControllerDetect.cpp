@@ -26,6 +26,7 @@
 
 #define FNATIC_STREAK_PID                           0x0101
 #define FNATIC_MINISTREAK_PID                       0x0102
+#define FNATIC_STREAK65_PID                         0x0105
 
 void DetectFnaticStreakKeyboard(hid_device_info* info, const std::string& name)
 {
@@ -38,6 +39,10 @@ void DetectFnaticStreakKeyboard(hid_device_info* info, const std::string& name)
         if(info->product_id == FNATIC_MINISTREAK_PID)
         {
             kb_type = FNATIC_STREAK_TYPE_MINI;
+        }
+        else if(info->product_id == FNATIC_STREAK65_PID)
+        {
+            kb_type = FNATIC_STREAK_TYPE_65;
         }
         else
         {
@@ -53,3 +58,4 @@ void DetectFnaticStreakKeyboard(hid_device_info* info, const std::string& name)
 
 REGISTER_HID_DETECTOR_I("Fnatic Streak",      DetectFnaticStreakKeyboard, FNATIC_VID, FNATIC_STREAK_PID,      1);
 REGISTER_HID_DETECTOR_I("Fnatic miniStreak",  DetectFnaticStreakKeyboard, FNATIC_VID, FNATIC_MINISTREAK_PID,  1);
+REGISTER_HID_DETECTOR_I("Fnatic Streak65",    DetectFnaticStreakKeyboard, FNATIC_VID, FNATIC_STREAK65_PID,    1);

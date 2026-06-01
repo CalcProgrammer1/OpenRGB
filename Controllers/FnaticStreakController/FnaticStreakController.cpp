@@ -44,7 +44,7 @@ FnaticStreakController::~FnaticStreakController()
 
 std::string FnaticStreakController::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string FnaticStreakController::GetNameString()
@@ -230,16 +230,41 @@ void FnaticStreakController::SetLEDsDirect(std::vector<led> leds, std::vector<RG
 
 void FnaticStreakController::SendRGBToDevice()
 {
-    unsigned int total_leds = GetLEDCount();
-    unsigned int data_size = total_leds * 3;
+    if(keyboard_type == FNATIC_STREAK_TYPE_65)
+    {
+        unsigned char data[64];
+        memset(data, 0x00, sizeof(data));
 
-    /*-----------------------------------------------------*\
-    | For direct/software control, use command 0x0f         |
-    | This bypasses the profile and allows immediate update |
-    | The 0x03 subcommand indicates per-key color data      |
-    \*-----------------------------------------------------*/
-    unsigned char prefix[] = { 0x0f, 0x03 };
-    SendRequest(prefix, sizeof(prefix), color_buf, data_size);
+        data[0]  = 0x0F;
+        data[1]  = 0x15;
+
+        data[7]  = 0x0F;
+        data[8]  = 0x03;
+
+        for(unsigned int i = 9; i < 25; i++)
+        {
+            data[i] = 0xFF;
+        }
+
+        data[25] = color_buf[0];
+        data[26] = color_buf[1];
+        data[27] = color_buf[2];
+
+        hid_write(dev, data, sizeof(data));
+    }
+    else
+    {
+        unsigned int total_leds = GetLEDCount();
+        unsigned int data_size = total_leds * 3;
+
+        /*-----------------------------------------------------*\
+        | For direct/software control, use command 0x0f         |
+        | This bypasses the profile and allows immediate update |
+        | The 0x03 subcommand indicates per-key color data      |
+        \*-----------------------------------------------------*/
+        unsigned char prefix[] = { 0x0f, 0x03 };
+        SendRequest(prefix, sizeof(prefix), color_buf, data_size);
+    }
 }
 
 void FnaticStreakController::SetPulse(unsigned char color_mode, unsigned char r, unsigned char g, unsigned char b, unsigned char speed)

@@ -51,7 +51,8 @@
 enum FnaticStreakType
 {
     FNATIC_STREAK_TYPE_FULL,
-    FNATIC_STREAK_TYPE_MINI
+    FNATIC_STREAK_TYPE_MINI,
+    FNATIC_STREAK_TYPE_65
 };
 
 class FnaticStreakController
