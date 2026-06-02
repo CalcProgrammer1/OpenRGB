@@ -46,7 +46,7 @@ std::string ThermaltakeRiingController::GetSerialString()
 
 std::string ThermaltakeRiingController::GetFirmwareVersion()
 {
-    unsigned char usb_buf[64];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -56,14 +56,15 @@ std::string ThermaltakeRiingController::GetFirmwareVersion()
     /*-----------------------------------------------------*\
     | Set up Get Firmware Version packet                    |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = 0x33;
-    usb_buf[0x01]   = 0x50;
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x33;
+    usb_buf[0x02]   = 0x50;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, 65);
+    hid_read_timeout(dev, usb_buf, 65, 100);
 
     std::string ret_str = std::to_string(usb_buf[2]) + "." + std::to_string(usb_buf[3]) + "." + std::to_string(usb_buf[4]);
 
@@ -117,7 +118,7 @@ void ThermaltakeRiingController::SendInit()
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 65);
+    hid_read_timeout(dev, usb_buf, 65, 100);
 }
 
 void ThermaltakeRiingController::SendRGB
@@ -154,5 +155,5 @@ void ThermaltakeRiingController::SendRGB
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 65);
+    hid_read_timeout(dev, usb_buf, 65, 100);
 }
