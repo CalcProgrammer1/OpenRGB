@@ -1026,7 +1026,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         /*-------------------------------------------------*\
         | Draw zone name                                    |
         \*-------------------------------------------------*/
-        painter.drawText(posx, posy + posh, QString(controller->GetZoneName((unsigned int)zone_idx).c_str()));
+        painter.drawText(posx, posy + posh, QString(controller->GetZoneDisplayName((unsigned int)zone_idx).c_str()));
 
         for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
         {

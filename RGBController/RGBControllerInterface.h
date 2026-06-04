@@ -410,6 +410,7 @@ class zone
 {
 public:
     std::string             name;           /* Zone name                    */
+    std::string             display_name;   /* Display name                 */
     zone_type               type;           /* Zone type                    */
     led *                   leds;           /* List of LEDs in zone         */
     RGBColor *              colors;         /* Colors of LEDs in zone       */
@@ -512,6 +513,7 @@ public:
     virtual std::string             GetVersion()                                                                                                        = 0;
     virtual std::string             GetSerial()                                                                                                         = 0;
     virtual std::string             GetLocation()                                                                                                       = 0;
+    virtual std::string             GetDisplayName()                                                                                                    = 0;
 
     virtual device_type             GetDeviceType()                                                                                                     = 0;
     virtual controller_flags        GetFlags()                                                                                                          = 0;
@@ -530,6 +532,7 @@ public:
     virtual RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index)                                                           = 0;
     virtual RGBColor*               GetZoneColorsPointer(unsigned int zone)                                                                             = 0;
     virtual std::size_t             GetZoneCount()                                                                                                      = 0;
+    virtual std::string             GetZoneDisplayName(unsigned int zone)                                                                               = 0;
     virtual zone_flags              GetZoneFlags(unsigned int zone)                                                                                     = 0;
     virtual unsigned int            GetZoneLEDsCount(unsigned int zone)                                                                                 = 0;
     virtual unsigned int            GetZoneLEDsMax(unsigned int zone)                                                                                   = 0;

@@ -37,6 +37,7 @@ public:
     std::string             GetVersion();
     std::string             GetSerial();
     std::string             GetLocation();
+    std::string             GetDisplayName();
 
     device_type             GetDeviceType();
     controller_flags        GetFlags();
@@ -55,6 +56,7 @@ public:
     RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index);
     RGBColor*               GetZoneColorsPointer(unsigned int zone);
     std::size_t             GetZoneCount();
+    std::string             GetZoneDisplayName(unsigned int zone);
     zone_flags              GetZoneFlags(unsigned int zone);
     unsigned int            GetZoneLEDsCount(unsigned int zone);
     unsigned int            GetZoneLEDsMax(unsigned int zone);
@@ -271,6 +273,7 @@ protected:
     std::string             version;        /* controller version       */
     std::string             configuration;  /* controller device-       */
                                             /* specific config JSON     */
+    std::string             display_name;   /* display name             */
 
     /*-----------------------------------------------------*\
     | Controller variables                                  |
@@ -285,7 +288,8 @@ protected:
     std::vector<RGBColor>   colors;         /* Color buffer             */
     std::vector<led>        leds;           /* LEDs                     */
     std::vector<std::string>
-                            led_alt_names;  /* alternate LED names      */
+                            led_display_names;
+                                            /* LED display names        */
     std::vector<mode>       modes;          /* Modes                    */
     std::vector<zone>       zones;          /* Zones                    */
 

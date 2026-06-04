@@ -221,7 +221,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
             | names in them                                         |
             \*-----------------------------------------------------*/
             QTreeWidgetItem* new_item = new QTreeWidgetItem(new_top_item);
-            new_item->setText(0, QString::fromStdString(ResourceManager::get()->GetClients()[client_idx]->GetRGBControllers()[dev_idx]->GetName()));
+            new_item->setText(0, QString::fromStdString(ResourceManager::get()->GetClients()[client_idx]->GetRGBControllers()[dev_idx]->GetDisplayName()));
 
             /*-----------------------------------------------------*\
             | Add child items for each zone in the device           |
@@ -234,7 +234,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
                 \*-----------------------------------------------------*/
                 QTreeWidgetItem* new_child = new QTreeWidgetItem();
 
-                std::string zone_str = ResourceManager::get()->GetClients()[client_idx]->GetRGBControllers()[dev_idx]->GetZoneName(zone_idx) + ", ";
+                std::string zone_str = ResourceManager::get()->GetClients()[client_idx]->GetRGBControllers()[dev_idx]->GetZoneDisplayName(zone_idx) + ", ";
                 zone_str.append(std::to_string(ResourceManager::get()->GetClients()[client_idx]->GetRGBControllers()[dev_idx]->GetZoneLEDsCount(zone_idx)));
                 zone_str.append(" LEDs, ");
                 // TODO : translate

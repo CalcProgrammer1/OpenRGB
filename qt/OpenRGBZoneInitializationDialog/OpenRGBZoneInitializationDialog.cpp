@@ -146,10 +146,10 @@ void OpenRGBZoneInitializationDialog::CreateZoneWidget(RGBController* controller
     | Labels: controller name + zone name                       |
     \*---------------------------------------------------------*/
     QLabel* controller_label = new QLabel(this);
-    controller_label->setText(QString::fromStdString(controller->GetName()));
+    controller_label->setText(QString::fromStdString(controller->GetDisplayName()));
 
     QLabel* zone_label = new QLabel(this);
-    zone_label->setText(QString::fromStdString(controller->GetZoneName(zone_index)));
+    zone_label->setText(QString::fromStdString(controller->GetZoneDisplayName(zone_index)));
 
     /*---------------------------------------------------------*\
     | Spin box: controls the zone size                          |

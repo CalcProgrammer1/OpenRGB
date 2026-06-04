@@ -107,7 +107,7 @@ RGBController::~RGBController()
     /*-----------------------------------------------------*\
     | Clear member vectors                                  |
     \*-----------------------------------------------------*/
-    led_alt_names.clear();
+    led_display_names.clear();
     leds.clear();
     colors.clear();
     zones.clear();
@@ -145,6 +145,24 @@ std::string RGBController::GetSerial()
 std::string RGBController::GetLocation()
 {
     return(location);
+}
+
+std::string RGBController::GetDisplayName()
+{
+    std::string display_name_value;
+
+    AccessMutex.lock_shared();
+    if(flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME)
+    {
+        display_name_value = display_name;
+    }
+    else
+    {
+        display_name_value = name;
+    }
+    AccessMutex.unlock_shared();
+
+    return(display_name_value);
 }
 
 device_type RGBController::GetDeviceType()
@@ -270,6 +288,31 @@ RGBColor* RGBController::GetZoneColorsPointer(unsigned int zone)
 std::size_t RGBController::GetZoneCount()
 {
     return(zones.size());
+}
+
+std::string RGBController::GetZoneDisplayName(unsigned int zone)
+{
+    std::string display_name_value;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        if(zones[zone].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME)
+        {
+            display_name_value = zones[zone].display_name;
+        }
+        else
+        {
+            display_name_value = zones[zone].name;
+        }
+    }
+    else
+    {
+        display_name_value = "";
+    }
+    AccessMutex.unlock_shared();
+
+    return(display_name_value);
 }
 
 zone_flags RGBController::GetZoneFlags(unsigned int zone)
@@ -1556,9 +1599,9 @@ std::string RGBController::GetLEDDisplayName(unsigned int led)
     std::string name;
 
     AccessMutex.lock_shared();
-    if((led < led_alt_names.size()) && (led_alt_names[led] != ""))
+    if((led < led_display_names.size()) && (led_display_names[led] != ""))
     {
-        name = led_alt_names[led];
+        name = led_display_names[led];
     }
     else if(led < leds.size())
     {
@@ -2034,63 +2077,63 @@ void RGBController::ConfigureZone(int zone_idx, zone new_zone)
 
     if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SIZE)
     {
-        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
-        zones[zone_idx].leds_count  = new_zone.leds_count;
+        zones[zone_idx].flags          |= ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
+        zones[zone_idx].leds_count      = new_zone.leds_count;
     }
     else
     {
-        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
-        new_zone.leds_count         = 0;
+        zones[zone_idx].flags          &= ~ZONE_FLAG_MANUALLY_CONFIGURED_SIZE;
+        new_zone.leds_count             = 0;
     }
 
     if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME)
     {
-        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_NAME;
-        zones[zone_idx].name        = new_zone.name;
+        zones[zone_idx].flags          |= ZONE_FLAG_MANUALLY_CONFIGURED_NAME;
+        zones[zone_idx].display_name    = new_zone.display_name;
     }
     else
     {
-        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_NAME;
+        zones[zone_idx].flags          &= ~ZONE_FLAG_MANUALLY_CONFIGURED_NAME;
     }
 
     if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE)
     {
-        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_TYPE;
-        zones[zone_idx].type        = new_zone.type;
+        zones[zone_idx].flags          |= ZONE_FLAG_MANUALLY_CONFIGURED_TYPE;
+        zones[zone_idx].type            = new_zone.type;
     }
     else
     {
-        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_TYPE;
+        zones[zone_idx].flags          &= ~ZONE_FLAG_MANUALLY_CONFIGURED_TYPE;
     }
 
     if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP)
     {
-        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP;
-        zones[zone_idx].matrix_map  = new_zone.matrix_map;
+        zones[zone_idx].flags          |= ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP;
+        zones[zone_idx].matrix_map      = new_zone.matrix_map;
     }
     else
     {
-        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP;
+        zones[zone_idx].flags          &= ~ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP;
     }
 
     if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS)
     {
-        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
-        zones[zone_idx].segments    = new_zone.segments;
+        zones[zone_idx].flags          |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        zones[zone_idx].segments        = new_zone.segments;
     }
     else
     {
-        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+        zones[zone_idx].flags          &= ~ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
         zones[zone_idx].segments.clear();
     }
 
     if(new_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC)
     {
-        zones[zone_idx].flags      |= ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC;
+        zones[zone_idx].flags          |= ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC;
     }
     else
     {
-        zones[zone_idx].flags      &= ~ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC;
+        zones[zone_idx].flags          &= ~ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC;
     }
 
     DeviceConfigureZone(zone_idx);
@@ -2125,11 +2168,12 @@ void RGBController::ConfigureDevice(controller_flags new_flags, std::string new_
         if(new_flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME)
         {
             flags |= CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME;
-            name = new_name;
+            display_name = new_name;
         }
         else
         {
             flags &= ~CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME;
+            display_name = "";
         }
     }
 
@@ -2353,10 +2397,11 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     unsigned short version_len              = (unsigned short)strlen(controller->version.c_str())     + 1;
     unsigned short serial_len               = (unsigned short)strlen(controller->serial.c_str())      + 1;
     unsigned short location_len             = (unsigned short)strlen(controller->location.c_str())    + 1;
+    unsigned short display_name_len         = (unsigned short)strlen(controller->display_name.c_str())+ 1;
     unsigned short num_modes                = (unsigned short)controller->modes.size();
     unsigned short num_zones                = (unsigned short)controller->zones.size();
     unsigned short num_leds                 = (unsigned short)controller->leds.size();
-    unsigned short num_led_alt_names        = (unsigned short)controller->led_alt_names.size();
+    unsigned short num_led_display_names    = (unsigned short)controller->led_display_names.size();
     unsigned int   configuration_len        = (unsigned int  )strlen(controller->configuration.c_str()) + 1;
 
     /*-----------------------------------------------------*\
@@ -2483,20 +2528,20 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
         /*-------------------------------------------------*\
         | Number of LED alternate name strings              |
         \*-------------------------------------------------*/
-        memcpy(data_ptr, &num_led_alt_names, sizeof(num_led_alt_names));
-        data_ptr += sizeof(num_led_alt_names);
+        memcpy(data_ptr, &num_led_display_names, sizeof(num_led_display_names));
+        data_ptr += sizeof(num_led_display_names);
 
-        for(std::size_t led_idx = 0; led_idx < controller->led_alt_names.size(); led_idx++)
+        for(std::size_t led_idx = 0; led_idx < controller->led_display_names.size(); led_idx++)
         {
             /*---------------------------------------------*\
             | Copy in LED alternate name (size+data)        |
             \*---------------------------------------------*/
-            unsigned short string_length    = (unsigned short)strlen(controller->led_alt_names[led_idx].c_str()) + 1;
+            unsigned short string_length    = (unsigned short)strlen(controller->led_display_names[led_idx].c_str()) + 1;
 
             memcpy(data_ptr, &string_length, sizeof(string_length));
             data_ptr += sizeof(string_length);
 
-            strcpy((char *)data_ptr, controller->led_alt_names[led_idx].c_str());
+            strcpy((char *)data_ptr, controller->led_display_names[led_idx].c_str());
             data_ptr += string_length;
         }
     }
@@ -2515,6 +2560,12 @@ unsigned char * RGBController::GetDeviceDescriptionData(unsigned char* data_ptr,
     \*-----------------------------------------------------*/
     if(protocol_version >= 6)
     {
+        memcpy(data_ptr, &display_name_len, sizeof(display_name_len));
+        data_ptr += sizeof(display_name_len);
+
+        strcpy((char *)data_ptr, controller->display_name.c_str());
+        data_ptr += display_name_len;
+
         memcpy(data_ptr, &configuration_len, sizeof(configuration_len));
         data_ptr += sizeof(configuration_len);
 
@@ -2541,10 +2592,11 @@ unsigned int RGBController::GetDeviceDescriptionSize(RGBController* controller, 
     unsigned short version_len              = (unsigned short)strlen(controller->version.c_str())     + 1;
     unsigned short serial_len               = (unsigned short)strlen(controller->serial.c_str())      + 1;
     unsigned short location_len             = (unsigned short)strlen(controller->location.c_str())    + 1;
+    unsigned short display_name_len         = (unsigned short)strlen(controller->display_name.c_str())+ 1;
     unsigned short num_modes                = (unsigned short)controller->modes.size();
     unsigned short num_zones                = (unsigned short)controller->zones.size();
     unsigned short num_leds                 = (unsigned short)controller->leds.size();
-    unsigned short num_led_alt_names        = (unsigned short)controller->led_alt_names.size();
+    unsigned short num_led_display_names    = (unsigned short)controller->led_display_names.size();
     unsigned int   configuration_len        = (unsigned int  )strlen(controller->configuration.c_str()) + 1;
 
     data_size                              += sizeof(device_type);
@@ -2592,12 +2644,12 @@ unsigned int RGBController::GetDeviceDescriptionSize(RGBController* controller, 
 
     if(protocol_version >= 5)
     {
-        data_size                          += sizeof(num_led_alt_names);
+        data_size                          += sizeof(num_led_display_names);
 
-        for(std::size_t led_idx = 0; led_idx < controller->led_alt_names.size(); led_idx++)
+        for(std::size_t led_idx = 0; led_idx < controller->led_display_names.size(); led_idx++)
         {
             data_size                      += sizeof(unsigned short);
-            data_size                      += (unsigned int)strlen(controller->led_alt_names[led_idx].c_str()) + 1;
+            data_size                      += (unsigned int)strlen(controller->led_display_names[led_idx].c_str()) + 1;
         }
     }
 
@@ -2608,6 +2660,8 @@ unsigned int RGBController::GetDeviceDescriptionSize(RGBController* controller, 
 
     if(protocol_version >= 6)
     {
+        data_size                          += sizeof(display_name_len);
+        data_size                          += display_name_len;
         data_size                          += sizeof(configuration_len);
         data_size                          += configuration_len;
     }
@@ -2951,6 +3005,7 @@ unsigned char * RGBController::GetZoneDescriptionData(unsigned char* data_ptr, z
     | Initialize variables                                  |
     \*-----------------------------------------------------*/
     unsigned short  zone_name_len           = (unsigned short)strlen(zone.name.c_str()) + 1;
+    unsigned short  zone_display_name_len   = (unsigned short)strlen(zone.display_name.c_str()) + 1;
 
     /*-----------------------------------------------------*\
     | Copy in zone name (size+data)                         |
@@ -3084,6 +3139,15 @@ unsigned char * RGBController::GetZoneDescriptionData(unsigned char* data_ptr, z
         {
             data_ptr = GetModeDescriptionData(data_ptr, zone.modes[mode_index], protocol_version);
         }
+
+        /*-------------------------------------------------*\
+        | Copy in zone display name (size+data)             |
+        \*-------------------------------------------------*/
+        memcpy(data_ptr, &zone_display_name_len, sizeof(zone_display_name_len));
+        data_ptr += sizeof(unsigned short);
+
+        strcpy((char *)data_ptr, zone.display_name.c_str());
+        data_ptr += zone_display_name_len;
     }
 
     return(data_ptr);
@@ -3148,6 +3212,9 @@ unsigned int RGBController::GetZoneDescriptionSize(zone zone, unsigned int proto
         {
             data_size                      += GetModeDescriptionSize(zone.modes[mode_index], protocol_version);
         }
+
+        data_size                          += sizeof(unsigned short);
+        data_size                          += (unsigned short)strlen(zone.display_name.c_str()) + 1;
     }
 
     return(data_size);
@@ -3310,19 +3377,19 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
         /*-------------------------------------------------*\
         | Copy in number of LED alternate names             |
         \*-------------------------------------------------*/
-        unsigned short num_led_alt_names;
-        COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, num_led_alt_names, controller);
+        unsigned short num_led_display_names;
+        COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, num_led_display_names, controller);
 
-        controller->led_alt_names.resize(num_led_alt_names);
+        controller->led_display_names.resize(num_led_display_names);
 
-        for(unsigned short led_idx = 0; led_idx < num_led_alt_names; led_idx++)
+        for(unsigned short led_idx = 0; led_idx < num_led_display_names; led_idx++)
         {
             /*---------------------------------------------*\
             | Copy in LED alternate name string (size+data) |
             \*---------------------------------------------*/
             unsigned short string_length = 0;
             COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, string_length, controller);
-            COPY_STRING_FIELD_UNLOCK(data_ptr, data_start, string_length, controller->led_alt_names[led_idx], controller);
+            COPY_STRING_FIELD_UNLOCK(data_ptr, data_start, string_length, controller->led_display_names[led_idx], controller);
         }
     }
 
@@ -3339,6 +3406,13 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     \*-----------------------------------------------------*/
     if(protocol_version >= 6)
     {
+        /*-------------------------------------------------*\
+        | Copy in display name                              |
+        \*-------------------------------------------------*/
+        unsigned short display_name_len;
+        COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, display_name_len, controller);
+        COPY_STRING_FIELD_UNLOCK(data_ptr, data_start, display_name_len, controller->display_name, controller);
+
         unsigned int configuration_len;
         COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, configuration_len, controller);
         COPY_STRING_FIELD_UNLOCK(data_ptr, data_start, configuration_len, controller->configuration, controller);
@@ -3761,6 +3835,13 @@ unsigned char* RGBController::SetZoneDescription(unsigned char* data_ptr, unsign
                 return(NULL);
             }
         }
+
+        /*-------------------------------------------------*\
+        | Copy in zone display name                         |
+        \*-------------------------------------------------*/
+        unsigned short zonedisplayname_len;
+        COPY_DATA_FIELD(data_ptr, data_start, zonedisplayname_len);
+        COPY_STRING_FIELD(data_ptr, data_start, zonedisplayname_len, zone->display_name);
     }
 
     return(data_ptr);
@@ -3787,6 +3868,7 @@ nlohmann::json RGBController::GetDeviceDescriptionJSON(RGBController* controller
     controller_json["serial"]               = controller->serial;
     controller_json["vendor"]               = controller->vendor;
     controller_json["version"]              = controller->version;
+    controller_json["display_name"]         = controller->display_name;
 
     try
     {
@@ -3822,9 +3904,9 @@ nlohmann::json RGBController::GetDeviceDescriptionJSON(RGBController* controller
     /*-----------------------------------------------------*\
     | LED alternate names                                   |
     \*-----------------------------------------------------*/
-    for(std::size_t led_alt_name_idx = 0; led_alt_name_idx < controller->led_alt_names.size(); led_alt_name_idx++)
+    for(std::size_t led_display_name_idx = 0; led_display_name_idx < controller->led_display_names.size(); led_display_name_idx++)
     {
-        controller_json["led_alt_names"][led_alt_name_idx] = controller->led_alt_names[led_alt_name_idx];
+        controller_json["led_display_names"][led_display_name_idx] = controller->led_display_names[led_display_name_idx];
     }
 
     /*-----------------------------------------------------*\
@@ -3937,6 +4019,7 @@ nlohmann::json RGBController::GetZoneDescriptionJSON(zone zone)
     | Zone Information                                      |
     \*-----------------------------------------------------*/
     zone_json["name"]                                           = zone.name;
+    zone_json["display_name"]                                   = zone.display_name;
     zone_json["type"]                                           = zone.type;
     zone_json["leds_count"]                                     = zone.leds_count;
     zone_json["leds_min"]                                       = zone.leds_min;
@@ -4003,6 +4086,11 @@ void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json, RGB
         controller->version                             = controller_json["version"];
     }
 
+    if(controller_json.contains("display_name"))
+    {
+        controller->display_name                        = controller_json["display_name"];
+    }
+
     if(controller_json.contains("configuration"))
     {
         controller->configuration                       = controller_json["configuration"].dump();
@@ -4055,13 +4143,13 @@ void RGBController::SetDeviceDescriptionJSON(nlohmann::json controller_json, RGB
     /*-----------------------------------------------------*\
     | LED alternate names                                   |
     \*-----------------------------------------------------*/
-    if(controller_json.contains("led_alt_names"))
+    if(controller_json.contains("led_display_names"))
     {
-        controller->led_alt_names.resize(controller_json["led_alt_names"].size());
+        controller->led_display_names.resize(controller_json["led_display_names"].size());
 
-        for(std::size_t led_alt_name_idx = 0; led_alt_name_idx < controller->led_alt_names.size(); led_alt_name_idx++)
+        for(std::size_t led_display_name_idx = 0; led_display_name_idx < controller->led_display_names.size(); led_display_name_idx++)
         {
-            controller->led_alt_names[led_alt_name_idx] = controller_json["led_alt_names"][led_alt_name_idx];
+            controller->led_display_names[led_display_name_idx] = controller_json["led_display_names"][led_display_name_idx];
         }
     }
 
@@ -4282,6 +4370,11 @@ zone RGBController::SetZoneDescriptionJSON(nlohmann::json zone_json)
     if(zone_json.contains("name"))
     {
         new_zone.name                                       = zone_json["name"];
+    }
+
+    if(zone_json.contains("display_name"))
+    {
+        new_zone.display_name                               = zone_json["display_name"];
     }
 
     if(zone_json.contains("type"))

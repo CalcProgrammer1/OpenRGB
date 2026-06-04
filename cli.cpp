@@ -345,7 +345,7 @@ unsigned int ParseMode(DeviceOptions& options, std::vector<RGBController *> &rgb
         }
     }
 
-    std::cout << "Error: Mode '" + options.mode + "' not available for device '" + rgb_controllers[options.device]->GetName() + "'" << std::endl;
+    std::cout << "Error: Mode '" + options.mode + "' not available for device '" + rgb_controllers[options.device]->GetDisplayName() + "'" << std::endl;
     return false;
 }
 
@@ -467,7 +467,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         /*---------------------------------------------------------*\
         | Print device name                                         |
         \*---------------------------------------------------------*/
-        std::cout << controller_idx << ": " << controller->GetName() << std::endl;
+        std::cout << controller_idx << ": " << controller->GetDisplayName() << std::endl;
 
         /*---------------------------------------------------------*\
         | Print device type                                         |
@@ -536,7 +536,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
 
             for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
             {
-                std::cout << " " << QuoteIfNecessary(controller->GetZoneName(zone_idx));
+                std::cout << " " << QuoteIfNecessary(controller->GetZoneDisplayName(zone_idx));
             }
             std::cout << std::endl;
         }
@@ -602,7 +602,7 @@ bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argum
                 | If the argument is not a number then check all the        |
                 |   controllers names for a match                           |
                 \*---------------------------------------------------------*/
-                std::string name            = rgb_controllers[i]->GetName();
+                std::string name            = rgb_controllers[i]->GetDisplayName();
                 std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                 LOG_TRACE("[CLI] Comparing to %s", name.c_str());
 
