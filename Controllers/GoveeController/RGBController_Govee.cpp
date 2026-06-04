@@ -20,6 +20,8 @@ static std::map<std::string, unsigned int> govee_led_counts
 {
     { "H619A", 20  },
     { "H70B1", 20  },
+    { "H612F", 12  },
+    { "H607C", 174 },
 };
 
 RGBController_Govee::RGBController_Govee(GoveeController* controller_ptr)
