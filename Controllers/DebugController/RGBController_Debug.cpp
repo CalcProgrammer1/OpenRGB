@@ -220,7 +220,7 @@ void RGBController_Debug::SetupZones()
     /*-------------------------------------------------*\
     | Clear any existing color/LED configuration        |
     \*-------------------------------------------------*/
-    led_alt_names.clear();
+    led_display_names.clear();
     leds.clear();
     colors.clear();
 
@@ -409,7 +409,7 @@ void RGBController_Debug::SetupZones()
 
             leds.push_back(single_led);
 
-            led_alt_names.push_back("");
+            led_display_names.push_back("");
 
             nlohmann::json configuration_json;
             JsonUtils::JsonParse(configuration, configuration_json);
@@ -461,7 +461,7 @@ void RGBController_Debug::SetupZones()
 
                 leds.push_back(linear_led);
 
-                led_alt_names.push_back("");
+                led_display_names.push_back("");
             }
 
             zone_idx++;
@@ -604,7 +604,7 @@ void RGBController_Debug::SetupZones()
 
                 leds.push_back(keyboard_led);
 
-                led_alt_names.push_back(new_kb.GetKeyAltNameAt(led_idx));
+                led_display_names.push_back(new_kb.GetKeyAltNameAt(led_idx));
             }
 
             if(first_run)
@@ -663,7 +663,7 @@ void RGBController_Debug::SetupZones()
 
                 leds.push_back(underglow_led);
 
-                led_alt_names.push_back("");
+                led_display_names.push_back("");
             }
 
             zone_idx++;
@@ -719,7 +719,7 @@ void RGBController_Debug::SetupZones()
 
                 leds.push_back(resizable_led);
 
-                led_alt_names.push_back("");
+                led_display_names.push_back("");
             }
 
             zone_idx++;

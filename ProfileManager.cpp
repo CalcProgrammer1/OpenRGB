@@ -189,25 +189,14 @@ bool ProfileManager::CompareControllers(RGBController* controller_1, RGBControll
     }
 
     /*-----------------------------------------------------*\
-    | Do not check zonedevice name if manually configured   |
-    \*-----------------------------------------------------*/
-    bool    check_device_name   = true;
-
-    if((controller_1->GetFlags() & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME)
-    || (controller_2->GetFlags() & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME))
-    {
-        check_device_name = false;
-    }
-
-    /*-----------------------------------------------------*\
     | Compare top-level controller information              |
     \*-----------------------------------------------------*/
-    if(                      (controller_1->GetDeviceType()    != controller_2->GetDeviceType() )
-    || (check_device_name && (controller_1->GetName()          != controller_2->GetName()       ))
-    ||                       (controller_1->GetDescription()   != controller_2->GetDescription())
-    ||                       (controller_1->GetVersion()       != controller_2->GetVersion()    )
-    ||                       (controller_1->GetSerial()        != controller_2->GetSerial()     )
-    ||                       (location_check                   != true                          ))
+    if((controller_1->GetDeviceType()    != controller_2->GetDeviceType() )
+    || (controller_1->GetName()          != controller_2->GetName()       )
+    || (controller_1->GetDescription()   != controller_2->GetDescription())
+    || (controller_1->GetVersion()       != controller_2->GetVersion()    )
+    || (controller_1->GetSerial()        != controller_2->GetSerial()     )
+    || (location_check                   != true                          ))
     {
         return(false);
     }
@@ -249,17 +238,7 @@ bool ProfileManager::CompareControllers(RGBController* controller_1, RGBControll
         for(std::size_t zone_index = 0; zone_index < controller_1->zones.size(); zone_index++)
         {
             bool    check_zone_geometry = true;
-            bool    check_zone_name     = true;
             bool    check_zone_type     = true;
-
-            /*---------------------------------------------*\
-            | Do not check zone name if manually configured |
-            \*---------------------------------------------*/
-            if((controller_1->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED_NAME)
-            || (controller_2->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
-            {
-                check_zone_name = false;
-            }
 
             /*---------------------------------------------*\
             | Do not check zone type if manually configured |
@@ -276,7 +255,7 @@ bool ProfileManager::CompareControllers(RGBController* controller_1, RGBControll
                 check_zone_geometry = false;
             }
 
-            if((check_zone_name     && (controller_1->GetZoneName(zone_index)      != controller_2->GetZoneName(zone_index)     ))
+            if((                       (controller_1->GetZoneName(zone_index)      != controller_2->GetZoneName(zone_index)     ))
             || (check_zone_type     && (controller_1->GetZoneType(zone_index)      != controller_2->GetZoneType(zone_index)     ))
             || (check_zone_geometry && ((controller_1->GetZoneLEDsMin(zone_index)   != controller_2->GetZoneLEDsMin(zone_index)  )
                                      || (controller_1->GetZoneLEDsMax(zone_index)   != controller_2->GetZoneLEDsMax(zone_index)  )))
@@ -1202,7 +1181,7 @@ bool ProfileManager::LoadControllerFromListWithOptions
                 nlohmann::json configuration_json;
                 JsonUtils::JsonParse(profile_controller->configuration, configuration_json);
 
-                load_controller->ConfigureDevice(profile_controller->flags, profile_controller->name);
+                load_controller->ConfigureDevice(profile_controller->flags, profile_controller->display_name);
                 load_controller->SetDeviceSpecificConfiguration(configuration_json["configuration"]);
 
                 /*-----------------------------------------*\

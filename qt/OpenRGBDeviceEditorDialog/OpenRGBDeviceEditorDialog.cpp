@@ -41,7 +41,7 @@ OpenRGBDeviceEditorDialog::OpenRGBDeviceEditorDialog(RGBController *dev, QWidget
     \*-----------------------------------------------------*/
     QString currentTitle = windowTitle();
 
-    QString newTitle = currentTitle + " - " + QString::fromStdString(edit_dev->GetName());
+    QString newTitle = currentTitle + " - " + QString::fromStdString(edit_dev->GetDisplayName());
 
     setWindowTitle(newTitle);
 
@@ -49,7 +49,7 @@ OpenRGBDeviceEditorDialog::OpenRGBDeviceEditorDialog(RGBController *dev, QWidget
     | Initialize device name                                |
     \*-----------------------------------------------------*/
     ui->LineEditDeviceName->blockSignals(true);
-    ui->LineEditDeviceName->setText(QString::fromStdString(dev->GetName()));
+    ui->LineEditDeviceName->setText(QString::fromStdString(dev->GetDisplayName()));
     ui->LineEditDeviceName->blockSignals(false);
 
     if((edit_flags & CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_NAME) == 0)
