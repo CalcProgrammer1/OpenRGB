@@ -35,24 +35,7 @@
       <enum>QFrame::Shadow::Sunken</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
-      <item row="4" column="1">
-       <widget class="QLabel" name="VersionValue">
-        <property name="text">
-         <string notr="true">Version Value</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="SerialLabel">
-        <property name="text">
-         <string>Serial:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
+      <item row="7" column="1">
        <widget class="QLabel" name="SerialValue">
         <property name="text">
          <string notr="true">Serial Value</string>
@@ -62,48 +45,21 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="NameLabel">
         <property name="text">
          <string>Name:</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="NameValue">
+      <item row="7" column="0">
+       <widget class="QLabel" name="SerialLabel">
         <property name="text">
-         <string notr="true">Name Value</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
+         <string>Serial:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="VendorLabel">
-        <property name="text">
-         <string>Vendor:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="VendorValue">
-        <property name="text">
-         <string notr="true">Vendor Value</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="TypeLabel">
-        <property name="text">
-         <string>Type:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
+      <item row="3" column="1">
        <widget class="QLabel" name="TypeValue">
         <property name="text">
          <string notr="true">Type Value</string>
@@ -113,7 +69,14 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="4" column="0">
+       <widget class="QLabel" name="DescriptionLabel">
+        <property name="text">
+         <string>Description:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
        <widget class="QLabel" name="DescriptionValue">
         <property name="text">
          <string notr="true">Description Value</string>
@@ -123,28 +86,14 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="DescriptionLabel">
-        <property name="text">
-         <string>Description:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="VersionLabel">
-        <property name="text">
-         <string>Version:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
+      <item row="6" column="0">
        <widget class="QLabel" name="LocationLabel">
         <property name="text">
          <string>Location:</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="6" column="1">
        <widget class="QLabel" name="LocationValue">
         <property name="text">
          <string notr="true">Location Value</string>
@@ -154,20 +103,85 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="FlagsLabel">
+      <item row="2" column="0">
+       <widget class="QLabel" name="VendorLabel">
         <property name="text">
-         <string>Flags:</string>
+         <string>Vendor:</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="8" column="1">
        <widget class="QLabel" name="FlagsValue">
         <property name="text">
          <string notr="true">Flags Value</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="VersionLabel">
+        <property name="text">
+         <string>Version:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="TypeLabel">
+        <property name="text">
+         <string>Type:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="VendorValue">
+        <property name="text">
+         <string notr="true">Vendor Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="NameValue">
+        <property name="text">
+         <string notr="true">Name Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="FlagsLabel">
+        <property name="text">
+         <string>Flags:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="VersionValue">
+        <property name="text">
+         <string notr="true">Version Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="DisplayNameLabel">
+        <property name="text">
+         <string>Display Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="DisplayNameValue">
+        <property name="text">
+         <string notr="true">Display Name Value</string>
         </property>
        </widget>
       </item>

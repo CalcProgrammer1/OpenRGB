@@ -986,7 +986,7 @@ void OpenRGBDialog::UpdateDevicesList()
                     /*-------------------------------------*\
                     | Update the device name on the tab     |
                     \*-------------------------------------*/
-                    ((TabLabel*)(ui->DevicesTabBar->tabBar()->tabButton(tab_idx, QTabBar::LeftSide)))->SetText((char *)controllers[controller_idx]->GetName().c_str());
+                    ((TabLabel*)(ui->DevicesTabBar->tabBar()->tabButton(tab_idx, QTabBar::LeftSide)))->SetText((char *)controllers[controller_idx]->GetDisplayName().c_str());
 
                     /*-------------------------------------*\
                     | If the controller for this page is    |
@@ -1059,7 +1059,7 @@ void OpenRGBDialog::UpdateDevicesList()
                         /*---------------------------------*\
                         | Create the tab label              |
                         \*---------------------------------*/
-                        TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
+                        TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetDisplayName().c_str(), (char *)context, false);
 
                         ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
 
@@ -1126,7 +1126,7 @@ void OpenRGBDialog::UpdateDevicesList()
                 /*-----------------------------------------*\
                 | Create the tab label                      |
                 \*-----------------------------------------*/
-                TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
+                TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetDisplayName().c_str(), (char *)context, false);
 
                 NewTabLabel->SetTextHidden(isCompactTabMode());
 
@@ -1172,7 +1172,7 @@ void OpenRGBDialog::UpdateDevicesList()
                     /*-------------------------------------*\
                     | Update the device name on the tab     |
                     \*-------------------------------------*/
-                    ((TabLabel*)(ui->InformationTabBar->tabBar()->tabButton(tab_idx, QTabBar::LeftSide)))->SetText((char *)controllers[controller_idx]->GetName().c_str());
+                    ((TabLabel*)(ui->InformationTabBar->tabBar()->tabButton(tab_idx, QTabBar::LeftSide)))->SetText((char *)controllers[controller_idx]->GetDisplayName().c_str());
 
                     ui->InformationTabBar->tabBar()->moveTab(tab_idx, controller_idx);
                     break;
@@ -1193,12 +1193,12 @@ void OpenRGBDialog::UpdateDevicesList()
             /*---------------------------------------------*\
             | Create the tab label                          |
             \*---------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context, false);
+            TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(controllers[controller_idx]->GetDeviceType()), (char *)controllers[controller_idx]->GetDisplayName().c_str(), (char *)context, false);
 
             NewTabLabel->SetTextHidden(isCompactTabMode());
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
-            ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
+            ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetDisplayName()));
 
             /*---------------------------------------------*\
             | Now move the new tab to the correct position  |
