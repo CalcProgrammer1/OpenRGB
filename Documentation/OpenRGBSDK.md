@@ -161,8 +161,8 @@ The Device Data block represents an entire `RGBController`.  This data block is 
 | Variable            | LED Data[num_leds]                    | leds                | 0                | See [LED Data](#led-data) block format table.  Repeat num_leds times                                         |
 | 2                   | unsigned short                        | num_colors          | 0                | Number of colors in RGBController                                                                            |
 | 4 * num_colors      | RGBColor[num_colors]                  | colors              | 0                | RGBController colors field values                                                                            |
-| 2                   | unsigned short                        | num_led_alt_names   | 5                | Number of LED alternate name strings                                                                         |
-| Variable            | LED Alternate Name[num_led_alt_names] | led_alt_names       | 5                | See [LED Alternate Name Data](#led-alternate-names-data) block format table.  Repeat num_led_alt_names times |
+| 2                   | unsigned short                        | num_led_display_names   | 5                | Number of LED alternate name strings                                                                         |
+| Variable            | LED Alternate Name[num_led_display_names] | led_display_names       | 5                | See [LED Alternate Name Data](#led-alternate-names-data) block format table.  Repeat num_led_display_names times |
 | 4                   | unsigned int                          | flags               | 5                | RGBController flags field value                                                                              |
 | 4                   | unsigned int                          | configuration_len   | 6                | Length of RGBController configuration field string, including null termination                               |
 | configuration_len   | char[configuration_len]               | configuration       |                  | RGBController configuration field string value, including null termination                                   |
@@ -248,7 +248,7 @@ The LED Data block represents one entry in the `RGBController::leds` vector.  Th
 
 ## LED Alternate Name Data
 
-The LED Alternate Name Data block represents one entry in the `RGBController::led_alt_names` vector.  This data block was introduced in protocol version 5.
+The LED Alternate Name Data block represents one entry in the `RGBController::led_display_names` vector.  This data block was introduced in protocol version 5.
 
 | Size             | Format                 | Name             | Protocol Version | Description                                                     |
 | ---------------- | ---------------------- | ---------------- | ---------------- | --------------------------------------------------------------- |

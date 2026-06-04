@@ -67,6 +67,7 @@ void OpenRGBDeviceInfoPage::UpdateInterface()
 {
     ui->TypeValue->setText(RGBController::DeviceTypeToString(controller->GetDeviceType()).c_str());
 
+    ui->DisplayNameValue->setText(QString::fromStdString(controller->GetDisplayName()));
     ui->NameValue->setText(QString::fromStdString(controller->GetName()));
     ui->VendorValue->setText(QString::fromStdString(controller->GetVendor()));
     ui->DescriptionValue->setText(QString::fromStdString(controller->GetDescription()));
@@ -117,6 +118,42 @@ void OpenRGBDeviceInfoPage::UpdateInterface()
             flags_string += ", ";
         }
         flags_string   += "Reset Before Update";
+        need_separator  = true;
+    }
+    if(flags & CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_NAME)
+    {
+        if(need_separator)
+        {
+            flags_string += ", ";
+        }
+        flags_string   += "Manually Configurable Name";
+        need_separator  = true;
+    }
+    if(flags & CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC)
+    {
+        if(need_separator)
+        {
+            flags_string += ", ";
+        }
+        flags_string   += "Manually Configurable Device Specific";
+        need_separator  = true;
+    }
+    if(flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_NAME)
+    {
+        if(need_separator)
+        {
+            flags_string += ", ";
+        }
+        flags_string   += "Manually Configured Name";
+        need_separator  = true;
+    }
+    if(flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC)
+    {
+        if(need_separator)
+        {
+            flags_string += ", ";
+        }
+        flags_string   += "Manually Configured Device Specific";
         need_separator  = true;
     }
 

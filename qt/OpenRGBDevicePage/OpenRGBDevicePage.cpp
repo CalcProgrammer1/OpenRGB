@@ -1684,7 +1684,7 @@ void OpenRGBDevicePage::UpdateModeUi()
 
                 for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
                 {
-                    ui->ZoneBox->addItem(device->GetZoneName((unsigned int)zone_idx).c_str());
+                    ui->ZoneBox->addItem(device->GetZoneDisplayName((unsigned int)zone_idx).c_str());
 
                     for(std::size_t segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
                     {
@@ -1772,7 +1772,7 @@ void OpenRGBDevicePage::UpdateZoneList()
 
     for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
     {
-        ui->ZoneBox->addItem(device->GetZoneName((unsigned int)zone_idx).c_str());
+        ui->ZoneBox->addItem(device->GetZoneDisplayName((unsigned int)zone_idx).c_str());
 
         for(std::size_t segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
         {

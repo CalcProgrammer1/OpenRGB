@@ -45,7 +45,7 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     \*-----------------------------------------------------*/
     QString currentTitle = windowTitle();
 
-    QString newTitle = currentTitle + " - " + QString::fromStdString(edit_dev->GetZoneName(edit_zone_idx));
+    QString newTitle = currentTitle + " - " + QString::fromStdString(edit_dev->GetZoneDisplayName(edit_zone_idx));
 
     setWindowTitle(newTitle);
 
@@ -63,6 +63,7 @@ OpenRGBZoneEditorDialog::OpenRGBZoneEditorDialog(RGBController* edit_dev_ptr, un
     else if(edit_zone.flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME)
     {
         ui->LabelZoneName->setText("Zone Name (*):");
+        ui->LineEditZoneName->setText(QString::fromStdString(edit_zone.display_name));
     }
 
     /*-----------------------------------------------------*\
@@ -369,7 +370,7 @@ int OpenRGBZoneEditorDialog::show()
         /*-------------------------------------------------*\
         | Update zone with new settings                     |
         \*-------------------------------------------------*/
-        edit_zone.name                              = ui->LineEditZoneName->text().toStdString();
+        edit_zone.display_name                      = ui->LineEditZoneName->text().toStdString();
         edit_zone.leds_count                        = ui->SliderZoneSize->value();
         edit_zone.type                              = ui->ComboBoxZoneType->currentIndex();
 
@@ -868,7 +869,7 @@ void OpenRGBZoneEditorDialog::on_ButtonZoneMatrixMap_clicked()
 {
     unsigned int total_leds_count = ui->SliderZoneSize->value();
 
-    OpenRGBMatrixMapEditorDialog dialog(QString::fromStdString(edit_dev->GetZoneName(edit_zone_idx)), &edit_zone.matrix_map, total_leds_count);
+    OpenRGBMatrixMapEditorDialog dialog(QString::fromStdString(edit_dev->GetZoneDisplayName(edit_zone_idx)), &edit_zone.matrix_map, total_leds_count);
 
     int ret = dialog.show();
 

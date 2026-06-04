@@ -173,7 +173,7 @@ OpenRGBProfileEditorDialog::OpenRGBProfileEditorDialog(std::string name, QWidget
 
         new_item->setFont(0, font);
         new_item->setText(0, OpenRGBFont::icon(OpenRGBFont::GetIconIDFromDeviceType(updated_controllers[controller_idx]->GetDeviceType())));
-        new_item->setText(1, QString::fromStdString(updated_controllers[controller_idx]->GetName()));
+        new_item->setText(1, QString::fromStdString(updated_controllers[controller_idx]->GetDisplayName()));
         new_item->setText(2, "Update");
         new_item->setCheckState(3, state);
 
@@ -196,7 +196,7 @@ OpenRGBProfileEditorDialog::OpenRGBProfileEditorDialog(std::string name, QWidget
 
         new_item->setFont(0, font);
         new_item->setText(0, OpenRGBFont::icon(OpenRGBFont::GetIconIDFromDeviceType(new_controllers[controller_idx]->GetDeviceType())));
-        new_item->setText(1, QString::fromStdString(new_controllers[controller_idx]->GetName()));
+        new_item->setText(1, QString::fromStdString(new_controllers[controller_idx]->GetDisplayName()));
         new_item->setText(2, "Add");
         new_item->setCheckState(3, state);
 
@@ -219,7 +219,7 @@ OpenRGBProfileEditorDialog::OpenRGBProfileEditorDialog(std::string name, QWidget
 
         new_item->setFont(0, font);
         new_item->setText(0, OpenRGBFont::icon(OpenRGBFont::GetIconIDFromDeviceType(old_controllers[controller_idx]->GetDeviceType())));
-        new_item->setText(1, QString::fromStdString(old_controllers[controller_idx]->GetName()));
+        new_item->setText(1, QString::fromStdString(old_controllers[controller_idx]->GetDisplayName()));
         new_item->setText(2, "Keep");
         new_item->setCheckState(3, state);
 
