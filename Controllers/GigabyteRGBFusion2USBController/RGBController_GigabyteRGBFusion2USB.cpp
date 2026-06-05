@@ -347,6 +347,7 @@ void RGBController_RGBFusion2USB::SetupZones()
     \*-----------------------------------------------------*/
     leds.clear();
     colors.clear();
+    led_values.clear();
 
     /*-----------------------------------------------------*\
     | Count number of zones to resize zones vector          |
@@ -441,7 +442,7 @@ void RGBController_RGBFusion2USB::SetupZones()
             led new_led;
 
             new_led.name  = zone_at_idx->name;
-            new_led.value = zone_at_idx->idx;
+            led_values.push_back(zone_at_idx->idx);
 
             if(!fixed_zone)
             {
@@ -533,7 +534,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
                 /*---------------------------------------------------------*\
                 | Apply the mode and color to the zone                      |
                 \*---------------------------------------------------------*/
-                controller->SetLEDEffect(zones[zone_idx].leds[led_idx].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
+                controller->SetLEDEffect(led_values[zones[zone_idx].start_idx + led_idx], mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
             }
         }
         /*---------------------------------------------------------*\
@@ -543,7 +544,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
         {
             if(zones[zone_idx].leds && zones[zone_idx].leds_count)
             {
-                unsigned char hdr = zones[zone_idx].leds->value;
+                unsigned char hdr = led_values[zones[zone_idx].start_idx];
 
                 /*---------------------------------------------------------*\
                 | Direct mode addresses a different register                |
@@ -629,7 +630,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
             /*---------------------------------------------------------*\
             | Apply the mode and color to the zone                      |
             \*---------------------------------------------------------*/
-            controller->SetLEDEffect(zones[zone].leds[led_idx].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
+            controller->SetLEDEffect(led_values[zones[zone].start_idx + led_idx], mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
             controller->ApplyEffect();
         }
     }
@@ -641,7 +642,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
     {
         if(zones[zone].leds && zones[zone].leds_count)
         {
-            unsigned char hdr = zones[zone].leds->value;
+            unsigned char hdr = led_values[zones[zone].start_idx];
 
             /*---------------------------------------------------------*\
             | Direct mode addresses a different register                |
@@ -722,7 +723,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateSingleLED(int led)
             color       = &modes[active_mode].colors[0];
         }
 
-        controller->SetLEDEffect(leds[led].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
+        controller->SetLEDEffect(led_values[led], mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
         controller->ApplyEffect();
     }
 

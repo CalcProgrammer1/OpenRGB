@@ -142,7 +142,7 @@ void RGBController_BloodyMouse::SetupZones()
         {
             led new_led;
 
-            new_led.value       = mz.zone_leds[lp_idx];
+            offsets.push_back(mz.zone_leds[lp_idx]);
 
             if(bool_single)
             {
@@ -163,14 +163,7 @@ void RGBController_BloodyMouse::SetupZones()
 
 void RGBController_BloodyMouse::DeviceUpdateLEDs()
 {
-    std::vector<RGBColor> colour;
-    for(size_t i = 0; i < colors.size(); i++)
-    {
-        RGBColor c = colors[i] | (leds[i].value << 24);
-        colour.push_back(c);
-    }
-
-    controller->SetLedsDirect(colour);
+    controller->SetLedsDirect(colors, offsets);
 }
 
 void RGBController_BloodyMouse::DeviceUpdateZoneLEDs(int /*zone*/)

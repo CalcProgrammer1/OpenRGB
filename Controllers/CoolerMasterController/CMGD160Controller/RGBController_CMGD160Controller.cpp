@@ -159,7 +159,7 @@ void RGBController_CMGD160Controller::SetupZones()
     {
         led l;
         l.name          = "Front LED " + std::to_string(i + 1);
-        l.value         = i;
+
         leds.push_back(l);
     }
 
@@ -175,7 +175,7 @@ void RGBController_CMGD160Controller::SetupZones()
     {
         led l;
         l.name          = "Back LED " + std::to_string(i + 1);
-        l.value         = i;
+
         leds.push_back(l);
     }
 

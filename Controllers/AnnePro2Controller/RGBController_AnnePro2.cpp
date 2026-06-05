@@ -38,76 +38,69 @@ static const unsigned int zone_sizes[] =
     LED_COUNT,
 };
 
-typedef struct
+static const char* led_names[] =
 {
-    const char *        name;
-    const unsigned char idx;
-} annepro2_led_type;
-
-static const annepro2_led_type led_names[] =
-{
-    /* Key Label                Index  */
-    { KEY_EN_ESCAPE,            0       },
-    { KEY_EN_1,                 1       },
-    { KEY_EN_2,                 2       },
-    { KEY_EN_3,                 3       },
-    { KEY_EN_4,                 4       },
-    { KEY_EN_5,                 5       },
-    { KEY_EN_6,                 6       },
-    { KEY_EN_7,                 7       },
-    { KEY_EN_8,                 8       },
-    { KEY_EN_9,                 9       },
-    { KEY_EN_0,                 10      },
-    { KEY_EN_MINUS,             11      },
-    { KEY_EN_EQUALS,            12      },
-    { KEY_EN_BACKSPACE,         13      },
-    { KEY_EN_TAB,               14      },
-    { KEY_EN_Q,                 15      },
-    { KEY_EN_W,                 16      },
-    { KEY_EN_E,                 17      },
-    { KEY_EN_R,                 18      },
-    { KEY_EN_T,                 19      },
-    { KEY_EN_Y,                 20      },
-    { KEY_EN_U,                 21      },
-    { KEY_EN_I,                 22      },
-    { KEY_EN_O,                 23      },
-    { KEY_EN_P,                 24      },
-    { KEY_EN_LEFT_BRACKET,      25      },
-    { KEY_EN_RIGHT_BRACKET,     26      },
-    { KEY_EN_ANSI_BACK_SLASH,   27      },
-    { KEY_EN_CAPS_LOCK,         28      },
-    { KEY_EN_A,                 29      },
-    { KEY_EN_S,                 30      },
-    { KEY_EN_D,                 31      },
-    { KEY_EN_F,                 32      },
-    { KEY_EN_G,                 33      },
-    { KEY_EN_H,                 34      },
-    { KEY_EN_J,                 35      },
-    { KEY_EN_K,                 36      },
-    { KEY_EN_L,                 37      },
-    { KEY_EN_SEMICOLON,         38      },
-    { KEY_EN_QUOTE,             39      },
-    { KEY_EN_ANSI_ENTER,        40      },
-    { KEY_EN_LEFT_SHIFT,        41      },
-    { KEY_EN_Z,                 42      },
-    { KEY_EN_X,                 43      },
-    { KEY_EN_C,                 44      },
-    { KEY_EN_V,                 45      },
-    { KEY_EN_B,                 46      },
-    { KEY_EN_N,                 47      },
-    { KEY_EN_M,                 48      },
-    { KEY_EN_COMMA,             49      },
-    { KEY_EN_PERIOD,            50      },
-    { KEY_EN_FORWARD_SLASH,     51      },
-    { KEY_EN_RIGHT_SHIFT,       52      },
-    { KEY_EN_LEFT_CONTROL,      53      },
-    { KEY_EN_LEFT_WINDOWS,      54      },
-    { KEY_EN_LEFT_ALT,          55      },
-    { KEY_EN_SPACE,             56      },
-    { KEY_EN_RIGHT_ALT,         57      },
-    { KEY_EN_RIGHT_FUNCTION,    58      },
-    { KEY_EN_MENU,              59      },
-    { KEY_EN_RIGHT_CONTROL,     60      },
+    KEY_EN_ESCAPE,
+    KEY_EN_1,
+    KEY_EN_2,
+    KEY_EN_3,
+    KEY_EN_4,
+    KEY_EN_5,
+    KEY_EN_6,
+    KEY_EN_7,
+    KEY_EN_8,
+    KEY_EN_9,
+    KEY_EN_0,
+    KEY_EN_MINUS,
+    KEY_EN_EQUALS,
+    KEY_EN_BACKSPACE,
+    KEY_EN_TAB,
+    KEY_EN_Q,
+    KEY_EN_W,
+    KEY_EN_E,
+    KEY_EN_R,
+    KEY_EN_T,
+    KEY_EN_Y,
+    KEY_EN_U,
+    KEY_EN_I,
+    KEY_EN_O,
+    KEY_EN_P,
+    KEY_EN_LEFT_BRACKET,
+    KEY_EN_RIGHT_BRACKET,
+    KEY_EN_ANSI_BACK_SLASH,
+    KEY_EN_CAPS_LOCK,
+    KEY_EN_A,
+    KEY_EN_S,
+    KEY_EN_D,
+    KEY_EN_F,
+    KEY_EN_G,
+    KEY_EN_H,
+    KEY_EN_J,
+    KEY_EN_K,
+    KEY_EN_L,
+    KEY_EN_SEMICOLON,
+    KEY_EN_QUOTE,
+    KEY_EN_ANSI_ENTER,
+    KEY_EN_LEFT_SHIFT,
+    KEY_EN_Z,
+    KEY_EN_X,
+    KEY_EN_C,
+    KEY_EN_V,
+    KEY_EN_B,
+    KEY_EN_N,
+    KEY_EN_M,
+    KEY_EN_COMMA,
+    KEY_EN_PERIOD,
+    KEY_EN_FORWARD_SLASH,
+    KEY_EN_RIGHT_SHIFT,
+    KEY_EN_LEFT_CONTROL,
+    KEY_EN_LEFT_WINDOWS,
+    KEY_EN_LEFT_ALT,
+    KEY_EN_SPACE,
+    KEY_EN_RIGHT_ALT,
+    KEY_EN_RIGHT_FUNCTION,
+    KEY_EN_MENU,
+    KEY_EN_RIGHT_CONTROL,
 };
 
 /**------------------------------------------------------------------*\
@@ -177,8 +170,7 @@ void RGBController_AnnePro2::SetupZones()
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        new_led.name  = led_names[led_idx].name;
-        new_led.value = led_names[led_idx].idx;
+        new_led.name  = led_names[led_idx];
         leds.push_back(new_led);
     }
 
@@ -194,7 +186,7 @@ void RGBController_AnnePro2::DeviceUpdateLEDs()
     | TODO: Send packets with multiple LED frames               |
     \*---------------------------------------------------------*/
     std::size_t led_real_idx = 0;
-    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    for(std::size_t led_idx = 0; led_idx < colors.size(); led_idx++)
     {
         frame_buf[(led_real_idx * 3) + 0] = RGBGetRValue(colors[led_idx]);
         frame_buf[(led_real_idx * 3) + 1] = RGBGetGValue(colors[led_idx]);

@@ -169,7 +169,6 @@ void RGBController_CMR6000Controller::SetupZones()
 
     led GP_led;
     GP_led.name         = "Logo";
-    GP_led.value        = 0;
     leds.push_back(GP_led);
 
     SetupColors();

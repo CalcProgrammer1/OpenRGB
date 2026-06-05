@@ -207,8 +207,8 @@ void RGBController_AuraMouse::SetupZones()
         led mouse_led;
 
         mouse_led.name          = mouse_zone.name + " LED";
-        mouse_led.value         = *zone_it;
 
+        led_values.push_back(*zone_it);
         leds.push_back(mouse_led);
     }
 
@@ -247,7 +247,7 @@ void RGBController_AuraMouse::DeviceUpdateSingleLED(int led)
     uint8_t grn = RGBGetGValue(colors[led]);
     uint8_t blu = RGBGetBValue(colors[led]);
 
-    controller->SendUpdate(leds[led].value, modes[active_mode].value, red, grn, blu, 0, false, 0, modes[active_mode].brightness);
+    controller->SendUpdate(led_values[led], modes[active_mode].value, red, grn, blu, 0, false, 0, modes[active_mode].brightness);
 }
 
 void RGBController_AuraMouse::DeviceUpdateMode()

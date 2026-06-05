@@ -162,7 +162,7 @@ void RGBController_CMMonitorController::SetupZones()
     {
         led l;
         l.name          = std::to_string(i + 1);
-        l.value         = i;
+
         leds.push_back(l);
     }
 

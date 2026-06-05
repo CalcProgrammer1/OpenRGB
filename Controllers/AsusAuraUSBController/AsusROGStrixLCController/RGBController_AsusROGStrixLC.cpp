@@ -164,7 +164,6 @@ void RGBController_AsusROGStrixLC::SetupZones()
 
             new_led.name    = zones[zone_idx].name;
             new_led.name.append(" LED " + std::to_string(lp_idx));
-            new_led.value   = lp_idx;
 
             leds.push_back(new_led);
         }

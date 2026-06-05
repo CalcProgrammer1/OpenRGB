@@ -30,4 +30,5 @@ public:
 
 private:
     ASRockASRRGBSMBusController* controller;
+    std::vector<unsigned int>    led_values;
 };

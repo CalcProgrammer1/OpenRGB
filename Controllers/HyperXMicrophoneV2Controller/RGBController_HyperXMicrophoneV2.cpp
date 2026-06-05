@@ -91,7 +91,6 @@ void RGBController_HyperXMicrophoneV2::SetupZones()
     {
         led l;
         l.name   = "LED " + std::to_string(i);
-        l.value  = led_mapping[i];
         leds.push_back(l);
     }
 

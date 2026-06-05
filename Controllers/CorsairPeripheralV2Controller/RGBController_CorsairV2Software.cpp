@@ -139,8 +139,8 @@ void RGBController_CorsairV2SW::SetupZones()
                         led new_led;
 
                         new_led.name                = new_kb.GetKeyNameAt(led_idx);
-                        new_led.value               = new_kb.GetKeyValueAt(led_idx);
-                        max_led_value               = std::max(max_led_value, new_led.value);
+                        led_values.push_back(new_kb.GetKeyValueAt(led_idx));
+                        max_led_value               = std::max(max_led_value, led_values.back());
                         leds.push_back(new_led);
                     }
                 }
@@ -163,7 +163,7 @@ void RGBController_CorsairV2SW::SetupZones()
 
                     new_led.name                = new_zone.name + " ";
                     new_led.name.append(std::to_string( led_idx ));
-                    new_led.value               = (unsigned int)leds.size();
+                    led_values.push_back((unsigned int)leds.size());
 
                     leds.push_back(new_led);
                 }
@@ -196,7 +196,7 @@ void RGBController_CorsairV2SW::SetupZones()
 
     for(size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        buffer_map[leds[led_idx].value] = &colors[led_idx];
+        buffer_map[led_values[led_idx]] = &colors[led_idx];
     }
 }
 

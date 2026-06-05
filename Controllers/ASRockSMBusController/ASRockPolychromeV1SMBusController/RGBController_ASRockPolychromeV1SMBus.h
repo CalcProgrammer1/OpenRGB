@@ -32,7 +32,9 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    ASRockPolychromeV1SMBusController* controller;
-    uint8_t                 getModeIndex(uint8_t mode_value);
-    std::vector<uint8_t>    zoneIndexMap;
+    ASRockPolychromeV1SMBusController*  controller;
+    std::vector<unsigned int>           led_values;
+    std::vector<uint8_t>                zoneIndexMap;
+
+    uint8_t                             getModeIndex(uint8_t mode_value);
 };

@@ -141,7 +141,6 @@ void RGBController_AsusROGSpatha::SetupZones()
         led spatha_led;
 
         spatha_led.name          = zones_names[i];
-        spatha_led.value         = 1;
 
         leds.push_back(spatha_led);
     }

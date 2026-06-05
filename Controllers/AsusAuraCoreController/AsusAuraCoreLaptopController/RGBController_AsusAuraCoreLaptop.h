@@ -33,6 +33,7 @@ public:
 private:
     RGBColor                            null_color              = 0;
     std::vector<RGBColor *>             buffer_map;
+    std::vector<unsigned int>           led_values;
 
     AsusAuraCoreLaptopController*       controller;
 };

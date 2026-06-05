@@ -312,7 +312,7 @@ void RGBController_AlienwareAW510K::SetupZones()
     {
         led new_led;
         new_led.name  = led_names[led_idx].name;
-        new_led.value = led_names[led_idx].idx;
+        led_values.push_back(led_names[led_idx].idx);
         leds.push_back(new_led);
     }
 
@@ -328,7 +328,7 @@ void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
 
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        if (current_colors[led_idx]==new_colors[led_idx])
+        if(current_colors[led_idx] == new_colors[led_idx])
         {
             /*-------------------------------------------------*\
             | Don't send if key color is not changed            |
@@ -336,28 +336,14 @@ void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
             continue;
         }
 
-        if(RGBGetRValue(colors[led_idx]) != 0x00 || RGBGetBValue(colors[led_idx]) != 0x00 || RGBGetBValue(colors[led_idx]) != 0x00)
-        {
-            SelectedKeys key;
+        SelectedKeys key;
 
-            key.idx     = (unsigned char)leds[led_idx].value;
-            key.red     = RGBGetRValue(colors[led_idx]);
-            key.green   = RGBGetGValue(colors[led_idx]);
-            key.blue    = RGBGetBValue(colors[led_idx]);
+        key.idx     = led_values[led_idx];
+        key.red     = RGBGetRValue(colors[led_idx]);
+        key.green   = RGBGetGValue(colors[led_idx]);
+        key.blue    = RGBGetBValue(colors[led_idx]);
 
-            frame_buf_keys.push_back(key);
-        }
-        else
-        {
-            SelectedKeys key;
-
-            key.idx     = (unsigned char)leds[led_idx].value;
-            key.red     = RGBGetRValue(colors[led_idx]);
-            key.green   = RGBGetGValue(colors[led_idx]);
-            key.blue    = RGBGetBValue(colors[led_idx]);
-
-            frame_buf_keys.push_back(key);
-        }
+        frame_buf_keys.push_back(key);
     }
 
     controller->SendInitialize();
@@ -379,7 +365,7 @@ void RGBController_AlienwareAW510K::DeviceUpdateZoneLEDs(int zone)
 
 void RGBController_AlienwareAW510K::DeviceUpdateSingleLED(int led)
 {
-    controller->DeviceUpdateSingleLED(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
+    controller->DeviceUpdateSingleLED(led_values[led], RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
 }
 
 void RGBController_AlienwareAW510K::DeviceUpdateMode()

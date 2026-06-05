@@ -71,7 +71,6 @@ void RGBController_StrixClaw::SetupZones()
     led scroll_wheel_led;
 
     scroll_wheel_led.name          = "Scroll Wheel LED";
-    scroll_wheel_led.value         = 1;
 
     leds.push_back(scroll_wheel_led);
 
@@ -88,7 +87,6 @@ void RGBController_StrixClaw::SetupZones()
     led logo_led;
 
     logo_led.name          = "Logo LED";
-    logo_led.value         = 1;
 
     leds.push_back(logo_led);
 

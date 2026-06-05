@@ -241,9 +241,9 @@ void RGBController_ClevoKeyboard::SetupZones()
         led new_led;
 
         new_led.name    = new_kb.GetKeyNameAt(led_idx);
-        new_led.value   = new_kb.GetKeyValueAt(led_idx);
 
         leds.push_back(new_led);
+        led_values.push_back(new_kb.GetKeyValueAt(led_idx));
     }
 
     SetupColors();
@@ -258,7 +258,7 @@ void RGBController_ClevoKeyboard::SetupZones()
 
     for(size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        buffer_map[leds[led_idx].value] = &colors[led_idx];
+        buffer_map[led_values[led_idx]] = &colors[led_idx];
     }
 }
 

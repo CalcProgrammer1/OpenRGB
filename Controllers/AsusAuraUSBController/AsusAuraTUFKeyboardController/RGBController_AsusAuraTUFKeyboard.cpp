@@ -520,7 +520,7 @@ void RGBController_AuraTUFKeyboard::SetupZones()
     {
         led new_led;
         new_led.name  = keyboard[layout].led_names[led_id].name;
-        new_led.value = keyboard[layout].led_names[led_id].id;
+        led_values.push_back(keyboard[layout].led_names[led_id].id);
         leds.push_back(new_led);
     }
 
@@ -538,7 +538,7 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateLEDs()
 
     for(size_t i = 0; i < colors.size(); i++)
     {
-        led_color_list.push_back({ leds[i].value, colors[i] });
+        led_color_list.push_back({ led_values[i], colors[i] });
     }
 
     controller->UpdateLeds(led_color_list);
@@ -560,7 +560,7 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateSingleLED(int led)
     unsigned char green = RGBGetGValue(colors[led]);
     unsigned char blue  = RGBGetBValue(colors[led]);
 
-    controller->UpdateSingleLed(leds[led].value, red, green, blue);
+    controller->UpdateSingleLed(led_values[led], red, green, blue);
 }
 
 static const uint8_t direction_map[2][6] =

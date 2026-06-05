@@ -265,7 +265,7 @@ int RGBController_ENESMBus::GetDeviceMode()
     \*---------------------------------------------------------*/
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        unsigned int  led = leds[led_idx].value;
+        unsigned int  led = led_values[led_idx];
         unsigned char red;
         unsigned char grn;
         unsigned char blu;
@@ -306,7 +306,7 @@ void RGBController_ENESMBus::DeviceUpdateZoneLEDs(int zone)
 {
     for(std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
     {
-        int           led   = zones[zone].leds[led_idx].value;
+        int           led   = led_values[zones[zone].start_idx + led_idx];
         RGBColor      color = colors[led];
         unsigned char red   = RGBGetRValue(color);
         unsigned char grn   = RGBGetGValue(color);
@@ -435,7 +435,7 @@ void RGBController_ENESMBus::SetupZones()
             new_led->name = zones[zone_idx].name + " LED ";
             new_led->name.append(std::to_string(zone_led_idx + 1));
 
-            new_led->value = led_idx;
+            led_values.push_back(led_idx);
             led_idx++;
 
             leds.push_back(*new_led);

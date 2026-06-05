@@ -11,6 +11,13 @@
 
 #include "RGBController_AlienwareMonitor.h"
 
+static const unsigned char led_values[] =
+{
+    0x01,
+    0x02,
+    0x08
+};
+
 /**------------------------------------------------------------------*\
     @name Alienware Monitor
     @category Accessory
@@ -63,7 +70,6 @@ void RGBController_AlienwareMonitor::SetupZones()
 
     led Logo_LED;
     Logo_LED.name           = "Logo";
-    Logo_LED.value          = 0x01;
     leds.push_back(Logo_LED);
 
     zone Number;
@@ -76,7 +82,6 @@ void RGBController_AlienwareMonitor::SetupZones()
 
     led Number_LED;
     Number_LED.name         = "Number";
-    Number_LED.value        = 0x02;
     leds.push_back(Number_LED);
 
     zone PowerButton;
@@ -89,7 +94,6 @@ void RGBController_AlienwareMonitor::SetupZones()
 
     led PowerButton_LED;
     PowerButton_LED.name    = "Power Button";
-    PowerButton_LED.value   = 0x08;
     leds.push_back(PowerButton_LED);
 
     SetupColors();
@@ -128,7 +132,7 @@ void RGBController_AlienwareMonitor::DeviceUpdateSingleLED(int led)
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
-    controller->SendColor(leds[led].value, red, grn, blu);
+    controller->SendColor(led_values[led], red, grn, blu);
 }
 
 void RGBController_AlienwareMonitor::DeviceUpdateMode()

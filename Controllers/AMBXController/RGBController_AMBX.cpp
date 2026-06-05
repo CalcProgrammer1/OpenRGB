@@ -9,6 +9,15 @@
 
 #include "RGBController_AMBX.h"
 
+static const unsigned int led_values[] =
+{
+    AMBX_LIGHT_LEFT,
+    AMBX_LIGHT_RIGHT,
+    AMBX_LIGHT_WALL_LEFT,
+    AMBX_LIGHT_WALL_CENTER,
+    AMBX_LIGHT_WALL_RIGHT
+};
+
 /**------------------------------------------------------------------*\
     @name Philips amBX
     @category Accessory
@@ -71,27 +80,22 @@ void RGBController_AMBX::SetupZones()
     // Set up LEDs
     led left_light;
     left_light.name  = "Left";
-    left_light.value = AMBX_LIGHT_LEFT;
     leds.push_back(left_light);
 
     led right_light;
     right_light.name  = "Right";
-    right_light.value = AMBX_LIGHT_RIGHT;
     leds.push_back(right_light);
 
     led wall_left;
     wall_left.name  = "Wall Left";
-    wall_left.value = AMBX_LIGHT_WALL_LEFT;
     leds.push_back(wall_left);
 
     led wall_center;
     wall_center.name  = "Wall Center";
-    wall_center.value = AMBX_LIGHT_WALL_CENTER;
     leds.push_back(wall_center);
 
     led wall_right;
     wall_right.name  = "Wall Right";
-    wall_right.value = AMBX_LIGHT_WALL_RIGHT;
     leds.push_back(wall_right);
 
     SetupColors();
@@ -104,16 +108,7 @@ void RGBController_AMBX::DeviceUpdateLEDs()
         return;
     }
 
-    unsigned int led_values[5];
-    RGBColor led_colors[5];
-
-    for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
-    {
-        led_values[led_idx] = leds[led_idx].value;
-        led_colors[led_idx] = colors[led_idx];
-    }
-
-    controller->SetLEDColors(led_values, led_colors, static_cast<unsigned int>(leds.size()));
+    controller->SetLEDColors(led_values, colors.data(), static_cast<unsigned int>(colors.size()));
 }
 
 void RGBController_AMBX::DeviceUpdateZoneLEDs(int zone)
@@ -138,17 +133,17 @@ void RGBController_AMBX::DeviceUpdateZoneLEDs(int zone)
         start_idx += zones[z_idx].leds_count;
     }
 
-    unsigned int led_values[5];
-    RGBColor led_colors[5];
+    unsigned int tmp_values[5];
+    RGBColor     tmp_colors[5];
 
     for(unsigned int led_idx = 0; led_idx < zone_size; led_idx++)
     {
         unsigned int current_idx = start_idx + led_idx;
-        led_values[led_idx] = leds[current_idx].value;
-        led_colors[led_idx] = colors[current_idx];
+        tmp_values[led_idx] = led_values[current_idx];
+        tmp_colors[led_idx] = colors[current_idx];
     }
 
-    controller->SetLEDColors(led_values, led_colors, zone_size);
+    controller->SetLEDColors(tmp_values, tmp_colors, zone_size);
 }
 
 void RGBController_AMBX::DeviceUpdateSingleLED(int led)
@@ -158,7 +153,7 @@ void RGBController_AMBX::DeviceUpdateSingleLED(int led)
         return;
     }
 
-    unsigned int led_value = leds[led].value;
+    unsigned int led_value = led_values[led];
     RGBColor color = colors[led];
     controller->SetLEDColor(led_value, color);
 }

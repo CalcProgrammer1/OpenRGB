@@ -313,7 +313,7 @@ void RGBController_AlienwareAW410K::SetupZones()
     {
         led new_led;
         new_led.name  = led_names[led_idx].name;
-        new_led.value = led_names[led_idx].idx;
+        led_values.push_back(led_names[led_idx].idx);
         leds.push_back(new_led);
     }
 
@@ -329,14 +329,14 @@ void RGBController_AlienwareAW410K::DeviceUpdateLEDs()
 
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-            SelectedButtons key;
+        SelectedButtons key;
 
-            key.idx     = (unsigned char)leds[led_idx].value;
-            key.red     = RGBGetRValue(colors[led_idx]);
-            key.green   = RGBGetGValue(colors[led_idx]);
-            key.blue    = RGBGetBValue(colors[led_idx]);
+        key.idx     = led_values[led_idx];
+        key.red     = RGBGetRValue(colors[led_idx]);
+        key.green   = RGBGetGValue(colors[led_idx]);
+        key.blue    = RGBGetBValue(colors[led_idx]);
 
-            frame_buf_keys.push_back(key);
+        frame_buf_keys.push_back(key);
     }
 
     controller->SendInitialize();
@@ -358,7 +358,7 @@ void RGBController_AlienwareAW410K::DeviceUpdateZoneLEDs(int zone)
 
 void RGBController_AlienwareAW410K::DeviceUpdateSingleLED(int led)
 {
-    controller->DeviceUpdateSingleLED(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
+    controller->DeviceUpdateSingleLED(led_values[led], RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
 }
 
 void RGBController_AlienwareAW410K::DeviceUpdateMode()

@@ -471,8 +471,8 @@ void RGBController_AuraKeyboard::SetupZones()
     {
         led new_led;
         new_led.name  = led_names[led_idx].name;
-        new_led.value = led_names[led_idx].idx;
 
+        led_values.push_back(led_names[led_idx].idx);
         leds.push_back(new_led);
     }
 
@@ -493,7 +493,7 @@ void RGBController_AuraKeyboard::DeviceUpdateLEDs()
     \*---------------------------------------------------------*/
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        frame_buf[(led_idx * 4) + 0] = leds[led_idx].value;
+        frame_buf[(led_idx * 4) + 0] = led_values[led_idx];
         frame_buf[(led_idx * 4) + 1] = RGBGetRValue(colors[led_idx]);
         frame_buf[(led_idx * 4) + 2] = RGBGetGValue(colors[led_idx]);
         frame_buf[(led_idx * 4) + 3] = RGBGetBValue(colors[led_idx]);

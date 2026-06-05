@@ -68,9 +68,7 @@ void RGBController_LogitechG560::SetupZones()
 
     led G560_left_front_led;
     G560_left_front_led.name        = "Left Front";
-    G560_left_front_led.value       = 0x00;
     leds.push_back(G560_left_front_led);
-
 
     zone G560_right_front;
     G560_right_front.name           = "Right Front";
@@ -82,7 +80,6 @@ void RGBController_LogitechG560::SetupZones()
 
     led G560_right_front_led;
     G560_right_front_led.name       = "Right Front";
-    G560_right_front_led.value      = 0x01;
     leds.push_back(G560_right_front_led);
 
 
@@ -96,7 +93,6 @@ void RGBController_LogitechG560::SetupZones()
 
     led G560_left_read_led;
     G560_left_read_led.name         = "Left Rear";
-    G560_left_read_led.value        = 0x02;
     leds.push_back(G560_left_read_led);
 
 
@@ -110,7 +106,6 @@ void RGBController_LogitechG560::SetupZones()
 
     led G560_right_rear_led;
     G560_right_rear_led.name        = "Right Rear";
-    G560_right_rear_led.value       = 0x03;
     leds.push_back(G560_right_rear_led);
 
     SetupColors();
@@ -124,7 +119,7 @@ void RGBController_LogitechG560::DeviceUpdateLEDs()
         unsigned char grn = RGBGetGValue(colors[led_idx]);
         unsigned char blu = RGBGetBValue(colors[led_idx]);
 
-        controller->SendSpeakerMode((unsigned char)leds[led_idx].value, modes[active_mode].value, red, grn, blu);
+        controller->SendSpeakerMode((unsigned char)led_idx, modes[active_mode].value, red, grn, blu);
     }
 }
 

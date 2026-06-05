@@ -29,5 +29,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AOCKeyboardController*  controller;
+    AOCKeyboardController*      controller;
+    std::vector<unsigned int>   led_values;
 };

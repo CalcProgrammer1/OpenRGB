@@ -69,7 +69,7 @@ public:
     unsigned int        GetLEDCount();
 
     void SetProfile(unsigned char profile);
-    void SetLEDsDirect(std::vector<led> leds, std::vector<RGBColor> colors, unsigned int brightness);
+    void SetLEDsDirect(std::vector<unsigned int> led_values, std::vector<RGBColor> colors, unsigned int brightness);
     void SendRGBToDevice();
 
     /*-----------------------------------------------------*\

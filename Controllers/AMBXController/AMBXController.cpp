@@ -186,7 +186,7 @@ void AMBXController::SetLEDColor(unsigned int led, RGBColor color)
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }
 
-void AMBXController::SetLEDColors(unsigned int* leds, RGBColor* colors, unsigned int count)
+void AMBXController::SetLEDColors(const unsigned int* leds, RGBColor* colors, unsigned int count)
 {
     for(unsigned int i = 0; i < count; i++)
     {

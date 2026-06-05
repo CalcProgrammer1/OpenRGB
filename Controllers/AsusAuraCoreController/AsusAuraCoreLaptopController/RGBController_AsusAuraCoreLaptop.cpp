@@ -351,11 +351,14 @@ void RGBController_AsusAuraCoreLaptop::SetupZones()
                     new_zone.leds_count             = new_kb.GetKeyCount();
                     for(unsigned int led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
                     {
-                        led new_led;
+                        led             new_led;
+                        unsigned int    new_led_value;
 
                         new_led.name                = new_kb.GetKeyNameAt(led_idx);
-                        new_led.value               = new_kb.GetKeyValueAt(led_idx);
-                        max_led_value               = std::max(max_led_value, new_led.value);
+                        new_led_value               = new_kb.GetKeyValueAt(led_idx);
+                        max_led_value               = std::max(max_led_value, new_led_value);
+
+                        led_values.push_back(new_led_value);
                         leds.push_back(new_led);
                     }
                 }
@@ -385,24 +388,12 @@ void RGBController_AsusAuraCoreLaptop::SetupZones()
 
     for(size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        buffer_map[leds[led_idx].value] = &colors[led_idx];
+        buffer_map[led_values[led_idx]] = &colors[led_idx];
     }
 }
 
 void RGBController_AsusAuraCoreLaptop::DeviceUpdateLEDs()
 {
-    for(size_t i = 85; i < leds.size(); i++)
-    {
-        LOG_DEBUG("[%s] Setting %s @ LED index %d and buffer index %d to R: %02X G: %02X B: %02X",
-                  name.c_str(),
-                  leds[i].name.c_str(),
-                  i,
-                  leds[i].value,
-                  RGBGetRValue(colors[i]),
-                  RGBGetGValue(colors[i]),
-                  RGBGetBValue(colors[i]));
-    }
-
     controller->SetLedsDirect(buffer_map);
 }
 

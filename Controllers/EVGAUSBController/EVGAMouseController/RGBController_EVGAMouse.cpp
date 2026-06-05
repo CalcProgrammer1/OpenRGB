@@ -174,17 +174,14 @@ void RGBController_EVGAMouse::Init_Controller()
 
     led front_led;
     front_led.name          = "Front LED";
-    front_led.value         = 0;
     leds.push_back(front_led);
 
     led wheel_led;
     wheel_led.name          = "Scroll Wheel LED";
-    wheel_led.value         = 1;
     leds.push_back(wheel_led);
 
     led back_led;
     back_led.name           = "Back LED";
-    back_led.value          = 2;
     leds.push_back(back_led);
 }
 

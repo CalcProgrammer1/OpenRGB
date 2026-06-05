@@ -30,7 +30,8 @@ public:
     void        DeviceSaveMode();
 
 private:
-    ENESMBusController* controller;
+    ENESMBusController*         controller;
+    std::vector<unsigned int>   led_values;
 
     int         GetDeviceMode();
 };

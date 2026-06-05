@@ -146,12 +146,10 @@ void RGBController_CMMM711Controller::Init_Controller()
 
     led wheel_led;
     wheel_led.name          = "Scroll Wheel LED";
-    wheel_led.value         = 0;
     leds.push_back(wheel_led);
 
     led logo_led;
     logo_led.name           = "Logo LED";
-    logo_led.value          = 1;
     leds.push_back(logo_led);
 }
 

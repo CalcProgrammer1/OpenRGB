@@ -256,11 +256,14 @@ void RGBController_ASRockPolychromeV2SMBus::SetupZones()
                 new_led->name           = polychrome_v2_zone_names[zone_idx];
 
                 new_led->name.append(" " + std::to_string(led_idx + 1));
-                new_led->value = 0;
 
                 if(zone_idx == POLYCHROME_V2_ZONE_ADDRESSABLE)
                 {
-                    new_led->value              = 0x19;
+                    led_values.push_back(0x19);
+                }
+                else
+                {
+                    led_values.push_back(0);
                 }
 
                 /*---------------------------------------------------------*\
@@ -311,9 +314,9 @@ void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateSingleLED(int led)
     | If the LED value is non-zero, this LED overrides the LED  |
     | index                                                     |
     \*---------------------------------------------------------*/
-    if(leds[led].value != 0)
+    if(led_values[led] != 0)
     {
-        led = leds[led].value;
+        led = led_values[led];
     }
 
     controller->SetColorsAndSpeed(led, red, grn, blu);

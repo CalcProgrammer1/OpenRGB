@@ -58,7 +58,7 @@ public:
     std::string     GetLocation();
     std::string     GetName();
 
-    void            SetLedsDirect(std::vector<RGBColor> colors);
+    void            SetLedsDirect(std::vector<RGBColor> colors, std::vector<uint8_t> offsets);
 
 private:
     uint16_t        pid;

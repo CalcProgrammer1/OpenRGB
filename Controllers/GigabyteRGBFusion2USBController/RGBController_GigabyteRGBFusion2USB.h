@@ -64,6 +64,9 @@ private:
     RGBFusion2USBController*    controller;
     int                         device_num;
     RGBColor                    null_color      = 0;
+
+    std::vector<unsigned int>   led_values;
+
     /*---------------------------------------------------------*\
     | The intial value of device_index should point to the      |
     |   layout for the generic_device                           |

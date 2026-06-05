@@ -32,5 +32,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    ASRockPolychromeV2SMBusController* controller;
+    ASRockPolychromeV2SMBusController*  controller;
+    std::vector<unsigned int>           led_values;
 };

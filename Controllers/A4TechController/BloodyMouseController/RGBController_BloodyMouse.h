@@ -39,4 +39,5 @@ public:
 
 private:
     BloodyMouseController*  controller;
+    std::vector<uint8_t>    offsets;
 };

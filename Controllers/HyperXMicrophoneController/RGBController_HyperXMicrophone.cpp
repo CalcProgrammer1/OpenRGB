@@ -91,11 +91,9 @@ void RGBController_HyperXMicrophone::SetupZones()
 {
     led Top;
     Top.name   = "Top";
-    Top.value  = 0;
 
     led Bot;
     Bot.name   = "Bottom";
-    Bot.value  = 1;
 
     leds.push_back(Top);
     leds.push_back(Bot);

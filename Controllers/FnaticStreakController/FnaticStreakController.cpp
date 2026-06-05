@@ -183,7 +183,7 @@ void FnaticStreakController::SendRequest(const unsigned char* prefix, size_t pre
     }
 }
 
-void FnaticStreakController::SetLEDsDirect(std::vector<led> leds, std::vector<RGBColor> colors, unsigned int brightness)
+void FnaticStreakController::SetLEDsDirect(std::vector<unsigned int> led_values, std::vector<RGBColor> colors, unsigned int brightness)
 {
     unsigned int total_leds = GetLEDCount();
 
@@ -199,11 +199,11 @@ void FnaticStreakController::SetLEDsDirect(std::vector<led> leds, std::vector<RG
     | in the keyboard hardware (0-123 for full, 0-105 mini) |
     | Apply brightness scaling (0-100%)                     |
     \*-----------------------------------------------------*/
-    unsigned int leds_to_set = (unsigned int)std::min(colors.size(), leds.size());
+    unsigned int leds_to_set = (unsigned int)std::min(colors.size(), led_values.size());
 
     for(unsigned int i = 0; i < leds_to_set; i++)
     {
-        unsigned int led_idx = leds[i].value;
+        unsigned int led_idx = led_values[i];
         if(led_idx < total_leds)
         {
             if(brightness >= 100)

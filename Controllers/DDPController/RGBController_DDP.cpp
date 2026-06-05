@@ -76,7 +76,6 @@ void RGBController_DDP::SetupZones()
         {
             led new_led;
             new_led.name = zones[zone_idx].name + " LED " + std::to_string(led_idx + 1);
-            new_led.value = 0;
             leds.push_back(new_led);
         }
     }

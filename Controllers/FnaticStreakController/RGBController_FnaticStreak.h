@@ -36,4 +36,5 @@ private:
     std::thread*                                        keepalive_thread;
     std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
+    std::vector<unsigned int>                           led_values;
 };

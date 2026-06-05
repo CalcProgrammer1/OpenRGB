@@ -286,7 +286,7 @@ void RGBController_AOCKeyboard::SetupZones()
         led new_led;
 
         new_led.name                = new_kb.GetKeyNameAt(led_idx);
-        new_led.value               = new_kb.GetKeyValueAt(led_idx);
+        led_values.push_back(new_kb.GetKeyValueAt(led_idx));
         leds.push_back(new_led);
     }
 
@@ -303,7 +303,7 @@ void RGBController_AOCKeyboard::DeviceUpdateLEDs()
 
         for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
         {
-            color_buf[leds[led_idx].value] = colors[led_idx];
+            color_buf[led_values[led_idx]] = colors[led_idx];
         }
 
         controller->SetCustom(&color_buf[0]);

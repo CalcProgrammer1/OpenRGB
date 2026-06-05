@@ -36,6 +36,7 @@ public:
 private:
     CorsairPeripheralV2Controller*          controller;
 
+    std::vector<unsigned int>               led_values;
     RGBColor                                null_color              = 0;
     std::vector<RGBColor *>                 buffer_map;
 

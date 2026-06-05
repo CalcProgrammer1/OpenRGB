@@ -44,7 +44,7 @@ public:
 
     bool            IsInitialized();
     void            SetLEDColor(unsigned int led, RGBColor color);
-    void            SetLEDColors(unsigned int* leds, RGBColor* colors, unsigned int count);
+    void            SetLEDColors(const unsigned int* leds, RGBColor* colors, unsigned int count);
 
 private:
     libusb_context*          usb_context;

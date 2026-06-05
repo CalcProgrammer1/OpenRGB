@@ -54,4 +54,5 @@ public:
 private:
     AuraKeyboardController*         controller;
     AuraKeyboardMappingLayoutType   layout;
+    std::vector<unsigned char>      led_values;
 };

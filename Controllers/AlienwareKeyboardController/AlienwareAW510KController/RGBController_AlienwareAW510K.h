@@ -31,4 +31,5 @@ public:
 private:
     AlienwareAW510KController*  controller;
     std::vector<RGBColor>       current_colors;
+    std::vector<unsigned char>  led_values;
 };

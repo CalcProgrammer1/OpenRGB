@@ -269,9 +269,9 @@ void RGBController_PolychromeUSB::SetupZones()
             new_led.name = zones[channel_idx].name;
             new_led.name.append(", LED ");
             new_led.name.append(std::to_string(led_ch_idx + 1));
-            new_led.value = channel_idx;
 
             leds.push_back(new_led);
+            led_values.push_back(channel_idx);
         }
     }
 
@@ -296,7 +296,7 @@ void RGBController_PolychromeUSB::SetupZones()
      \*---------------------------------------------------------*/
      for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
      {
-         unsigned char led = (unsigned char)leds[led_idx].value;
+         unsigned char led = (unsigned char)led_values[led_idx];
 
          colors[led_idx] = zones_info[led].color;
      }
@@ -359,7 +359,7 @@ void RGBController_PolychromeUSB::DeviceUpdateZoneLEDs(int zone)
 
 void RGBController_PolychromeUSB::DeviceUpdateSingleLED(int led)
 {
-    unsigned int  channel  = leds[led].value;
+    unsigned int  channel  = led_values[led];
     unsigned char set_mode = zones_info[channel].mode;
 
     if(set_mode > modes.size())

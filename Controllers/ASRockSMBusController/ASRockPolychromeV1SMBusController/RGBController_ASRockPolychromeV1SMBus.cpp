@@ -285,13 +285,13 @@ void RGBController_ASRockPolychromeV1SMBus::SetupZones()
             led*    new_led         = new led();
 
             new_led->name           = polychrome_v1_zone_names[zone_idx];
-            new_led->value          = zone_idx;
 
             /*---------------------------------------------------------*\
             | Push new LED to LEDs vector                               |
             \*---------------------------------------------------------*/
             leds.push_back(*new_led);
             zoneIndexMap.push_back(zone_idx);
+            led_values.push_back(zone_idx);
         }
     }
 

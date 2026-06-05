@@ -389,7 +389,7 @@ void RGBController_EpomakerController::SetupZones()
 
     led keyboard_led;
     keyboard_led.name = "Keyboard LEDs";
-    keyboard_led.value = 0x00;
+
     leds.push_back(keyboard_led);
 
     SetupColors();

@@ -33,5 +33,6 @@ public:
 private:
     CryorigH7QuadLumiController*    controller;
     std::vector<unsigned int>       leds_channel;
+    std::vector<unsigned int>       led_values;
     std::vector<unsigned int>       zones_channel;
 };

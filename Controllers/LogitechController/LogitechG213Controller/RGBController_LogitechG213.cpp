@@ -128,7 +128,6 @@ void RGBController_LogitechG213::SetupZones()
     {
         led new_led;
         new_led.name                = led_names[led_idx];
-        new_led.value               = led_values[led_idx];
         leds.push_back(new_led);
     }
 
@@ -137,9 +136,9 @@ void RGBController_LogitechG213::SetupZones()
 
 void RGBController_LogitechG213::DeviceUpdateLEDs()
 {
-    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    for(std::size_t led_idx = 0; led_idx < colors.size(); led_idx++)
     {
-        controller->SetDirect((unsigned char)leds[led_idx].value, RGBGetRValue(colors[led_idx]), RGBGetGValue(colors[led_idx]), RGBGetBValue(colors[led_idx]));
+        controller->SetDirect(led_values[led_idx], RGBGetRValue(colors[led_idx]), RGBGetGValue(colors[led_idx]), RGBGetBValue(colors[led_idx]));
     }
 }
 
@@ -150,7 +149,7 @@ void RGBController_LogitechG213::DeviceUpdateZoneLEDs(int zone)
 
 void RGBController_LogitechG213::DeviceUpdateSingleLED(int led)
 {
-    controller->SetDirect(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
+    controller->SetDirect(led_values[led], RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
 }
 
 void RGBController_LogitechG213::DeviceUpdateMode()

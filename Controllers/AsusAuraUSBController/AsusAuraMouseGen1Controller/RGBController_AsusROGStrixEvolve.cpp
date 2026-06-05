@@ -99,7 +99,6 @@ void RGBController_AsusROGStrixEvolve::SetupZones()
     led mouse_led;
 
     mouse_led.name          = "Underglow";
-    mouse_led.value         = 1;
 
     leds.push_back(mouse_led);
 

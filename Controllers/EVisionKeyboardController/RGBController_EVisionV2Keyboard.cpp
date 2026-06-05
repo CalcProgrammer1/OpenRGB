@@ -806,7 +806,6 @@ void RGBController_EVisionV2Keyboard::SetupZones()
         {
             led new_led;
             new_led.name  = led_names[led_index];
-            new_led.value = led_index;
             leds.push_back(new_led);
         }
     }

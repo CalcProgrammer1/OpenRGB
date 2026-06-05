@@ -525,7 +525,7 @@ void RGBController_FnaticStreak::SetupZones()
     {
         led new_led;
         new_led.name  = led_name_ptr[led_idx];
-        new_led.value = led_idx;
+        led_values.push_back(led_idx);
         leds.push_back(new_led);
     }
 
@@ -541,7 +541,7 @@ void RGBController_FnaticStreak::DeviceUpdateLEDs()
     | Apply brightness scaling to colors                    |
     \*-----------------------------------------------------*/
     unsigned int brightness = modes[active_mode].brightness;
-    controller->SetLEDsDirect(leds, colors, brightness);
+    controller->SetLEDsDirect(led_values, colors, brightness);
     controller->SendRGBToDevice();
 }
 

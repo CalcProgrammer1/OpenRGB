@@ -53,4 +53,5 @@ public:
 private:
     AuraTUFKeyboardController*  controller;
     uint16_t                    pid;
+    std::vector<uint8_t>        led_values;
 };

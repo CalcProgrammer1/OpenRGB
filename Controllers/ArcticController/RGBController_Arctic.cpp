@@ -75,7 +75,6 @@ void RGBController_Arctic::SetupZones()
 
         led Led;
         Led.name    = LedZone.name + " LED";
-        Led.value   = channel;
 
         zones.push_back(LedZone);
         leds.push_back(Led);

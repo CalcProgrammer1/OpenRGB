@@ -32,5 +32,6 @@ public:
 private:
     ClevoKeyboardController*        controller;
     std::vector<RGBColor*>          buffer_map;
+    std::vector<unsigned int>       led_values;
     RGBColor                        null_color;
 };

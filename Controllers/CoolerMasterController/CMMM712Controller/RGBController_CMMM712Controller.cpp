@@ -139,7 +139,6 @@ void RGBController_CMMM712Controller::Init_Controller()
 
     led logo_led;
     logo_led.name           = "Logo LED";
-    logo_led.value          = 0;
     leds.push_back(logo_led);
 }
 

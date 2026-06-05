@@ -206,7 +206,7 @@ void RGBController_CryorigH7QuadLumi::SetupZones()
             new_led.name = zone_names[zone_idx];
             new_led.name.append(", LED ");
             new_led.name.append(std::to_string(led_idx + 1));
-            new_led.value = zone_idx;
+            led_values.push_back(zone_idx);
 
             leds.push_back(new_led);
         }
@@ -233,7 +233,7 @@ void RGBController_CryorigH7QuadLumi::DeviceUpdateZoneLEDs(int zone)
 
 void RGBController_CryorigH7QuadLumi::DeviceUpdateSingleLED(int led)
 {
-    unsigned int zone_idx = leds[led].value;
+    unsigned int zone_idx = led_values[led];
 
     DeviceUpdateZoneLEDs(zone_idx);
 }

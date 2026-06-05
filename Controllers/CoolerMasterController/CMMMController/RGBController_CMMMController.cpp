@@ -183,28 +183,24 @@ void RGBController_CMMMController::Init_Controller()
     mouse_zone.leds_count   = leds_count;
     zones.push_back(mouse_zone);
 
-    int value               = 0;
     uint16_t pid            = controller->GetProductID();
 
     led wheel_led;
     wheel_led.name          = "Scroll Wheel";
-    wheel_led.value         = value;
-    leds.push_back(wheel_led);
 
-    value++;
+    leds.push_back(wheel_led);
 
     if(pid == 0x0065 || pid == 0x0097)
     {
         led buttons_led;
         buttons_led.name        = "Buttons";
-        buttons_led.value       = value;
+
         leds.push_back(buttons_led);
-        value++;
     }
 
     led logo_led;
     logo_led.name           = "Logo";
-    logo_led.value          = value;
+
     leds.push_back(logo_led);
 }
 

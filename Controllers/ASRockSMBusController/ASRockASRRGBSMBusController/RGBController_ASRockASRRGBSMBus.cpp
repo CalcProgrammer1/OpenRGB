@@ -158,6 +158,11 @@ void RGBController_ASRockASRRGBSMBus::SetupZones()
     \*---------------------------------------------------------*/
     leds.push_back(*new_led);
 
+    /*---------------------------------------------------------*\
+    | Initialize led_values vector                              |
+    \*---------------------------------------------------------*/
+    led_values.push_back(0);
+
     SetupColors();
 }
 
@@ -184,9 +189,9 @@ void RGBController_ASRockASRRGBSMBus::DeviceUpdateSingleLED(int led)
     | If the LED value is non-zero, this LED overrides the LED  |
     | index                                                     |
     \*---------------------------------------------------------*/
-    if(leds[led].value != 0)
+    if(led_values[led] != 0)
     {
-        led = leds[led].value;
+        led = led_values[led];
     }
 
     controller->SetColorsAndSpeed(led, red, grn, blu);

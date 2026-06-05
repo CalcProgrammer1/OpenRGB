@@ -33,6 +33,7 @@ public:
 
 private:
     PolychromeUSBController*        controller;
+    std::vector<unsigned int>       led_values;
     std::vector<PolychromeZoneInfo> zones_info;
 
     unsigned char GetDeviceMode(unsigned char zone);

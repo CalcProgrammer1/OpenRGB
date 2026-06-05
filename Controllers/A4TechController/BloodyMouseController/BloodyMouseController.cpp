@@ -67,13 +67,13 @@ void BloodyMouseController::InitDevice()
     hid_send_feature_report(dev, buffer, BLOODYMOUSE_WRITE_PACKET_SIZE);
 }
 
-void BloodyMouseController::SetLedsDirect(std::vector<RGBColor> colors)
+void BloodyMouseController::SetLedsDirect(std::vector<RGBColor> colors, std::vector<uint8_t> offsets)
 {
     uint8_t buffer[BLOODYMOUSE_WRITE_PACKET_SIZE]   = { 0x07, 0x03, 0x06, 0x02, 0x00, 0x00, 0x00, 0x00 };
 
     for(uint8_t i = 0; i < colors.size(); i++)
     {
-        uint8_t offset                              = 3 * (colors[i] >> 24) + BLOODYMOUSE_DATA_BYTE;
+        uint8_t offset                              = 3 * (offsets[i]) + BLOODYMOUSE_DATA_BYTE;
 
         buffer[offset]                              = RGBGetRValue(colors[i]);
         buffer[offset + 1]                          = RGBGetGValue(colors[i]);

@@ -11,6 +11,33 @@
 
 #include "RGBController_AMDWraithPrism.h"
 
+/*---------------------------------------------------------*\
+| LED maps                                                  |
+\*---------------------------------------------------------*/
+const unsigned char led_values[] =
+{
+    // Logo
+    0x00,
+    // Fan
+    0x01,
+    // Ring
+    0x08,
+    0x07,
+    0x06,
+    0x05,
+    0x04,
+    0x03,
+    0x02,
+    0x10,
+    0x0F,
+    0x0E,
+    0x0D,
+    0x0C,
+    0x0B,
+    0x0A,
+    0x09
+};
+
 /**------------------------------------------------------------------*\
     @name AMD Wraith Prism
     @category Cooler
@@ -140,14 +167,6 @@ RGBController_AMDWraithPrism::~RGBController_AMDWraithPrism()
 void RGBController_AMDWraithPrism::SetupZones()
 {
     /*-----------------------------------------------------*\
-    | LED maps                                              |
-    \*-----------------------------------------------------*/
-    const unsigned int logo_leds[1]  =  { 0x00 };
-    const unsigned int fan_leds[1]   =  { 0x01 };
-    const unsigned int ring_leds[15] =  { 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x10,
-                                          0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09 };
-
-    /*-----------------------------------------------------*\
     | Set up zones                                          |
     \*-----------------------------------------------------*/
     zone logo_zone;
@@ -181,7 +200,6 @@ void RGBController_AMDWraithPrism::SetupZones()
     {
         led logo_led;
         logo_led.name       = "Logo LED";
-        logo_led.value      = logo_leds[led_idx];
         leds.push_back(logo_led);
     }
 
@@ -189,7 +207,6 @@ void RGBController_AMDWraithPrism::SetupZones()
     {
         led fan_led;
         fan_led.name        = "Fan LED";
-        fan_led.value       = fan_leds[led_idx];
         leds.push_back(fan_led);
     }
 
@@ -197,7 +214,6 @@ void RGBController_AMDWraithPrism::SetupZones()
     {
         led ring_led;
         ring_led.name       = "Ring LED";
-        ring_led.value      = ring_leds[led_idx];
         leds.push_back(ring_led);
     }
 
@@ -218,7 +234,7 @@ void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
         leds_count = 0;
         for(std::size_t led_idx = 0; led_idx < 2; led_idx++)
         {
-            led_ids[leds_count]     = (unsigned char)leds[led_idx].value;
+            led_ids[leds_count]     = led_values[led_idx];
             color_buf[leds_count]   = colors[led_idx];
 
             leds_count++;
@@ -231,7 +247,7 @@ void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
         leds_count = 0;
         for(std::size_t led_idx = 0; led_idx < ( colors.size() - 2 ); led_idx++)
         {
-            led_ids[leds_count]     = (unsigned char)leds[led_idx + 2].value;
+            led_ids[leds_count]     = led_values[led_idx + 2];
             color_buf[leds_count]   = colors[led_idx + 2];
 
             leds_count++;

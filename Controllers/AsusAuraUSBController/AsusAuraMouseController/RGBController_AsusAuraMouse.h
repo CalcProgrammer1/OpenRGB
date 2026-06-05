@@ -31,5 +31,6 @@ public:
 
 private:
     AuraMouseController*  controller;
+    std::vector<uint8_t>  led_values;
     uint16_t              pid;
 };
