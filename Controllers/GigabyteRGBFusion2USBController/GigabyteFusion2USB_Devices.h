@@ -16,7 +16,7 @@
 #include <map>
 #include "RGBController.h"
 
-#define GB_FUSION2_ZONES_MAX                8
+#define GB_FUSION2_ZONES_MAX                12
 
 /*--------------------------------------------------------*\
 | Base LED mappings found on all controllers.              |
@@ -87,6 +87,23 @@ const FwdLedHeaders LedLookup =
     {"HDR_D_LED3_RGB",      HDR_D_LED3_ARGB },
     {"HDR_D_LED4_RGB",      HDR_D_LED4_ARGB },
     \*-------------------------------------------------*/
+};
+
+/*--------------------------------------------------------*\
+| The layout_id masks for supported effects.               |
+\*--------------------------------------------------------*/
+enum GB_LID_EFFECTS_MASKS : uint32_t
+{
+    GB_EFF_BREATH       = 0x001,
+    GB_EFF_BEAT         = 0x002,
+    GB_EFF_CYCLE        = 0x004,
+    GB_EFF_FLASH        = 0x008,
+    GB_EFF_RANDOM       = 0x010,
+    GB_EFF_WAVE         = 0x020,
+    GB_EFF_DFLASH       = 0x040,
+    GB_EFF_WAVE1        = 0x080,
+    GB_EFF_WAVE2        = 0x100,
+    GB_EFF_CORE_MASK    = 0x1FF
 };
 
 typedef struct

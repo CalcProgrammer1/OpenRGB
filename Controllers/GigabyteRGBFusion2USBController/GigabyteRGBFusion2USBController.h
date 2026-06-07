@@ -21,6 +21,11 @@
 
 #define FUSION2_USB_BUFFER_SIZE   64
 
+/*--------------------------------------------------------*\
+| Gen2 scan/info opcode base                               |
+\*--------------------------------------------------------*/
+#define GEN2_LED_BASE_SCAN      0x38
+
 /*---------------------------------------------------------*\
 | Effects mode list                                         |
 \*---------------------------------------------------------*/
@@ -81,6 +86,16 @@ struct EncodedCalibration
     std::string dled[4];
     std::string spare[4];
     std::string mainboard;
+};
+
+/*---------------------------------------------------------*\
+| High level struct to contain Gen2 Header Data             |
+\*---------------------------------------------------------*/
+struct Gen2StripInfo
+{
+    uint8_t                 numStrip   = 0;
+    std::vector<uint16_t>   LedsOfStrip;
+    uint32_t                totalLeds  = 0;
 };
 
 #pragma pack(push, 1)
@@ -321,6 +336,8 @@ public:
     void                    SetLEDEffect(int led, int mode, unsigned int speed, unsigned char brightness, bool random, uint32_t* color);
     bool                    SetStripBuiltinEffectState(int hdr, bool enable);
     void                    SetStripColors(unsigned int hdr, RGBColor * colors, unsigned int num_colors, int single_led = -1);
+    bool                    SupportsGen2() const;
+    bool                    ScanGen2Strips();
 
     EncodedCalibration      GetCalibration(bool refresh_from_hw = false);
     std::string             GetDeviceName();
@@ -330,6 +347,8 @@ public:
     std::string             GetFWVersion();
     uint16_t                GetProductID();
     std::string             GetSerial();
+    std::vector<Gen2StripInfo> ExportGen2Strips() const;
+    Gen2StripInfo           g2_strip_info[4];
 
 private:
     std::string             DecodeCalibrationBuffer(uint32_t value) const;
@@ -345,7 +364,7 @@ private:
     int                     SendPacket(unsigned char* packet);
 
     hid_device*             dev;
-    int                     device_num;
+    uint8_t                 device_num;
     uint16_t                product_id;
     uint32_t                effect_zone_mask    = 0;
     int                     mode;
@@ -356,7 +375,7 @@ private:
     std::string             location;
     std::string             version;
     std::string             chip_id;
-    int                     effect_disabled     = 0;
+    int                     effect_disabled     = -1;
     int                     report_id           = 0xCC;
     bool                    report_loaded       = false;
     bool                    cali_loaded         = false;

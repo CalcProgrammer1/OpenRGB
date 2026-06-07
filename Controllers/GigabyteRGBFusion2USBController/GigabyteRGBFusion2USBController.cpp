@@ -95,10 +95,9 @@ bool RGBFusion2USBController::RefreshHardwareInfo()
         return false;
     }
 
-    IT8297Report report;
     std::memcpy(&report, buffer, sizeof(IT8297Report));
     report_loaded = true;
-
+    device_num  = report.device_num;
     description = std::string(report.str_product, 28);
     if(std::string::iterator nul = std::find(description.begin(), description.end(), '\0');
        nul != description.end())
@@ -318,7 +317,7 @@ bool RGBFusion2USBController::SetCalibration(const EncodedCalibration& cal, bool
     cal_data.mainboard = desired.c.rgb_cali;
     cal_data.spare[0]  = desired.c.c_spare0;
     cal_data.spare[1]  = desired.c.c_spare1;
-    
+
     if(product_id == 0x5711)
     {
         cal_data.dled[2]  = desired.c.d_strip_c2;
@@ -362,7 +361,6 @@ void RGBFusion2USBController::SetLedCount(unsigned int c0, unsigned int c1, unsi
 \*---------------------------------------------------------*/
 bool RGBFusion2USBController::SetStripBuiltinEffectState(int hdr, bool enable)
 {
-    static bool first_call = true;
     int bitmask = 0;
 
     if(hdr == -1)
@@ -392,16 +390,16 @@ bool RGBFusion2USBController::SetStripBuiltinEffectState(int hdr, bool enable)
         }
     }
 
-    int new_effect_disabled = enable
-        ? (effect_disabled & ~bitmask)
-        : (effect_disabled | bitmask);
+        int base_mask = (effect_disabled < 0) ? 0 : effect_disabled;
+        int new_effect_disabled = enable
+            ? (base_mask & ~bitmask)
+            : (base_mask | bitmask);
 
-    if(!first_call && new_effect_disabled == effect_disabled)
+        // Skip redundant writes only after we have synchronized at least once
+        if(effect_disabled >= 0 && new_effect_disabled == effect_disabled)
     {
         return true;
     }
-
-    first_call = false;
     effect_disabled = new_effect_disabled;
     int res = SendCCReport(0x32, effect_disabled);
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -439,7 +437,7 @@ bool RGBFusion2USBController::EnableLampArray(bool enable)
 {
     return SendCCReport(0x48, enable ? 1 : 0);
 }
-       
+
 std::string RGBFusion2USBController::GetDeviceName()
 {
     return(name);
@@ -702,4 +700,116 @@ void RGBFusion2USBController::ResetController()
         }
     }
     ApplyEffect(true);
+}
+
+/*---------------------------------------------------------*\
+| Check controller for gen2 ARGB support                    |
+|   Checks for supported device number                      |
+|   Then checks for supported controllers                   |
+|   Then checks for supported feature bit (SaveLEDState)    |
+|   Finally checks for strip detection value.               |
+\*---------------------------------------------------------*/
+bool RGBFusion2USBController::SupportsGen2() const
+{
+    bool supports_gen2 = false;
+
+    supports_gen2 =  (device_num == 0x00)
+                  && (product_id == 0x5702 || product_id==0x5711 || product_id==0x8950)
+                  && (report.support_cmd_flag & 0x01)
+                  && (report.strip_detect == 0x01);
+
+    return supports_gen2;
+}
+
+std::vector<Gen2StripInfo> RGBFusion2USBController::ExportGen2Strips() const
+{
+    size_t count = (product_id == 0x5711) ? 4u : 2u;
+    std::vector<Gen2StripInfo> out;
+    out.reserve(count);
+    for(size_t i = 0; i < count; ++i)
+    {
+        out.push_back(g2_strip_info[i]);
+    }
+    return out;
+}
+
+/*---------------------------------------------------------*\
+| Scan Headers for Gen2 Devices                             |
+\*---------------------------------------------------------*/
+bool RGBFusion2USBController::ScanGen2Strips()
+{
+    for(unsigned i = 0; i < 4; ++i)
+    {
+        if(g2_strip_info[i].LedsOfStrip.capacity() < 15)
+        {
+            g2_strip_info[i].LedsOfStrip.reserve(15);
+        }
+        g2_strip_info[i].numStrip  = 0;
+        g2_strip_info[i].totalLeds = 0;
+        g2_strip_info[i].LedsOfStrip.resize(0);
+    }
+
+    const unsigned int hdr_lim = (product_id == 0x5711) ? 4u : 2u;
+
+    for(unsigned int slot = 0; slot < hdr_lim; ++slot)
+    {
+        static constexpr uint8_t delta[4] = {4, 5, 0, 1};
+        uint8_t scan_cmd = static_cast<uint8_t>(GEN2_LED_BASE_SCAN + delta[slot]);
+        uint8_t info_cmd = static_cast<uint8_t>(scan_cmd + 2);
+
+        if(!SendCCReport(scan_cmd, 0x00, 0x00))
+        {
+            return false;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(700));
+
+        if(!SendCCReport(info_cmd, 0x00, 0x00))
+        {
+            return false;
+        }
+
+        unsigned char feature_buf[64] = {0};
+        feature_buf[0] = report_id;
+        int recv_len = hid_get_feature_report(dev, feature_buf, sizeof(feature_buf));
+        if(recv_len < 64)
+        {
+            return false;
+        }
+
+        int seg_count = static_cast<int>(feature_buf[1]);
+        if(seg_count < 0)
+        {
+            seg_count = 0;
+        }
+        if(seg_count > 15)
+        {
+            seg_count = 15;
+        }
+        Gen2StripInfo& dst = g2_strip_info[slot];
+        dst.numStrip = static_cast<uint8_t>(seg_count);
+        dst.LedsOfStrip.resize(static_cast<size_t>(seg_count));
+
+        uint32_t total_leds = 0;
+        const int counts_base = 2;
+
+        for(int k = 0; k < seg_count; ++k)
+        {
+            const int off = counts_base + (k * 2);
+            uint16_t lo   = static_cast<uint16_t>(feature_buf[off + 0]);
+            uint16_t hi   = static_cast<uint16_t>(feature_buf[off + 1]);
+            uint16_t cnt  = static_cast<uint16_t>(lo | (hi << 8));
+
+            dst.LedsOfStrip[static_cast<size_t>(k)] = cnt;
+            total_leds += cnt;
+        }
+
+        dst.totalLeds = total_leds;
+
+        SetLedCount(0, 0, 0, 0);
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        SaveLEDState(false);
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    return true;
 }
