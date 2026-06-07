@@ -259,6 +259,8 @@ public:
     static segment          SetSegmentDescriptionJSON(nlohmann::json segment_json);
     static zone             SetZoneDescriptionJSON(nlohmann::json zone_json);
 
+    static bool             SetModeValuesFromMode(mode& destination, mode& source);
+
     static std::string      DeviceTypeToString(device_type type);
 
 protected:
