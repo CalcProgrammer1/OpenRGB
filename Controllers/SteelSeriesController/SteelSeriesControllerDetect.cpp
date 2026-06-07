@@ -127,9 +127,6 @@
 #define STEELSERIES_APEX_OG_PID                     0x1202
 #define STEELSERIES_APEX_350_PID                    0x1206
 #define STEELSERIES_APEX_PRO3_PID                   0x1640
-#define STEELSERIES_APEX_PRO_TKL_GEN3_PID           0x1642
-#define STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_1      0x1644
-#define STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_2      0x1646
 
 void DetectSteelSeriesAerox3(hid_device_info* info, const std::string& name)
 {
@@ -519,13 +516,10 @@ REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL",                       Dete
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL 2023 Wired",            DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_2023_PID,          	1  );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL 2023 Wireless",         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_2023_WL_PID_1, 3, 0xFFC0, 1);
 REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL 2023 Wireless",         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_2023_WL_PID_2, 3, 0xFFC0, 1);
-REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL Wired Gen 3",            DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_PID,          	1  );
-REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL Wireless Gen 3",         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_1, 3, 0xFFC0, 1);
-REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL Wireless Gen 3",         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_2, 3, 0xFFC0, 1);
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL Gen 3 Wired",           DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_PID,          	1  );
+REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL Gen 3 Wireless",        DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_1, 3, 0xFFC0, 1);
+REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL Gen 3 Wireless",        DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_2, 3, 0xFFC0, 1);
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex M750",                          DetectSteelSeriesApexM,     STEELSERIES_VID, STEELSERIES_APEX_M750_PID,                 	2  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex (OG)/Apex Fnatic",              DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_OG_PID,                   	0  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 350",                           DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_350_PID,                      0  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro 3",                         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO3_PID,                     1  );
-REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL Gen 3",                DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_PID,             1  );
-REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL Gen 3 Wireless",       DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_1, 3, 0xFFC0, 1);
-REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL Gen 3 Wireless",       DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_2, 3, 0xFFC0, 1);
