@@ -259,9 +259,9 @@ public:
     static segment          SetSegmentDescriptionJSON(nlohmann::json segment_json);
     static zone             SetZoneDescriptionJSON(nlohmann::json zone_json);
 
-    static bool             SetModeValuesFromMode(mode& destination, mode& source);
-
+    static bool             CompareControllers(RGBController* controller_1, RGBController* controller_2);
     static std::string      DeviceTypeToString(device_type type);
+    static bool             SetModeValuesFromMode(mode& destination, mode& source);
 
 protected:
     /*-----------------------------------------------------*\
