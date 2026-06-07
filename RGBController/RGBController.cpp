@@ -4435,44 +4435,142 @@ zone RGBController::SetZoneDescriptionJSON(nlohmann::json zone_json)
     return(new_zone);
 }
 
-bool RGBController::SetModeValuesFromMode(mode& destination, mode& source)
+bool RGBController::CompareControllers(RGBController* controller_1, RGBController* controller_2)
 {
     /*-----------------------------------------------------*\
-    | Validate source mode before updating destination      |
+    | Do not compare location string for HID devices, as    |
+    | the location string may change between runs as        |
+    | devices are connected and disconnected. Also do not   |
+    | compare the I2C bus number, since it is not           |
+    | persistent across reboots on Linux - strip the I2C    |
+    | number and compare only address.                      |
     \*-----------------------------------------------------*/
-    if((destination.name == source.name)
-    && (destination.brightness_max == source.brightness_max)
-    && (destination.brightness_min == source.brightness_min)
-    && (((destination.brightness_max >= destination.brightness_min) && (source.brightness >= destination.brightness_min) && (source.brightness <= destination.brightness_max))
-     || ((destination.brightness_max <= destination.brightness_min) && (source.brightness <= destination.brightness_min) && (source.brightness >= destination.brightness_max)))
-    && ((((destination.flags & (MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR)) == 0) && (source.color_mode == MODE_COLORS_NONE))
-     || ((destination.flags & MODE_FLAG_HAS_PER_LED_COLOR)                                                                      && (source.color_mode == MODE_COLORS_PER_LED))
-     || ((destination.flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)                                                                && (source.color_mode == MODE_COLORS_MODE_SPECIFIC))
-     || ((destination.flags & MODE_FLAG_HAS_RANDOM_COLOR)                                                                       && (source.color_mode == MODE_COLORS_RANDOM)))
-    && (destination.colors_max == source.colors_max)
-    && (destination.colors_min == source.colors_min)
-    && ((source.colors.size() >= destination.colors_min) && (source.colors.size() <= destination.colors_max))
-    && ((((destination.flags & (MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD)) == 0) && (source.direction == 0))
-     || ((destination.flags & MODE_FLAG_HAS_DIRECTION_HV)                                                                    && ((source.direction == MODE_DIRECTION_HORIZONTAL) || (source.direction == MODE_DIRECTION_VERTICAL)))
-     || ((destination.flags & MODE_FLAG_HAS_DIRECTION_LR)                                                                    && ((source.direction == MODE_DIRECTION_LEFT)       || (source.direction == MODE_DIRECTION_RIGHT)))
-     || ((destination.flags & MODE_FLAG_HAS_DIRECTION_UD)                                                                    && ((source.direction == MODE_DIRECTION_UP)         || (source.direction == MODE_DIRECTION_DOWN))))
-    && (destination.speed_max == source.speed_max)
-    && (destination.speed_min == source.speed_min)
-    && (((destination.speed_max >= destination.speed_min) && (source.speed >= destination.speed_min) && (source.speed <= destination.speed_max))
-     || ((destination.speed_max <= destination.speed_min) && (source.speed <= destination.speed_min) && (source.speed >= destination.speed_max))))
-    {
-        destination.brightness  = source.brightness;
-        destination.color_mode  = source.color_mode;
-        destination.colors      = source.colors;
-        destination.direction   = source.direction;
-        destination.speed       = source.speed;
+    bool location_check;
 
-        return(true);
+    if(controller_1->GetLocation().find("HID: ") == 0)
+    {
+        location_check = true;
+    }
+    else if(controller_1->GetLocation().find("I2C: ") == 0)
+    {
+        std::size_t loc = controller_1->GetLocation().rfind(", ");
+        if(loc == std::string::npos)
+        {
+            location_check = false;
+        }
+        else
+        {
+            std::string i2c_address = controller_1->GetLocation().substr(loc + 2);
+            location_check = controller_2->GetLocation().find(i2c_address) != std::string::npos;
+        }
     }
     else
     {
+        location_check = controller_2->GetLocation() == controller_1->GetLocation();
+    }
+
+    /*-----------------------------------------------------*\
+    | Compare top-level controller information              |
+    \*-----------------------------------------------------*/
+    if((controller_1->GetDeviceType()    != controller_2->GetDeviceType() )
+    || (controller_1->GetName()          != controller_2->GetName()       )
+    || (controller_1->GetDescription()   != controller_2->GetDescription())
+    || (controller_1->GetVersion()       != controller_2->GetVersion()    )
+    || (controller_1->GetSerial()        != controller_2->GetSerial()     )
+    || (location_check                   != true                          ))
+    {
         return(false);
     }
+
+    /*-----------------------------------------------------*\
+    | Compare modes                                         |
+    \*-----------------------------------------------------*/
+    if(controller_1->modes.size() != controller_2->modes.size())
+    {
+        return(false);
+    }
+    else
+    {
+        for(std::size_t mode_index = 0; mode_index < controller_1->modes.size(); mode_index++)
+        {
+            if((controller_1->GetModeName(mode_index)            != controller_2->GetModeName(mode_index)         )
+            || (controller_1->GetModeValue(mode_index)           != controller_2->GetModeValue(mode_index)        )
+            || (controller_1->GetModeFlags(mode_index)           != controller_2->GetModeFlags(mode_index)        )
+            || (controller_1->GetModeSpeedMin(mode_index)        != controller_2->GetModeSpeedMin(mode_index)     )
+            || (controller_1->GetModeSpeedMax(mode_index)        != controller_2->GetModeSpeedMax(mode_index)     )
+            || (controller_1->GetModeBrightnessMin(mode_index)   != controller_2->GetModeBrightnessMin(mode_index))
+            || (controller_1->GetModeBrightnessMax(mode_index)   != controller_2->GetModeBrightnessMax(mode_index))
+            || (controller_1->GetModeColorsMin(mode_index)       != controller_2->GetModeColorsMin(mode_index)    )
+            || (controller_1->GetModeColorsMax(mode_index)       != controller_2->GetModeColorsMax(mode_index)    ))
+            {
+                return(false);
+            }
+        }
+    }
+    /*-----------------------------------------------------*\
+    | Compare zones                                         |
+    \*-----------------------------------------------------*/
+    if(controller_1->zones.size() != controller_2->zones.size())
+    {
+        return(false);
+    }
+    else
+    {
+        for(std::size_t zone_index = 0; zone_index < controller_1->zones.size(); zone_index++)
+        {
+            bool    check_zone_geometry = true;
+            bool    check_zone_type     = true;
+
+            /*---------------------------------------------*\
+            | Do not check zone type if manually configured |
+            \*---------------------------------------------*/
+            if((controller_1->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE)
+            || (controller_2->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+            {
+                check_zone_type = false;
+            }
+
+            if((controller_1->GetZoneFlags(zone_index) & ZONE_FLAG_ZONE_GEOMETRY_MAY_CHANGE)
+            || (controller_2->GetZoneFlags(zone_index) & ZONE_FLAG_ZONE_GEOMETRY_MAY_CHANGE))
+            {
+                check_zone_geometry = false;
+            }
+
+            if((                       (controller_1->GetZoneName(zone_index)      != controller_2->GetZoneName(zone_index)     ))
+            || (check_zone_type     && (controller_1->GetZoneType(zone_index)      != controller_2->GetZoneType(zone_index)     ))
+            || (check_zone_geometry && ((controller_1->GetZoneLEDsMin(zone_index)   != controller_2->GetZoneLEDsMin(zone_index)  )
+                                     || (controller_1->GetZoneLEDsMax(zone_index)   != controller_2->GetZoneLEDsMax(zone_index)  )))
+            ||                         (controller_1->GetZoneModeCount(zone_index) != controller_2->GetZoneModeCount(zone_index)))
+            {
+                return(false);
+            }
+
+            if(controller_1->GetZoneModeCount(zone_index) != controller_2->GetZoneModeCount(zone_index))
+            {
+                return(false);
+            }
+            else
+            {
+                for(std::size_t mode_index = 0; mode_index < controller_1->GetZoneModeCount(zone_index); mode_index++)
+                {
+                    if((controller_1->GetZoneModeName(zone_index, mode_index)          != controller_2->GetZoneModeName(zone_index, mode_index)         )
+                    || (controller_1->GetZoneModeValue(zone_index, mode_index)         != controller_2->GetZoneModeValue(zone_index, mode_index)        )
+                    || (controller_1->GetZoneModeFlags(zone_index, mode_index)         != controller_2->GetZoneModeFlags(zone_index, mode_index)        )
+                    || (controller_1->GetZoneModeSpeedMin(zone_index, mode_index)      != controller_2->GetZoneModeSpeedMin(zone_index, mode_index)     )
+                    || (controller_1->GetZoneModeSpeedMax(zone_index, mode_index)      != controller_2->GetZoneModeSpeedMax(zone_index, mode_index)     )
+                    || (controller_1->GetZoneModeBrightnessMin(zone_index, mode_index) != controller_2->GetZoneModeBrightnessMin(zone_index, mode_index))
+                    || (controller_1->GetZoneModeBrightnessMax(zone_index, mode_index) != controller_2->GetZoneModeBrightnessMax(zone_index, mode_index))
+                    || (controller_1->GetZoneModeColorsMin(zone_index, mode_index)     != controller_2->GetZoneModeColorsMin(zone_index, mode_index)    )
+                    || (controller_1->GetZoneModeColorsMax(zone_index, mode_index)     != controller_2->GetZoneModeColorsMax(zone_index, mode_index)    ))
+                    {
+                        return(false);
+                    }
+                }
+            }
+        }
+    }
+
+    return(true);
 }
 
 std::string RGBController::DeviceTypeToString(device_type type)
@@ -4523,5 +4621,46 @@ std::string RGBController::DeviceTypeToString(device_type type)
             return "Monitor";
         default:
             return "Unknown";
+    }
+}
+
+
+bool RGBController::SetModeValuesFromMode(mode& destination, mode& source)
+{
+    /*-----------------------------------------------------*\
+    | Validate source mode before updating destination      |
+    \*-----------------------------------------------------*/
+    if((destination.name == source.name)
+    && (destination.brightness_max == source.brightness_max)
+    && (destination.brightness_min == source.brightness_min)
+    && (((destination.brightness_max >= destination.brightness_min) && (source.brightness >= destination.brightness_min) && (source.brightness <= destination.brightness_max))
+     || ((destination.brightness_max <= destination.brightness_min) && (source.brightness <= destination.brightness_min) && (source.brightness >= destination.brightness_max)))
+    && ((((destination.flags & (MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR)) == 0) && (source.color_mode == MODE_COLORS_NONE))
+     || ((destination.flags & MODE_FLAG_HAS_PER_LED_COLOR)                                                                      && (source.color_mode == MODE_COLORS_PER_LED))
+     || ((destination.flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)                                                                && (source.color_mode == MODE_COLORS_MODE_SPECIFIC))
+     || ((destination.flags & MODE_FLAG_HAS_RANDOM_COLOR)                                                                       && (source.color_mode == MODE_COLORS_RANDOM)))
+    && (destination.colors_max == source.colors_max)
+    && (destination.colors_min == source.colors_min)
+    && ((source.colors.size() >= destination.colors_min) && (source.colors.size() <= destination.colors_max))
+    && ((((destination.flags & (MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD)) == 0) && (source.direction == 0))
+     || ((destination.flags & MODE_FLAG_HAS_DIRECTION_HV)                                                                    && ((source.direction == MODE_DIRECTION_HORIZONTAL) || (source.direction == MODE_DIRECTION_VERTICAL)))
+     || ((destination.flags & MODE_FLAG_HAS_DIRECTION_LR)                                                                    && ((source.direction == MODE_DIRECTION_LEFT)       || (source.direction == MODE_DIRECTION_RIGHT)))
+     || ((destination.flags & MODE_FLAG_HAS_DIRECTION_UD)                                                                    && ((source.direction == MODE_DIRECTION_UP)         || (source.direction == MODE_DIRECTION_DOWN))))
+    && (destination.speed_max == source.speed_max)
+    && (destination.speed_min == source.speed_min)
+    && (((destination.speed_max >= destination.speed_min) && (source.speed >= destination.speed_min) && (source.speed <= destination.speed_max))
+     || ((destination.speed_max <= destination.speed_min) && (source.speed <= destination.speed_min) && (source.speed >= destination.speed_max))))
+    {
+        destination.brightness  = source.brightness;
+        destination.color_mode  = source.color_mode;
+        destination.colors      = source.colors;
+        destination.direction   = source.direction;
+        destination.speed       = source.speed;
+
+        return(true);
+    }
+    else
+    {
+        return(false);
     }
 }
