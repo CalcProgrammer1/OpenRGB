@@ -70,6 +70,12 @@ void MSILaptopController::SetLEDs(std::vector<led> leds, std::vector<RGBColor> c
     buf[0x01] = MSI_LAPTOP_COMMAND;
     buf[0x03] = (type == MSI_LAPTOP_KLC) ? MSI_LAPTOP_KLC_PACKET_ID : MSI_LAPTOP_ALC_PACKET_ID;
 
+    // Fill unused LED IDs with 0xFF so they are ignored by the controller
+    for(int i = 0; i < (MSI_LAPTOP_PACKET_SIZE - MSI_LAPTOP_PAYLOAD_OFFSET) / 4; i++)
+    {
+        buf[MSI_LAPTOP_PAYLOAD_OFFSET + (i * 4)] = 0xFF;
+    }
+
     for(unsigned int led_idx = 0; led_idx < led_count; led_idx++)
     {
         unsigned int offset = MSI_LAPTOP_PAYLOAD_OFFSET + (led_idx * 4);

@@ -22,7 +22,7 @@
 #define NA                                      0xFFFFFFFF
 #define MSI_LAPTOP_KLC_MATRIX_HEIGHT  6
 #define MSI_LAPTOP_KLC_MATRIX_WIDTH   23
-#define MSI_LAPTOP_ALC_LIGHTBAR_LEDS  5
+#define MSI_LAPTOP_ALC_LIGHTBAR_LEDS  3
 
 static const msi_laptop_led msi_raider_a18_klc_leds[] =
 {
@@ -140,14 +140,24 @@ static unsigned int msi_raider_a18_klc_matrix_map[MSI_LAPTOP_KLC_MATRIX_HEIGHT][
     { 90, 93, 92, NA, NA, NA, 38, NA, NA, NA,101, 94, 95, NA, 69, 70, 68, NA, 87, NA, 88, NA, NA },
 };
 
+/*---------------------------------------------------------*\
+| Note on Raider A18 HX ALC (Lightbar) LED mappings:        |
+| Initial reverse engineering packet captures showed 6 zones|
+| being updated (indexes 0x00 to 0x05).                     |
+| However, indexes 0x04 (L4) and 0x05 (L5) are "dummy" zones|
+| on this specific model and do not correspond to physical  |
+| LEDs. To avoid user confusion, they are omitted from the  |
+| UI profile here.                                          |
+| The SetLEDs function handles zero-padding the unused      |
+| payload slots with 0xFF so that omitting these zones      |
+| doesn't accidentally overwrite the 0x00 index (L1).       |
+\*---------------------------------------------------------*/
 static const msi_laptop_led msi_raider_a18_alc_leds[] =
 {
     { "Lightbar 1", 0x00 },
     { "Lightbar 2", 0x01 },
     { "Lightbar 3", 0x02 },
-    { "Lightbar 4", 0x03 },
-    { "Lightbar 5", 0x04 },
-    { "Logo",       0x05 },
+    { "Logo",       0x03 },
 };
 
 static const MSILaptopModel msi_laptop_models[] =
@@ -220,6 +230,6 @@ void DetectMSILaptop(hid_device_info* info, const std::string& name)
     }
 }
 
-REGISTER_HID_DETECTOR_I("MSI Laptop Keyboard", DetectMSILaptop, STEELSERIES_VID, STEELSERIES_MSI_RAIDER_A18_KLC_PID, 0);
+REGISTER_HID_DETECTOR("MSI Laptop Keyboard", DetectMSILaptop, STEELSERIES_VID, STEELSERIES_MSI_RAIDER_A18_KLC_PID);
 REGISTER_HID_DETECTOR_I("MSI Laptop Lightbar", DetectMSILaptop, STEELSERIES_VID, STEELSERIES_MSI_RAIDER_A18_ALC_PID, 0);
 
