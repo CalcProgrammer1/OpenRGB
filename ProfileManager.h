@@ -79,7 +79,6 @@ public:
     ~ProfileManager();
 
     void                        ClearActiveProfile();
-    static bool                 CompareControllers(RGBController* controller_1, RGBController* controller_2);
 
     void                        DeleteProfile(std::string profile_name);
 

@@ -121,7 +121,7 @@ OpenRGBProfileEditorDialog::OpenRGBProfileEditorDialog(std::string name, QWidget
     {
         for(std::size_t old_controller_idx = 0; old_controller_idx < old_controllers.size(); old_controller_idx++)
         {
-            if(ProfileManager::CompareControllers(new_controllers[new_controller_idx], old_controllers[old_controller_idx]))
+            if(RGBController::CompareControllers(new_controllers[new_controller_idx], old_controllers[old_controller_idx]))
             {
                 /*-----------------------------------------*\
                 | Controllers match, copy from new list to  |
