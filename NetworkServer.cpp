@@ -2725,6 +2725,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(Netwo
     unsigned int    data_size_pkt;
     unsigned char*  data_start              = data_ptr;
     int             mode_idx;
+    mode            temp_mode;
 
     /*-----------------------------------------------------*\
     | If data pointer is null, return                       |
@@ -2780,14 +2781,20 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(Netwo
     }
 
     /*-----------------------------------------------------*\
-    | Set active mode                                       |
+    | Read mode description                                 |
     \*-----------------------------------------------------*/
-    controllers[controller_idx]->active_mode = mode_idx;
+    data_ptr = RGBController::SetModeDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), &temp_mode, client_info->client_protocol_version);
 
     /*-----------------------------------------------------*\
-    | Set mode description                                  |
+    | Set mode values and active mode                       |
     \*-----------------------------------------------------*/
-    data_ptr = controllers[controller_idx]->SetModeDescription(data_ptr, data_size - (data_ptr - data_start), &controllers[controller_idx]->modes[mode_idx], client_info->client_protocol_version);
+    if((mode_idx >= 0) && ((std::size_t)mode_idx < controllers[controller_idx]->modes.size()))
+    {
+        if(RGBController::SetModeValuesFromMode(controllers[controller_idx]->modes[mode_idx], temp_mode))
+        {
+            controllers[controller_idx]->active_mode = mode_idx;
+        }
+    }
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
@@ -3005,6 +3012,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(Netwo
     unsigned int    data_size_pkt;
     unsigned char*  data_start              = data_ptr;
     int             mode_idx;
+    mode            temp_mode;
     int             zone_idx;
 
     /*-----------------------------------------------------*\
@@ -3066,16 +3074,22 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(Netwo
     }
 
     /*-----------------------------------------------------*\
-    | Set active mode                                       |
-    \*-----------------------------------------------------*/
-    controllers[controller_idx]->zones[zone_idx].active_mode = mode_idx;
-
-    /*-----------------------------------------------------*\
-    | Set mode description                                  |
+    | Read mode description                                 |
     \*-----------------------------------------------------*/
     if(mode_idx >= 0)
     {
-        data_ptr = controllers[controller_idx]->SetModeDescription(data_ptr, data_size - (data_ptr - data_start), &controllers[controller_idx]->zones[zone_idx].modes[mode_idx], client_info->client_protocol_version);
+        data_ptr = RGBController::SetModeDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), &temp_mode, client_info->client_protocol_version);
+    }
+
+    /*-----------------------------------------------------*\
+    | Set mode values and active mode                       |
+    \*-----------------------------------------------------*/
+    if((mode_idx >= 0) && ((std::size_t)mode_idx < controllers[controller_idx]->zones[zone_idx].modes.size()))
+    {
+        if(RGBController::SetModeValuesFromMode(controllers[controller_idx]->zones[zone_idx].modes[mode_idx], temp_mode))
+        {
+            controllers[controller_idx]->zones[zone_idx].active_mode = mode_idx;
+        }
     }
 
     /*-----------------------------------------------------*\
