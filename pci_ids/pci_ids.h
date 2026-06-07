@@ -1000,6 +1000,7 @@
 #define ZOTAC_RTX4090_TRINITY_SUB_DEV                   0x3675
 #define ZOTAC_RTX4090_AMP_SUB_DEV                       0x4675
 #define ZOTAC_RTX5080_AMP_EXTREME_SUB_DEV               0x1762
+#define ZOTAC_RTX5090_SOLID_OC_SUB_DEV                  0x1761
 
 /*-----------------------------------------------------*\
 | Manli Sub-Device IDs                                  |

@@ -10,6 +10,8 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController_ZotacBlackwellGPU.h"
+#include "LogManager.h"
+#include "pci_ids.h"
 
 /**------------------------------------------------------------------*\
     @name ZOTAC RTX 50 series GPU
@@ -20,20 +22,59 @@
     @effects :tools:
     @detectors DetectZotacBlackwellGPUControllersPCI
     @comment
-        Supports ZOTAC Blackwell (RTX 50 series) GPUs with 3 zones:
-        Logo, Side Bar, and Infinity Mirror.
+        Supports ZOTAC Blackwell (RTX 50 series) GPUs. The zone layout
+        varies per card and is resolved from a static table keyed on
+        PCI device and sub-device IDs.
 
         The controller uses individual SMBus byte writes (registers
         0x20-0x2F) with a 3ms delay between each transaction.
 
-        To add new cards, add PCI ID entries in `pci_ids/pci_ids.h`
-        and detection entries in
+        To add new cards, add PCI ID entries in `pci_ids/pci_ids.h`,
+        a zone config entry in `device_zone_configs` below, and a
+        `REGISTER_I2C_PCI_DETECTOR` line in
         `Controllers/ZotacBlackwellGPUController/ZotacBlackwellGPUControllerDetect.cpp`.
 \*-------------------------------------------------------------------*/
 
-RGBController_ZotacBlackwellGPU::RGBController_ZotacBlackwellGPU(ZotacBlackwellGPUController* controller_ptr)
+const RGBController_ZotacBlackwellGPU::DeviceZoneConfig RGBController_ZotacBlackwellGPU::device_zone_configs[] =
+{
+    { NVIDIA_RTX5080_DEV, ZOTAC_RTX5080_AMP_EXTREME_SUB_DEV, { "Logo", "Side Bar", "Infinity Mirror" }, 3 },
+    { NVIDIA_RTX5090_DEV, ZOTAC_RTX5090_SOLID_OC_SUB_DEV,     { "ZOTAC Gaming", "Logo" },                2 },
+    { 0, 0, { nullptr }, 0 }
+};
+
+const RGBController_ZotacBlackwellGPU::DeviceZoneConfig* RGBController_ZotacBlackwellGPU::FindZoneConfig(uint16_t device, uint16_t subdevice)
+{
+    for(const DeviceZoneConfig* cfg = device_zone_configs; cfg->zone_count != 0; cfg++)
+    {
+        if(cfg->device == device && cfg->subdevice == subdevice)
+        {
+            return cfg;
+        }
+    }
+    return nullptr;
+}
+
+RGBController_ZotacBlackwellGPU::RGBController_ZotacBlackwellGPU(ZotacBlackwellGPUController* controller_ptr,
+                                                                   uint16_t device, uint16_t subdevice)
 {
     controller              = controller_ptr;
+
+    const DeviceZoneConfig* cfg = FindZoneConfig(device, subdevice);
+    if(cfg == nullptr)
+    {
+        LOG_ERROR("[%s] Unrecognized PCI device/subdevice: %04X/%04X. Falling back to three generic zones.",
+                  controller->GetName().c_str(), device, subdevice);
+        zone_names.push_back("Zone 0");
+        zone_names.push_back("Zone 1");
+        zone_names.push_back("Zone 2");
+    }
+    else
+    {
+        for(uint8_t z = 0; z < cfg->zone_count; z++)
+        {
+            zone_names.push_back(cfg->zones[z]);
+        }
+    }
 
     name                    = controller->GetName();
     vendor                  = "ZOTAC";
@@ -252,52 +293,25 @@ RGBController_ZotacBlackwellGPU::~RGBController_ZotacBlackwellGPU()
 void RGBController_ZotacBlackwellGPU::SetupZones()
 {
     /*---------------------------------------------------------*\
-    | Zone 0: Logo                                              |
+    | One single-LED zone per name from the device_zone_configs |
+    | table.  The zone's index is its position here, which is   |
+    | written verbatim to the zone register (0x21) on update.   |
     \*---------------------------------------------------------*/
-    zone logo_zone;
-    logo_zone.name          = "Logo";
-    logo_zone.type          = ZONE_TYPE_SINGLE;
-    logo_zone.leds_min      = 1;
-    logo_zone.leds_max      = 1;
-    logo_zone.leds_count    = 1;
-    logo_zone.matrix_map    = NULL;
-    zones.push_back(logo_zone);
+    for(const std::string& zone_name : zone_names)
+    {
+        zone new_zone;
+        new_zone.name       = zone_name;
+        new_zone.type       = ZONE_TYPE_SINGLE;
+        new_zone.leds_min   = 1;
+        new_zone.leds_max   = 1;
+        new_zone.leds_count = 1;
+        new_zone.matrix_map = NULL;
+        zones.push_back(new_zone);
 
-    led logo_led;
-    logo_led.name           = "Logo LED";
-    leds.push_back(logo_led);
-
-    /*---------------------------------------------------------*\
-    | Zone 1: Side Bar                                          |
-    \*---------------------------------------------------------*/
-    zone sidebar_zone;
-    sidebar_zone.name       = "Side Bar";
-    sidebar_zone.type       = ZONE_TYPE_SINGLE;
-    sidebar_zone.leds_min   = 1;
-    sidebar_zone.leds_max   = 1;
-    sidebar_zone.leds_count = 1;
-    sidebar_zone.matrix_map = NULL;
-    zones.push_back(sidebar_zone);
-
-    led sidebar_led;
-    sidebar_led.name        = "Side Bar LED";
-    leds.push_back(sidebar_led);
-
-    /*---------------------------------------------------------*\
-    | Zone 2: Infinity Mirror                                   |
-    \*---------------------------------------------------------*/
-    zone infinity_zone;
-    infinity_zone.name       = "Infinity Mirror";
-    infinity_zone.type       = ZONE_TYPE_SINGLE;
-    infinity_zone.leds_min   = 1;
-    infinity_zone.leds_max   = 1;
-    infinity_zone.leds_count = 1;
-    infinity_zone.matrix_map = NULL;
-    zones.push_back(infinity_zone);
-
-    led infinity_led;
-    infinity_led.name        = "Infinity Mirror LED";
-    leds.push_back(infinity_led);
+        led new_led;
+        new_led.name        = zone_name + " LED";
+        leds.push_back(new_led);
+    }
 
     SetupColors();
 }
@@ -362,7 +376,7 @@ void RGBController_ZotacBlackwellGPU::DeviceUpdateZone(int zone)
 
 void RGBController_ZotacBlackwellGPU::DeviceUpdateMode()
 {
-    for(unsigned int zone_idx = 0; zone_idx < ZOTAC_BLACKWELL_GPU_NUM_ZONES; zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         DeviceUpdateZone(zone_idx);
     }

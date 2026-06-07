@@ -47,14 +47,6 @@
 #define ZOTAC_BLACKWELL_GPU_REG_COMMIT          0x17
 
 /*---------------------------------------------------------*\
-| Zone indices                                              |
-\*---------------------------------------------------------*/
-#define ZOTAC_BLACKWELL_GPU_ZONE_LOGO           0x00
-#define ZOTAC_BLACKWELL_GPU_ZONE_SIDEBAR        0x01
-#define ZOTAC_BLACKWELL_GPU_ZONE_INFINITY       0x02
-#define ZOTAC_BLACKWELL_GPU_NUM_ZONES           3
-
-/*---------------------------------------------------------*\
 | Mode values (from Firestorm V5.0.0.012E reverse eng.)     |
 \*---------------------------------------------------------*/
 #define ZOTAC_BLACKWELL_GPU_MODE_STATIC         0x01

@@ -11,13 +11,17 @@
 
 #pragma once
 
+#include <stdint.h>
+#include <string>
+#include <vector>
 #include "RGBController.h"
 #include "ZotacBlackwellGPUController.h"
 
 class RGBController_ZotacBlackwellGPU : public RGBController
 {
 public:
-    RGBController_ZotacBlackwellGPU(ZotacBlackwellGPUController* controller_ptr);
+    RGBController_ZotacBlackwellGPU(ZotacBlackwellGPUController* controller_ptr,
+                                    uint16_t device, uint16_t subdevice);
     ~RGBController_ZotacBlackwellGPU();
 
     void SetupZones();
@@ -33,4 +37,17 @@ public:
 
 private:
     ZotacBlackwellGPUController* controller;
+    std::vector<std::string>     zone_names;
+
+    struct DeviceZoneConfig
+    {
+        uint16_t device;
+        uint16_t subdevice;
+        const char* zones[4];
+        uint8_t     zone_count;
+    };
+
+    static const DeviceZoneConfig device_zone_configs[];
+
+    static const DeviceZoneConfig* FindZoneConfig(uint16_t device, uint16_t subdevice);
 };
