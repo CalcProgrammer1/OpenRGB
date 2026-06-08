@@ -730,24 +730,6 @@ unsigned int RGBController::GetZoneModeSpeedMin(unsigned int zone, unsigned int 
     return(speed_min);
 }
 
-int RGBController::GetZoneModeValue(unsigned int zone, unsigned int mode)
-{
-    unsigned int value;
-
-    AccessMutex.lock_shared();
-    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
-    {
-        value = zones[zone].modes[mode].value;
-    }
-    else
-    {
-        value = 0;
-    }
-    AccessMutex.unlock_shared();
-
-    return(value);
-}
-
 std::string RGBController::GetZoneName(unsigned int zone)
 {
     std::string name;
@@ -1378,24 +1360,6 @@ unsigned int RGBController::GetModeSpeedMin(unsigned int mode)
     return(speed_min);
 }
 
-int RGBController::GetModeValue(unsigned int mode)
-{
-    int value;
-
-    AccessMutex.lock_shared();
-    if(mode < modes.size())
-    {
-        value = modes[mode].value;
-    }
-    else
-    {
-        value = 0;
-    }
-    AccessMutex.unlock_shared();
-
-    return(value);
-}
-
 void RGBController::SetModeBrightness(unsigned int mode, unsigned int brightness)
 {
     AccessMutex.lock();
@@ -1574,24 +1538,6 @@ std::string RGBController::GetLEDName(unsigned int led)
     AccessMutex.unlock_shared();
 
     return(name);
-}
-
-unsigned int RGBController::GetLEDValue(unsigned int led)
-{
-    unsigned int value;
-
-    AccessMutex.lock_shared();
-    if(led < leds.size())
-    {
-        value = leds[led].value;
-    }
-    else
-    {
-        value = 0;
-    }
-    AccessMutex.unlock_shared();
-
-    return(value);
 }
 
 std::string RGBController::GetLEDDisplayName(unsigned int led)
@@ -2666,7 +2612,7 @@ unsigned int RGBController::GetDeviceDescriptionSize(RGBController* controller, 
     return(data_size);
 }
 
-unsigned char * RGBController::GetLEDDescriptionData(unsigned char* data_ptr, led led, unsigned int /*protocol_version*/)
+unsigned char * RGBController::GetLEDDescriptionData(unsigned char* data_ptr, led led, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Copy in LED name (size+data)                          |
@@ -2682,13 +2628,16 @@ unsigned char * RGBController::GetLEDDescriptionData(unsigned char* data_ptr, le
     /*-----------------------------------------------------*\
     | Copy in LED value                                     |
     \*-----------------------------------------------------*/
-    memcpy(data_ptr, &led.value, sizeof(led.value));
-    data_ptr += sizeof(led.value);
+    if(protocol_version < 6)
+    {
+        memcpy(data_ptr, &led.value, sizeof(led.value));
+        data_ptr += sizeof(led.value);
+    }
 
     return(data_ptr);
 }
 
-unsigned int RGBController::GetLEDDescriptionSize(led led, unsigned int /*protocol_version*/)
+unsigned int RGBController::GetLEDDescriptionSize(led led, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Initialize variables                                  |
@@ -2702,7 +2651,11 @@ unsigned int RGBController::GetLEDDescriptionSize(led led, unsigned int /*protoc
 
     data_size                              += sizeof(led_name_len);
     data_size                              += led_name_len;
-    data_size                              += sizeof(led.value);
+
+    if(protocol_version < 6)
+    {
+        data_size                          += sizeof(led.value);
+    }
 
     return(data_size);
 }
@@ -2768,7 +2721,10 @@ unsigned int RGBController::GetModeDescriptionSize(mode mode, unsigned int proto
 
     mode_description_size                  += sizeof(mode_name_len);
     mode_description_size                  += mode_name_len;
-    mode_description_size                  += sizeof(mode.value);
+    if(protocol_version < 6)
+    {
+        mode_description_size              += sizeof(mode.value);
+    }
     mode_description_size                  += sizeof(mode.flags);
     mode_description_size                  += sizeof(mode.speed_min);
     mode_description_size                  += sizeof(mode.speed_max);
@@ -2818,8 +2774,11 @@ unsigned char * RGBController::GetModeDescriptionData(unsigned char* data_ptr, m
     /*-----------------------------------------------------*\
     | Copy in mode value (data)                             |
     \*-----------------------------------------------------*/
-    memcpy(data_ptr, &mode.value, sizeof(mode.value));
-    data_ptr += sizeof(mode.value);
+    if(protocol_version < 6)
+    {
+        memcpy(data_ptr, &mode.value, sizeof(mode.value));
+        data_ptr += sizeof(mode.value);
+    }
 
     /*-----------------------------------------------------*\
     | Copy in mode flags (data)                             |
@@ -3485,7 +3444,7 @@ unsigned char* RGBController::SetColorDescription(unsigned char* data_ptr, unsig
     return(data_ptr);
 }
 
-unsigned char* RGBController::SetLEDDescription(unsigned char* data_ptr, unsigned int data_size, led* led, unsigned int /*protocol_version*/)
+unsigned char* RGBController::SetLEDDescription(unsigned char* data_ptr, unsigned int data_size, led* led, unsigned int protocol_version)
 {
     /*-----------------------------------------------------*\
     | Local variables                                       |
@@ -3507,7 +3466,10 @@ unsigned char* RGBController::SetLEDDescription(unsigned char* data_ptr, unsigne
     /*-----------------------------------------------------*\
     | Copy in LED value                                     |
     \*-----------------------------------------------------*/
-    COPY_DATA_FIELD(data_ptr, data_start, led->value);
+    if(protocol_version < 6)
+    {
+        COPY_DATA_FIELD(data_ptr, data_start, led->value);
+    }
 
     return(data_ptr);
 }
@@ -3534,7 +3496,10 @@ unsigned char* RGBController::SetModeDescription(unsigned char* data_ptr, unsign
     /*-----------------------------------------------------*\
     | Copy in mode value                                    |
     \*-----------------------------------------------------*/
-    COPY_DATA_FIELD(data_ptr, data_start, mode->value);
+    if(protocol_version < 6)
+    {
+        COPY_DATA_FIELD(data_ptr, data_start, mode->value);
+    }
 
     /*-----------------------------------------------------*\
     | Copy in mode flags                                    |
@@ -3938,7 +3903,6 @@ nlohmann::json RGBController::GetLEDDescriptionJSON(led led)
     | LED Information                                       |
     \*-----------------------------------------------------*/
     led_json["name"]                    = led.name;
-    led_json["value"]                   = led.value;
 
     return(led_json);
 }
@@ -3966,7 +3930,6 @@ nlohmann::json RGBController::GetModeDescriptionJSON(mode mode)
     | Mode Information                                      |
     \*-----------------------------------------------------*/
     mode_json["name"]                                           = mode.name;
-    mode_json["value"]                                          = mode.value;
     mode_json["flags"]                                          = mode.flags;
     mode_json["speed_min"]                                      = mode.speed_min;
     mode_json["speed_max"]                                      = mode.speed_max;
@@ -4199,11 +4162,6 @@ led RGBController::SetLEDDescriptionJSON(nlohmann::json led_json)
         new_led.name                        = led_json["name"];
     }
 
-    if(led_json.contains("value"))
-    {
-        new_led.value                       = led_json["value"];
-    }
-
     return(new_led);
 }
 
@@ -4239,11 +4197,6 @@ mode RGBController::SetModeDescriptionJSON(nlohmann::json mode_json)
     if(mode_json.contains("name"))
     {
         new_mode.name                       = mode_json["name"];
-    }
-
-    if(mode_json.contains("value"))
-    {
-        new_mode.value                      = mode_json["value"];
     }
 
     if(mode_json.contains("flags"))
@@ -4491,7 +4444,6 @@ bool RGBController::CompareControllers(RGBController* controller_1, RGBControlle
         for(std::size_t mode_index = 0; mode_index < controller_1->modes.size(); mode_index++)
         {
             if((controller_1->GetModeName(mode_index)            != controller_2->GetModeName(mode_index)         )
-            || (controller_1->GetModeValue(mode_index)           != controller_2->GetModeValue(mode_index)        )
             || (controller_1->GetModeFlags(mode_index)           != controller_2->GetModeFlags(mode_index)        )
             || (controller_1->GetModeSpeedMin(mode_index)        != controller_2->GetModeSpeedMin(mode_index)     )
             || (controller_1->GetModeSpeedMax(mode_index)        != controller_2->GetModeSpeedMax(mode_index)     )
@@ -4551,7 +4503,6 @@ bool RGBController::CompareControllers(RGBController* controller_1, RGBControlle
                 for(std::size_t mode_index = 0; mode_index < controller_1->GetZoneModeCount(zone_index); mode_index++)
                 {
                     if((controller_1->GetZoneModeName(zone_index, mode_index)          != controller_2->GetZoneModeName(zone_index, mode_index)         )
-                    || (controller_1->GetZoneModeValue(zone_index, mode_index)         != controller_2->GetZoneModeValue(zone_index, mode_index)        )
                     || (controller_1->GetZoneModeFlags(zone_index, mode_index)         != controller_2->GetZoneModeFlags(zone_index, mode_index)        )
                     || (controller_1->GetZoneModeSpeedMin(zone_index, mode_index)      != controller_2->GetZoneModeSpeedMin(zone_index, mode_index)     )
                     || (controller_1->GetZoneModeSpeedMax(zone_index, mode_index)      != controller_2->GetZoneModeSpeedMax(zone_index, mode_index)     )

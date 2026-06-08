@@ -137,35 +137,35 @@ The server responds to this request with a large data block.  The format of the 
 
 The Device Data block represents an entire `RGBController`.  This data block is provided by `RGBController::GetDeviceDescriptionData()`.  Portions of this block are omitted if the requested protocol level is below the listed value.
 
-| Size                | Format                                | Name                | Protocol Version | Description                                                                                                  |
-| ------------------- | ------------------------------------- | ------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ |
-| 4                   | int                                   | type                | 0                | RGBController type field value                                                                               |
-| 2                   | unsigned short                        | name_len            | 0                | Length of RGBController name field string, including null termination                                        |
-| name_len            | char[name_len]                        | name                | 0                | RGBController name field string value, including null termination                                            |
-| 2                   | unsigned short                        | vendor_len          | 1                | Length of RGBController vendor field string, including null termination                                      |
-| vendor_len          | char[vendor_len]                      | vendor              | 1                | RGBController vendor field string value, including null termination                                          |
-| 2                   | unsigned short                        | description_len     | 0                | Length of RGBController description field string, including null termination                                 |
-| description_len     | char[description_len]                 | description         | 0                | RGBController description field string value, including null termination                                     |
-| 2                   | unsigned short                        | version_len         | 0                | Length of RGBController version field string, including null termination                                     |
-| version_len         | char[version_len]                     | version             | 0                | RGBController version field string value, including null termination                                         |
-| 2                   | unsigned short                        | serial_len          | 0                | Length of RGBController serial field string, including null termination                                      |
-| serial_len          | char[serial_len]                      | serial              | 0                | RGBController serial field string value, including null termination                                          |
-| 2                   | unsigned short                        | location_len        | 0                | Length of RGBController location field string, including null termination                                    |
-| location_len        | char[location_len]                    | location            | 0                | RGBController location field string value, including null termination                                        |
-| 2                   | unsigned short                        | num_modes           | 0                | Number of modes in RGBController                                                                             |
-| 4                   | int                                   | active_mode         | 0                | RGBController active_mode field value                                                                        |
-| Variable            | Mode Data[num_modes]                  | modes               | 0                | See [Mode Data](#mode-data) block format table.  Repeat num_modes times                                      |
-| 2                   | unsigned short                        | num_zones           | 0                | Number of zones in RGBController                                                                             |
-| Variable            | Zone Data[num_zones]                  | zones               | 0                | See [Zone Data](#zone-data) block format table.  Repeat num_zones times                                      |
-| 2                   | unsigned short                        | num_leds            | 0                | Number of LEDs in RGBController                                                                              |
-| Variable            | LED Data[num_leds]                    | leds                | 0                | See [LED Data](#led-data) block format table.  Repeat num_leds times                                         |
-| 2                   | unsigned short                        | num_colors          | 0                | Number of colors in RGBController                                                                            |
-| 4 * num_colors      | RGBColor[num_colors]                  | colors              | 0                | RGBController colors field values                                                                            |
-| 2                   | unsigned short                        | num_led_display_names   | 5                | Number of LED alternate name strings                                                                         |
-| Variable            | LED Alternate Name[num_led_display_names] | led_display_names       | 5                | See [LED Alternate Name Data](#led-alternate-names-data) block format table.  Repeat num_led_display_names times |
-| 4                   | unsigned int                          | flags               | 5                | RGBController flags field value                                                                              |
-| 4                   | unsigned int                          | configuration_len   | 6                | Length of RGBController configuration field string, including null termination                               |
-| configuration_len   | char[configuration_len]               | configuration       |                  | RGBController configuration field string value, including null termination                                   |
+| Size                | Format                                    | Name                  | Protocol Version | Description                                                                                                  |
+| ------------------- | ----------------------------------------- | --------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ |
+| 4                   | int                                       | type                  | 0                | RGBController type field value                                                                               |
+| 2                   | unsigned short                            | name_len              | 0                | Length of RGBController name field string, including null termination                                        |
+| name_len            | char[name_len]                            | name                  | 0                | RGBController name field string value, including null termination                                            |
+| 2                   | unsigned short                            | vendor_len            | 1                | Length of RGBController vendor field string, including null termination                                      |
+| vendor_len          | char[vendor_len]                          | vendor                | 1                | RGBController vendor field string value, including null termination                                          |
+| 2                   | unsigned short                            | description_len       | 0                | Length of RGBController description field string, including null termination                                 |
+| description_len     | char[description_len]                     | description           | 0                | RGBController description field string value, including null termination                                     |
+| 2                   | unsigned short                            | version_len           | 0                | Length of RGBController version field string, including null termination                                     |
+| version_len         | char[version_len]                         | version               | 0                | RGBController version field string value, including null termination                                         |
+| 2                   | unsigned short                            | serial_len            | 0                | Length of RGBController serial field string, including null termination                                      |
+| serial_len          | char[serial_len]                          | serial                | 0                | RGBController serial field string value, including null termination                                          |
+| 2                   | unsigned short                            | location_len          | 0                | Length of RGBController location field string, including null termination                                    |
+| location_len        | char[location_len]                        | location              | 0                | RGBController location field string value, including null termination                                        |
+| 2                   | unsigned short                            | num_modes             | 0                | Number of modes in RGBController                                                                             |
+| 4                   | int                                       | active_mode           | 0                | RGBController active_mode field value                                                                        |
+| Variable            | Mode Data[num_modes]                      | modes                 | 0                | See [Mode Data](#mode-data) block format table.  Repeat num_modes times                                      |
+| 2                   | unsigned short                            | num_zones             | 0                | Number of zones in RGBController                                                                             |
+| Variable            | Zone Data[num_zones]                      | zones                 | 0                | See [Zone Data](#zone-data) block format table.  Repeat num_zones times                                      |
+| 2                   | unsigned short                            | num_leds              | 0                | Number of LEDs in RGBController                                                                              |
+| Variable            | LED Data[num_leds]                        | leds                  | 0                | See [LED Data](#led-data) block format table.  Repeat num_leds times                                         |
+| 2                   | unsigned short                            | num_colors            | 0                | Number of colors in RGBController                                                                            |
+| 4 * num_colors      | RGBColor[num_colors]                      | colors                | 0                | RGBController colors field values                                                                            |
+| 2                   | unsigned short                            | num_led_display_names | 5                | Number of LED alternate name strings                                                                         |
+| Variable            | LED Display Name[num_led_display_names]   | led_display_names     | 5                | See [LED Display Name Data](#led-display-name-data) block format table.  Repeat num_led_display_names times  |
+| 4                   | unsigned int                              | flags                 | 5                | RGBController flags field value                                                                              |
+| 4                   | unsigned int                              | configuration_len     | 6                | Length of RGBController configuration field string, including null termination                               |
+| configuration_len   | char[configuration_len]                   | configuration         |                  | RGBController configuration field string value, including null termination                                   |
 
 ## Mode Data
 
@@ -175,7 +175,7 @@ The Mode Data block represents one entry in the `RGBController::modes` vector.  
 | ------------------- | ------------------------- | ------------------- | ---------------- | ------------------------------------------------------ |
 | 2                   | unsigned short            | mode_name_len       | 0                | Length of mode name string, including null termination |
 | mode_name_len       | char[mode_name_len]       | mode_name           | 0                | Mode name string value, including null termination     |
-| 4                   | int                       | mode_value          | 0                | Mode value field value                                 |
+| 4                   | int                       | mode_value          | <6*              | Mode value field value                                 |
 | 4                   | unsigned int              | mode_flags          | 0                | Mode flags field value                                 |
 | 4                   | unsigned int              | mode_speed_min      | 0                | Mode speed_min field value                             |
 | 4                   | unsigned int              | mode_speed_max      | 0                | Mode speed_max field value                             |
@@ -189,6 +189,8 @@ The Mode Data block represents one entry in the `RGBController::modes` vector.  
 | 4                   | unsigned int              | mode_color_mode     | 0                | Mode color_mode value                                  |
 | 2                   | unsigned short            | mode_num_colors     | 0                | Mode number of colors                                  |
 | 4 * mode_num_colors | RGBColor[mode_num_colors] | mode_colors         | 0                | Mode color values                                      |
+
+\* The mode_value field was removed starting with protocol version 6.  This is an internal-use-only field that does not need to be exposed to clients.  For protocol versions 5 and below, the client must track the mode_value received from the server and send it back as part of the UpdateMode/SaveMode packets.
 
 ## Zone Data
 
@@ -244,16 +246,18 @@ The LED Data block represents one entry in the `RGBController::leds` vector.  Th
 | ------------------- | ------------------------- | ------------------- | ---------------- | ------------------------------------------------------ |
 | 2                   | unsigned short            | led_name_len        | 0                | Length of LED name string, including null termination  |
 | led_name_len        | char[led_name_len]        | led_name            | 0                | LED name string value, including null termination      |
-| 4                   | unsigned int              | led_value           | 0                | LED value field value                                  |
+| 4                   | unsigned int              | led_value           | <6*              | LED value field value                                  |
 
-## LED Alternate Name Data
+\* The led_value field was removed starting with protocol version 6.  This is an internal-use-only field that does not need to be exposed to clients.
 
-The LED Alternate Name Data block represents one entry in the `RGBController::led_display_names` vector.  This data block was introduced in protocol version 5.
+## LED Display Name Data
 
-| Size             | Format                 | Name             | Protocol Version | Description                                                     |
-| ---------------- | ---------------------- | ---------------- | ---------------- | --------------------------------------------------------------- |
-| 2                | unsigned short         | led_alt_name_len | 5                | Length of LED alternate name string, including null termination |
-| led_alt_name_len | char[led_alt_name_len] | led_alt_name     | 5                | LED alternate name string value, including null termination     |
+The LED Display Name Data block represents one entry in the `RGBController::led_display_names` vector.  This data block was introduced in protocol version 5.
+
+| Size                 | Format                     | Name                 | Protocol Version | Description                                                     |
+| -------------------- | -------------------------- | -------------------- | ---------------- | --------------------------------------------------------------- |
+| 2                    | unsigned short             | led_display_name_len | 5                | Length of LED display name string, including null termination   |
+| led_display_name_len | char[led_display_name_len] | led_display_name     | 5                | LED display name string value, including null termination       |
 
 ## NET_PACKET_ID_REQUEST_PROTOCOL_VERSION
 

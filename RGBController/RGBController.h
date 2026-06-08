@@ -80,7 +80,6 @@ public:
     unsigned int            GetZoneModeSpeed(unsigned int zone, unsigned int mode);
     unsigned int            GetZoneModeSpeedMax(unsigned int zone, unsigned int mode);
     unsigned int            GetZoneModeSpeedMin(unsigned int zone, unsigned int mode);
-    int                     GetZoneModeValue(unsigned int zone, unsigned int mode);
     std::string             GetZoneName(unsigned int zone);
     std::size_t             GetZoneSegmentCount(unsigned int zone);
     segment_flags           GetZoneSegmentFlags(unsigned int zone, unsigned int segment);
@@ -126,7 +125,6 @@ public:
     unsigned int            GetModeSpeed(unsigned int mode);
     unsigned int            GetModeSpeedMax(unsigned int mode);
     unsigned int            GetModeSpeedMin(unsigned int mode);
-    int                     GetModeValue(unsigned int mode);
 
     void                    SetModeBrightness(unsigned int mode, unsigned int brightness);
     void                    SetModeColor(unsigned int mode, unsigned int color_index, RGBColor color);
@@ -144,8 +142,6 @@ public:
     \*-----------------------------------------------------*/
     std::size_t             GetLEDCount();
     std::string             GetLEDName(unsigned int led);
-    unsigned int            GetLEDValue(unsigned int led);
-
     std::string             GetLEDDisplayName(unsigned int led);
 
     /*-----------------------------------------------------*\
