@@ -1112,7 +1112,6 @@ bool ProfileManager::LoadControllerFromListWithOptions
                     for(unsigned int mode_index = 0; mode_index < (unsigned int)profile_controller->modes.size(); mode_index++)
                     {
                         if((profile_controller->GetModeName(mode_index)            == load_controller->GetModeName(mode_index)         )
-                         &&(profile_controller->GetModeValue(mode_index)           == load_controller->GetModeValue(mode_index)        )
                          &&(profile_controller->GetModeFlags(mode_index)           == load_controller->GetModeFlags(mode_index)        )
                          &&(profile_controller->GetModeSpeedMin(mode_index)        == load_controller->GetModeSpeedMin(mode_index)     )
                          &&(profile_controller->GetModeSpeedMax(mode_index)        == load_controller->GetModeSpeedMax(mode_index)     )
@@ -1169,7 +1168,6 @@ bool ProfileManager::LoadControllerFromListWithOptions
                             for(std::size_t mode_index = 0; mode_index < profile_controller->GetZoneModeCount(zone_idx); mode_index++)
                             {
                                 if((profile_controller->GetZoneModeName(zone_idx, mode_index)          == load_controller->GetZoneModeName(zone_idx, mode_index)         )
-                                 &&(profile_controller->GetZoneModeValue(zone_idx, mode_index)         == load_controller->GetZoneModeValue(zone_idx, mode_index)        )
                                  &&(profile_controller->GetZoneModeFlags(zone_idx, mode_index)         == load_controller->GetZoneModeFlags(zone_idx, mode_index)        )
                                  &&(profile_controller->GetZoneModeSpeedMin(zone_idx, mode_index)      == load_controller->GetZoneModeSpeedMin(zone_idx, mode_index)     )
                                  &&(profile_controller->GetZoneModeSpeedMax(zone_idx, mode_index)      == load_controller->GetZoneModeSpeedMax(zone_idx, mode_index)     )
