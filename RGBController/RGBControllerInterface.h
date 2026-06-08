@@ -556,7 +556,6 @@ public:
     virtual unsigned int            GetZoneModeSpeed(unsigned int zone, unsigned int mode)                                                              = 0;
     virtual unsigned int            GetZoneModeSpeedMax(unsigned int zone, unsigned int mode)                                                           = 0;
     virtual unsigned int            GetZoneModeSpeedMin(unsigned int zone, unsigned int mode)                                                           = 0;
-    virtual int                     GetZoneModeValue(unsigned int zone, unsigned int mode)                                                              = 0;
     virtual std::string             GetZoneName(unsigned int zone)                                                                                      = 0;
     virtual std::size_t             GetZoneSegmentCount(unsigned int zone)                                                                              = 0;
     virtual segment_flags           GetZoneSegmentFlags(unsigned int zone, unsigned int segment)                                                        = 0;
@@ -602,7 +601,6 @@ public:
     virtual unsigned int            GetModeSpeed(unsigned int mode)                                                                                     = 0;
     virtual unsigned int            GetModeSpeedMax(unsigned int mode)                                                                                  = 0;
     virtual unsigned int            GetModeSpeedMin(unsigned int mode)                                                                                  = 0;
-    virtual int                     GetModeValue(unsigned int mode)                                                                                     = 0;
 
     virtual void                    SetModeBrightness(unsigned int mode, unsigned int brightness)                                                       = 0;
     virtual void                    SetModeColor(unsigned int mode, unsigned int color_index, RGBColor color)                                           = 0;
@@ -620,8 +618,6 @@ public:
     \*-----------------------------------------------------*/
     virtual std::size_t             GetLEDCount()                                                                                                       = 0;
     virtual std::string             GetLEDName(unsigned int led)                                                                                        = 0;
-    virtual unsigned int            GetLEDValue(unsigned int led)                                                                                       = 0;
-
     virtual std::string             GetLEDDisplayName(unsigned int led)                                                                                 = 0;
 
     /*-----------------------------------------------------*\
