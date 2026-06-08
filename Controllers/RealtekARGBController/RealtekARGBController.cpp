@@ -286,7 +286,7 @@ std::string RealtekARGBController::get_dev_name()
 
     if(got_custled)
     {
-        if(custled[5] == REALTEK_ARGB_CUST_DEVNAME_MANU_UUID)
+        if(custled[6] == REALTEK_ARGB_CUST_DEVNAME_MANU_UUID)
         {
             devname = get_manu_name() + get_ic_uuid();
         }
