@@ -61,14 +61,6 @@ QColor ColorWheel::posColor(const QPoint &point)
     int point_y = point.y() - y_offset;
 
     /*-----------------------------------------------------*\
-    | If point is not within widget, don't process          |
-    \*-----------------------------------------------------*/
-    if(!wheel.rect().contains(point))
-    {
-        return QColor();
-    }
-
-    /*-----------------------------------------------------*\
     | If within wheel region, update hue from point         |
     | position                                              |
     \*-----------------------------------------------------*/
@@ -134,9 +126,12 @@ QColor ColorWheel::posColor(const QPoint &point)
 
         QPoint p = point - QPoint(x_offset, y_offset) - QPoint(m, m);
         qreal SquareWidth = 2*ir/qSqrt(2);
+        qreal saturation = qBound(0.0, p.x()/SquareWidth, 1.0);
+        qreal value      = qBound(0.0, p.y()/SquareWidth, 1.0);
+
         return QColor::fromHsvF( current.hueF(),
-                                 p.x()/SquareWidth,
-                                 p.y()/SquareWidth);
+                                 saturation,
+                                 value);
     }
     return QColor();
 }
@@ -182,9 +177,10 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
     }
 
     /*-----------------------------------------------------*\
-    | Set the mouse down flag                               |
+    | Set the mouse down flag if the click started inside a |
+    | selectable region                                     |
     \*-----------------------------------------------------*/
-    mouseDown = true;
+    mouseDown = inWheel || inSquare;
 }
 
 void ColorWheel::mouseMoveEvent(QMouseEvent *event)
@@ -203,40 +199,23 @@ void ColorWheel::mouseMoveEvent(QMouseEvent *event)
     }
 
     /*-----------------------------------------------------*\
-    | If mouse is within wheel region, process wheel (hue)  |
+    | If dragging started in the wheel, continue processing |
+    | hue from the cursor angle even outside the wheel      |
     \*-----------------------------------------------------*/
-    if(wheelRegion.contains(lastPos) && inWheel)
+    if(inWheel)
     {
         QColor color = posColor(lastPos);
         hueChanged(color.hue());
     }
 
     /*-----------------------------------------------------*\
-    | If mouse is within square region, process square      |
-    | (saturation and value)                                |
+    | If dragging started in the square, continue processing|
+    | saturation and value with clamped coordinates         |
     \*-----------------------------------------------------*/
-    else if(squareRegion.contains(lastPos) && inSquare)
+    else if(inSquare)
     {
         QColor color = posColor(lastPos);
         svChanged(color);
-    }
-    else
-    {
-        // TODO: due with cursor out of region after press
-        //        int length = qMin(width(), height());
-        //        QPoint center(length/2, length/2);
-        //        int R = qSqrt(qPow(qAbs(lastPos.x()), 2)
-        //                      + qPow(qAbs(lastPos.y()), 2));
-        //        if(inWheel){
-        //            int r =  length / 2;
-        //            r += qSqrt(qPow(center.x(), 2) + qPow(center.y(), 2));
-        //            int x0 = r/R * qAbs(lastPos.x());
-        //            int y0 = r/R * qAbs(lastPos.y());
-        //            QColor color = posColor(QPoint(x0, y0));
-        //            hueChanged(color.hue());
-        //        }else if(inSquare){
-        //            //
-        //        }
     }
 }
 
