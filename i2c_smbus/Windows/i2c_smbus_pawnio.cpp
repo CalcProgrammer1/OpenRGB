@@ -385,15 +385,6 @@ bool i2c_smbus_pawnio_detect()
         ResourceManager::get()->RegisterI2CBus(bus);
     }
 
-    /*-----------------------------------------------------*\
-    | Try to load Intel Skylake IMC SMBus driver            |
-    \*-----------------------------------------------------*/
-    if(i2c_smbus_pawnio::start_pawnio("SmbusIntelSkylakeIMC.bin", &pawnio_handle) == S_OK)
-    {
-        bus = new i2c_smbus_pawnio(pawnio_handle, "Intel Skylake IMC");
-        ResourceManager::get()->RegisterI2CBus(bus);
-    }
-
     return(true);
 }
 
