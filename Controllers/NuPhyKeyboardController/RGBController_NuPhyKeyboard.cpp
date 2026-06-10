@@ -94,6 +94,15 @@ RGBController_NuPhyKeyboard::RGBController_NuPhyKeyboard(NuPhyKeyboardController
     unsigned char saturation = 0;
     controller->GetColor(&hue, &saturation);
 
+    /*-----------------------------------------------------*\
+    | QMK speed zero advances animations so slowly that     |
+    | effects such as Breathing appear stopped.             |
+    \*-----------------------------------------------------*/
+    if(speed == 0)
+    {
+        speed = 128;
+    }
+
     for(const nuphy_mode& effect : nuphy_modes)
     {
         mode new_mode;
