@@ -34,7 +34,7 @@ private slots:
 
     void on_DumpButton_clicked();
 
-    void on_ReadButton_clicked();
+    void on_CommandButton_clicked();
 
 private:
     Ui::OpenRGBSystemInfoPage *ui;

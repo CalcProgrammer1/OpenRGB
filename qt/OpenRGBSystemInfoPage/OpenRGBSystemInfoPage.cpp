@@ -48,6 +48,14 @@ OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>&
     ui->SMBusDetectionModeBox->addItem("Read");
     ui->SMBusDetectionModeBox->addItem("Read Data");
 
+    ui->CommandModeComboBox->addItem("Read Byte");
+    ui->CommandModeComboBox->addItem("Read Byte Data");
+    ui->CommandModeComboBox->addItem("Read Word Data");
+    ui->CommandModeComboBox->addItem("Write Quick");
+    ui->CommandModeComboBox->addItem("Write Byte");
+    ui->CommandModeComboBox->addItem("Write Byte Data");
+    ui->CommandModeComboBox->addItem("Write Word Data");
+
     ui->SMBusDetectionModeBox->setCurrentIndex(0);
 }
 
@@ -131,7 +139,7 @@ void OpenRGBSystemInfoPage::on_DumpButton_clicked()
     }
 }
 
-void OpenRGBSystemInfoPage::on_ReadButton_clicked()
+void OpenRGBSystemInfoPage::on_CommandButton_clicked()
 {
     int current_index = ui->SMBusAdaptersBox->currentIndex();
 
@@ -142,11 +150,47 @@ void OpenRGBSystemInfoPage::on_ReadButton_clicked()
 
     if((int)(busses.size()) > current_index)
     {
-        i2c_smbus_interface* bus = busses[current_index];
-        unsigned char address = ui->ReadAddressBox->value();
-        unsigned char regaddr = ui->ReadRegisterBox->value();
-        unsigned char size    = ui->ReadSizeBox->value();
+        i2c_smbus_interface*    bus         = busses[current_index];
+        unsigned char           address     = ui->CommandAddressBox->value();
+        unsigned char           regaddr     = ui->CommandRegisterBox->value();
+        unsigned char           size        = ui->CommandSizeBox->value();
+        unsigned short          write_data  = ui->CommandWriteDataLineEdit->text().toInt(nullptr, 16);
+        unsigned short          read_data   = 0xFFFF;
 
-        ui->SMBusDataText->setPlainText(i2c_read(bus, address, regaddr, size).c_str());
+        ui->SMBusDataText->clear();
+
+        switch(ui->CommandModeComboBox->currentIndex())
+        {
+            case 0:
+                read_data = bus->i2c_smbus_read_byte(address);
+                ui->SMBusDataText->setPlainText(QString::number(read_data, 16));
+                break;
+
+            case 1:
+                read_data = bus->i2c_smbus_read_byte_data(address, regaddr);
+                ui->SMBusDataText->setPlainText(QString::number(read_data, 16));
+                break;
+
+            case 2:
+                read_data = bus->i2c_smbus_read_word_data(address, regaddr);
+                ui->SMBusDataText->setPlainText(QString::number(read_data, 16));
+                break;
+
+            case 3:
+                bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+                break;
+
+            case 4:
+                bus->i2c_smbus_write_byte(address, write_data);
+                break;
+
+            case 5:
+                bus->i2c_smbus_write_byte_data(address, regaddr, write_data);
+                break;
+
+            case 6:
+                bus->i2c_smbus_write_word_data(address, regaddr, write_data);
+                break;
+        }
     }
 }
