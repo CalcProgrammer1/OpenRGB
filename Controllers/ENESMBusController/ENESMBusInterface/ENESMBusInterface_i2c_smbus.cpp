@@ -61,5 +61,12 @@ void ENESMBusInterface_i2c_smbus::ENERegisterWriteBlock(ene_dev_id dev, ene_regi
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
 
     //Write ENE block data
-    bus->i2c_smbus_write_block_data(dev, 0x03, sz, data);
+    if(bus->i2c_smbus_write_block_data(dev, 0x03, sz, data) == -1)
+    {
+        //Fall back to individual byte operations if the block operation fails
+        for(unsigned int block_byte = 0; block_byte < sz; block_byte++)
+        {
+            bus->i2c_smbus_write_byte_data(dev, 0x01, data[block_byte]);
+        }
+    }
 }

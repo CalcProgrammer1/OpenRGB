@@ -112,7 +112,7 @@ static void ENERegisterWrite(i2c_smbus_interface* bus, ene_dev_id dev, ene_regis
 *   TestForENESMBusController                                                              *
 *                                                                                          *
 *       Tests the given address to see if an ENE controller exists there.  First does a    *
-*       quick write to test for a response, and if so does a simple read at 0xA0 to test   *
+*       byte read to test for a response, and if so does a simple read at 0xA0 to test     *
 *       for incrementing values 0...F which was observed at this location during data dump *
 *                                                                                          *
 *       Also tests for the string "Micron" in the ENE register space.  Crucial (Micron)    *
@@ -202,7 +202,7 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 
             for (unsigned int slot = 0; slot < 8; slot++)
             {
-                int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
+                int res = busses[bus]->i2c_smbus_read_byte(0x77);
 
                 if(res < 0)
                 {
@@ -219,7 +219,7 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
                     {
                         LOG_DEBUG("[ENE SMBus DRAM] Testing address %02X to see if there is a device there", ene_ram_addresses[address_list_idx]);
 
-                        res = busses[bus]->i2c_smbus_write_quick(ene_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
+                        res = busses[bus]->i2c_smbus_read_byte(ene_ram_addresses[address_list_idx]);
                     }
                     else
                     {

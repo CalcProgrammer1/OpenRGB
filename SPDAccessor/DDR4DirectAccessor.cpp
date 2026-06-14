@@ -24,26 +24,16 @@ DDR4DirectAccessor::~DDR4DirectAccessor()
 bool DDR4DirectAccessor::isAvailable(i2c_smbus_interface *bus, uint8_t spd_addr)
 {
     /*-----------------------------------------------------*\
-    | Perform i2c quick transfer to test if i2c address     |
-    | responds                                              |
-    \*-----------------------------------------------------*/
-    int value = bus->i2c_smbus_write_quick(0x36, 0x00);
-    if(value < 0)
-    {
-        return false;
-    }
-
-    /*-----------------------------------------------------*\
     | Select low page                                       |
     \*-----------------------------------------------------*/
-    bus->i2c_smbus_write_byte_data(0x36, 0x00, 0xFF);
+    bus->i2c_smbus_write_byte(0x36, 0x00);
 
     std::this_thread::sleep_for(SPD_IO_DELAY);
 
     /*-----------------------------------------------------*\
     | Read value at address 0 in SPD device                 |
     \*-----------------------------------------------------*/
-    value = bus->i2c_smbus_read_byte_data(spd_addr, 0x00);
+    s32 value = bus->i2c_smbus_read_byte_data(spd_addr, 0x00);
 
     /*-----------------------------------------------------*\
     | DDR4 is available if value is 0x23                    |

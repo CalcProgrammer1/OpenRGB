@@ -27,12 +27,6 @@ using namespace std::chrono_literals;
 
 static const unsigned char crucial_addresses[] =
 {
-/*-----------------------------------------------------*\
-| These addresses have been disabled due to conflict    |
-| with ASUS Aura DRAM.  Since the detection scheme is   |
-| the same, Aura RAM will be detected as Crucial.       |
-| We need to improve the Crucial detection scheme.      |
-\*-----------------------------------------------------*/
     0x39,
     0x3A,
     0x3B,
@@ -81,7 +75,7 @@ unsigned char CrucialRegisterRead(i2c_smbus_interface* bus, crucial_dev_id dev, 
 *   TestForCrucialController                                                               *
 *                                                                                          *
 *       Tests the given address to see if an Crucial controller exists there.  First does a*
-*       quick write to test for a response, and if so does a simple read at 0xA0 to test   *
+*       byte read to test for a response, and if so does a simple read at 0xA0 to test     *
 *       for incrementing values 0...F which was observed at this location during data dump *
 *                                                                                          *
 \******************************************************************************************/
@@ -90,19 +84,19 @@ bool TestForCrucialController(i2c_smbus_interface* bus, unsigned char address)
 {
     bool pass = false;
 
-    int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+    int res = bus->i2c_smbus_read_byte(address);
 
-    if (res >= 0)
+    if(res >= 0)
     {
         pass = true;
 
         LOG_DEBUG("[%s] Detected an I2C device at address %02X", CRUCIAL_CONTROLLER_NAME, address);
 
-        for (int i = 0xA0; i < 0xB0; i++)
+        for(int i = 0xA0; i < 0xB0; i++)
         {
             res = bus->i2c_smbus_read_byte_data(address, i);
 
-            if (res != (i - 0xA0))
+            if(res != (i - 0xA0))
             {
                 LOG_VERBOSE("[%s] Detection failed testing register %02X.  Expected %02X, got %02X.", CRUCIAL_CONTROLLER_NAME, i, (i - 0xA0), res);
 
@@ -178,7 +172,7 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
         {
             for(unsigned int slot = 0; slot < 4; slot++)
             {
-                int res = busses[bus]->i2c_smbus_write_quick(0x27, I2C_SMBUS_WRITE);
+                int res = busses[bus]->i2c_smbus_read_byte(0x27);
 
                 if(res < 0)
                 {
@@ -192,7 +186,7 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
 
                     if(address_list_idx < CRUCIAL_ADDRESS_COUNT)
                     {
-                        res = busses[bus]->i2c_smbus_write_quick(crucial_addresses[address_list_idx], I2C_SMBUS_WRITE);
+                        res = busses[bus]->i2c_smbus_read_byte(crucial_addresses[address_list_idx]);
                     }
                     else
                     {

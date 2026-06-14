@@ -154,7 +154,7 @@ void OpenRGBSystemInfoPage::on_CommandButton_clicked()
         unsigned char           address     = ui->CommandAddressBox->value();
         unsigned char           regaddr     = ui->CommandRegisterBox->value();
         unsigned char           size        = ui->CommandSizeBox->value();
-        unsigned short          write_data  = ui->CommandWriteDataLineEdit->text().toInt(nullptr, 16);
+        unsigned short          write_data  = ui->CommandWriteDataLineEdit->text().toInt(nullptr, 0);
         unsigned short          read_data   = 0xFFFF;
 
         ui->SMBusDataText->clear();
