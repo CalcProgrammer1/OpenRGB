@@ -24,17 +24,14 @@ using namespace std::chrono_literals;
 
 bool TestForCorsairDRAMController(i2c_smbus_interface *bus, unsigned char address)
 {
-    int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
-
     LOG_DEBUG("[%s] Trying address %02X", CORSAIR_DRAM_NAME, address);
+
+    int res = bus->i2c_smbus_read_byte_data(address, 0x43);
 
     if(res < 0)
     {
-        LOG_DEBUG("[%s] Failed: res was %04X", CORSAIR_DRAM_NAME, res);
         return false;
     }
-
-    res = bus->i2c_smbus_read_byte_data(address, 0x43);
 
     if(!(res == 0x1A || res == 0x1B || res == 0x1C))
     {

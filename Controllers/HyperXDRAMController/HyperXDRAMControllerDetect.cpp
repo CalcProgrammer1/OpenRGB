@@ -30,28 +30,9 @@ using namespace std::chrono_literals;
 
 bool TestForHyperXDRAMController(i2c_smbus_interface* bus, unsigned char address)
 {
-    bool pass = false;
+    int res = bus->i2c_smbus_read_byte(address);
 
-    int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
-
-    LOG_DEBUG("[%s] Writing at address %02X, res=%02X", HYPERX_CONTROLLER_NAME, address, res);
-
-    if (res >= 0)
-    {
-        pass = true;
-
-        for (int i = 0xA0; i < 0xB0; i++)
-        {
-            res = bus->i2c_smbus_read_byte_data(address, i);
-
-            if (res != i)
-            {
-                pass = false;
-            }
-        }
-    }
-
-    return(pass);
+    return(res >= 0);
 
 }   /* TestForHyperXDRAMController() */
 

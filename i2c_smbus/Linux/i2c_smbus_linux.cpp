@@ -136,8 +136,14 @@ bool i2c_smbus_linux_detect()
                     port_id                 = 0;
                     bus_id                  = 0;
 
+                    // Get port ID for AMD GPU aux bus
+                    sscanf(device_string, "AMDGPU DM aux hw bus %hu", &port_id);
+
                     // Get port ID for Nvidia GPUs
                     sscanf(device_string, "NVIDIA i2c adapter %hu at", &port_id);
+
+                    // Get port ID for PIIX4 SMBus
+                    sscanf(device_string, "SMBus PIIX4 adapter port %hu at", &port_id);
 
                     // Get the Linux Bus ID
                     sscanf(ent->d_name, "i2c-%hu", &bus_id);

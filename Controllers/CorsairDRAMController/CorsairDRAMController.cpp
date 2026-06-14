@@ -26,6 +26,7 @@ CorsairDRAMController::CorsairDRAMController(i2c_smbus_interface *bus, corsair_d
     this->bus           = bus;
     this->dev           = dev;
     device_index        = 0;
+    direct_mode         = true;
     pid                 = 0;
     vid                 = 0;
     protocol_version    = 0;
@@ -132,11 +133,77 @@ void CorsairDRAMController::SetColorsPerLED(RGBColor* colors)
         | bytes, use a second block write to the second     |
         | block write address for the remaining data        |
         \*-------------------------------------------------*/
-        bus->i2c_smbus_write_block_data(dev, CORSAIR_DRAM_REG_COLOR_BUFFER_BLOCK_1, 32, direct_packet);
+        s32 ret = bus->i2c_smbus_write_block_data(dev, CORSAIR_DRAM_REG_COLOR_BUFFER_BLOCK_1, 32, direct_packet);
 
-        if(direct_packet_size > 32)
+        if((ret >= 0) && (direct_packet_size > 32))
         {
             bus->i2c_smbus_write_block_data(dev, CORSAIR_DRAM_REG_COLOR_BUFFER_BLOCK_2, direct_packet_size - 32, direct_packet + 32);
+        }
+
+        /*-------------------------------------------------*\
+        | Corsair DRAM supports an alternate means of       |
+        | writing block data without using SMBus block      |
+        | operations.  If block operations are not          |
+        | available, fall back to this scheme.              |
+        |                                                   |
+        | Blocks are split up into word data writes.        |
+        | Some data bytes are packed into the lower nibble  |
+        | of the register address byte.                     |
+        \*-------------------------------------------------*/
+        if(ret < 0)
+        {
+            unsigned int        block_index     = 0;
+            bool                even_frame      = true;
+            bool                first_frame     = true;
+
+            while(block_index < direct_packet_size)
+            {
+                unsigned char   reg_value_0     = 0xA0;
+                unsigned char   reg_value_1     = 0x00;
+                unsigned short  word_value_0    = 0;
+                unsigned short  word_value_1    = 0;
+
+                if(block_index == 0)
+                {
+                    reg_value_0                 = 0x90;
+                }
+
+                word_value_0                    = (direct_packet[block_index]);
+                block_index++;
+
+                if(block_index < direct_packet_size)
+                {
+                    word_value_0               |= (direct_packet[block_index] << 8);
+                    block_index++;
+                }
+
+                if(block_index < direct_packet_size)
+                {
+                    reg_value_1                 = 0xA0;
+                    reg_value_0                |= (direct_packet[block_index] & 0x0F);
+                    reg_value_1                |= (direct_packet[block_index] & 0xF0) >> 4;
+                    block_index++;
+                }
+
+                if(block_index < direct_packet_size)
+                {
+                    word_value_1                = (direct_packet[block_index]);
+                    block_index++;
+                }
+
+                if(block_index < direct_packet_size)
+                {
+                    word_value_1               |= (direct_packet[block_index] << 8);
+                    block_index++;
+                }
+
+                bus->i2c_smbus_write_word_data(dev, reg_value_0, word_value_0);
+
+                if(reg_value_1 > 0)
+                {
+                    bus->i2c_smbus_write_word_data(dev, reg_value_1, word_value_1);
+                }
+            }
         }
 
         /*-------------------------------------------------*\
