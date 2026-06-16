@@ -66,7 +66,7 @@ enum
 class NZXTHue2Controller
 {
 public:
-    NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name);
+    NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name, bool use_2023_effects = false);
     ~NZXTHue2Controller();
 
     std::string     GetFirmwareVersion();
@@ -129,6 +129,7 @@ private:
     char            firmware_version[16];
     std::string     location;
     std::string     name;
+    bool            use_2023_effects;
     unsigned int    num_fan_channels;
     unsigned int    num_rgb_channels;
 
@@ -146,6 +147,16 @@ private:
                         );
 
     void            SendEffect
+                        (
+                        unsigned char   channel,
+                        unsigned char   mode,
+                        unsigned char   speed,
+                        bool            direction,
+                        unsigned char   color_count,
+                        unsigned char*  color_data
+                        );
+
+    void            SendEffect2023
                         (
                         unsigned char   channel,
                         unsigned char   mode,

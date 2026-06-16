@@ -38,13 +38,13 @@
 #define NZXT_SMART_DEVICE_V2_1_PID              0x200D
 #define NZXT_SMART_DEVICE_V2_2_PID              0x200F
 
-static void spawn_hue(hid_device_info* info, const std::string& name, int rgb_channels, int fan_channels)
+static void spawn_hue(hid_device_info* info, const std::string& name, int rgb_channels, int fan_channels, bool use_2023_effects = false)
 {
     hid_device* dev = hid_open_path(info->path);
 
     if(dev)
     {
-        NZXTHue2Controller*     controller     = new NZXTHue2Controller(dev, rgb_channels, fan_channels, info->path, name);
+        NZXTHue2Controller*     controller     = new NZXTHue2Controller(dev, rgb_channels, fan_channels, info->path, name, use_2023_effects);
         RGBController_NZXTHue2* rgb_controller = new RGBController_NZXTHue2(controller);
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -83,7 +83,7 @@ void DetectNZXTKrakenX3(hid_device_info* info, const std::string& name)
 
 void DetectNZXTKrakenElite(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 2, 2);
+    spawn_hue(info, name, 2, 2, true);
 }
 
 void DetectNZXTFanController(hid_device_info* info, const std::string& name)

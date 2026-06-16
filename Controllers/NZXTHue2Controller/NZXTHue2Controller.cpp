@@ -17,12 +17,13 @@
 #include "NZXTHue2Controller.h"
 #include "StringUtils.h"
 
-NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name)
+NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name, bool use_2023_effects_val)
 {
     dev         = dev_handle;
     location    = path;
     name        = dev_name;
 
+    use_2023_effects = use_2023_effects_val;
     num_fan_channels = fan_channels;
     num_rgb_channels = rgb_channels;
 
@@ -330,7 +331,14 @@ void NZXTHue2Controller::SetChannelEffect
     /*-----------------------------------------------------*\
     | Send effect packet                                    |
     \*-----------------------------------------------------*/
-    SendEffect(channel, mode, speed, direction, num_colors, &color_data[0]);
+    if(use_2023_effects)
+    {
+        SendEffect2023(channel, mode, speed, direction, num_colors, &color_data[0]);
+    }
+    else
+    {
+        SendEffect(channel, mode, speed, direction, num_colors, &color_data[0]);
+    }
 }
 
 void NZXTHue2Controller::SetChannelLEDs
@@ -357,14 +365,15 @@ void NZXTHue2Controller::SetChannelLEDs
     /*-----------------------------------------------------*\
     | Send first group of color data                        |
     \*-----------------------------------------------------*/
-    SendDirect(channel, 0, 20, &color_data[0]);
+    unsigned char first_color_count = (num_colors > 20) ? 20 : (unsigned char)num_colors;
+    SendDirect(channel, 0, first_color_count, &color_data[0]);
 
     /*-----------------------------------------------------*\
     | Send second group of color data if necessary          |
     \*-----------------------------------------------------*/
     if(num_colors > 20)
     {
-        SendDirect(channel, 1, 20, &color_data[60]);
+        SendDirect(channel, 1, (unsigned char)(num_colors - 20), &color_data[60]);
     }
 
     /*-----------------------------------------------------*\
@@ -500,6 +509,99 @@ void NZXTHue2Controller::SendEffect
 
     hid_write(dev, usb_buf, 64);
     //hid_read(dev, usb_buf, 64);
+}
+
+void NZXTHue2Controller::SendEffect2023
+    (
+    unsigned char   channel,
+    unsigned char   mode,
+    unsigned char   speed,
+    bool            direction,
+    unsigned char   color_count,
+    unsigned char*  color_data
+    )
+{
+    unsigned char   usb_buf[64];
+    unsigned char   speed_data[2] = { 0x32, 0x00 };
+    unsigned char   mode_modifier = 0x00;
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    if(speed > HUE_2_SPEED_FASTEST)
+    {
+        speed = HUE_2_SPEED_NORMAL;
+    }
+
+    switch(mode)
+    {
+    case HUE_2_MODE_FADING:
+        {
+        const unsigned char values[5][2] = { {0x50, 0x00}, {0x3C, 0x00}, {0x28, 0x00}, {0x14, 0x00}, {0x0A, 0x00} };
+        speed_data[0] = values[speed][0];
+        speed_data[1] = values[speed][1];
+        mode_modifier = 0x08;
+        }
+        break;
+
+    case HUE_2_MODE_SPECTRUM:
+    case HUE_2_MODE_RAINBOW_FLOW:
+    case HUE_2_MODE_SUPER_RAINBOW:
+    case HUE_2_MODE_RAINBOW_PULSE:
+        {
+        const unsigned char values[5][2] = { {0x5E, 0x01}, {0x2C, 0x01}, {0xFA, 0x00}, {0x96, 0x00}, {0x50, 0x00} };
+        speed_data[0] = values[speed][0];
+        speed_data[1] = values[speed][1];
+        }
+        break;
+
+    case HUE_2_MODE_ALTERNATING:
+        {
+        const unsigned char values[5][2] = { {0x40, 0x06}, {0x14, 0x05}, {0xE8, 0x03}, {0x20, 0x03}, {0x58, 0x02} };
+        speed_data[0] = values[speed][0];
+        speed_data[1] = values[speed][1];
+        }
+        break;
+
+    case HUE_2_MODE_PULSING:
+    case HUE_2_MODE_STARRY_NIGHT:
+        {
+        const unsigned char values[5][2] = { {0x19, 0x00}, {0x14, 0x00}, {0x0F, 0x00}, {0x07, 0x00}, {0x04, 0x00} };
+        speed_data[0] = values[speed][0];
+        speed_data[1] = values[speed][1];
+        mode_modifier = (mode == HUE_2_MODE_PULSING) ? 0x08 : 0x00;
+        }
+        break;
+
+    case HUE_2_MODE_BREATHING:
+        {
+        const unsigned char values[5][2] = { {0x28, 0x00}, {0x1E, 0x00}, {0x14, 0x00}, {0x0A, 0x00}, {0x04, 0x00} };
+        speed_data[0] = values[speed][0];
+        speed_data[1] = values[speed][1];
+        mode_modifier = 0x08;
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    usb_buf[0x00]   = 0x2A;
+    usb_buf[0x01]   = 0x04;
+    usb_buf[0x02]   = (unsigned char)(1 << channel);
+    usb_buf[0x03]   = usb_buf[0x02];
+    usb_buf[0x04]   = mode;
+    usb_buf[0x05]   = speed_data[0];
+    usb_buf[0x06]   = speed_data[1];
+
+    memcpy(&usb_buf[0x07], color_data, color_count * 3);
+
+    usb_buf[0x37]   = direction ? 0x02 : 0x00;
+    usb_buf[0x38]   = color_count;
+    usb_buf[0x39]   = mode_modifier;
+    usb_buf[0x3A]   = 0x08;
+    usb_buf[0x3B]   = 0x03;
+
+    hid_write(dev, usb_buf, 64);
 }
 
 void NZXTHue2Controller::SendFirmwareRequest()

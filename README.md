@@ -165,6 +165,7 @@ This project interacts directly with hardware using reverse engineered protocols
   * VRMTool: https://github.com/rbrune/VRMtool
   * g810-led: https://github.com/MatMoul/g810-led
   * liquidctl: https://github.com/jonasmalacofilho/liquidctl
+  * kraken-unleashed: https://github.com/Cesarsk/kraken-unleashed
   * Annemone: https://github.com/manualmanul/Annemone
   * libcmmk: https://github.com/chmod222/libcmmk
   * Signal RGB Plugins: https://gitlab.com/signalrgb/signal-plugins/-/tree/master/Plugins
