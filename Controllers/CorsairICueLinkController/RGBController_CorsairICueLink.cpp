@@ -96,7 +96,16 @@ void RGBController_CorsairICueLink::SetupZones()
                     lcd_zone.leds_min   = controller->GetEndpoints()[lcd_idx]->led_channels;
                     lcd_zone.leds_max   = lcd_zone.leds_min;
                     lcd_zone.leds_count = lcd_zone.leds_min;
+
                     zones.push_back(lcd_zone);
+
+                    for(unsigned int led_idx = 0; led_idx < lcd_zone.leds_count; led_idx++)
+                    {
+                        led new_led;
+                        new_led.name = "LED " + std::to_string(led_idx + 1);
+
+                        leds.push_back(new_led);
+                    }
                 }
             }
         }
