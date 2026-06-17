@@ -19,7 +19,8 @@ static std::string power_zones[ASUSAURACORELAPTOP_POWER_ZONES] =
     "Logo",
     ZONE_EN_KEYBOARD,
     "Lightbar",
-    "Lid Edges"
+    "Lid Edges",
+    "Rear Glow"
 };
 
 static std::string power_states[ASUSAURACORELAPTOP_POWER_STATES] =
@@ -275,13 +276,9 @@ void AsusAuraCoreLaptopController::SetLedsDirect(std::vector<RGBColor *> colors)
 
 void AsusAuraCoreLaptopController::SendBrightness()
 {
-    const uint8_t index                                     = 5;
-    uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_BRIGHTNESS, 0xC5, 0xC4};
+    uint8_t buffer[ASUSAURACORELAPTOP_BRIGHTNESS_PACKET_SIZE] = { ASUSAURACORELAPTOP_BRIGHTNESS_REPORT_ID, ASUSAURACORELAPTOP_CMD_BRIGHTNESS, 0xC5, 0xC4, current_brightness };
 
-    memset(&buffer[index], 0, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE - index);
-    buffer[4] = current_brightness;
-
-    hid_send_feature_report(dev, buffer, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE);
+    hid_send_feature_report(dev, buffer, ASUSAURACORELAPTOP_BRIGHTNESS_PACKET_SIZE);
 }
 
 void AsusAuraCoreLaptopController::SendUpdate()
@@ -406,26 +403,33 @@ void AsusAuraCoreLaptopController::SetPowerConfigFromJSON()
         false,                      false,
 
         power_config[12].state,     power_config[13].state,
-        !power_config[14].state,    !power_config[15].state
+        !power_config[14].state,    !power_config[15].state,
+
+        false,                      false,
+        false,                      false,
+
+        power_config[16].state,     power_config[17].state,
+        power_config[18].state,     power_config[19].state
     };
 
     uint32_t flags      = PackPowerFlags(flag_array);
-    LOG_DEBUG("[%s] Sending power config Logo+KB: %02X Lightbar: %02X Lid Edges: %02X Raw: %08X",
+    LOG_DEBUG("[%s] Sending power config Logo+KB: %02X Lightbar: %02X Lid Edges: %02X Rear Glow: %02X Raw: %08X",
               aura_core_laptop_device_list[device_index]->dmi_name.c_str(),
-              (flags & 0xFF), ((flags >> 8)  & 0xFF), ((flags >> 16)  & 0xFF), flags);
+              (flags & 0xFF), ((flags >> 8)  & 0xFF), ((flags >> 16)  & 0xFF), ((flags >> 24) & 0xFF), flags);
     SendPowerConfig(flags);
 }
 
 void AsusAuraCoreLaptopController::SendPowerConfig(uint32_t flags)
 {
-    const uint8_t index                                     = 6;
-    uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_POWER, 0x01, 0x00, 0x00, 0x0F };
+    const uint8_t index                                     = 7;
+    uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_POWER, 0x01, 0x00, 0x00, 0x0F, 0x00 };
 
     memset(&buffer[index], 0, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE - index);
 
     buffer[3] = flags           & 0xFF;
     buffer[4] = (flags >> 8)    & 0xFF;
     buffer[5] = (flags >> 16)   & 0xFF;
+    buffer[6] = (flags >> 24)   & 0xFF;
 
     hid_send_feature_report(dev, buffer, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE);
 }

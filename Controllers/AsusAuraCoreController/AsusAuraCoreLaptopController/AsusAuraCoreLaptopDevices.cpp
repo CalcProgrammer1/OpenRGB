@@ -729,6 +729,48 @@ keyboard_keymap_overlay_values g814jv_lightbar_layout
     }
 };
 
+keyboard_keymap_overlay_values g834jy_lid_layout
+{
+    KEYBOARD_SIZE_EMPTY,
+    {
+        {   /* Values not set in empty keyboard */   },
+        {
+            /* Regional layout fixes (none) */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Key,                        Alternate Name,             OpCode,                             |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         167,        "ROG Logo",                 KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    }
+};
+
+keyboard_keymap_overlay_values g834jy_lightbar_layout
+{
+    KEYBOARD_SIZE_EMPTY,
+    {
+        {   /* Values not set in empty keyboard */   },
+        {
+            /* Regional layout fixes (none) */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Key,                        Alternate Name,             OpCode,                             |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         174,        "Lightbar Left",            KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,       1,         173,        "Lightbar Left Corner",     KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,       2,         172,        "Lightbar Bottom Left",     KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,       3,         171,        "Lightbar Bottom Right",    KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,       4,         170,        "Lightbar Right Corner",    KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,       5,         169,        "Lightbar Right",           KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    }
+};
+
+
 
 /*-------------------------------------------------------------------------*\
 |  AURA CORE LAPTOP DEVICES                                                 |
@@ -940,6 +982,45 @@ static const aura_core_laptop_device g814jv_device =
     }
 };
 
+/*-------------------------------------------------------------*\
+|  ASUS ROG Strix SCAR 18 G834JY                                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       7 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+
+static const aura_core_laptop_zone g834jy_keyboard_zone =
+{
+    ZONE_EN_KEYBOARD,
+    &g814jv_keyboard_layout
+};
+
+static const aura_core_laptop_zone g834jy_lid_zone =
+{
+    "Lid",
+    &g834jy_lid_layout
+};
+
+static const aura_core_laptop_zone g834jy_lightbar_zone =
+{
+    "Lightbar",
+    &g834jy_lightbar_layout
+};
+
+static const aura_core_laptop_device g834jy_device =
+{
+    "G834JY",
+    {
+        &g834jy_keyboard_zone,
+        &g834jy_lid_zone,
+        &g834jy_lightbar_zone,
+        nullptr,
+        nullptr,
+        nullptr
+    }
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -954,6 +1035,7 @@ const aura_core_laptop_device* aura_core_laptop_device_list_data[] =
     &g713rw_device,
     &g733qr_device,
     &g814jv_device,
+    &g834jy_device,
 };
 
 const unsigned int AURA_CORE_LAPTOP_DEVICE_COUNT = (sizeof(aura_core_laptop_device_list_data) / sizeof(aura_core_laptop_device_list_data[ 0 ]));
