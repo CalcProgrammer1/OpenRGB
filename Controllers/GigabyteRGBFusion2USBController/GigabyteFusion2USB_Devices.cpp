@@ -5339,22 +5339,6 @@ static const gb_fusion2_device b850m_d3hp_5711_device =
     "B850M D3HP",
 };
 
-static const gb_fusion2_device x870_aor_tachyon_ice_5711_device =
-{
-    &it5711_62_device,
-    0x0230005F,
-    0,
-    "X870 AORUS TACHYON ICE",
-};
-
-static const gb_fusion2_device x870_gaming_wifi6_5711_device =
-{
-    &it5711_62_device,
-    0x0230005F,
-    0,
-    "X870 GAMING WIFI6",
-};
-
 static const gb_fusion2_device x870i_aor_pro_ice_5711_device =
 {
     &it5711_62_device,
@@ -5704,6 +5688,22 @@ static const gb_fusion2_device b860m_gmg_x_wifi6e_5711_device =
     0x0840005F,
     0,
     "B860M GAMING X WIFI6E",
+};
+
+static const gb_fusion2_device x870_aor_tachyon_ice_5711_device =
+{
+    &it5711_64_device,
+    0x0230005F,
+    0,
+    "X870 AORUS TACHYON ICE",
+};
+
+static const gb_fusion2_device x870_gaming_wifi6_5711_device =
+{
+    &it5711_64_device,
+    0x0230005F,
+    0,
+    "X870 GAMING WIFI6",
 };
 
 static const gb_fusion2_device trx50_ai_top_5711_device =
