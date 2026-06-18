@@ -855,6 +855,7 @@ bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argumen
         else if((new_size < rgb_controllers[current_device]->zones[current_zone].leds_min) || (new_size > rgb_controllers[current_device]->zones[current_zone].leds_max))
         {
             std::cout << "Error: New size is out of range" << std::endl;
+            return false;
         }
 
         /*---------------------------------------------------------*\
