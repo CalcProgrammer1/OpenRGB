@@ -221,9 +221,21 @@ void RGBController_Razer::SetupZones()
                         new_kb.ChangeKeys(*temp);
 
                         /*---------------------------------------------------------*\
-                        | Matrix map still uses declared zone rows and columns      |
-                        |   as the packet structure depends on the matrix map       |
+                        | KLM overlay insertions can expand the key grid beyond the |
+                        | declared zone dimensions. Reallocate the map buffer to    |
+                        | the actual KLM dimensions to prevent a heap overflow.     |
+                        | new_map height/width stay at declared values so the HID   |
+                        | packet structure (which depends on them) is unchanged.    |
                         \*---------------------------------------------------------*/
+                        unsigned int map_height = std::max((unsigned int)new_map->height, new_kb.GetRowCount());
+                        unsigned int map_width  = std::max((unsigned int)new_map->width,  new_kb.GetColumnCount());
+
+                        if(map_height * map_width > (unsigned int)new_map->height * new_map->width)
+                        {
+                            delete[] new_map->map;
+                            new_map->map = new unsigned int[map_height * map_width];
+                        }
+
                         new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_INDEX, new_map->height, new_map->width);
                     }
 
