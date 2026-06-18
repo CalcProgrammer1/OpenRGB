@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include "LogManager.h"
 #include "NetworkClient.h"
 #include "RGBController_Network.h"
 
@@ -267,7 +268,7 @@ void NetworkClient::ConnectionThreadFunction()
             }
             else
             {
-                printf( "Connection attempt failed\n" );
+                LOG_DEBUG("[NetworkClient] Connection attempt failed");
             }
         }
 
