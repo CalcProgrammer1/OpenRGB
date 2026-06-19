@@ -39,6 +39,7 @@ enum
     AURA_ROG_CLAYMORE_PID                               = 0x184D,
     AURA_ROG_FALCHION_WIRED_PID                         = 0x193C,
     AURA_ROG_FALCHION_WIRELESS_PID                      = 0x193E,
+    AURA_ROG_FALCHION_RX_LP_WIRED_PID                   = 0x1B04,
     AURA_ROG_STRIX_FLARE_PID                            = 0x1875,
     AURA_ROG_STRIX_FLARE_PNK_LTD_PID                    = 0x18CF,
     AURA_ROG_STRIX_FLARE_COD_BO4_PID                    = 0x18AF,

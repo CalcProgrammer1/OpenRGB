@@ -67,6 +67,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             case AURA_ROG_AZOTH_2_4_PID:
             case AURA_ROG_FALCHION_WIRED_PID:
             case AURA_ROG_FALCHION_WIRELESS_PID:
+            case AURA_ROG_FALCHION_RX_LP_WIRED_PID:
             case AURA_ROG_STRIX_FLARE_II_PID:
             case AURA_ROG_STRIX_FLARE_II_ANIMATE_PID:
             case AURA_ROG_STRIX_SCOPE_RX_PID:
@@ -459,6 +460,9 @@ void RGBController_AuraTUFKeyboard::SetupZones()
         case AURA_ROG_FALCHION_WIRED_PID:
         case AURA_ROG_FALCHION_WIRELESS_PID:
             keyboard_ptr = &AsusFalchionLayouts;
+            break;
+        case AURA_ROG_FALCHION_RX_LP_WIRED_PID:
+            keyboard_ptr = &AsusFalchionRxLpLayouts;
             break;
         case AURA_ROG_CLAYMORE_PID:
             unsigned char numpad;
