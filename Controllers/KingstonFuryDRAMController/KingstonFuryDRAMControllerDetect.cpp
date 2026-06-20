@@ -38,7 +38,8 @@ bool TestDDR5Models(char code)
     return (code == FURY_MODEL_BEAST_DDR5 ||
             code == FURY_MODEL_BEAST2_DDR5 ||
             code == FURY_MODEL_RENEGADE_DDR5 ||
-            code == FURY_MODEL_BEAST_RGB_WHITE_DDR5);
+            code == FURY_MODEL_BEAST_RGB_WHITE_DDR5 ||
+			code == FURY_MODEL_BEAST_HP_DDR5);
 }
 
 // Checking Fury signature in the RGB address space

@@ -41,6 +41,7 @@ enum
     FURY_MODEL_BEAST_DDR5             = 0x10,
     FURY_MODEL_RENEGADE_DDR5          = 0x11,
     FURY_MODEL_BEAST_RGB_WHITE_DDR5   = 0x12,
+    FURY_MODEL_BEAST_HP_DDR5          = 0x13,
     FURY_MODEL_BEAST2_DDR5            = 0x15,
     FURY_MODEL_BEAST_WHITE_DDR4       = 0x21,
     FURY_MODEL_BEAST_DDR4             = 0x23,
