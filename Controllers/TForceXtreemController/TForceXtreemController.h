@@ -17,6 +17,7 @@
 
 #define XTREEM_APPLY_VAL                0x01        /* Value for Apply Changes Register     */
 #define XTREEM_LED_COUNT                15
+#define DELTA_LED_COUNT                 8
 
 typedef unsigned short	ene_register;
 typedef unsigned char	ene_dev_id;
@@ -83,7 +84,7 @@ enum
 class TForceXtreemController
 {
 public:
-    TForceXtreemController(i2c_smbus_interface *bus, ene_dev_id dev);
+    TForceXtreemController(i2c_smbus_interface *bus, ene_dev_id dev, unsigned int led_count = XTREEM_LED_COUNT, bool folded = true);
     ~TForceXtreemController();
 
     std::string   GetDeviceLocation();
@@ -106,6 +107,10 @@ public:
     void          ENERegisterWriteBlock(ene_register reg, unsigned char * data, unsigned char sz);
 
 private:
+    unsigned int         GetLEDOffset(unsigned int led);
+
     i2c_smbus_interface *   bus;
     ene_dev_id              dev;
+    unsigned int            led_count;
+    bool                    folded;
 };
