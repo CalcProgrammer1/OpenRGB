@@ -114,6 +114,7 @@
 #define NVIDIA_RTX4060TI_DEV                            0x2803
 #define NVIDIA_RTX4060TI_16G_DEV                        0x2805
 #define NVIDIA_RTX4070_DEV                              0x2786
+#define NVIDIA_RTX4070_AD103_DEV                        0x2709
 #define NVIDIA_RTX4070S_DEV                             0x2783
 #define NVIDIA_RTX4070TI_DEV                            0x2782
 #define NVIDIA_RTX4070TIS_DEV                           0x2705
