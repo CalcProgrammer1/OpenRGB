@@ -19,6 +19,7 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
+#include <cctype>
 #include <codecvt>
 #include <locale>
 #include <string>
@@ -71,6 +72,16 @@ const char* StringUtils::wchar_to_char(const wchar_t* pwchar)
     return(filePathC);
 }
 
+std::string StringUtils::wchar_to_string(const wchar_t* pwchar)
+{
+    if(pwchar == nullptr)
+    {
+        return std::string();
+    }
+
+    return wstring_to_string(std::wstring(pwchar));
+}
+
 std::string StringUtils::wstring_to_string(const std::wstring wstring)
 {
     std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
@@ -100,4 +111,20 @@ std::string StringUtils::u32int_to_hexString(unsigned int value)
     char hex_str[20] = {0};
     snprintf(hex_str, sizeof(hex_str), "%X", value);
     return std::string(hex_str);
+}
+
+std::string StringUtils::normalize_hex_id(const std::string& id)
+{
+    std::string out;
+    out.reserve(id.size());
+
+    for(char c : id)
+    {
+        if(c != '-')
+        {
+            out += (char)tolower((unsigned char)c);
+        }
+    }
+
+    return out;
 }
