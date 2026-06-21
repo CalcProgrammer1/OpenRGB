@@ -68,7 +68,8 @@ static void FormatCommandBuffer(char *buffer, char command)
 
 void ArcticController::SetChannels(std::vector<RGBColor> colors)
 {
-    char* buffer = new char[ARCTIC_COMMAND_BUFFER_LENGTH(colors.size() * 3)];
+    size_t buffer_length = ARCTIC_COMMAND_BUFFER_LENGTH(colors.size() * 3);
+    char* buffer = new char[buffer_length];
 
     FormatCommandBuffer(buffer, ARCTIC_COMMAND_SET_RGB);
 
@@ -81,7 +82,7 @@ void ArcticController::SetChannels(std::vector<RGBColor> colors)
         buffer[offset + 0x02] = (char)std::min<unsigned int>(254, RGBGetBValue(colors[channel]));
     }
 
-    serialport.serial_write(buffer, sizeof(buffer));
+    serialport.serial_write(buffer, buffer_length);
 
     delete[] buffer;
 }
