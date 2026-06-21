@@ -30,6 +30,12 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
 
     pid                                 = controller->device_pid;
 
+    /*-----------------------------------------------------------------*\
+    | Azoth X uses a different lighting protocol and gets visible       |
+    | default colors. Other PIDs keep their pre-existing behaviour.     |
+    \*-----------------------------------------------------------------*/
+    const bool is_azoth_x               = (pid == AURA_ROG_AZOTH_X_USB_PID);
+
     if(pid != AURA_ROG_CLAYMORE_PID)
     {
         name                            = controller->GetName();
@@ -63,6 +69,12 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
                 AURA_KEYBOARD_SPEED_DEFAULT      = 8;
                 break;
 
+            case AURA_ROG_AZOTH_X_USB_PID:
+                AURA_KEYBOARD_SPEED_MIN          = 255;
+                AURA_KEYBOARD_SPEED_MAX          = 0;
+                AURA_KEYBOARD_SPEED_DEFAULT      = 128;
+                break;
+
             case AURA_ROG_AZOTH_USB_PID:
             case AURA_ROG_AZOTH_2_4_PID:
             case AURA_ROG_FALCHION_WIRED_PID:
@@ -91,12 +103,15 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
                 break;
         }
 
-        mode Direct;
-        Direct.name                     = "Direct";
-        Direct.value                    = AURA_KEYBOARD_MODE_DIRECT;
-        Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
-        Direct.color_mode               = MODE_COLORS_PER_LED;
-        modes.push_back(Direct);
+        if(!is_azoth_x)
+        {
+            mode Direct;
+            Direct.name                     = "Direct";
+            Direct.value                    = AURA_KEYBOARD_MODE_DIRECT;
+            Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+            Direct.color_mode               = MODE_COLORS_PER_LED;
+            modes.push_back(Direct);
+        }
 
         mode Static;
         Static.name                     = "Static";
@@ -109,6 +124,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         Static.colors_min               = 1;
         Static.colors_max               = 1;
         Static.colors.resize(1);
+        if(is_azoth_x) Static.colors[0] = ToRGBColor(0xFF, 0xFF, 0xFF);
         modes.push_back(Static);
 
         mode Breathing;
@@ -121,14 +137,15 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         }
         Breathing.speed_min             = AURA_KEYBOARD_SPEED_MIN;
         Breathing.speed_max             = AURA_KEYBOARD_SPEED_MAX;
-        Breathing.speed                 = AURA_KEYBOARD_SPEED_DEFAULT;
+        Breathing.speed                 = is_azoth_x ? 142 : AURA_KEYBOARD_SPEED_DEFAULT;
         Breathing.brightness_min        = AURA_KEYBOARD_BRIGHTNESS_MIN;
         Breathing.brightness_max        = AURA_KEYBOARD_BRIGHTNESS_MAX;
         Breathing.brightness            = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
-        Breathing.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+        Breathing.color_mode            = is_azoth_x ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
         Breathing.colors_min            = 1;
         Breathing.colors_max            = 2;
         Breathing.colors.resize(1);
+        if(is_azoth_x) Breathing.colors[0] = ToRGBColor(0xFF, 0xFF, 0xFF);
         modes.push_back(Breathing);
 
         mode Color_Cycle;
@@ -137,7 +154,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         Color_Cycle.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
         Color_Cycle.speed_min           = AURA_KEYBOARD_SPEED_MIN;
         Color_Cycle.speed_max           = AURA_KEYBOARD_SPEED_MAX;
-        Color_Cycle.speed               = AURA_KEYBOARD_SPEED_DEFAULT;
+        Color_Cycle.speed               = is_azoth_x ? 75 : AURA_KEYBOARD_SPEED_DEFAULT;
         Color_Cycle.brightness_min      = AURA_KEYBOARD_BRIGHTNESS_MIN;
         Color_Cycle.brightness_max      = AURA_KEYBOARD_BRIGHTNESS_MAX;
         Color_Cycle.brightness          = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
@@ -147,10 +164,14 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         mode Wave;
         Wave.name                       = "Rainbow Wave";
         Wave.value                      = AURA_KEYBOARD_MODE_WAVE;
-        Wave.flags                      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+        Wave.flags                      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
         if(controller->is_per_led_keyboard)
         {
             Wave.flags                 |= MODE_FLAG_HAS_DIRECTION_UD;
+        }
+        if(!is_azoth_x)
+        {
+            Wave.flags                 |= MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
         }
         Wave.speed_min                  = AURA_KEYBOARD_SPEED_MIN;
         Wave.speed_max                  = AURA_KEYBOARD_SPEED_MAX;
@@ -159,20 +180,40 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         Wave.brightness_max             = AURA_KEYBOARD_BRIGHTNESS_MAX;
         Wave.brightness                 = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
         Wave.direction                  = MODE_DIRECTION_LEFT;
-        Wave.color_mode                 = MODE_COLORS_MODE_SPECIFIC;
 
-        if(!controller->is_per_led_keyboard)
+        if(is_azoth_x)
         {
+            // Fixed hardware gradient — no user colour selection
+            Wave.color_mode             = MODE_COLORS_NONE;
+            Wave.colors_min             = 0;
+            Wave.colors_max             = 0;
+        }
+        else if(!controller->is_per_led_keyboard)
+        {
+            Wave.color_mode             = MODE_COLORS_MODE_SPECIFIC;
             Wave.colors_min             = 5;
             Wave.colors_max             = 5;
         }
         else
         {
+            Wave.color_mode             = MODE_COLORS_MODE_SPECIFIC;
             Wave.colors_min             = 1;
             Wave.colors_max             = 7;
         }
 
         Wave.colors.resize(Wave.colors_max);
+        if(is_azoth_x)
+        {
+            // Azoth X gets the rainbow gradient stored as visible defaults; other
+            // devices keep their pre-existing default-constructed (black) colours
+            // to preserve historical behaviour on untested hardware.
+            if(Wave.colors.size() > 0) Wave.colors[0] = ToRGBColor(0xFF, 0x00, 0x00);
+            if(Wave.colors.size() > 1) Wave.colors[1] = ToRGBColor(0xFF, 0x80, 0x00);
+            if(Wave.colors.size() > 2) Wave.colors[2] = ToRGBColor(0xFF, 0xFF, 0x00);
+            if(Wave.colors.size() > 3) Wave.colors[3] = ToRGBColor(0x00, 0xFF, 0x00);
+            if(Wave.colors.size() > 4) Wave.colors[4] = ToRGBColor(0x00, 0x00, 0xFF);
+            if(Wave.colors.size() > 5) Wave.colors[5] = ToRGBColor(0x80, 0x00, 0xFF);
+        }
         modes.push_back(Wave);
 
         if(controller->is_per_led_keyboard)
@@ -191,6 +232,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             Reactive.colors_min         = 1;
             Reactive.colors_max         = 2;
             Reactive.colors.resize(1);
+            if(is_azoth_x) Reactive.colors[0] = ToRGBColor(0xFF, 0xFF, 0xFF);
             modes.push_back(Reactive);
 
             mode Ripple;
@@ -205,8 +247,12 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             Ripple.brightness           = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
             Ripple.color_mode           = MODE_COLORS_MODE_SPECIFIC;
             Ripple.colors_min           = 1;
-            Ripple.colors_max           = 8;
-            Ripple.colors.resize(7);
+            Ripple.colors_max           = is_azoth_x ? 1 : 8;
+            Ripple.colors.resize(is_azoth_x ? 1 : 7);
+            if(is_azoth_x)
+            {
+                Ripple.colors[0]        = ToRGBColor(0xFF, 0xFF, 0xFF);
+            }
             modes.push_back(Ripple);
 
             mode Starry_Night;
@@ -215,14 +261,15 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             Starry_Night.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
             Starry_Night.speed_min      = AURA_KEYBOARD_SPEED_MIN;
             Starry_Night.speed_max      = AURA_KEYBOARD_SPEED_MAX;
-            Starry_Night.speed          = AURA_KEYBOARD_SPEED_DEFAULT;
+            Starry_Night.speed          = is_azoth_x ? 85 : AURA_KEYBOARD_SPEED_DEFAULT;
             Starry_Night.brightness_min = AURA_KEYBOARD_BRIGHTNESS_MIN;
             Starry_Night.brightness_max = AURA_KEYBOARD_BRIGHTNESS_MAX;
             Starry_Night.brightness     = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
             Starry_Night.color_mode     = MODE_COLORS_MODE_SPECIFIC;
             Starry_Night.colors_min     = 1;
-            Starry_Night.colors_max     = 3;
+            Starry_Night.colors_max     = is_azoth_x ? 2 : 3;
             Starry_Night.colors.resize(1);
+            if(is_azoth_x) Starry_Night.colors[0] = ToRGBColor(0xFF, 0xFF, 0xFF);
             modes.push_back(Starry_Night);
 
             mode Quicksand;
@@ -232,7 +279,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             Quicksand.direction         = MODE_DIRECTION_DOWN;
             Quicksand.speed_min         = AURA_KEYBOARD_SPEED_MIN;
             Quicksand.speed_max         = AURA_KEYBOARD_SPEED_MAX;
-            Quicksand.speed             = AURA_KEYBOARD_SPEED_DEFAULT;
+            Quicksand.speed             = is_azoth_x ? 96 : AURA_KEYBOARD_SPEED_DEFAULT;
             Quicksand.brightness_min    = AURA_KEYBOARD_BRIGHTNESS_MIN;
             Quicksand.brightness_max    = AURA_KEYBOARD_BRIGHTNESS_MAX;
             Quicksand.brightness        = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
@@ -240,6 +287,15 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             Quicksand.colors_min        = 6;
             Quicksand.colors_max        = 6;
             Quicksand.colors.resize(6);
+            if(is_azoth_x)
+            {
+                Quicksand.colors[0]     = ToRGBColor(0xFF, 0x00, 0x00);
+                Quicksand.colors[1]     = ToRGBColor(0xFF, 0x80, 0x00);
+                Quicksand.colors[2]     = ToRGBColor(0xFF, 0xFF, 0x00);
+                Quicksand.colors[3]     = ToRGBColor(0x00, 0xFF, 0x00);
+                Quicksand.colors[4]     = ToRGBColor(0x00, 0x00, 0xFF);
+                Quicksand.colors[5]     = ToRGBColor(0x80, 0x00, 0xFF);
+            }
             modes.push_back(Quicksand);
 
             mode Current;
@@ -248,7 +304,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             Current.flags               = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
             Current.speed_min           = AURA_KEYBOARD_SPEED_MIN;
             Current.speed_max           = AURA_KEYBOARD_SPEED_MAX;
-            Current.speed               = AURA_KEYBOARD_SPEED_DEFAULT;
+            Current.speed               = is_azoth_x ? 153 : AURA_KEYBOARD_SPEED_DEFAULT;
             Current.brightness_min      = AURA_KEYBOARD_BRIGHTNESS_MIN;
             Current.brightness_max      = AURA_KEYBOARD_BRIGHTNESS_MAX;
             Current.brightness          = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
@@ -256,6 +312,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             Current.colors_min          = 1;
             Current.colors_max          = 3;
             Current.colors.resize(1);
+            if(is_azoth_x) Current.colors[0] = ToRGBColor(0xFF, 0xFF, 0xFF);
             modes.push_back(Current);
 
             mode Rain_Drop;
@@ -264,7 +321,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             Rain_Drop.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
             Rain_Drop.speed_min         = AURA_KEYBOARD_SPEED_MIN;
             Rain_Drop.speed_max         = AURA_KEYBOARD_SPEED_MAX;
-            Rain_Drop.speed             = AURA_KEYBOARD_SPEED_DEFAULT;
+            Rain_Drop.speed             = is_azoth_x ? 118 : AURA_KEYBOARD_SPEED_DEFAULT;
             Rain_Drop.brightness_min    = AURA_KEYBOARD_BRIGHTNESS_MIN;
             Rain_Drop.brightness_max    = AURA_KEYBOARD_BRIGHTNESS_MAX;
             Rain_Drop.brightness        = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
@@ -272,6 +329,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             Rain_Drop.colors_min        = 1;
             Rain_Drop.colors_max        = 3;
             Rain_Drop.colors.resize(1);
+            if(is_azoth_x) Rain_Drop.colors[0] = ToRGBColor(0xFF, 0xFF, 0xFF);
             modes.push_back(Rain_Drop);
         }
     }
@@ -454,6 +512,7 @@ void RGBController_AuraTUFKeyboard::SetupZones()
             break;
         case AURA_ROG_AZOTH_USB_PID:
         case AURA_ROG_AZOTH_2_4_PID:
+        case AURA_ROG_AZOTH_X_USB_PID:
             keyboard_ptr = &AsusROGAzothLayouts;
             break;
         case AURA_ROG_FALCHION_WIRED_PID:
@@ -609,11 +668,32 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateMode()
                     break;
                 }
 
-                bool color_is_black = (modes[active_mode].colors.size() > 1 && modes[active_mode].colors[1] == 000);
-
-                if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC && !color_is_black)
+                if(pid == AURA_ROG_AZOTH_X_USB_PID)
                 {
-                    color_mode = 16;
+                    /*-------------------------------------------------------*\
+                    | Azoth X: send Double only when a non-black second       |
+                    | colour is actually present.                             |
+                    \*-------------------------------------------------------*/
+                    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC
+                       && modes[active_mode].colors.size() >= 2
+                       && modes[active_mode].colors[1] != 0)
+                    {
+                        color_mode = 16;
+                    }
+                }
+                else
+                {
+                    /*-------------------------------------------------------*\
+                    | Legacy logic preserved for the original Azoth and other |
+                    | per-LED keyboards. Behaviour unchanged from before the  |
+                    | Azoth X work.                                           |
+                    \*-------------------------------------------------------*/
+                    bool color_is_black = (modes[active_mode].colors.size() > 1 && modes[active_mode].colors[1] == 000);
+
+                    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC && !color_is_black)
+                    {
+                        color_mode = 16;
+                    }
                 }
                 break;
         }

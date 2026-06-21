@@ -36,6 +36,7 @@ enum
 {
     AURA_ROG_AZOTH_USB_PID                              = 0x1A83,
     AURA_ROG_AZOTH_2_4_PID                              = 0x1A85,
+    AURA_ROG_AZOTH_X_USB_PID                            = 0x1C24,
     AURA_ROG_CLAYMORE_PID                               = 0x184D,
     AURA_ROG_FALCHION_WIRED_PID                         = 0x193C,
     AURA_ROG_FALCHION_WIRELESS_PID                      = 0x193E,
@@ -116,6 +117,16 @@ public:
 
     void        UpdateScopeIIQuicksand
                     (
+                    std::vector<RGBColor>   colors,
+                    unsigned char           direction,
+                    unsigned char           color_mode,
+                    unsigned char           speed,
+                    unsigned char           brightness
+                    );
+
+    void        UpdateAzothXDevice
+                    (
+                    unsigned char           mode,
                     std::vector<RGBColor>   colors,
                     unsigned char           direction,
                     unsigned char           color_mode,
