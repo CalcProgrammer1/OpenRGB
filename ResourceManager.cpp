@@ -30,6 +30,10 @@
 #include "filesystem.h"
 #include "StringUtils.h"
 
+#ifdef __linux__
+#include <sys/resource.h>
+#endif
+
 /*---------------------------------------------------------*\
 | Translation Strings                                       |
 \*---------------------------------------------------------*/
@@ -190,6 +194,29 @@ ResourceManager::ResourceManager()
     profile_manager         = new ProfileManager(GetConfigurationDirectory());
     server->SetProfileManager(profile_manager);
     rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes", true);
+
+    /*-----------------------------------------------------*\
+    | If configured, lower process priority to potentially  |
+    | reduce interference with other programs. Positive     |
+    | nice values decrease priority on Linux and MacOS.     |
+    \*-----------------------------------------------------*/
+    json general_settings   = settings_manager->GetSettings("General");
+    bool low_priority       = false;
+
+    if(general_settings.contains("low_priority"))
+    {
+        low_priority        = general_settings["low_priority"];
+    }
+
+    if(low_priority)
+    {
+#if defined(__linux__) || defined(__APPLE__)
+        setpriority(PRIO_PROCESS, 0, 10);
+#endif
+#ifdef _WIN32
+        SetPriorityClass(GetCurrentProcess(), BELOW_NORMAL_PRIORITY_CLASS);
+#endif
+    }
 }
 
 ResourceManager::~ResourceManager()
