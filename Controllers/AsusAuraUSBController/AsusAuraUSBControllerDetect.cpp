@@ -119,6 +119,7 @@
 \*-----------------------------------------------------------------*/
 #define AURA_TERMINAL_PID                                   0x1889
 #define ROG_STRIX_LC120_PID                                 0x879E
+#define ROG_STRIX_LC_III_PID                                0x1B29
 #define AURA_RYUO_AIO_PID                                   0x1887
 #define AURA_RYUJIN_AIO_PID                                 0x18AE
 #define ASUS_ROG_ALLY_PID                                   0x1ABE
@@ -171,7 +172,7 @@ void DetectAsusAuraUSBAddressable(hid_device_info* info, const std::string& /*na
     }
 }
 
-void DetectAsusAuraUSBMotherboards(hid_device_info* info, const std::string& /*name*/)
+void DetectAsusAuraUSBMotherboards(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
 
@@ -180,7 +181,8 @@ void DetectAsusAuraUSBMotherboards(hid_device_info* info, const std::string& /*n
         try
         {
             DMIInfo                      dmi;
-            AuraMainboardController*     controller         = new AuraMainboardController(dev, info->path, "ASUS " + dmi.getMainboard());
+            std::string                  name_string        = (info->product_id == ROG_STRIX_LC_III_PID) ? name : "ASUS " + dmi.getMainboard();
+            AuraMainboardController*     controller         = new AuraMainboardController(dev, info->path, name_string);
             RGBController_AuraMainboard* rgb_controller     = new RGBController_AuraMainboard(controller);
 
             ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -454,6 +456,7 @@ REGISTER_HID_DETECTOR_PU("ASUS ROG PG32UQ",                             DetectAs
 \*-----------------------------------------------------------------*/
 REGISTER_HID_DETECTOR    ("ASUS ROG AURA Terminal",                     DetectAsusAuraUSBTerminal,      AURA_USB_VID, AURA_TERMINAL_PID);
 REGISTER_HID_DETECTOR_PU ("ASUS ROG Strix LC",                          DetectAsusAuraUSBROGStrixLC,    AURA_USB_VID, ROG_STRIX_LC120_PID,                          0x00FF, 1);
+REGISTER_HID_DETECTOR    ("ASUS ROG Strix LC III",                      DetectAsusAuraUSBMotherboards,  AURA_USB_VID, ROG_STRIX_LC_III_PID);
 REGISTER_HID_DETECTOR_PU ("ASUS ROG Ryuo AIO",                          DetectAsusAuraUSBRyuoAIO,       AURA_USB_VID, AURA_RYUO_AIO_PID,                        0xFF72, 0x00A1);
 REGISTER_HID_DETECTOR_PU ("ASUS ROG Ryujin AIO",                        DetectAsusAuraUSBRyuoAIO,       AURA_USB_VID, AURA_RYUJIN_AIO_PID,                     0xFF72, 0x00A1);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne",                            DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_PID,                          0);
