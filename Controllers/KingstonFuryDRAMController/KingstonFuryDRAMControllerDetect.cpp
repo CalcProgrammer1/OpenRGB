@@ -48,8 +48,8 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
     char test_str[] = "FURY";
     int res;
 
-    LOG_DEBUG("[%s] looking at 0x%02X",
-              FURY_CONTROLLER_NAME, slot_addr);
+    LOG_DEBUG("[%s] looking at bus %d address 0x%02X",
+              FURY_CONTROLLER_NAME, bus->bus_id, slot_addr);
 
     // Start transaction
     res = bus->i2c_smbus_write_byte_data(slot_addr, FURY_REG_APPLY, FURY_BEGIN_TRNSFER);
@@ -61,7 +61,7 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
     }
 
     std::this_thread::sleep_for(FURY_DELAY);
-    LOG_DEBUG("[%s] %02X beginning transaction; res=%02X",
+    LOG_DEBUG("[%s] 0x%02X beginning transaction; res=0x%02X",
               FURY_CONTROLLER_NAME, slot_addr, res);
 
     // Read and check the signature
@@ -71,7 +71,7 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
         {
             res = bus->i2c_smbus_read_word_data(slot_addr, i);
             std::this_thread::sleep_for(FURY_DELAY);
-            LOG_DEBUG("[%s] Testing address %02X register %02X, res=%04X",
+            LOG_DEBUG("[%s] Testing address 0x%02X register 0x%02X, res=0x%04X",
                       FURY_CONTROLLER_NAME, slot_addr, i, res);
             // retry when there is an error or the returned value is 0xFFFF
             if((res >= 0) && (res < 0xFFFF))
@@ -85,6 +85,8 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
         }
 
         char shifted = (res >> 8) & 0xFF;
+        LOG_DEBUG("[%s] Matching 0x%02X to 0x%02X: %c",
+                  FURY_CONTROLLER_NAME, shifted, test_str[i-1], test_str[i-1]);
         if(shifted != test_str[i-1])
         {
             passed = false;
@@ -98,13 +100,36 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
         res = bus->i2c_smbus_read_word_data(slot_addr, FURY_REG_MODEL);
         int model_code = res >> 8;
         std::this_thread::sleep_for(FURY_DELAY);
-        LOG_DEBUG("[%s] Reading model code at address %02X register %02X, res=%02X",
+        LOG_DEBUG("[%s] Reading model code at address 0x%02X register 0x%02X, res=0x%02X",
                   FURY_CONTROLLER_NAME, slot_addr, FURY_REG_MODEL, res);
 
         if(!modelChecker(model_code))
         {
             LOG_INFO("[%s] Unknown model code 0x%02X", FURY_CONTROLLER_NAME, model_code);
             passed = false;
+        }
+        else
+        {
+            switch(model_code)
+            {
+                case FURY_MODEL_BEAST_DDR5:
+                    LOG_INFO("[%s] Recognized FURY_MODEL_BEAST_DDR5 at address 0x%02X", FURY_CONTROLLER_NAME, slot_addr);
+                    break;
+                case FURY_MODEL_RENEGADE_DDR5:
+                    LOG_INFO("[%s] Recognized FURY_MODEL_RENEGADE_DDR5 at address 0x%02X", FURY_CONTROLLER_NAME, slot_addr);
+                    break;
+                case FURY_MODEL_BEAST_RGB_WHITE_DDR5:
+                    LOG_INFO("[%s] Recognized FURY_MODEL_BEAST_RGB_WHITE_DDR5 at address 0x%02X", FURY_CONTROLLER_NAME, slot_addr);
+                    break;
+                case FURY_MODEL_BEAST_WHITE_DDR4:
+                    LOG_INFO("[%s] Recognized FURY_MODEL_BEAST_WHITE_DDR4 at address 0x%02X", FURY_CONTROLLER_NAME, slot_addr);
+                    break;
+                case FURY_MODEL_BEAST_DDR4:
+                    LOG_INFO("[%s] Recognized FURY_MODEL_BEAST_DDR4 at address 0x%02X", FURY_CONTROLLER_NAME, slot_addr);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -115,7 +140,7 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
         return RESULT_ERROR;
     }
     std::this_thread::sleep_for(FURY_DELAY);
-    LOG_DEBUG("[%s] %02X ending transaction; res=%02X",
+    LOG_DEBUG("[%s] 0x%02X ending transaction; res=0x%02X",
               FURY_CONTROLLER_NAME, slot_addr, res);
 
     return passed ? RESULT_PASS : RESULT_FAIL;
@@ -149,9 +174,14 @@ void DetectKingstonFuryDRAMControllers(i2c_smbus_interface* bus, std::vector<SPD
         // RAM module successfully detected in the slot 'slot_index'
         if(result == RESULT_PASS)
         {
-            LOG_DEBUG("[%s] detected at slot index %d",
+            LOG_DEBUG("[%s] detected at slot index 0x%02x",
                       FURY_CONTROLLER_NAME, slot->index());
             fury_slots.push_back(slot->index());
+        }
+        else
+        {
+            LOG_DEBUG("[%s] not detected at slot index 0x%02x",
+                      FURY_CONTROLLER_NAME, slot->index());
         }
     }
 }
