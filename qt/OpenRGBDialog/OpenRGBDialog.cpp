@@ -37,14 +37,9 @@
 #include <string>
 #include <functional>
 
-#ifdef __linux__
-#include <sys/resource.h>
-#endif
-
 #ifdef __APPLE__
 #include "macutils.h"
 #endif
-
 
 static int GetIcon(device_type type)
 {
@@ -192,18 +187,6 @@ bool OpenRGBDialog::IsMinimizeOnClose()
 OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::OpenRGBDialog)
 {
     ui->setupUi(this);
-
-    /*-----------------------------------------------------*\
-    | Lower process priority to potentially reduce          |
-    | interference with other programs. Positive nice values|
-    | decrease priority on Linux                            |
-    \*-----------------------------------------------------*/
-#if defined(__linux__) || defined(__APPLE__)
-    setpriority(PRIO_PROCESS, 0, 10);
-#endif
-#ifdef _WIN32
-    SetPriorityClass(GetCurrentProcess(), BELOW_NORMAL_PRIORITY_CLASS);
-#endif
 
     /*-----------------------------------------------------*\
     | Set window icon                                       |
