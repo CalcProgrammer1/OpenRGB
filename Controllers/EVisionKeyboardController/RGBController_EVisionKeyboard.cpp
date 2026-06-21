@@ -322,9 +322,9 @@ void RGBController_EVisionKeyboard::SetupZones()
 
     new_zone.name               = "Keyboard";
     new_zone.type               = ZONE_TYPE_MATRIX;
-    new_zone.leds_min           = 126;
-    new_zone.leds_max           = 126;
-    new_zone.leds_count         = 126;
+    new_zone.leds_min           = 128;
+    new_zone.leds_max           = 128;
+    new_zone.leds_count         = 128;
     new_zone.matrix_map         = new matrix_map_type;
     new_zone.matrix_map->height = 6;
     new_zone.matrix_map->width  = 23;
@@ -332,7 +332,7 @@ void RGBController_EVisionKeyboard::SetupZones()
 
     zones.push_back(new_zone);
 
-    for(int led_idx = 0; led_idx < 126; led_idx++)
+    for(int led_idx = 0; led_idx < 128; led_idx++)
     {
         led new_led;
 
@@ -354,9 +354,9 @@ void RGBController_EVisionKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_EVisionKeyboard::DeviceUpdateLEDs()
 {
-    unsigned char color_data[7*0x36];
+    unsigned char color_data[128 * 3];
 
-    for(int led_idx = 0; led_idx < 126; led_idx++)
+    for(int led_idx = 0; led_idx < 128; led_idx++)
     {
         color_data[(3 * led_idx) + 0] = RGBGetRValue(colors[led_idx]);
         color_data[(3 * led_idx) + 1] = RGBGetGValue(colors[led_idx]);
@@ -366,7 +366,7 @@ void RGBController_EVisionKeyboard::DeviceUpdateLEDs()
     controller->SetKeyboardColors
                     (
                     color_data,
-                    0x36 * 7
+                    128 * 3
                     );
 }
 

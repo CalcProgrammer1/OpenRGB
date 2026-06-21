@@ -16,7 +16,7 @@
 #include <hidapi.h>
 #include "RGBController.h"
 
-#define EVISION_KB_MAX_PACKET_SIZE                  ( 0x36 )/* max packet size for color*/
+#define EVISION_KB_MAX_PACKET_SIZE                  ( 0x38 )/* max packet size for color*/
                                                             /* update packets           */
 enum
 {
@@ -130,7 +130,7 @@ public:
                     (
                     unsigned char *     data,
                     unsigned char       data_size,
-                    unsigned short      data_offset
+                    unsigned int        data_offset
                     );
 
     void        SendKeyboardEnd();
