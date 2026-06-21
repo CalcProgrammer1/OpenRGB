@@ -1,17 +1,31 @@
-#! /bin/bash
+#!/bin/bash
 
-# Download udev rules file
-wget https://openrgb.org/releases/release_0.9/60-openrgb.rules
-
-# If we don't have write permissions then we're running on an immutable distro
-if sudo test -w /usr/lib/udev/rules.d;
-then
-	# Move udev rules file to udev rules directory
-	sudo mv 60-openrgb.rules /usr/lib/udev/rules.d
+# Check if sudo is available
+if command -v sudo &>/dev/null; then
+    PRIVILEGED_CMD="sudo"
 else
-	sudo mv 60-openrgb.rules /etc/udev/rules.d
+    echo "sudo not found. Falling back to run0"
+    PRIVILEGED_CMD="run0 -i"
 fi
 
+# Run all privileged operations in one batch
+$PRIVILEGED_CMD bash <<'EOF'
+set -e
+
+# Determine target directory
+if test -w /usr/lib/udev/rules.d; then
+    TARGET_DIR="/usr/lib/udev/rules.d"
+else
+    TARGET_DIR="/etc/udev/rules.d"
+fi
+
+# Download udev rules file
+wget -O "$TARGET_DIR/60-openrgb.rules" \
+    https://openrgb.org/releases/release_0.9/60-openrgb.rules
+
 # Reload the rules
-sudo udevadm control --reload-rules
-sudo udevadm trigger
+udevadm control --reload-rules
+udevadm trigger
+
+echo "Done. Rules installed to $TARGET_DIR"
+EOF
