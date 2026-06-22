@@ -2,7 +2,9 @@
 | QMKKeychronControllerDetect.cpp                           |
 |                                                           |
 |   Detector for Keychron QMK-based keyboards               |
-|   (Q1 HE and other KEYCHRON_RGB-enabled models)           |
+|                                                           |
+|   Amadej Kastelic                             21 Jun 2026 |
+|   Adam Honse <calcprogrammer1@gmail.com>      22 Jun 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |

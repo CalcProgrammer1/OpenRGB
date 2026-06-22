@@ -2,7 +2,9 @@
 | QMKKeychronController.cpp                                 |
 |                                                           |
 |   Driver for Keychron QMK-based keyboards                 |
-|   (Q1 HE and other KEYCHRON_RGB-enabled models)           |
+|                                                           |
+|   Amadej Kastelic                             21 Jun 2026 |
+|   Adam Honse <calcprogrammer1@gmail.com>      22 Jun 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -83,6 +85,42 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     | Get Keychron protocol version                         |
     \*-----------------------------------------------------*/
     CmdGetKeychronProtocolVersion(&kc_protocol_version);
+
+    /*-----------------------------------------------------*\
+    | Get count of LEDs                                     |
+    \*-----------------------------------------------------*/
+    CmdGetNumberLEDs(&number_leds);
+
+    led_info.resize(number_leds);
+    keycodes.resize(number_leds);
+
+    for(std::size_t led_idx = 0; led_idx < led_info.size(); led_idx++)
+    {
+        led_info[led_idx].valid = false;
+    }
+
+    /*-----------------------------------------------------*\
+    | Get info and keycode for all LEDs                     |
+    \*-----------------------------------------------------*/
+    for(unsigned char row = 0; row < 32; row++)
+    {
+        std::vector<unsigned char> row_leds = CmdGetLEDIndexByRow(row);
+
+        for(unsigned char col = 0; col < row_leds.size(); col++)
+        {
+            if(row_leds[col] != 0xFF && row_leds[col] < led_info.size() && led_info[row_leds[col]].valid == false)
+            {
+                led_info[row_leds[col]].valid   = true;
+                led_info[row_leds[col]].col     = col;
+                led_info[row_leds[col]].row     = row;
+            }
+        }
+    }
+
+    for(unsigned short led_index = 0; led_index < number_leds; led_index++)
+    {
+        keycodes[led_index] = CmdGetKeycode(0, led_info[led_index].row, led_info[led_index].col);
+    }
 }
 
 QMKKeychronController::~QMKKeychronController()
@@ -124,12 +162,126 @@ bool QMKKeychronController::GetSupported()
     return(supported);
 }
 
+unsigned short QMKKeychronController::GetKeycode(unsigned short led_index)
+{
+    return(keycodes[led_index]);
+}
+
+unsigned short QMKKeychronController::GetLEDCount()
+{
+    return(number_leds);
+}
+
+kc_led_info QMKKeychronController::GetLEDInfo(unsigned short led_index)
+{
+    return(led_info[led_index]);
+}
+
+void QMKKeychronController::SaveMode()
+{
+    CmdSaveMode();
+}
+
+void QMKKeychronController::SendLEDs(unsigned short number_leds, RGBColor* color_data)
+{
+    unsigned short      led_start_index     = 0;
+    unsigned char       number_packet_leds  = 9;
+
+    while(led_start_index < number_leds)
+    {
+        if((number_leds - led_start_index) < 9)
+        {
+            number_packet_leds = (number_leds - led_start_index);
+        }
+
+        CmdSendLEDs(led_start_index, number_packet_leds, &color_data[led_start_index]);
+
+        led_start_index += number_packet_leds;
+    }
+}
+
+void QMKKeychronController::SetMode(unsigned short mode, unsigned char speed, unsigned char hue, unsigned char sat, unsigned char val)
+{
+    if(mode == 0xFFFF)
+    {
+        CmdSetRGBMatrixMode(KEYCHRON_QHE_PER_KEY_RGB_EFFECT);
+        CmdSetPerKeyRGBType(KEYCHRON_PER_KEY_RGB_SOLID);
+    }
+    else
+    {
+        CmdSetRGBMatrixMode((unsigned char)mode);
+        CmdSetColorHS(hue, sat);
+        CmdSetBrightness(val);
+        CmdSetSpeed(speed);
+    }
+}
+
+unsigned short QMKKeychronController::CmdGetKeycode
+    (
+    unsigned char       layer,
+    unsigned char       row,
+    unsigned char       col
+    )
+{
+    unsigned char       args[3];
+    unsigned char       response[5];
+    unsigned short      keycode;
+
+    args[0] = layer;
+    args[1] = row;
+    args[2] = col;
+
+    ViaSendCommand(QMK_VIA_CMD_VIA_DYNAMIC_KEYMAP_GET_KEYCODE, args, sizeof(args), response, sizeof(response));
+
+    keycode = ( response[3] << 8 )| response[4];
+
+    return(keycode);
+}
+
 void QMKKeychronController::CmdGetKeychronProtocolVersion
     (
     unsigned char*      kc_protocol_version
     )
 {
     ViaSendCommand(KC_GET_PROTOCOL_VERSION, NULL, 0, (unsigned char*)kc_protocol_version, sizeof(unsigned char));
+}
+
+std::vector<unsigned char> QMKKeychronController::CmdGetLEDIndexByRow(unsigned char row)
+{
+    unsigned char args[4];
+    unsigned char response[KEYCHRON_QHE_PACKET_SIZE - 2];
+
+    args[0] = row;
+    args[1] = 0xFF;
+    args[2] = 0xFF;
+    args[3] = 0xFF;
+
+    int bytes_read = ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_LED_IDX, args, sizeof(args), response, sizeof(response));
+
+    std::vector<unsigned char> result;
+
+    if(bytes_read > 0)
+    {
+        for(int i = 1; i < bytes_read; i++)
+        {
+            result.push_back(response[i] == 0xFF ? -1 : response[i]);
+        }
+    }
+
+    return result;
+}
+
+void QMKKeychronController::CmdGetNumberLEDs
+    (
+    unsigned short*     number_leds
+    )
+{
+    ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_LED_COUNT, NULL, 0, (unsigned char*)number_leds, sizeof(unsigned short));
+
+    /*-----------------------------------------------------*\
+    | The LED count byte order is reversed                  |
+    \*-----------------------------------------------------*/
+    *number_leds = ((*number_leds & 0x00FF) << 8) | ((*number_leds & 0xFF00) >> 8);
 }
 
 void QMKKeychronController::CmdGetViaProtocolVersion
@@ -145,147 +297,42 @@ void QMKKeychronController::CmdGetViaProtocolVersion
     *via_protocol_version = ((*via_protocol_version & 0x00FF) << 8) | ((*via_protocol_version & 0xFF00) >> 8);
 }
 
-unsigned int QMKKeychronController::GetLedCount()
+void QMKKeychronController::CmdSaveMode()
 {
-    unsigned short led_count;
-
-    ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_LED_COUNT, NULL, 0, (unsigned char*)&led_count, sizeof(unsigned short));
-
-    /*-----------------------------------------------------*\
-    | The LED count byte order is reversed                  |
-    \*-----------------------------------------------------*/
-    led_count = ((led_count & 0x00FF) << 8) | ((led_count & 0xFF00) >> 8);
-
-    return(led_count);
+    ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_SAVE, NULL, 0, NULL, 0);
 }
 
-std::vector<int> QMKKeychronController::GetLedNumbersByRow(unsigned char row)
-{
-    unsigned char args[4];
-    unsigned char response[KEYCHRON_QHE_PACKET_SIZE - 2];
-
-    args[0] = row;
-    args[1] = 0xFF;
-    args[2] = 0xFF;
-    args[3] = 0xFF;
-
-    int bytes_read = ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_LED_IDX, args, sizeof(args), response, sizeof(response));
-
-    std::vector<int> result;
-
-    if(bytes_read > 0)
-    {
-        for(int i = 0; i < bytes_read; i++)
-        {
-            result.push_back(response[i] == 0xFF ? -1 : response[i]);
-        }
-    }
-
-    return result;
-}
-
-std::vector<std::vector<int>> QMKKeychronController::GetAllLedNumbers(unsigned char num_rows)
-{
-    std::vector<std::vector<int>> all_rows;
-
-    for(unsigned char row = 0; row < num_rows; row++)
-    {
-        std::vector<int> row_data = GetLedNumbersByRow(row);
-        all_rows.push_back(row_data);
-    }
-
-    return all_rows;
-}
-
-void QMKKeychronController::SetPerKeyRgbColor(unsigned char start, unsigned char count, const std::vector<unsigned char>& hsv_data)
+void QMKKeychronController::CmdSendLEDs(unsigned char start_index, unsigned char number_leds, RGBColor* color_data)
 {
     unsigned char args[KEYCHRON_QHE_PACKET_SIZE - 2];
 
-    args[0]             = start;
-    args[1]             = count;
+    args[0]         = start_index;
+    args[1]         = number_leds;
 
-    size_t data_offset  = 2;
-    size_t copy_len     = hsv_data.size();
-
-    if(data_offset + copy_len > (KEYCHRON_QHE_PACKET_SIZE - 2))
+    if(number_leds > 9)
     {
-        copy_len = (KEYCHRON_QHE_PACKET_SIZE - 2) - data_offset;
+        number_leds = 9;
     }
 
-    memcpy(&args[data_offset], hsv_data.data(), copy_len);
+    for(unsigned char led_index = 0; led_index < number_leds; led_index++)
+    {
+        /*-------------------------------------------------*\
+        | VialRGB sends direct packets in HSV for some      |
+        | inexplicable reason, so do the RGB to HSV         |
+        | conversion before sending                         |
+        \*-------------------------------------------------*/
+        hsv_t hsv_color;
+        rgb2hsv(color_data[led_index], &hsv_color);
+
+        args[2 + (led_index * 3)]   = (unsigned char)((float)hsv_color.hue * (256.0f / 360.0f));
+        args[3 + (led_index * 3)]   = hsv_color.saturation;
+        args[4 + (led_index * 3)]   = hsv_color.value;
+    }
 
     ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_PER_KEY_SET_COLOR, args, sizeof(args), NULL, 0);
 }
 
-std::vector<unsigned char> QMKKeychronController::GetPerKeyRgbColor(unsigned char start, unsigned char count)
-{
-    unsigned char args[2];
-    unsigned char response[KEYCHRON_QHE_PACKET_SIZE - 2];
-
-    args[0] = start;
-    args[1] = count;
-
-    int bytes_read = ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_PER_KEY_GET_COLOR, args, sizeof(args), response, sizeof(response));
-
-    std::vector<unsigned char> result;
-    size_t color_bytes = (size_t)count * 3;
-
-    if(color_bytes <= (size_t)bytes_read)
-    {
-        for(size_t i = 0; i < color_bytes; i++)
-        {
-            result.push_back(response[i]);
-        }
-    }
-
-    return result;
-}
-
-void QMKKeychronController::SetPerKeyRgbType(unsigned char type)
-{
-    unsigned char args[1];
-
-    args[0] = type;
-
-    ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_PER_KEY_SET_TYPE, args, sizeof(args), NULL, 0);
-}
-
-void QMKKeychronController::SetRgbMatrixMode(unsigned char mode)
-{
-    unsigned char args[3];
-
-    args[0] = QMK_VIA_RGB_MATRIX_CHANNEL;
-    args[1] = QMK_VIA_RGB_MATRIX_EFFECT;
-    args[2] = mode;
-
-    ViaSendCommand(QMK_VIA_CMD_CUSTOM_SET_VALUE, args, sizeof(args), NULL, 0);
-}
-
-unsigned char QMKKeychronController::GetRgbMatrixMode()
-{
-    unsigned char cmd[KEYCHRON_QHE_PACKET_SIZE];
-    memset(cmd, 0x00, KEYCHRON_QHE_PACKET_SIZE);
-
-    cmd[0] = QMK_VIA_CMD_CUSTOM_GET_VALUE;
-    cmd[1] = QMK_VIA_RGB_MATRIX_CHANNEL;
-    cmd[2] = QMK_VIA_RGB_MATRIX_EFFECT;
-
-    SendPacket(cmd, KEYCHRON_QHE_PACKET_SIZE);
-
-    unsigned char response[KEYCHRON_QHE_PACKET_SIZE];
-    memset(response, 0x00, KEYCHRON_QHE_PACKET_SIZE);
-
-    int bytes_read = ReadPacket(response, KEYCHRON_QHE_PACKET_SIZE);
-
-    if(bytes_read > 3)
-    {
-        return response[3];
-    }
-
-    return 0;
-}
-
-void QMKKeychronController::SetBrightness(unsigned char brightness)
+void QMKKeychronController::CmdSetBrightness(unsigned char brightness)
 {
     unsigned char args[3];
 
@@ -296,66 +343,7 @@ void QMKKeychronController::SetBrightness(unsigned char brightness)
     ViaSendCommand(QMK_VIA_CMD_CUSTOM_SET_VALUE, args, sizeof(args), NULL, 0);
 }
 
-unsigned char QMKKeychronController::GetBrightness()
-{
-    unsigned char cmd[KEYCHRON_QHE_PACKET_SIZE];
-    memset(cmd, 0x00, KEYCHRON_QHE_PACKET_SIZE);
-
-    cmd[0] = QMK_VIA_CMD_CUSTOM_GET_VALUE;
-    cmd[1] = QMK_VIA_RGB_MATRIX_CHANNEL;
-    cmd[2] = QMK_VIA_RGB_MATRIX_BRIGHTNESS;
-
-    SendPacket(cmd, KEYCHRON_QHE_PACKET_SIZE);
-
-    unsigned char response[KEYCHRON_QHE_PACKET_SIZE];
-    memset(response, 0x00, KEYCHRON_QHE_PACKET_SIZE);
-
-    int bytes_read = ReadPacket(response, KEYCHRON_QHE_PACKET_SIZE);
-
-    if(bytes_read > 3)
-    {
-        return response[3];
-    }
-
-    return 0;
-}
-
-void QMKKeychronController::SetSpeed(unsigned char speed)
-{
-    unsigned char args[3];
-
-    args[0] = QMK_VIA_RGB_MATRIX_CHANNEL;
-    args[1] = QMK_VIA_RGB_MATRIX_EFFECT_SPEED;
-    args[2] = speed;
-
-    ViaSendCommand(QMK_VIA_CMD_CUSTOM_SET_VALUE, args, sizeof(args), NULL, 0);
-}
-
-unsigned char QMKKeychronController::GetSpeed()
-{
-    unsigned char cmd[KEYCHRON_QHE_PACKET_SIZE];
-    memset(cmd, 0x00, KEYCHRON_QHE_PACKET_SIZE);
-
-    cmd[0] = QMK_VIA_CMD_CUSTOM_GET_VALUE;
-    cmd[1] = QMK_VIA_RGB_MATRIX_CHANNEL;
-    cmd[2] = QMK_VIA_RGB_MATRIX_EFFECT_SPEED;
-
-    SendPacket(cmd, KEYCHRON_QHE_PACKET_SIZE);
-
-    unsigned char response[KEYCHRON_QHE_PACKET_SIZE];
-    memset(response, 0x00, KEYCHRON_QHE_PACKET_SIZE);
-
-    int bytes_read = ReadPacket(response, KEYCHRON_QHE_PACKET_SIZE);
-
-    if(bytes_read > 3)
-    {
-        return response[3];
-    }
-
-    return 0;
-}
-
-void QMKKeychronController::SetColorHSV(unsigned char h, unsigned char s)
+void QMKKeychronController::CmdSetColorHS(unsigned char h, unsigned char s)
 {
     unsigned char args[4];
 
@@ -367,49 +355,35 @@ void QMKKeychronController::SetColorHSV(unsigned char h, unsigned char s)
     ViaSendCommand(QMK_VIA_CMD_CUSTOM_SET_VALUE, args, sizeof(args), NULL, 0);
 }
 
-void QMKKeychronController::SaveLedConf()
+void QMKKeychronController::CmdSetPerKeyRGBType(unsigned char type)
 {
-    ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_SAVE, NULL, 0, NULL, 0);
+    unsigned char args[1];
+
+    args[0] = type;
+
+    ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_PER_KEY_SET_TYPE, args, sizeof(args), NULL, 0);
 }
 
-void QMKKeychronController::SendPacket(unsigned char* data, size_t len)
+void QMKKeychronController::CmdSetRGBMatrixMode(unsigned char mode)
 {
-    unsigned char usb_buf[KEYCHRON_QHE_PACKET_SIZE + 1];
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    unsigned char args[3];
 
-    usb_buf[0] = 0x00;
+    args[0] = QMK_VIA_RGB_MATRIX_CHANNEL;
+    args[1] = QMK_VIA_RGB_MATRIX_EFFECT;
+    args[2] = mode;
 
-    size_t copy_len = len;
-    if(copy_len > KEYCHRON_QHE_PACKET_SIZE)
-    {
-        copy_len = KEYCHRON_QHE_PACKET_SIZE;
-    }
-
-    memcpy(&usb_buf[1], data, copy_len);
-
-    hid_write(dev, usb_buf, KEYCHRON_QHE_PACKET_SIZE + 1);
-
-    std::this_thread::sleep_for(5ms);
+    ViaSendCommand(QMK_VIA_CMD_CUSTOM_SET_VALUE, args, sizeof(args), NULL, 0);
 }
 
-int QMKKeychronController::ReadPacket(unsigned char* buf, size_t buf_len)
+void QMKKeychronController::CmdSetSpeed(unsigned char speed)
 {
-    unsigned char usb_buf[KEYCHRON_QHE_PACKET_SIZE + 1];
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    unsigned char args[3];
 
-    int bytes_read = hid_read_timeout(dev, usb_buf, KEYCHRON_QHE_PACKET_SIZE + 1, KEYCHRON_QHE_HID_READ_TIMEOUT);
+    args[0] = QMK_VIA_RGB_MATRIX_CHANNEL;
+    args[1] = QMK_VIA_RGB_MATRIX_EFFECT_SPEED;
+    args[2] = speed;
 
-    if(bytes_read > 0)
-    {
-        size_t copy_len = (size_t)bytes_read;
-        if(copy_len > buf_len)
-        {
-            copy_len = buf_len;
-        }
-        memcpy(buf, usb_buf, copy_len);
-    }
-
-    return bytes_read;
+    ViaSendCommand(QMK_VIA_CMD_CUSTOM_SET_VALUE, args, sizeof(args), NULL, 0);
 }
 
 int QMKKeychronController::ViaSendCommand

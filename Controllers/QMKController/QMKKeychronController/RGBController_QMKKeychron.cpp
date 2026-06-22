@@ -2,24 +2,22 @@
 | RGBController_QMKKeychron.cpp                             |
 |                                                           |
 |   RGBController for Keychron QMK-based keyboards          |
-|   (Q1 HE and other KEYCHRON_RGB-enabled models)           |
+|                                                           |
+|   Amadej Kastelic                             21 Jun 2026 |
+|   Adam Honse <calcprogrammer1@gmail.com>      22 Jun 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include <chrono>
 #include <cstring>
-#include <thread>
-#include <cmath>
-#include "RGBControllerKeyNames.h"
+#include "hsv.h"
 #include "RGBController_QMKKeychron.h"
+#include "QMKKeycodes.h"
 #include "QMKKeychronController.h"
 
-#define NA      0xFFFFFFFF
-
 /**------------------------------------------------------------------*\
-    @name Keychron Q1 HE
+    @name QMK Keychron
     @category Keyboard
     @type USB
     @save :white_check_mark:
@@ -34,33 +32,33 @@ typedef struct
     std::string name;
     int         value;
     int         flags;
-} keychron_qhe_effect;
+} kc_effect;
 
-static const keychron_qhe_effect qhe_effects[] =
+static const kc_effect kc_effects[] =
 {
-    { "Direct",                         -1, MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS },
-    { "Solid Color",                     0, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Breathing",                       1, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Band Spiral",                     2, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Cycle All",                       3, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Cycle Left Right",                4, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Cycle Up Down",                   5, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Cycle Out In",                    6, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Cycle Out In Dual",              7, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Cycle Pinwheel",                  8, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Cycle Spiral",                    9, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Dual Beacon",                    10, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Rainbow Beacon",                 11, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Rainbow Moving Chevron",        12, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Jellybean Raindrops",           13, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Pixel Rain",                    14, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Typing Heatmap",                15, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Digital Rain",                  16, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Solid Reactive Simple",         17, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Solid Reactive Multiwide",      18, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Solid Reactive Multinexus",     19, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Splash",                        20, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
-    { "Solid Splash",                  21, MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE },
+    { "Direct",                     0xFFFF, MODE_FLAG_HAS_PER_LED_COLOR },
+    { "Solid Color",                1,      MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE },
+    { "Breathing",                  2,      MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE },
+    { "Band Spiral",                3,      MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE },
+    { "Cycle All",                  4,      MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Cycle Left Right",           5,      MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Cycle Up Down",              6,      MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Rainbow Moving Chevron",     7,      MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Cycle Out In",               8,      MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Cycle Out In Dual",          9,      MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Cycle Pinwheel",             10,     MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Cycle Spiral",               11,     MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Dual Beacon",                12,     MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Rainbow Beacon",             13,     MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Jellybean Raindrops",        14,     MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Pixel Rain",                 15,     MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Typing Heatmap",             16,     MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Digital Rain",               17,     MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE },
+    { "Solid Reactive Simple",      18,     MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE },
+    { "Solid Reactive Multiwide",   19,     MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE },
+    { "Solid Reactive Multinexus",  20,     MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE },
+    { "Splash",                     21,     MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE },
+    { "Solid Splash",               22,     MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE },
 };
 
 RGBController_QMKKeychron::RGBController_QMKKeychron(QMKKeychronController* controller_ptr)
@@ -75,7 +73,7 @@ RGBController_QMKKeychron::RGBController_QMKKeychron(QMKKeychronController* cont
     serial                              = controller->GetSerial();
     version                             = controller->GetVersion();
 
-    for(const keychron_qhe_effect& effect : qhe_effects)
+    for(const kc_effect& effect : kc_effects)
     {
         mode m;
         m.name   = effect.name;
@@ -131,54 +129,68 @@ RGBController_QMKKeychron::~RGBController_QMKKeychron()
 
 void RGBController_QMKKeychron::SetupZones()
 {
-    unsigned int led_count = controller->GetLedCount();
+    /*-----------------------------------------------------*\
+    | Build matrix map                                      |
+    \*-----------------------------------------------------*/
+    unsigned char max_col = 0;
+    unsigned char max_row = 0;
 
-    zone keyboard_zone;
-    keyboard_zone.name               = ZONE_EN_KEYBOARD;
-    keyboard_zone.type               = ZONE_TYPE_MATRIX;
-
-    if(led_count > 0)
+    for(unsigned short led_index = 0; led_index < controller->GetLEDCount(); led_index++)
     {
-        keyboard_zone.matrix_map         = new matrix_map_type;
-        keyboard_zone.matrix_map->height = 6;
-        keyboard_zone.matrix_map->width  = 16;
+        kc_led_info info = controller->GetLEDInfo(led_index);
 
-        keyboard_zone.matrix_map->map    = new unsigned int[6 * 16];
-        memset(keyboard_zone.matrix_map->map, 0xFF, 6 * 16 * sizeof(unsigned int));
-
-        std::vector<std::vector<int>> led_map = controller->GetAllLedNumbers(6);
-
-        unsigned int led_idx = 0;
-        for(unsigned int h = 0; h < 6 && h < led_map.size(); h++)
+        if(info.col > max_col)
         {
-            for(unsigned int w = 0; w < 16 && w < led_map[h].size(); w++)
-            {
-                int val = led_map[h][w];
-                keyboard_zone.matrix_map->map[h * 16 + w] = (val >= 0) ? (unsigned int)val : NA;
-
-                if(val >= 0)
-                {
-                    led new_led;
-                    new_led.name = "Key: " + std::to_string(val);
-                    leds.push_back(new_led);
-                    led_idx++;
-                }
-            }
+            max_col = info.col;
         }
 
-        keyboard_zone.leds_min   = led_idx;
-        keyboard_zone.leds_max   = led_idx;
-        keyboard_zone.leds_count = led_idx;
-    }
-    else
-    {
-        keyboard_zone.matrix_map         = nullptr;
-        keyboard_zone.leds_min           = 0;
-        keyboard_zone.leds_max           = 0;
-        keyboard_zone.leds_count         = 0;
+        if(info.row > max_row)
+        {
+            max_row = info.row;
+        }
     }
 
-    zones.push_back(keyboard_zone);
+    unsigned char height = max_row + 1;
+    unsigned char width  = max_col + 1;
+
+    unsigned int* matrix_map = new unsigned int[width * height];
+
+    memset(matrix_map, 0xFF, (sizeof(unsigned int) * (width * height)));
+
+    for(unsigned short led_index = 0; led_index < controller->GetLEDCount(); led_index++)
+    {
+        kc_led_info info = controller->GetLEDInfo(led_index);
+
+        matrix_map[(width * info.row) + info.col] = (unsigned int)led_index;
+    }
+
+    /*-----------------------------------------------------*\
+    | Create keyboard zone                                  |
+    \*-----------------------------------------------------*/
+    zone keyboard;
+
+    keyboard.name               = "Keyboard";
+    keyboard.type               = ZONE_TYPE_MATRIX;
+    keyboard.leds_min           = controller->GetLEDCount();
+    keyboard.leds_max           = controller->GetLEDCount();
+    keyboard.leds_count         = controller->GetLEDCount();
+    keyboard.matrix_map         = new matrix_map_type;
+    keyboard.matrix_map->height = height;
+    keyboard.matrix_map->width  = width;
+    keyboard.matrix_map->map    = matrix_map;
+
+    zones.push_back(keyboard);
+
+    /*-----------------------------------------------------*\
+    | Create keyboard LEDs                                  |
+    \*-----------------------------------------------------*/
+    for(unsigned short led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
+    {
+        led new_led;
+        new_led.name = qmk_keynames[controller->GetKeycode(led_idx)];
+
+        leds.push_back(new_led);
+    }
 
     SetupColors();
 }
@@ -189,116 +201,39 @@ void RGBController_QMKKeychron::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_QMKKeychron::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    controller->SendLEDs((unsigned short)colors.size(), colors.data());
 }
 
 void RGBController_QMKKeychron::UpdateZoneLEDs(int /*zone*/)
 {
-    if(active_mode == 0)
-    {
-        controller->SetRgbMatrixMode(KEYCHRON_QHE_PER_KEY_RGB_EFFECT);
-        controller->SetPerKeyRgbType(KEYCHRON_PER_KEY_RGB_SOLID);
-
-        unsigned int total_leds = leds.size();
-        unsigned char max_per_packet = 9;
-
-        for(unsigned char start = 0; start < total_leds; start += max_per_packet)
-        {
-            unsigned char count = (unsigned char)((total_leds - start) > max_per_packet ? max_per_packet : (total_leds - start));
-
-            std::vector<unsigned char> hsv_data;
-            hsv_data.reserve(count * 3);
-
-            for(unsigned char i = 0; i < count; i++)
-            {
-                RGBColor color = colors[start + i];
-                unsigned char r = RGBGetRValue(color);
-                unsigned char g = RGBGetGValue(color);
-                unsigned char b = RGBGetBValue(color);
-                unsigned char h, s, v;
-
-                RGBToHSV(r, g, b, h, s, v);
-
-                hsv_data.push_back(h);
-                hsv_data.push_back(s);
-                hsv_data.push_back(v);
-            }
-
-            controller->SetPerKeyRgbColor(start, count, hsv_data);
-        }
-
-        controller->SetBrightness(modes[active_mode].brightness);
-    }
-    else
-    {
-        int effect_id = modes[active_mode].value;
-
-        controller->SetRgbMatrixMode((unsigned char)effect_id);
-        controller->SetBrightness(modes[active_mode].brightness);
-        controller->SetSpeed(modes[active_mode].speed);
-
-        if(modes[active_mode].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
-        {
-            RGBColor color = modes[active_mode].colors[0];
-            unsigned char r = RGBGetRValue(color);
-            unsigned char g = RGBGetGValue(color);
-            unsigned char b = RGBGetBValue(color);
-            unsigned char h, s, v;
-
-            RGBToHSV(r, g, b, h, s, v);
-
-            controller->SetColorHSV(h, s);
-        }
-
-        controller->SaveLedConf();
-    }
+    DeviceUpdateLEDs();
 }
 
 void RGBController_QMKKeychron::UpdateSingleLED(int /*led*/)
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateLEDs();
 }
 
 void RGBController_QMKKeychron::DeviceUpdateMode()
 {
-    UpdateZoneLEDs(0);
+    unsigned char hue = 0;
+    unsigned char sat = 255;
+    unsigned char val = modes[active_mode].brightness;
+
+    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+    {
+        hsv_t hsv_color;
+        rgb2hsv(modes[active_mode].colors[0], &hsv_color);
+
+        hue = (unsigned char)((float)hsv_color.hue * (256.0f / 360.0f));
+        sat = hsv_color.saturation;
+        val = hsv_color.value;
+    }
+
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, hue, sat, val);
 }
 
-void RGBController_QMKKeychron::RGBToHSV(unsigned char r, unsigned char g, unsigned char b, unsigned char& h, unsigned char& s, unsigned char& v)
+void RGBController_QMKKeychron::DeviceSaveMode()
 {
-    double rd = r / 255.0;
-    double gd = g / 255.0;
-    double bd = b / 255.0;
-
-    double max_val = rd > gd ? (rd > bd ? rd : bd) : (gd > bd ? gd : bd);
-    double min_val = rd < gd ? (rd < bd ? rd : bd) : (gd < bd ? gd : bd);
-    double delta   = max_val - min_val;
-
-    v = (unsigned char)(max_val * 255.0);
-
-    if(delta < 0.00001)
-    {
-        h = 0;
-        s = 0;
-        return;
-    }
-
-    s = (unsigned char)((max_val > 0.0) ? (delta / max_val) * 255.0 : 0.0);
-
-    double hd;
-    if(max_val == rd)
-    {
-        hd = (gd - bd) / delta;
-        if(gd < bd) hd += 6.0;
-    }
-    else if(max_val == gd)
-    {
-        hd = (bd - rd) / delta + 2.0;
-    }
-    else
-    {
-        hd = (rd - gd) / delta + 4.0;
-    }
-
-    h = (unsigned char)((hd / 6.0) * 255.0);
+    controller->SaveMode();
 }
