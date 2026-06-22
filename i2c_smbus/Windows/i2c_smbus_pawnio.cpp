@@ -20,6 +20,23 @@
 
 std::unordered_map<std::string, int> i2c_smbus_pawnio::using_handle;
 
+s32 imc_index_sel(HANDLE pawnio_handle, s32 index)
+{
+    const SIZE_T    in_size         = 1;
+    ULONG64         in[in_size]     = {(ULONG64)index};
+    const SIZE_T    out_size        = 1;
+    ULONG64         out[out_size];
+    SIZE_T          return_size;
+    HRESULT         status;
+
+    /*-----------------------------------------------------*\
+    | Execute IMC slot_sel ioctl                            |
+    \*-----------------------------------------------------*/
+    status = pawnio_execute(pawnio_handle, "ioctl_smbus_index", in, in_size, out, 1, &return_size);
+
+    return(status ? -EIO : 0);
+}
+
 s32 piix4_port_sel(HANDLE pawnio_handle, s32 port)
 {
     const SIZE_T    in_size         = 1;
@@ -212,6 +229,15 @@ s32 i2c_smbus_pawnio::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
         ReleaseMutex(global_smbus_access_handle);
     }
 
+    /*-----------------------------------------------------*\
+    | If the PawnIO driver returned an error, convert it to |
+    | the appropriate i2c_smbus error instead               |
+    \*-----------------------------------------------------*/
+    if(status != 0)
+    {
+        status = -1;
+    }
+
     return(status);
 }
 
@@ -382,6 +408,28 @@ bool i2c_smbus_pawnio_detect()
     if(i2c_smbus_pawnio::start_pawnio("SmbusNCT6793.bin", &pawnio_handle) == S_OK)
     {
         bus = new i2c_smbus_pawnio(pawnio_handle, "NCT6793");
+        ResourceManager::get()->RegisterI2CBus(bus);
+    }
+
+    /*-----------------------------------------------------*\
+    | Try to load Intel Skylake IMC SMBus driver            |
+    \*-----------------------------------------------------*/
+    if(i2c_smbus_pawnio::start_pawnio("SmbusIntelSkylakeIMC.bin", &pawnio_handle) == S_OK)
+    {
+        imc_index_sel(pawnio_handle, 0);
+
+        bus = new i2c_smbus_pawnio(pawnio_handle, "Intel Skylake IMC");
+        ResourceManager::get()->RegisterI2CBus(bus);
+    }
+
+    /*-----------------------------------------------------*\
+    | Try to load Intel Skylake IMC SMBus driver            |
+    \*-----------------------------------------------------*/
+    if(i2c_smbus_pawnio::start_pawnio("SmbusIntelSkylakeIMC.bin", &pawnio_handle) == S_OK)
+    {
+        imc_index_sel(pawnio_handle, 1);
+
+        bus = new i2c_smbus_pawnio(pawnio_handle, "Intel Skylake IMC");
         ResourceManager::get()->RegisterI2CBus(bus);
     }
 
