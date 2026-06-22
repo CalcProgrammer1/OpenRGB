@@ -13,30 +13,34 @@
 #include "Detector.h"
 #include "ArcticController.h"
 #include "RGBController_Arctic.h"
-#include "find_usb_serial_port.h"
+#include "SettingsManager.h"
 
 #define CH341_VID   0x1A86
 #define CH341_PID   0x7523
 
 void DetectArcticControllers()
 {
-    std::vector<std::string *> ports = find_usb_serial_port(CH341_VID, CH341_PID);
+    json settings = ResourceManager::get()->GetSettingsManager()->GetSettings("ArcticDevices");
 
-    for(unsigned int device = 0; device < ports.size(); device++)
+    if(settings.contains("devices"))
     {
-        ArcticController *controller = new ArcticController(*ports[device]);
-
-        if(controller->IsPresent())
+        for(unsigned int device_idx = 0; device_idx < settings["devices"].size(); device_idx++)
         {
-            RGBController_Arctic *rgb_controller = new RGBController_Arctic(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
-        }
-        else
-        {
-            delete controller;
-        }
+            if(settings["devices"][device_idx].contains("port"))
+            {
+                ArcticController *controller = new ArcticController(settings["devices"][device_idx]["port"]);
 
-        delete ports[device];
+                if(controller->IsPresent())
+                {
+                    RGBController_Arctic *rgb_controller = new RGBController_Arctic(controller);
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
+                else
+                {
+                    delete controller;
+                }
+            }
+        }
     }
 }
 
