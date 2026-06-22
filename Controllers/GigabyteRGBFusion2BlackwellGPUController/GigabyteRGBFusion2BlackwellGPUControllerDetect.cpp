@@ -1,4 +1,4 @@
-/*---------------------------------------------------------*\
+﻿/*---------------------------------------------------------*\
 | GigabyteRGBFusion2BlackwellGPUControllerDetect.cpp        |
 |                                                           |
 |   Detector for Gigabyte RGB Fusion 2 Blackwell GPU        |
@@ -181,31 +181,48 @@ void DetectGigabyteRGBFusion2BlackwellAorusMaster5080LayoutGPUControllers(i2c_sm
     DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5080_LAYOUT);
 }   /* DetectGigabyteRGBFusion2BlackwellAorusMaster5080LayoutGPUControllers() */
 
+/*******************************************************************************************\
+*                                                                                           *
+*   DetectGigabyteRGBFusion2BlackwellAorusMaster5090DV2IceLayoutGPUControllers              *
+*                                                                                           *
+*       Detect GigabyteRGB Fusion2 controllers with AORUS master 5090 D V2 ICE layout on    *
+*       enumerated I2C busses.                                                              *
+*                                                                                           *
+*           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
+*           dev - I2C address of RGB Fusion2 device                                         *
+*                                                                                           *
+\*******************************************************************************************/
+
+void DetectGigabyteRGBFusion2BlackwellAorusMaster5090DV2IceLayoutGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+{
+    DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5090D_V2_ICE_LAYOUT);
+}   /* DetectGigabyteRGBFusion2BlackwellAorusMaster5090DV2IceLayoutGPUControllers() */
 
 /*-----------------------------------------*\
 |  Nvidia GPUs                              |
 \*-----------------------------------------*/
 
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5060 Ti Gaming OC",                 DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5060TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5060TI_GAMING_OC_16G_SUB_DEV,         0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Aero OC",                      DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5070_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_AERO_OC_12G_SUB_DEV,             0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Eagle OC",                     DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5070_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_EAGLE_OC_12G_SUB_DEV,            0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Eagle OC ICE", DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers, NVIDIA_VEN, NVIDIA_RTX5070_DEV, GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_EAGLE_OC_ICE_12G_SUB_DEV, 0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Gaming OC",                    DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        NVIDIA_VEN, NVIDIA_RTX5070_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_GAMING_OC_12G_SUB_DEV,           0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Eagle OC",                  DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_EAGLE_OC_16G_SUB_DEV,          0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Eagle OC ICE",              DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_EAGLE_OC_ICE_16G_SUB_DEV,      0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Aero OC",                   DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_AERO_OC_16G_SUB_DEV,           0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Gaming OC",                 DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_GAMING_OC_16G_SUB_DEV,         0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5080 Aero OC",                      DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5080_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5080_AERO_OC_16G_SUB_DEV,             0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5080 Gaming OC",                    DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,             NVIDIA_VEN, NVIDIA_RTX5080_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5080_GAMING_OC_16G_SUB_DEV,                0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5080 MASTER",                 DetectGigabyteRGBFusion2BlackwellAorusMaster5080LayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5080_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5080_MASTER_16G_SUB_DEV,  0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5080 XTREME WATERFORCE",      DetectGigabyteRGBFusion2BlackwellAorusWaterforceLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5080_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5080_XTREME_WATERFORCE_16G_SUB_DEV,  0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5080 XTREME WATERFORCE",            DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5080_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5080_XTREME_WATERFORCE_16G_SUB_DEV,        0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5080 MASTER ICE",             DetectGigabyteRGBFusion2BlackwellAorusMaster5080LayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5080_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5080_MASTER_ICE_16G_SUB_DEV,         0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 Gaming OC",                    DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        NVIDIA_VEN, NVIDIA_RTX5090_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5090_GAMING_OC_32G_SUB_DEV,                0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 XTREME WATERFORCE",            DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5090_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5090_XTREME_WATERFORCE_32G_SUB_DEV1,  0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 XTREME WATERFORCE",            DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5090_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5090_XTREME_WATERFORCE_32G_SUB_DEV2,  0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER",                 DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        NVIDIA_VEN, NVIDIA_RTX5090_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5090_MASTER_32G_SUB_DEV,        0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER ICE",             DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        NVIDIA_VEN, NVIDIA_RTX5090_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5090_MASTER_ICE_32G_SUB_DEV,    0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5060 Ti Gaming OC",                  DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                       NVIDIA_VEN,      NVIDIA_RTX5060TI_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_RTX5060TI_GAMING_OC_16G_SUB_DEV,                  0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Aero OC",                       DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                       NVIDIA_VEN,      NVIDIA_RTX5070_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_AERO_OC_12G_SUB_DEV,                      0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Eagle OC",                      DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                       NVIDIA_VEN,      NVIDIA_RTX5070_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_EAGLE_OC_12G_SUB_DEV,                     0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Eagle OC ICE",                  DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                       NVIDIA_VEN,      NVIDIA_RTX5070_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_EAGLE_OC_ICE_12G_SUB_DEV,                 0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Gaming OC",                     DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                     NVIDIA_VEN,      NVIDIA_RTX5070_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_GAMING_OC_12G_SUB_DEV,                    0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Eagle OC",                   DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                       NVIDIA_VEN,      NVIDIA_RTX5070TI_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_EAGLE_OC_16G_SUB_DEV,                   0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Eagle OC ICE",               DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                       NVIDIA_VEN,      NVIDIA_RTX5070TI_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_EAGLE_OC_ICE_16G_SUB_DEV,               0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Aero OC",                    DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                       NVIDIA_VEN,      NVIDIA_RTX5070TI_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_AERO_OC_16G_SUB_DEV,                    0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Gaming OC",                  DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                     NVIDIA_VEN,      NVIDIA_RTX5070TI_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_GAMING_OC_16G_SUB_DEV,                  0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5080 Aero OC",                       DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                       NVIDIA_VEN,      NVIDIA_RTX5080_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5080_AERO_OC_16G_SUB_DEV,                      0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5080 Gaming OC",                     DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                     NVIDIA_VEN,      NVIDIA_RTX5080_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5080_GAMING_OC_16G_SUB_DEV,                    0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5080 MASTER",                  DetectGigabyteRGBFusion2BlackwellAorusMaster5080LayoutGPUControllers,            NVIDIA_VEN,      NVIDIA_RTX5080_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5080_MASTER_16G_SUB_DEV,                 0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5080 XTREME WATERFORCE",       DetectGigabyteRGBFusion2BlackwellAorusWaterforceLayoutGPUControllers,            NVIDIA_VEN,      NVIDIA_RTX5080_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5080_XTREME_WATERFORCE_16G_SUB_DEV,      0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5080 XTREME WATERFORCE",             DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers,                 NVIDIA_VEN,      NVIDIA_RTX5080_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5080_XTREME_WATERFORCE_16G_SUB_DEV,            0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5080 MASTER ICE",              DetectGigabyteRGBFusion2BlackwellAorusMaster5080LayoutGPUControllers,            NVIDIA_VEN,      NVIDIA_RTX5080_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5080_MASTER_ICE_16G_SUB_DEV,             0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 Gaming OC",                     DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                     NVIDIA_VEN,      NVIDIA_RTX5090_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5090_GAMING_OC_32G_SUB_DEV,                    0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 XTREME WATERFORCE",             DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers,                 NVIDIA_VEN,      NVIDIA_RTX5090_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5090_XTREME_WATERFORCE_32G_SUB_DEV1,           0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 XTREME WATERFORCE",             DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers,                 NVIDIA_VEN,      NVIDIA_RTX5090_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_RTX5090_XTREME_WATERFORCE_32G_SUB_DEV2,           0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER",                  DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                     NVIDIA_VEN,      NVIDIA_RTX5090_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5090_MASTER_32G_SUB_DEV,                 0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER ICE",              DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                     NVIDIA_VEN,      NVIDIA_RTX5090_DEV,          GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5090_MASTER_ICE_32G_SUB_DEV,             0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 D V2 MASTER ICE",         DetectGigabyteRGBFusion2BlackwellAorusMaster5090DV2IceLayoutGPUControllers,      NVIDIA_VEN,      NVIDIA_RTX5090D_V2_DEV,      GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5090D_V2_MASTER_ICE_24G_SUB_DEV,         0x75);
 
 /*-----------------------------------------*\
 |  AMD GPUs                                 |

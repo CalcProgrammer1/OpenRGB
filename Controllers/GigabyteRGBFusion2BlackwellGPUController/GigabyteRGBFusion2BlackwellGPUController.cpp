@@ -68,9 +68,14 @@ void RGBFusion2BlackwellGPUController::SetMode(uint8_t type, uint8_t zone, uint8
     if(zone_config.numberOfColors > 0)
     {
         int currentPos = 12;
-        if(gpu_layout == RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5080_LAYOUT)
+        switch(gpu_layout)
         {
-            currentPos = 11;
+            case RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5080_LAYOUT:
+            case RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5090D_V2_ICE_LAYOUT:
+                currentPos = 11;
+                break;
+            default:
+                break;
         }
 
         for(uint8_t i = 0; i < zone_config.numberOfColors; i++)
@@ -89,6 +94,16 @@ void RGBFusion2BlackwellGPUController::SetZone(uint8_t zone, uint8_t mode, fusio
 {
     if(mode == RGB_FUSION2_BLACKWELL_GPU_MODE_BREATHING)
         zone_config.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+
+    switch(gpu_layout)
+    {
+        case RGB_FUSION2_BLACKWELL_GPU_AORUS_MASTER_5090D_V2_ICE_LAYOUT:
+            if(mode == RGB_FUSION2_BLACKWELL_GPU_MODE_DIRECT)
+                mode = RGB_FUSION2_BLACKWELL_GPU_MODE_STATIC;
+            break;
+        default:
+            break;
+    }
 
     uint8_t type = RGB_FUSION2_BLACKWELL_GPU_REG_COLOR;
     if(mode != RGB_FUSION2_BLACKWELL_GPU_MODE_DIRECT)
