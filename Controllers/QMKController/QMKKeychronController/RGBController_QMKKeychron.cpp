@@ -67,12 +67,13 @@ RGBController_QMKKeychron::RGBController_QMKKeychron(QMKKeychronController* cont
 {
     controller                          = controller_ptr;
 
-    name                                = controller->GetNameString();
-    vendor                              = "Keychron";
+    name                                = controller->GetName();
+    vendor                              = controller->GetVendor();
     type                                = DEVICE_TYPE_KEYBOARD;
-    description                         = name;
-    location                            = controller->GetDeviceLocation();
-    serial                              = controller->GetSerialString();
+    description                         = "QMK Keychron Device";
+    location                            = controller->GetLocation();
+    serial                              = controller->GetSerial();
+    version                             = controller->GetVersion();
 
     for(const keychron_qhe_effect& effect : qhe_effects)
     {
