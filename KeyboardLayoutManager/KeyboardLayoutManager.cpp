@@ -1012,8 +1012,20 @@ void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_T
 void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_TYPE fill_type, uint8_t height = 0, uint8_t width = 0)
 {
     unsigned int no_key = -1;
-    width               = std::max(width, cols);
-    height              = std::max(height, rows);
+
+    /*-------------------------------------------------------------------------*\
+    | If explicit dimensions are passed (non-zero), use them as-is.             |
+    | Only fall back to internal dimensions when zero is passed.                |
+    | This ensures we don't write beyond the caller's allocated buffer.         |
+    \*-------------------------------------------------------------------------*/
+    if(width == 0)
+    {
+        width = cols;
+    }
+    if(height == 0)
+    {
+        height = rows;
+    }
 
     for(unsigned int r = 0; r < height; r++)
     {
@@ -1027,6 +1039,14 @@ void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_T
 
     for(unsigned int i = 0; i < (unsigned int)keymap.size(); i++)
     {
+        /*---------------------------------------------------------------------*\
+        | Skip keys that fall outside the requested map dimensions             |
+        \*---------------------------------------------------------------------*/
+        if(keymap[i].row >= height || keymap[i].col >= width)
+        {
+            continue;
+        }
+
         unsigned int offset = (keymap[i].row * width) + keymap[i].col;
         switch(fill_type)
         {
