@@ -74,6 +74,20 @@ enum KeychronKCRGBCommand
     KEYCHRON_RGB_MIXED_SET_EFFECTS                  = 0x0F,
 };
 
+enum
+{
+    KC_FEATURE_DEFAULT_LAYER                        = ( 1 << 0 ),
+    KC_FEATURE_BLUETOOTH                            = ( 1 << 1 ),
+    KC_FEATURE_P24G                                 = ( 1 << 2 ),
+    KC_FEATURE_ANALOG_MATRIX                        = ( 1 << 3 ),
+    KC_FEATURE_STATE_NOTIFY                         = ( 1 << 4 ),
+    KC_FEATURE_DYNAMIC_DEBOUNCE                     = ( 1 << 5 ),
+    KC_FEATURE_SNAP_CLICK                           = ( 1 << 6 ),
+    KC_FEATURE_KEYCHRON_RGB                         = ( 1 << 7 ),
+    KC_FEATURE_QUICK_START                          = ( 1 << 8 ),
+    KC_FEATURE_NKRO                                 = ( 1 << 9 ),
+};
+
 /*---------------------------------------------------------*\
 | Per-key RGB animation types (PER_KEY_RGB_SET_TYPE value)  |
 \*---------------------------------------------------------*/
@@ -150,20 +164,23 @@ public:
 private:
     hid_device*                     dev;
     unsigned char                   kc_protocol_version;
+    unsigned short                  kc_rgb_protocol_version;
     std::vector<unsigned short>     keycodes;
     std::vector<kc_led_info>        led_info;
     std::string                     location;
     std::string                     name;
     unsigned short                  number_leds;
     std::string                     serial;
-    bool                            supported;
+    unsigned short                  supported_features;
     std::string                     vendor;
     unsigned short                  via_protocol_version;
 
     unsigned short                  CmdGetKeycode(unsigned char layer, unsigned char row, unsigned char col);
     void                            CmdGetKeychronProtocolVersion(unsigned char* kc_protocol_version);
+    void                            CmdGetKeychronRGBProtocolVersion(unsigned short* kc_rgb_protocol_version);
     std::vector<unsigned char>      CmdGetLEDIndexByRow(unsigned char row);
     void                            CmdGetNumberLEDs(unsigned short* number_leds);
+    void                            CmdGetSupportFeature(unsigned short* supported_features);
     void                            CmdGetViaProtocolVersion(unsigned short* via_protocol_version);
     void                            CmdSaveMode();
     void                            CmdSendLEDs(unsigned char start_index, unsigned char number_leds, RGBColor* color_data);

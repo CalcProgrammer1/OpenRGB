@@ -14,16 +14,23 @@
 #include "QMKKeychronController.h"
 #include "RGBController_QMKKeychron.h"
 
-void DetectQMKKeychronController(hid_device_info* info, const std::string& name)
+void DetectQMKKeychronController(hid_device_info *info, const std::string&)
 {
-    hid_device* dev = hid_open_path(info->path);
+    hid_device *dev = hid_open_path(info->path);
 
     if(dev)
     {
-        QMKKeychronController*     controller      = new QMKKeychronController(dev, info->path);
-        RGBController_QMKKeychron* rgb_controller  = new RGBController_QMKKeychron(controller);
+        QMKKeychronController* controller = new QMKKeychronController(dev, info->path);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        if(controller->GetSupported())
+        {
+            RGBController_QMKKeychron* rgb_controller = new RGBController_QMKKeychron(controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+        else
+        {
+            delete controller;
+        }
     }
 }
 

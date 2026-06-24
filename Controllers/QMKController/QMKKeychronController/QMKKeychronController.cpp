@@ -24,9 +24,11 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     /*-----------------------------------------------------*\
     | Initialize controller fields                          |
     \*-----------------------------------------------------*/
-    dev         = dev_handle;
-    location    = path;
-    supported   = false;
+    dev                     = dev_handle;
+    location                = path;
+    kc_protocol_version     = 0;
+    supported_features      = 0;
+    via_protocol_version    = 0;
 
     /*-----------------------------------------------------*\
     | Read product string                                   |
@@ -85,6 +87,21 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     | Get Keychron protocol version                         |
     \*-----------------------------------------------------*/
     CmdGetKeychronProtocolVersion(&kc_protocol_version);
+
+    /*-----------------------------------------------------*\
+    | Get supported Keychron features                       |
+    \*-----------------------------------------------------*/
+    CmdGetSupportFeature(&supported_features);
+
+    if(!GetSupported())
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Get Keychron RGB protocol version                     |
+    \*-----------------------------------------------------*/
+    CmdGetKeychronRGBProtocolVersion(&kc_rgb_protocol_version);
 
     /*-----------------------------------------------------*\
     | Get count of LEDs                                     |
@@ -153,13 +170,14 @@ std::string QMKKeychronController::GetVersion()
     /*-----------------------------------------------------*\
     | Format multi-line version text                        |
     \*-----------------------------------------------------*/
-    return("VIA: " + std::to_string(via_protocol_version) + "\r\n" +
-           "Keychron: " + std::to_string(kc_protocol_version));
+    return("VIA: "          + std::to_string(via_protocol_version) + "\r\n" +
+           "Keychron: "     + std::to_string(kc_protocol_version) + "\r\n" +
+           "Keychron RGB: " + std::to_string(kc_rgb_protocol_version));
 }
 
 bool QMKKeychronController::GetSupported()
 {
-    return(supported);
+    return(supported_features & KC_FEATURE_KEYCHRON_RGB);
 }
 
 unsigned short QMKKeychronController::GetKeycode(unsigned short led_index)
@@ -246,6 +264,16 @@ void QMKKeychronController::CmdGetKeychronProtocolVersion
     ViaSendCommand(KC_GET_PROTOCOL_VERSION, NULL, 0, (unsigned char*)kc_protocol_version, sizeof(unsigned char));
 }
 
+void QMKKeychronController::CmdGetKeychronRGBProtocolVersion(unsigned short* kc_rgb_protocol_version)
+{
+    ViaSendCommandSub(KC_KEYCHRON_RGB, KEYCHRON_RGB_PROTOCOL_VER, NULL, 0, (unsigned char*)kc_rgb_protocol_version, sizeof(unsigned short));
+
+    /*-----------------------------------------------------*\
+    | The RGB protocol version byte order is reversed       |
+    \*-----------------------------------------------------*/
+    *kc_rgb_protocol_version = ((*kc_rgb_protocol_version & 0x00FF) << 8) | ((*kc_rgb_protocol_version & 0xFF00) >> 8);
+}
+
 std::vector<unsigned char> QMKKeychronController::CmdGetLEDIndexByRow(unsigned char row)
 {
     unsigned char args[4];
@@ -282,6 +310,16 @@ void QMKKeychronController::CmdGetNumberLEDs
     | The LED count byte order is reversed                  |
     \*-----------------------------------------------------*/
     *number_leds = ((*number_leds & 0x00FF) << 8) | ((*number_leds & 0xFF00) >> 8);
+}
+
+void QMKKeychronController::CmdGetSupportFeature(unsigned short* supported_features)
+{
+    ViaSendCommand(KC_GET_SUPPORT_FEATURE, NULL, 0, (unsigned char*)supported_features, sizeof(unsigned short));
+
+    /*-----------------------------------------------------*\
+    | The supported features byte order is reversed         |
+    \*-----------------------------------------------------*/
+    *supported_features = ((*supported_features & 0x00FF) << 8) | ((*supported_features & 0xFF00) >> 8);
 }
 
 void QMKKeychronController::CmdGetViaProtocolVersion
