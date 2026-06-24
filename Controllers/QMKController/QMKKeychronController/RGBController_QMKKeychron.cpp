@@ -137,7 +137,7 @@ void RGBController_QMKKeychron::SetupZones()
 
     for(unsigned short led_index = 0; led_index < controller->GetLEDCount(); led_index++)
     {
-        kc_led_info info = controller->GetLEDInfo(led_index);
+        qmk_rgb_matrix_led_info info = controller->GetLEDInfo(led_index);
 
         if(info.col > max_col)
         {
@@ -159,7 +159,7 @@ void RGBController_QMKKeychron::SetupZones()
 
     for(unsigned short led_index = 0; led_index < controller->GetLEDCount(); led_index++)
     {
-        kc_led_info info = controller->GetLEDInfo(led_index);
+        qmk_rgb_matrix_led_info info = controller->GetLEDInfo(led_index);
 
         matrix_map[(width * info.row) + info.col] = (unsigned int)led_index;
     }

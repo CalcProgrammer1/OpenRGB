@@ -190,7 +190,7 @@ unsigned short QMKKeychronController::GetLEDCount()
     return(number_leds);
 }
 
-kc_led_info QMKKeychronController::GetLEDInfo(unsigned short led_index)
+qmk_rgb_matrix_led_info QMKKeychronController::GetLEDInfo(unsigned short led_index)
 {
     return(led_info[led_index]);
 }

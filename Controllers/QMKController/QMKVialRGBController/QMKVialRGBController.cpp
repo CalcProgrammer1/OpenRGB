@@ -186,7 +186,7 @@ unsigned short QMKVialRGBController::GetLEDCount()
     return(number_leds);
 }
 
-vialrgb_led_info QMKVialRGBController::GetLEDInfo(unsigned short led_index)
+qmk_rgb_matrix_led_info QMKVialRGBController::GetLEDInfo(unsigned short led_index)
 {
     return(led_info[led_index]);
 }
@@ -257,12 +257,12 @@ unsigned short QMKVialRGBController::CmdGetKeycode
     return(keycode);
 }
 
-vialrgb_led_info QMKVialRGBController::CmdGetLEDInfo
+qmk_rgb_matrix_led_info QMKVialRGBController::CmdGetLEDInfo
     (
     unsigned short      led_index
     )
 {
-    vialrgb_led_info    data;
+    qmk_rgb_matrix_led_info data;
 
     SendCheckCommand(CMD_LIGHTING_GET_VALUE, VIALRGB_GET_LED_INFO, (unsigned char*)&led_index, sizeof(led_index), (unsigned char*)&data, sizeof(data));
 

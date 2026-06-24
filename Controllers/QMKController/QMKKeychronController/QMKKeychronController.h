@@ -12,9 +12,10 @@
 
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi.h>
+#include "QMKCommon.h"
+#include "RGBController.h"
 
 /*---------------------------------------------------------*\
 | Keychron vendor ID                                        |
@@ -131,64 +132,57 @@ enum KeychronVIABacklightValueID
 #define KEYCHRON_QHE_MIN_SPEED                      0x00
 #define KEYCHRON_QHE_MAX_SPEED                      0xFF
 
-typedef struct
-{
-    bool            valid;
-    unsigned char   row;
-    unsigned char   col;
-} kc_led_info;
-
 class QMKKeychronController
 {
 public:
     QMKKeychronController(hid_device* dev_handle, const char *path);
     ~QMKKeychronController();
 
-    std::string                     GetLocation();
-    std::string                     GetName();
-    std::string                     GetSerial();
-    std::string                     GetVendor();
-    std::string                     GetVersion();
+    std::string                             GetLocation();
+    std::string                             GetName();
+    std::string                             GetSerial();
+    std::string                             GetVendor();
+    std::string                             GetVersion();
 
-    bool                            GetSupported();
+    bool                                    GetSupported();
 
-    unsigned short                  GetKeycode(unsigned short led_index);
-    unsigned short                  GetLEDCount();
-    kc_led_info                     GetLEDInfo(unsigned short led_index);
+    unsigned short                          GetKeycode(unsigned short led_index);
+    unsigned short                          GetLEDCount();
+    qmk_rgb_matrix_led_info                 GetLEDInfo(unsigned short led_index);
 
-    void                            SendLEDs(unsigned short number_leds, RGBColor* color_data);
-    void                            SetMode(unsigned short mode, unsigned char speed, unsigned char hue, unsigned char sat, unsigned char val);
+    void                                    SendLEDs(unsigned short number_leds, RGBColor* color_data);
+    void                                    SetMode(unsigned short mode, unsigned char speed, unsigned char hue, unsigned char sat, unsigned char val);
 
-    void                            SaveMode();
+    void                                    SaveMode();
 
 private:
-    hid_device*                     dev;
-    unsigned char                   kc_protocol_version;
-    unsigned short                  kc_rgb_protocol_version;
-    std::vector<unsigned short>     keycodes;
-    std::vector<kc_led_info>        led_info;
-    std::string                     location;
-    std::string                     name;
-    unsigned short                  number_leds;
-    std::string                     serial;
-    unsigned short                  supported_features;
-    std::string                     vendor;
-    unsigned short                  via_protocol_version;
+    hid_device*                             dev;
+    unsigned char                           kc_protocol_version;
+    unsigned short                          kc_rgb_protocol_version;
+    std::vector<unsigned short>             keycodes;
+    std::vector<qmk_rgb_matrix_led_info>    led_info;
+    std::string                             location;
+    std::string                             name;
+    unsigned short                          number_leds;
+    std::string                             serial;
+    unsigned short                          supported_features;
+    std::string                             vendor;
+    unsigned short                          via_protocol_version;
 
-    unsigned short                  CmdGetKeycode(unsigned char layer, unsigned char row, unsigned char col);
-    void                            CmdGetKeychronProtocolVersion(unsigned char* kc_protocol_version);
-    void                            CmdGetKeychronRGBProtocolVersion(unsigned short* kc_rgb_protocol_version);
-    std::vector<unsigned char>      CmdGetLEDIndexByRow(unsigned char row);
-    void                            CmdGetNumberLEDs(unsigned short* number_leds);
-    void                            CmdGetSupportFeature(unsigned short* supported_features);
-    void                            CmdGetViaProtocolVersion(unsigned short* via_protocol_version);
-    void                            CmdSaveMode();
-    void                            CmdSendLEDs(unsigned char start_index, unsigned char number_leds, RGBColor* color_data);
-    void                            CmdSetBrightness(unsigned char brightness);
-    void                            CmdSetColorHS(unsigned char h, unsigned char s);
-    void                            CmdSetPerKeyRGBType(unsigned char type);
-    void                            CmdSetRGBMatrixMode(unsigned char mode);
-    void                            CmdSetSpeed(unsigned char speed);
+    unsigned short                          CmdGetKeycode(unsigned char layer, unsigned char row, unsigned char col);
+    void                                    CmdGetKeychronProtocolVersion(unsigned char* kc_protocol_version);
+    void                                    CmdGetKeychronRGBProtocolVersion(unsigned short* kc_rgb_protocol_version);
+    std::vector<unsigned char>              CmdGetLEDIndexByRow(unsigned char row);
+    void                                    CmdGetNumberLEDs(unsigned short* number_leds);
+    void                                    CmdGetSupportFeature(unsigned short* supported_features);
+    void                                    CmdGetViaProtocolVersion(unsigned short* via_protocol_version);
+    void                                    CmdSaveMode();
+    void                                    CmdSendLEDs(unsigned char start_index, unsigned char number_leds, RGBColor* color_data);
+    void                                    CmdSetBrightness(unsigned char brightness);
+    void                                    CmdSetColorHS(unsigned char h, unsigned char s);
+    void                                    CmdSetPerKeyRGBType(unsigned char type);
+    void                                    CmdSetRGBMatrixMode(unsigned char mode);
+    void                                    CmdSetSpeed(unsigned char speed);
 
     int ViaSendCommand
         (

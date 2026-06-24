@@ -13,6 +13,7 @@
 
 #include <hidapi.h>
 #include "ResourceManager.h"
+#include "QMKCommon.h"
 #include "RGBController.h"
 
 #define MSG_LEN                         32
@@ -98,34 +99,25 @@ enum
     VIALRGB_EFFECT_SKIP                         = 0xFFFF
 };
 
-typedef struct
-{
-    unsigned char   x;
-    unsigned char   y;
-    unsigned char   flags;
-    unsigned char   row;
-    unsigned char   col;
-} vialrgb_led_info;
-
 class QMKVialRGBController
 {
 public:
     QMKVialRGBController(hid_device *dev_handle, const char *path);
     ~QMKVialRGBController();
 
-    std::string         GetLocation();
-    std::string         GetName();
-    std::string         GetSerial();
-    std::string         GetVendor();
-    std::string         GetVersion();
+    std::string             GetLocation();
+    std::string             GetName();
+    std::string             GetSerial();
+    std::string             GetVendor();
+    std::string             GetVersion();
 
-    bool                GetSupported();
+    bool                    GetSupported();
 
-    unsigned short      GetEffect(std::size_t effect_idx);
-    std::size_t         GetEffectCount();
-    unsigned short      GetKeycode(unsigned short led_index);
-    unsigned short      GetLEDCount();
-    vialrgb_led_info    GetLEDInfo(unsigned short led_index);
+    unsigned short          GetEffect(std::size_t effect_idx);
+    std::size_t             GetEffectCount();
+    unsigned short          GetKeycode(unsigned short led_index);
+    unsigned short          GetLEDCount();
+    qmk_rgb_matrix_led_info GetLEDInfo(unsigned short led_index);
 
     void GetMode
         (
@@ -152,22 +144,22 @@ public:
         );
 
 private:
-    hid_device*                     dev;
-    unsigned long long              keyboard_uid;
-    std::vector<unsigned short>     keycodes;
-    std::vector<vialrgb_led_info>   led_info;
-    std::string                     location;
-    unsigned char                   maximum_brightness;
-    std::string                     name;
-    unsigned short                  number_leds;
-    std::string                     serial;
-    bool                            supported;
-    std::vector<unsigned short>     supported_effects;
-    std::string                     vendor;
-    unsigned short                  via_protocol_version;
-    unsigned int                    vial_protocol_version;
-    unsigned short                  vialrgb_protocol_version;
-    unsigned char                   vialrgb_flag;
+    hid_device*                             dev;
+    unsigned long long                      keyboard_uid;
+    std::vector<unsigned short>             keycodes;
+    std::vector<qmk_rgb_matrix_led_info>    led_info;
+    std::string                             location;
+    unsigned char                           maximum_brightness;
+    std::string                             name;
+    unsigned short                          number_leds;
+    std::string                             serial;
+    bool                                    supported;
+    std::vector<unsigned short>             supported_effects;
+    std::string                             vendor;
+    unsigned short                          via_protocol_version;
+    unsigned int                            vial_protocol_version;
+    unsigned short                          vialrgb_protocol_version;
+    unsigned char                           vialrgb_flag;
 
     unsigned short CmdGetKeycode
         (
@@ -176,7 +168,7 @@ private:
         unsigned char       col
         );
 
-    vialrgb_led_info CmdGetLEDInfo
+    qmk_rgb_matrix_led_info CmdGetLEDInfo
         (
         unsigned short      led_index
         );
