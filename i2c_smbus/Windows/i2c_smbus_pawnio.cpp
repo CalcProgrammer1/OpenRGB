@@ -364,12 +364,21 @@ bool i2c_smbus_pawnio_detect()
 
     i2c_smbus_interface *   bus;
     HANDLE                  pawnio_handle;
+    bool                    bus_detected;
+
+    /*-----------------------------------------------------*\
+    | Set the detected flag to false, successfully          |
+    | any bus will result in a successful return status     |
+    \*-----------------------------------------------------*/
+    bus_detected = false;
 
     /*-----------------------------------------------------*\
     | Try to load Intel (i801) SMBus driver                 |
     \*-----------------------------------------------------*/
     if(i2c_smbus_pawnio::start_pawnio("SmbusI801.bin", &pawnio_handle) == S_OK)
     {
+        bus_detected = true;
+
         bus = new i2c_smbus_pawnio(pawnio_handle, "i801");
         ResourceManager::get()->RegisterI2CBus(bus);
     }
@@ -379,6 +388,8 @@ bool i2c_smbus_pawnio_detect()
     \*-----------------------------------------------------*/
     if(i2c_smbus_pawnio::start_pawnio("SmbusPIIX4.bin", &pawnio_handle) == S_OK)
     {
+        bus_detected = true;
+
         /*-------------------------------------------------*\
         | Select port 0                                     |
         \*-------------------------------------------------*/
@@ -393,6 +404,8 @@ bool i2c_smbus_pawnio_detect()
     \*-----------------------------------------------------*/
     if(i2c_smbus_pawnio::start_pawnio("SmbusPIIX4.bin", &pawnio_handle) == S_OK)
     {
+        bus_detected = true;
+
         /*-------------------------------------------------*\
         | Select port 1                                     |
         \*-------------------------------------------------*/
@@ -407,6 +420,8 @@ bool i2c_smbus_pawnio_detect()
     \*-----------------------------------------------------*/
     if(i2c_smbus_pawnio::start_pawnio("SmbusNCT6793.bin", &pawnio_handle) == S_OK)
     {
+        bus_detected = true;
+
         bus = new i2c_smbus_pawnio(pawnio_handle, "NCT6793");
         ResourceManager::get()->RegisterI2CBus(bus);
     }
@@ -416,6 +431,8 @@ bool i2c_smbus_pawnio_detect()
     \*-----------------------------------------------------*/
     if(i2c_smbus_pawnio::start_pawnio("SmbusIntelSkylakeIMC.bin", &pawnio_handle) == S_OK)
     {
+        bus_detected = true;
+
         imc_index_sel(pawnio_handle, 0);
 
         bus = new i2c_smbus_pawnio(pawnio_handle, "Intel Skylake IMC");
@@ -427,13 +444,15 @@ bool i2c_smbus_pawnio_detect()
     \*-----------------------------------------------------*/
     if(i2c_smbus_pawnio::start_pawnio("SmbusIntelSkylakeIMC.bin", &pawnio_handle) == S_OK)
     {
+        bus_detected = true;
+
         imc_index_sel(pawnio_handle, 1);
 
         bus = new i2c_smbus_pawnio(pawnio_handle, "Intel Skylake IMC");
         ResourceManager::get()->RegisterI2CBus(bus);
     }
 
-    return(true);
+    return(bus_detected);
 }
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_pawnio_detect);
