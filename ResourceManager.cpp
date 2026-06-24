@@ -35,36 +35,32 @@
 #endif
 
 /*---------------------------------------------------------*\
-| Translation Strings                                       |
+| Warning Dialog Strings                                    |
 \*---------------------------------------------------------*/
 const char* I2C_ERR_WIN =   QT_TRANSLATE_NOOP("ResourceManager",
-                                              "<h2>Some internal devices may not be detected:</h2>"
-                                              "<p>One or more I2C or SMBus interfaces failed to initialize.</p>"
-                                              "<p><b>RGB DRAM modules, some motherboards' onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB</b> without I2C or SMBus.</p>"
-                                              "<h4>How to fix this:</h4>"
+                                              "<h2>Warning:</h2>"
+                                              "<p>One or more I2C/SMBus interfaces failed to initialize.</p>"
+                                              "<p>Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards' onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.</p>"
                                               "<p>On Windows, this is usually caused by a failure to load the PawnIO driver.</p>"
-                                              "<p>You must first install <a href='https://pawnio.eu/'>PawnIO</a>, then you must OpenRGB as administrator in order to access these devices.</p>"
-                                              "<p>See <a href='https://help.openrgb.org/'>help.openrgb.org</a> for additional troubleshooting steps if you keep seeing this message.<br></p>"
-                                              "<h3>If you are not using internal RGB on a desktop this message is not important to you.</h3>");
+                                              "<p>For OpenRGB to access these devices, you must install PawnIO from <a href='https://pawnio.eu/'>https://pawnio.eu</a> and run OpenRGB as administrator or as a system service.</p>"
+                                              "<p>If you are not using any of the devices listed above, you can safely ignore this message.</p>");
 const char* I2C_ERR_LINUX = QT_TRANSLATE_NOOP("ResourceManager",
-                                              "<h2>Some internal devices may not be detected:</h2>"
-                                              "<p>One or more I2C or SMBus interfaces failed to initialize.</p>"
-                                              "<p><b>RGB DRAM modules, some motherboards' onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB</b> without I2C or SMBus.</p>"
-                                              "<h4>How to fix this:</h4>"
+                                              "<h2>Warning:</h2>"
+                                              "<p>One or more I2C/SMBus interfaces failed to initialize.</p>"
+                                              "<p>Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards' onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.</p>"
                                               "<p>On Linux, this is usually because the i2c-dev module is not loaded.</p>"
-                                              "<p>You must load the i2c-dev module along with the correct i2c driver for your motherboard. "
+                                              "<p>For OpenRGB to access these devices, you must load the i2c-dev module along with the correct I2C driver module for your motherboard. "
                                               "This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.</p>"
-                                              "<p>See <a href='https://help.openrgb.org/'>help.openrgb.org</a> for additional troubleshooting steps if you keep seeing this message.<br></p>"
-                                              "<h3>If you are not using internal RGB on a desktop this message is not important to you.</h3>");
+                                              "<p>If you are not using any of the devices listed above, you can safely ignore this message.</p>");
 
 const char* UDEV_MISSING =  QT_TRANSLATE_NOOP("ResourceManager",
-                                              "<h2>WARNING:</h2>"
+                                              "<h2>Warning:</h2>"
                                               "<p>The OpenRGB udev rules are not installed.</p>"
                                               "<p>Most devices will not be available unless running OpenRGB as root.</p>"
                                               "<p>If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually</p>"
                                               "<p>See <a href='https://openrgb.org/udev'>https://openrgb.org/udev</a> to install the udev rules manually</p>");
 const char* UDEV_MUTLI =    QT_TRANSLATE_NOOP("ResourceManager",
-                                              "<h2>WARNING:</h2>"
+                                              "<h2>Warning:</h2>"
                                               "<p>Multiple OpenRGB udev rules are installed.</p>"
                                               "<p>The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.</p>"
                                               "<p>Multiple udev rules files can conflict, it is recommended to remove one of them.</p>");
