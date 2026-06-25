@@ -25,6 +25,7 @@
 /*---------------------------------------------------------*\
 | Product IDs                                               |
 \*---------------------------------------------------------*/
+#define KEYCHRON_K10_V2_PID                         0x0DA0
 #define KEYCHRON_Q1_HE_PID                          0x0B10
 #define KEYCHRON_Q2_PID                             0x0111
 
