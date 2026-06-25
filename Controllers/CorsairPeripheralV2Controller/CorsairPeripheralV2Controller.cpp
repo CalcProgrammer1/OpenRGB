@@ -98,14 +98,17 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
     |   If lighting control endpoint 2 is unavailable           |
     |   then use endpoint 1.                                    |
     \*---------------------------------------------------------*/
-    result = StartTransaction(0);
-    if(result > 0)
+    if(light_ctrl == CORSAIR_V2_LIGHT_CTRL2)
     {
-        light_ctrl = CORSAIR_V2_LIGHT_CTRL1;
-        StartTransaction(0);
+        result = StartTransaction(0);
+        if(result > 0)
+        {
+            light_ctrl = CORSAIR_V2_LIGHT_CTRL1;
+            StartTransaction(0);
+        }
+        StopTransaction(0);
+        LOG_DEBUG("[%s] Lighting Endpoint set to %02X", device_name.c_str(), light_ctrl);
     }
-    StopTransaction(0);
-    LOG_DEBUG("[%s] Lighting Endpoint set to %02X", device_name.c_str(), light_ctrl);
 }
 
 CorsairPeripheralV2Controller::~CorsairPeripheralV2Controller()
@@ -245,7 +248,20 @@ unsigned char CorsairPeripheralV2Controller::StartTransaction(uint8_t opt1)
     buffer[4]   = light_ctrl;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+
+    /*-----------------------------------------------------*\
+    | The return value is only used to check if switching   |
+    | from CTRL2 to CTRL1 is needed, if it is already at    |
+    | CTRL1 use a short wait to avoid delaying direct mode. |
+    \*-----------------------------------------------------*/
+    if(light_ctrl == CORSAIR_V2_LIGHT_CTRL2)
+    {
+        hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+    }
+    else
+    {
+        hid_read_timeout(dev, buffer, pkt_sze, CORSAIR_V2_TIMEOUT_SHORT);
+    }
 
     return buffer[2];
 }
