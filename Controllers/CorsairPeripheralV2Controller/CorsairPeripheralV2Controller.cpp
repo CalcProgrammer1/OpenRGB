@@ -39,6 +39,7 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
         case CORSAIR_K57_RGB_WIRED_PID:
             write_cmd   = 0x80;
             light_ctrl  = CORSAIR_V2_LIGHT_CTRL1;
+            skip_reads  = true;
             break;
     }
 
@@ -179,7 +180,11 @@ void CorsairPeripheralV2Controller::SetRenderMode(corsair_v2_device_mode mode)
     buffer[5]   = mode;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+
+    if(!skip_reads)
+    {
+        hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+    }
 }
 
 void CorsairPeripheralV2Controller::LightingControl(uint8_t opt1)
@@ -199,7 +204,11 @@ void CorsairPeripheralV2Controller::LightingControl(uint8_t opt1)
     buffer[5]   = 0x00;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+
+    if(!skip_reads)
+    {
+        hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+    }
 }
 
 unsigned int CorsairPeripheralV2Controller::GetKeyboardLayout()
@@ -249,18 +258,9 @@ unsigned char CorsairPeripheralV2Controller::StartTransaction(uint8_t opt1)
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
 
-    /*-----------------------------------------------------*\
-    | The return value is only used to check if switching   |
-    | from CTRL2 to CTRL1 is needed, if it is already at    |
-    | CTRL1 use a short wait to avoid delaying direct mode. |
-    \*-----------------------------------------------------*/
-    if(light_ctrl == CORSAIR_V2_LIGHT_CTRL2)
+    if(!skip_reads)
     {
         hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
-    }
-    else
-    {
-        hid_read_timeout(dev, buffer, pkt_sze, CORSAIR_V2_TIMEOUT_SHORT);
     }
 
     return buffer[2];
@@ -278,11 +278,20 @@ void CorsairPeripheralV2Controller::StopTransaction(uint8_t opt1)
     buffer[4]   = opt1;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+
+    if(!skip_reads)
+    {
+        hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+    }
 }
 
 void CorsairPeripheralV2Controller::ClearPacketBuffer()
 {
+    if(skip_reads)
+    {
+        return;
+    }
+
     uint8_t result          = 0;
     uint8_t buffer[CORSAIR_V2_PACKET_SIZE];
 
@@ -325,7 +334,11 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
     memcpy(&buffer[offset1], &data[0], copy_bytes);
 
     hid_write(dev, buffer, pkt_sze);
-    hid_read_timeout(dev, buffer, pkt_sze, CORSAIR_V2_TIMEOUT_SHORT);
+
+    if(!skip_reads)
+    {
+        hid_read_timeout(dev, buffer, pkt_sze, CORSAIR_V2_TIMEOUT_SHORT);
+    }
 
     remaining              -= copy_bytes;
     buffer[2]               = CORSAIR_V2_CMD_BLK_WN;
@@ -346,7 +359,11 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
         memcpy(&buffer[offset2], &data[index], copy_bytes);
 
         hid_write(dev, buffer, pkt_sze);
-        hid_read_timeout(dev, buffer, pkt_sze, CORSAIR_V2_TIMEOUT_SHORT);
+
+        if(!skip_reads)
+        {
+            hid_read_timeout(dev, buffer, pkt_sze, CORSAIR_V2_TIMEOUT_SHORT);
+        }
 
         remaining          -= copy_bytes;
     }
