@@ -175,7 +175,8 @@ void RGBController_Razer::SetupZones()
             \*---------------------------------------------------------*/
             if(new_zone.type == ZONE_TYPE_MATRIX)
             {
-                if(new_zone.name == ZONE_EN_KEYBOARD && device_list[device_index]->layout != NULL)
+                if(device_list[device_index]->layout != NULL &&
+                   (new_zone.name == ZONE_EN_KEYBOARD || new_zone.name == "Keypad"))
                 {
                     /*---------------------------------------------------------*\
                     | Dynamically generate a keyboard layout                    |
@@ -212,7 +213,8 @@ void RGBController_Razer::SetupZones()
                     new_map->width              = device_list[device_index]->zones[zone_id]->cols;
                     new_map->map                = new unsigned int[new_map->height * new_map->width];
 
-                    if(device_list[device_index]->layout->base_size != KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY)
+                    if(device_list[device_index]->layout->base_size != KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY ||
+                       !device_list[device_index]->layout->edit_keys.empty())
                     {
                         /*---------------------------------------------------------*\
                         | Minor adjustments to keyboard layout                      |

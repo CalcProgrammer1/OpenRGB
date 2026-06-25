@@ -7523,7 +7523,7 @@ static const razer_device tartarus_pro_device =
 };
 
 /*-------------------------------------------------------------*\
-| Razer Tartarus V2 1532:0208                                   |
+| Razer Tartarus V2 1532:022B                                   |
 |                                                               |
 |  Zone "Keypad"                                                |
 |       Matrix                                                  |
