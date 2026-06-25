@@ -25,6 +25,19 @@
 /*---------------------------------------------------------*\
 | Product IDs                                               |
 \*---------------------------------------------------------*/
+#define KEYCHRON_C1_PRO_ANSI_RGB_PID                0x0510
+#define KEYCHRON_C1_PRO_8K_ANSI_PID                 0x0521
+#define KEYCHRON_C1_PRO_8K_ISO_PID                  0x051D
+#define KEYCHRON_C1_PRO_8K_JIS_PID                  0x051E
+#define KEYCHRON_C1_PRO_V2_ANSI_RGB_PID             0x0516
+#define KEYCHRON_C2_PRO_ANSI_RGB_PID                0x0520
+#define KEYCHRON_C2_PRO_8K_ANSI_PID                 0x0522
+#define KEYCHRON_C2_PRO_8K_ISO_PID                  0x052D
+#define KEYCHRON_C2_PRO_V2_ANSI_RGB_PID             0x0526
+#define KEYCHRON_C3_PRO_ANSI_RGB_PID                0x0433
+#define KEYCHRON_C3_PRO_8K_ANSI_PID                 0x0530
+#define KEYCHRON_C3_PRO_8K_ISO_PID                  0x0531
+#define KEYCHRON_C3_PRO_8K_JIS_PID                  0x0532
 #define KEYCHRON_K10_V2_PID                         0x0DA0
 #define KEYCHRON_Q0_BASE_PID                        0x0130
 #define KEYCHRON_Q0_PLUS_PID                        0x0131
