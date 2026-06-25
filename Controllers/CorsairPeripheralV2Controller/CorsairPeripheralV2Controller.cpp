@@ -35,6 +35,11 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
             write_cmd   = CORSAIR_V2_WRITE_WIRELESS_ID;
             pid         = GetAddress(0x12);
             break;
+
+        case CORSAIR_K57_RGB_WIRED_PID:
+            write_cmd   = 0x80;
+            light_ctrl  = CORSAIR_V2_LIGHT_CTRL1;
+            break;
     }
 
     /*---------------------------------------------------------*\

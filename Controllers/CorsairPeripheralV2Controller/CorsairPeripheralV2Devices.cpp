@@ -48,6 +48,31 @@ std::vector<unsigned int> corsair_full_size_values =
 /*-------------------------------------------------------------------------*\
 |  KEYMAPS                                                                  |
 \*-------------------------------------------------------------------------*/
+keyboard_keymap_overlay_values corsair_K57_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        corsair_full_size_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode                              |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       17,        0,          "Power/Wireless Indicator", KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_ROW,         },  // Insert Profile into new row
+        {   0,      0,       18,        1,          "Lock/Macro Indicator",     KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Light key
+        {   0,      1,       0,         131,        "Key: G1",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert G1 key
+        {   0,      2,       0,         132,        "Key: G2",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert G2 key
+        {   0,      3,       0,         133,        "Key: G3",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert G3 key
+        {   0,      4,       0,         134,        "Key: G4",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert G4 key
+        {   0,      5,       0,         135,        "Key: G5",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert G5 key
+        {   0,      6,       0,         136,        "Key: G6",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert G6 key
+    }
+};
+
 keyboard_keymap_overlay_values corsair_K60_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
@@ -167,10 +192,10 @@ keyboard_keymap_overlay_values corsair_K70_CORE_TKL_layout
         | Edit Keys                                                                                                                             |
         |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode,                             |
         \*-------------------------------------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      14,         70,         KEY_EN_MEDIA_MUTE,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,         },  // Swap PRSC with Mute 
+        {   0,      0,      14,         70,         KEY_EN_MEDIA_MUTE,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,         },  // Swap PRSC with Mute
         {   0,      0,      15,         71,         KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,         },  // Remove SCLK
-        {   0,      0,      16,         72,         KEY_EN_MEDIA_VOLUME_UP,     KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,         },  // Swap PSBK with Volume Potion Up 
-        
+        {   0,      0,      16,         72,         KEY_EN_MEDIA_VOLUME_UP,     KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,         },  // Swap PSBK with Volume Potion Up
+
     }
 };
 
@@ -770,6 +795,38 @@ static const corsair_v2_device k55_rgb_pro_device =
         nullptr
     },
     nullptr
+};
+
+/*-------------------------------------------------------------*\
+|  Corsair K57 RGB (Wired) 1B1C:1B6E                            |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       7 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone k57_rgb_wired_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    7,
+    22
+};
+
+static const corsair_v2_device k57_rgb_wired_device =
+{
+    CORSAIR_K57_RGB_WIRED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    7,
+    22,
+    {
+        &k57_rgb_wired_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_K57_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -1461,6 +1518,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
 |  KEYBOARDS                                                        |
 \*-----------------------------------------------------------------*/
     &k55_rgb_pro_device,
+    &k57_rgb_wired_device,
     &k60_rgb_pro_device,
     &k60_rgb_pro_lp_device,
     &k60_rgb_pro_tkl_device_b,

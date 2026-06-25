@@ -69,6 +69,8 @@ typedef struct
 | Corsair V2 Protocol Keyboards                         |
 \*-----------------------------------------------------*/
 #define CORSAIR_K55_RGB_PRO_PID                     0x1BA4
+#define CORSAIR_K57_RGB_WIRED_PID                   0x1B6E
+#define CORSAIR_K57_RGB_WIRELESS_PID                0x1B62
 #define CORSAIR_K60_RGB_PRO_PID                     0x1BA0
 #define CORSAIR_K60_RGB_PRO_LP_PID                  0x1BAD
 #define CORSAIR_K60_RGB_PRO_TKL_B_PID               0x1BC7
