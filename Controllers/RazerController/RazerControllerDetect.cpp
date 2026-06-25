@@ -237,7 +237,8 @@ REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 TKL",                         Det
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 Mini (Wired)",                DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_MINI_WIRED_PID,             0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 Mini (Wireless)",             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_MINI_WIRELESS_PID,          0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4",                             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PID,                        0x03,   0x01,   0x00);
-REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro",                         DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_PID,                    0x03,   0x01,   0x00);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro", /* firmware < 1.5 */    DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_PID,                    0x03,   0x01,   0x00);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro", /* firmware >= 1.5 */   DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_PID,                    0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro 75% (Wired)",             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_75_WIRED_PID,           0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 Pro 75% (Wireless)",          DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_PRO_75_WIRELESS_PID,        0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V4 75% (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V4_75_WIRED_PID,               0x03,   0x01,   0x00);
