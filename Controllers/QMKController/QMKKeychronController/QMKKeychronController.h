@@ -73,6 +73,9 @@
 #define KEYCHRON_K5_MAX_ISO_RGB_PID                 0x0A51
 #define KEYCHRON_K5_MAX_JIS_RGB_PID                 0x0A52
 #define KEYCHRON_K5_MAX_JIS_V2_RGB_PID              0x0A58
+#define KEYCHRON_K5_V2_ANSI_RGB_PID                 0x0D50
+#define KEYCHRON_K5_V2_ISO_RGB_PID                  0x0D51
+#define KEYCHRON_K5_V2_JIS_RGB_PID                  0x0D52
 #define KEYCHRON_K6_HE_ANSI_PID                     0x0E60
 #define KEYCHRON_K7_MAX_ANSI_RGB_PID                0x0A70
 #define KEYCHRON_K7_MAX_ISO_RGB_PID                 0x0A71
@@ -87,6 +90,9 @@
 #define KEYCHRON_K8_PRO_ANSI_RGB_PID                0x0280
 #define KEYCHRON_K8_PRO_ISO_RGB_PID                 0x0281
 #define KEYCHRON_K8_PRO_JIS_RGB_PID                 0x0282
+#define KEYCHRON_K8_V2_ANSI_RGB_PID                 0x0D80
+#define KEYCHRON_K8_V2_ISO_RGB_PID                  0x0D81
+#define KEYCHRON_K8_V2_JIS_RGB_PID                  0x0D82
 #define KEYCHRON_K9_MAX_ANSI_RGB_PID                0x0A90
 #define KEYCHRON_K10_HE_ANSI_PID                    0x0EA0
 #define KEYCHRON_K10_HE_ISO_PID                     0x0EA1
