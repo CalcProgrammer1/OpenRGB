@@ -795,9 +795,9 @@ private:
     | This is our own host-side animation, independent  |
     | of any firmware dim/sleep timers.                 |
     \*-------------------------------------------------*/
-    static const int DIM_STEPS       = 25;
-    static const int DIM_INTERVAL_MS = 200;
-    static const int DIM_TARGET_PCT  = 50;
+    #define DIM_STEPS                           25
+    #define DIM_INTERVAL_MS                     200
+    #define DIM_TARGET_PCT                      50
     std::atomic<int> dim_brightness_pct;    // 100=full, 50=dimmed
     int              dim_step;
     std::chrono::steady_clock::time_point next_dim_time;
