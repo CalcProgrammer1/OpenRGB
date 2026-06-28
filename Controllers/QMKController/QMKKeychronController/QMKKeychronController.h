@@ -392,6 +392,7 @@ public:
 
 private:
     hid_device*                             dev;
+    std::string                             kc_firmware_version;
     unsigned char                           kc_protocol_version;
     unsigned short                          kc_rgb_protocol_version;
     std::vector<unsigned short>             keycodes;
@@ -405,6 +406,7 @@ private:
     unsigned short                          via_protocol_version;
 
     unsigned short                          CmdGetKeycode(unsigned char layer, unsigned char row, unsigned char col);
+    std::string                             CmdGetKeychronFirmwareVersion();
     void                                    CmdGetKeychronProtocolVersion(unsigned char* kc_protocol_version);
     void                                    CmdGetKeychronRGBProtocolVersion(unsigned short* kc_rgb_protocol_version);
     std::vector<unsigned char>              CmdGetLEDIndexByRow(unsigned char row);

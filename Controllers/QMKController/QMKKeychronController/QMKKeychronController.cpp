@@ -89,6 +89,11 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     CmdGetKeychronProtocolVersion(&kc_protocol_version);
 
     /*-----------------------------------------------------*\
+    | Get Keychron firmware version                         |
+    \*-----------------------------------------------------*/
+    kc_firmware_version = CmdGetKeychronFirmwareVersion();
+
+    /*-----------------------------------------------------*\
     | Get supported Keychron features                       |
     \*-----------------------------------------------------*/
     CmdGetSupportFeature(&supported_features);
@@ -172,7 +177,8 @@ std::string QMKKeychronController::GetVersion()
     \*-----------------------------------------------------*/
     return("VIA: "          + std::to_string(via_protocol_version) + "\r\n" +
            "Keychron: "     + std::to_string(kc_protocol_version) + "\r\n" +
-           "Keychron RGB: " + std::to_string(kc_rgb_protocol_version));
+           "Keychron RGB: " + std::to_string(kc_rgb_protocol_version) + "\r\n" +
+           "Keychron FW: "  + kc_firmware_version);
 }
 
 bool QMKKeychronController::GetSupported()
@@ -254,6 +260,21 @@ unsigned short QMKKeychronController::CmdGetKeycode
     keycode = ( response[3] << 8 )| response[4];
 
     return(keycode);
+}
+
+
+std::string QMKKeychronController::CmdGetKeychronFirmwareVersion()
+{
+    char                response[30];
+
+    ViaSendCommand(KC_GET_FIRMWARE_VERSION, NULL, 0, (unsigned char*)response, sizeof(response));
+
+    /*-----------------------------------------------------*\
+    | Ensure response null termination                      |
+    \*-----------------------------------------------------*/
+    response[29] = 0;
+
+    return(std::string(response));
 }
 
 void QMKKeychronController::CmdGetKeychronProtocolVersion
