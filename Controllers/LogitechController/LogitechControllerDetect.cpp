@@ -366,6 +366,106 @@ void DetectLogitechKeyboardG915(hid_device_info* info, const std::string& name)
     }
 }
 
+static bool ProbeG915ReceiverName(hid_device* dev, std::string& out_name)
+{
+    /*---------------------------------------------------------*\n    | HID++ short message name probe.                           |
+    | Request:  10 01 03 0E 00 00 00  (get name length)         |
+    | Request:  10 01 03 1E 00 00 00  (get name string)         |
+    | Response: 11 01 03 1E <name bytes...>                     |
+    | Verified against G915 TKL (PID 0xC547) which returns      |
+    | "G915 TKL LIGHTSP" (truncated, full: G915 TKL LIGHTSPEED) |
+    \*---------------------------------------------------------*/
+    const unsigned char req_len[7]  = { 0x10, 0x01, 0x03, 0x0E, 0x00, 0x00, 0x00 };
+    const unsigned char req_name[7] = { 0x10, 0x01, 0x03, 0x1E, 0x00, 0x00, 0x00 };
+    unsigned char resp[64] = { 0 };
+
+    hid_write(dev, req_len, sizeof(req_len));
+    hid_read_timeout(dev, resp, sizeof(resp), 100);
+
+    hid_write(dev, req_name, sizeof(req_name));
+    for(int attempt = 0; attempt < 3; attempt++)
+    {
+        int rd = hid_read_timeout(dev, resp, sizeof(resp), 200);
+        if(rd < 8)
+        {
+            continue;
+        }
+        if(resp[0] == 0x11 && resp[1] == 0x01 && resp[2] == 0x03 && resp[3] == 0x1E)
+        {
+            std::string name_str;
+            for(int i = 4; i < rd; i++)
+            {
+                if(resp[i] == 0x00)
+                {
+                    break;
+                }
+                name_str.push_back(static_cast<char>(resp[i]));
+            }
+            out_name = name_str;
+            return true;
+        }
+    }
+    return false;
+}
+
+void DetectLogitechKeyboardG915Receiver2(hid_device_info* info, const std::string& name)
+{
+    /*---------------------------------------------------------*\
+    | PID 0xC547 is shared by multiple Logitech keyboards.      |
+    | Use a HID++ name probe to identify the exact device and   |
+    | route to the correct controller.                          |
+    |                                                           |
+    | Known devices behind this PID:                            |
+    |   "G915 TKL LIGHTSP..." -> G915 TKL (is_tkl = true)      |
+    |   "G915 LIGHTSP..."     -> G915 full-size (is_tkl = false)|
+    |   "G515..."             -> G515 (not handled here)        |
+    \*---------------------------------------------------------*/
+    hid_device* dev = hid_open_path(info->path);
+    if(!dev)
+    {
+        return;
+    }
+
+    std::string probed_name;
+    bool ok = ProbeG915ReceiverName(dev, probed_name);
+
+    if(!ok)
+    {
+        LOG_DEBUG("[LogitechControllerDetect] 0xC547 name probe failed, skipping device");
+        hid_close(dev);
+        return;
+    }
+
+    LOG_DEBUG("[LogitechControllerDetect] 0xC547 probe returned name=\"%s\"", probed_name.c_str());
+
+    /*---------------------------------------------------------*\
+    | Route based on probed name. Check for TKL before full    |
+    | G915 since both contain "G915".                          |
+    \*---------------------------------------------------------*/
+    if(probed_name.find("G915 TKL") != std::string::npos)
+    {
+        LogitechG915Controller*     controller     = new LogitechG915Controller(dev, false, name);
+        RGBController_LogitechG915* rgb_controller = new RGBController_LogitechG915(controller, true);
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+    else if(probed_name.find("G915") != std::string::npos)
+    {
+        LogitechG915Controller*     controller     = new LogitechG915Controller(dev, false, name);
+        RGBController_LogitechG915* rgb_controller = new RGBController_LogitechG915(controller, false);
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+    else
+    {
+        /*-----------------------------------------------------*\
+        | Unknown device (e.g. G515 or future hardware).        |
+        | Close and leave it for another detector to claim.     |
+        \*-----------------------------------------------------*/
+        LOG_DEBUG("[LogitechControllerDetect] 0xC547 unrecognised device name \"%s\", skipping",
+                  probed_name.c_str());
+        hid_close(dev);
+    }
+}
+
 void DetectLogitechKeyboardG915Wired(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -889,7 +989,7 @@ REGISTER_HID_DETECTOR_IP ("Logitech G910 Orion Spectrum",                   Dete
 REGISTER_HID_DETECTOR_IP ("Logitech G Pro RGB Mechanical Gaming Keyboard",  DetectLogitechKeyboardGPro, LOGITECH_VID, LOGITECH_GPRO_KEYBOARD_1_PID,         1, 0xFF43);
 
 REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard",              DetectLogitechKeyboardG915,      LOGITECH_VID, LOGITECH_G915_RECEIVER_PID,      2, 0xFF00, 2);
-REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard",              DetectLogitechKeyboardG915,      LOGITECH_VID, LOGITECH_G915_RECEIVER_2_PID,    2, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard (Receiver 2)", DetectLogitechKeyboardG915Receiver2, LOGITECH_VID, LOGITECH_G915_RECEIVER_2_PID, 2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard (Wired)",      DetectLogitechKeyboardG915Wired, LOGITECH_VID, LOGITECH_G915_WIRED_PID,         2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G915TKL Wireless RGB Mechanical Gaming Keyboard",           DetectLogitechKeyboardG915,      LOGITECH_VID, LOGITECH_G915TKL_RECEIVER_PID,   2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G915TKL Wireless RGB Mechanical Gaming Keyboard (Wired)",   DetectLogitechKeyboardG915Wired, LOGITECH_VID, LOGITECH_G915TKL_WIRED_PID,      2, 0xFF00, 2);
