@@ -12,12 +12,12 @@ import os
 #############################################
 # OpenRGB version                           #
 #############################################
-version = "1.0rc2"
+version = "1.0rc3"
 
 #############################################
 # Git version (tag, branch, or commit)      #
 #############################################
-git_id = "release_candidate_1.0rc2"
+git_id = "release_candidate_1.0rc3"
 
 command = "git rev-list -n 1 " + git_id
 print(command)
@@ -42,7 +42,7 @@ artifacts = [
     [ "Linux+i386+.deb+%28Debian+Trixie%29",        "openrgb_" + version + "_i386_trixie_"    + commit, ".deb"      ],
     [ "Linux%20amd64%20AppImage",                   "OpenRGB_" + version + "_x86_64_"         + commit, ".AppImage" ],
     [ "Linux%20i386%20AppImage",                    "OpenRGB_" + version + "_i386_"           + commit, ".AppImage" ],
-    [ "Linux+64+F40+rpm",                           "openrgb_" + version + "_x86_64_f40_"     + commit, ".rpm"      ],
+    [ "Linux+64+F43+rpm",                           "openrgb_" + version + "_x86_64_f43_"     + commit, ".rpm"      ],
     [ "Linux+arm64+.deb+%28Debian%20Bookworm%29",   "openrgb_" + version + "_arm64_bookworm_" + commit, ".deb"      ],
     [ "Linux+armhf+.deb+%28Debian%20Bookworm%29",   "openrgb_" + version + "_armhf_bookworm_" + commit, ".deb"      ],
     [ "Linux+arm64+.deb+%28Debian%20Trixie%29",     "openrgb_" + version + "_arm64_trixie_"   + commit, ".deb"      ],
