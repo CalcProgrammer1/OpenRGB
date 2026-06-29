@@ -395,7 +395,6 @@ int NanoleafScanningThread::SendMDNSQuery()
 
 	size_t capacity = 2048;
 	void* buffer = malloc(capacity);
-	size_t records;
 
 	//const char* record_name;
 	if(record == MDNS_RECORDTYPE_SRV)
@@ -444,7 +443,6 @@ int NanoleafScanningThread::SendMDNSQuery()
 			FD_SET(sockets[isock], &readfs);
 		}
 
-		records = 0;
 		res = select(nfds, &readfs, 0, 0, &timeout);
 		if(res > 0)
         {
@@ -452,7 +450,7 @@ int NanoleafScanningThread::SendMDNSQuery()
             {
 				if(FD_ISSET(sockets[isock], &readfs))
                 {
-					records += mdns_query_recv(sockets[isock], buffer, capacity, query_callback, this, query_id[isock]);
+					mdns_query_recv(sockets[isock], buffer, capacity, query_callback, this, query_id[isock]);
 				}
 
 				FD_SET(sockets[isock], &readfs);
