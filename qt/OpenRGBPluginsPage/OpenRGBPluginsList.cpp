@@ -7,6 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <QChar>
 #include <QMimeData>
 #include <QUrl>
 #include "OpenRGBPluginsList.h"
