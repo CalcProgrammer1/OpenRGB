@@ -153,7 +153,6 @@ void OpenRGBSystemInfoPage::on_CommandButton_clicked()
         i2c_smbus_interface*    bus         = busses[current_index];
         unsigned char           address     = ui->CommandAddressBox->value();
         unsigned char           regaddr     = ui->CommandRegisterBox->value();
-        unsigned char           size        = ui->CommandSizeBox->value();
         unsigned short          write_data  = ui->CommandWriteDataLineEdit->text().toInt(nullptr, 0);
         unsigned short          read_data   = 0xFFFF;
 
