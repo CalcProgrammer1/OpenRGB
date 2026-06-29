@@ -261,7 +261,6 @@ void RGBController_RealtekBridge::UpdateZoneLEDs(int /*zone*/)
 void RGBController_RealtekBridge::UpdateSingleLED(int /*led*/)
 {
     unsigned char         speed       = REALTEK_BRIDGE_SPEED_NORMAL;
-    unsigned char         dir         = 0;
     unsigned short        brightness  = 0xFF;
     mode&                 curr_mode   = modes[active_mode];
     std::vector<RGBColor> rtk_colors  = curr_mode.colors;
@@ -273,13 +272,6 @@ void RGBController_RealtekBridge::UpdateSingleLED(int /*led*/)
     if(curr_mode.flags & MODE_FLAG_HAS_BRIGHTNESS)
     {
         brightness = curr_mode.brightness;
-    }
-    if(curr_mode.flags & MODE_FLAG_HAS_DIRECTION_LR)
-    {
-        if(curr_mode.direction == MODE_DIRECTION_RIGHT)
-        {
-            dir = 1;
-        }
     }
 
     if(curr_mode.color_mode == MODE_COLORS_PER_LED)

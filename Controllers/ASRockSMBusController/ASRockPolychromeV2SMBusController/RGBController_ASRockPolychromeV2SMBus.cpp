@@ -238,7 +238,6 @@ void RGBController_ASRockPolychromeV2SMBus::SetupZones()
         }
     }
 
-    unsigned int led_count = 0;
     /*---------------------------------------------------------*\
     | Set up LEDs                                               |
     \*---------------------------------------------------------*/
@@ -267,8 +266,6 @@ void RGBController_ASRockPolychromeV2SMBus::SetupZones()
                 | Push new LED to LEDs vector                               |
                 \*---------------------------------------------------------*/
                 leds.push_back(*new_led);
-
-                led_count++;
 
                 if(zone_idx == POLYCHROME_V2_ZONE_ADDRESSABLE)
                 {

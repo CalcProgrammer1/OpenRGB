@@ -98,7 +98,6 @@ void ZETBladeOpticalController::SetLEDDirect(const std::vector<RGBColor>& colors
     \*-----------------------------------------------------*/
     size_t buf_idx                  = ZET_BLADE_OPTICAL_HEADER_LEN;
     size_t color_idx                = 0;
-    size_t packets_sent             = 0;
     size_t skipped                  = 0;
     const unsigned int* skip_idx    = &SKIP_INDICES[0];
     bool last_color                 = false;
@@ -178,11 +177,6 @@ void ZETBladeOpticalController::SetLEDDirect(const std::vector<RGBColor>& colors
             memset(buf, 0x00, sizeof(buf));
             buf_idx = ZET_BLADE_OPTICAL_HEADER_LEN;
             PrepareHeader(buf, brightness);
-
-            /*---------------------------------------------*\
-            | Increment packet counter                      |
-            \*---------------------------------------------*/
-            packets_sent++;
         }
     }
 
