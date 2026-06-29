@@ -153,8 +153,6 @@ void CorsairDRAMController::SetColorsPerLED(RGBColor* colors)
         if(ret < 0)
         {
             unsigned int        block_index     = 0;
-            bool                even_frame      = true;
-            bool                first_frame     = true;
 
             while(block_index < direct_packet_size)
             {
