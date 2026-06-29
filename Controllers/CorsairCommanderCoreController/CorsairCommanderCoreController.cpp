@@ -340,7 +340,6 @@ void CorsairCommanderCoreController::SetDirectColor
         lastzones               = zones;
         int packet_offset       = 0;
         int led_idx             = 0;
-        int channel_idx         = 0;
         int packet_len          = CORSAIR_COMMANDER_CORE_RGB_DATA_LENGTH;
 
         if(pid == CORSAIR_COMMANDER_CORE_XT_PID)
@@ -369,8 +368,6 @@ void CorsairCommanderCoreController::SetDirectColor
             {
                 packet_offset += 3 * (34 - zones[zone_idx].leds_count);
             }
-
-            channel_idx++;
         }
 
         /*-----------------------------------------------------*\
