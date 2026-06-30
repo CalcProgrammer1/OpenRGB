@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <QChar>
 #include <QDBusConnection>
 #include <QObject>
 #include "SuspendResume.h"

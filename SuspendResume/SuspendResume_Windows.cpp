@@ -9,9 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include <QByteArray>
-#include <QCoreApplication>
-#include "SuspendResume.h"
+#include "SuspendResume_Windows.h"
 #include "windows.h"
 
 SuspendResumeListener::SuspendResumeListener()

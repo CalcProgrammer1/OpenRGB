@@ -9,8 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include <QDBusConnection>
-#include "SuspendResume.h"
+#include "SuspendResume_Linux_FreeBSD.h"
 
 SuspendResumeLoginManager::SuspendResumeLoginManager(SuspendResumeListener *srl) : srl(srl), bus(QDBusConnection::systemBus())
 {

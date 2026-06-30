@@ -9,10 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include <stdint.h>
-#include "SuspendResume.h"
-#include "IOKit/pwr_mgt/IOPMLib.h"
-#include "IOKit/IOMessage.h"
+#include "SuspendResume_MacOS.h"
 
 SuspendResumeListener::SuspendResumeListener()
 {

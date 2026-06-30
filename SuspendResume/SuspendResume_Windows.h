@@ -13,6 +13,7 @@
 
 #include <QAbstractNativeEventFilter>
 #include <QByteArray>
+#include <QCoreApplication>
 #include "SuspendResume.h"
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
