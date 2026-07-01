@@ -1207,7 +1207,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
                 else
                 {
                     start_from  = (std::size_t)device->GetZoneStartIndex(options.zone);
-                    led_count   = (std::size_t)device->GetZoneLEDsCount(options.zone);
+                    led_count   = (std::size_t)device->GetLEDsInZone(options.zone);
                 }
 
                 for(std::size_t led_idx = 0; led_idx < led_count; led_idx++)

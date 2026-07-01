@@ -155,7 +155,7 @@ void OpenRGBZoneInitializationDialog::CreateZoneWidget(RGBController* controller
     | Spin box: controls the zone size                          |
     \*---------------------------------------------------------*/
     QSpinBox* spin_box = new QSpinBox(this);
-    spin_box->setValue(0);
+    spin_box->setValue(controller->GetZoneLEDsCount(zone_index));
     spin_box->setMinimum(controller->GetZoneLEDsMin(zone_index));
     spin_box->setMaximum(controller->GetZoneLEDsMax(zone_index));
 

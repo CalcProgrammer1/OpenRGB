@@ -32,7 +32,14 @@ unsigned int RGBController_Network::GetID()
 
 void RGBController_Network::SetHidden(bool hidden)
 {
-    client->SendRequest_RGBController_SetHidden(dev_id, hidden);
+    if(client->GetProtocolVersion() < 6)
+    {
+        RGBController::SetHidden(hidden);
+    }
+    else
+    {
+        client->SendRequest_RGBController_SetHidden(dev_id, hidden);
+    }
 }
 
 void RGBController_Network::ClearSegments(int zone)
@@ -395,20 +402,67 @@ void RGBController_Network::SetDeviceSpecificZoneConfiguration(int zone, nlohman
     client->WaitOnControllerData();
 }
 
-/*-----------------------------------------------------*\
-| This function overrides RGBController::UpdateLEDs()!  |
-| Normally, UpdateLEDs() sets a flag for the updater    |
-| thread to update the device asynchronously, which     |
-| prevents delays updating local devices.  This causes  |
-| instability and flickering with network devices though|
-| so for the network implementation, process all updates|
-| synchronously.                                        |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| This function overrides RGBController::UpdateLEDs()!      |
+| Normally, UpdateLEDs() sets a flag for the updater        |
+| thread to update the device asynchronously, which         |
+| prevents delays updating local devices.  This causes      |
+| instability and flickering with network devices though    |
+| so for the network implementation, process all updates    |
+| synchronously.                                            |
+\*---------------------------------------------------------*/
 void RGBController_Network::UpdateLEDs()
 {
     AccessMutex.lock_shared();
     DeviceUpdateLEDs();
     AccessMutex.unlock_shared();
+
+    /*-----------------------------------------------------*\
+    | On protocol 6+, the server sends SignalUpdate packets |
+    | back to the client, but on earlier protocols we need  |
+    | to signal the update internally and assume it was     |
+    | successfully updated on the server.                   |
+    \*-----------------------------------------------------*/
+    if(client->GetProtocolVersion() < 6)
+    {
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATELEDS);
+    }
+}
+
+void RGBController_Network::UpdateZoneLEDs(int zone)
+{
+    AccessMutex.lock_shared();
+    DeviceUpdateZoneLEDs(zone);
+    AccessMutex.unlock_shared();
+
+    /*-----------------------------------------------------*\
+    | On protocol 6+, the server sends SignalUpdate packets |
+    | back to the client, but on earlier protocols we need  |
+    | to signal the update internally and assume it was     |
+    | successfully updated on the server.                   |
+    \*-----------------------------------------------------*/
+    if(client->GetProtocolVersion() < 6)
+    {
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATELEDS);
+    }
+}
+
+void RGBController_Network::UpdateSingleLED(int led)
+{
+    AccessMutex.lock_shared();
+    DeviceUpdateSingleLED(led);
+    AccessMutex.unlock_shared();
+
+    /*-----------------------------------------------------*\
+    | On protocol 6+, the server sends SignalUpdate packets |
+    | back to the client, but on earlier protocols we need  |
+    | to signal the update internally and assume it was     |
+    | successfully updated on the server.                   |
+    \*-----------------------------------------------------*/
+    if(client->GetProtocolVersion() < 6)
+    {
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATELEDS);
+    }
 }
 
 void RGBController_Network::UpdateMode()
@@ -416,6 +470,53 @@ void RGBController_Network::UpdateMode()
     AccessMutex.lock_shared();
     DeviceUpdateMode();
     AccessMutex.unlock_shared();
+
+    /*-----------------------------------------------------*\
+    | On protocol 6+, the server sends SignalUpdate packets |
+    | back to the client, but on earlier protocols we need  |
+    | to signal the update internally and assume it was     |
+    | successfully updated on the server.                   |
+    \*-----------------------------------------------------*/
+    if(client->GetProtocolVersion() < 6)
+    {
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATEMODE);
+    }
+}
+
+void RGBController_Network::UpdateZoneMode(int zone)
+{
+    AccessMutex.lock_shared();
+    DeviceUpdateZoneMode(zone);
+    AccessMutex.unlock_shared();
+
+    /*-----------------------------------------------------*\
+    | On protocol 6+, the server sends SignalUpdate packets |
+    | back to the client, but on earlier protocols we need  |
+    | to signal the update internally and assume it was     |
+    | successfully updated on the server.                   |
+    \*-----------------------------------------------------*/
+    if(client->GetProtocolVersion() < 6)
+    {
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATEMODE);
+    }
+}
+
+void RGBController_Network::SaveMode()
+{
+    AccessMutex.lock_shared();
+    DeviceSaveMode();
+    AccessMutex.unlock_shared();
+
+    /*-----------------------------------------------------*\
+    | On protocol 6+, the server sends SignalUpdate packets |
+    | back to the client, but on earlier protocols we need  |
+    | to signal the update internally and assume it was     |
+    | successfully updated on the server.                   |
+    \*-----------------------------------------------------*/
+    if(client->GetProtocolVersion() < 6)
+    {
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_SAVEMODE);
+    }
 }
 
 unsigned char * RGBController_Network::CreateUpdateLEDsPacket(unsigned int protocol_version)
