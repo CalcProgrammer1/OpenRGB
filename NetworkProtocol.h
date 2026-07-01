@@ -117,6 +117,7 @@ enum
     NET_PACKET_ID_DETECTION_COMPLETE            = 103,  /* Indicate to clients that detection completed         */
 
     NET_PACKET_ID_GET_I2C_BUS_INFO              = 120,  /* Request list of I2C bus info                         */
+    NET_PACKET_ID_GET_HID_DEVICE_INFO           = 121,  /* Request list of HID device info                      */
 
     NET_PACKET_ID_REQUEST_RESCAN_DEVICES        = 140,  /* Request rescan of devices                            */
 

@@ -36,6 +36,20 @@ class ProfileManager;
 class RGBController;
 class SettingsManager;
 
+typedef struct
+{
+    unsigned short  vendor_id;
+    unsigned short  product_id;
+    unsigned short  release_number;
+    unsigned short  usage_page;
+    unsigned short  usage;
+    int             interface_number;
+    std::string     serial_number;
+    std::string     manufacturer_string;
+    std::string     product_string;
+    std::string     path;
+}   HIDDeviceInfo;
+
 class ResourceManager
 {
 public:
@@ -55,6 +69,7 @@ public:
     std::string                         GetDefaultServerHost();
     unsigned short                      GetDefaultServerPort();
     LogManager*                         GetLogManager();
+    std::vector<HIDDeviceInfo>          GetHIDDeviceInfo();
     std::vector<i2c_smbus_interface*>&  GetI2CBuses();
     std::vector<i2c_smbus_info>         GetI2CBusInfo();
     PluginManagerInterface*             GetPluginManager();

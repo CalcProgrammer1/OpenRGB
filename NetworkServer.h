@@ -230,6 +230,7 @@ private:
     NetPacketStatus                     ProcessRequest_ClientString(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
     NetPacketStatus                     ProcessRequest_RescanDevices();
 
+    NetPacketStatus                     ProcessRequest_GetHIDDeviceInfo(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_GetI2CBusInfo(NetworkClientInfo* client_info);
 
     NetPacketStatus                     ProcessRequest_LogManager_ClearLogBuffer(NetworkClientInfo* client_info);

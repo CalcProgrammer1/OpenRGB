@@ -17,6 +17,7 @@
 #include <thread>
 #include <condition_variable>
 #include "i2c_smbus.h"
+#include "ResourceManager.h"
 #include "RGBController.h"
 #include "NetworkProtocol.h"
 #include "net_port.h"
@@ -109,6 +110,7 @@ public:
     /*-----------------------------------------------------*\
     | Device Info Functions                                 |
     \*-----------------------------------------------------*/
+    std::vector<HIDDeviceInfo>          GetHIDDeviceInfo();
     std::vector<i2c_smbus_info>         GetI2CBusInfo();
 
     /*-----------------------------------------------------*\
