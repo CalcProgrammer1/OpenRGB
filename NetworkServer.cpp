@@ -746,6 +746,15 @@ void NetworkServer::SetControllers(std::vector<RGBController *> new_controllers)
     controller_threads_mutex.unlock();
 
     /*-----------------------------------------------------*\
+    | Register the server's RGBController update handler    |
+    | for each RGBController in the controllers list        |
+    \*-----------------------------------------------------*/
+    for(std::size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
+    {
+        controllers[controller_idx]->RegisterUpdateCallback(RGBController_UpdateCallback, this);
+    }
+
+    /*-----------------------------------------------------*\
     | Clear the controller list updating flag to resume the |
     | controller packet processing                          |
     \*-----------------------------------------------------*/
@@ -843,15 +852,6 @@ void NetworkServer::SignalDetectionStarted()
 
 void NetworkServer::SignalDeviceListUpdated()
 {
-    /*-----------------------------------------------------*\
-    | Register the server's RGBController update handler    |
-    | for each RGBController in the controllers list        |
-    \*-----------------------------------------------------*/
-    for(std::size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
-    {
-        controllers[controller_idx]->RegisterUpdateCallback(RGBController_UpdateCallback, this);
-    }
-
     /*-----------------------------------------------------*\
     | Indicate to the clients that the controller list has  |
     | changed                                               |
