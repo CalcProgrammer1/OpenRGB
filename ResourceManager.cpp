@@ -24,9 +24,16 @@
 #include "ProfileManager.h"
 #include "LogManager.h"
 #include "SettingsManager.h"
+#include "StringUtils.h"
 #include "NetworkClient.h"
 #include "NetworkServer.h"
 #include "filesystem.h"
+
+/*---------------------------------------------------------*\
+| Put these last to avoid some include order issues         |
+\*---------------------------------------------------------*/
+#include <hidapi.h>
+#include <libusb.h>
 
 #ifdef __linux__
 #include <sys/resource.h>
@@ -306,6 +313,43 @@ std::string ResourceManager::GetDefaultServerHost()
 unsigned short ResourceManager::GetDefaultServerPort()
 {
     return(default_server_port);
+}
+
+std::vector<HIDDeviceInfo> ResourceManager::GetHIDDeviceInfo()
+{
+    if(IsLocalClient())
+    {
+        return(GetLocalClient()->GetHIDDeviceInfo());
+    }
+    else
+    {
+        hid_device_info*                    hid_devices;
+        std::vector<HIDDeviceInfo>          hid_info;
+
+        hid_devices = hid_enumerate(0,0);
+
+        while(hid_devices)
+        {
+            HIDDeviceInfo                   hid_device_info;
+
+            hid_device_info.vendor_id           = hid_devices->vendor_id;
+            hid_device_info.product_id          = hid_devices->product_id;
+            hid_device_info.release_number      = hid_devices->release_number;
+            hid_device_info.usage_page          = hid_devices->usage_page;
+            hid_device_info.usage               = hid_devices->usage;
+            hid_device_info.interface_number    = hid_devices->interface_number;
+            hid_device_info.serial_number       = StringUtils::wchar_to_string(hid_devices->serial_number);
+            hid_device_info.manufacturer_string = StringUtils::wchar_to_string(hid_devices->manufacturer_string);
+            hid_device_info.product_string      = StringUtils::wchar_to_string(hid_devices->product_string);
+            hid_device_info.path                = hid_devices->path;
+
+            hid_info.push_back(hid_device_info);
+
+            hid_devices = hid_devices->next;
+        }
+
+        return(hid_info);
+    }
 }
 
 std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBuses()

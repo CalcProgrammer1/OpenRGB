@@ -1287,6 +1287,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo* client_info)
                 status = ProcessRequest_GetI2CBusInfo(client_info);
                 break;
 
+            case NET_PACKET_ID_GET_HID_DEVICE_INFO:
+                status = ProcessRequest_GetHIDDeviceInfo(client_info);
+                break;
+
         /*-------------------------------------------------*\
         | LogManager functions                              |
         \*-------------------------------------------------*/
@@ -1612,6 +1616,114 @@ NetPacketStatus NetworkServer::ProcessRequest_ClientString(NetworkClientInfo* cl
 NetPacketStatus NetworkServer::ProcessRequest_RescanDevices()
 {
     ResourceManager::get()->RescanDevices();
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_GetHIDDeviceInfo(NetworkClientInfo* client_info)
+{
+    /*-----------------------------------------------------*\
+    | Require local client for this packet                  |
+    \*-----------------------------------------------------*/
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    std::vector<HIDDeviceInfo>  device_info     = ResourceManager::get()->GetHIDDeviceInfo();
+
+    unsigned int                data_size       = 0;
+    unsigned int                device_count    = (unsigned int)device_info.size();
+
+    /*-----------------------------------------------------*\
+    | Calculate data size                                   |
+    \*-----------------------------------------------------*/
+    data_size                                  += sizeof(data_size);
+    data_size                                  += sizeof(device_count);
+
+    for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+    {
+        data_size                              += sizeof(device_info[device_idx].vendor_id);
+        data_size                              += sizeof(device_info[device_idx].product_id);
+        data_size                              += sizeof(device_info[device_idx].release_number);
+        data_size                              += sizeof(device_info[device_idx].usage_page);
+        data_size                              += sizeof(device_info[device_idx].usage);
+        data_size                              += sizeof(device_info[device_idx].interface_number);
+        data_size                              += sizeof(unsigned short);
+        data_size                              += (unsigned int)strlen(device_info[device_idx].serial_number.c_str()) + 1;
+        data_size                              += sizeof(unsigned short);
+        data_size                              += (unsigned int)strlen(device_info[device_idx].manufacturer_string.c_str()) + 1;
+        data_size                              += sizeof(unsigned short);
+        data_size                              += (unsigned int)strlen(device_info[device_idx].product_string.c_str()) + 1;
+        data_size                              += sizeof(unsigned short);
+        data_size                              += (unsigned int)strlen(device_info[device_idx].path.c_str()) + 1;
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy in data                                          |
+    \*-----------------------------------------------------*/
+    unsigned char*              data_buf        = new unsigned char[data_size];
+    unsigned char*              data_ptr        = data_buf;
+
+    memcpy(data_ptr, &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
+
+    memcpy(data_ptr, &device_count, sizeof(device_count));
+    data_ptr += sizeof(device_count);
+
+    for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+    {
+        memcpy(data_ptr, &device_info[device_idx].vendor_id, sizeof(device_info[device_idx].vendor_id));
+        data_ptr += sizeof(device_info[device_idx].vendor_id);
+
+        memcpy(data_ptr, &device_info[device_idx].product_id, sizeof(device_info[device_idx].product_id));
+        data_ptr += sizeof(device_info[device_idx].product_id);
+
+        memcpy(data_ptr, &device_info[device_idx].release_number, sizeof(device_info[device_idx].release_number));
+        data_ptr += sizeof(device_info[device_idx].release_number);
+
+        memcpy(data_ptr, &device_info[device_idx].usage_page, sizeof(device_info[device_idx].usage_page));
+        data_ptr += sizeof(device_info[device_idx].usage_page);
+
+        memcpy(data_ptr, &device_info[device_idx].usage, sizeof(device_info[device_idx].usage));
+        data_ptr += sizeof(device_info[device_idx].usage);
+
+        memcpy(data_ptr, &device_info[device_idx].interface_number, sizeof(device_info[device_idx].interface_number));
+        data_ptr += sizeof(device_info[device_idx].interface_number);
+
+        unsigned short serial_number_size = (unsigned short)strlen(device_info[device_idx].serial_number.c_str()) + 1;
+        memcpy(data_ptr, &serial_number_size, sizeof(serial_number_size));
+        data_ptr += sizeof(serial_number_size);
+        memcpy(data_ptr, device_info[device_idx].serial_number.c_str(), serial_number_size);
+        data_ptr += serial_number_size;
+
+        unsigned short manufacturer_string_size = (unsigned short)strlen(device_info[device_idx].manufacturer_string.c_str()) + 1;
+        memcpy(data_ptr, &manufacturer_string_size, sizeof(manufacturer_string_size));
+        data_ptr += sizeof(manufacturer_string_size);
+        memcpy(data_ptr, device_info[device_idx].manufacturer_string.c_str(), manufacturer_string_size);
+        data_ptr += manufacturer_string_size;
+
+        unsigned short product_string_size = (unsigned short)strlen(device_info[device_idx].product_string.c_str()) + 1;
+        memcpy(data_ptr, &product_string_size, sizeof(product_string_size));
+        data_ptr += sizeof(product_string_size);
+        memcpy(data_ptr, device_info[device_idx].product_string.c_str(), product_string_size);
+        data_ptr += product_string_size;
+
+        unsigned short path_size = (unsigned short)strlen(device_info[device_idx].path.c_str()) + 1;
+        memcpy(data_ptr, &path_size, sizeof(path_size));
+        data_ptr += sizeof(path_size);
+        memcpy(data_ptr, device_info[device_idx].path.c_str(), path_size);
+        data_ptr += path_size;
+    }
+
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_HID_DEVICE_INFO, data_size);
+
+    send_in_progress.lock();
+    send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_info->client_sock, (char *)data_buf, reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
 
     return(NET_PACKET_STATUS_OK);
 }

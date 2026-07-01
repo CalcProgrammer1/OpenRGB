@@ -55,30 +55,20 @@ int OpenRGBHardwareIDsDialog::show()
     /*-----------------------------------------------------*\
     | Add HID Devices                                       |
     \*-----------------------------------------------------*/
-    hid_device_info*            hid_devices     = NULL;
-    hid_devices                                 = hid_enumerate(0,0);
-
-    hid_device_info*            current_hid_device;
-    current_hid_device                          = hid_devices;
-
+    std::vector<HIDDeviceInfo>  hid_device_info = ResourceManager::get()->GetHIDDeviceInfo();
     QTreeWidgetItem*            hid_top         = new QTreeWidgetItem(ui->HardwareIdsList, {"HID Devices"});
 
     strings.push_back("\n[ HID Devices ]");
 
-    while(current_hid_device)
+    for(HIDDeviceInfo device_info : hid_device_info)
     {
-        const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
-        const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
-
         char line[550];
 
-        snprintf(line, 550, "[%04X:%04X U=%04X P=0x%04X I=%d]", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number);
-        new QTreeWidgetItem(hid_top, {line, prod_name, manu_name});
+        snprintf(line, 550, "[%04X:%04X U=%04X P=0x%04X I=%d]", device_info.vendor_id, device_info.product_id, device_info.usage, device_info.usage_page, device_info.interface_number);
+        new QTreeWidgetItem(hid_top, {line, QString::fromStdString(device_info.product_string), QString::fromStdString(device_info.manufacturer_string)});
 
-        snprintf(line, 550, "[%04X:%04X U=%04X P=0x%04X I=%d] %s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
+        snprintf(line, 550, "[%04X:%04X U=%04X P=0x%04X I=%d] %s - %s", device_info.vendor_id, device_info.product_id, device_info.usage, device_info.usage_page, device_info.interface_number, device_info.manufacturer_string.c_str(), device_info.product_string.c_str());
         strings.push_back(line);
-
-        current_hid_device = current_hid_device->next;
     }
 
     /*-----------------------------------------------------*\
