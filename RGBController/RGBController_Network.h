@@ -43,7 +43,12 @@ public:
     void            SetDeviceSpecificZoneConfiguration(int zone, nlohmann::json configuration_json);
 
     void            UpdateLEDs();
+    void            UpdateZoneLEDs(int zone);
+    void            UpdateSingleLED(int led);
+
     void            UpdateMode();
+    void            UpdateZoneMode(int zone);
+    void            SaveMode();
 
     void            DeviceUpdateMode();
     void            DeviceUpdateZoneMode(int zone);
