@@ -377,6 +377,69 @@ std::vector<i2c_smbus_info> ResourceManager::GetI2CBusInfo()
     }
 }
 
+std::vector<USBDeviceInfo> ResourceManager::GetUSBDeviceInfo()
+{
+    if(IsLocalClient())
+    {
+        return(GetLocalClient()->GetUSBDeviceInfo());
+    }
+    else
+    {
+        std::size_t                         usb_device_count;
+        libusb_device**                     usb_devices;
+        std::vector<USBDeviceInfo>          usb_info;
+
+        if(libusb_init(NULL) >= 0)
+        {
+            usb_device_count = libusb_get_device_list(NULL, &usb_devices);
+
+            for(std::size_t usb_device_idx = 0; usb_device_idx < usb_device_count; usb_device_idx++)
+            {
+                libusb_device_descriptor    usb_desc;
+                libusb_device_handle*       usb_handle;
+
+                if(libusb_get_device_descriptor(usb_devices[usb_device_idx], &usb_desc) >= 0)
+                {
+                    USBDeviceInfo           usb_device_info;
+                    char                    usb_descriptor_buf[256];
+
+                    usb_device_info.vendor_id   = usb_desc.idVendor;
+                    usb_device_info.product_id  = usb_desc.idProduct;
+
+                    if(libusb_open(usb_devices[usb_device_idx], &usb_handle) >= 0)
+                    {
+                        if(usb_desc.iSerialNumber)
+                        {
+                            libusb_get_string_descriptor_ascii(usb_handle, usb_desc.iSerialNumber, (unsigned char*)usb_descriptor_buf, sizeof(usb_descriptor_buf));
+                            usb_device_info.serial_number.assign(usb_descriptor_buf);
+                        }
+
+                        if(usb_desc.iManufacturer)
+                        {
+                            libusb_get_string_descriptor_ascii(usb_handle, usb_desc.iManufacturer, (unsigned char*)usb_descriptor_buf, sizeof(usb_descriptor_buf));
+                            usb_device_info.manufacturer_string.assign(usb_descriptor_buf);
+                        }
+
+                        if(usb_desc.iProduct)
+                        {
+                            libusb_get_string_descriptor_ascii(usb_handle, usb_desc.iProduct, (unsigned char*)usb_descriptor_buf, sizeof(usb_descriptor_buf));
+                            usb_device_info.product_string.assign(usb_descriptor_buf);
+                        }
+
+                        libusb_close(usb_handle);
+                    }
+
+                    usb_info.push_back(usb_device_info);
+                }
+            }
+
+            libusb_free_device_list(usb_devices, 1);
+        }
+
+        return(usb_info);
+    }
+}
+
 LogManager* ResourceManager::GetLogManager()
 {
     return LogManager::get();

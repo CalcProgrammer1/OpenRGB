@@ -50,6 +50,15 @@ typedef struct
     std::string     path;
 }   HIDDeviceInfo;
 
+typedef struct
+{
+    unsigned short  vendor_id;
+    unsigned short  product_id;
+    std::string     serial_number;
+    std::string     manufacturer_string;
+    std::string     product_string;
+}   USBDeviceInfo;
+
 class ResourceManager
 {
 public:
@@ -72,6 +81,7 @@ public:
     std::vector<HIDDeviceInfo>          GetHIDDeviceInfo();
     std::vector<i2c_smbus_interface*>&  GetI2CBuses();
     std::vector<i2c_smbus_info>         GetI2CBusInfo();
+    std::vector<USBDeviceInfo>          GetUSBDeviceInfo();
     PluginManagerInterface*             GetPluginManager();
     ProfileManager*                     GetProfileManager();
     std::vector<RGBController*>&        GetRGBControllers();

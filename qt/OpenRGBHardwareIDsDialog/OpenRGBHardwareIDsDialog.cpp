@@ -74,55 +74,25 @@ int OpenRGBHardwareIDsDialog::show()
     /*-----------------------------------------------------*\
     | Add USB Devices                                       |
     \*-----------------------------------------------------*/
-    libusb_device**             devices         = nullptr;
-    QTreeWidgetItem*            libusb_top      = new QTreeWidgetItem(ui->HardwareIdsList, {"USB devices"});
+    std::vector<USBDeviceInfo>  usb_device_info = ResourceManager::get()->GetUSBDeviceInfo();
+    QTreeWidgetItem*            usb_top         = new QTreeWidgetItem(ui->HardwareIdsList, {"USB devices"});
 
     strings.push_back("\n[ USB devices ]");
 
-    int ret;
-
-    ret = libusb_init(NULL);
-
-    if(ret < 0)
+    for(USBDeviceInfo device_info : usb_device_info)
     {
-        return 0;
-    }
+        char line[550];
 
-    ret = libusb_get_device_list(NULL, &devices);
+        snprintf(line, 550, "[%04X:%04X]", device_info.vendor_id, device_info.product_id);
+        new QTreeWidgetItem(usb_top, {line, QString::fromStdString(device_info.product_string), QString::fromStdString(device_info.manufacturer_string)});
 
-    if(ret < 0)
-    {
-        return 0;
-    }
-
-    int deviceCount = ret;
-
-    for(int i = 0; i < deviceCount; i++)
-    {
-        libusb_device* device = devices[i];
-        libusb_device_descriptor descriptor;
-
-        ret = libusb_get_device_descriptor(device, &descriptor);
-
-        if(ret < 0)
-        {
-            continue;
-        }
-
-        char line[512];
-        snprintf(line, 512, "%04X:%04X", descriptor.idVendor, descriptor.idProduct);
-        new QTreeWidgetItem(libusb_top, {line});
+        snprintf(line, 550, "[%04X:%04X] %s - %s", device_info.vendor_id, device_info.product_id, device_info.manufacturer_string.c_str(), device_info.product_string.c_str());
         strings.push_back(line);
-    }
-
-    if(devices != nullptr)
-    {
-        libusb_free_device_list(devices, 1);
     }
 
     i2c_top->setExpanded(true);
     hid_top->setExpanded(true);
-    libusb_top->setExpanded(true);
+    usb_top->setExpanded(true);
 
     return this->exec();
 }
