@@ -61,8 +61,8 @@ msi_laptop_device MSILaptopController::GetDeviceType()
 
 void MSILaptopController::SetLEDs(std::vector<led> leds, std::vector<RGBColor> colors)
 {
-    unsigned char buf[MSI_LAPTOP_PACKET_SIZE];
-    unsigned int led_count = (leds.size() < colors.size()) ? leds.size() : colors.size();
+    unsigned char   buf[MSI_LAPTOP_PACKET_SIZE];
+    std::size_t     led_count = (leds.size() < colors.size()) ? leds.size() : colors.size();
 
     memset(buf, 0x00, sizeof(buf));
 
@@ -76,9 +76,9 @@ void MSILaptopController::SetLEDs(std::vector<led> leds, std::vector<RGBColor> c
         buf[MSI_LAPTOP_PAYLOAD_OFFSET + (i * 4)] = 0xFF;
     }
 
-    for(unsigned int led_idx = 0; led_idx < led_count; led_idx++)
+    for(std::size_t led_idx = 0; led_idx < led_count; led_idx++)
     {
-        unsigned int offset = MSI_LAPTOP_PAYLOAD_OFFSET + (led_idx * 4);
+        std::size_t offset = MSI_LAPTOP_PAYLOAD_OFFSET + (led_idx * 4);
 
         if((offset + 3) >= sizeof(buf))
         {
