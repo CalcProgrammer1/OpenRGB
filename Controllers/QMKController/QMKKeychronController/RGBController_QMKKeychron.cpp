@@ -201,7 +201,7 @@ void RGBController_QMKKeychron::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_QMKKeychron::DeviceUpdateLEDs()
 {
-    controller->SendLEDs((unsigned short)colors.size(), colors.data());
+    controller->SendLEDs((unsigned char)colors.size(), colors.data());
 }
 
 void RGBController_QMKKeychron::UpdateZoneLEDs(int /*zone*/)

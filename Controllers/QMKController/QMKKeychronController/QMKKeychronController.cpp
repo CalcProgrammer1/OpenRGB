@@ -209,7 +209,7 @@ void QMKKeychronController::SaveMode()
 void QMKKeychronController::SendLEDs(unsigned short number_leds, RGBColor* color_data)
 {
     unsigned short      led_start_index     = 0;
-    unsigned char       number_packet_leds  = 9;
+    unsigned short      number_packet_leds  = 9;
 
     while(led_start_index < number_leds)
     {
@@ -218,7 +218,7 @@ void QMKKeychronController::SendLEDs(unsigned short number_leds, RGBColor* color
             number_packet_leds = (number_leds - led_start_index);
         }
 
-        CmdSendLEDs(led_start_index, number_packet_leds, &color_data[led_start_index]);
+        CmdSendLEDs((unsigned char)led_start_index, (unsigned char)number_packet_leds, &color_data[led_start_index]);
 
         led_start_index += number_packet_leds;
     }
