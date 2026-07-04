@@ -43,6 +43,7 @@
 #include "RGBController_LogitechX56.h"
 #include "LogitechHIDPP20Controller.h"
 #include "RGBController_LogitechHIDPP20.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -851,8 +852,7 @@ void DetectLogitechHIDPP20(hid_device_info* info, const std::string& /*name*/)
 
         if(info->product_string)
         {
-            std::wstring ws(info->product_string);
-            hid_name = std::string(ws.begin(), ws.end());
+            hid_name = StringUtils::wstring_to_string(info->product_string);
         }
 
         if(hid_name.find("Receiver") != std::string::npos ||
