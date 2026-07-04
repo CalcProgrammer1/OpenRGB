@@ -131,7 +131,8 @@ NetworkServer::NetworkServer()
                                 | NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER
                                 | NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER
                                 | NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER
-                                | NET_SERVER_FLAG_SUPPORTS_DETECTION;
+                                | NET_SERVER_FLAG_SUPPORTS_DETECTION
+                                | NET_SERVER_FLAG_SUPPORTS_DEVICE_INFO;
 
     for(int i = 0; i < MAXSOCK; i++)
     {

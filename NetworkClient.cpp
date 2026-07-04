@@ -173,6 +173,11 @@ bool NetworkClient::GetSupportsDetectionAPI()
     return(server_flags & NET_SERVER_FLAG_SUPPORTS_DETECTION);
 }
 
+bool NetworkClient::GetSupportsDeviceInfoAPI()
+{
+    return(server_flags & NET_SERVER_FLAG_SUPPORTS_DEVICE_INFO);
+}
+
 /*---------------------------------------------------------*\
 | Client Control functions                                  |
 \*---------------------------------------------------------*/
@@ -395,68 +400,71 @@ std::vector<HIDDeviceInfo> NetworkClient::GetHIDDeviceInfo()
     std::vector<HIDDeviceInfo>  device_info;
     NetPacketHeader             reply_hdr;
 
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_HID_DEVICE_INFO, 0);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send_in_progress.unlock();
-
-    /*-----------------------------------------------------*\
-    | Wait for response                                     |
-    \*-----------------------------------------------------*/
-    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
-    waiting_on_response_cv.wait(wait_lock);
-
-    /*-----------------------------------------------------*\
-    | Parse response into device list                       |
-    \*-----------------------------------------------------*/
-    if(response_header.pkt_id == NET_PACKET_ID_GET_HID_DEVICE_INFO && response_data_ptr != NULL)
+    if(GetSupportsDeviceInfoAPI())
     {
-        unsigned int            device_count    = 0;
-        unsigned char*          data_ptr        = response_data_ptr;
-        unsigned int&           data_size       = response_header.pkt_size;
-        unsigned int            data_size_pkt;
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_HID_DEVICE_INFO, 0);
 
-        COPY_DATA_FIELD(data_ptr, response_data_ptr, data_size_pkt);
+        send_in_progress.lock();
+        send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send_in_progress.unlock();
 
-        if(data_size_pkt == data_size)
+        /*-------------------------------------------------*\
+        | Wait for response                                 |
+        \*-------------------------------------------------*/
+        std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+        waiting_on_response_cv.wait(wait_lock);
+
+        /*-------------------------------------------------*\
+        | Parse response into device list                   |
+        \*-------------------------------------------------*/
+        if(response_header.pkt_id == NET_PACKET_ID_GET_HID_DEVICE_INFO && response_data_ptr != NULL)
         {
-            COPY_DATA_FIELD(data_ptr, response_data_ptr, device_count);
+            unsigned int            device_count    = 0;
+            unsigned char*          data_ptr        = response_data_ptr;
+            unsigned int&           data_size       = response_header.pkt_size;
+            unsigned int            data_size_pkt;
 
-            for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+            COPY_DATA_FIELD(data_ptr, response_data_ptr, data_size_pkt);
+
+            if(data_size_pkt == data_size)
             {
-                HIDDeviceInfo   device;
+                COPY_DATA_FIELD(data_ptr, response_data_ptr, device_count);
 
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, device.vendor_id);
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, device.product_id);
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, device.release_number);
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, device.usage_page);
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, device.usage);
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, device.interface_number);
+                for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+                {
+                    HIDDeviceInfo   device;
 
-                unsigned short serial_number_size;
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, serial_number_size);
-                COPY_STRING_FIELD(data_ptr, response_data_ptr, serial_number_size, device.serial_number);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.vendor_id);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.product_id);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.release_number);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.usage_page);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.usage);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.interface_number);
 
-                unsigned short manufacturer_string_size;
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, manufacturer_string_size);
-                COPY_STRING_FIELD(data_ptr, response_data_ptr, manufacturer_string_size, device.manufacturer_string);
+                    unsigned short serial_number_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, serial_number_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, serial_number_size, device.serial_number);
 
-                unsigned short product_string_size;
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, product_string_size);
-                COPY_STRING_FIELD(data_ptr, response_data_ptr, product_string_size, device.product_string);
+                    unsigned short manufacturer_string_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, manufacturer_string_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, manufacturer_string_size, device.manufacturer_string);
 
-                unsigned short path_size;
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, path_size);
-                COPY_STRING_FIELD(data_ptr, response_data_ptr, path_size, device.path);
+                    unsigned short product_string_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, product_string_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, product_string_size, device.product_string);
 
-                device_info.push_back(device);
+                    unsigned short path_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, path_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, path_size, device.path);
+
+                    device_info.push_back(device);
+                }
             }
-        }
 
-        COPY_DATA_ERROR:
-        delete[] response_data_ptr;
-        response_data_ptr = NULL;
+            COPY_DATA_ERROR:
+            delete[] response_data_ptr;
+            response_data_ptr = NULL;
+        }
     }
 
     return(device_info);
@@ -470,47 +478,50 @@ std::vector<i2c_smbus_info> NetworkClient::GetI2CBusInfo()
     std::vector<i2c_smbus_info> bus_info;
     NetPacketHeader             reply_hdr;
 
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_I2C_BUS_INFO, 0);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send_in_progress.unlock();
-
-    /*-----------------------------------------------------*\
-    | Wait for response                                     |
-    \*-----------------------------------------------------*/
-    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
-    waiting_on_response_cv.wait(wait_lock);
-
-    /*-----------------------------------------------------*\
-    | Parse response into bus list                          |
-    \*-----------------------------------------------------*/
-    if(response_header.pkt_id == NET_PACKET_ID_GET_I2C_BUS_INFO && response_data_ptr != NULL)
+    if(GetSupportsDeviceInfoAPI())
     {
-        unsigned int            bus_count       = 0;
-        unsigned char*          data_ptr        = response_data_ptr;
-        unsigned int&           data_size       = response_header.pkt_size;
-        unsigned int            data_size_pkt;
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_I2C_BUS_INFO, 0);
 
-        COPY_DATA_FIELD(data_ptr, response_data_ptr, data_size_pkt);
+        send_in_progress.lock();
+        send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send_in_progress.unlock();
 
-        if(data_size_pkt == data_size)
+        /*-------------------------------------------------*\
+        | Wait for response                                 |
+        \*-------------------------------------------------*/
+        std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+        waiting_on_response_cv.wait(wait_lock);
+
+        /*-------------------------------------------------*\
+        | Parse response into bus list                      |
+        \*-------------------------------------------------*/
+        if(response_header.pkt_id == NET_PACKET_ID_GET_I2C_BUS_INFO && response_data_ptr != NULL)
         {
-            COPY_DATA_FIELD(data_ptr, response_data_ptr, bus_count);
+            unsigned int            bus_count       = 0;
+            unsigned char*          data_ptr        = response_data_ptr;
+            unsigned int&           data_size       = response_header.pkt_size;
+            unsigned int            data_size_pkt;
 
-            for(unsigned int bus_idx = 0; bus_idx < bus_count; bus_idx++)
+            COPY_DATA_FIELD(data_ptr, response_data_ptr, data_size_pkt);
+
+            if(data_size_pkt == data_size)
             {
-                i2c_smbus_info  bus;
+                COPY_DATA_FIELD(data_ptr, response_data_ptr, bus_count);
 
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, bus);
+                for(unsigned int bus_idx = 0; bus_idx < bus_count; bus_idx++)
+                {
+                    i2c_smbus_info  bus;
 
-                bus_info.push_back(bus);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, bus);
+
+                    bus_info.push_back(bus);
+                }
             }
-        }
 
-        COPY_DATA_ERROR:
-        delete[] response_data_ptr;
-        response_data_ptr = NULL;
+            COPY_DATA_ERROR:
+            delete[] response_data_ptr;
+            response_data_ptr = NULL;
+        }
     }
 
     return(bus_info);
@@ -524,60 +535,63 @@ std::vector<USBDeviceInfo> NetworkClient::GetUSBDeviceInfo()
     std::vector<USBDeviceInfo>  device_info;
     NetPacketHeader             reply_hdr;
 
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_USB_DEVICE_INFO, 0);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send_in_progress.unlock();
-
-    /*-----------------------------------------------------*\
-    | Wait for response                                     |
-    \*-----------------------------------------------------*/
-    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
-    waiting_on_response_cv.wait(wait_lock);
-
-    /*-----------------------------------------------------*\
-    | Parse response into device list                       |
-    \*-----------------------------------------------------*/
-    if(response_header.pkt_id == NET_PACKET_ID_GET_USB_DEVICE_INFO && response_data_ptr != NULL)
+    if(GetSupportsDeviceInfoAPI())
     {
-        unsigned int            device_count    = 0;
-        unsigned char*          data_ptr        = response_data_ptr;
-        unsigned int&           data_size       = response_header.pkt_size;
-        unsigned int            data_size_pkt;
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_USB_DEVICE_INFO, 0);
 
-        COPY_DATA_FIELD(data_ptr, response_data_ptr, data_size_pkt);
+        send_in_progress.lock();
+        send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send_in_progress.unlock();
 
-        if(data_size_pkt == data_size)
+        /*-------------------------------------------------*\
+        | Wait for response                                 |
+        \*-------------------------------------------------*/
+        std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+        waiting_on_response_cv.wait(wait_lock);
+
+        /*-------------------------------------------------*\
+        | Parse response into device list                   |
+        \*-------------------------------------------------*/
+        if(response_header.pkt_id == NET_PACKET_ID_GET_USB_DEVICE_INFO && response_data_ptr != NULL)
         {
-            COPY_DATA_FIELD(data_ptr, response_data_ptr, device_count);
+            unsigned int            device_count    = 0;
+            unsigned char*          data_ptr        = response_data_ptr;
+            unsigned int&           data_size       = response_header.pkt_size;
+            unsigned int            data_size_pkt;
 
-            for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+            COPY_DATA_FIELD(data_ptr, response_data_ptr, data_size_pkt);
+
+            if(data_size_pkt == data_size)
             {
-                USBDeviceInfo   device;
+                COPY_DATA_FIELD(data_ptr, response_data_ptr, device_count);
 
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, device.vendor_id);
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, device.product_id);
+                for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+                {
+                    USBDeviceInfo   device;
 
-                unsigned short serial_number_size;
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, serial_number_size);
-                COPY_STRING_FIELD(data_ptr, response_data_ptr, serial_number_size, device.serial_number);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.vendor_id);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.product_id);
 
-                unsigned short manufacturer_string_size;
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, manufacturer_string_size);
-                COPY_STRING_FIELD(data_ptr, response_data_ptr, manufacturer_string_size, device.manufacturer_string);
+                    unsigned short serial_number_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, serial_number_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, serial_number_size, device.serial_number);
 
-                unsigned short product_string_size;
-                COPY_DATA_FIELD(data_ptr, response_data_ptr, product_string_size);
-                COPY_STRING_FIELD(data_ptr, response_data_ptr, product_string_size, device.product_string);
+                    unsigned short manufacturer_string_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, manufacturer_string_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, manufacturer_string_size, device.manufacturer_string);
 
-                device_info.push_back(device);
+                    unsigned short product_string_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, product_string_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, product_string_size, device.product_string);
+
+                    device_info.push_back(device);
+                }
             }
-        }
 
-        COPY_DATA_ERROR:
-        delete[] response_data_ptr;
-        response_data_ptr = NULL;
+            COPY_DATA_ERROR:
+            delete[] response_data_ptr;
+            response_data_ptr = NULL;
+        }
     }
 
     return(device_info);

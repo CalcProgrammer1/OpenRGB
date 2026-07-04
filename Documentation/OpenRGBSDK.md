@@ -59,6 +59,9 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 101   | [NET_PACKET_ID_DETECTION_STARTED](#net_packet_id_detection_started)                                                               | Indicate to clients that detection started                    | 6                |
 | 102   | [NET_PACKET_ID_DETECTION_PROGRESS_CHANGED](#net_packet_id_detection_progress_changed)                                             | Indicate to clients that detection progress changed           | 6                |
 | 103   | [NET_PACKET_ID_DETECTION_COMPLETE](#net_packet_id_detection_complete)                                                             | Indicate to clients that detection completed                  | 6                |
+| 120   | [NET_PACKET_ID_GET_I2C_BUS_INFO](#net_packet_id_get_i2c_bus_info)                                                                 | Request list of I2C bus info                                  | 6                |
+| 121   | [NET_PACKET_ID_GET_HID_DEVICE_INFO](#net_packet_id_get_hid_device_info)                                                           | Request list of HID device info                               | 6                |
+| 122   | [NET_PACKET_ID_GET_USB_DEVICE_INFO](#net_packet_id_get_usb_device_info)                                                           | Request list of USB device info                               | 6                |
 | 140   | [NET_PACKET_ID_REQUEST_RESCAN_DEVICES](#net_packet_id_request_rescan_devices)                                                     | Request server to rescan devices                              | 5                |
 | 150   | [NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST](#net_packet_id_profilemanager_get_profile_list)                                   | Get profile list                                              | 2                |
 | 151   | [NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE](#net_packet_id_profilemanager_save_profile)                                           | Save current configuration in a new profile                   | 2                |
@@ -67,15 +70,29 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 154   | [NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE](#net_packet_id_profilemanager_upload_profile)                                       | Upload a profile to the server in JSON format                 | 6                |
 | 155   | [NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE](#net_packet_id_profilemanager_download_profile)                                   | Download a profile from the server in JSON format             | 6                | 
 | 156   | [NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE](#net_packet_id_profilemanager_get_active_profile)                               | Get the active profile name                                   | 6                |
+| 157   | [NET_PACKET_ID_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED](#net_packet_id_profilemanager_active_profile_changed)                       | Indicate to clients active profile has changed                | 6                |
+| 158   | [NET_PACKET_ID_PROFILEMANAGER_PROFILE_LOADED](#net_packet_id_profilemanager_profile_loaded)                                       | Notify active client that profile has loaded                  | 6                |
+| 159   | [NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD](#net_packet_id_profilemanager_profile_about_to_load)                         | Indicate to clients profile about to load                     | 6                |
+| 160   | [NET_PACKET_ID_PROFILEMANAGER_PROFILE_LIST_UPDATED](#net_packet_id_profilemanager_profile_list_updated)                           | Indicate to clients profile list updated                      | 6                |
+| 161   | [NET_PACKET_ID_PROFILEMANAGER_CLEAR_ACTIVE_PROFILE](#net_packet_id_profilemanager_clear_active_profile)                           | Clear the active profile                                      | 6                |
 | 200   | [NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST](#net_packet_id_pluginmanager_get_plugin_list)                                       | Get list of plugins                                           | 4                |
 | 201   | [NET_PACKET_ID_PLUGINMANAGER_PLUGIN_SPECIFIC](#net_packet_id_pluginmanager_plugin_specific)                                       | Interact with a plugin                                        | 4                |
 | 250   | [NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS](#net_packet_id_settingsmanager_get_settings)                                         | Get settings for a given key in JSON format                   | 6                |
-| 251   | [NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS](#net_packet_id_settingsmanager_set_settings)                                         | Set settings for a given key in JSON format                   | 6                |
-| 252   | [NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS](#net_packet_id_settingsmanager_save_settings)                                       | Save settings                                                 | 6                |
+| 251   | [NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS_SCHEMA](#net_packet_id_settingsmanager_get_settings_schema)                           | Get settings schema for a given key in JSON format            | 6                |
+| 252   | [NET_PACKET_ID_SETTINGSMANAGER_MODIFY_SETTINGS](#net_packet_id_settingsmanager_modify_settings)                                   | Modify settings for a given key in JSON format                | 6                |
+| 253   | [NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS](#net_packet_id_settingsmanager_set_settings)                                         | Set settings for a given key in JSON format                   | 6                |
+| 254   | [NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS](#net_packet_id_settingsmanager_save_settings)                                       | Save settings                                                 | 6                |
+| 300   | [NET_PACKET_ID_LOGMANAGER_CLEAR_LOG_BUFFER](#net_packet_id_logmanager_clear_log_buffer)                                           | LogManager::ClearLogBuffer()                                  | 6                |
+| 301   | [NET_PACKET_ID_LOGMANAGER_GET_LOG_BUFFER](#net_packet_id_logmanager_get_log_buffer)                                               | LogManager::GetLogBuffer()                                    | 6                |
+| 302   | [NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL](#net_packet_id_logmanager_get_log_level)                                                 | LogManager::GetLogLevel()                                     | 6                |
+| 303   | [NET_PACKET_ID_LOGMANAGER_SET_LOG_LEVEL](#net_packet_id_logmanager_set_log_level)                                                 | LogManager::SetLogLevel()                                     | 6                |
+| 304   | [NET_PACKET_ID_LOGMANAGER_LOGGED_ENTRY](#net_packet_id_logmanager_logged_entry)                                                   | LogManager::LogEntry Callback                                 | 6                |
 | 1000  | [NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE](#net_packet_id_rgbcontroller_resizezone)                                                 | RGBController::ResizeZone()                                   | 0                |
 | 1001  | [NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS](#net_packet_id_rgbcontroller_clearsegments)                                           | RGBController::ClearSegments()                                | 5                |
 | 1002  | [NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT](#net_packet_id_rgbcontroller_addsegment)                                                 | RGBController::AddSegment()                                   | 5                |
 | 1003  | [NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE](#net_packet_id_rgbcontroller_configurezone)                                           | RGBController::ConfigureZone()                                | 6                |
+| 1004  | [NET_PACKET_ID_RGBCONTROLLER_CONFIGUREDEVICE](#net_packet_id_rgbcontroller_configuredevice)                                       | RGBController::ConfigureDevice()                              | 6                |
+| 1005  | [NET_PACKET_ID_RGBCONTROLLER_SETHIDDEN](#net_packet_id_rgbcontroller_sethidden)                                                   | RGBController::SetHidden()                                    | 6                |
 | 1050  | [NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS](#net_packet_id_rgbcontroller_updateleds)                                                 | RGBController::UpdateLEDs()                                   | 0                |
 | 1051  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS](#net_packet_id_rgbcontroller_updatezoneleds)                                         | RGBController::UpdateZoneLEDs()                               | 0                |
 | 1052  | [NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED](#net_packet_id_rgbcontroller_updatesingleled)                                       | RGBController::UpdateSingleLED()                              | 0                |
@@ -86,7 +103,7 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 1130  | [NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION](#net_packet_id_rgbcontroller_setdevicespecificconfiguration)         | RGBController::SetDeviceSpecificConfiguration                 | 6                |
 | 1131  | [NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION](#net_packet_id_rgbcontroller_setdevicespecificzoneconfiguration) | RGBController::SetDeviceSpecificZoneConfiguration             | 6                |
 | 1150  | [NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE](#net_packet_id_rgbcontroller_signalupdate)                                             | RGBController::SignalUpdate()                                 | 6                |
-        
+
 \* The [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version) packet was not present in protocol version 0, but clients supporting protocol versions 1+ should always send this packet.  If no response is received, it should be assumed that the server is using protocol 0.
 
 ### Device IDs
@@ -165,7 +182,7 @@ The Device Data block represents an entire `RGBController`.  This data block is 
 | Variable            | LED Display Name[num_led_display_names]   | led_display_names     | 5                | See [LED Display Name Data](#led-display-name-data) block format table.  Repeat num_led_display_names times  |
 | 4                   | unsigned int                              | flags                 | 5                | RGBController flags field value                                                                              |
 | 4                   | unsigned int                              | configuration_len     | 6                | Length of RGBController configuration field string, including null termination                               |
-| configuration_len   | char[configuration_len]                   | configuration         |                  | RGBController configuration field string value, including null termination                                   |
+| configuration_len   | char[configuration_len]                   | configuration         | 6                | RGBController configuration field string value, including null termination                                   |
 
 ## Mode Data
 
@@ -307,9 +324,10 @@ The client uses this ID to send the client's flags value to the server.  The cli
 | Bit | Flag Name                                | Flag Description                    |
 | --- | ---------------------------------------- | ----------------------------------- |
 | 0   | NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER   | Client supports RGBController API   |
-| 1   | NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER  | Client supports ProfileManager API  |
-| 2   | NET_CLIENT_FLAG_SUPPORTS_PLUGINMANAGER   | Client supports PluginManager API   |
-| 3   | NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER | Client supports SettingsManager API |
+| 1   | NET_CLIENT_FLAG_SUPPORTS_LOGMANAGER      | Client supports LogManager API      |
+| 2   | NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER  | Client supports ProfileManager API  |
+| 3   | NET_CLIENT_FLAG_SUPPORTS_PLUGINMANAGER   | Client supports PluginManager API   |
+| 4   | NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER | Client supports SettingsManager API |
 | 16  | NET_CLIENT_FLAG_REQUEST_LOCAL_CLIENT     | Request local client                |
 
 ## NET_PACKET_ID_SET_SERVER_FLAGS
@@ -318,14 +336,16 @@ The client uses this ID to send the client's flags value to the server.  The cli
 
 The server uses this ID to send the server's flags value to the client.  The server sets the NET_SERVER_FLAG_LOCAL_CLIENT flag to grant the connected client local client status.  The server will only set NET_SERVER_FLAG_LOCAL_CLIENT if the client requested local client status with NET_CLIENT_FLAG_REQUEST_LOCAL_CLIENT and the client is connected from the localhost address.
 
-| Bit | Flag Name                                | Flag Description                    |
-| --- | ---------------------------------------- | ----------------------------------- |
-| 0   | NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER   | Server supports RGBController API   |
-| 1   | NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER  | Server supports ProfileManager API  |
-| 2   | NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER   | Server supports PluginManager API   |
-| 3   | NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER | Server supports SettingsManager API |
-| 4   | NET_SERVER_FLAG_SUPPORTS_DETECTION       | Server supports detection functions |
-| 16  | NET_SERVER_FLAG_LOCAL_CLIENT             | Confirm that client is local client |
+| Bit | Flag Name                                | Flag Description                      |
+| --- | ---------------------------------------- | ------------------------------------- |
+| 0   | NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER   | Server supports RGBController API     |
+| 1   | NET_SERVER_FLAG_SUPPORTS_LOGMANAGER      | Server supports LogManager API        |
+| 2   | NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER  | Server supports ProfileManager API    |
+| 3   | NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER   | Server supports PluginManager API     |
+| 4   | NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER | Server supports SettingsManager API   |
+| 5   | NET_SERVER_FLAG_SUPPORTS_DETECTION       | Server supports detection functions   |
+| 6   | NET_SERVER_FLAG_SUPPORTS_DEVICE_INFO     | Server supports device info functions |
+| 16  | NET_SERVER_FLAG_LOCAL_CLIENT             | Confirm that client is local client   |
 
 ## NET_PACKET_ID_DEVICE_LIST_UPDATED
 
@@ -357,6 +377,86 @@ The server uses this ID to notify a client that the server's detection progress 
 ### Server Only [Size: 0]
 
 The server uses this ID to notify a client that the server's detection process has completed.
+
+## NET_PACKET_ID_GET_I2C_BUS_INFO
+
+### Request [Size: 0]
+
+The client uses this ID to request a list of I2C bus info from the server.  The request contains no data.  This request should only be used if the server sets the NET_SERVER_FLAG_SUPPORTS_DEVICE_INFO flag.
+
+### Response [Size: Variable]
+
+The server responds with a data block containing I2C bus information.
+
+| Size     | Format                     | Name        | Protocol Version | Description                                                                  |
+| -------- | -------------------------- | ----------- | ---------------- | ---------------------------------------------------------------------------- |
+| 4        | unsigned int               | data_size   | 6                | Size of all data in packet                                                   |
+| 4        | unsigned int               | bus_count   | 6                | Number of I2C bus entries                                                    |
+| Variable | i2c_smbus_info[bus_count]  | bus_info    | 6                | I2C bus info data, each entry is the fixed-size `i2c_smbus_info` struct      |
+
+## NET_PACKET_ID_GET_HID_DEVICE_INFO
+
+### Request [Size: 0]
+
+The client uses this ID to request a list of HID device info from the server.  The request contains no data.  This request should only be used if the server sets the NET_SERVER_FLAG_SUPPORTS_DEVICE_INFO flag.
+
+### Response [Size: Variable]
+
+The server responds with a data block containing HID device information.
+
+| Size     | Format                         | Name           | Protocol Version | Description                                                                            |
+| -------- | ------------------------------ | -------------- | ---------------- | -------------------------------------------------------------------------------------- |
+| 4        | unsigned int                   | data_size      | 6                | Size of all data in packet                                                             |
+| 4        | unsigned int                   | device_count   | 6                | Number of HID device entries                                                           |
+| Variable | HID Device Data[device_count]  | device_data    | 6                | See [HID Device Data](#hid-device-data) block format table.  Repeat device_count times |
+
+### HID Device Data
+
+| Size                | Format                     | Name                  | Protocol Version | Description                                                    |
+| ------------------- | -------------------------- | --------------------- | ---------------- | -------------------------------------------------------------- |
+| 2                   | unsigned short             | vendor_id             | 6                | HID vendor ID                                                  |
+| 2                   | unsigned short             | product_id            | 6                | HID product ID                                                 |
+| 2                   | unsigned short             | release_number        | 6                | HID release number                                             |
+| 2                   | unsigned short             | usage_page            | 6                | HID usage page                                                 |
+| 2                   | unsigned short             | usage                 | 6                | HID usage                                                      |
+| 4                   | int                        | interface_number      | 6                | HID interface number                                           |
+| 2                   | unsigned short             | serial_number_size    | 6                | Length of serial number string, including null termination     |
+| serial_number_size  | char[serial_number_size]   | serial_number         | 6                | Serial number string value, including null termination         |
+| 2                   | unsigned short             | manufacturer_size     | 6                | Length of manufacturer string, including null termination      |
+| manufacturer_size   | char[manufacturer_size]    | manufacturer_string   | 6                | Manufacturer string value, including null termination          |
+| 2                   | unsigned short             | product_string_size   | 6                | Length of product string, including null termination           |
+| product_string_size | char[product_string_size]  | product_string        | 6                | Product string value, including null termination               |
+| 2                   | unsigned short             | path_size             | 6                | Length of path string, including null termination              |
+| path_size           | char[path_size]            | path                  | 6                | Path string value, including null termination                  |
+
+## NET_PACKET_ID_GET_USB_DEVICE_INFO
+
+### Request [Size: 0]
+
+The client uses this ID to request a list of USB device info from the server.  The request contains no data.  This request should only be used if the server sets the NET_SERVER_FLAG_SUPPORTS_DEVICE_INFO flag.
+
+### Response [Size: Variable]
+
+The server responds with a data block containing USB device information.
+
+| Size     | Format                          | Name           | Protocol Version | Description                                                                            |
+| -------- | ------------------------------- | -------------- | ---------------- | -------------------------------------------------------------------------------------- |
+| 4        | unsigned int                    | data_size      | 6                | Size of all data in packet                                                             |
+| 4        | unsigned int                    | device_count   | 6                | Number of USB device entries                                                           |
+| Variable | USB Device Data[device_count]   | device_data    | 6                | See [USB Device Data](#usb-device-data) block format table.  Repeat device_count times |
+
+### USB Device Data
+
+| Size                | Format                     | Name                  | Protocol Version | Description                                                    |
+| ------------------- | -------------------------- | --------------------- | ---------------- | -------------------------------------------------------------- |
+| 2                   | unsigned short             | vendor_id             | 6                | USB vendor ID                                                  |
+| 2                   | unsigned short             | product_id            | 6                | USB product ID                                                 |
+| 2                   | unsigned short             | serial_number_size    | 6                | Length of serial number string, including null termination     |
+| serial_number_size  | char[serial_number_size]   | serial_number         | 6                | Serial number string value, including null termination         |
+| 2                   | unsigned short             | manufacturer_size     | 6                | Length of manufacturer string, including null termination      |
+| manufacturer_size   | char[manufacturer_size]    | manufacturer_string   | 6                | Manufacturer string value, including null termination          |
+| 2                   | unsigned short             | product_string_size   | 6                | Length of product string, including null termination           |
+| product_string_size | char[product_string_size]  | product_string        | 6                | Product string value, including null termination               |
 
 ## NET_PACKET_ID_REQUEST_RESCAN_DEVICES
 
@@ -393,13 +493,17 @@ The profile data block represents the information of one profile.  This data blo
 
 ### Client Only [Size: Variable]
 
-The client uses this ID to command the server to save the current configuration to a profile.  It passes the name of the profile to save as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.  There is no response from the server for this packet.
+The client uses this ID to command the server to save the current configuration to a profile.  It passes the name of the profile to save as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+This packet requires local client status.
+
+There is no response from the server for this packet.
 
 ## NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE
 
 ### Client Only [Size: Variable]
 
-The client uses this ID to command the server to load the given profile.  It passes the name of the profile to load as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.  There is no response from the server for this packet.
+The client uses this ID to command the server to load the given profile.  It passes the name of the profile to load as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
 
 Calling this function will not actually update the controllers.  Instead, the controller states will be updated from the profile on the server side.  After sending this request, the client should re-request all controller states from the server so that the client controller states match the server states loaded from the profile.  After requesting all of the controller data, the client shall call UpdateMode() on all controllers to apply the updated state.
 
@@ -407,28 +511,75 @@ Calling this function will not actually update the controllers.  Instead, the co
 
 ### Client Only [Size: Variable]
 
-The client uses this ID to command the server to delete the given profile.  It passes the name of the profile to delete as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.  There is no response from the server for this packet.
+The client uses this ID to command the server to delete the given profile.  It passes the name of the profile to delete as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+This packet requires local client status.
+
+There is no response from the server for this packet.
 
 ## NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE
 
 ### Client Only [Size: Variable]
+
 The client uses this ID to upload a JSON-formatted profile to the server.  The JSON data is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+This packet requires local client status.
 
 ## NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE
 
 ### Request [Size: Variable]
+
 The client uses this ID to download a JSON-formatted profile from the server.  The name of the profile to download is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
 
 ### Response [Size: Variable]
+
 The server responds to this request with the JSON-formatted profile.  The JSON data is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
 
 ## NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE
 
 ### Request [Size: 0]
+
 The client uses this ID to request the name of the active profile from the server.  The request contains no data.
 
-## NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST
+### Response [Size: Variable]
+
 The server responds to this request with the name of the active profile or an empty string if no profile is active.  This string is sent null-terminated.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+## NET_PACKET_ID_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED
+
+### Server Only [Size: Variable]
+
+The server uses this ID to notify the client that the active profile has changed.  The data contains the name of the active profile as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+This packet is sent only to clients that have the NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER flag set.
+
+## NET_PACKET_ID_PROFILEMANAGER_PROFILE_LOADED
+
+### Server Only [Size: Variable]
+
+The server uses this ID to notify the active (local) client that a profile has been loaded.  The data contains the full profile data as a JSON-formatted null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+This packet is sent only to clients that have the NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER flag set and have local client status.
+
+## NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD
+
+### Server Only [Size: 0]
+
+The server uses this ID to notify all clients that a profile is about to be loaded.  This packet contains no data.  Clients should acknowledge this packet with an ACK before the profile load continues.  The server waits for all ProfileManager-capable clients to acknowledge before proceeding.
+
+## NET_PACKET_ID_PROFILEMANAGER_PROFILE_LIST_UPDATED
+
+### Server Only [Size: Variable]
+
+The server uses this ID to notify a client that the profile list has been updated.  The data block format is the same as the response for [NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST](#net_packet_id_profilemanager_get_profile_list).
+
+## NET_PACKET_ID_PROFILEMANAGER_CLEAR_ACTIVE_PROFILE
+
+### Client Only [Size: 0]
+
+The client uses this ID to command the server to clear the active profile.  The packet contains no data.
+
+## NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST
 
 ### Request [Size: 0]
 
@@ -475,9 +626,98 @@ The response is optionally generated by the plugin.  The data in the packet is p
 
 ## NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS
 
+### Request [Size: Variable]
+
+The client uses this ID to request a settings value for a given key in JSON format from the server.  The key is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+### Response [Size: Variable]
+
+The server responds to this request with the settings value for the given key in JSON format, as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+## NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS_SCHEMA
+
+### Request [Size: Variable]
+
+The client uses this ID to request a settings schema for a given key in JSON format from the server.  The key is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+### Response [Size: Variable]
+
+The server responds to this request with the settings schema for the given key in JSON format, as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+## NET_PACKET_ID_SETTINGSMANAGER_MODIFY_SETTINGS
+
+### Client Only [Size: Variable]
+
+The client uses this ID to modify the settings for a given key in JSON format.  The JSON data is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+This packet requires local client status.
+
+There is no response from the server for this packet.
+
 ## NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS
 
+### Client Only [Size: Variable]
+
+The client uses this ID to set the settings for a given key in JSON format.  The JSON data is sent as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.
+
+This packet requires local client status.
+
+There is no response from the server for this packet.
+
 ## NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS
+
+### Client Only [Size: 0]
+
+The client uses this ID to command the server to save settings.  The packet contains no data.
+
+This packet requires local client status.
+
+There is no response from the server for this packet.
+
+## NET_PACKET_ID_LOGMANAGER_CLEAR_LOG_BUFFER
+
+### Client Only [Size: 0]
+
+The client uses this ID to command the server to clear the log buffer.  The packet contains no data.
+
+## NET_PACKET_ID_LOGMANAGER_GET_LOG_BUFFER
+
+### Client Only [Size: 0]
+
+The client uses this ID to request the server to send the log buffer.  The packet contains no data.
+
+## NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL
+
+### Request [Size: 0]
+
+The client uses this ID to request the current log level from the server.  The request contains no data.
+
+### Response [Size: 4]
+
+The server responds to this request with a single `unsigned int`, size 4, containing the current log level value.
+
+## NET_PACKET_ID_LOGMANAGER_SET_LOG_LEVEL
+
+### Client Only [Size: 4]
+
+The client uses this ID to set the log level on the server.  The packet contains a single `unsigned int`, size 4, containing the log level value to set.
+
+## NET_PACKET_ID_LOGMANAGER_LOGGED_ENTRY
+
+### Server Only [Size: Variable]
+
+The server uses this ID to forward a LogManager log entry to the client.  The format of the block is shown below.
+
+| Size                | Format                     | Name                  | Protocol Version | Description                                                    |
+| ------------------- | -------------------------- | --------------------- | ---------------- | -------------------------------------------------------------- |
+| 4                   | unsigned int               | data_size             | 6                | Size of all data in packet                                     |
+| 4                   | unsigned int               | log_level             | 6                | Log level value                                                |
+| 4                   | unsigned int               | line                  | 6                | Line number of log entry                                       |
+| 8                   | unsigned long long         | timestamp             | 6                | Timestamp of log entry                                         |
+| 2                   | unsigned short             | filename_size         | 6                | Length of filename string, including null termination          |
+| filename_size       | char[filename_size]        | filename              | 6                | Filename string value, including null termination              |
+| 2                   | unsigned short             | text_size             | 6                | Length of text string, including null termination              |
+| text_size           | char[text_size]            | text                  | 6                | Log text string value, including null termination              |
 
 ## NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE
 
@@ -510,6 +750,8 @@ The client uses this ID to call the AddSegment() function of an RGBController de
 
 ## NET_PACKET_ID_RGBCONTROLLER_CONFIGUREZONE
 
+### Client Only [Size: Variable]
+
 The client uses this ID to call the ConfigureZone() function of an RGBController device.  The packet contains a data block.  The format of the block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling ConfigureZone() on.  See the [Device IDs](#device-ids) section for more information. 
 
 | Size             | Format                 | Name             | Description                                               |
@@ -517,6 +759,25 @@ The client uses this ID to call the ConfigureZone() function of an RGBController
 | 4                | unsigned int           | data_size        | Size of all data in packet                                |
 | 4                | unsigned int           | zone_idx         | Zone index to configure                                   |
 | Variable         | Zone Data              | zone             | See [Zone Data](#zone-data) block format table.           |
+
+## NET_PACKET_ID_RGBCONTROLLER_CONFIGUREDEVICE
+
+### Client Only [Size: Variable]
+
+The client uses this ID to call the ConfigureDevice() function of an RGBController device.  The packet contains a data block.  The format of the block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling ConfigureDevice() on.  See the [Device IDs](#device-ids) section for more information.
+
+| Size             | Format                 | Name             | Description                                                  |
+| ---------------- | ---------------------- | ---------------- | ------------------------------------------------------------ |
+| 4                | unsigned int           | data_size        | Size of all data in packet                                   |
+| 4                | unsigned int           | flags            | New controller flags value                                   |
+| 2                | unsigned short         | name_len         | Length of controller name string, including null termination |
+| name_len         | char[name_len]         | name             | New controller name string value, including null termination |
+
+## NET_PACKET_ID_RGBCONTROLLER_SETHIDDEN
+
+### Client Only [Size: 1]
+
+The client uses this ID to call the SetHidden() function of an RGBController device.  The packet contains a single `bool` value (size 1).  The `pkt_dev_id` of this request's header indicates which controller you are calling SetHidden() on.  See the [Device IDs](#device-ids) section for more information.
 
 ## NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS
 
@@ -580,16 +841,61 @@ The client uses this ID to call the SaveMode() function of an RGBController devi
 
 ## NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE
 
+### Client Only [Size: Variable]
+
 The client uses this ID to call the UpdateZoneMode() function of an RGBController device.  The packet contains a data block.  The format of the data block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling UpdateZoneMode() on.  See the [Device IDs](#device-ids) section for more information.
+
+| Size                | Format                    | Name                | Protocol Version | Description                                            |
+| ------------------- | ------------------------- | ------------------- | ---------------- | ------------------------------------------------------ |
+| 4                   | unsigned int              | data_size           | 0                | Size of all data in packet                             |
+| 4                   | int                       | zone_idx            | 6                | Zone index to update mode on                           |
+| 4                   | int                       | mode_idx            | 6                | Mode index to update                                   |
+| Variable            | Mode Data                 | mode                | 6                | See [Mode Data](#mode-data) block format table.        |
 
 ## NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION
 
+### Client Only [Size: Variable]
+
 The client uses this ID to call the SetDeviceSpecificConfiguration function of an RGBController device.  The `pkt_dev_id` of this request's header indicates which controller you are calling SetDeviceSpecificConfiguration on.  See the [Device IDs](#device-ids) section for more information.
+
+| Size         | Format                 | Name              | Description                                                              |
+| ------------ | ---------------------- | ----------------- | ------------------------------------------------------------------------ |
+| Variable     | char[data_size]        | configuration     | Configuration JSON string, including null termination (size = data_size) |
 
 ## NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION
 
+### Client Only [Size: Variable]
+
 The client uses this ID to call the SetDeviceSpecificZoneConfiguration function of an RGBController device.  The `pkt_dev_id` of this request's header indicates which controller you are calling SetDeviceSpecificZoneConfiguration on.  See the [Device IDs](#device-ids) section for more information.
+
+| Size         | Format                          | Name                      | Description                                                   |
+| ------------ | ------------------------------- | ------------------------- | ------------------------------------------------------------- |
+| 4            | int                             | zone_idx                  | Zone index to configure                                       |
+| 4            | unsigned int                    | configuration_string_size | Size of configuration string, including null termination      |
+| Variable     | char[configuration_string_size] | configuration             | Configuration JSON string, including null termination         |
 
 ## NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE
 
+### Server Only [Size: Variable]
+
 The server uses this ID to signal the client that SignalUpdate() was called on an RGBController device.  The packet contains a data block.  The format of the data block is shown below.  The `pkt_dev_id` of this request's header indicates which controller signalled SignalUpdate().  See the [Device IDs](#device-ids) section for more information.
+
+| Size                | Format                    | Name                | Description                                                   |
+| ------------------- | ------------------------- | ------------------- | ------------------------------------------------------------- |
+| 4                   | unsigned int              | data_size           | Size of all data in packet                                    |
+| 4                   | unsigned int              | update_reason       | Update reason code.  See table below                          |
+| Variable            | Description Data          | description         | Controller description data or color description data         |
+
+The update reason code determines the format of the description data:
+
+| Reason Code                            | Value | Description Data Format                                     |
+| -------------------------------------- | ----- | ----------------------------------------------------------- |
+| RGBCONTROLLER_UPDATE_REASON_UPDATELEDS |       | [Color Description](#color-description-data) format         |
+| All other reasons                      |       | [Device Data](#device-data) format                          |
+
+### Color Description Data
+
+| Size               | Format               | Name       | Description                      |
+| ------------------ | -------------------- | ---------- | -------------------------------- |
+| 2                  | unsigned short       | num_colors | Number of color values           |
+| 4 * num_colors     | RGBColor[num_colors] | colors     | Color values for each LED        |

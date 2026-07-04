@@ -87,6 +87,7 @@ enum
     NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER      = ( 1 << 3 ),   /* Server supports PluginManager API            */
     NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER    = ( 1 << 4 ),   /* Server supports SettingsManager API          */
     NET_SERVER_FLAG_SUPPORTS_DETECTION          = ( 1 << 5 ),   /* Server supports detection functions          */
+    NET_SERVER_FLAG_SUPPORTS_DEVICE_INFO        = ( 1 << 6 ),   /* Server supports device info functions        */
 
     NET_SERVER_FLAG_LOCAL_CLIENT                = ( 1 << 16),   /* Confirm that client is local client          */
 };

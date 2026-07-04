@@ -86,6 +86,7 @@ public:
     bool                                GetSupportsPluginManagerAPI();
     bool                                GetSupportsSettingsManagerAPI();
     bool                                GetSupportsDetectionAPI();
+    bool                                GetSupportsDeviceInfoAPI();
 
     /*-----------------------------------------------------*\
     | Client Control functions                              |
