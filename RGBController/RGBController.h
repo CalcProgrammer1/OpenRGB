@@ -55,7 +55,7 @@ public:
     int                     GetZoneActiveMode(unsigned int zone);
     RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index);
     RGBColor*               GetZoneColorsPointer(unsigned int zone);
-    std::size_t             GetZoneCount();
+    unsigned int            GetZoneCount();
     std::string             GetZoneDisplayName(unsigned int zone);
     zone_flags              GetZoneFlags(unsigned int zone);
     unsigned int            GetZoneLEDsCount(unsigned int zone);
@@ -65,13 +65,13 @@ public:
     const unsigned int*     GetZoneMatrixMapData(unsigned int zone);
     unsigned int            GetZoneMatrixMapHeight(unsigned int zone);
     unsigned int            GetZoneMatrixMapWidth(unsigned int zone);
-    std::size_t             GetZoneModeCount(unsigned int zone);
+    unsigned int            GetZoneModeCount(unsigned int zone);
     unsigned int            GetZoneModeBrightness(unsigned int zone, unsigned int mode);
     unsigned int            GetZoneModeBrightnessMax(unsigned int zone, unsigned int mode);
     unsigned int            GetZoneModeBrightnessMin(unsigned int zone, unsigned int mode);
     RGBColor                GetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index);
     unsigned int            GetZoneModeColorMode(unsigned int zone, unsigned int mode);
-    std::size_t             GetZoneModeColorsCount(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeColorsCount(unsigned int zone, unsigned int mode);
     unsigned int            GetZoneModeColorsMax(unsigned int zone, unsigned int mode);
     unsigned int            GetZoneModeColorsMin(unsigned int zone, unsigned int mode);
     unsigned int            GetZoneModeDirection(unsigned int zone, unsigned int mode);
@@ -81,7 +81,7 @@ public:
     unsigned int            GetZoneModeSpeedMax(unsigned int zone, unsigned int mode);
     unsigned int            GetZoneModeSpeedMin(unsigned int zone, unsigned int mode);
     std::string             GetZoneName(unsigned int zone);
-    std::size_t             GetZoneSegmentCount(unsigned int zone);
+    unsigned int            GetZoneSegmentCount(unsigned int zone);
     segment_flags           GetZoneSegmentFlags(unsigned int zone, unsigned int segment);
     unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment);
     matrix_map_type         GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment);
@@ -101,7 +101,7 @@ public:
     void                    SetZoneModeBrightness(unsigned int zone, unsigned int mode, unsigned int brightness);
     void                    SetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index, RGBColor color);
     void                    SetZoneModeColorMode(unsigned int zone, unsigned int mode, unsigned int color_mode);
-    void                    SetZoneModeColorsCount(unsigned int zone, unsigned int mode, std::size_t count);
+    void                    SetZoneModeColorsCount(unsigned int zone, unsigned int mode, unsigned int count);
     void                    SetZoneModeDirection(unsigned int zone, unsigned int mode, unsigned int direction);
     void                    SetZoneModeSpeed(unsigned int zone, unsigned int mode, unsigned int speed);
 
@@ -110,13 +110,13 @@ public:
     /*-----------------------------------------------------*\
     | Mode Functions                                        |
     \*-----------------------------------------------------*/
-    std::size_t             GetModeCount();
+    unsigned int            GetModeCount();
     unsigned int            GetModeBrightness(unsigned int mode);
     unsigned int            GetModeBrightnessMax(unsigned int mode);
     unsigned int            GetModeBrightnessMin(unsigned int mode);
     RGBColor                GetModeColor(unsigned int mode, unsigned int color_index);
     unsigned int            GetModeColorMode(unsigned int mode);
-    std::size_t             GetModeColorsCount(unsigned int mode);
+    unsigned int            GetModeColorsCount(unsigned int mode);
     unsigned int            GetModeColorsMax(unsigned int mode);
     unsigned int            GetModeColorsMin(unsigned int mode);
     unsigned int            GetModeDirection(unsigned int mode);
@@ -129,7 +129,7 @@ public:
     void                    SetModeBrightness(unsigned int mode, unsigned int brightness);
     void                    SetModeColor(unsigned int mode, unsigned int color_index, RGBColor color);
     void                    SetModeColorMode(unsigned int mode, unsigned int color_mode);
-    void                    SetModeColorsCount(unsigned int mode, std::size_t count);
+    void                    SetModeColorsCount(unsigned int mode, unsigned int count);
     void                    SetModeDirection(unsigned int mode, unsigned int direction);
     void                    SetModeSpeed(unsigned int mode, unsigned int speed);
 
@@ -140,7 +140,7 @@ public:
     /*-----------------------------------------------------*\
     | LED Functions                                         |
     \*-----------------------------------------------------*/
-    std::size_t             GetLEDCount();
+    unsigned int            GetLEDCount();
     std::string             GetLEDName(unsigned int led);
     std::string             GetLEDDisplayName(unsigned int led);
 

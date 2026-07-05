@@ -285,9 +285,9 @@ RGBColor* RGBController::GetZoneColorsPointer(unsigned int zone)
     }
 }
 
-std::size_t RGBController::GetZoneCount()
+unsigned int RGBController::GetZoneCount()
 {
-    return(zones.size());
+    return((unsigned int)zones.size());
 }
 
 std::string RGBController::GetZoneDisplayName(unsigned int zone)
@@ -455,14 +455,14 @@ unsigned int RGBController::GetZoneMatrixMapWidth(unsigned int zone)
     return(width);
 }
 
-std::size_t RGBController::GetZoneModeCount(unsigned int zone)
+unsigned int RGBController::GetZoneModeCount(unsigned int zone)
 {
-    std::size_t mode_count;
+    unsigned int mode_count;
 
     AccessMutex.lock_shared();
     if(zone < zones.size())
     {
-        mode_count = zones[zone].modes.size();
+        mode_count = (unsigned int)zones[zone].modes.size();
     }
     else
     {
@@ -563,14 +563,14 @@ unsigned int RGBController::GetZoneModeColorMode(unsigned int zone, unsigned int
     return(color_mode);
 }
 
-std::size_t RGBController::GetZoneModeColorsCount(unsigned int zone, unsigned int mode)
+unsigned int RGBController::GetZoneModeColorsCount(unsigned int zone, unsigned int mode)
 {
-    std::size_t colors_count;
+    unsigned int colors_count;
 
     AccessMutex.lock_shared();
     if((zone < zones.size()) && (mode < zones[zone].modes.size()))
     {
-        colors_count = zones[zone].modes[mode].colors.size();
+        colors_count = (unsigned int)zones[zone].modes[mode].colors.size();
     }
     else
     {
@@ -743,14 +743,14 @@ std::string RGBController::GetZoneName(unsigned int zone)
     return(name);
 }
 
-std::size_t RGBController::GetZoneSegmentCount(unsigned int zone)
+unsigned int RGBController::GetZoneSegmentCount(unsigned int zone)
 {
-    std::size_t count;
+    unsigned int count;
 
     AccessMutex.lock_shared();
     if(zone < zones.size())
     {
-        count = zones[zone].segments.size();
+        count = (unsigned int)zones[zone].segments.size();
     }
     else
     {
@@ -1053,7 +1053,7 @@ void RGBController::SetZoneModeColorMode(unsigned int zone, unsigned int mode, u
     AccessMutex.unlock();
 }
 
-void RGBController::SetZoneModeColorsCount(unsigned int zone, unsigned int mode, std::size_t count)
+void RGBController::SetZoneModeColorsCount(unsigned int zone, unsigned int mode, unsigned int count)
 {
     AccessMutex.lock();
     if((zone < zones.size()) && (mode < zones[zone].modes.size()) && (count >= zones[zone].modes[mode].colors_min) && (count <= zones[zone].modes[mode].colors_max))
@@ -1111,9 +1111,9 @@ bool RGBController::SupportsPerZoneModes()
 /*---------------------------------------------------------*\
 | Mode Functions                                            |
 \*---------------------------------------------------------*/
-std::size_t RGBController::GetModeCount()
+unsigned int RGBController::GetModeCount()
 {
-    return(modes.size());
+    return((unsigned int)modes.size());
 }
 
 unsigned int RGBController::GetModeBrightness(unsigned int mode)
@@ -1206,14 +1206,14 @@ unsigned int RGBController::GetModeColorMode(unsigned int mode)
     return(color_mode);
 }
 
-std::size_t RGBController::GetModeColorsCount(unsigned int mode)
+unsigned int RGBController::GetModeColorsCount(unsigned int mode)
 {
-    std::size_t count;
+    unsigned int count;
 
     AccessMutex.lock_shared();
     if(mode < modes.size())
     {
-        count = modes[mode].colors.size();
+        count = (unsigned int)modes[mode].colors.size();
     }
     else
     {
@@ -1387,7 +1387,7 @@ void RGBController::SetModeColorMode(unsigned int mode, unsigned int color_mode)
     AccessMutex.unlock();
 }
 
-void RGBController::SetModeColorsCount(unsigned int mode, std::size_t count)
+void RGBController::SetModeColorsCount(unsigned int mode, unsigned int count)
 {
     AccessMutex.lock();
     if((mode < modes.size()) && (count >= modes[mode].colors_min) && (count <= modes[mode].colors_max))
@@ -1512,9 +1512,9 @@ void RGBController::SetCustomMode()
 /*---------------------------------------------------------*\
 | LED Functions                                             |
 \*---------------------------------------------------------*/
-std::size_t RGBController::GetLEDCount()
+unsigned int RGBController::GetLEDCount()
 {
-    return(leds.size());
+    return((unsigned int)leds.size());
 }
 
 std::string RGBController::GetLEDName(unsigned int led)
@@ -4521,7 +4521,7 @@ bool RGBController::CompareControllers(RGBController* controller_1, RGBControlle
             }
             else
             {
-                for(std::size_t mode_index = 0; mode_index < controller_1->GetZoneModeCount(zone_index); mode_index++)
+                for(unsigned int mode_index = 0; mode_index < controller_1->GetZoneModeCount(zone_index); mode_index++)
                 {
                     if((controller_1->GetZoneModeName(zone_index, mode_index)          != controller_2->GetZoneModeName(zone_index, mode_index)         )
                     || (controller_1->GetZoneModeFlags(zone_index, mode_index)         != controller_2->GetZoneModeFlags(zone_index, mode_index)        )

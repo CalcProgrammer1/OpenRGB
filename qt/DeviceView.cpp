@@ -899,9 +899,9 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     \*-----------------------------------------------------*/
     unsigned int segments = 0;
 
-    for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
     {
-        for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
+        for(unsigned int segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
         {
             segments++;
         }
@@ -994,7 +994,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     \*-----------------------------------------------------*/
     unsigned int segment_count  = 0;
 
-    for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
     {
         /*-------------------------------------------------*\
         | Determine position and size for zone name         |
@@ -1028,7 +1028,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         \*-------------------------------------------------*/
         painter.drawText(posx, posy + posh, QString(controller->GetZoneDisplayName((unsigned int)zone_idx).c_str()));
 
-        for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
+        for(unsigned int segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
         {
             /*---------------------------------------------*\
             | Determine position and size for segment name  |
@@ -1135,7 +1135,7 @@ void DeviceView::InitDeviceView()
     /*-----------------------------------------------------*\
     | Determine the total height (in LEDs) of all zones     |
     \*-----------------------------------------------------*/
-    for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
     {
         /*-------------------------------------------------*\
         | For matrix zones, use matrix height from the map  |
@@ -1151,7 +1151,7 @@ void DeviceView::InitDeviceView()
         \*-------------------------------------------------*/
         else if(controller->GetZoneSegmentCount(zone_idx) > 0)
         {
-            for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
+            for(unsigned int segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
             {
                 if(controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX)
                 {
@@ -1199,7 +1199,7 @@ void DeviceView::InitDeviceView()
     matrix_h                                = total_height;
     segment_count                           = 0;
 
-    for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
     {
         /*-------------------------------------------------*\
         | Calculate zone label position and size            |
@@ -1302,7 +1302,7 @@ void DeviceView::InitDeviceView()
         }
         else if(controller->GetZoneSegmentCount(zone_idx) > 0)
         {
-            for(std::size_t segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
+            for(unsigned int segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
             {
                 /*-----------------------------------------*\
                 | Calculate segment label position and size |
@@ -1399,7 +1399,7 @@ void DeviceView::InitDeviceView()
     /*-----------------------------------------------------*\
     | Update LED labels                                     |
     \*-----------------------------------------------------*/
-    for(std::size_t led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
+    for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
     {
         std::map<std::string, led_label>::const_iterator it = led_label_lookup.find(controller->GetLEDDisplayName((unsigned int)led_idx));
 

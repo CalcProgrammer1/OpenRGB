@@ -411,7 +411,7 @@ Returns the color value of the given color index within the given zone.
 
 Returns a pointer to the colors array for the given zone.  The caller is responsible for locking and unlocking the access mutex.
 
-#### `std::size_t GetZoneCount()`
+#### `unsigned int GetZoneCount()`
 
 Returns the number of zones in the `zones` vector.
 
@@ -451,7 +451,7 @@ Returns the height of the matrix map for the given zone.
 
 Returns the width of the matrix map for the given zone.
 
-#### `std::size_t GetZoneModeCount(unsigned int zone)`
+#### `unsigned int GetZoneModeCount(unsigned int zone)`
 
 Returns the number of zone-specific modes for the given zone.
 
@@ -475,7 +475,7 @@ Returns the color at the given index for the given mode in the given zone.
 
 Returns the color mode of the given mode in the given zone.
 
-#### `std::size_t GetZoneModeColorsCount(unsigned int zone, unsigned int mode)`
+#### `unsigned int GetZoneModeColorsCount(unsigned int zone, unsigned int mode)`
 
 Returns the number of colors in the given mode in the given zone.
 
@@ -515,7 +515,7 @@ Returns the minimum speed value of the given mode in the given zone.
 
 Returns the name of the given zone.
 
-#### `std::size_t GetZoneSegmentCount(unsigned int zone)`
+#### `unsigned int GetZoneSegmentCount(unsigned int zone)`
 
 Returns the number of segments in the given zone.
 
@@ -587,7 +587,7 @@ Sets the color at the given index for the given mode in the given zone.
 
 Sets the color mode for the given mode in the given zone.
 
-#### `void SetZoneModeColorsCount(unsigned int zone, unsigned int mode, std::size_t count)`
+#### `void SetZoneModeColorsCount(unsigned int zone, unsigned int mode, unsigned int count)`
 
 Sets the number of colors for the given mode in the given zone.  The count must be within the mode's colors_min and colors_max range.
 
@@ -605,7 +605,7 @@ Returns true if any zone has zone-specific modes defined.
 
 ### Mode Functions
 
-#### `std::size_t GetModeCount()`
+#### `unsigned int GetModeCount()`
 
 Returns the number of modes in the `modes` vector.
 
@@ -629,7 +629,7 @@ Returns the color at the given index for the given mode.
 
 Returns the color mode of the given mode.
 
-#### `std::size_t GetModeColorsCount(unsigned int mode)`
+#### `unsigned int GetModeColorsCount(unsigned int mode)`
 
 Returns the number of colors in the given mode.
 
@@ -677,7 +677,7 @@ Sets the color at the given index for the given mode.
 
 Sets the color mode for the given mode.
 
-#### `void SetModeColorsCount(unsigned int mode, std::size_t count)`
+#### `void SetModeColorsCount(unsigned int mode, unsigned int count)`
 
 Sets the number of colors for the given mode.  The count must be within the mode's colors_min and colors_max range.
 
@@ -703,7 +703,7 @@ When called, the device should be put into its software-controlled mode.  This d
 
 ### LED Functions
 
-#### `std::size_t GetLEDCount()`
+#### `unsigned int GetLEDCount()`
 
 Returns the number of LEDs in the `leds` vector.
 

@@ -531,7 +531,7 @@ public:
     virtual int                     GetZoneActiveMode(unsigned int zone)                                                                                = 0;
     virtual RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index)                                                           = 0;
     virtual RGBColor*               GetZoneColorsPointer(unsigned int zone)                                                                             = 0;
-    virtual std::size_t             GetZoneCount()                                                                                                      = 0;
+    virtual unsigned int            GetZoneCount()                                                                                                      = 0;
     virtual std::string             GetZoneDisplayName(unsigned int zone)                                                                               = 0;
     virtual zone_flags              GetZoneFlags(unsigned int zone)                                                                                     = 0;
     virtual unsigned int            GetZoneLEDsCount(unsigned int zone)                                                                                 = 0;
@@ -541,13 +541,13 @@ public:
     virtual const unsigned int*     GetZoneMatrixMapData(unsigned int zone)                                                                             = 0;
     virtual unsigned int            GetZoneMatrixMapHeight(unsigned int zone)                                                                           = 0;
     virtual unsigned int            GetZoneMatrixMapWidth(unsigned int zone)                                                                            = 0;
-    virtual std::size_t             GetZoneModeCount(unsigned int zone)                                                                                 = 0;
+    virtual unsigned int            GetZoneModeCount(unsigned int zone)                                                                                 = 0;
     virtual unsigned int            GetZoneModeBrightness(unsigned int zone, unsigned int mode)                                                         = 0;
     virtual unsigned int            GetZoneModeBrightnessMax(unsigned int zone, unsigned int mode)                                                      = 0;
     virtual unsigned int            GetZoneModeBrightnessMin(unsigned int zone, unsigned int mode)                                                      = 0;
     virtual RGBColor                GetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index)                                    = 0;
     virtual unsigned int            GetZoneModeColorMode(unsigned int zone, unsigned int mode)                                                          = 0;
-    virtual std::size_t             GetZoneModeColorsCount(unsigned int zone, unsigned int mode)                                                        = 0;
+    virtual unsigned int            GetZoneModeColorsCount(unsigned int zone, unsigned int mode)                                                        = 0;
     virtual unsigned int            GetZoneModeColorsMax(unsigned int zone, unsigned int mode)                                                          = 0;
     virtual unsigned int            GetZoneModeColorsMin(unsigned int zone, unsigned int mode)                                                          = 0;
     virtual unsigned int            GetZoneModeDirection(unsigned int zone, unsigned int mode)                                                          = 0;
@@ -557,7 +557,7 @@ public:
     virtual unsigned int            GetZoneModeSpeedMax(unsigned int zone, unsigned int mode)                                                           = 0;
     virtual unsigned int            GetZoneModeSpeedMin(unsigned int zone, unsigned int mode)                                                           = 0;
     virtual std::string             GetZoneName(unsigned int zone)                                                                                      = 0;
-    virtual std::size_t             GetZoneSegmentCount(unsigned int zone)                                                                              = 0;
+    virtual unsigned int            GetZoneSegmentCount(unsigned int zone)                                                                              = 0;
     virtual segment_flags           GetZoneSegmentFlags(unsigned int zone, unsigned int segment)                                                        = 0;
     virtual unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment)                                                    = 0;
     virtual matrix_map_type         GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment)                                                    = 0;
@@ -577,7 +577,7 @@ public:
     virtual void                    SetZoneModeBrightness(unsigned int zone, unsigned int mode, unsigned int brightness)                                = 0;
     virtual void                    SetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index, RGBColor color)                    = 0;
     virtual void                    SetZoneModeColorMode(unsigned int zone, unsigned int mode, unsigned int color_mode)                                 = 0;
-    virtual void                    SetZoneModeColorsCount(unsigned int zone, unsigned int mode, std::size_t count)                                     = 0;
+    virtual void                    SetZoneModeColorsCount(unsigned int zone, unsigned int mode, unsigned int count)                                    = 0;
     virtual void                    SetZoneModeDirection(unsigned int zone, unsigned int mode, unsigned int direction)                                  = 0;
     virtual void                    SetZoneModeSpeed(unsigned int zone, unsigned int mode, unsigned int speed)                                          = 0;
 
@@ -586,13 +586,13 @@ public:
     /*-----------------------------------------------------*\
     | Mode Functions                                        |
     \*-----------------------------------------------------*/
-    virtual std::size_t             GetModeCount()                                                                                                      = 0;
+    virtual unsigned int            GetModeCount()                                                                                                      = 0;
     virtual unsigned int            GetModeBrightness(unsigned int mode)                                                                                = 0;
     virtual unsigned int            GetModeBrightnessMax(unsigned int mode)                                                                             = 0;
     virtual unsigned int            GetModeBrightnessMin(unsigned int mode)                                                                             = 0;
     virtual RGBColor                GetModeColor(unsigned int mode, unsigned int color_index)                                                           = 0;
     virtual unsigned int            GetModeColorMode(unsigned int mode)                                                                                 = 0;
-    virtual std::size_t             GetModeColorsCount(unsigned int mode)                                                                               = 0;
+    virtual unsigned int            GetModeColorsCount(unsigned int mode)                                                                               = 0;
     virtual unsigned int            GetModeColorsMax(unsigned int mode)                                                                                 = 0;
     virtual unsigned int            GetModeColorsMin(unsigned int mode)                                                                                 = 0;
     virtual unsigned int            GetModeDirection(unsigned int mode)                                                                                 = 0;
@@ -605,7 +605,7 @@ public:
     virtual void                    SetModeBrightness(unsigned int mode, unsigned int brightness)                                                       = 0;
     virtual void                    SetModeColor(unsigned int mode, unsigned int color_index, RGBColor color)                                           = 0;
     virtual void                    SetModeColorMode(unsigned int mode, unsigned int color_mode)                                                        = 0;
-    virtual void                    SetModeColorsCount(unsigned int mode, std::size_t count)                                                            = 0;
+    virtual void                    SetModeColorsCount(unsigned int mode, unsigned int count)                                                           = 0;
     virtual void                    SetModeDirection(unsigned int mode, unsigned int direction)                                                         = 0;
     virtual void                    SetModeSpeed(unsigned int mode, unsigned int speed)                                                                 = 0;
 
@@ -616,7 +616,7 @@ public:
     /*-----------------------------------------------------*\
     | LED Functions                                         |
     \*-----------------------------------------------------*/
-    virtual std::size_t             GetLEDCount()                                                                                                       = 0;
+    virtual unsigned int            GetLEDCount()                                                                                                       = 0;
     virtual std::string             GetLEDName(unsigned int led)                                                                                        = 0;
     virtual std::string             GetLEDDisplayName(unsigned int led)                                                                                 = 0;
 

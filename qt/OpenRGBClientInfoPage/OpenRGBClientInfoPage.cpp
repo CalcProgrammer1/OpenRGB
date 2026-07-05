@@ -226,7 +226,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
             /*-----------------------------------------------------*\
             | Add child items for each zone in the device           |
             \*-----------------------------------------------------*/
-            for(std::size_t zone_idx = 0; zone_idx < ResourceManager::get()->GetClients()[client_idx]->GetRGBControllers()[dev_idx]->GetZoneCount(); zone_idx++)
+            for(unsigned int zone_idx = 0; zone_idx < ResourceManager::get()->GetClients()[client_idx]->GetRGBControllers()[dev_idx]->GetZoneCount(); zone_idx++)
             {
                 /*-----------------------------------------------------*\
                 | Create child tree widget items and display the zone   |

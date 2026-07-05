@@ -514,7 +514,7 @@ void OpenRGBDevicePage::UpdateLEDList()
                 | Fill in the LED list with all LEDs in the |
                 | device                                    |
                 \*-----------------------------------------*/
-                for(std::size_t i = 0; i < device->GetLEDCount(); i++)
+                for(unsigned int i = 0; i < device->GetLEDCount(); i++)
                 {
                     ui->LEDBox->addItem(device->GetLEDDisplayName((unsigned int)i).c_str());
                 }
@@ -808,7 +808,7 @@ void OpenRGBDevicePage::UpdateLEDUi()
                 /*-----------------------------------------*\
                 | Initialize variables                      |
                 \*-----------------------------------------*/
-                bool        multiple    = (std::size_t(selected_led) == (device->GetLEDCount() + 1));
+                bool        multiple    = ((unsigned int)selected_led == (device->GetLEDCount() + 1));
                 RGBColor    color       = 0x00000000;
                 bool        updateColor = false;
 
@@ -1183,7 +1183,7 @@ void OpenRGBDevicePage::UpdateMode()
         /*-----------------------------------------------------*\
         | Don't set the mode if the current mode is invalid     |
         \*-----------------------------------------------------*/
-        std::size_t mode_count = 0;
+        unsigned int mode_count = 0;
 
         if(selected_zone_mode)
         {
@@ -1194,7 +1194,7 @@ void OpenRGBDevicePage::UpdateMode()
             mode_count = device->GetModeCount();
         }
 
-        if((std::size_t)selected_mode < mode_count)
+        if((unsigned int)selected_mode < mode_count)
         {
             /*-----------------------------------------------------*\
             | Update mode parameters                                |
@@ -1287,19 +1287,19 @@ void OpenRGBDevicePage::UpdateModeList()
     ui->ModeBox->blockSignals(true);
     ui->ModeBox->clear();
 
-    std::size_t entry_count = 0;
+    int entry_count = 0;
 
     if(!selected_all_zones && !(device->GetModeFlags(device->GetActiveMode()) & MODE_FLAG_REQUIRES_ENTIRE_DEVICE) && (selected_zone >= 0) && device->SupportsPerZoneModes())
     {
         ui->ModeBox->addItem("Follow Device Mode");
-        ui->ModeBox->setItemData((int)entry_count, "Follow the device's global mode", Qt::ToolTipRole);
+        ui->ModeBox->setItemData(entry_count, "Follow the device's global mode", Qt::ToolTipRole);
 
         entry_count++;
 
-        for(std::size_t i = 0; i < device->GetZoneModeCount(selected_zone); i++)
+        for(unsigned int i = 0; i < device->GetZoneModeCount(selected_zone); i++)
         {
             ui->ModeBox->addItem(device->GetZoneModeName(selected_zone, (unsigned int)i).c_str());
-            ui->ModeBox->setItemData((int)entry_count, ModeDescription(device->GetZoneModeName(selected_zone, i)), Qt::ToolTipRole);
+            ui->ModeBox->setItemData(entry_count, ModeDescription(device->GetZoneModeName(selected_zone, i)), Qt::ToolTipRole);
 
             entry_count++;
         }
@@ -1309,10 +1309,10 @@ void OpenRGBDevicePage::UpdateModeList()
     }
     else
     {
-        for(std::size_t i = 0; i < device->GetModeCount(); i++)
+        for(unsigned int i = 0; i < device->GetModeCount(); i++)
         {
             ui->ModeBox->addItem(device->GetModeName((unsigned int)i).c_str());
-            ui->ModeBox->setItemData((int)entry_count, ModeDescription(device->GetModeName(i)), Qt::ToolTipRole);
+            ui->ModeBox->setItemData(entry_count, ModeDescription(device->GetModeName(i)), Qt::ToolTipRole);
 
             entry_count++;
         }
@@ -1682,11 +1682,11 @@ void OpenRGBDevicePage::UpdateModeUi()
                     ui->ZoneBox->addItem(tr("All Zones"));
                 }
 
-                for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
+                for(unsigned int zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
                 {
                     ui->ZoneBox->addItem(device->GetZoneDisplayName((unsigned int)zone_idx).c_str());
 
-                    for(std::size_t segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
+                    for(unsigned int segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
                     {
                         if(device->GetZoneSegmentFlags(zone_idx, segment_idx) & SEGMENT_FLAG_GROUP_MEMBER)
                         {
@@ -1770,11 +1770,11 @@ void OpenRGBDevicePage::UpdateZoneList()
         ui->ZoneBox->setDisabled(1);
     }
 
-    for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
     {
         ui->ZoneBox->addItem(device->GetZoneDisplayName((unsigned int)zone_idx).c_str());
 
-        for(std::size_t segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
+        for(unsigned int segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
         {
             if(device->GetZoneSegmentFlags(zone_idx, segment_idx) & SEGMENT_FLAG_GROUP_MEMBER)
             {
@@ -1892,7 +1892,7 @@ void OpenRGBDevicePage::GetSelectedZone(bool * selected_all_zones, int * selecte
     {
         current_index++;
 
-        for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
+        for(unsigned int zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
         {
             if(index == (int)current_index)
             {
@@ -1902,7 +1902,7 @@ void OpenRGBDevicePage::GetSelectedZone(bool * selected_all_zones, int * selecte
 
             current_index++;
 
-            for(std::size_t segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
+            for(unsigned int segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
             {
                 if(index == (int)current_index)
                 {
@@ -1934,7 +1934,7 @@ void OpenRGBDevicePage::SetSelectedZone(bool selected_all_zones, int selected_zo
 
     current_index++;
 
-    for(std::size_t zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < device->GetZoneCount(); zone_idx++)
     {
         if((selected_zone == (int)zone_idx) && (selected_segment < 0))
         {
@@ -1944,7 +1944,7 @@ void OpenRGBDevicePage::SetSelectedZone(bool selected_all_zones, int selected_zo
 
         current_index++;
 
-        for(std::size_t segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
+        for(unsigned int segment_idx = 0; segment_idx < device->GetZoneSegmentCount(zone_idx); segment_idx++)
         {
             if((selected_zone == (int)zone_idx) && (selected_segment == (int)segment_idx))
             {
@@ -2119,7 +2119,7 @@ void OpenRGBDevicePage::on_DeviceSaveButton_clicked()
     }
 }
 
-void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int selected_segment, std::vector<std::size_t> indices)
+void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(int selected_zone, int selected_segment, std::vector<unsigned int> indices)
 {
     /*-----------------------------------------------------*\
     | Device View only supports per-LED modes               |

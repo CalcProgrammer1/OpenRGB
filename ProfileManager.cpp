@@ -736,7 +736,7 @@ bool ProfileManager::SaveConfiguration()
             save_controller = true;
         }
 
-        for(std::size_t zone_index = 0; zone_index < controllers[controller_index]->GetZoneCount(); zone_index++)
+        for(unsigned int zone_index = 0; zone_index < controllers[controller_index]->GetZoneCount(); zone_index++)
         {
             if(controllers[controller_index]->GetZoneFlags(zone_index) & ZONE_FLAGS_MANUALLY_CONFIGURED)
             {
@@ -1127,7 +1127,7 @@ bool ProfileManager::LoadControllerFromListWithOptions
 
                             load_controller->modes[mode_index].colors.resize(profile_controller->modes[mode_index].colors.size());
 
-                            for(std::size_t mode_color_index = 0; mode_color_index < profile_controller->GetModeColorsCount(mode_index); mode_color_index++)
+                            for(unsigned int mode_color_index = 0; mode_color_index < profile_controller->GetModeColorsCount(mode_index); mode_color_index++)
                             {
                                 load_controller->modes[mode_index].colors[mode_color_index] = profile_controller->modes[mode_index].colors[mode_color_index];
                             }
@@ -1157,7 +1157,7 @@ bool ProfileManager::LoadControllerFromListWithOptions
                 \*-----------------------------------------*/
                 if(profile_controller->GetZoneCount() == load_controller->GetZoneCount())
                 {
-                    for(std::size_t zone_idx = 0; zone_idx < profile_controller->GetZoneCount(); zone_idx++)
+                    for(unsigned int zone_idx = 0; zone_idx < profile_controller->GetZoneCount(); zone_idx++)
                     {
                         if((profile_controller->GetZoneName(zone_idx)      == load_controller->GetZoneName(zone_idx)     )
                          &&(profile_controller->GetZoneType(zone_idx)      == load_controller->GetZoneType(zone_idx)     )
@@ -1165,7 +1165,7 @@ bool ProfileManager::LoadControllerFromListWithOptions
                          &&(profile_controller->GetZoneLEDsMax(zone_idx)   == load_controller->GetZoneLEDsMax(zone_idx)  )
                          &&(profile_controller->GetZoneModeCount(zone_idx) == load_controller->GetZoneModeCount(zone_idx)))
                         {
-                            for(std::size_t mode_index = 0; mode_index < profile_controller->GetZoneModeCount(zone_idx); mode_index++)
+                            for(unsigned int mode_index = 0; mode_index < profile_controller->GetZoneModeCount(zone_idx); mode_index++)
                             {
                                 if((profile_controller->GetZoneModeName(zone_idx, mode_index)          == load_controller->GetZoneModeName(zone_idx, mode_index)         )
                                  &&(profile_controller->GetZoneModeFlags(zone_idx, mode_index)         == load_controller->GetZoneModeFlags(zone_idx, mode_index)        )
@@ -1183,7 +1183,7 @@ bool ProfileManager::LoadControllerFromListWithOptions
 
                                     load_controller->zones[zone_idx].modes[mode_index].colors.resize(profile_controller->zones[zone_idx].modes[mode_index].colors.size());
 
-                                    for(std::size_t mode_color_index = 0; mode_color_index < profile_controller->GetZoneModeColorsCount(zone_idx, mode_index); mode_color_index++)
+                                    for(unsigned int mode_color_index = 0; mode_color_index < profile_controller->GetZoneModeColorsCount(zone_idx, mode_index); mode_color_index++)
                                     {
                                         load_controller->zones[zone_idx].modes[mode_index].colors[mode_color_index] = profile_controller->zones[zone_idx].modes[mode_index].colors[mode_color_index];
                                     }

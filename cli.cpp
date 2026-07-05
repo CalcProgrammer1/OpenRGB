@@ -337,7 +337,7 @@ unsigned int ParseMode(DeviceOptions& options, std::vector<RGBController *> &rgb
     | Search through all of the device modes and see if there is|
     | a match.  If no match is found, print an error message.   |
     \*---------------------------------------------------------*/
-    for(std::size_t mode_idx = 0; mode_idx < rgb_controllers[options.device]->GetModeCount(); mode_idx++)
+    for(unsigned int mode_idx = 0; mode_idx < rgb_controllers[options.device]->GetModeCount(); mode_idx++)
     {
         if(strcasecmp(rgb_controllers[options.device]->GetModeName(mode_idx).c_str(), options.mode.c_str()) == 0)
         {
@@ -514,7 +514,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
             std::cout << "  Modes:";
 
             int current_mode = controller->GetActiveMode();
-            for(std::size_t mode_idx = 0; mode_idx < controller->GetModeCount(); mode_idx++)
+            for(unsigned int mode_idx = 0; mode_idx < controller->GetModeCount(); mode_idx++)
             {
                 std::string modeStr = QuoteIfNecessary(controller->GetModeName(mode_idx));
 
@@ -534,7 +534,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         {
             std::cout << "  Zones:";
 
-            for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
+            for(unsigned int zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
             {
                 std::cout << " " << QuoteIfNecessary(controller->GetZoneDisplayName(zone_idx));
             }
@@ -548,7 +548,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         {
             std::cout << "  LEDs:";
 
-            for(std::size_t led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
+            for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
             {
                 std::cout << " " << QuoteIfNecessary(controller->GetLEDName(led_idx));
             }
@@ -1196,8 +1196,8 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
         case MODE_COLORS_PER_LED:
             if(options.colors.size() != 0)
             {
-                std::size_t start_from;
-                std::size_t led_count;
+                unsigned int start_from;
+                unsigned int led_count;
 
                 if(options.zone < 0)
                 {
@@ -1206,13 +1206,13 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
                 }
                 else
                 {
-                    start_from  = (std::size_t)device->GetZoneStartIndex(options.zone);
-                    led_count   = (std::size_t)device->GetLEDsInZone(options.zone);
+                    start_from  = device->GetZoneStartIndex(options.zone);
+                    led_count   = device->GetLEDsInZone(options.zone);
                 }
 
-                for(std::size_t led_idx = 0; led_idx < led_count; led_idx++)
+                for(unsigned int led_idx = 0; led_idx < led_count; led_idx++)
                 {
-                    std::size_t color_idx = led_idx;
+                    unsigned int color_idx = led_idx;
 
                     if(color_idx >= options.colors.size())
                     {
