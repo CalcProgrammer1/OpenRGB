@@ -90,16 +90,14 @@ RGBController_QMKKeychron::RGBController_QMKKeychron(QMKKeychronController* cont
         else if(m.flags & MODE_FLAG_HAS_PER_LED_COLOR)
         {
             m.color_mode = MODE_COLORS_PER_LED;
-            m.colors_min = 0;
-            m.colors_max = 0;
-            m.colors.resize(0);
+        }
+        else if(m.flags & MODE_FLAG_HAS_RANDOM_COLOR)
+        {
+            m.color_mode = MODE_COLORS_RANDOM;
         }
         else
         {
             m.color_mode = MODE_COLORS_NONE;
-            m.colors_min = 0;
-            m.colors_max = 0;
-            m.colors.resize(0);
         }
 
         if(m.flags & MODE_FLAG_HAS_SPEED)
