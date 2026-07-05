@@ -10,8 +10,8 @@
 #include "DMXSettingsEntry.h"
 #include "ui_DMXSettingsEntry.h"
 
-#include "serial_port.h"
 #include <QStandardItemModel>
+#include "ResourceManager.h"
 
 DMXSettingsEntry::DMXSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
@@ -19,7 +19,8 @@ DMXSettingsEntry::DMXSettingsEntry(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    std::vector<std::string> serialPorts = serial_port::getSerialPorts();
+    std::vector<std::string> serialPorts = ResourceManager::get()->GetSerialPorts();
+
     for(size_t i = 0; i < serialPorts.size(); ++i)
     {
         ui->PortComboBox->addItem(QString::fromStdString(serialPorts[i]));

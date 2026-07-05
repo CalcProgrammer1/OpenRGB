@@ -62,6 +62,7 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 120   | [NET_PACKET_ID_GET_I2C_BUS_INFO](#net_packet_id_get_i2c_bus_info)                                                                 | Request list of I2C bus info                                  | 6                |
 | 121   | [NET_PACKET_ID_GET_HID_DEVICE_INFO](#net_packet_id_get_hid_device_info)                                                           | Request list of HID device info                               | 6                |
 | 122   | [NET_PACKET_ID_GET_USB_DEVICE_INFO](#net_packet_id_get_usb_device_info)                                                           | Request list of USB device info                               | 6                |
+| 123   | [NET_PACKET_ID_GET_SERIAL_PORTS](#net_packet_id_get_serial_ports)                                                                 | Request list of serial ports                                  | 6                |
 | 140   | [NET_PACKET_ID_REQUEST_RESCAN_DEVICES](#net_packet_id_request_rescan_devices)                                                     | Request server to rescan devices                              | 5                |
 | 150   | [NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST](#net_packet_id_profilemanager_get_profile_list)                                   | Get profile list                                              | 2                |
 | 151   | [NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE](#net_packet_id_profilemanager_save_profile)                                           | Save current configuration in a new profile                   | 2                |
@@ -457,6 +458,29 @@ The server responds with a data block containing USB device information.
 | manufacturer_size   | char[manufacturer_size]    | manufacturer_string   | 6                | Manufacturer string value, including null termination          |
 | 2                   | unsigned short             | product_string_size   | 6                | Length of product string, including null termination           |
 | product_string_size | char[product_string_size]  | product_string        | 6                | Product string value, including null termination               |
+
+## NET_PACKET_ID_GET_SERIAL_PORTS
+
+### Request [Size: 0]
+
+The client uses this ID to request a list of serial ports from the server.  The request contains no data.  This request should only be used if the server sets the NET_SERVER_FLAG_SUPPORTS_DEVICE_INFO flag.
+
+### Response [Size: Variable]
+
+The server responds with a data block containing serial port information.
+
+| Size     | Format                          | Name           | Protocol Version | Description                                                                                |
+| -------- | ------------------------------- | -------------- | ---------------- | ------------------------------------------------------------------------------------------ |
+| 4        | unsigned int                    | data_size      | 6                | Size of all data in packet                                                                 |
+| 4        | unsigned int                    | port_count     | 6                | Number of serial port entries                                                              |
+| Variable | Serial Port Data[port_count]    | port_data      | 6                | See [Serial Port Data](#serial-port-data) block format table.  Repeat port_count times     |
+
+### Serial Port Data
+
+| Size                | Format                     | Name                  | Protocol Version | Description                                                    |
+| ------------------- | -------------------------- | --------------------- | ---------------- | -------------------------------------------------------------- |
+| 2                   | unsigned short             | port_string_size      | 6                | Length of port string, including null termination              |
+| port_string_size    | char[port_string_size]     | port_string           | 6                | Port string value, including null termination                  |
 
 ## NET_PACKET_ID_REQUEST_RESCAN_DEVICES
 

@@ -111,6 +111,14 @@ get_usb_device_info_product_string_size             = ProtoField.uint16("openrgb
 get_usb_device_info_product_string                  = ProtoField.string("openrgb.product_string",       "product_string",   base.STRING)
 
 --[[---------------------------------------------------------
+- NET_PACKET_ID_GET_SERIAL_PORTS fields                     -
+-----------------------------------------------------------]]
+get_serial_ports_data_size                          = ProtoField.uint32("openrgb.data_size",            "data_size",        base.DEC)
+get_serial_ports_port_count                         = ProtoField.uint32("openrgb.port_count",           "port_count",       base.DEC)
+get_serial_ports_port_string_size                   = ProtoField.uint16("openrgb.port_string_size",     "port_string_size", base.DEC)
+get_serial_ports_port_string                        = ProtoField.string("openrgb.port_string",          "port_string",      base.STRING)
+
+--[[---------------------------------------------------------
 - NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST fields     -
 -----------------------------------------------------------]]
 profilemanager_get_profile_list_data_size           = ProtoField.uint32("openrgb.data_size",            "data_size",        base.DEC)
@@ -380,6 +388,10 @@ openrgb_protocol.fields =
     get_usb_device_info_manufacturer_string,
     get_usb_device_info_product_string_size,
     get_usb_device_info_product_string,
+    get_serial_ports_data_size,
+    get_serial_ports_port_count,
+    get_serial_ports_port_string_size,
+    get_serial_ports_port_string,
     profilemanager_get_profile_list_data_size,
     profilemanager_get_profile_list_num_profiles,
     profilemanager_get_profile_list_profile_name_len,
@@ -597,6 +609,8 @@ function openrgb_protocol.dissector(buffer, pinfo, tree)
         get_hid_device_info(buffer(16), pinfo, subtree, client)
     elseif pkt_id == 122 then
         get_usb_device_info(buffer(16), pinfo, subtree, client)
+    elseif pkt_id == 123 then
+        get_serial_ports(buffer(16), pinfo, subtree, client)
     elseif pkt_id == 140 then
         request_rescan_devices(buffer(16), pinfo, subtree)
     elseif pkt_id == 150 then
@@ -1005,6 +1019,39 @@ function get_usb_device_info(buffer, pinfo, tree, client)
             device_tree:add_le(get_usb_device_info_product_string_size, buffer(offset,2)); offset = offset + 2
             if prod_size > 0 then
                 device_tree:add(get_usb_device_info_product_string,  buffer(offset, prod_size)); offset = offset + prod_size
+            end
+        end
+    end
+end
+
+--[[---------------------------------------------------------
+- NET_PACKET_ID_GET_SERIAL_PORTS                            -
+-----------------------------------------------------------]]
+function get_serial_ports(buffer, pinfo, tree, client)
+    local length                = buffer:len()
+
+    if length == 0 then
+        return
+    end
+
+    if client == false then
+        local subtree           = tree:add("Get Serial Ports")
+
+        local data_size         = buffer(0,4):le_uint()
+        subtree:add_le(get_serial_ports_data_size,  buffer(0,4))
+
+        local port_count        = buffer(4,4):le_uint()
+        subtree:add_le(get_serial_ports_port_count, buffer(4,4))
+
+        local offset            = 8
+
+        for i = 1, port_count do
+            local port_tree     = subtree:add("Serial Port " .. i)
+
+            local port_string_size = buffer(offset,2):le_uint()
+            port_tree:add_le(get_serial_ports_port_string_size, buffer(offset,2)); offset = offset + 2
+            if port_string_size > 0 then
+                port_tree:add(get_serial_ports_port_string, buffer(offset, port_string_size)); offset = offset + port_string_size
             end
         end
     end
@@ -1759,6 +1806,7 @@ function get_pkt_id_name(pkt_id)
     elseif  pkt_id ==  120 then pkt_id_name = "NET_PACKET_ID_GET_I2C_BUS_INFO"
     elseif  pkt_id ==  121 then pkt_id_name = "NET_PACKET_ID_GET_HID_DEVICE_INFO"
     elseif  pkt_id ==  122 then pkt_id_name = "NET_PACKET_ID_GET_USB_DEVICE_INFO"
+    elseif  pkt_id ==  123 then pkt_id_name = "NET_PACKET_ID_GET_SERIAL_PORTS"
     elseif  pkt_id ==  140 then pkt_id_name = "NET_PACKET_ID_REQUEST_RESCAN_DEVICES"
     elseif  pkt_id ==  150 then pkt_id_name = "NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST"
     elseif  pkt_id ==  151 then pkt_id_name = "NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE"

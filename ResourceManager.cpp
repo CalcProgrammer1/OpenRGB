@@ -23,6 +23,7 @@
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 #include "LogManager.h"
+#include "serial_port.h"
 #include "SettingsManager.h"
 #include "StringUtils.h"
 #include "NetworkClient.h"
@@ -374,6 +375,18 @@ std::vector<i2c_smbus_info> ResourceManager::GetI2CBusInfo()
         }
 
         return(bus_info);
+    }
+}
+
+std::vector<std::string> ResourceManager::GetSerialPorts()
+{
+    if(IsLocalClient())
+    {
+        return(GetLocalClient()->GetSerialPorts());
+    }
+    else
+    {
+        return(serial_port::getSerialPorts());
     }
 }
 

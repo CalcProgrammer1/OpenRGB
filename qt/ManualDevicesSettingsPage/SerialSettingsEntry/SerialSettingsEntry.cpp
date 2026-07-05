@@ -10,8 +10,8 @@
 #include "SerialSettingsEntry.h"
 #include "ui_SerialSettingsEntry.h"
 
-#include "serial_port.h"
 #include <QStandardItemModel>
+#include "ResourceManager.h"
 
 SerialSettingsEntry::SerialSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
@@ -24,7 +24,8 @@ SerialSettingsEntry::SerialSettingsEntry(QWidget *parent) :
     ui->ProtocolComboBox->addItem("TPM2");
     ui->ProtocolComboBox->addItem("Basic I2C");
 
-    std::vector<std::string> serialPorts = serial_port::getSerialPorts();
+    std::vector<std::string> serialPorts = ResourceManager::get()->GetSerialPorts();
+
     for(size_t i = 0; i < serialPorts.size(); ++i)
     {
         ui->PortComboBox->addItem(QString::fromStdString(serialPorts[i]));

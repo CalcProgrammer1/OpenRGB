@@ -81,6 +81,7 @@ public:
     std::vector<HIDDeviceInfo>          GetHIDDeviceInfo();
     std::vector<i2c_smbus_interface*>&  GetI2CBuses();
     std::vector<i2c_smbus_info>         GetI2CBusInfo();
+    std::vector<std::string>            GetSerialPorts();
     std::vector<USBDeviceInfo>          GetUSBDeviceInfo();
     PluginManagerInterface*             GetPluginManager();
     ProfileManager*                     GetProfileManager();

@@ -232,6 +232,7 @@ private:
 
     NetPacketStatus                     ProcessRequest_GetHIDDeviceInfo(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_GetI2CBusInfo(NetworkClientInfo* client_info);
+    NetPacketStatus                     ProcessRequest_GetSerialPorts(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_GetUSBDeviceInfo(NetworkClientInfo* client_info);
 
     NetPacketStatus                     ProcessRequest_LogManager_ClearLogBuffer(NetworkClientInfo* client_info);

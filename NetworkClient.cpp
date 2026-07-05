@@ -527,6 +527,64 @@ std::vector<i2c_smbus_info> NetworkClient::GetI2CBusInfo()
     return(bus_info);
 }
 
+std::vector<std::string> NetworkClient::GetSerialPorts()
+{
+    /*-----------------------------------------------------*\
+    | Send request                                          |
+    \*-----------------------------------------------------*/
+    std::vector<std::string>    serial_ports;
+    NetPacketHeader             reply_hdr;
+
+    if(GetSupportsDeviceInfoAPI())
+    {
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_SERIAL_PORTS, 0);
+
+        send_in_progress.lock();
+        send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send_in_progress.unlock();
+
+        /*-------------------------------------------------*\
+        | Wait for response                                 |
+        \*-------------------------------------------------*/
+        std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+        waiting_on_response_cv.wait(wait_lock);
+
+        /*-------------------------------------------------*\
+        | Parse response into device list                   |
+        \*-------------------------------------------------*/
+        if(response_header.pkt_id == NET_PACKET_ID_GET_SERIAL_PORTS && response_data_ptr != NULL)
+        {
+            unsigned int            port_count      = 0;
+            unsigned char*          data_ptr        = response_data_ptr;
+            unsigned int&           data_size       = response_header.pkt_size;
+            unsigned int            data_size_pkt;
+
+            COPY_DATA_FIELD(data_ptr, response_data_ptr, data_size_pkt);
+
+            if(data_size_pkt == data_size)
+            {
+                COPY_DATA_FIELD(data_ptr, response_data_ptr, port_count);
+
+                for(unsigned int port_idx = 0; port_idx < port_count; port_idx++)
+                {
+                    std::string port_string;
+                    unsigned short port_string_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, port_string_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, port_string_size, port_string);
+
+                    serial_ports.push_back(port_string);
+                }
+            }
+
+            COPY_DATA_ERROR:
+            delete[] response_data_ptr;
+            response_data_ptr = NULL;
+        }
+    }
+
+    return(serial_ports);
+}
+
 std::vector<USBDeviceInfo> NetworkClient::GetUSBDeviceInfo()
 {
     /*-----------------------------------------------------*\
@@ -1670,6 +1728,7 @@ void NetworkClient::ListenThreadFunction()
             case NET_PACKET_ID_GET_I2C_BUS_INFO:
             case NET_PACKET_ID_GET_HID_DEVICE_INFO:
             case NET_PACKET_ID_GET_USB_DEVICE_INFO:
+            case NET_PACKET_ID_GET_SERIAL_PORTS:
             case NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL:
             case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
             case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:

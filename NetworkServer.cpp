@@ -1296,6 +1296,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo* client_info)
                 status = ProcessRequest_GetUSBDeviceInfo(client_info);
                 break;
 
+            case NET_PACKET_ID_GET_SERIAL_PORTS:
+                status = ProcessRequest_GetSerialPorts(client_info);
+                break;
+
         /*-------------------------------------------------*\
         | LogManager functions                              |
         \*-------------------------------------------------*/
@@ -1769,6 +1773,66 @@ NetPacketStatus NetworkServer::ProcessRequest_GetI2CBusInfo(NetworkClientInfo* c
     NetPacketHeader reply_hdr;
 
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_I2C_BUS_INFO, data_size);
+
+    send_in_progress.lock();
+    send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_info->client_sock, (char *)data_buf, reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_GetSerialPorts(NetworkClientInfo* client_info)
+{
+    /*-----------------------------------------------------*\
+    | Require local client for this packet                  |
+    \*-----------------------------------------------------*/
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    std::vector<std::string>    serial_ports    = ResourceManager::get()->GetSerialPorts();
+
+    unsigned int                data_size       = 0;
+    unsigned int                port_count      = (unsigned int)serial_ports.size();
+
+    /*-----------------------------------------------------*\
+    | Calculate data size                                   |
+    \*-----------------------------------------------------*/
+    data_size                                  += sizeof(data_size);
+    data_size                                  += sizeof(port_count);
+
+    for(unsigned int port_idx = 0; port_idx < port_count; port_idx++)
+    {
+        data_size                              += sizeof(unsigned short);
+        data_size                              += (unsigned int)strlen(serial_ports[port_idx].c_str()) + 1;
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy in data                                          |
+    \*-----------------------------------------------------*/
+    unsigned char*              data_buf        = new unsigned char[data_size];
+    unsigned char*              data_ptr        = data_buf;
+
+    memcpy(data_ptr, &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
+
+    memcpy(data_ptr, &port_count, sizeof(port_count));
+    data_ptr += sizeof(port_count);
+
+    for(unsigned int port_idx = 0; port_idx < port_count; port_idx++)
+    {
+        unsigned short port_string_size = (unsigned short)strlen(serial_ports[port_idx].c_str()) + 1;
+        memcpy(data_ptr, &port_string_size, sizeof(port_string_size));
+        data_ptr += sizeof(port_string_size);
+        memcpy(data_ptr, serial_ports[port_idx].c_str(), port_string_size);
+        data_ptr += port_string_size;
+    }
+
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_SERIAL_PORTS, data_size);
 
     send_in_progress.lock();
     send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
