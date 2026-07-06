@@ -24,12 +24,12 @@
 DetectedControllers DetectBlinkyTapeControllers()
 {
     DetectedControllers         detected_controllers;
-    std::vector<std::string *>  device_locations = find_usb_serial_port(BLINKINLABS_VID, BLINKYTAPE_PID);
+    std::vector<std::string>    device_locations = find_usb_serial_port(BLINKINLABS_VID, BLINKYTAPE_PID);
 
     for(unsigned int device_idx = 0; device_idx < device_locations.size(); device_idx++)
     {
         BlinkyTapeController*     controller     = new BlinkyTapeController();
-        controller->Initialize(*device_locations[device_idx]);
+        controller->Initialize(device_locations[device_idx]);
 
         RGBController_BlinkyTape* rgb_controller = new RGBController_BlinkyTape(controller);
 

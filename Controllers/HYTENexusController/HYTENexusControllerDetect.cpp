@@ -38,13 +38,13 @@ DetectedControllers DetectHYTENexusControllers()
 
     for(unsigned int device_id = 0; device_id < HYTE_NEXUS_NUM_DEVICES; device_id++)
     {
-        std::vector<std::string *> ports = find_usb_serial_port(hyte_nexus_devices[device_id].vid, hyte_nexus_devices[device_id].pid);
+        std::vector<std::string> ports = find_usb_serial_port(hyte_nexus_devices[device_id].vid, hyte_nexus_devices[device_id].pid);
 
         for(unsigned int i = 0; i < ports.size(); i++)
         {
-            if(*ports[i] != "")
+            if(ports[i] != "")
             {
-                HYTENexusController *     controller     = new HYTENexusController((char *)ports[i]->c_str(), hyte_nexus_devices[device_id].pid, hyte_nexus_devices[device_id].name);
+                HYTENexusController *     controller     = new HYTENexusController((char *)ports[i].c_str(), hyte_nexus_devices[device_id].pid, hyte_nexus_devices[device_id].name);
                 RGBController_HYTENexus * rgb_controller = new RGBController_HYTENexus(controller);
 
                 detected_controllers.push_back(rgb_controller);

@@ -21,14 +21,14 @@
 DetectedControllers DetectDygmaRaiseControllers()
 {
     DetectedControllers         detected_controllers;
-    std::vector<std::string *>  ports = find_usb_serial_port(DYGMA_RAISE_VID, DYGMA_RAISE_PID);
+    std::vector<std::string>    ports = find_usb_serial_port(DYGMA_RAISE_VID, DYGMA_RAISE_PID);
 
     for(std::size_t i = 0; i < ports.size(); i++)
     {
-        if(*ports[i] != "")
+        if(ports[i] != "")
         {
             DygmaRaiseController*     controller     = new DygmaRaiseController();
-            controller->Initialize((char *)ports[i]->c_str());
+            controller->Initialize((char *)ports[i].c_str());
 
             RGBController_DygmaRaise* rgb_controller = new RGBController_DygmaRaise(controller);
 

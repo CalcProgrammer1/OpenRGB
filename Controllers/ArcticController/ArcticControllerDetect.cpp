@@ -21,13 +21,13 @@
 DetectedControllers DetectArcticControllers()
 {
     DetectedControllers         detected_controllers;
-    std::vector<std::string *>  ports;
+    std::vector<std::string>    ports;
 
     ports = find_usb_serial_port(CH341_VID, CH341_PID);
 
     for(unsigned int device = 0; device < ports.size(); device++)
     {
-        ArcticController *controller = new ArcticController(*ports[device]);
+        ArcticController *controller = new ArcticController(ports[device]);
 
         if(controller->IsPresent())
         {
@@ -38,8 +38,6 @@ DetectedControllers DetectArcticControllers()
         {
             delete controller;
         }
-
-        delete ports[device];
     }
 
     return(detected_controllers);

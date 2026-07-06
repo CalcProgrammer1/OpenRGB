@@ -24,16 +24,16 @@
 DetectedControllers DetectNZXTHuePlusControllers()
 {
     DetectedControllers         detected_controllers;
-    std::vector<std::string *>  ports;
+    std::vector<std::string>    ports;
 
     ports = find_usb_serial_port(NZXT_HUE_PLUS_VID, NZXT_HUE_PLUS_PID);
 
     for(std::size_t i = 0; i < ports.size(); i++)
     {
-        if(*ports[i] != "")
+        if(ports[i] != "")
         {
             HuePlusController*     controller     = new HuePlusController();
-            controller->Initialize((char *)ports[i]->c_str());
+            controller->Initialize((char *)ports[i].c_str());
             RGBController_HuePlus* rgb_controller = new RGBController_HuePlus(controller);
 
             detected_controllers.push_back(rgb_controller);

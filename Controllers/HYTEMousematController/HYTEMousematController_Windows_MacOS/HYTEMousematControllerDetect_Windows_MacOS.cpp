@@ -42,13 +42,13 @@ DetectedControllers DetectHYTEMousematControllers()
 
     for(unsigned int device_id = 0; device_id < HYTE_MOUSEMAT_NUM_DEVICES; device_id++)
     {
-        std::vector<std::string *> ports = find_usb_serial_port(hyte_mousemat_devices[device_id].vid, hyte_mousemat_devices[device_id].pid);
+        std::vector<std::string> ports = find_usb_serial_port(hyte_mousemat_devices[device_id].vid, hyte_mousemat_devices[device_id].pid);
 
         for(unsigned int i = 0; i < ports.size(); i++)
         {
-            if(*ports[i] != "")
+            if(ports[i] != "")
             {
-                HYTEMousematController *     controller     = new HYTEMousematController((char *)ports[i]->c_str(), hyte_mousemat_devices[device_id].name);
+                HYTEMousematController *     controller     = new HYTEMousematController((char *)ports[i].c_str(), hyte_mousemat_devices[device_id].name);
                 RGBController_HYTEMousemat * rgb_controller = new RGBController_HYTEMousemat(controller);
 
                 detected_controllers.push_back(rgb_controller);

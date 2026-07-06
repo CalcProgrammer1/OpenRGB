@@ -53,7 +53,7 @@ std::string exec(const char* cmd)
 |                                                                       |
 \*---------------------------------------------------------------------*/
 
-std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned short pid)
+std::vector<std::string> find_usb_serial_port(unsigned short vid, unsigned short pid)
 {
     /*-----------------------------------------------------*\
     | Strings to search for in ioreg output                 |
@@ -65,8 +65,7 @@ std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned sho
     /*-----------------------------------------------------*\
     | Return variables                                      |
     \*-----------------------------------------------------*/
-    std::vector<std::string *>  ret_vector;
-    std::string *               tmp_string;
+    std::vector<std::string>  ret_vector;
 
     /*-----------------------------------------------------*\
     | Execute command to list USB devices                   |
@@ -146,8 +145,7 @@ std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned sho
             \*---------------------------------------------*/
             if(dev_pos < next_pos)
             {
-                tmp_string = new std::string(out_string.substr(start_pos, end_pos-start_pos));
-                ret_vector.push_back(tmp_string);
+                ret_vector.push_back(out_string.substr(start_pos, end_pos-start_pos));
             }
         }
 

@@ -27,10 +27,9 @@
 |                                                                       |
 \*---------------------------------------------------------------------*/
 
-std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned short pid)
+std::vector<std::string> find_usb_serial_port(unsigned short vid, unsigned short pid)
 {
-    std::vector<std::string *>  ret_vector;
-    std::string *               tmp_string;
+    std::vector<std::string>    ret_vector;
     DIR*                        dir;
     char                        symlink_path[1024]  = {0};
     struct dirent*              ent;
@@ -128,8 +127,8 @@ std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned sho
                                 break;
                             }
                         }
-                        tmp_string = new std::string("/dev/");
-                        tmp_string->append(port_string);
+                        std::string tmp_string("/dev/");
+                        tmp_string.append(port_string);
 
                         ret_vector.push_back(tmp_string);
                     }

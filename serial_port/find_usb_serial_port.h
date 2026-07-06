@@ -18,4 +18,4 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned short pid);
+std::vector<std::string> find_usb_serial_port(unsigned short vid, unsigned short pid);
