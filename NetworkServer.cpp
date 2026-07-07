@@ -1300,6 +1300,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo* client_info)
                 status = ProcessRequest_GetSerialPorts(client_info);
                 break;
 
+            case NET_PACKET_ID_GET_USB_SERIAL_PORTS:
+                status = ProcessRequest_GetUSBSerialPorts(client_info);
+                break;
+
         /*-------------------------------------------------*\
         | LogManager functions                              |
         \*-------------------------------------------------*/
@@ -1917,6 +1921,82 @@ NetPacketStatus NetworkServer::ProcessRequest_GetUSBDeviceInfo(NetworkClientInfo
     NetPacketHeader reply_hdr;
 
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_USB_DEVICE_INFO, data_size);
+
+    send_in_progress.lock();
+    send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_info->client_sock, (char *)data_buf, reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+
+    return(NET_PACKET_STATUS_OK);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_GetUSBSerialPorts(NetworkClientInfo* client_info)
+{
+    /*-----------------------------------------------------*\
+    | Require local client for this packet                  |
+    \*-----------------------------------------------------*/
+    if(!client_info->client_is_local_client)
+    {
+        return(NET_PACKET_STATUS_ERROR_NOT_ALLOWED);
+    }
+
+    std::vector<SerialDeviceInfo>   device_info     = ResourceManager::get()->GetUSBSerialPorts();
+
+    unsigned int                    data_size       = 0;
+    unsigned int                    device_count    = (unsigned int)device_info.size();
+
+    /*-----------------------------------------------------*\
+    | Calculate data size                                   |
+    \*-----------------------------------------------------*/
+    data_size                                      += sizeof(data_size);
+    data_size                                      += sizeof(device_count);
+
+    for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+    {
+        data_size                                  += sizeof(device_info[device_idx].vendor_id);
+        data_size                                  += sizeof(device_info[device_idx].product_id);
+        data_size                                  += sizeof(unsigned short);
+        data_size                                  += (unsigned int)strlen(device_info[device_idx].port_path.c_str()) + 1;
+        data_size                                  += sizeof(unsigned short);
+        data_size                                  += (unsigned int)strlen(device_info[device_idx].usb_path.c_str()) + 1;
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy in data                                          |
+    \*-----------------------------------------------------*/
+    unsigned char*                  data_buf        = new unsigned char[data_size];
+    unsigned char*                  data_ptr        = data_buf;
+
+    memcpy(data_ptr, &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
+
+    memcpy(data_ptr, &device_count, sizeof(device_count));
+    data_ptr += sizeof(device_count);
+
+    for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+    {
+        memcpy(data_ptr, &device_info[device_idx].vendor_id, sizeof(device_info[device_idx].vendor_id));
+        data_ptr += sizeof(device_info[device_idx].vendor_id);
+
+        memcpy(data_ptr, &device_info[device_idx].product_id, sizeof(device_info[device_idx].product_id));
+        data_ptr += sizeof(device_info[device_idx].product_id);
+
+        unsigned short port_path_size = (unsigned short)strlen(device_info[device_idx].port_path.c_str()) + 1;
+        memcpy(data_ptr, &port_path_size, sizeof(port_path_size));
+        data_ptr += sizeof(port_path_size);
+        memcpy(data_ptr, device_info[device_idx].port_path.c_str(), port_path_size);
+        data_ptr += port_path_size;
+
+        unsigned short usb_path_size = (unsigned short)strlen(device_info[device_idx].usb_path.c_str()) + 1;
+        memcpy(data_ptr, &usb_path_size, sizeof(usb_path_size));
+        data_ptr += sizeof(usb_path_size);
+        memcpy(data_ptr, device_info[device_idx].usb_path.c_str(), usb_path_size);
+        data_ptr += usb_path_size;
+    }
+
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_USB_SERIAL_PORTS, data_size);
 
     send_in_progress.lock();
     send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);

@@ -394,7 +394,7 @@ std::vector<SerialDeviceInfo> ResourceManager::GetUSBSerialPorts()
 {
     if(IsLocalClient())
     {
-        return(find_usb_serial_ports());
+        return(GetLocalClient()->GetUSBSerialPorts());
     }
     else
     {

@@ -63,6 +63,7 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 121   | [NET_PACKET_ID_GET_HID_DEVICE_INFO](#net_packet_id_get_hid_device_info)                                                           | Request list of HID device info                               | 6                |
 | 122   | [NET_PACKET_ID_GET_USB_DEVICE_INFO](#net_packet_id_get_usb_device_info)                                                           | Request list of USB device info                               | 6                |
 | 123   | [NET_PACKET_ID_GET_SERIAL_PORTS](#net_packet_id_get_serial_ports)                                                                 | Request list of serial ports                                  | 6                |
+| 124   | [NET_PACKET_ID_GET_USB_SERIAL_PORTS](#net_packet_id_get_usb_serial_ports)                                                         | Request list of USB serial port info                          | 6                |
 | 140   | [NET_PACKET_ID_REQUEST_RESCAN_DEVICES](#net_packet_id_request_rescan_devices)                                                     | Request server to rescan devices                              | 5                |
 | 150   | [NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST](#net_packet_id_profilemanager_get_profile_list)                                   | Get profile list                                              | 2                |
 | 151   | [NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE](#net_packet_id_profilemanager_save_profile)                                           | Save current configuration in a new profile                   | 2                |
@@ -481,6 +482,33 @@ The server responds with a data block containing serial port information.
 | ------------------- | -------------------------- | --------------------- | ---------------- | -------------------------------------------------------------- |
 | 2                   | unsigned short             | port_string_size      | 6                | Length of port string, including null termination              |
 | port_string_size    | char[port_string_size]     | port_string           | 6                | Port string value, including null termination                  |
+
+## NET_PACKET_ID_GET_USB_SERIAL_PORTS
+
+### Request [Size: 0]
+
+The client uses this ID to request a list of USB serial port device info from the server.  The request contains no data.  This request should only be used if the server sets the NET_SERVER_FLAG_SUPPORTS_DEVICE_INFO flag.
+
+### Response [Size: Variable]
+
+The server responds with a data block containing USB serial port information.
+
+| Size     | Format                          | Name           | Protocol Version | Description                                                                                |
+| -------- | ------------------------------- | -------------- | ---------------- | ------------------------------------------------------------------------------------------ |
+| 4        | unsigned int                    | data_size      | 6                | Size of all data in packet                                                                 |
+| 4        | unsigned int                    | port_count     | 6                | Number of USB serial port entries                                                          |
+| Variable | Serial Port Data[port_count]    | port_data      | 6                | See [Serial Port Data](#usb-serial-port-data) block format table.  Repeat port_count times |
+
+### USB Serial Port Data
+
+| Size           | Format                          | Name           | Protocol Version | Description                                                                                |
+| -------------- | ------------------------------- | -------------- | ---------------- | ------------------------------------------------------------------------------------------ |
+| 2              | unsigned short                  | vendor_id      | 6                | USB vendor ID                                                                              |
+| 2              | unsigned short                  | product_id     | 6                | USB product ID                                                                             |
+| 2              | unsigned short                  | port_path_size | 6                | Length of port path string, including null termination                                     |
+| port_path_size | char[port_path_size]            | port_path      | 6                | Port path string value, including null termination                                         |
+| 2              | unsigned short                  | usb_path_size  | 6                | Length of port path string, including null termination                                     |
+| usb_path_size  | char[usb_path_size]             | usb_path       | 6                | USB path string value, including null termination                                          |
 
 ## NET_PACKET_ID_REQUEST_RESCAN_DEVICES
 

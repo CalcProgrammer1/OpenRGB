@@ -121,6 +121,7 @@ enum
     NET_PACKET_ID_GET_HID_DEVICE_INFO           = 121,  /* Request list of HID device info                      */
     NET_PACKET_ID_GET_USB_DEVICE_INFO           = 122,  /* Request list of USB device info                      */
     NET_PACKET_ID_GET_SERIAL_PORTS              = 123,  /* Request list of serial ports                         */
+    NET_PACKET_ID_GET_USB_SERIAL_PORTS          = 124,  /* Request list of USB serial port info                 */
 
     NET_PACKET_ID_REQUEST_RESCAN_DEVICES        = 140,  /* Request rescan of devices                            */
 

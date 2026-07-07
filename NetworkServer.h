@@ -234,6 +234,7 @@ private:
     NetPacketStatus                     ProcessRequest_GetI2CBusInfo(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_GetSerialPorts(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_GetUSBDeviceInfo(NetworkClientInfo* client_info);
+    NetPacketStatus                     ProcessRequest_GetUSBSerialPorts(NetworkClientInfo* client_info);
 
     NetPacketStatus                     ProcessRequest_LogManager_ClearLogBuffer(NetworkClientInfo* client_info);
     NetPacketStatus                     ProcessRequest_LogManager_GetLogBuffer(NetworkClientInfo* client_info);

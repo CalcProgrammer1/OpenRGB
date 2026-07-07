@@ -655,6 +655,72 @@ std::vector<USBDeviceInfo> NetworkClient::GetUSBDeviceInfo()
     return(device_info);
 }
 
+std::vector<SerialDeviceInfo> NetworkClient::GetUSBSerialPorts()
+{
+    /*-----------------------------------------------------*\
+    | Send request                                          |
+    \*-----------------------------------------------------*/
+    std::vector<SerialDeviceInfo>   device_info;
+    NetPacketHeader                 reply_hdr;
+
+    if(GetSupportsDeviceInfoAPI())
+    {
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_GET_USB_SERIAL_PORTS, 0);
+
+        send_in_progress.lock();
+        send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send_in_progress.unlock();
+
+        /*-------------------------------------------------*\
+        | Wait for response                                 |
+        \*-------------------------------------------------*/
+        std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+        waiting_on_response_cv.wait(wait_lock);
+
+        /*-------------------------------------------------*\
+        | Parse response into device list                   |
+        \*-------------------------------------------------*/
+        if(response_header.pkt_id == NET_PACKET_ID_GET_USB_SERIAL_PORTS && response_data_ptr != NULL)
+        {
+            unsigned int            device_count    = 0;
+            unsigned char*          data_ptr        = response_data_ptr;
+            unsigned int&           data_size       = response_header.pkt_size;
+            unsigned int            data_size_pkt;
+
+            COPY_DATA_FIELD(data_ptr, response_data_ptr, data_size_pkt);
+
+            if(data_size_pkt == data_size)
+            {
+                COPY_DATA_FIELD(data_ptr, response_data_ptr, device_count);
+
+                for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+                {
+                    SerialDeviceInfo device;
+
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.vendor_id);
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, device.product_id);
+
+                    unsigned short port_path_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, port_path_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, port_path_size, device.port_path);
+
+                    unsigned short usb_path_size;
+                    COPY_DATA_FIELD(data_ptr, response_data_ptr, usb_path_size);
+                    COPY_STRING_FIELD(data_ptr, response_data_ptr, usb_path_size, device.usb_path);
+
+                    device_info.push_back(device);
+                }
+            }
+
+            COPY_DATA_ERROR:
+            delete[] response_data_ptr;
+            response_data_ptr = NULL;
+        }
+    }
+
+    return(device_info);
+}
+
 /*---------------------------------------------------------*\
 | DetectionManager functions                                |
 \*---------------------------------------------------------*/
@@ -1729,6 +1795,7 @@ void NetworkClient::ListenThreadFunction()
             case NET_PACKET_ID_GET_HID_DEVICE_INFO:
             case NET_PACKET_ID_GET_USB_DEVICE_INFO:
             case NET_PACKET_ID_GET_SERIAL_PORTS:
+            case NET_PACKET_ID_GET_USB_SERIAL_PORTS:
             case NET_PACKET_ID_LOGMANAGER_GET_LOG_LEVEL:
             case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
             case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
