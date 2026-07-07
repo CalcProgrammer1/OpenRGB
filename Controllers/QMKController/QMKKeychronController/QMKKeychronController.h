@@ -122,6 +122,7 @@
 #define KEYCHRON_Q1_MAX_ANSI_ENCODER_PID            0x0810
 #define KEYCHRON_Q1_MAX_ISO_ENCODER_PID             0x0811
 #define KEYCHRON_Q1_MAX_JIS_ENCODER_PID             0x0812
+#define KEYCHRON_Q1_ULTRA_8K_ANSI_PID               0x1210
 #define KEYCHRON_Q1_V1_ANSI_PID                     0x0100
 #define KEYCHRON_Q1_V1_ANSI_ENCODER_PID             0x0101
 #define KEYCHRON_Q1_V1_ISO_PID                      0x0102
@@ -152,6 +153,7 @@
 #define KEYCHRON_Q3_HE_JIS_ENCODER_PID              0x0B32
 #define KEYCHRON_Q3_MAX_ANSI_ENCODER_PID            0x0830
 #define KEYCHRON_Q3_MAX_ISO_ENCODER_PID             0x0831
+#define KEYCHRON_Q3_ULTRA_8K_ANSI_PID               0x1230
 #define KEYCHRON_Q4_ANSI_PID                        0x0140
 #define KEYCHRON_Q4_ISO_PID                         0x0142
 #define KEYCHRON_Q4_HE_ANSI_PID                     0x0B40
@@ -174,6 +176,7 @@
 #define KEYCHRON_Q6_HE_JIS_ENCODER_PID              0x0B62
 #define KEYCHRON_Q6_MAX_ANSI_ENCODER_PID            0x0860
 #define KEYCHRON_Q6_MAX_ISO_ENCODER_PID             0x0861
+#define KEYCHRON_Q6_ULTRA_8K_ANSI_PID               0x1260
 #define KEYCHRON_Q7_ANSI_PID                        0x0170
 #define KEYCHRON_Q7_ISO_PID                         0x0172
 #define KEYCHRON_Q8_ANSI_PID                        0x0180
@@ -205,6 +208,7 @@
 #define KEYCHRON_Q60_MAX_ANSI_PID                   0x08C0
 #define KEYCHRON_Q65_MAX_ANSI_ENCODER_PID           0x08B0
 #define KEYCHRON_S1_ANSI_RGB_PID                    0x0410
+#define KEYCHRON_V0_ULTRA_8K_ANSI_PID               0x0C00
 #define KEYCHRON_V1_ABNT2_ENCODER_PID               0x0317
 #define KEYCHRON_V1_ANSI_PID                        0x0310
 #define KEYCHRON_V1_ANSI_ENCODER_PID                0x0311
@@ -216,6 +220,9 @@
 #define KEYCHRON_V1_MAX_ANSI_ENCODER_PID            0x0913
 #define KEYCHRON_V1_MAX_ISO_ENCODER_PID             0x0914
 #define KEYCHRON_V1_MAX_JIS_ENCODER_PID             0x0915
+#define KEYCHRON_V1_ULTRA_8K_ANSI_PID               0x0C10
+#define KEYCHRON_V1_ULTRA_8K_ISO_PID                0x0C11
+#define KEYCHRON_V1_ULTRA_8K_JIS_PID                0x0C12
 #define KEYCHRON_V2_ABNT2_ENCODER_PID               0x0327
 #define KEYCHRON_V2_ANSI_PID                        0x0320
 #define KEYCHRON_V2_ANSI_ENCODER_PID                0x0321
@@ -226,6 +233,7 @@
 #define KEYCHRON_V2_MAX_ANSI_ENCODER_PID            0x0920
 #define KEYCHRON_V2_MAX_ISO_ENCODER_PID             0x0921
 #define KEYCHRON_V2_MAX_JIS_ENCODER_PID             0x0922
+#define KEYCHRON_V2_ULTRA_8K_ANSI_PID               0x0C20
 #define KEYCHRON_V3_ABNT2_ENCODER_PID               0x0337
 #define KEYCHRON_V3_ANSI_PID                        0x0330
 #define KEYCHRON_V3_ANSI_ENCODER_PID                0x0331
@@ -236,6 +244,7 @@
 #define KEYCHRON_V3_MAX_ANSI_ENCODER_PID            0x0933
 #define KEYCHRON_V3_MAX_ISO_ENCODER_PID             0x0934
 #define KEYCHRON_V3_MAX_JIS_ENCODER_PID             0x0935
+#define KEYCHRON_V3_ULTRA_8K_ANSI_PID               0x0C30
 #define KEYCHRON_V4_ANSI_PID                        0x0340
 #define KEYCHRON_V4_ISO_PID                         0x0342
 #define KEYCHRON_V4_MAX_ANSI_PID                    0x0940
@@ -247,6 +256,7 @@
 #define KEYCHRON_V5_MAX_ANSI_ENCODER_PID            0x0950
 #define KEYCHRON_V5_MAX_ISO_ENCODER_PID             0x0951
 #define KEYCHRON_V5_MAX_JIS_ENCODER_PID             0x0952
+#define KEYCHRON_V5_ULTRA_8K_ANSI_PID               0x0C50
 #define KEYCHRON_V6_ABNT2_ENCODER_PID               0x0367
 #define KEYCHRON_V6_ANSI_PID                        0x0360
 #define KEYCHRON_V6_ANSI_ENCODER_PID                0x0361
@@ -255,6 +265,7 @@
 #define KEYCHRON_V6_MAX_ANSI_ENCODER_PID            0x0960
 #define KEYCHRON_V6_MAX_ISO_ENCODER_PID             0x0961
 #define KEYCHRON_V6_MAX_JIS_ENCODER_PID             0x0962
+#define KEYCHRON_V6_ULTRA_8K_ANSI_PID               0x0C60
 #define KEYCHRON_V6_V2_ISO_ENCODER_PID              0x0368
 #define KEYCHRON_V7_ANSI_PID                        0x0370
 #define KEYCHRON_V7_ISO_PID                         0x0372
@@ -268,6 +279,8 @@
 #define KEYCHRON_V10_ISO_ENCODER_PID                0x03A3
 #define KEYCHRON_V10_MAX_ANSI_ENCODER_PID           0x09A0
 #define KEYCHRON_V10_MAX_ISO_ENCODER_PID            0x09A1
+#define KEYCHRON_V10_ULTRA_8K_ANSI_PID              0x0CA0
+#define KEYCHRON_Z270_ULTRA_8K_ANSI_PID             0x0D20
 
 /*---------------------------------------------------------*\
 | QMK raw HID usage page/usage                              |
