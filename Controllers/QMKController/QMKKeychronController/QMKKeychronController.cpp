@@ -335,12 +335,22 @@ void QMKKeychronController::CmdGetNumberLEDs
 
 void QMKKeychronController::CmdGetSupportFeature(unsigned short* supported_features)
 {
-    ViaSendCommand(KC_GET_SUPPORT_FEATURE, NULL, 0, (unsigned char*)supported_features, sizeof(unsigned short));
+    unsigned char response[3];
+
+    ViaSendCommand(KC_GET_SUPPORT_FEATURE, NULL, 0, response, sizeof(response));
 
     /*-----------------------------------------------------*\
-    | The supported features byte order is reversed         |
+    | The QMK and ZMK variants of this packet differ by one |
+    | byte position                                         |
     \*-----------------------------------------------------*/
-    *supported_features = ((*supported_features & 0x00FF) << 8) | ((*supported_features & 0xFF00) >> 8);
+    if(response[0] == 0)
+    {
+        *supported_features = (response[2] << 8) | response[1];
+    }
+    else
+    {
+        *supported_features = (response[1] << 8) | response[0];
+    }
 }
 
 void QMKKeychronController::CmdGetViaProtocolVersion
