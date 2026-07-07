@@ -25,6 +25,7 @@
 #include "i2c_smbus.h"
 #include "ResourceManagerCallback.h"
 #include "filesystem.h"
+#include "find_usb_serial_port.h"
 
 using json = nlohmann::json;
 
@@ -82,6 +83,7 @@ public:
     std::vector<i2c_smbus_interface*>&  GetI2CBuses();
     std::vector<i2c_smbus_info>         GetI2CBusInfo();
     std::vector<std::string>            GetSerialPorts();
+    std::vector<SerialDeviceInfo>       GetUSBSerialPorts();
     std::vector<USBDeviceInfo>          GetUSBDeviceInfo();
     PluginManagerInterface*             GetPluginManager();
     ProfileManager*                     GetProfileManager();

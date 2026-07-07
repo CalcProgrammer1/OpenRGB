@@ -90,9 +90,26 @@ int OpenRGBHardwareIDsDialog::show()
         strings.push_back(line);
     }
 
+    std::vector<SerialDeviceInfo>   serial_device_info = ResourceManager::get()->GetUSBSerialPorts();
+    QTreeWidgetItem*                serial_top         = new QTreeWidgetItem(ui->HardwareIdsList, {"USB Serial devices"});
+
+    strings.push_back("\n[ USB Serial devices ]");
+
+    for(SerialDeviceInfo device_info : serial_device_info)
+    {
+        char line[550];
+
+        snprintf(line, 550, "[%04X:%04X]", device_info.vendor_id, device_info.product_id);
+        new QTreeWidgetItem(serial_top, {line, QString::fromStdString(device_info.port_path), QString::fromStdString(device_info.usb_path)});
+
+        snprintf(line, 550, "[%04X:%04X] %s (%s)", device_info.vendor_id, device_info.product_id, device_info.port_path.c_str(), device_info.usb_path.c_str());
+        strings.push_back(line);
+    }
+
     i2c_top->setExpanded(true);
     hid_top->setExpanded(true);
     usb_top->setExpanded(true);
+    serial_top->setExpanded(true);
 
     return this->exec();
 }

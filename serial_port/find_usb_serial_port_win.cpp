@@ -131,3 +131,101 @@ std::vector<std::string> find_usb_serial_port(unsigned short vid, unsigned short
     return ret_vector;
 
 }   /* find_usb_serial_port() */
+
+std::vector<SerialDeviceInfo> find_usb_serial_ports()
+{
+    std::vector<SerialDeviceInfo>  ret_vector;
+    HDEVINFO                    DeviceInfoSet;
+    DWORD                       DeviceIndex             = 0;
+    SP_DEVINFO_DATA             DeviceInfoData;
+    const char *                DevEnum                 = "USB";
+    char                        szBuffer[1024]          = {0};
+    DEVPROPTYPE                 ulPropertyType;
+    DWORD                       dwSize                  = 0;
+
+    /*-----------------------------------------------------------------*\
+    | SetupDiGetClassDevs returns a handle to a device information set  |
+    \*-----------------------------------------------------------------*/
+    DeviceInfoSet = SetupDiGetClassDevs( NULL, DevEnum, NULL, DIGCF_ALLCLASSES | DIGCF_PRESENT);
+
+    if (DeviceInfoSet == INVALID_HANDLE_VALUE)
+    {
+        return ret_vector;
+    }
+
+    /*-----------------------------------------------------------------*\
+    | Set up Device Info Data                                           |
+    \*-----------------------------------------------------------------*/
+    memset(&DeviceInfoData, 0, sizeof(SP_DEVINFO_DATA));
+    DeviceInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
+
+    /*-----------------------------------------------------------------*\
+    | Receive information about an enumerated device                    |
+    \*-----------------------------------------------------------------*/
+    while (SetupDiEnumDeviceInfo( DeviceInfoSet, DeviceIndex, &DeviceInfoData))
+    {
+        DeviceIndex++;
+
+        /*-------------------------------------------------------------*\
+        | Retrieves a specified Plug and Play device property           |
+        \*-------------------------------------------------------------*/
+        if (SetupDiGetDeviceRegistryProperty (DeviceInfoSet, &DeviceInfoData, SPDRP_HARDWAREID, &ulPropertyType, (BYTE*)szBuffer, sizeof(szBuffer), &dwSize))
+        {
+            HKEY hDeviceRegistryKey;
+
+            /*-----------------------------------------------------*\
+            | Check if the string for this device property matches  |
+            | our expected device string (i.e. starts with USB ID)  |
+            \*-----------------------------------------------------*/
+
+            if(strncmp(szBuffer, "USB\\VID_", 8) == 0)
+            {
+                hDeviceRegistryKey = SetupDiOpenDevRegKey(DeviceInfoSet, &DeviceInfoData,DICS_FLAG_GLOBAL, 0,DIREG_DEV, KEY_READ);
+                if (hDeviceRegistryKey == INVALID_HANDLE_VALUE)
+                {
+                    break;
+                }
+                else
+                {
+                    char pszPortName[BUFF_LEN];
+                    DWORD dwSize = sizeof(pszPortName);
+                    DWORD dwType = 0;
+
+                    /*-----------------------------------------------------*\
+                    | Read in the name of the port                          |
+                    \*-----------------------------------------------------*/
+                    if( (RegQueryValueEx(hDeviceRegistryKey,"PortName", NULL, &dwType, (LPBYTE) pszPortName, &dwSize) == ERROR_SUCCESS) && (dwType == REG_SZ))
+                    {
+                        if(strncmp(pszPortName, "COM", 3) == 0)
+                        {
+                            char vid_str[5] = {0};
+                            char pid_str[5] = {0};
+                            strncpy(vid_str, szBuffer + 8, 4);
+                            strncpy(pid_str, szBuffer + 17, 4);
+
+                            SerialDeviceInfo entry;
+                            entry.port_path = pszPortName;
+                            entry.usb_path = szBuffer;
+
+                            entry.vendor_id = (unsigned short)strtol(vid_str, NULL, 16);
+                            entry.product_id = (unsigned short)strtol(pid_str, NULL, 16);
+
+                            ret_vector.push_back(entry);
+                        }
+                    }
+
+                    // Close the key now that we are finished with it
+                    RegCloseKey(hDeviceRegistryKey);
+                }
+            }
+        }
+    }
+
+    if (DeviceInfoSet)
+    {
+        SetupDiDestroyDeviceInfoList(DeviceInfoSet);
+    }
+
+    return ret_vector;
+
+}   /* find_usb_serial_ports() */

@@ -19,3 +19,13 @@
 #include <vector>
 
 std::vector<std::string> find_usb_serial_port(unsigned short vid, unsigned short pid);
+
+struct SerialDeviceInfo
+{
+    unsigned short  vendor_id;
+    unsigned short  product_id;
+    std::string     port_path;
+    std::string     usb_path;
+} ;
+
+std::vector<SerialDeviceInfo> find_usb_serial_ports();
