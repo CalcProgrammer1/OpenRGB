@@ -293,26 +293,26 @@ private:
     | Functions that must be run in the background thread   |
     \*-----------------------------------------------------*/
     void BackgroundDetectDevices();
-    void BackgroundDetectHIDDevices(hid_device_info* hid_devices, json detector_settings);
-    void BackgroundDetectHIDDevicesSafe(json detector_settings);
+    void BackgroundDetectHIDDevices(hid_device_info* hid_devices, json& detector_settings);
+    void BackgroundDetectHIDDevicesSafe(json& detector_settings);
 #ifdef __linux__
 #ifdef __GLIBC__
-    void BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_devices, json detector_settings);
+    void BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_devices, json& detector_settings);
 #endif
 #endif
     void BackgroundDetectI2CBuses();
-    void BackgroundDetectI2CDevices(json detector_settings);
-    void BackgroundDetectI2CDRAMDevices(json detector_settings);
-    void BackgroundDetectI2CPCIDevices(json detector_settings);
-    void BackgroundDetectOtherDevices(json detector_settings);
+    void BackgroundDetectI2CDevices(json& detector_settings);
+    void BackgroundDetectI2CDRAMDevices(json& detector_settings);
+    void BackgroundDetectI2CPCIDevices(json& detector_settings);
+    void BackgroundDetectOtherDevices(json& detector_settings);
     void BackgroundHIDExit();
     void BackgroundHIDInit();
 
     /*-----------------------------------------------------*\
     | Functions to run detectors                            |
     \*-----------------------------------------------------*/
-    void RunHIDDetector(hid_device_info* current_hid_device, json detector_settings);
-    void RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_device_info* current_hid_device, json detector_settings);
+    void RunHIDDetector(hid_device_info* current_hid_device, json& detector_settings);
+    void RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_device_info* current_hid_device, json& detector_settings);
 
     /*-----------------------------------------------------*\
     | Detection processing functions                        |

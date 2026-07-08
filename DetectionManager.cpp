@@ -846,7 +846,7 @@ void DetectionManager::BackgroundDetectI2CBuses()
     }
 }
 
-void DetectionManager::BackgroundDetectI2CDevices(json detector_settings)
+void DetectionManager::BackgroundDetectI2CDevices(json& detector_settings)
 {
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|               Detecting I2C devices                |");
@@ -898,7 +898,7 @@ void DetectionManager::BackgroundDetectI2CDevices(json detector_settings)
     }
 }
 
-void DetectionManager::BackgroundDetectI2CDRAMDevices(json detector_settings)
+void DetectionManager::BackgroundDetectI2CDRAMDevices(json& detector_settings)
 {
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|            Detecting I2C DRAM modules              |");
@@ -975,7 +975,7 @@ void DetectionManager::BackgroundDetectI2CDRAMDevices(json detector_settings)
     }
 }
 
-void DetectionManager::BackgroundDetectI2CPCIDevices(json detector_settings)
+void DetectionManager::BackgroundDetectI2CPCIDevices(json& detector_settings)
 {
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|               Detecting I2C PCI devices            |");
@@ -1031,7 +1031,7 @@ void DetectionManager::BackgroundDetectI2CPCIDevices(json detector_settings)
     }
 }
 
-void DetectionManager::BackgroundDetectHIDDevices(hid_device_info* hid_devices, json detector_settings)
+void DetectionManager::BackgroundDetectHIDDevices(hid_device_info* hid_devices, json& detector_settings)
 {
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|               Detecting HID devices                |");
@@ -1073,7 +1073,7 @@ void DetectionManager::BackgroundDetectHIDDevices(hid_device_info* hid_devices, 
     hid_free_enumeration(hid_devices);
 }
 
-void DetectionManager::BackgroundDetectHIDDevicesSafe(json detector_settings)
+void DetectionManager::BackgroundDetectHIDDevicesSafe(json& detector_settings)
 {
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|               Detecting HID devices                |");
@@ -1145,7 +1145,7 @@ void DetectionManager::BackgroundDetectHIDDevicesSafe(json detector_settings)
 
 #ifdef __linux__
 #ifdef __GLIBC__
-void DetectionManager::BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_devices, json detector_settings)
+void DetectionManager::BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_devices, json& detector_settings)
 {
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|            Detecting libusb HID devices            |");
@@ -1192,7 +1192,7 @@ void DetectionManager::BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_de
 #endif
 #endif
 
-void DetectionManager::BackgroundDetectOtherDevices(json detector_settings)
+void DetectionManager::BackgroundDetectOtherDevices(json& detector_settings)
 {
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|              Detecting other devices               |");
@@ -1306,7 +1306,7 @@ void DetectionManager::BackgroundHIDInit()
 /*---------------------------------------------------------*\
 | Functions to run detectors                                |
 \*---------------------------------------------------------*/
-void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json detector_settings)
+void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json& detector_settings)
 {
     if(LogManager::get()->GetLogLevel() >= LL_DEBUG)
     {
@@ -1367,6 +1367,8 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json 
             \*---------------------------------------------*/
             bool this_device_enabled = true;
 
+            detection_string = detector->name.c_str();
+
             if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
             {
                 this_device_enabled = detector_settings["detectors"][detection_string];
@@ -1420,7 +1422,7 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json 
     }
 }
 
-void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_device_info* current_hid_device, json detector_settings)
+void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_device_info* current_hid_device, json& detector_settings)
 {
     if(LogManager::get()->GetLogLevel() >= LL_DEBUG)
     {
@@ -1480,6 +1482,8 @@ void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_
             | be added to the settings list                 |
             \*---------------------------------------------*/
             bool this_device_enabled = true;
+
+            detection_string = detector->name.c_str();
 
             if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
             {
@@ -1834,15 +1838,15 @@ void DetectionManager::StopHIDHotplug()
 \*---------------------------------------------------------*/
 int DetectionManager::HotplugCallbackFunction(hid_hotplug_callback_handle /*callback_handle*/, hid_device_info *device, hid_hotplug_event event, void * /*user_data*/)
 {
-    /*-----------------------------------------------------*\
-    | Open device disable list and read in disabled         |
-    | device strings                                        |
-    \*-----------------------------------------------------*/
-    json                detector_settings   = ResourceManager::get()->GetSettingsManager()->GetSettings("Detectors");
-    DetectionManager*   dm                  = DetectionManager::get();
-
     if(event == HID_API_HOTPLUG_EVENT_DEVICE_ARRIVED)
     {
+        /*-------------------------------------------------*\
+        | Open device disable list and read in disabled     |
+        | device strings                                    |
+        \*-------------------------------------------------*/
+        json                detector_settings   = ResourceManager::get()->GetSettingsManager()->GetSettings("Detectors");
+        DetectionManager*   dm                  = DetectionManager::get();
+
         LOG_INFO("[%s] HID device connected: [%04x:%04x - %s]", DETECTIONMANAGER, device->vendor_id, device->product_id, device->path);
 
         dm->RunHIDDetector(device, detector_settings);
@@ -1880,15 +1884,15 @@ int DetectionManager::UnplugCallbackFunction(hid_hotplug_callback_handle /*callb
 #ifdef __GLIBC__
 int DetectionManager::WrappedHotplugCallbackFunction(hid_hotplug_callback_handle /*callback_handle*/, hid_device_info *device, hid_hotplug_event event, void * /*user_data*/)
 {
-    /*-----------------------------------------------------*\
-    | Open device disable list and read in disabled         |
-    | device strings                                        |
-    \*-----------------------------------------------------*/
-    json                detector_settings   = ResourceManager::get()->GetSettingsManager()->GetSettings("Detectors");
-    DetectionManager*   dm                  = DetectionManager::get();
-
     if(event == HID_API_HOTPLUG_EVENT_DEVICE_ARRIVED)
     {
+        /*-------------------------------------------------*\
+        | Open device disable list and read in disabled     |
+        | device strings                                    |
+        \*-------------------------------------------------*/
+        json                detector_settings   = ResourceManager::get()->GetSettingsManager()->GetSettings("Detectors");
+        DetectionManager*   dm                  = DetectionManager::get();
+
         LOG_INFO("[%s] libusb HID device connected: [%04x:%04x - %s]", DETECTIONMANAGER, device->vendor_id, device->product_id, device->path);
 
         dm->RunHIDDetector(device, detector_settings);
