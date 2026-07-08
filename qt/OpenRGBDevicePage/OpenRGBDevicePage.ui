@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string notr="true">Device Page</string>
   </property>
-  <layout class="QGridLayout" name="OpenRGBDevicePageUiGridLayout" rowstretch="0,0" columnstretch="3,1">
+  <layout class="QGridLayout" name="OpenRGBDevicePageUiGridLayout" rowstretch="0,0" columnstretch="3,0">
    <item row="1" column="1">
     <widget class="QFrame" name="ColorFrame">
      <property name="sizePolicy">
@@ -343,46 +343,38 @@
     </widget>
    </item>
    <item row="0" column="0" colspan="2">
-    <widget class="QFrame" name="DeviceViewBoxFrame">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="autoFillBackground">
+    <widget class="QScrollArea" name="DeviceViewBoxFrame">
+     <property name="widgetResizable">
       <bool>true</bool>
      </property>
-     <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
-     </property>
-     <layout class="QGridLayout" name="DeviceViewBoxGridLayout">
-      <item row="0" column="0">
-       <widget class="DeviceView" name="DeviceViewBox" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QWidget" name="DeviceViewBoxFrameContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>823</width>
+        <height>96</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="DeviceView" name="DeviceViewBox" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
