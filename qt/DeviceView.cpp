@@ -1397,6 +1397,12 @@ void DeviceView::InitDeviceView()
     }
 
     /*-----------------------------------------------------*\
+    | Determine minimum height                              |
+    \*-----------------------------------------------------*/
+    init_size.setHeight(total_height * 15);
+    updateGeometry();
+
+    /*-----------------------------------------------------*\
     | Update LED labels                                     |
     \*-----------------------------------------------------*/
     for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
