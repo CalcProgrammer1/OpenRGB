@@ -326,67 +326,66 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     /*-----------------------------------------------------*\
     | Set up tray icon menu                                 |
     \*-----------------------------------------------------*/
-    trayIconMenu = new QMenu( this );
+    trayMenu = new QMenu( this );
 
     trayIcon = new QSystemTrayIcon(this);
 
-    QAction* actionShowHide = new QAction(tr("Show/Hide"), this);
-    connect(actionShowHide, SIGNAL(triggered()), this, SLOT(on_ShowHide()));
-    trayIconMenu->addAction(actionShowHide);
+    trayActionShowHide = new QAction(tr("Show/Hide"), this);
+    connect(trayActionShowHide, SIGNAL(triggered()), this, SLOT(on_ShowHide()));
+    trayMenu->addAction(trayActionShowHide);
 
-    profileMenu = new QMenu(tr("Profiles"), this);
+    trayProfileMenu = new QMenu(tr("Profiles"), this);
 
-    trayIconMenu->addMenu(profileMenu);
+    trayMenu->addMenu(trayProfileMenu);
 
-    QMenu* quickColorsMenu = new QMenu(tr("Quick Colors"), this);
+    trayQuickColorsMenu = new QMenu(tr("Quick Colors"), this);
 
-    QAction* actionQuickRed = new QAction(tr("Red"), this);
-    connect(actionQuickRed, SIGNAL(triggered()), this, SLOT(on_QuickRed()));
-    quickColorsMenu->addAction(actionQuickRed);
+    trayQuickColorsActionRed = new QAction(tr("Red"), this);
+    connect(trayQuickColorsActionRed, SIGNAL(triggered()), this, SLOT(on_QuickRed()));
+    trayQuickColorsMenu->addAction(trayQuickColorsActionRed);
 
-    QAction* actionQuickYellow = new QAction(tr("Yellow"), this);
-    connect(actionQuickYellow, SIGNAL(triggered()), this, SLOT(on_QuickYellow()));
-    quickColorsMenu->addAction(actionQuickYellow);
+    trayQuickColorsActionYellow = new QAction(tr("Yellow"), this);
+    connect(trayQuickColorsActionYellow, SIGNAL(triggered()), this, SLOT(on_QuickYellow()));
+    trayQuickColorsMenu->addAction(trayQuickColorsActionYellow);
 
-    QAction* actionQuickGreen = new QAction(tr("Green"), this);
-    connect(actionQuickGreen, SIGNAL(triggered()), this, SLOT(on_QuickGreen()));
-    quickColorsMenu->addAction(actionQuickGreen);
+    trayQuickColorsActionGreen = new QAction(tr("Green"), this);
+    connect(trayQuickColorsActionGreen, SIGNAL(triggered()), this, SLOT(on_QuickGreen()));
+    trayQuickColorsMenu->addAction(trayQuickColorsActionGreen);
 
-    QAction* actionQuickCyan = new QAction(tr("Cyan"), this);
-    connect(actionQuickCyan, SIGNAL(triggered()), this, SLOT(on_QuickCyan()));
-    quickColorsMenu->addAction(actionQuickCyan);
+    trayQuickColorsActionCyan = new QAction(tr("Cyan"), this);
+    connect(trayQuickColorsActionCyan, SIGNAL(triggered()), this, SLOT(on_QuickCyan()));
+    trayQuickColorsMenu->addAction(trayQuickColorsActionCyan);
 
-    QAction* actionQuickBlue = new QAction(tr("Blue"), this);
-    connect(actionQuickBlue, SIGNAL(triggered()), this, SLOT(on_QuickBlue()));
-    quickColorsMenu->addAction(actionQuickBlue);
+    trayQuickColorsActionBlue = new QAction(tr("Blue"), this);
+    connect(trayQuickColorsActionBlue, SIGNAL(triggered()), this, SLOT(on_QuickBlue()));
+    trayQuickColorsMenu->addAction(trayQuickColorsActionBlue);
 
-    QAction* actionQuickMagenta = new QAction(tr("Magenta"), this);
-    connect(actionQuickMagenta, SIGNAL(triggered()), this, SLOT(on_QuickMagenta()));
-    quickColorsMenu->addAction(actionQuickMagenta);
+    trayQuickColorsActionMagenta = new QAction(tr("Magenta"), this);
+    connect(trayQuickColorsActionMagenta, SIGNAL(triggered()), this, SLOT(on_QuickMagenta()));
+    trayQuickColorsMenu->addAction(trayQuickColorsActionMagenta);
 
-    QAction* actionQuickWhite = new QAction(tr("White"), this);
-    connect(actionQuickWhite, SIGNAL(triggered()), this, SLOT(on_QuickWhite()));
-    quickColorsMenu->addAction(actionQuickWhite);
+    trayQuickColorsActionWhite = new QAction(tr("White"), this);
+    connect(trayQuickColorsActionWhite, SIGNAL(triggered()), this, SLOT(on_QuickWhite()));
+    trayQuickColorsMenu->addAction(trayQuickColorsActionWhite);
 
-    trayIconMenu->addMenu(quickColorsMenu);
+    trayMenu->addMenu(trayQuickColorsMenu);
 
-    QAction* actionLightsOff = new QAction(tr("Lights Off"), this);
-    actionLightsOff->setObjectName("ActionLightsOff");
-    connect(actionLightsOff, SIGNAL(triggered()), this, SLOT(on_LightsOff()));
-    trayIconMenu->addAction(actionLightsOff);
+    trayActionLightsOff = new QAction(tr("Lights Off"), this);
+    connect(trayActionLightsOff, SIGNAL(triggered()), this, SLOT(on_LightsOff()));
+    trayMenu->addAction(trayActionLightsOff);
 
-    QAction* actionReScan = new QAction(tr("Rescan Devices"), this);
-    connect(actionReScan, SIGNAL(triggered()), this, SLOT(on_ButtonRescan_clicked()));
-    trayIconMenu->addAction(actionReScan);
+    trayActionRescan = new QAction(tr("Rescan Devices"), this);
+    connect(trayActionRescan, SIGNAL(triggered()), this, SLOT(on_ButtonRescan_clicked()));
+    trayMenu->addAction(trayActionRescan);
 
-    actionExit = new QAction(tr("Exit"), this );
-    connect( actionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
-    trayIconMenu->addAction(actionExit);
+    trayActionExit = new QAction(tr("Exit"), this );
+    connect( trayActionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
+    trayMenu->addAction(trayActionExit);
 
     connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_ReShow(QSystemTrayIcon::ActivationReason)));
 
     trayIcon->setToolTip("OpenRGB");
-    trayIcon->setContextMenu(trayIconMenu);
+    trayIcon->setContextMenu(trayMenu);
 
     /*-----------------------------------------------------*\
     | Update the profile list                               |
@@ -546,6 +545,20 @@ void OpenRGBDialog::changeEvent(QEvent *event)
                 ui->MainTabBar->setTabText(i, tr(label.c_str()));
             }
         }
+
+        trayProfileMenu->setTitle(tr("Profiles"));
+        trayQuickColorsMenu->setTitle(tr("Quick Colors"));
+        trayQuickColorsActionRed->setText(tr("Red"));
+        trayQuickColorsActionYellow->setText(tr("Yellow"));
+        trayQuickColorsActionGreen->setText(tr("Green"));
+        trayQuickColorsActionCyan->setText(tr("Cyan"));
+        trayQuickColorsActionBlue->setText(tr("Blue"));
+        trayQuickColorsActionMagenta->setText(tr("Magenta"));
+        trayQuickColorsActionWhite->setText(tr("White"));
+        trayActionShowHide->setText(tr("Show/Hide"));
+        trayActionLightsOff->setText(tr("Lights Off"));
+        trayActionRescan->setText(tr("Rescan Devices"));
+        trayActionExit->setText(tr("Exit"));
     }
 }
 
@@ -808,7 +821,7 @@ void OpenRGBDialog::AddPlugin(OpenRGBPluginEntry* plugin)
 
     if(NewTrayMenu)
     {
-        trayIconMenu->insertMenu(actionExit, NewTrayMenu);
+        trayMenu->insertMenu(trayActionExit, NewTrayMenu);
     }
 }
 
@@ -819,11 +832,11 @@ void OpenRGBDialog::RemovePlugin(OpenRGBPluginEntry* plugin)
     \*-----------------------------------------------------*/
     if(plugin->traymenu)
     {
-        QWidget* plugin_tray_entry = trayIconMenu->find(plugin->traymenu->winId());
+        QWidget* plugin_tray_entry = trayMenu->find(plugin->traymenu->winId());
 
         if(plugin_tray_entry)
         {
-            trayIconMenu->removeAction(plugin->traymenu->menuAction());
+            trayMenu->removeAction(plugin->traymenu->menuAction());
         }
     }
 
@@ -1326,7 +1339,7 @@ void OpenRGBDialog::UpdateProfileList()
         | Clear profile combo box and tray icon menu        |
         \*-------------------------------------------------*/
         ui->ProfileBox->clear();
-        profileMenu->clear();
+        trayProfileMenu->clear();
 
         ui->ProfileBox->addItem("No Active Profile");
 
@@ -1343,7 +1356,7 @@ void OpenRGBDialog::UpdateProfileList()
             QAction* actionProfileSelected = new QAction(profile_manager->GetProfileList()[profile_index].c_str(), this);
             actionProfileSelected->setObjectName(profile_manager->GetProfileList()[profile_index].c_str());
             connect(actionProfileSelected, SIGNAL(triggered()), this, SLOT(on_ProfileSelected()));
-            profileMenu->addAction(actionProfileSelected);
+            trayProfileMenu->addAction(actionProfileSelected);
         }
 
         ui->ProfileBox->blockSignals(false);

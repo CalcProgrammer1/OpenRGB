@@ -111,10 +111,21 @@ private:
     | System tray icon and menu                             |
     \*-----------------------------------------------------*/
     QSystemTrayIcon *               trayIcon;
-    QMenu *                         trayIconMenu;
-    QMenu *                         profileMenu;
+    QMenu *                         trayMenu;
+    QMenu *                         trayProfileMenu;
+    QMenu *                         trayQuickColorsMenu;
+    QAction *                       trayQuickColorsActionRed;
+    QAction *                       trayQuickColorsActionYellow;
+    QAction *                       trayQuickColorsActionGreen;
+    QAction *                       trayQuickColorsActionCyan;
+    QAction *                       trayQuickColorsActionBlue;
+    QAction *                       trayQuickColorsActionMagenta;
+    QAction *                       trayQuickColorsActionWhite;
+    QAction *                       trayActionShowHide;
+    QAction *                       trayActionLightsOff;
+    QAction *                       trayActionRescan;
+    QAction *                       trayActionExit;
 
-    QAction *                       actionExit;
     QString                         dialog_message;
 
     /*-----------------------------------------------------*\
