@@ -3116,7 +3116,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(Netwo
     /*-----------------------------------------------------*\
     | Check if we aren't reading beyond the list of modes.  |
     \*-----------------------------------------------------*/
-    if(((std::size_t)mode_idx) >  controllers[controller_idx]->modes.size())
+    if(((std::size_t)mode_idx) >= controllers[controller_idx]->modes.size())
     {
         /*-------------------------------------------------*\
         | Unlock access mutex                               |
@@ -3220,7 +3220,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(Netw
     /*-----------------------------------------------------*\
     | Check if we aren't reading beyond the list of leds.   |
     \*-----------------------------------------------------*/
-    if(((size_t)led_idx) > controllers[controller_idx]->leds.size())
+    if(((size_t)led_idx) >= controllers[controller_idx]->leds.size())
     {
         /*-------------------------------------------------*\
         | Unlock access mutex                               |
@@ -3303,7 +3303,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(Netwo
     /*-----------------------------------------------------*\
     | Check if we aren't reading beyond the list of zones.  |
     \*-----------------------------------------------------*/
-    if(((std::size_t)zone_idx) > controllers[controller_idx]->zones.size())
+    if(((std::size_t)zone_idx) >= controllers[controller_idx]->zones.size())
     {
         /*-------------------------------------------------*\
         | Unlock access mutex                               |
@@ -3409,7 +3409,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(Netwo
     /*-----------------------------------------------------*\
     | Check if we aren't reading beyond the list of modes.  |
     \*-----------------------------------------------------*/
-    if((((std::size_t)zone_idx) > controllers[controller_idx]->zones.size()) || (mode_idx > (int)controllers[controller_idx]->zones[zone_idx].modes.size()))
+    if((((std::size_t)zone_idx) >= controllers[controller_idx]->zones.size()) || (mode_idx > (int)controllers[controller_idx]->zones[zone_idx].modes.size()))
     {
         /*-------------------------------------------------*\
         | Unlock access mutex                               |
