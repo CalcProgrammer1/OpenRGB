@@ -526,27 +526,26 @@ void CorsairPeripheralController::ReadFirmwareInfo()
     char offset = 0;
 
     /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
+    | Some Corsair keyboards (e.g. K70 RGB MK.2) do not     |
+    | answer the firmware-info query on the control         |
+    | interface until several seconds after the host first  |
+    | talks to them following a cold boot.  A single read   |
+    | attempt returns all zeros, the device type comes back |
+    | as 0x00, and the device is discarded as UNKNOWN.      |
+    | Retry the query until a valid device type byte is     |
+    | returned or the attempt cap is reached.  Each failed  |
+    | attempt is paced by the 1s hid_read_timeout below, so |
+    | the cap also bounds the detection stall for a device  |
+    | that opens but never answers.  Observed need          |
+    | on a K70 RGB MK.2 cold boot is 2 attempts; the cap    |
+    | leaves generous headroom.                             |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+    int attempt = 0;
 
-    /*-----------------------------------------------------*\
-    | Set up Read Firmware Info packet                      |
-    \*-----------------------------------------------------*/
-    usb_buf[0x00]   = 0x00;
-    usb_buf[0x01]   = CORSAIR_COMMAND_READ;
-    usb_buf[0x02]   = CORSAIR_PROPERTY_FIRMWARE_INFO;
-
-    /*-----------------------------------------------------*\
-    | Send packet and try reading it using an HID read      |
-    | If that fails, repeat the send and read the reply as  |
-    | a feature report.                                     |
-    \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
-    actual = hid_read_timeout(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH, 1000);
-
-    if(actual == 0)
+    do
     {
+        offset = 0;
+
         /*-------------------------------------------------*\
         | Zero out buffer                                   |
         \*-------------------------------------------------*/
@@ -559,10 +558,48 @@ void CorsairPeripheralController::ReadFirmwareInfo()
         usb_buf[0x01]   = CORSAIR_COMMAND_READ;
         usb_buf[0x02]   = CORSAIR_PROPERTY_FIRMWARE_INFO;
 
-        hid_send_feature_report(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
-        actual = hid_get_feature_report(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
-        offset = 1;
-    }
+        /*-------------------------------------------------*\
+        | Send packet and try reading it using an HID read  |
+        | If that fails, repeat the send and read the reply |
+        | as a feature report.                              |
+        \*-------------------------------------------------*/
+        hid_write(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+        actual = hid_read_timeout(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH, 1000);
+
+        if(actual == 0)
+        {
+            /*---------------------------------------------*\
+            | Zero out buffer                               |
+            \*---------------------------------------------*/
+            memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+            /*---------------------------------------------*\
+            | Set up Read Firmware Info packet              |
+            \*---------------------------------------------*/
+            usb_buf[0x00]   = 0x00;
+            usb_buf[0x01]   = CORSAIR_COMMAND_READ;
+            usb_buf[0x02]   = CORSAIR_PROPERTY_FIRMWARE_INFO;
+
+            hid_send_feature_report(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+            actual = hid_get_feature_report(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+            offset = 1;
+        }
+
+        attempt++;
+
+        LOG_DEBUG("[%s] Firmware info attempt %d/%d: device type %02X", CORSAIR_PERIPHERAL_CONTROLLER_NAME, attempt, CORSAIR_FW_INFO_MAX_ATTEMPTS, usb_buf[0x14 + offset]);
+
+        /*-------------------------------------------------*\
+        | Stop as soon as a valid device type is returned   |
+        |   0xC0 keyboard / 0xC1 mouse / 0xC2 pad or stand  |
+        \*-------------------------------------------------*/
+        if(usb_buf[0x14 + offset] == 0xC0
+        || usb_buf[0x14 + offset] == 0xC1
+        || usb_buf[0x14 + offset] == 0xC2)
+        {
+            break;
+        }
+    } while(attempt < CORSAIR_FW_INFO_MAX_ATTEMPTS);
 
     /*-----------------------------------------------------*\
     | Get device type                                       |
@@ -570,7 +607,7 @@ void CorsairPeripheralController::ReadFirmwareInfo()
     |   0xC1    Device is a mouse                           |
     |   0xC2    Device is a mousepad or headset stand       |
     \*-----------------------------------------------------*/
-    LOG_DEBUG("[%s] Device type %02X", CORSAIR_PERIPHERAL_CONTROLLER_NAME, usb_buf[0x14 + offset]);
+    LOG_DEBUG("[%s] Device type %02X after %d attempt(s)", CORSAIR_PERIPHERAL_CONTROLLER_NAME, usb_buf[0x14 + offset], attempt);
 
     switch(usb_buf[0x14 + offset])
     {

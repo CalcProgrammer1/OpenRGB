@@ -16,6 +16,7 @@
 #include "RGBController.h"
 
 #define CORSAIR_PERIPHERAL_PACKET_LENGTH 65
+#define CORSAIR_FW_INFO_MAX_ATTEMPTS     10
 
 enum
 {
