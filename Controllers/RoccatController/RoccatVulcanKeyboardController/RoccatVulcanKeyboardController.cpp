@@ -84,6 +84,10 @@ device_info RoccatVulcanKeyboardController::InitDeviceInfo()
     memset(buf, 0x00, packet_length);
 
     buf[0] = report_id;
+    /*-------------------------------------------------------------*\
+    | Store the actual read bytes to verify data availability       |
+    \*-------------------------------------------------------------*/
+    int res = hid_get_feature_report(dev_ctrl, buf, packet_length);
     hid_get_feature_report(dev_ctrl, buf, packet_length);
 
     /*-------------------------------------------------------------*\
@@ -107,11 +111,22 @@ device_info RoccatVulcanKeyboardController::InitDeviceInfo()
     }
     else
     {
-        dev_info.layout_type    = buf[6];
+        /*---------------------------------------------------------*\
+        | Safe check for reported buffer length before accessing    |
+        | buf[6] to prevent out-of-bounds array access.             |
+        | Vulcan II Max (JP) returns 0x06 at buf[6] for JIS layout. |
+        \*---------------------------------------------------------*/
+        if(res >= 7)
+        {
+            dev_info.layout_type = buf[6];
+            LOG_DEBUG("[Roccat Vulcan Keyboard]: Detected layout '0x%02X'", buf[6]);
+        }
+        else
+        {
+            dev_info.layout_type = ROCCAT_VULCAN_LAYOUT_US;
+            LOG_DEBUG("[Roccat Vulcan Keyboard]: Failed to detect layout, falling back to US");
+        }
     }
-
-    LOG_DEBUG("[Roccat Vulcan Keyboard]: Detected layout '0x%02X'", buf[6]);
-
     delete[] buf;
     return dev_info;
 }

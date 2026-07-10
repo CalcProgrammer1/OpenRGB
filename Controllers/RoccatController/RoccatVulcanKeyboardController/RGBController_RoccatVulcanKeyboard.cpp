@@ -151,6 +151,9 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
         case ROCCAT_VULCAN_LAYOUT_FR:
             layout = ROCCAT_VULCAN_LAYOUT_UK;
             break;
+        case ROCCAT_VULCAN_LAYOUT_JP:
+            layout = ROCCAT_VULCAN_LAYOUT_JP;
+            break;
         case ROCCAT_VULCAN_LAYOUT_US:
         default:
             layout = ROCCAT_VULCAN_LAYOUT_US;
@@ -167,7 +170,13 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
 
     if(pid == ROCCAT_VULCAN_II_MAX_PID)
     {
-        keyboard_size  = 108;
+        /*---------------------------------------------------------*\
+        | Dynamically calculate the main keyboard zone size by      |
+        | subtracting the 40 secondary/palm rest LEDs from the      |
+        | total layout size. This prevents JIS keys from overflow.  |
+        \*---------------------------------------------------------*/
+        keyboard_size = keyboard[layout].size - 40;
+
     }
 
     zone keyboard_zone;
