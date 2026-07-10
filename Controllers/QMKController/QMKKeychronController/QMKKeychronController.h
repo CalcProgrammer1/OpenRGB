@@ -114,6 +114,7 @@
 #define KEYCHRON_K17_MAX_ISO_ENCODER_RGB_PID        0x0A01
 #define KEYCHRON_K17_MAX_JIS_ENCODER_RGB_PID        0x0A02
 #define KEYCHRON_Q0_BASE_PID                        0x0130
+#define KEYCHRON_Q0_HE_PID                          0x0B00
 #define KEYCHRON_Q0_PLUS_PID                        0x0131
 #define KEYCHRON_Q0_MAX_ENCODER_PID                 0x0800
 #define KEYCHRON_Q1_HE_ANSI_ENCODER_PID             0x0B10
