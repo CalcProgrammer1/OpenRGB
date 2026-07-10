@@ -50,21 +50,53 @@ std::string ZotacBlackwellGPUController::GetVersion()
 void ZotacBlackwellGPUController::ReadVersion()
 {
     /*---------------------------------------------------------*\
-    | Read version via raw I2C block read.  The first bytes     |
-    | returned contain the ASCII version string (e.g.           |
-    | "N762A-2008e").  If the raw read fails or returns empty,  |
-    | fall back to reading register 0x2F as an identifier.      |
+    | The firmware/board version is a 32-byte ASCII string      |
+    | (e.g. "N762E...") read from register 0xF0 - the same      |
+    | register-addressed read the vendor FireStorm utility      |
+    | performs.  A bare register-less read returns a status     |
+    | byte instead of the string, so the register must be       |
+    | selected first.                                           |
+    |                                                           |
+    | Bound the string to the returned length, terminate at     |
+    | the first NUL, trim trailing padding (0xFF) and spaces,   |
+    | and accept only printable ASCII.  Fall back to            |
+    | "Unknown" otherwise.                                      |
     \*---------------------------------------------------------*/
     u8  rdata_pkt[I2C_SMBUS_BLOCK_MAX] = { 0x00 };
-    int rdata_len                      = sizeof(rdata_pkt);
+    s32 rdata_len;
 
-    if(bus->i2c_read_block(dev, &rdata_len, rdata_pkt) >= 0 && rdata_pkt[0] != 0x00)
+    version     = "Unknown";
+    rdata_len   = bus->i2c_smbus_read_i2c_block_data(dev, ZOTAC_BLACKWELL_GPU_REG_VERSION, I2C_SMBUS_BLOCK_MAX, rdata_pkt);
+
+    if(rdata_len > 0)
     {
-        version = std::string((char*)rdata_pkt);
-    }
-    else
-    {
-        version = "Unknown";
+        int length = 0;
+
+        while(length < rdata_len && rdata_pkt[length] != 0x00)
+        {
+            length++;
+        }
+
+        while(length > 0 && (rdata_pkt[length - 1] == 0xFF || rdata_pkt[length - 1] == ' '))
+        {
+            length--;
+        }
+
+        bool printable = (length > 0);
+
+        for(int i = 0; i < length; i++)
+        {
+            if(rdata_pkt[i] < 0x20 || rdata_pkt[i] > 0x7E)
+            {
+                printable = false;
+                break;
+            }
+        }
+
+        if(printable)
+        {
+            version = std::string((char*)rdata_pkt, length);
+        }
     }
 
     LOG_INFO("[%s] Firmware version: %s", name.c_str(), version.c_str());

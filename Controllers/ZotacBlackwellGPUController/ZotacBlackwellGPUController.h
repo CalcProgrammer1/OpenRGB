@@ -47,6 +47,11 @@
 #define ZOTAC_BLACKWELL_GPU_REG_COMMIT          0x17
 
 /*---------------------------------------------------------*\
+| Version register (returns 32-byte ASCII version string)   |
+\*---------------------------------------------------------*/
+#define ZOTAC_BLACKWELL_GPU_REG_VERSION         0xF0
+
+/*---------------------------------------------------------*\
 | Mode values (from Firestorm V5.0.0.012E reverse eng.)     |
 \*---------------------------------------------------------*/
 #define ZOTAC_BLACKWELL_GPU_MODE_STATIC         0x01
