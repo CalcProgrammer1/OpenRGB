@@ -15,7 +15,7 @@
 #include <string>
 #include <hidapi.h>
 #include "RGBController.h"
-#include "SteelSeriesGeneric.h"
+#include "SteelSeriesDevices.h"
 #include "SteelSeriesMouseController.h"
 
 #define STEELSERIES_AEORX3_NAME                     "SteelSeries Aerox 3"

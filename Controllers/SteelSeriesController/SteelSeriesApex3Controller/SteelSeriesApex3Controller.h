@@ -14,7 +14,7 @@
 #include <string>
 #include <hidapi.h>
 #include "RGBController.h"
-#include "SteelSeriesGeneric.h"
+#include "SteelSeriesDevices.h"
 
 #define STEELSERIES_APEX3_BRIGHTNESS_MIN    0x00
 #define STEELSERIES_APEX3_HID_TIMEOUT       100

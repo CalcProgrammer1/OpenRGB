@@ -19,7 +19,7 @@
 #include <string>
 #include <hidapi.h>
 #include "color32.h"
-#include "SteelSeriesGeneric.h"
+#include "SteelSeriesDevices.h"
 
 /* Mode, we then use these to set actual effect based on speed. */
 enum

@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 #include <hidapi.h>
-#include "SteelSeriesGeneric.h"
+#include "SteelSeriesDevices.h"
 
 #define STEELSERIES_MOUSE_BRIGHTNESS_MAX          0x64
 

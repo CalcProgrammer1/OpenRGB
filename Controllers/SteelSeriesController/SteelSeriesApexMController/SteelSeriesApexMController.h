@@ -14,7 +14,7 @@
 #include <string>
 #include <hidapi.h>
 #include "RGBController.h"
-#include "SteelSeriesGeneric.h"
+#include "SteelSeriesDevices.h"
 #include "SteelSeriesApexBaseController.h"
 
 class SteelSeriesApexMController : public SteelSeriesApexBaseController

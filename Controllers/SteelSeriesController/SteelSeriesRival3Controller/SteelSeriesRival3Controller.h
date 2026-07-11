@@ -13,7 +13,7 @@
 
 #include <string>
 #include <hidapi.h>
-#include "SteelSeriesGeneric.h"
+#include "SteelSeriesDevices.h"
 #include "SteelSeriesMouseController.h"
 
 static const steelseries_mouse rival_3 =

@@ -37,7 +37,7 @@ std::string SteelSeriesApexBaseController::GetName()
 /*---------------------------------------------------------*\
 | Gen 1 Apex Pro stores the unit serial number in firmware. |
 | The first 5 digits determine the region of the keyboard.  |
-| This is not the case for Gen 3, call to this function     |
+| This is not the case for Gen 2+, calls to this function   |
 | will be ignored.                                          |
 \*---------------------------------------------------------*/
 std::string SteelSeriesApexBaseController::GetSerial()
@@ -51,7 +51,7 @@ std::string SteelSeriesApexBaseController::GetSerial()
 
         memset(obuf, 0x00, sizeof(obuf));
         obuf[0x00] = 0;
-        obuf[0x01] = 0xFF;
+        obuf[0x01] = APEX_GEN1_PACKET_ID_SERIAL;
         hid_write(dev, obuf, STEELSERIES_PACKET_OUT_SIZE);
 
         result = hid_read_timeout(dev, ibuf, STEELSERIES_PACKET_IN_SIZE, 2);
@@ -97,8 +97,8 @@ std::string SteelSeriesApexBaseController::GetVersion()
     if(proto_type == APEX)
     {
         /*-------------------------------------------------*\
-        | Gen 1 & 2 Apex Pro report KBD and LED firmware    |
-        | Gen 3 only reports the KBD firmware, ignoring     |
+        | Gen 1 Apex Pro reports KBD and LED firmware       |
+        | Gen 2+ only reports the KBD firmware, ignoring    |
         | requests to read the LED version                  |
         \*-------------------------------------------------*/
         unsigned char   obuf[STEELSERIES_PACKET_OUT_SIZE];
@@ -107,7 +107,7 @@ std::string SteelSeriesApexBaseController::GetVersion()
 
         memset(obuf, 0x00, sizeof(obuf));
         obuf[0x00] = 0;
-        obuf[0x01] = 0x90;
+        obuf[0x01] = APEX_PACKET_ID_FIRMWARE;
         hid_write(dev, obuf, STEELSERIES_PACKET_OUT_SIZE);
         result = hid_read_timeout(dev, ibuf, STEELSERIES_PACKET_IN_SIZE, 2);
 
@@ -117,9 +117,9 @@ std::string SteelSeriesApexBaseController::GetVersion()
             fwver.erase(std::remove(fwver.begin(), fwver.end(), '\0'), fwver.end());
 
             /*---------------------------------------------*\
-            | Apex Pro Gen 3 needs the first char dropped   |
+            | Apex Pro Gen 2+ needs the first char dropped  |
             \*---------------------------------------------*/
-            if(kbd_quirk == APEX_GEN3)
+            if(ibuf[0] == APEX_PACKET_ID_FIRMWARE)
             {
                 fwver.erase(0,1);
             }
@@ -128,9 +128,9 @@ std::string SteelSeriesApexBaseController::GetVersion()
         }
 
         /*-------------------------------------------------*\
-        | Clear and reuse buffer                            |
+        | Get LED firmware for Gen 1                        |
         \*-------------------------------------------------*/
-        if(kbd_quirk != APEX_GEN3)
+        if(kbd_quirk == APEX_GEN1)
         {
             memset(ibuf, 0x00, sizeof(ibuf));
             obuf[0x02] = 0x01;

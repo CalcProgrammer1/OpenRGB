@@ -15,7 +15,7 @@
 #include <string>
 #include <hidapi.h>
 #include "RGBController.h"
-#include "SteelSeriesGeneric.h"
+#include "SteelSeriesDevices.h"
 #include "SteelSeriesApex3Controller.h"
 
 #define STEELSERIES_8Z_LED_COUNT            8

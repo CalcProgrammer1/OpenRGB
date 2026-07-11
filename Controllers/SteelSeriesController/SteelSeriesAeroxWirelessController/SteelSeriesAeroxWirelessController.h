@@ -15,7 +15,7 @@
 #include <string>
 #include <hidapi.h>
 #include "RGBController.h"
-#include "SteelSeriesGeneric.h"
+#include "SteelSeriesDevices.h"
 #include "SteelSeriesMouseController.h"
 
 #define STEELSERIES_AEROX3_WIRELESS_NAME                    "SteelSeries Aerox 3 Wireless (2.4 GHz wireless mode)"
