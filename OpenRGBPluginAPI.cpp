@@ -41,6 +41,12 @@ RGBControllerInterface* OpenRGBPluginAPI::CreateVirtualRGBController(RGBControll
 {
     RGBController_Virtual* rgb_controller = new RGBController_Virtual(setup);
 
+    /*-----------------------------------------------------*\
+    | Add the new controller to the list of created         |
+    | controllers                                           |
+    \*-----------------------------------------------------*/
+    created_controllers.push_back((RGBController*)rgb_controller);
+
     return(rgb_controller);
 }
 
@@ -62,6 +68,27 @@ void OpenRGBPluginAPI::RegisterVirtualRGBControllerInThread(RGBControllerInterfa
 void OpenRGBPluginAPI::RegisterVirtualRGBController(RGBControllerInterface* rgb_controller)
 {
     LOG_INFO("[PluginManager] Registering RGB controller %s", rgb_controller->GetName().c_str());
+
+    /*-----------------------------------------------------*\
+    | Ensure the pointer given is a pointer to a valid      |
+    | virtual controller                                    |
+    \*-----------------------------------------------------*/
+    bool found = false;
+
+    for(std::size_t controller_idx = 0; controller_idx < created_controllers.size(); controller_idx++)
+    {
+        if(created_controllers[controller_idx] == rgb_controller)
+        {
+            found = true;
+            break;
+        }
+    }
+
+    if(!found)
+    {
+        LOG_ERROR("[PluginManager] Attempted to register an RGBController that was not created by this plugin API instance.");
+        return;
+    }
 
     /*-----------------------------------------------------*\
     | Mark this controller as locally owned                 |
@@ -131,6 +158,12 @@ void OpenRGBPluginAPI::UpdateVirtualRGBController(RGBControllerInterface* rgb_co
 
 void OpenRGBPluginAPI::DeleteVirtualRGBController(RGBControllerInterface* rgb_controller)
 {
+    /*-----------------------------------------------------*\
+    | Remove the controller from the list of created        |
+    | controllers                                           |
+    \*-----------------------------------------------------*/
+    created_controllers.erase(std::remove(created_controllers.begin(), created_controllers.end(), (RGBController*)rgb_controller), created_controllers.end());
+
     delete (RGBController*)rgb_controller;
 }
 

@@ -67,6 +67,7 @@ public:
     /*-----------------------------------------------------*\
     | RGBControllers registered by plugin                   |
     \*-----------------------------------------------------*/
+    std::vector<RGBController*>             created_controllers;
     std::vector<RGBController*>             rgb_controllers;
 
 private:
