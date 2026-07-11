@@ -1088,6 +1088,11 @@ void NetworkClient::SendRequest_RGBController_ClearSegments(unsigned int dev_idx
         return;
     }
 
+    if(protocol_version < 5)
+    {
+        return;
+    }
+
     NetPacketHeader request_hdr;
     int             request_data[1];
 
@@ -1108,6 +1113,11 @@ void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, u
         return;
     }
 
+    if(protocol_version < 5)
+    {
+        return;
+    }
+
     NetPacketHeader request_hdr;
 
     InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT, data_size);
@@ -1121,6 +1131,11 @@ void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, u
 void NetworkClient::SendRequest_RGBController_ConfigureZone(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
     if(change_in_progress)
+    {
+        return;
+    }
+
+    if(protocol_version < 6)
     {
         return;
     }
@@ -1163,6 +1178,11 @@ void NetworkClient::SendRequest_RGBController_ConfigureDevice(unsigned int dev_i
         return;
     }
 
+    if(protocol_version < 6)
+    {
+        return;
+    }
+
     NetPacketHeader request_hdr;
 
     InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_CONFIGUREDEVICE, data_size);
@@ -1176,6 +1196,11 @@ void NetworkClient::SendRequest_RGBController_ConfigureDevice(unsigned int dev_i
 void NetworkClient::SendRequest_RGBController_SetHidden(unsigned int dev_idx, bool hidden)
 {
     if(change_in_progress)
+    {
+        return;
+    }
+
+    if(protocol_version < 6)
     {
         return;
     }
@@ -1281,6 +1306,11 @@ void NetworkClient::SendRequest_RGBController_UpdateZoneMode(unsigned int dev_id
         return;
     }
 
+    if(protocol_version < 6)
+    {
+        return;
+    }
+
     NetPacketHeader request_hdr;
 
     InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE, data_size);
@@ -1298,6 +1328,11 @@ void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, uns
         return;
     }
 
+    if(protocol_version < 3)
+    {
+        return;
+    }
+
     NetPacketHeader request_hdr;
 
     InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SAVEMODE, data_size);
@@ -1310,6 +1345,16 @@ void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, uns
 
 void NetworkClient::SendRequest_RGBController_SetDeviceSpecificConfiguration(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    if(protocol_version < 6)
+    {
+        return;
+    }
+
     NetPacketHeader request_hdr;
 
     InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICCONFIGURATION, data_size);
@@ -1322,6 +1367,16 @@ void NetworkClient::SendRequest_RGBController_SetDeviceSpecificConfiguration(uns
 
 void NetworkClient::SendRequest_RGBController_SetDeviceSpecificZoneConfiguration(unsigned int dev_idx, unsigned char* data_ptr, unsigned int data_size)
 {
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    if(protocol_version < 6)
+    {
+        return;
+    }
+
     NetPacketHeader request_hdr;
 
     InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETDEVICESPECIFICZONECONFIGURATION, data_size);
