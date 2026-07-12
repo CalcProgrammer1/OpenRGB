@@ -390,7 +390,7 @@ enum KeychronVIABacklightValueID
 class QMKKeychronController
 {
 public:
-    QMKKeychronController(hid_device* dev_handle, const char *path);
+    QMKKeychronController(hid_device* dev_handle, const char *path, unsigned short dev_pid);
     ~QMKKeychronController();
 
     std::string                             GetLocation();
@@ -420,6 +420,7 @@ private:
     std::string                             location;
     std::string                             name;
     unsigned short                          number_leds;
+    unsigned short                          pid;
     std::string                             serial;
     unsigned short                          supported_features;
     std::string                             vendor;

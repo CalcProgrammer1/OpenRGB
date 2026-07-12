@@ -19,7 +19,85 @@
 
 using namespace std::chrono_literals;
 
-QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char *path)
+/*---------------------------------------------------------*\
+| Keychron Patch Types                                      |
+|   The Keychron protocol does not provide RGB matrix X/Y   |
+|   coordinates, only the position in the wiring matrix.    |
+|   For most Keychron keyboards, the wiring matrix mostly   |
+|   matches the physical position, but there are often a    |
+|   few misplaced LEDs.  Implement a matrix patching system |
+|   to apply keyboard-specific patches for these misplaced  |
+|   LEDs.                                                   |
+\*---------------------------------------------------------*/
+typedef struct
+{
+    unsigned int                led_idx;
+    unsigned int                row;
+    unsigned int                col;
+} keychron_patch_entry;
+
+typedef struct
+{
+    unsigned short              pid;
+    unsigned int                num_entries;
+    const keychron_patch_entry* patch;
+} keychron_patch;
+
+/*---------------------------------------------------------*\
+| Keychron Q2 ANSI Encoder                                  |
+\*---------------------------------------------------------*/
+#define KEYCHRON_Q2_ANSI_ENCODER_PATCH_ENTRIES_COUNT (sizeof(keychron_q2_ansi_encoder_patch_entries) / sizeof(keychron_patch_entry))
+
+static const keychron_patch_entry keychron_q2_ansi_encoder_patch_entries[] =
+{
+    { 60,   4,      9 },
+    { 61,   4,     10 },
+    { 62,   4,     11 },
+    { 63,   4,     12 },
+    { 54,   3,     12 },
+    { 55,   3,     13 },
+    { 64,   4,     13 },
+};
+
+static const keychron_patch keychron_q2_ansi_encoder_patch =
+{
+    KEYCHRON_Q2_ANSI_ENCODER_PID,
+    KEYCHRON_Q2_ANSI_ENCODER_PATCH_ENTRIES_COUNT,
+    keychron_q2_ansi_encoder_patch_entries
+};
+
+/*---------------------------------------------------------*\
+| Keychron Q6 ANSI Encoder                                  |
+\*---------------------------------------------------------*/
+#define KEYCHRON_Q6_ULTRA_8K_ANSI_PATCH_ENTRIES_COUNT (sizeof(keychron_q6_ultra_8k_ansi_patch_entries) / sizeof(keychron_patch_entry))
+
+static const keychron_patch_entry keychron_q6_ultra_8k_ansi_patch_entries[] =
+{
+    { 19,   0,     20 },
+    { 40,   1,     20 },
+    { 77,   3,     20 },
+    { 107,  5,     20 },
+};
+
+static const keychron_patch keychron_q6_ultra_8k_ansi_patch =
+{
+    KEYCHRON_Q6_ULTRA_8K_ANSI_PID,
+    KEYCHRON_Q6_ULTRA_8K_ANSI_PATCH_ENTRIES_COUNT,
+    keychron_q6_ultra_8k_ansi_patch_entries
+};
+
+/*---------------------------------------------------------*\
+| List of all Keychron patches                              |
+\*---------------------------------------------------------*/
+#define KEYCHRON_PATCH_COUNT (sizeof(keychron_patches) / sizeof(keychron_patch*))
+
+static const keychron_patch* keychron_patches[] =
+{
+    &keychron_q2_ansi_encoder_patch,
+    &keychron_q6_ultra_8k_ansi_patch,
+};
+
+QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char *path, unsigned short dev_pid)
 {
     /*-----------------------------------------------------*\
     | Initialize controller fields                          |
@@ -27,6 +105,7 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     dev                     = dev_handle;
     location                = path;
     kc_protocol_version     = 0;
+    pid                     = dev_pid;
     supported_features      = 0;
     via_protocol_version    = 0;
 
@@ -142,6 +221,21 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     for(unsigned short led_index = 0; led_index < number_leds; led_index++)
     {
         keycodes[led_index] = CmdGetKeycode(0, led_info[led_index].row, led_info[led_index].col);
+    }
+
+    /*-----------------------------------------------------*\
+    | Apply matrix corrections                              |
+    \*-----------------------------------------------------*/
+    for(unsigned int patch_idx = 0; patch_idx < KEYCHRON_PATCH_COUNT; patch_idx++)
+    {
+        if(pid == keychron_patches[patch_idx]->pid)
+        {
+            for(unsigned int patch_entry_idx = 0; patch_entry_idx < keychron_patches[patch_idx]->num_entries; patch_entry_idx++)
+            {
+                led_info[keychron_patches[patch_idx]->patch[patch_entry_idx].led_idx].row = keychron_patches[patch_idx]->patch[patch_entry_idx].row;
+                led_info[keychron_patches[patch_idx]->patch[patch_entry_idx].led_idx].col = keychron_patches[patch_idx]->patch[patch_entry_idx].col;
+            }
+        }
     }
 }
 
