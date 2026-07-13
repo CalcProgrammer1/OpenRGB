@@ -1246,6 +1246,7 @@ void DeviceView::InitDeviceView()
                             |    Left Shift                 |
                             |    Right Shift                |
                             |    Backspace                  |
+                            |    ANSI Enter                 |
                             |    Number Pad 0               |
                             |                               |
                             | Fill Up or Down:              |
@@ -1262,6 +1263,7 @@ void DeviceView::InitDeviceView()
                                  || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_LEFT_SHIFT )
                                  || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_RIGHT_SHIFT)
                                  || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_BACKSPACE  )
+                                 || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_ANSI_ENTER )
                                  || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_NUMPAD_0   ) )
                                 {
                                     led_pos[color_idx].matrix_w += 1.0f;

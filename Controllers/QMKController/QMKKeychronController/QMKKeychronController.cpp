@@ -44,6 +44,35 @@ typedef struct
 } keychron_patch;
 
 /*---------------------------------------------------------*\
+| Keychron K5 V2 ANSI Encoder                               |
+\*---------------------------------------------------------*/
+#define KEYCHRON_K5_V2_ANSI_RGB_PATCH_ENTRIES_COUNT \
+    (sizeof(keychron_k5_v2_ansi_rgb_patch_entries) / sizeof(keychron_patch_entry))
+
+static const keychron_patch_entry keychron_k5_v2_ansi_rgb_patch_entries[] =
+{
+    {  18,   0,     19 },
+    {  19,   0,     20 },
+    {  39,   1,     19 },
+    {  40,   1,     20 },
+    {  60,   2,     19 },
+    {  61,   2,     20 },
+    {  74,   3,     12 },
+    {  77,   3,     19 },
+    {  89,   4,     12 },
+    {  93,   4,     19 },
+    { 107,   5,     19 },
+    {  94,   5,     20 },
+};
+
+static const keychron_patch keychron_k5_v2_ansi_rgb_patch =
+{
+    KEYCHRON_K5_V2_ANSI_RGB_PID,
+    KEYCHRON_K5_V2_ANSI_RGB_PATCH_ENTRIES_COUNT,
+    keychron_k5_v2_ansi_rgb_patch_entries
+};
+
+/*---------------------------------------------------------*\
 | Keychron Q2 ANSI Encoder                                  |
 \*---------------------------------------------------------*/
 #define KEYCHRON_Q2_ANSI_ENCODER_PATCH_ENTRIES_COUNT (sizeof(keychron_q2_ansi_encoder_patch_entries) / sizeof(keychron_patch_entry))
@@ -95,6 +124,7 @@ static const keychron_patch* keychron_patches[] =
 {
     &keychron_q2_ansi_encoder_patch,
     &keychron_q6_ultra_8k_ansi_patch,
+    &keychron_k5_v2_ansi_rgb_patch,
 };
 
 QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char *path, unsigned short dev_pid)
