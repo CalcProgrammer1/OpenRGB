@@ -106,7 +106,7 @@ static void OpenRGBDialogResourceManagerCallback(void * this_ptr, unsigned int u
             break;
 
         case RESOURCEMANAGER_UPDATE_REASON_DEVICE_LIST_UPDATED:
-            QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::QueuedConnection);
+            QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::BlockingQueuedConnection);
             break;
     }
 }
