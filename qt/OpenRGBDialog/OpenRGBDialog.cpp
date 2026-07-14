@@ -7,6 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <thread>
 #include "AutoStart.h"
 #include "OpenRGBDialog.h"
 #include "JsonUtils.h"
@@ -2018,9 +2019,11 @@ void OpenRGBDialog::SaveProfileAs()
 void OpenRGBDialog::on_ButtonRescan_clicked()
 {
     /*-----------------------------------------------------*\
-    | Rescan devices in ResourceManager                     |
+    | Run RescanDevices in an asynchronous thread to avoid  |
+    | locking the UI thread                                 |
     \*-----------------------------------------------------*/
-    ResourceManager::get()->RescanDevices();
+    std::thread rescan_thread([](){ResourceManager::get()->RescanDevices();});
+    rescan_thread.detach();
 }
 
 void OpenRGBDialog::on_ActionSaveProfile_triggered()

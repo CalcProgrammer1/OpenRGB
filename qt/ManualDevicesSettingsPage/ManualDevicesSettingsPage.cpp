@@ -8,6 +8,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <thread>
 #include "ManualDevicesSettingsPage.h"
 #include "ui_ManualDevicesSettingsPage.h"
 
@@ -337,9 +338,11 @@ void ManualDevicesSettingsPage::on_ActionSaveAndRescan_triggered()
 {
     saveSettings();
 
-    /*---------------------------------------------------------*\
-    | Trigger rescan                                            |
-    \*---------------------------------------------------------*/
-    ResourceManager::get()->RescanDevices();
+    /*-----------------------------------------------------*\
+    | Run RescanDevices in an asynchronous thread to avoid  |
+    | locking the UI thread                                 |
+    \*-----------------------------------------------------*/
+    std::thread rescan_thread([](){ResourceManager::get()->RescanDevices();});
+    rescan_thread.detach();
 }
 
