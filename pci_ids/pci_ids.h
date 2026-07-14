@@ -953,6 +953,7 @@
 #define POWERCOLOR_RED_DEVIL_RX6950XT_SUB_DEV                   0x2420
 
 #define POWERCOLOR_RED_DEVIL_RX9070XT_SUB_DEV                   0x2435
+#define POWERCOLOR_RED_DEVIL_RX9070_SUB_DEV                     0x2436
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |
