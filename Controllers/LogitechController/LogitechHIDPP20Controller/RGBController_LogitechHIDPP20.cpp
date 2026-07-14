@@ -768,7 +768,7 @@ void RGBController_LogitechHIDPP20::SetupZones()
             perkey_zone.leds_min   = klm.GetKeyCount();
             perkey_zone.leds_max   = klm.GetKeyCount();
             perkey_zone.leds_count = klm.GetKeyCount();
-            perkey_zone.matrix_map = klm.GetKeyMap();
+            perkey_zone.matrix_map = klm.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT);
             zones.push_back(perkey_zone);
 
             for(unsigned int i = 0; i < klm.GetKeyCount(); i++)
