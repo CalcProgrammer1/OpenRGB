@@ -1243,6 +1243,32 @@ void OpenRGBDialog::UpdateDevicesList()
         }
     }
 
+    /*-----------------------------------------------------*\
+    | Remove hidden device pages whose controllers no       |
+    | longer exist                                          |
+    \*-----------------------------------------------------*/
+    for(std::size_t hidden_tab_idx = 0; hidden_tab_idx < hidden_pages.size(); hidden_tab_idx++)
+    {
+        RGBController* hidden_controller = hidden_pages[hidden_tab_idx]->GetController();
+        bool found = false;
+
+        for(std::size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
+        {
+            if(hidden_controller == controllers[controller_idx])
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if(!found)
+        {
+            delete hidden_pages[hidden_tab_idx];
+            hidden_pages.erase(hidden_pages.begin() + hidden_tab_idx);
+            hidden_tab_idx--;
+        }
+    }
+
     bool found = true;
 
     while(found)
