@@ -141,6 +141,7 @@
 #define NVIDIA_RTX2080_FE_SUB_DEV                               0x12A6
 #define NVIDIA_RTX2080S_FE_SUB_DEV                              0x13A0
 #define NVIDIA_RTX2080TI_FE_SUB_DEV                             0x12A4
+#define NVIDIA_RTX2080TI_FE_CP2077_SUB_DEV                      0x1435
 #define NVIDIA_TITANRTX_FE_SUB_DEV                              0x12A3
 #define NVIDIA_RTX3080_FE_SUB_DEV                               0x1467
 #define NVIDIA_RTX3080TI_FE_SUB_DEV                             0x1535

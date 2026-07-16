@@ -50,6 +50,7 @@ static const nv_gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX2080_A_DEV,           NVIDIA_SUB_VEN,   NVIDIA_RTX2080_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2080 FE"                  },
     {NVIDIA_VEN,    NVIDIA_RTX2080S_DEV,            NVIDIA_SUB_VEN,   NVIDIA_RTX2080S_FE_SUB_DEV,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2080 SUPER FE"            },
     {NVIDIA_VEN,    NVIDIA_RTX2080TI_A_DEV,         NVIDIA_SUB_VEN,   NVIDIA_RTX2080TI_FE_SUB_DEV,                    NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2080 Ti FE"               },
+    {NVIDIA_VEN,    NVIDIA_RTX2080TI_A_DEV,         NVIDIA_SUB_VEN,   NVIDIA_RTX2080TI_FE_CP2077_SUB_DEV,             NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2080 Ti Cyberpunk 2077"   },
     {NVIDIA_VEN,    NVIDIA_TITANRTX_DEV,            NVIDIA_SUB_VEN,   NVIDIA_TITANRTX_FE_SUB_DEV,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA TITAN RTX"                            },
     {NVIDIA_VEN,    NVIDIA_RTX3050_DEV,             NVIDIA_SUB_VEN,   GAINWARD_RTX3050_SUB_DEV,                       NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Gainward GeForce RTX 3050 LHR"               },
     {NVIDIA_VEN,    NVIDIA_RTX3060_8G_DEV,          NVIDIA_SUB_VEN,   NVIDIA_RTX3060_8G_DEV,                          NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Gainward GeForce RTX 3060 Pegasus"           },
@@ -76,8 +77,8 @@ static const nv_gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX4080S_DEV,            NVIDIA_SUB_VEN,   NVIDIA_RTX4080S_FE_SUB_DEV,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 4080 SUPER FE"            },
     {NVIDIA_VEN,    NVIDIA_RTX4090_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX4090_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 4090 FE"                  },
     {NVIDIA_VEN,    NVIDIA_RTX4090_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX4090_FE_SUB_DEV2,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 4090 FE"                  },
-    {NVIDIA_VEN,    NVIDIA_RTX5080_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX5080_FE_SUB_DEV,                            NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 5080 FE"                  },
-    {NVIDIA_VEN,    NVIDIA_RTX5090_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX5090_FE_SUB_DEV,                            NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 5090 FE"                  },
+    {NVIDIA_VEN,    NVIDIA_RTX5080_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX5080_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 5080 FE"                  },
+    {NVIDIA_VEN,    NVIDIA_RTX5090_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX5090_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 5090 FE"                  },
 };
 
 DetectedControllers DetectNVIDIAIllumGPUs()
