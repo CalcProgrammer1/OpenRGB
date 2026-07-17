@@ -834,6 +834,7 @@
 #define MSI_RTX4070TIS_GAMING_SLIM_SUB_DEV                      0xE130
 #define MSI_RTX4070TIS_GAMING_X_SLIM_SUB_DEV                    0xE13D
 #define MSI_RTX4070TIS_GAMING_X_SLIM_WHITE_SUB_DEV              0xE13E
+#define MSI_RTX4070TIS_GAMING_X_SLIM_WHITE_SUB_DEV_2            0xE132
 #define MSI_RTX4080_GAMING_X_TRIO_SUB_DEV                       0x5111
 #define MSI_RTX4080_GAMING_X_TRIO_WHITE_SUB_DEV                 0x5115
 #define MSI_RTX4080_SUPRIM_X_SUB_DEV                            0x5110
