@@ -334,9 +334,14 @@ void RGBController_PolychromeUSB::DeviceUpdateLEDs()
     }
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
+        if(zones[zone_idx].leds_count == 0)
+        {
+            continue;
+        }
+
         unsigned char set_mode = zones_info[zone_idx].mode;
 
-        if (set_mode>modes.size())
+        if(set_mode>modes.size())
         {
             set_mode = active_mode;
         }
@@ -347,6 +352,11 @@ void RGBController_PolychromeUSB::DeviceUpdateLEDs()
 
 void RGBController_PolychromeUSB::DeviceUpdateZoneLEDs(int zone)
 {
+    if(zones[zone].leds_count == 0)
+    {
+        return;
+    }
+
     unsigned char set_mode=zones_info[zone].mode;
 
     if(set_mode > modes.size())
@@ -354,7 +364,7 @@ void RGBController_PolychromeUSB::DeviceUpdateZoneLEDs(int zone)
         set_mode = active_mode;
     }
 
-    controller->WriteZone(zone, set_mode, zones_info[zone].speed, zones[zone].colors[0], false);
+    controller->WriteZone((unsigned char)zone, set_mode, zones_info[zone].speed, zones[zone].colors[0], false);
 }
 
 void RGBController_PolychromeUSB::DeviceUpdateSingleLED(int led)
@@ -362,12 +372,17 @@ void RGBController_PolychromeUSB::DeviceUpdateSingleLED(int led)
     unsigned int  channel  = leds[led].value;
     unsigned char set_mode = zones_info[channel].mode;
 
+    if(zones[channel].leds_count == 0)
+    {
+        return;
+    }
+
     if(set_mode > modes.size())
     {
         set_mode = active_mode;
     }
 
-    controller->WriteZone(channel, set_mode, zones_info[channel].speed, zones[channel].colors[0], false);
+    controller->WriteZone((unsigned char)channel, set_mode, zones_info[channel].speed, zones[channel].colors[0], false);
 }
 
 unsigned char RGBController_PolychromeUSB::GetDeviceMode(unsigned char zone)
