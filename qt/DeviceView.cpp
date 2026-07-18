@@ -83,6 +83,9 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_EN_F10,               { "F10"   , "F10",              }},
     { KEY_EN_F11,               { "F11"   , "F11",              }},
     { KEY_EN_F12,               { "F12"   , "F12",              }},
+    { KEY_EN_F13,               { "F13"   , "F13",              }},
+    { KEY_EN_F14,               { "F14"   , "F14",              }},
+    { KEY_EN_F15,               { "F15"   , "F15",              }},
     { KEY_EN_BACK_TICK,         { "`"     , "`",                }},
     { KEY_EN_MINUS,             { "-"     , "-",                }},
     { KEY_EN_PLUS,              { "+"     , "+",                }},
@@ -131,6 +134,7 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_EN_RIGHT_ARROW,       { "Rgt"   , "\xF0\x9F\xA1\xBA"  }}, // ↑ 🡹
     { KEY_EN_NUMPAD_LOCK,       { "Num"   , "Num",              }},
     { KEY_EN_NUMPAD_DIVIDE,     { "/"     , "/",                }},
+    { KEY_EN_NUMPAD_EQUAL,      { "="     , "=",                }},
     { KEY_EN_NUMPAD_TIMES,      { "*"     , "*",                }},
     { KEY_EN_NUMPAD_MINUS,      { "-"     , "-",                }},
     { KEY_EN_NUMPAD_PLUS,       { "+"     , "+",                }},
