@@ -64,6 +64,7 @@
 | Headset product IDs                                       |
 \*---------------------------------------------------------*/
 #define STEELSERIES_SIBERIA_350_PID                     0x1229
+#define STEELSERIES_ARCTIS_NOVA_3_PID                   0x12EC
 #define STEELSERIES_ARCTIS_5_PID                        0x1250
 #define STEELSERIES_ARCTIS_5_V2_PID                     0x12AA
 

@@ -12,6 +12,7 @@
 #include "SteelSeriesDevices.h"
 #include "SteelSeriesAeroxWirelessController.h"
 #include "SteelSeriesAerox5Controller.h"
+#include "SteelSeriesArctisNova3Controller.h"
 #include "SteelSeriesArctis5Controller.h"
 #include "SteelSeriesApex8ZoneController.h"
 #include "SteelSeriesApexController.h"
@@ -23,6 +24,7 @@
 #include "SteelSeriesRival3Controller.h"
 #include "SteelSeriesSenseiController.h"
 #include "SteelSeriesSiberiaController.h"
+#include "RGBController_SteelSeriesArctisNova3.h"
 #include "RGBController_SteelSeriesArctis5.h"
 #include "RGBController_SteelSeriesApex.h"
 #include "RGBController_SteelSeriesApex3.h"
@@ -392,6 +394,24 @@ DetectedControllers DetectSteelSeriesSensei(hid_device_info* info, const std::st
     return(detected_controllers);
 }
 
+DetectedControllers DetectSteelSeriesArctisNova3(hid_device_info* info, const std::string& name)
+{
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        SteelSeriesArctisNova3Controller*     controller     = new SteelSeriesArctisNova3Controller(dev, *info, name);
+        RGBController_SteelSeriesArctisNova3* rgb_controller = new RGBController_SteelSeriesArctisNova3(controller);
+
+        detected_controllers.push_back(rgb_controller);
+    }
+
+    return(detected_controllers);
+}
+
 DetectedControllers DetectSteelSeriesArctis5(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
@@ -459,6 +479,7 @@ REGISTER_HID_DETECTOR_I("SteelSeries Sensei 310",                               
 | Headsets                                                                                                                                                                  |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_I("SteelSeries Siberia 350",                          DetectSteelSeriesHeadset,   STEELSERIES_VID, STEELSERIES_SIBERIA_350_PID,               3  );
+REGISTER_HID_DETECTOR_IPU("SteelSeries Arctis Nova 3",                      DetectSteelSeriesArctisNova3,   STEELSERIES_VID, STEELSERIES_ARCTIS_NOVA_3_PID,    4, 0xFFC0, 1);
 REGISTER_HID_DETECTOR_I("SteelSeries Arctis 5",                             DetectSteelSeriesArctis5,   STEELSERIES_VID, STEELSERIES_ARCTIS_5_PID,                  5  );
 REGISTER_HID_DETECTOR_I("SteelSeries Arctis 5",                             DetectSteelSeriesArctis5,   STEELSERIES_VID, STEELSERIES_ARCTIS_5_V2_PID,               5  );
 
