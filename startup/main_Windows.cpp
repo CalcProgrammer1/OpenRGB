@@ -21,6 +21,7 @@
 #include "startup.h"
 #include "LogManager.h"
 #include "NetworkServer.h"
+#include "DetectionManager.h"
 #include "ResourceManager.h"
 #include "StringUtils.h"
 
@@ -630,6 +631,11 @@ static int common_main(int argc, char* argv[])
             WaitWhileServerOnline(server);
         }
     }
+
+    /*-----------------------------------------------------*\
+    | Clean up detected devices so destructors can run.     |
+    \*-----------------------------------------------------*/
+    DetectionManager::get()->Cleanup();
 
     LOG_TRACE("OpenRGB finishing with exit code %d", exitval);
 

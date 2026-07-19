@@ -139,10 +139,22 @@ public:
     static DetectionManager*            get();
 
     /*-----------------------------------------------------*\
+    | Function for cleaning up on exit                      |
+    \*-----------------------------------------------------*/
+    void                                Cleanup();
+
+    /*-----------------------------------------------------*\
     | Functions to access device lists                      |
     \*-----------------------------------------------------*/
     std::vector<i2c_smbus_interface*>&  GetI2CBuses();
     std::vector<RGBController*>&        GetRGBControllers();
+
+    /*-----------------------------------------------------*\
+    | Lock the RGBControllers list around external          |
+    | iteration; registration runs on other threads         |
+    \*-----------------------------------------------------*/
+    void                                LockRGBControllers();
+    void                                UnlockRGBControllers();
 
     /*-----------------------------------------------------*\
     | I2C Bus Detector Registration Function                |
@@ -178,10 +190,10 @@ public:
     void                                RegisterI2CBus(i2c_smbus_interface *bus);
 
     /*-----------------------------------------------------*\
-    | Functions for registering RGBControllers from within  |
-    | detectors                                             |
+    | Functions for registering and unregistering           |
+    | RGBControllers                                        |
     \*-----------------------------------------------------*/
-    void                                RegisterRGBController(RGBController *rgb_controller);
+    void                                RegisterRGBController(RGBController *rgb_controller, const std::string& detection_path = "");
     void                                UnregisterRGBController(RGBController *rgb_controller);
 
     /*-----------------------------------------------------*\
@@ -205,9 +217,11 @@ private:
     std::vector<i2c_smbus_interface*>           i2c_buses;
 
     /*-----------------------------------------------------*\
-    | List of RGBControllers managed by DetectorManager     |
+    | List of RGBControllers managed by DetectionManager,   |
+    | guarded with mutex                                    |
     \*-----------------------------------------------------*/
     std::vector<RGBController*>                 rgb_controllers;
+    std::mutex                                  RGBControllersMutex;
 
     /*-----------------------------------------------------*\
     | Detectors                                             |
@@ -242,9 +256,11 @@ private:
     \*-----------------------------------------------------*/
 #if(HID_HOTPLUG_ENABLED)
     hid_hotplug_callback_handle                 hotplug_callback_handle;
+    hid_hotplug_callback_handle                 unplug_callback_handle;
 #ifdef __linux__
 #ifdef __GLIBC__
     hid_hotplug_callback_handle                 libusb_hotplug_callback_handle;
+    hid_hotplug_callback_handle                 libusb_unplug_callback_handle;
 #endif
 #endif
 #endif

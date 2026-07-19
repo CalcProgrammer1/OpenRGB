@@ -713,9 +713,13 @@ void ResourceManager::UpdateDeviceList()
     rgb_controller_interfaces.clear();
 
     /*-----------------------------------------------------*\
-    | Insert hardware controllers into controller list      |
+    | Insert hardware controllers into controller list.     |
+    | Hold the detection lock across the copy so a          |
+    | concurrent registration cannot invalidate the list.   |
     \*-----------------------------------------------------*/
+    DetectionManager::get()->LockRGBControllers();
     rgb_controllers_hw          = DetectionManager::get()->GetRGBControllers();
+    DetectionManager::get()->UnlockRGBControllers();
 
     for(std::size_t rgb_controller_idx = 0; rgb_controller_idx < rgb_controllers_hw.size(); rgb_controller_idx++)
     {

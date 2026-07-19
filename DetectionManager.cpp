@@ -203,9 +203,31 @@ std::vector<i2c_smbus_interface*>& DetectionManager::GetI2CBuses()
     return(i2c_buses);
 }
 
+void DetectionManager::Cleanup()
+{
+    LOG_INFO("[%s] Cleaning up detected devices", DETECTIONMANAGER);
+
+    ProcessPreDetectionHooks();
+    ProcessCleanup();
+}
+
 std::vector<RGBController*>& DetectionManager::GetRGBControllers()
 {
+    /*-----------------------------------------------------*\
+    | Caller must hold the list lock (LockRGBControllers)   |
+    | while iterating; registration runs on other threads   |
+    \*-----------------------------------------------------*/
     return(rgb_controllers);
+}
+
+void DetectionManager::LockRGBControllers()
+{
+    RGBControllersMutex.lock();
+}
+
+void DetectionManager::UnlockRGBControllers()
+{
+    RGBControllersMutex.unlock();
 }
 
 /*---------------------------------------------------------*\
@@ -383,9 +405,18 @@ void DetectionManager::RegisterI2CBus(i2c_smbus_interface *bus)
 | Functions for registering RGBControllers from within      |
 | detectors                                                 |
 \*---------------------------------------------------------*/
-void DetectionManager::RegisterRGBController(RGBController *rgb_controller)
+void DetectionManager::RegisterRGBController(RGBController *rgb_controller, const std::string& detection_path)
 {
     LOG_INFO("[%s] Registering RGB controller %s", DETECTIONMANAGER, rgb_controller->GetName().c_str());
+
+    /*-----------------------------------------------------*\
+    | Late registrants (hotplug) pass their node path here; |
+    | detector loops set it directly                        |
+    \*-----------------------------------------------------*/
+    if(!detection_path.empty())
+    {
+        rgb_controller->detection_path = detection_path;
+    }
 
     /*-----------------------------------------------------*\
     | Mark this controller as locally owned                 |
@@ -406,7 +437,9 @@ void DetectionManager::RegisterRGBController(RGBController *rgb_controller)
     /*-----------------------------------------------------*\
     | Add the new controller to the list                    |
     \*-----------------------------------------------------*/
+    RGBControllersMutex.lock();
     rgb_controllers.push_back(rgb_controller);
+    RGBControllersMutex.unlock();
 
     /*-----------------------------------------------------*\
     | Signal Device List Update                             |
@@ -427,12 +460,16 @@ void DetectionManager::UnregisterRGBController(RGBController* rgb_controller)
     | Find the controller to remove and remove it from the  |
     | master list                                           |
     \*-----------------------------------------------------*/
+    RGBControllersMutex.lock();
+
     std::vector<RGBController*>::iterator rgb_it = std::find(rgb_controllers.begin(), rgb_controllers.end(), rgb_controller);
 
     if(rgb_it != rgb_controllers.end())
     {
         rgb_controllers.erase(rgb_it);
     }
+
+    RGBControllersMutex.unlock();
 
     /*-----------------------------------------------------*\
     | Signal Device List Update                             |
@@ -505,7 +542,7 @@ void DetectionManager::BackgroundThreadFunction()
     | be necessary to be separate from the                  |
     | DeviceDetectionMutex, even though their states are    |
     | nearly identical.                                     |
-    \------------------------------------------------------*/
+    \*-----------------------------------------------------*/
     std::unique_lock lock(BackgroundThreadStateMutex);
 
     while(background_thread_running)
@@ -1403,12 +1440,12 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json&
 
                     for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
                     {
+                        /*---------------------------------*\
+                        | detection_path is how the unplug  |
+                        | callback finds this controller    |
+                        \*---------------------------------*/
                         detected_controllers[detected_controller_idx]->detection_path = std::string(current_hid_device->path);
 
-#if(HID_HOTPLUG_ENABLED)
-                        int handle;
-                        hid_hotplug_register_callback(current_hid_device->vendor_id, current_hid_device->product_id, HID_API_HOTPLUG_EVENT_DEVICE_LEFT, 0, &DetectionManager::UnplugCallbackFunction, detected_controllers[detected_controller_idx], &handle);
-#endif
                         RegisterRGBController(detected_controllers[detected_controller_idx]);
                     }
 
@@ -1520,11 +1557,7 @@ void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_
                     for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
                     {
                         detected_controllers[detected_controller_idx]->detection_path = std::string(current_hid_device->path);
-#if(HID_HOTPLUG_ENABLED)
-                        int handle;
 
-                        wrapper->hid_hotplug_register_callback(current_hid_device->vendor_id, current_hid_device->product_id, HID_API_HOTPLUG_EVENT_DEVICE_LEFT, 0, &DetectionManager::UnplugCallbackFunction, detected_controllers[detected_controller_idx], &handle);
-#endif
                         RegisterRGBController(detected_controllers[detected_controller_idx]);
                     }
 
@@ -1553,12 +1586,17 @@ void DetectionManager::ProcessCleanup()
     | Make a copy of the list so that the controllers can   |
     | be deleted after the list is cleared                  |
     \*-----------------------------------------------------*/
-    std::vector<RGBController *> rgb_controllers_copy = rgb_controllers;
+    std::vector<RGBController *> rgb_controllers_copy;
 
     /*-----------------------------------------------------*\
-    | Clear the controllers list                            |
+    | Copy and clear atomically so a concurrent late        |
+    | registration lands wholly before (deleted with this   |
+    | pass) or wholly after the clear (survives it)         |
     \*-----------------------------------------------------*/
+    RGBControllersMutex.lock();
+    rgb_controllers_copy = rgb_controllers;
     rgb_controllers.clear();
+    RGBControllersMutex.unlock();
 
     /*-----------------------------------------------------*\
     | Signal the list cleared callback                      |
@@ -1807,13 +1845,20 @@ void DetectionManager::UpdateDetectorSettings()
 \*---------------------------------------------------------*/
 void DetectionManager::StartHIDHotplug()
 {
+    /*-----------------------------------------------------*\
+    | One global callback per event and stack. DEVICE_LEFT  |
+    | resolves controllers by detection_path at event time, |
+    | not a stored pointer for a rescan to invalidate.      |
+    \*-----------------------------------------------------*/
     hid_hotplug_register_callback(0, 0, HID_API_HOTPLUG_EVENT_DEVICE_ARRIVED, HID_API_HOTPLUG_ENUMERATE, &DetectionManager::HotplugCallbackFunction, nullptr, &hotplug_callback_handle);
+    hid_hotplug_register_callback(0, 0, HID_API_HOTPLUG_EVENT_DEVICE_LEFT,    0,                         &DetectionManager::UnplugCallbackFunction,  nullptr, &unplug_callback_handle);
 
 #ifdef __linux__
 #ifdef __GLIBC__
     if(hidapi_libusb_handle != nullptr)
     {
         hidapi_libusb_wrapper.hid_hotplug_register_callback(0, 0, HID_API_HOTPLUG_EVENT_DEVICE_ARRIVED, HID_API_HOTPLUG_ENUMERATE, &DetectionManager::WrappedHotplugCallbackFunction, nullptr, &libusb_hotplug_callback_handle);
+        hidapi_libusb_wrapper.hid_hotplug_register_callback(0, 0, HID_API_HOTPLUG_EVENT_DEVICE_LEFT,    0,                         &DetectionManager::UnplugCallbackFunction,         nullptr, &libusb_unplug_callback_handle);
     }
 #endif
 #endif
@@ -1822,12 +1867,14 @@ void DetectionManager::StartHIDHotplug()
 void DetectionManager::StopHIDHotplug()
 {
     hid_hotplug_deregister_callback(hotplug_callback_handle);
+    hid_hotplug_deregister_callback(unplug_callback_handle);
 
 #ifdef __linux__
 #ifdef __GLIBC__
     if(hidapi_libusb_handle != nullptr)
     {
         hidapi_libusb_wrapper.hid_hotplug_deregister_callback(libusb_hotplug_callback_handle);
+        hidapi_libusb_wrapper.hid_hotplug_deregister_callback(libusb_unplug_callback_handle);
     }
 #endif
 #endif
@@ -1856,7 +1903,7 @@ int DetectionManager::HotplugCallbackFunction(hid_hotplug_callback_handle /*call
     return 0;
 }
 
-int DetectionManager::UnplugCallbackFunction(hid_hotplug_callback_handle /*callback_handle*/, hid_device_info *device, hid_hotplug_event event, void *user_data)
+int DetectionManager::UnplugCallbackFunction(hid_hotplug_callback_handle /*callback_handle*/, hid_device_info *device, hid_hotplug_event event, void * /*user_data*/)
 {
     DetectionManager* dm = DetectionManager::get();
 
@@ -1864,17 +1911,30 @@ int DetectionManager::UnplugCallbackFunction(hid_hotplug_callback_handle /*callb
     {
         LOG_INFO("[%s] HID device disconnected: [%04x:%04x - %s]", DETECTIONMANAGER, device->vendor_id, device->product_id, device->path);
 
-        /*-------------------------------------------------*\
-        | User data is the pointer to the controller being  |
-        | removed                                           |
-        \*-------------------------------------------------*/
-        RGBController* controller = (RGBController*)(user_data);
+        std::string path = std::string(device->path);
 
-        if(controller && controller->detection_path == std::string(device->path))
+        /*-------------------------------------------------*\
+        | Resolve controllers on this node now; no pointer  |
+        | was stored, so a rescan cannot invalidate one.    |
+        \*-------------------------------------------------*/
+        std::vector<RGBController*> on_path;
+
+        dm->RGBControllersMutex.lock();
+
+        for(RGBController* controller : dm->rgb_controllers)
+        {
+            if(controller->detection_path == path)
+            {
+                on_path.push_back(controller);
+            }
+        }
+
+        dm->RGBControllersMutex.unlock();
+
+        for(RGBController* controller : on_path)
         {
             dm->UnregisterRGBController(controller);
             delete controller;
-            return 1;
         }
     }
     return 0;
