@@ -181,5 +181,8 @@ private:
                                     bool            load_state
                                     );
 
+    void                        MigrateLegacyProfiles();
+    bool                        MigrateLegacyProfile(filesystem::path profile_path);
+
     nlohmann::json              ReadProfileFileJSON(filesystem::path profile_filepath);
 };
