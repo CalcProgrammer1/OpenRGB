@@ -9,11 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include <chrono>
-#include <thread>
 #include "RGBController_MSIMonitor.h"
-
-using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
     @name MSIMonitor
@@ -112,10 +108,6 @@ RGBController_MSIMonitor::RGBController_MSIMonitor(MSIMonitorController* control
 
 RGBController_MSIMonitor::~RGBController_MSIMonitor()
 {
-    keepalive_thread_run = 0;
-    keepalive_thread->join();
-    delete keepalive_thread;
-
     Shutdown();
 
     delete controller;
@@ -145,7 +137,6 @@ void RGBController_MSIMonitor::SetupZones()
 
 void RGBController_MSIMonitor::DeviceUpdateLEDs()
 {
-    last_update_time = std::chrono::steady_clock::now();
     controller->Set(modes[active_mode].value, colors, active_mode == 0 ? 0x00 : 0x01);
 }
 

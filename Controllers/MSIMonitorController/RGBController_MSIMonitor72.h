@@ -1,9 +1,10 @@
 /*---------------------------------------------------------*\
-| RGBController_MSIMonitor.h                                |
+| RGBController_MSIMonitor72.h                              |
 |                                                           |
-|   RGBController for MSI monitor (gaming controller)       |
+|   RGBController for MSI monitors using the 0x72 dual      |
+|   control block layout (MPG 322URX QD-OLED)               |
 |                                                           |
-|   Andy Herbert                              2026 May 16   |
+|   Ken Sanislo                               19 Jul 2026   |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -14,11 +15,11 @@
 #include "RGBController.h"
 #include "MSIMonitorController.h"
 
-class RGBController_MSIMonitor : public RGBController
+class RGBController_MSIMonitor72 : public RGBController
 {
 public:
-    RGBController_MSIMonitor(MSIMonitorController* controller_ptr);
-    ~RGBController_MSIMonitor();
+    RGBController_MSIMonitor72(MSIMonitorController* controller_ptr, unsigned int count, unsigned int direction, bool dual);
+    ~RGBController_MSIMonitor72();
 
     void SetupZones();
 
@@ -27,7 +28,13 @@ public:
     void DeviceUpdateSingleLED(int led);
 
     void DeviceUpdateMode();
+    void DeviceSaveMode();
 
 private:
+    void ApplyMode(bool save);
+
     MSIMonitorController*                               controller;
+    unsigned int                                        led_count;
+    bool                                                reverse_order;
+    bool                                                dual_block;
 };
