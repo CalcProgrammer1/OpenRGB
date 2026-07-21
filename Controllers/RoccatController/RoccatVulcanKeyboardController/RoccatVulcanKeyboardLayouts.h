@@ -1045,8 +1045,8 @@ static std::map<int, layout_info> RoccatVulcanIIMaxLayouts =
             6,
             24,
             {
-                { KEY_EN_ESCAPE,              0x03 },
-                { KEY_JP_EJ,                  0x02 },
+                { KEY_EN_ESCAPE,              0x02 },
+                { KEY_JP_EJ,                  0x03 },
                 { KEY_EN_TAB,                 0x04 },
                 { KEY_EN_CAPS_LOCK,           0x05 },
                 { KEY_EN_LEFT_SHIFT,          0x00 },
