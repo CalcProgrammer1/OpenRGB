@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AkkoKeyboardController.h"
 #include "RGBController_AkkoKeyboard.h"
 
@@ -16,24 +16,33 @@
 #define AKKO_KEYBOARD_PID          0x4003
 #define AKKO_INTERFACE             0
 
-void DetectAkkoKeyboardControllers(hid_device_info* info, const std::string&)
+DetectedControllers DetectAkkoKeyboardControllers(
+    hid_device_info* info,
+    const std::string&
+)
 {
+    DetectedControllers detected_controllers;
+
     hid_device* dev = hid_open_path(info->path);
 
     if(dev)
     {
-        AkkoKeyboardController* controller = new AkkoKeyboardController(dev, info->path);
+        AkkoKeyboardController* controller =
+            new AkkoKeyboardController(dev, info->path);
 
         if(controller->IsValid())
         {
-            RGBController_AkkoKeyboard* rgb_controller = new RGBController_AkkoKeyboard(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(
+                new RGBController_AkkoKeyboard(controller)
+            );
         }
         else
         {
             delete controller;
         }
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_I(

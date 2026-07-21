@@ -138,7 +138,7 @@ void RGBController_AkkoKeyboard::SetupZones()
     keyboard_zone.leds_min      = 1;
     keyboard_zone.leds_max      = 1;
     keyboard_zone.leds_count    = 1;
-    keyboard_zone.matrix_map    = NULL;
+    keyboard_zone.matrix_map.Reset();
     zones.push_back(keyboard_zone);
 
     led keyboard_led;
