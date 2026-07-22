@@ -57,6 +57,8 @@ public:
     void                        DeviceUpdateSingleLED(int led);
 
     void                        DeviceUpdateMode();
+    void                        DeviceUpdateZoneMode(int zone);
+    void                        DeviceSaveMode() override;
 
 private:
     std::string                 detector_name;

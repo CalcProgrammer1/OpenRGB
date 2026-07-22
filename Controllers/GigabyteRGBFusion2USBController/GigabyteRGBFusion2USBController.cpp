@@ -64,7 +64,7 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char*
     {
         return;
     }
-    if(report.support_cmd_flag >= 0x02)
+    if(report.support_cmd_flag & 0x02)
     {
         EnableLampArray(false);
     }
@@ -365,7 +365,18 @@ bool RGBFusion2USBController::SetStripBuiltinEffectState(int hdr, bool enable)
 
     if(hdr == -1)
     {
-        bitmask = 0x01 | 0x02 | 0x08 | 0x10;
+        switch(product_id)
+        {
+            case 0xa100:
+                bitmask = 0x01;
+                break;
+            case 0x5711:
+                bitmask = 0x01 | 0x02 | 0x08 | 0x10;
+                break;
+            default:
+                bitmask = 0x01 | 0x02;
+                break;
+        }
     }
     else
     {
@@ -394,8 +405,6 @@ bool RGBFusion2USBController::SetStripBuiltinEffectState(int hdr, bool enable)
         int new_effect_disabled = enable
             ? (base_mask & ~bitmask)
             : (base_mask | bitmask);
-
-        // Skip redundant writes only after we have synchronized at least once
         if(effect_disabled >= 0 && new_effect_disabled == effect_disabled)
     {
         return true;
@@ -440,7 +449,11 @@ bool RGBFusion2USBController::EnableLampArray(bool enable)
 
 std::string RGBFusion2USBController::GetDeviceName()
 {
-    return(name);
+    if(product_id == 0xa100)
+    {
+        return ("GC-USB");
+    }
+    return (name);
 }
 
 std::string RGBFusion2USBController::GetDeviceDescription()
@@ -736,31 +749,39 @@ std::vector<Gen2StripInfo> RGBFusion2USBController::ExportGen2Strips() const
 /*---------------------------------------------------------*\
 | Scan Headers for Gen2 Devices                             |
 \*---------------------------------------------------------*/
-bool RGBFusion2USBController::ScanGen2Strips()
+bool RGBFusion2USBController::ScanGen2Strips(uint8_t enabled_headers)
 {
-    for(unsigned i = 0; i < 4; ++i)
+    for(unsigned int i = 0; i < 4; ++i)
     {
         if(g2_strip_info[i].LedsOfStrip.capacity() < 15)
         {
             g2_strip_info[i].LedsOfStrip.reserve(15);
         }
-        g2_strip_info[i].numStrip  = 0;
-        g2_strip_info[i].totalLeds = 0;
-        g2_strip_info[i].LedsOfStrip.resize(0);
+
+        g2_strip_info[i].numStrip   = 0;
+        g2_strip_info[i].totalLeds  = 0;
+        g2_strip_info[i].LedsOfStrip.clear();
     }
 
     const unsigned int hdr_lim = (product_id == 0x5711) ? 4u : 2u;
 
     for(unsigned int slot = 0; slot < hdr_lim; ++slot)
     {
+        if(!(enabled_headers & (1U << slot)))
+        {
+            continue;
+        }
+
         static constexpr uint8_t delta[4] = {4, 5, 0, 1};
-        uint8_t scan_cmd = static_cast<uint8_t>(GEN2_LED_BASE_SCAN + delta[slot]);
-        uint8_t info_cmd = static_cast<uint8_t>(scan_cmd + 2);
+
+        uint8_t scan_cmd            = GEN2_LED_BASE_SCAN + delta[slot];
+        uint8_t info_cmd            = scan_cmd + 2;
 
         if(!SendCCReport(scan_cmd, 0x00, 0x00))
         {
             return false;
         }
+
         std::this_thread::sleep_for(std::chrono::milliseconds(700));
 
         if(!SendCCReport(info_cmd, 0x00, 0x00))
@@ -768,48 +789,60 @@ bool RGBFusion2USBController::ScanGen2Strips()
             return false;
         }
 
-        unsigned char feature_buf[64] = {0};
-        feature_buf[0] = report_id;
-        int recv_len = hid_get_feature_report(dev, feature_buf, sizeof(feature_buf));
+        unsigned char feat_buf[64]  = {0};
+        feat_buf[0]                 = report_id;
+
+        int recv_len                = hid_get_feature_report
+        (
+            dev,
+            feat_buf,
+            sizeof(feat_buf)
+        );
+
         if(recv_len < 64)
         {
             return false;
         }
 
-        int seg_count = static_cast<int>(feature_buf[1]);
-        if(seg_count < 0)
-        {
-            seg_count = 0;
-        }
+        int seg_count               = feat_buf[1];
+
         if(seg_count > 15)
         {
-            seg_count = 15;
+            seg_count               = 15;
         }
-        Gen2StripInfo& dst = g2_strip_info[slot];
-        dst.numStrip = static_cast<uint8_t>(seg_count);
-        dst.LedsOfStrip.resize(static_cast<size_t>(seg_count));
 
-        uint32_t total_leds = 0;
-        const int counts_base = 2;
+        Gen2StripInfo& dst          = g2_strip_info[slot];
+        dst.numStrip                = seg_count;
+        dst.LedsOfStrip.resize(seg_count);
+        uint32_t total_leds         = 0;
+        const int counts_base       = 2;
 
         for(int k = 0; k < seg_count; ++k)
         {
-            const int off = counts_base + (k * 2);
-            uint16_t lo   = static_cast<uint16_t>(feature_buf[off + 0]);
-            uint16_t hi   = static_cast<uint16_t>(feature_buf[off + 1]);
-            uint16_t cnt  = static_cast<uint16_t>(lo | (hi << 8));
-
-            dst.LedsOfStrip[static_cast<size_t>(k)] = cnt;
-            total_leds += cnt;
+            const int off           = counts_base + (k * 2);
+            uint16_t lo             = feat_buf[off];
+            uint16_t hi             = feat_buf[off + 1];
+            uint16_t cnt            = lo | (hi << 8);
+            dst.LedsOfStrip[k]      = cnt;
+            total_leds              += cnt;
         }
 
-        dst.totalLeds = total_leds;
+        dst.totalLeds               = total_leds;
 
         SetLedCount(0, 0, 0, 0);
         std::this_thread::sleep_for(std::chrono::milliseconds(20));
+
         SaveLEDState(false);
         std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
 
     return true;
+}
+
+/*---------------------------------------------------------*\
+| Check controller for persistent state support             |
+\*---------------------------------------------------------*/
+bool RGBFusion2USBController::SupportsSaveLEDState() const
+{
+    return(report_loaded && (report.support_cmd_flag & 0x01));
 }

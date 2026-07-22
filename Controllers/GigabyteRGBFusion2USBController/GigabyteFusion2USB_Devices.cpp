@@ -24,6 +24,15 @@ static const gb_fusion2_zone common_d_led_zone =
     "D_LED"
 };
 
+static const gb_fusion2_zone common_gc_usb_d_led_zone =
+{
+    LED1,
+    0,
+    1024,
+    "D_LED"
+};
+
+
 static const gb_fusion2_zone common_d_led1_zone =
 {
     HDR_D_LED1,
@@ -158,6 +167,22 @@ static const gb_fusion2_zone common_led5_zone =
     1,
     1,
     "Name for Led 5"
+};
+
+static const gb_fusion2_zone common_led6_zone =
+{
+    LED6,
+    1,
+    1,
+    "Name for Led 6"
+};
+
+static const gb_fusion2_zone common_led7_zone =
+{
+    LED7,
+    1,
+    1,
+    "Name for Led 7"
 };
 
 static const gb_fusion2_zone common_led8_zone =
@@ -299,8 +324,8 @@ static const gb_fusion2_zone common_chip_acc_4_zone =
 static const gb_fusion2_zone common_chip_acc_6_zone =
 {
     LED6,
-    1,
-    1,
+    7,
+    7,
     "Chipset Accent"
 };
 
@@ -512,6 +537,14 @@ static const gb_fusion2_zone common_ram_accent_2_zone =
     "RAM Accent"
 };
 
+static const gb_fusion2_zone common_ram_accent_11_zone =
+{
+    LED11,
+    1,
+    1,
+    "RAM Accent"
+};
+
 static const gb_fusion2_zone common_ram_cov_4_zone =
 {
     LED4,
@@ -523,33 +556,41 @@ static const gb_fusion2_zone common_ram_cov_4_zone =
 static const gb_fusion2_zone common_ram_cov_7_zone =
 {
     LED7,
-    1,
-    1,
+    3,
+    3,
     "RAM Cover"
 };
 
 static const gb_fusion2_zone common_ram_cov_8_zone =
 {
     LED8,
-    1,
-    1,
+    3,
+    3,
     "RAM Cover"
 };
 
 static const gb_fusion2_zone common_ssd_cov_7_zone =
 {
     LED7,
-    1,
-    1,
+    6,
+    6,
     "SSD Cover"
 };
 
 static const gb_fusion2_zone common_ssd_cov_8_zone =
 {
     LED8,
-    1,
-    1,
+    6,
+    6,
     "SSD Cover"
+};
+
+static const gb_fusion2_zone common_team_up_logo_11_zone =
+{
+    LED11,
+    1,
+    1,
+    "# Team Up, Fight On Logo"
 };
 
 static const gb_fusion2_zone common_wifi_ant_9_zone =
@@ -624,6 +665,42 @@ static const gb_fusion2_device generic_it8297_device =
     "GENERIC IT8297/IT5702 LAYOUT",
 };
 
+/*-------------------------------------------------------------*\
+|  Generic    048D:8297/048D:5702   MCU1                        |
+|                                                               |
+|    Zone "Name for Led 1"          : Single                    |
+|    Zone "Name for LED 2"          : Single                    |
+|    Zone "Name for LED 3"          : Single                    |
+|    Zone "Name for LED 4"          : Single                    |
+|    Zone "Name for LED 5"          : Single                    |
+|    Zone "Name for LED 6"          : Single                    |
+|    Zone "Name for LED 7"          : Single                    |
+|    Zone "Name for LED 8"          : Single                    |
+\*-------------------------------------------------------------*/
+static gb_fusion2_layout it8297_gen_1_device =
+{
+    &common_led1_zone,
+    &common_led2_zone,
+    &common_led3_zone,
+    &common_led4_zone,
+    &common_led5_zone,
+    &common_led6_zone,
+    &common_led7_zone,
+    &common_led8_zone,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+};
+
+static const gb_fusion2_device generic_it8297_2_device =
+{
+    &it8297_gen_1_device,
+    0x0000005F,
+    1,
+    "GENERIC IT8297/IT5702 MCU1 LAYOUT",
+};
+
 
 /*-------------------------------------------------------------*\
 |  Generic    048D:8950                                         |
@@ -696,6 +773,71 @@ static const gb_fusion2_device generic_it5711_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Generic    048D:5711                                         |
+|                                                               |
+|    Zone "ARGB_V2_1"               : Linear                    |
+|    Zone "ARGB_V2_2"               : Linear                    |
+|    Zone "ARGB_V2_3"               : Linear                    |
+|    Zone "ARGB_V2_4"               : Linear                    |
+|    Zone "Name for Led 1"          : Single                    |
+|    Zone "Name for LED 2"          : Single                    |
+|    Zone "Name for LED 3"          : Single                    |
+|    Zone "Name for LED 4"          : Single                    |
+|    Zone "Name for LED 5"          : Single                    |
+|    Zone "Name for LED 9"          : Single                    |
+|    Zone "Name for LED 10"         : Single                    |
+|    Zone "Name for LED 11"         : Single                    |
+\*-------------------------------------------------------------*/
+static gb_fusion2_layout it5711_gen_2_device =
+{
+    &common_led1_zone,
+    &common_led2_zone,
+    &common_led3_zone,
+    &common_led4_zone,
+    &common_led5_zone,
+    &common_led9_zone,
+    &common_led10_zone,
+    &common_led11_zone,
+};
+
+static const gb_fusion2_device generic_it5711_2_device =
+{
+    &it5711_gen_2_device,
+    0x000001DF,
+    1,
+    "GENERIC IT5711 MCU1 LAYOUT",
+};
+
+/*-------------------------------------------------------------*\
+|  Generic    0414:a100 (GC USB)                                |
+|                                                               |
+|    Zone "D_LED"                   : Linear                    |
+\*-------------------------------------------------------------*/
+static gb_fusion2_layout gc_usb_device =
+{
+    &common_gc_usb_d_led_zone,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+};
+
+static const gb_fusion2_device generic_gc_usb_device =
+{
+    &gc_usb_device,
+    0x0000004D,
+    0,
+    "GC-USB",
+};
+
+/*-------------------------------------------------------------*\
 |  Layout 1    048D:8950 (IT82950)                              |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
@@ -717,7 +859,6 @@ static gb_fusion2_layout it8950_1_device =
     nullptr,
 };
 
-
 static const gb_fusion2_device h810m_gmg_wifi6_device =
 {
     &it8950_1_device,
@@ -734,12 +875,28 @@ static const gb_fusion2_device h810m_h_device =
     "H810M H",
 };
 
+static const gb_fusion2_device h810m_h_gen5_device =
+{
+    &it8950_1_device,
+    0x1810004D,
+    0,
+    "H810M H GEN5",
+};
+
 static const gb_fusion2_device h810m_s2h_device =
 {
     &it8950_1_device,
     0x1810004D,
     0,
     "H810M S2H",
+};
+
+static const gb_fusion2_device h810m_s2h_gen5_device =
+{
+    &it8950_1_device,
+    0x1810004D,
+    0,
+    "H810M S2H GEN5",
 };
 
 /*-------------------------------------------------------------*\
@@ -769,6 +926,14 @@ static const gb_fusion2_device b860m_e_device =
     "B860M E",
 };
 
+static const gb_fusion2_device b860m_e_gen5_device =
+{
+    &it8950_1_device,
+    0x08F1004D,
+    0,
+    "B860M E GEN5",
+};
+
 static const gb_fusion2_device b860m_h_device =
 {
     &it8950_1_device,
@@ -785,6 +950,16 @@ static const gb_fusion2_device b860m_k_device =
     "B860M K",
 };
 
+
+static const gb_fusion2_device b860m_k_gen5_device =
+{
+    &it8950_1_device,
+    0x08F1004D,
+    0,
+    "B860M K GEN5",
+};
+
+
 static const gb_fusion2_device z890m_gmg_x_device =
 {
     &it8950_1_device,
@@ -794,7 +969,39 @@ static const gb_fusion2_device z890m_gmg_x_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 1    048D:8297                                        |
+|  Layout 2    048D:8950 (IT82950)                              |
+|                                                               |
+|    Zone "ARGB_V2_1"                                : Linear   |
+\*-------------------------------------------------------------*/
+static gb_fusion2_layout it8950_2_device =
+{
+    &alt_argb_v2_1_zone,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+};
+
+/*-------------------------------------------------------------*\
+|   Hybrid device with IT82950 and Super I/O                    |
+\*-------------------------------------------------------------*/
+static const gb_fusion2_device h810m_d2hx_si_gen5_device =
+{
+    &it8950_2_device,
+    0x1820004D,
+    0,
+    "H810M D2HX SI GEN5",
+};
+
+/*-------------------------------------------------------------*\
+|  Layout  1    048D:8297                                       |
 |                                                               |
 |    Zone "D_LED1/D_LED2"                            : Linear   |
 |    Zone "LED_CPU"                                  : Single   |
@@ -833,7 +1040,7 @@ static const gb_fusion2_device b450m_ds3h_wifi_8297_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 2    048D:8297                                        |
+|  Layout  2    048D:8297                                       |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -865,7 +1072,7 @@ static const gb_fusion2_device z390_i_aor_pro_wifi_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 3    048D:8297                                        |
+|  Layout  3    048D:8297                                       |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -888,7 +1095,7 @@ static gb_fusion2_layout it8297_3_device =
     nullptr,
 };
 
-static const gb_fusion2_device x570_gaming_x_device =
+static const gb_fusion2_device x570_gmg_x_device =
 {
     &it8297_3_device,
     0x0110005F,
@@ -897,7 +1104,7 @@ static const gb_fusion2_device x570_gaming_x_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 4    048D:8297                                        |
+|  Layout  4    048D:8297                                       |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -938,7 +1145,7 @@ static const gb_fusion2_device trx40_aor_designare_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 5    048D:8297                                        |
+|  Layout  5    048D:8297                                       |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -972,7 +1179,7 @@ static const gb_fusion2_device trx40_aor_pro_wifi_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 6    048D:8297                                        |
+|  Layout  6    048D:8297                                       |
 |                                                               |
 |    Zone "D_LED1/D_LED2"                            : Linear   |
 |    Zone "IO Cover"                                 : Linear   |
@@ -1004,7 +1211,7 @@ static const gb_fusion2_device x570_aor_mstr_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 7    048D:8297                                        |
+|  Layout  7    048D:8297                                       |
 |                                                               |
 |    Zone "D_LED1/D_LED2"                            : Linear   |
 |    Zone "IO Cover"                                 : Single   |
@@ -1038,7 +1245,7 @@ static const gb_fusion2_device z390_aor_ultra_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 8    048D:8297                                        |
+|  Layout  8    048D:8297                                       |
 |                                                               |
 |    Zone "D_LED1/D_LED2"                            : Linear   |
 |    Zone "IO Cover"                                 : Single   |
@@ -1063,6 +1270,14 @@ static gb_fusion2_layout it8297_8_device =
     nullptr,
 };
 
+static const gb_fusion2_device z390_aor_elite_device =
+{
+    &it8297_8_device,
+    0x0180005F,
+    0,
+    "Z390 AORUS ELITE",
+};
+
 static const gb_fusion2_device z390_aor_pro_device =
 {
     &it8297_8_device,
@@ -1080,7 +1295,7 @@ static const gb_fusion2_device z390_aor_pro_wifi_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 9    048D:8297                                        |
+|  Layout  9    048D:8297                                       |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -1370,12 +1585,12 @@ static const gb_fusion2_device trx40_aor_xtrm_2_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 16   048D:5702                                        |
+|  Layout  1   048D:5702                                        |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_16_device =
+static gb_fusion2_layout it5702_1_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -1393,7 +1608,7 @@ static gb_fusion2_layout it5702_16_device =
 
 static const gb_fusion2_device h610m_d3h_ddr4_device =
 {
-    &it5702_16_device,
+    &it5702_1_device,
     0x1810005F,
     0,
     "H610M D3H DDR4",
@@ -1401,7 +1616,7 @@ static const gb_fusion2_device h610m_d3h_ddr4_device =
 
 static const gb_fusion2_device h610m_d3h_wifi_ddr4_device =
 {
-    &it5702_16_device,
+    &it5702_1_device,
     0x1810005F,
     0,
     "H610M D3H WIFI DDR4",
@@ -1409,7 +1624,7 @@ static const gb_fusion2_device h610m_d3h_wifi_ddr4_device =
 
 static const gb_fusion2_device h610m_d3w_device =
 {
-    &it5702_16_device,
+    &it5702_1_device,
     0x1810005F,
     0,
     "H610M D3W",
@@ -1417,7 +1632,7 @@ static const gb_fusion2_device h610m_d3w_device =
 
 static const gb_fusion2_device h610m_d3w_wifi6_device =
 {
-    &it5702_16_device,
+    &it5702_1_device,
     0x1810005F,
     0,
     "H610M D3W WIFI6",
@@ -1425,19 +1640,19 @@ static const gb_fusion2_device h610m_d3w_wifi6_device =
 
 static const gb_fusion2_device h610m_gmg_wifi_ddr4_device =
 {
-    &it5702_16_device,
+    &it5702_1_device,
     0x1810005F,
     0,
     "H610M GAMING WIFI DDR4",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 17   048D:5702                                        |
+|  Layout  2   048D:5702                                        |
 |                                                               |
 |    Zone "ARGB_V2_3"                                : Linear   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_17_device =
+static gb_fusion2_layout it5702_2_device =
 {
     &common_argb_v2_3_1_zone,
     &common_led_c_5_zone,
@@ -1455,7 +1670,7 @@ static gb_fusion2_layout it5702_17_device =
 
 static const gb_fusion2_device b650_ud_ac_device =
 {
-    &it5702_17_device,
+    &it5702_2_device,
     0x2120005F,
     0,
     "B650 UD AC",
@@ -1463,19 +1678,19 @@ static const gb_fusion2_device b650_ud_ac_device =
 
 static const gb_fusion2_device b650_ud_ax_device =
 {
-    &it5702_17_device,
+    &it5702_2_device,
     0x2120005F,
     0,
     "B650 UD AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 18   048D:5702                                        |
+|  Layout  3   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED"                                    : Linear   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_18_device =
+static gb_fusion2_layout it5702_3_device =
 {
     &common_d_led_zone,
     &common_led_c_5_zone,
@@ -1493,19 +1708,19 @@ static gb_fusion2_layout it5702_18_device =
 
 static const gb_fusion2_device b650i_aor_ultra_device =
 {
-    &it5702_18_device,
+    &it5702_3_device,
     0x0B30005F,
     0,
     "B650I AORUS ULTRA",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 19   048D:5702                                        |
+|  Layout  4   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED"                                    : Linear   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_19_device =
+static gb_fusion2_layout it5702_4_device =
 {
     &common_d_led_zone,
     &common_led_c_2_zone,
@@ -1523,7 +1738,7 @@ static gb_fusion2_layout it5702_19_device =
 
 static const gb_fusion2_device a620i_ax_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x1330005F,
     0,
     "A620I AX",
@@ -1531,7 +1746,7 @@ static const gb_fusion2_device a620i_ax_device =
 
 static const gb_fusion2_device a620m_c_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x1030005F,
     0,
     "A620M C",
@@ -1539,7 +1754,7 @@ static const gb_fusion2_device a620m_c_device =
 
 static const gb_fusion2_device a620m_ds3h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x1030005F,
     0,
     "A620M DS3H",
@@ -1547,7 +1762,7 @@ static const gb_fusion2_device a620m_ds3h_device =
 
 static const gb_fusion2_device a620m_gmg_x_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x1030005F,
     0,
     "A620M GAMING X",
@@ -1555,7 +1770,7 @@ static const gb_fusion2_device a620m_gmg_x_device =
 
 static const gb_fusion2_device a620m_gmg_x_ax_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x1030005F,
     0,
     "A620M GAMING X AX",
@@ -1563,7 +1778,7 @@ static const gb_fusion2_device a620m_gmg_x_ax_device =
 
 static const gb_fusion2_device a620m_h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x1030005F,
     0,
     "A620M H",
@@ -1571,7 +1786,7 @@ static const gb_fusion2_device a620m_h_device =
 
 static const gb_fusion2_device a620m_s2h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x1030005F,
     0,
     "A620M S2H",
@@ -1579,7 +1794,7 @@ static const gb_fusion2_device a620m_s2h_device =
 
 static const gb_fusion2_device b650i_ax_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0B20005F,
     0,
     "B650I AX",
@@ -1587,7 +1802,7 @@ static const gb_fusion2_device b650i_ax_device =
 
 static const gb_fusion2_device b650m_c_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0820005F,
     0,
     "B650M C",
@@ -1595,7 +1810,7 @@ static const gb_fusion2_device b650m_c_device =
 
 static const gb_fusion2_device b650m_c_v2_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0820005F,
     0,
     "B650M C V2",
@@ -1603,7 +1818,7 @@ static const gb_fusion2_device b650m_c_v2_device =
 
 static const gb_fusion2_device b650m_c_v3_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0820005F,
     0,
     "B650M C V3",
@@ -1611,7 +1826,7 @@ static const gb_fusion2_device b650m_c_v3_device =
 
 static const gb_fusion2_device b650m_d2h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0820005F,
     0,
     "B650M D2H",
@@ -1619,7 +1834,7 @@ static const gb_fusion2_device b650m_d2h_device =
 
 static const gb_fusion2_device b650m_d2hp_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0820005F,
     0,
     "B650M D2HP",
@@ -1627,7 +1842,7 @@ static const gb_fusion2_device b650m_d2hp_device =
 
 static const gb_fusion2_device b650m_ds3h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0820005F,
     0,
     "B650M DS3H",
@@ -1635,7 +1850,7 @@ static const gb_fusion2_device b650m_ds3h_device =
 
 static const gb_fusion2_device b650m_h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0820005F,
     0,
     "B650M H",
@@ -1643,7 +1858,7 @@ static const gb_fusion2_device b650m_h_device =
 
 static const gb_fusion2_device b650m_k_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0820005F,
     0,
     "B650M K",
@@ -1651,7 +1866,7 @@ static const gb_fusion2_device b650m_k_device =
 
 static const gb_fusion2_device b650m_s2h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0820005F,
     0,
     "B650M S2H",
@@ -1659,7 +1874,7 @@ static const gb_fusion2_device b650m_s2h_device =
 
 static const gb_fusion2_device b760m_pwr_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0810005F,
     0,
     "B760M POWER",
@@ -1667,7 +1882,7 @@ static const gb_fusion2_device b760m_pwr_device =
 
 static const gb_fusion2_device b760m_pwr_ddr4_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0810005F,
     0,
     "B760M POWER DDR4",
@@ -1675,7 +1890,7 @@ static const gb_fusion2_device b760m_pwr_ddr4_device =
 
 static const gb_fusion2_device a520i_ac_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0040005F,
     0,
     "A520I AC",
@@ -1683,7 +1898,7 @@ static const gb_fusion2_device a520i_ac_device =
 
 static const gb_fusion2_device a520m_ds3h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0040005F,
     0,
     "A520M DS3H",
@@ -1691,7 +1906,7 @@ static const gb_fusion2_device a520m_ds3h_device =
 
 static const gb_fusion2_device a520m_ds3h_ac_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0040005F,
     0,
     "A520M DS3H AC",
@@ -1699,7 +1914,7 @@ static const gb_fusion2_device a520m_ds3h_ac_device =
 
 static const gb_fusion2_device a520m_h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0040005F,
     0,
     "A520M H",
@@ -1707,7 +1922,7 @@ static const gb_fusion2_device a520m_h_device =
 
 static const gb_fusion2_device a520m_s2h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0040005F,
     0,
     "A520M S2H",
@@ -1715,7 +1930,7 @@ static const gb_fusion2_device a520m_s2h_device =
 
 static const gb_fusion2_device b550m_gmg_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0020005F,
     0,
     "B550M GAMING",
@@ -1723,7 +1938,7 @@ static const gb_fusion2_device b550m_gmg_device =
 
 static const gb_fusion2_device b550m_h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0020005F,
     0,
     "B550M H",
@@ -1731,7 +1946,7 @@ static const gb_fusion2_device b550m_h_device =
 
 static const gb_fusion2_device b550m_s2h_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0020005F,
     0,
     "B550M S2H",
@@ -1739,19 +1954,19 @@ static const gb_fusion2_device b550m_s2h_device =
 
 static const gb_fusion2_device z590i_vis_d_device =
 {
-    &it5702_19_device,
+    &it5702_4_device,
     0x0310005F,
     0,
     "Z590I VISION D",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 20   048D:5702                                        |
+|  Layout  5   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "LED_C1"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_20_device =
+static gb_fusion2_layout it5702_5_device =
 {
     &common_d_led1_zone,
     &common_led_c1_2_zone,
@@ -1767,45 +1982,53 @@ static gb_fusion2_layout it5702_20_device =
     nullptr,
 };
 
-static const gb_fusion2_device z590_d_device =
-{
-    &it5702_20_device,
-    0x0110005F,
-    0,
-    "Z590 D",
-};
-
-static const gb_fusion2_device z490m_device =
-{
-    &it5702_20_device,
-    0x00A0005F,
-    0,
-    "Z490M",
-};
-
-static const gb_fusion2_device h490m_ds3h_device =
-{
-    &it5702_20_device,
-    0x0870005F,
-    0,
-    "H470M DS3H",
-};
-
 static const gb_fusion2_device b460m_ds3h_v2_device =
 {
-    &it5702_20_device,
+    &it5702_5_device,
     0x0870005F,
     0,
     "B460M DS3H V2",
 };
 
+static const gb_fusion2_device h490m_ds3h_device =
+{
+    &it5702_5_device,
+    0x0870005F,
+    0,
+    "H470M DS3H",
+};
+
+static const gb_fusion2_device z490m_device =
+{
+    &it5702_5_device,
+    0x00A0005F,
+    0,
+    "Z490M",
+};
+
+static const gb_fusion2_device b560_ds3h_ac_device =
+{
+    &it5702_5_device,
+    0x1160005F,
+    0,
+    "B560 DS3H AC",
+};
+
+static const gb_fusion2_device z590_d_device =
+{
+    &it5702_5_device,
+    0x0110005F,
+    0,
+    "Z590 D",
+};
+
 /*-------------------------------------------------------------*\
-|  Layout 21   048D:5702                                        |
+|  Layout  6   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_21_device =
+static gb_fusion2_layout it5702_6_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -1823,7 +2046,7 @@ static gb_fusion2_layout it5702_21_device =
 
 static const gb_fusion2_device b760m_h_v2_device =
 {
-    &it5702_21_device,
+    &it5702_6_device,
     0x1830005F,
     0,
     "B760M H V2",
@@ -1831,7 +2054,7 @@ static const gb_fusion2_device b760m_h_v2_device =
 
 static const gb_fusion2_device z790_d_device =
 {
-    &it5702_21_device,
+    &it5702_6_device,
     0x0180005F,
     0,
     "Z790 D",
@@ -1839,7 +2062,7 @@ static const gb_fusion2_device z790_d_device =
 
 static const gb_fusion2_device z790_d_ac_device =
 {
-    &it5702_21_device,
+    &it5702_6_device,
     0x0180005F,
     0,
     "Z790 D AC",
@@ -1847,7 +2070,7 @@ static const gb_fusion2_device z790_d_ac_device =
 
 static const gb_fusion2_device z790_d_ax_device =
 {
-    &it5702_21_device,
+    &it5702_6_device,
     0x0180005F,
     0,
     "Z790 D AX",
@@ -1855,7 +2078,7 @@ static const gb_fusion2_device z790_d_ax_device =
 
 static const gb_fusion2_device z790_d_wifi_device =
 {
-    &it5702_21_device,
+    &it5702_6_device,
     0x0180005F,
     0,
     "Z790 D WIFI",
@@ -1863,7 +2086,7 @@ static const gb_fusion2_device z790_d_wifi_device =
 
 static const gb_fusion2_device z790_eagle_device =
 {
-    &it5702_21_device,
+    &it5702_6_device,
     0x0180005F,
     0,
     "Z790 EAGLE",
@@ -1871,20 +2094,20 @@ static const gb_fusion2_device z790_eagle_device =
 
 static const gb_fusion2_device z790_eagle_ax_device =
 {
-    &it5702_21_device,
+    &it5702_6_device,
     0x0180005F,
     0,
     "Z790 EAGLE AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 22   048D:5702                                        |
+|  Layout  7   048D:5702                                        |
 |                                                               |
 |    Zone "ARGB_V2_1/ARGB_V2_3"                      : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_22_device =
+static gb_fusion2_layout it5702_7_device =
 {
     &common_argb_v2_1_3_zone,
     &common_argb_v2_2_zone,
@@ -1902,7 +2125,7 @@ static gb_fusion2_layout it5702_22_device =
 
 static const gb_fusion2_device b650_eagle_device =
 {
-    &it5702_22_device,
+    &it5702_7_device,
     0x2130005F,
     0,
     "B650 EAGLE",
@@ -1910,7 +2133,7 @@ static const gb_fusion2_device b650_eagle_device =
 
 static const gb_fusion2_device b650_eagle_ax_device =
 {
-    &it5702_22_device,
+    &it5702_7_device,
     0x2130005F,
     0,
     "B650 EAGLE AX",
@@ -1918,7 +2141,7 @@ static const gb_fusion2_device b650_eagle_ax_device =
 
 static const gb_fusion2_device trx50_aero_d_device =
 {
-    &it5702_22_device,
+    &it5702_7_device,
     0x2A10005F,
     0,
     "TRX50 AERO D",
@@ -1926,7 +2149,7 @@ static const gb_fusion2_device trx50_aero_d_device =
 
 static const gb_fusion2_device x670_gmg_x_ax_v2_device =
 {
-    &it5702_22_device,
+    &it5702_7_device,
     0x1910005F,
     0,
     "X670 GAMING X AX V2",
@@ -1934,20 +2157,20 @@ static const gb_fusion2_device x670_gmg_x_ax_v2_device =
 
 static const gb_fusion2_device z790_aor_mstr_x_device =
 {
-    &it5702_22_device,
+    &it5702_7_device,
     0x123001DF,
     0,
     "Z790 AORUS MASTER X",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 23   048D:5702                                        |
+|  Layout  8   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED"                                    : Linear   |
 |    Zone "Board Accent(Right Side)"                 : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_23_device =
+static gb_fusion2_layout it5702_8_device =
 {
     &common_d_led_zone,
     &common_brs_3_zone,
@@ -1965,7 +2188,7 @@ static gb_fusion2_layout it5702_23_device =
 
 static const gb_fusion2_device z490i_aor_ultra_device =
 {
-    &it5702_23_device,
+    &it5702_8_device,
     0x0350007F,
     0,
     "Z490I AORUS ULTRA",
@@ -1973,20 +2196,20 @@ static const gb_fusion2_device z490i_aor_ultra_device =
 
 static const gb_fusion2_device h490i_aor_pro_ax_device =
 {
-    &it5702_23_device,
+    &it5702_8_device,
     0x0B50007F,
     0,
     "H470I AORUS PRO AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 24   048D:5702                                        |
+|  Layout  9   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED"                                    : Linear   |
 |    Zone "LED_CPU"                                  : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_24_device =
+static gb_fusion2_layout it5702_9_device =
 {
     &common_d_led_zone,
     &common_led_cpu_3_zone,
@@ -2002,22 +2225,22 @@ static gb_fusion2_layout it5702_24_device =
     nullptr,
 };
 
-static const gb_fusion2_device b650e_tachyon_device =
+static const gb_fusion2_device b650e_aor_tachyon_device =
 {
-    &it5702_24_device,
+    &it5702_9_device,
     0x0950005F,
     0,
-    "B650E TACHYON",
+    "B650E AORUS TACHYON",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 25   048D:5702                                        |
+|  Layout 10   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED"                                    : Linear   |
 |    Zone "LED_C"                                    : Single   |
 |    Zone "Chipset Accent"                           : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_25_device =
+static gb_fusion2_layout it5702_10_device =
 {
     &common_d_led_zone,
     &common_led_c_2_zone,
@@ -2035,20 +2258,20 @@ static gb_fusion2_layout it5702_25_device =
 
 static const gb_fusion2_device b650m_gmg_x_ax_device =
 {
-    &it5702_25_device,
+    &it5702_10_device,
     0x0840015F,
     0,
     "B650M GAMING X AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 26   048D:5702                                        |
+|  Layout 11   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED"                                    : Linear   |
 |    Zone "LED_C"                                    : Single   |
 |    Zone "PCI-E Accent"                             : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_26_device =
+static gb_fusion2_layout it5702_11_device =
 {
     &common_d_led_zone,
     &common_led_c_2_zone,
@@ -2066,7 +2289,7 @@ static gb_fusion2_layout it5702_26_device =
 
 static const gb_fusion2_device b650m_d2h_ddr4_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x0810005F,
     0,
     "B660M D2H DDR4",
@@ -2074,7 +2297,7 @@ static const gb_fusion2_device b650m_d2h_ddr4_device =
 
 static const gb_fusion2_device b650m_d3h_ddr4_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x0810005F,
     0,
     "B660M D3H DDR4",
@@ -2082,7 +2305,7 @@ static const gb_fusion2_device b650m_d3h_ddr4_device =
 
 static const gb_fusion2_device b650m_ds3h_ax_ddr4_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x0810005F,
     0,
     "B660M DS3H AX DDR4",
@@ -2090,7 +2313,7 @@ static const gb_fusion2_device b650m_ds3h_ax_ddr4_device =
 
 static const gb_fusion2_device b650m_ds3h_ddr4_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x0810005F,
     0,
     "B660M DS3H DDR4",
@@ -2098,7 +2321,7 @@ static const gb_fusion2_device b650m_ds3h_ddr4_device =
 
 static const gb_fusion2_device b650m_gmg_ac_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x0810005F,
     0,
     "B660M GAMING AC",
@@ -2106,7 +2329,7 @@ static const gb_fusion2_device b650m_gmg_ac_device =
 
 static const gb_fusion2_device b650m_gmg_ac_ddr4_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x0810005F,
     0,
     "B660M GAMING AC DDR4",
@@ -2114,7 +2337,7 @@ static const gb_fusion2_device b650m_gmg_ac_ddr4_device =
 
 static const gb_fusion2_device b650m_gmg_ddr4_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x0810005F,
     0,
     "B660M GAMING DDR4",
@@ -2122,7 +2345,7 @@ static const gb_fusion2_device b650m_gmg_ddr4_device =
 
 static const gb_fusion2_device b650m_pwr_ddr4_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x0810005F,
     0,
     "B660M POWER DDR4",
@@ -2130,7 +2353,7 @@ static const gb_fusion2_device b650m_pwr_ddr4_device =
 
 static const gb_fusion2_device z690m_ds3h_ddr4_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x00C0005F,
     0,
     "Z690M DS3H DDR4",
@@ -2138,7 +2361,7 @@ static const gb_fusion2_device z690m_ds3h_ddr4_device =
 
 static const gb_fusion2_device b560_hd3_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1120005F,
     0,
     "B560 HD3",
@@ -2146,7 +2369,7 @@ static const gb_fusion2_device b560_hd3_device =
 
 static const gb_fusion2_device b560m_d2v_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1020005F,
     0,
     "B560M D2V",
@@ -2154,7 +2377,7 @@ static const gb_fusion2_device b560m_d2v_device =
 
 static const gb_fusion2_device b560m_d3h_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1020005F,
     0,
     "B560M D3H",
@@ -2162,7 +2385,7 @@ static const gb_fusion2_device b560m_d3h_device =
 
 static const gb_fusion2_device b560m_ds3h_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1020005F,
     0,
     "B560M DS3H",
@@ -2170,7 +2393,7 @@ static const gb_fusion2_device b560m_ds3h_device =
 
 static const gb_fusion2_device b560m_ds3h_ac_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1060005F,
     0,
     "B560M DS3H AC",
@@ -2178,7 +2401,7 @@ static const gb_fusion2_device b560m_ds3h_ac_device =
 
 static const gb_fusion2_device b560m_ds3h_plus_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1020005F,
     0,
     "B560M DS3H PLUS",
@@ -2186,7 +2409,7 @@ static const gb_fusion2_device b560m_ds3h_plus_device =
 
 static const gb_fusion2_device b560m_ds3h_v2_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1020005F,
     0,
     "B560M DS3H V2",
@@ -2194,7 +2417,7 @@ static const gb_fusion2_device b560m_ds3h_v2_device =
 
 static const gb_fusion2_device b560m_gmg_hd_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1020005F,
     0,
     "B560M GAMING HD",
@@ -2202,7 +2425,7 @@ static const gb_fusion2_device b560m_gmg_hd_device =
 
 static const gb_fusion2_device b560m_h_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1020005F,
     0,
     "B560M H",
@@ -2210,20 +2433,20 @@ static const gb_fusion2_device b560m_h_device =
 
 static const gb_fusion2_device b560m_pwr_device =
 {
-    &it5702_26_device,
+    &it5702_11_device,
     0x1020005F,
     0,
     "B560M POWER",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 27   048D:5702                                        |
+|  Layout 12   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED"                                    : Linear   |
 |    Zone "LED_C1"                                   : Single   |
 |    Zone "PCI-E Accent"                             : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_27_device =
+static gb_fusion2_layout it5702_12_device =
 {
     &common_d_led_zone,
     &common_led_c1_2_zone,
@@ -2241,7 +2464,7 @@ static gb_fusion2_layout it5702_27_device =
 
 static const gb_fusion2_device b760m_d2h_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M D2H",
@@ -2249,7 +2472,7 @@ static const gb_fusion2_device b760m_d2h_device =
 
 static const gb_fusion2_device b760m_d2h_ddr4_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M D2H DDR4",
@@ -2257,7 +2480,7 @@ static const gb_fusion2_device b760m_d2h_ddr4_device =
 
 static const gb_fusion2_device b760m_d3h_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M D3H",
@@ -2265,7 +2488,7 @@ static const gb_fusion2_device b760m_d3h_device =
 
 static const gb_fusion2_device b760m_d3h_ddr4_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M D3H DDR4",
@@ -2273,7 +2496,7 @@ static const gb_fusion2_device b760m_d3h_ddr4_device =
 
 static const gb_fusion2_device b760m_d3hp_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M D3HP",
@@ -2281,7 +2504,7 @@ static const gb_fusion2_device b760m_d3hp_device =
 
 static const gb_fusion2_device b760m_d3hp_ddr4_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M D3HP DDR4",
@@ -2289,7 +2512,7 @@ static const gb_fusion2_device b760m_d3hp_ddr4_device =
 
 static const gb_fusion2_device b760m_d3hp_wifi6_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M D3HP WIFI6",
@@ -2297,7 +2520,7 @@ static const gb_fusion2_device b760m_d3hp_wifi6_device =
 
 static const gb_fusion2_device b760m_ds3h_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M DS3H",
@@ -2305,7 +2528,7 @@ static const gb_fusion2_device b760m_ds3h_device =
 
 static const gb_fusion2_device b760m_ds3h_ax_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M DS3H AX",
@@ -2313,7 +2536,7 @@ static const gb_fusion2_device b760m_ds3h_ax_device =
 
 static const gb_fusion2_device b760m_ds3h_ax_ddr4_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M DS3H AX DDR4",
@@ -2321,7 +2544,7 @@ static const gb_fusion2_device b760m_ds3h_ax_ddr4_device =
 
 static const gb_fusion2_device b760m_ds3h_ddr4_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M DS3H DDR4",
@@ -2329,7 +2552,7 @@ static const gb_fusion2_device b760m_ds3h_ddr4_device =
 
 static const gb_fusion2_device b760m_gmg_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M GAMING",
@@ -2337,7 +2560,7 @@ static const gb_fusion2_device b760m_gmg_device =
 
 static const gb_fusion2_device b760m_gmg_ac_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M GAMING AC",
@@ -2345,7 +2568,7 @@ static const gb_fusion2_device b760m_gmg_ac_device =
 
 static const gb_fusion2_device b760m_gmg_ac_ddr4_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M GAMING AC DDR4",
@@ -2353,7 +2576,7 @@ static const gb_fusion2_device b760m_gmg_ac_ddr4_device =
 
 static const gb_fusion2_device b760m_gmg_ddr4_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M GAMING DDR4",
@@ -2361,20 +2584,20 @@ static const gb_fusion2_device b760m_gmg_ddr4_device =
 
 static const gb_fusion2_device b760m_gmg_plus_wifi_ddr4_device =
 {
-    &it5702_27_device,
+    &it5702_12_device,
     0x0810005F,
     0,
     "B760M GAMING PLUS WIFI DDR4",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 28   048D:5702                                        |
+|  Layout 13   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_28_device =
+static gb_fusion2_layout it5702_13_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -2392,7 +2615,7 @@ static gb_fusion2_layout it5702_28_device =
 
 static const gb_fusion2_device h470_hd3_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x0970005F,
     0,
     "H470 HD3",
@@ -2400,7 +2623,7 @@ static const gb_fusion2_device h470_hd3_device =
 
 static const gb_fusion2_device a620m_ds3h_2_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x1040005F,
     0,
     "A620M DS3H",
@@ -2408,7 +2631,7 @@ static const gb_fusion2_device a620m_ds3h_2_device =
 
 static const gb_fusion2_device a620m_gmg_x_2_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x1040005F,
     0,
     "A620M GAMING X",
@@ -2416,7 +2639,7 @@ static const gb_fusion2_device a620m_gmg_x_2_device =
 
 static const gb_fusion2_device a620m_gmg_x_ax_2_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x1040005F,
     0,
     "A620M GAMING X AX",
@@ -2424,7 +2647,7 @@ static const gb_fusion2_device a620m_gmg_x_ax_2_device =
 
 static const gb_fusion2_device a620m_h_2_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x1040005F,
     0,
     "A620M H",
@@ -2432,7 +2655,7 @@ static const gb_fusion2_device a620m_h_2_device =
 
 static const gb_fusion2_device a620m_s2h_2_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x1040005F,
     0,
     "A620M S2H",
@@ -2440,7 +2663,7 @@ static const gb_fusion2_device a620m_s2h_2_device =
 
 static const gb_fusion2_device b650m_d3hp_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x0870005F,
     0,
     "B650M D3HP",
@@ -2448,7 +2671,7 @@ static const gb_fusion2_device b650m_d3hp_device =
 
 static const gb_fusion2_device b650m_d3hp_ax_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x0870005F,
     0,
     "B650M D3HP AX",
@@ -2456,7 +2679,7 @@ static const gb_fusion2_device b650m_d3hp_ax_device =
 
 static const gb_fusion2_device b650m_ds3h_2_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x0870005F,
     0,
     "B650M DS3H",
@@ -2464,7 +2687,7 @@ static const gb_fusion2_device b650m_ds3h_2_device =
 
 static const gb_fusion2_device b650m_gmg_plus_wifi_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x0870005F,
     0,
     "B650M GAMING PLUS WIFI",
@@ -2472,7 +2695,7 @@ static const gb_fusion2_device b650m_gmg_plus_wifi_device =
 
 static const gb_fusion2_device b650m_gmg_wifi_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x0870005F,
     0,
     "B650M GAMING WIFI",
@@ -2480,7 +2703,7 @@ static const gb_fusion2_device b650m_gmg_wifi_device =
 
 static const gb_fusion2_device b650m_gmg_wifi6e_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x0870005F,
     0,
     "B650M GAMING WIFI6E",
@@ -2488,21 +2711,21 @@ static const gb_fusion2_device b650m_gmg_wifi6e_device =
 
 static const gb_fusion2_device b650m_k_2_device =
 {
-    &it5702_28_device,
+    &it5702_13_device,
     0x0870005F,
     0,
     "B650M K",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 29   048D:5702                                        |
+|  Layout 14   048D:5702                                        |
 |                                                               |
 |    Zone "ARGB_V2_1/ARGB_V2_3"                      : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 |    Zone "Chipset Accent"                           : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_29_device =
+static gb_fusion2_layout it5702_14_device =
 {
     &common_argb_v2_1_3_zone,
     &common_argb_v2_2_zone,
@@ -2520,7 +2743,7 @@ static gb_fusion2_layout it5702_29_device =
 
 static const gb_fusion2_device b650_aor_elite_ax_ice_device =
 {
-    &it5702_29_device,
+    &it5702_14_device,
     0x2110015F,
     0,
     "B650 AORUS ELITE AX ICE",
@@ -2528,7 +2751,7 @@ static const gb_fusion2_device b650_aor_elite_ax_ice_device =
 
 static const gb_fusion2_device b650_aor_elite_ax_v2_device =
 {
-    &it5702_29_device,
+    &it5702_14_device,
     0x2110015F,
     0,
     "B650 AORUS ELITE AX V2",
@@ -2536,7 +2759,7 @@ static const gb_fusion2_device b650_aor_elite_ax_v2_device =
 
 static const gb_fusion2_device b650_aor_elite_v2_device =
 {
-    &it5702_29_device,
+    &it5702_14_device,
     0x2110015F,
     0,
     "B650 AORUS ELITE V2",
@@ -2544,21 +2767,21 @@ static const gb_fusion2_device b650_aor_elite_v2_device =
 
 static const gb_fusion2_device b650_aor_elite_x_ax_ice_device =
 {
-    &it5702_29_device,
+    &it5702_14_device,
     0x2110015F,
     0,
     "B650E AORUS ELITE X AX ICE",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 30   048D:5702                                        |
+|  Layout 15   048D:5702                                        |
 |                                                               |
 |    Zone "ARGB_V2_1/ARGB_V2_3"                      : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 |    Zone "Chipset Accent"                           : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_30_device =
+static gb_fusion2_layout it5702_15_device =
 {
     &common_argb_v2_1_3_zone,
     &common_argb_v2_2_zone,
@@ -2576,7 +2799,7 @@ static gb_fusion2_layout it5702_30_device =
 
 static const gb_fusion2_device z790_aor_elite_x_device =
 {
-    &it5702_30_device,
+    &it5702_15_device,
     0x1120015F,
     0,
     "Z790 AORUS ELITE X",
@@ -2584,7 +2807,7 @@ static const gb_fusion2_device z790_aor_elite_x_device =
 
 static const gb_fusion2_device z790_aor_elite_x_ax_device =
 {
-    &it5702_30_device,
+    &it5702_15_device,
     0x1120015F,
     0,
     "Z790 AORUS ELITE X AX",
@@ -2592,7 +2815,7 @@ static const gb_fusion2_device z790_aor_elite_x_ax_device =
 
 static const gb_fusion2_device z790_aor_elite_x_wifi7_device =
 {
-    &it5702_30_device,
+    &it5702_15_device,
     0x1120015F,
     0,
     "Z790 AORUS ELITE X WIFI7",
@@ -2600,21 +2823,21 @@ static const gb_fusion2_device z790_aor_elite_x_wifi7_device =
 
 static const gb_fusion2_device z790_aor_tachyon_x_device =
 {
-    &it5702_30_device,
+    &it5702_15_device,
     0x1120015F,
     0,
     "Z790 AORUS TACHYON X",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 31   048D:5702                                        |
+|  Layout 16   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
 |    Zone "LED_CPU"                                  : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_31_device =
+static gb_fusion2_layout it5702_16_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -2632,7 +2855,7 @@ static gb_fusion2_layout it5702_31_device =
 
 static const gb_fusion2_device b450m_ds3h_v3_device =
 {
-    &it5702_31_device,
+    &it5702_16_device,
     0x2010005F,
     0,
     "B450M DS3H V3",
@@ -2640,21 +2863,21 @@ static const gb_fusion2_device b450m_ds3h_v3_device =
 
 static const gb_fusion2_device b450m_ds3h_wifi_device =
 {
-    &it5702_31_device,
+    &it5702_16_device,
     0x2010005F,
     0,
     "B450M DS3H WIFI",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 32   048D:5702                                        |
+|  Layout 17   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
 |    Zone "LED_C1"                                   : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_32_device =
+static gb_fusion2_layout it5702_17_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -2670,9 +2893,17 @@ static gb_fusion2_layout it5702_32_device =
     nullptr,
 };
 
+static const gb_fusion2_device w480_vision_d_device =
+{
+    &it5702_17_device,
+    0x2110005F,
+    0,
+    "W480 VISION D",
+};
+
 static const gb_fusion2_device z490_gmg_x_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0140005F,
     0,
     "Z490 GAMING X",
@@ -2680,7 +2911,7 @@ static const gb_fusion2_device z490_gmg_x_device =
 
 static const gb_fusion2_device z490_gmg_x_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0140005F,
     0,
     "Z490 GAMING X AX",
@@ -2688,7 +2919,7 @@ static const gb_fusion2_device z490_gmg_x_ax_device =
 
 static const gb_fusion2_device z490_ud_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0140005F,
     0,
     "Z490 UD",
@@ -2696,7 +2927,7 @@ static const gb_fusion2_device z490_ud_device =
 
 static const gb_fusion2_device z490_ud_ac_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0140005F,
     0,
     "Z490 UD AC",
@@ -2704,7 +2935,7 @@ static const gb_fusion2_device z490_ud_ac_device =
 
 static const gb_fusion2_device b460m_ds3h_ac_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x1080005F,
     0,
     "B460M DS3H AC",
@@ -2712,7 +2943,7 @@ static const gb_fusion2_device b460m_ds3h_ac_device =
 
 static const gb_fusion2_device b660_ds3h_ac_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B660 DS3H AC",
@@ -2720,7 +2951,7 @@ static const gb_fusion2_device b660_ds3h_ac_device =
 
 static const gb_fusion2_device b660_ds3h_ac_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B660 DS3H AC DDR4",
@@ -2728,7 +2959,7 @@ static const gb_fusion2_device b660_ds3h_ac_ddr4_device =
 
 static const gb_fusion2_device b660_ds3h_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B660 DS3H AX DDR4",
@@ -2736,7 +2967,7 @@ static const gb_fusion2_device b660_ds3h_ax_ddr4_device =
 
 static const gb_fusion2_device b660_ds3h_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B660 DS3H DDR4",
@@ -2744,7 +2975,7 @@ static const gb_fusion2_device b660_ds3h_ddr4_device =
 
 static const gb_fusion2_device b660_gmg_x_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B660 GAMING X",
@@ -2752,7 +2983,7 @@ static const gb_fusion2_device b660_gmg_x_device =
 
 static const gb_fusion2_device b660_gmg_x_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B660 GAMING X AX DDR4",
@@ -2760,7 +2991,7 @@ static const gb_fusion2_device b660_gmg_x_ax_ddr4_device =
 
 static const gb_fusion2_device b660_gmg_x_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B660 GAMING X DDR4",
@@ -2768,7 +2999,7 @@ static const gb_fusion2_device b660_gmg_x_ddr4_device =
 
 static const gb_fusion2_device b660m_aor_elite_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B660M AORUS ELITE AX DDR4",
@@ -2776,7 +3007,7 @@ static const gb_fusion2_device b660m_aor_elite_ax_ddr4_device =
 
 static const gb_fusion2_device b660m_aor_elite_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B660M AORUS ELITE DDR4",
@@ -2784,7 +3015,7 @@ static const gb_fusion2_device b660m_aor_elite_ddr4_device =
 
 static const gb_fusion2_device b660m_gmg_x_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B660M GAMING X",
@@ -2792,7 +3023,7 @@ static const gb_fusion2_device b660m_gmg_x_device =
 
 static const gb_fusion2_device b660m_gmg_x_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B660M GAMING X AX",
@@ -2800,7 +3031,7 @@ static const gb_fusion2_device b660m_gmg_x_ax_device =
 
 static const gb_fusion2_device b660m_gmg_x_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B660M GAMING X AX DDR4",
@@ -2808,7 +3039,7 @@ static const gb_fusion2_device b660m_gmg_x_ax_ddr4_device =
 
 static const gb_fusion2_device b660m_gmg_x_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B660M GAMING X DDR4",
@@ -2816,7 +3047,7 @@ static const gb_fusion2_device b660m_gmg_x_ddr4_device =
 
 static const gb_fusion2_device b760_aor_elite_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 AORUS ELITE",
@@ -2824,7 +3055,7 @@ static const gb_fusion2_device b760_aor_elite_device =
 
 static const gb_fusion2_device b760_aor_elite_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 AORUS ELITE AX",
@@ -2832,7 +3063,7 @@ static const gb_fusion2_device b760_aor_elite_ax_device =
 
 static const gb_fusion2_device b760_aor_elite_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 AORUS ELITE AX DDR4",
@@ -2840,7 +3071,7 @@ static const gb_fusion2_device b760_aor_elite_ax_ddr4_device =
 
 static const gb_fusion2_device b760_aor_elite_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 AORUS ELITE DDR4",
@@ -2848,7 +3079,7 @@ static const gb_fusion2_device b760_aor_elite_ddr4_device =
 
 static const gb_fusion2_device b760_ds3h_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 DS3H",
@@ -2856,7 +3087,7 @@ static const gb_fusion2_device b760_ds3h_device =
 
 static const gb_fusion2_device b760_ds3h_ac_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 DS3H AC",
@@ -2864,7 +3095,7 @@ static const gb_fusion2_device b760_ds3h_ac_device =
 
 static const gb_fusion2_device b760_ds3h_ac_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 DS3H AC DDR4",
@@ -2872,7 +3103,7 @@ static const gb_fusion2_device b760_ds3h_ac_ddr4_device =
 
 static const gb_fusion2_device b760_ds3h_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 DS3H AX",
@@ -2880,7 +3111,7 @@ static const gb_fusion2_device b760_ds3h_ax_device =
 
 static const gb_fusion2_device b760_ds3h_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 DS3H AX DDR4",
@@ -2888,7 +3119,7 @@ static const gb_fusion2_device b760_ds3h_ax_ddr4_device =
 
 static const gb_fusion2_device b760_ds3h_ax_v2_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 DS3H AX V2",
@@ -2896,7 +3127,7 @@ static const gb_fusion2_device b760_ds3h_ax_v2_device =
 
 static const gb_fusion2_device b760_ds3h_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 DS3H DDR4",
@@ -2904,7 +3135,7 @@ static const gb_fusion2_device b760_ds3h_ddr4_device =
 
 static const gb_fusion2_device b760_gmg_x_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 GAMING X",
@@ -2912,7 +3143,7 @@ static const gb_fusion2_device b760_gmg_x_device =
 
 static const gb_fusion2_device b760_gmg_x_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 GAMING X AX",
@@ -2920,7 +3151,7 @@ static const gb_fusion2_device b760_gmg_x_ax_device =
 
 static const gb_fusion2_device b760_gmg_x_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 GAMING X AX DDR4",
@@ -2928,7 +3159,7 @@ static const gb_fusion2_device b760_gmg_x_ax_ddr4_device =
 
 static const gb_fusion2_device b760_gmg_x_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "B760 GAMING X DDR4",
@@ -2936,7 +3167,7 @@ static const gb_fusion2_device b760_gmg_x_ddr4_device =
 
 static const gb_fusion2_device b760m_c_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B760M C",
@@ -2944,7 +3175,7 @@ static const gb_fusion2_device b760m_c_device =
 
 static const gb_fusion2_device b760m_c_v2_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B760M C V2",
@@ -2952,7 +3183,7 @@ static const gb_fusion2_device b760m_c_v2_device =
 
 static const gb_fusion2_device b760m_gmg_x_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B760M GAMING X",
@@ -2960,7 +3191,7 @@ static const gb_fusion2_device b760m_gmg_x_device =
 
 static const gb_fusion2_device b760m_gmg_x_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B760M GAMING X AX",
@@ -2968,7 +3199,7 @@ static const gb_fusion2_device b760m_gmg_x_ax_device =
 
 static const gb_fusion2_device b760m_gmg_x_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B760M GAMING X AX DDR4",
@@ -2976,7 +3207,7 @@ static const gb_fusion2_device b760m_gmg_x_ax_ddr4_device =
 
 static const gb_fusion2_device b760m_gmg_x_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0820005F,
     0,
     "B760M GAMING X DDR4",
@@ -2984,7 +3215,7 @@ static const gb_fusion2_device b760m_gmg_x_ddr4_device =
 
 static const gb_fusion2_device z690_aero_d_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 AERO D",
@@ -2992,7 +3223,7 @@ static const gb_fusion2_device z690_aero_d_device =
 
 static const gb_fusion2_device z690_aero_g_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 AERO G",
@@ -3000,7 +3231,7 @@ static const gb_fusion2_device z690_aero_g_device =
 
 static const gb_fusion2_device z690_aero_g_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 AERO G DDR4",
@@ -3008,7 +3239,7 @@ static const gb_fusion2_device z690_aero_g_ddr4_device =
 
 static const gb_fusion2_device z690_aor_elite_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 AORUS ELITE AX",
@@ -3016,7 +3247,7 @@ static const gb_fusion2_device z690_aor_elite_ax_device =
 
 static const gb_fusion2_device z690_ud_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 UD",
@@ -3024,7 +3255,7 @@ static const gb_fusion2_device z690_ud_device =
 
 static const gb_fusion2_device z690_ud_ac_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 UD AC",
@@ -3032,7 +3263,7 @@ static const gb_fusion2_device z690_ud_ac_device =
 
 static const gb_fusion2_device z690_ud_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 UD AX",
@@ -3040,7 +3271,7 @@ static const gb_fusion2_device z690_ud_ax_device =
 
 static const gb_fusion2_device z690_ud_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 UD AX DDR4",
@@ -3048,7 +3279,7 @@ static const gb_fusion2_device z690_ud_ax_ddr4_device =
 
 static const gb_fusion2_device z690_ud_ax_ddr4_v2_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 UD AX DDR4 V2",
@@ -3056,7 +3287,7 @@ static const gb_fusion2_device z690_ud_ax_ddr4_v2_device =
 
 static const gb_fusion2_device z690_ud_ax_v2_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 UD AX V2",
@@ -3064,7 +3295,7 @@ static const gb_fusion2_device z690_ud_ax_v2_device =
 
 static const gb_fusion2_device z690_ud_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 UD DDR4",
@@ -3072,7 +3303,7 @@ static const gb_fusion2_device z690_ud_ddr4_device =
 
 static const gb_fusion2_device z690_ud_ddr4_v2_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0110005F,
     0,
     "Z690 UD DDR4 V2",
@@ -3080,7 +3311,7 @@ static const gb_fusion2_device z690_ud_ddr4_v2_device =
 
 static const gb_fusion2_device z690m_aor_elite_ax_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0010005F,
     0,
     "Z690M AORUS ELITE AX DDR4",
@@ -3088,7 +3319,7 @@ static const gb_fusion2_device z690m_aor_elite_ax_ddr4_device =
 
 static const gb_fusion2_device z690m_aor_elite_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0010005F,
     0,
     "Z690M AORUS ELITE DDR4",
@@ -3096,7 +3327,7 @@ static const gb_fusion2_device z690m_aor_elite_ddr4_device =
 
 static const gb_fusion2_device z790_aero_g_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z790 AERO G",
@@ -3104,7 +3335,7 @@ static const gb_fusion2_device z790_aero_g_device =
 
 static const gb_fusion2_device z790_d_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z790 D DDR4",
@@ -3112,7 +3343,7 @@ static const gb_fusion2_device z790_d_ddr4_device =
 
 static const gb_fusion2_device z790_gmg_plus_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0920005F,
     0,
     "Z790 GAMING PLUS AX",
@@ -3120,7 +3351,7 @@ static const gb_fusion2_device z790_gmg_plus_ax_device =
 
 static const gb_fusion2_device z790_gmg_x_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z790 GAMING X",
@@ -3128,7 +3359,7 @@ static const gb_fusion2_device z790_gmg_x_device =
 
 static const gb_fusion2_device z790_gmg_x_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z790 GAMING X AX",
@@ -3136,7 +3367,7 @@ static const gb_fusion2_device z790_gmg_x_ax_device =
 
 static const gb_fusion2_device z790_s_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z790 S DDR4",
@@ -3144,7 +3375,7 @@ static const gb_fusion2_device z790_s_ddr4_device =
 
 static const gb_fusion2_device z790_s_wifi_ddr4_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z790 S WIFI DDR4",
@@ -3152,7 +3383,7 @@ static const gb_fusion2_device z790_s_wifi_ddr4_device =
 
 static const gb_fusion2_device z790_ud_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z790 UD",
@@ -3160,7 +3391,7 @@ static const gb_fusion2_device z790_ud_device =
 
 static const gb_fusion2_device z790_ud_ac_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z790 UD AC",
@@ -3168,7 +3399,7 @@ static const gb_fusion2_device z790_ud_ac_device =
 
 static const gb_fusion2_device z790_ud_ax_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z790 UD AX",
@@ -3176,7 +3407,7 @@ static const gb_fusion2_device z790_ud_ax_device =
 
 static const gb_fusion2_device z590_ud_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z590 UD",
@@ -3184,7 +3415,7 @@ static const gb_fusion2_device z590_ud_device =
 
 static const gb_fusion2_device z590_ud_ac_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x0120005F,
     0,
     "Z590 UD AC",
@@ -3192,7 +3423,7 @@ static const gb_fusion2_device z590_ud_ac_device =
 
 static const gb_fusion2_device z790_aor_mstr_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x015001DF,
     0,
     "Z790 AORUS MASTER",
@@ -3200,7 +3431,7 @@ static const gb_fusion2_device z790_aor_mstr_device =
 
 static const gb_fusion2_device z690_aor_xtrm_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x028001DF,
     0,
     "Z690 AORUS XTREME",
@@ -3208,7 +3439,7 @@ static const gb_fusion2_device z690_aor_xtrm_device =
 
 static const gb_fusion2_device z690_aor_xtrm_waterforce_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x029001DF,
     0,
     "Z690 AORUS XTREME WATERFORCE",
@@ -3216,7 +3447,7 @@ static const gb_fusion2_device z690_aor_xtrm_waterforce_device =
 
 static const gb_fusion2_device z490_aor_xtrm_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x029001DF,
     0,
     "Z490 AORUS XTREME",
@@ -3224,7 +3455,7 @@ static const gb_fusion2_device z490_aor_xtrm_device =
 
 static const gb_fusion2_device z490_aor_xtrm_waterforce_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x029001DF,
     0,
     "Z490 AORUS XTREME WATERFORCE",
@@ -3232,7 +3463,7 @@ static const gb_fusion2_device z490_aor_xtrm_waterforce_device =
 
 static const gb_fusion2_device z590_aor_xtrm_waterforce_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x029001DF,
     0,
     "Z590 AORUS XTREME WATERFORCE",
@@ -3240,21 +3471,21 @@ static const gb_fusion2_device z590_aor_xtrm_waterforce_device =
 
 static const gb_fusion2_device z790_aor_xtrm_device =
 {
-    &it5702_32_device,
+    &it5702_17_device,
     0x026001DF,
     0,
     "Z790 AORUS XTREME",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 33   048D:5702                                        |
+|  Layout 18   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
 |    Zone "LED_C"                                    : Single   |
 |    Zone "Chipset Accent"                           : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_33_device =
+static gb_fusion2_layout it5702_18_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -3272,21 +3503,21 @@ static gb_fusion2_layout it5702_33_device =
 
 static const gb_fusion2_device b650m_gmg_x_ax_2_device =
 {
-    &it5702_33_device,
+    &it5702_18_device,
     0x0880015F,
     0,
     "B650M GAMING X AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 34   048D:5702                                        |
+|  Layout 19   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
 |    Zone "LED_C"                                    : Single   |
 |    Zone "PCI-E Accent"                             : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_34_device =
+static gb_fusion2_layout it5702_19_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -3304,7 +3535,7 @@ static gb_fusion2_layout it5702_34_device =
 
 static const gb_fusion2_device b760m_g_ax_device =
 {
-    &it5702_34_device,
+    &it5702_19_device,
     0x0870005F,
     0,
     "B760M G AX",
@@ -3312,7 +3543,7 @@ static const gb_fusion2_device b760m_g_ax_device =
 
 static const gb_fusion2_device b760m_gmg_wifi_device =
 {
-    &it5702_34_device,
+    &it5702_19_device,
     0x0870005F,
     0,
     "B760M GAMING WIFI",
@@ -3320,14 +3551,14 @@ static const gb_fusion2_device b760m_gmg_wifi_device =
 
 static const gb_fusion2_device b760m_gmg_wifi_plus_device =
 {
-    &it5702_34_device,
+    &it5702_19_device,
     0x0870005F,
     0,
     "B760M GAMING WIFI PLUS",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 35   048D:5702                                        |
+|  Layout 20   048D:5702                                        |
 |                                                               |
 |    Zone "ARGB_V2_1/ARGB_V2_3"                      : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -3335,7 +3566,7 @@ static const gb_fusion2_device b760m_gmg_wifi_plus_device =
 |    Zone "IO Cover (Bottom)"                        : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_35_device =
+static gb_fusion2_layout it5702_20_device =
 {
     &common_argb_v2_3_1_zone,
     &common_argb_v2_2_zone,
@@ -3353,7 +3584,7 @@ static gb_fusion2_layout it5702_35_device =
 
 static const gb_fusion2_device x670e_aor_pro_x_device =
 {
-    &it5702_35_device,
+    &it5702_20_device,
     0x192001DF,
     0,
     "X670E AORUS PRO X",
@@ -3361,7 +3592,7 @@ static const gb_fusion2_device x670e_aor_pro_x_device =
 
 static const gb_fusion2_device z790_aor_pro_x_device =
 {
-    &it5702_35_device,
+    &it5702_20_device,
     0x111001DF,
     0,
     "Z790 AORUS PRO X",
@@ -3369,14 +3600,14 @@ static const gb_fusion2_device z790_aor_pro_x_device =
 
 static const gb_fusion2_device z790_aor_pro_x_wifi7_device =
 {
-    &it5702_35_device,
+    &it5702_20_device,
     0x111001DF,
     0,
     "Z790 AORUS PRO X WIFI7",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 36   048D:5702                                        |
+|  Layout 21   048D:5702                                        |
 |                                                               |
 |    Zone "ARGB_V2_1/ARGB_V2_3"                      : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -3384,7 +3615,7 @@ static const gb_fusion2_device z790_aor_pro_x_wifi7_device =
 |    Zone "LED_C2"                                   : Single   |
 |    Zone "LED_C3"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_36_device =
+static gb_fusion2_layout it5702_21_device =
 {
     &common_argb_v2_3_1_zone,
     &common_argb_v2_2_zone,
@@ -3402,7 +3633,7 @@ static gb_fusion2_layout it5702_36_device =
 
 static const gb_fusion2_device z790_aor_xtreme_x_ice_device =
 {
-    &it5702_36_device,
+    &it5702_21_device,
     0x1250005F,
     0,
     "Z790 AORUS XTREME X ICE",
@@ -3410,14 +3641,14 @@ static const gb_fusion2_device z790_aor_xtreme_x_ice_device =
 
 static const gb_fusion2_device z790_aor_xtreme_x_device =
 {
-    &it5702_36_device,
+    &it5702_21_device,
     0x124001DF,
     0,
     "Z790 AORUS XTREME X",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 37   048D:5702                                        |
+|  Layout 22   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -3425,7 +3656,7 @@ static const gb_fusion2_device z790_aor_xtreme_x_device =
 |    Zone "LED_C1"                                   : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_37_device =
+static gb_fusion2_layout it5702_22_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -3443,7 +3674,7 @@ static gb_fusion2_layout it5702_37_device =
 
 static const gb_fusion2_device z490_vision_g_device =
 {
-    &it5702_37_device,
+    &it5702_22_device,
     0x01B0005F,
     0,
     "Z490 VISION G",
@@ -3451,7 +3682,7 @@ static const gb_fusion2_device z490_vision_g_device =
 
 static const gb_fusion2_device z690_aor_pro_device =
 {
-    &it5702_37_device,
+    &it5702_22_device,
     0x0130015F,
     0,
     "Z690 AORUS PRO",
@@ -3459,7 +3690,7 @@ static const gb_fusion2_device z690_aor_pro_device =
 
 static const gb_fusion2_device z690_aor_pro_ddr4_device =
 {
-    &it5702_37_device,
+    &it5702_22_device,
     0x0130015F,
     0,
     "Z690 AORUS PRO DDR4",
@@ -3467,7 +3698,7 @@ static const gb_fusion2_device z690_aor_pro_ddr4_device =
 
 static const gb_fusion2_device z690_aor_ultra_device =
 {
-    &it5702_37_device,
+    &it5702_22_device,
     0x0130015F,
     0,
     "Z690 AORUS ULTRA",
@@ -3475,7 +3706,7 @@ static const gb_fusion2_device z690_aor_ultra_device =
 
 static const gb_fusion2_device z590_aor_ultra_device =
 {
-    &it5702_37_device,
+    &it5702_22_device,
     0x0130015F,
     0,
     "Z590 AORUS ULTRA",
@@ -3483,7 +3714,7 @@ static const gb_fusion2_device z590_aor_ultra_device =
 
 static const gb_fusion2_device z590_vision_d_device =
 {
-    &it5702_37_device,
+    &it5702_22_device,
     0x0130015F,
     0,
     "Z590 VISION D",
@@ -3491,14 +3722,14 @@ static const gb_fusion2_device z590_vision_d_device =
 
 static const gb_fusion2_device z590_vision_g_device =
 {
-    &it5702_37_device,
+    &it5702_22_device,
     0x0130015F,
     0,
     "Z590 VISION G",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 38   048D:5702                                        |
+|  Layout 23   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -3506,7 +3737,7 @@ static const gb_fusion2_device z590_vision_g_device =
 |    Zone "PCI-E Accent"                             : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_38_device =
+static gb_fusion2_layout it5702_23_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -3524,7 +3755,7 @@ static gb_fusion2_layout it5702_38_device =
 
 static const gb_fusion2_device z490m_gmg_x_device =
 {
-    &it5702_38_device,
+    &it5702_23_device,
     0x0040005F,
     0,
     "Z490M GAMING X",
@@ -3532,7 +3763,7 @@ static const gb_fusion2_device z490m_gmg_x_device =
 
 static const gb_fusion2_device b460m_aor_elite_device =
 {
-    &it5702_38_device,
+    &it5702_23_device,
     0x1060005F,
     0,
     "B460M AORUS ELITE",
@@ -3540,7 +3771,7 @@ static const gb_fusion2_device b460m_aor_elite_device =
 
 static const gb_fusion2_device b460m_aor_pro_device =
 {
-    &it5702_38_device,
+    &it5702_23_device,
     0x1060005F,
     0,
     "B460M AORUS PRO",
@@ -3548,7 +3779,7 @@ static const gb_fusion2_device b460m_aor_pro_device =
 
 static const gb_fusion2_device b560m_aor_elite_device =
 {
-    &it5702_38_device,
+    &it5702_23_device,
     0x1040005F,
     0,
     "B560M AORUS ELITE",
@@ -3556,7 +3787,7 @@ static const gb_fusion2_device b560m_aor_elite_device =
 
 static const gb_fusion2_device b560m_aor_pro_device =
 {
-    &it5702_38_device,
+    &it5702_23_device,
     0x1040005F,
     0,
     "B560M AORUS PRO",
@@ -3564,14 +3795,14 @@ static const gb_fusion2_device b560m_aor_pro_device =
 
 static const gb_fusion2_device b560m_aor_pro_ax_device =
 {
-    &it5702_38_device,
+    &it5702_23_device,
     0x1040005F,
     0,
     "B560M AORUS PRO AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 39   048D:5702                                        |
+|  Layout 24   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -3579,7 +3810,7 @@ static const gb_fusion2_device b560m_aor_pro_ax_device =
 |    Zone "LED_CPU"                                  : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_39_device =
+static gb_fusion2_layout it5702_24_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -3597,7 +3828,7 @@ static gb_fusion2_layout it5702_39_device =
 
 static const gb_fusion2_device b550m_ds3h_r2_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0030005F,
     0,
     "B550M DS3H R2",
@@ -3605,7 +3836,7 @@ static const gb_fusion2_device b550m_ds3h_r2_device =
 
 static const gb_fusion2_device b650_aero_g_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0910005F,
     0,
     "B650 AERO G",
@@ -3613,7 +3844,7 @@ static const gb_fusion2_device b650_aero_g_device =
 
 static const gb_fusion2_device b650_gmg_x_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0910005F,
     0,
     "B650 GAMING X",
@@ -3621,7 +3852,7 @@ static const gb_fusion2_device b650_gmg_x_device =
 
 static const gb_fusion2_device b650_gmg_x_ax_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0910005F,
     0,
     "B650 GAMING X AX",
@@ -3629,7 +3860,7 @@ static const gb_fusion2_device b650_gmg_x_ax_device =
 
 static const gb_fusion2_device b650_gmg_x_ax_v2_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0910005F,
     0,
     "B650 GAMING X AX V2",
@@ -3637,7 +3868,7 @@ static const gb_fusion2_device b650_gmg_x_ax_v2_device =
 
 static const gb_fusion2_device x670_aor_elite_ax_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0110005F,
     0,
     "X670 AORUS ELITE AX",
@@ -3645,7 +3876,7 @@ static const gb_fusion2_device x670_aor_elite_ax_device =
 
 static const gb_fusion2_device x670_gmg_x_ax_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0110005F,
     0,
     "X670 GAMING X AX",
@@ -3653,7 +3884,7 @@ static const gb_fusion2_device x670_gmg_x_ax_device =
 
 static const gb_fusion2_device b550_eagle_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0140005F,
     0,
     "B550 EAGLE",
@@ -3661,7 +3892,7 @@ static const gb_fusion2_device b550_eagle_device =
 
 static const gb_fusion2_device b550_eagle_wifi6_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0140005F,
     0,
     "B550 EAGLE WIFI6",
@@ -3669,7 +3900,7 @@ static const gb_fusion2_device b550_eagle_wifi6_device =
 
 static const gb_fusion2_device b550_gmg_x_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0140005F,
     0,
     "B550 GAMING X",
@@ -3677,7 +3908,7 @@ static const gb_fusion2_device b550_gmg_x_device =
 
 static const gb_fusion2_device b550_gmg_x_v2_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0140005F,
     0,
     "B550 GAMING X V2",
@@ -3685,7 +3916,7 @@ static const gb_fusion2_device b550_gmg_x_v2_device =
 
 static const gb_fusion2_device b550_vision_d_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0140005F,
     0,
     "B550 VISION D",
@@ -3693,7 +3924,7 @@ static const gb_fusion2_device b550_vision_d_device =
 
 static const gb_fusion2_device b550_vision_dp_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0140005F,
     0,
     "B550 VISION D-P",
@@ -3701,7 +3932,7 @@ static const gb_fusion2_device b550_vision_dp_device =
 
 static const gb_fusion2_device b550m_aor_elite_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0030005F,
     0,
     "B550M AORUS ELITE",
@@ -3709,7 +3940,7 @@ static const gb_fusion2_device b550m_aor_elite_device =
 
 static const gb_fusion2_device b550m_aor_elite_ax_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0030005F,
     0,
     "B550M AORUS ELITE AX",
@@ -3717,7 +3948,7 @@ static const gb_fusion2_device b550m_aor_elite_ax_device =
 
 static const gb_fusion2_device b550m_ds3h_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0030005F,
     0,
     "B550M DS3H",
@@ -3725,7 +3956,7 @@ static const gb_fusion2_device b550m_ds3h_device =
 
 static const gb_fusion2_device b550m_ds3h_ac_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0030005F,
     0,
     "B550M DS3H AC",
@@ -3733,7 +3964,7 @@ static const gb_fusion2_device b550m_ds3h_ac_device =
 
 static const gb_fusion2_device b550m_ds3h_ac_r2_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0030005F,
     0,
     "B550M DS3H AC R2",
@@ -3741,7 +3972,7 @@ static const gb_fusion2_device b550m_ds3h_ac_r2_device =
 
 static const gb_fusion2_device b550m_gmg_x_wifi6_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0030005F,
     0,
     "B550M GAMING X WIFI6",
@@ -3749,7 +3980,7 @@ static const gb_fusion2_device b550m_gmg_x_wifi6_device =
 
 static const gb_fusion2_device x570s_aero_g_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0110015F,
     0,
     "X570S AERO G",
@@ -3757,7 +3988,7 @@ static const gb_fusion2_device x570s_aero_g_device =
 
 static const gb_fusion2_device x570s_ud_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x0110015F,
     0,
     "X570S UD",
@@ -3765,14 +3996,14 @@ static const gb_fusion2_device x570s_ud_device =
 
 static const gb_fusion2_device x670e_aor_xtrm_device =
 {
-    &it5702_39_device,
+    &it5702_24_device,
     0x023001DF,
     0,
     "X670E AORUS XTREME",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 40   048D:5702                                        |
+|  Layout 25   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -3780,7 +4011,7 @@ static const gb_fusion2_device x670e_aor_xtrm_device =
 |    Zone "Chipset Accent"                           : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_40_device =
+static gb_fusion2_layout it5702_25_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -3798,7 +4029,7 @@ static gb_fusion2_layout it5702_40_device =
 
 static const gb_fusion2_device b660m_aor_pro_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0870015F,
     0,
     "B660M AORUS PRO",
@@ -3806,7 +4037,7 @@ static const gb_fusion2_device b660m_aor_pro_device =
 
 static const gb_fusion2_device b660m_aor_pro_ax_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0870015F,
     0,
     "B660M AORUS PRO AX",
@@ -3814,7 +4045,7 @@ static const gb_fusion2_device b660m_aor_pro_ax_device =
 
 static const gb_fusion2_device b660m_aor_pro_ax_ddr4_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0870015F,
     0,
     "B660M AORUS PRO AX DDR4",
@@ -3822,7 +4053,7 @@ static const gb_fusion2_device b660m_aor_pro_ax_ddr4_device =
 
 static const gb_fusion2_device b660m_aor_pro_ddr4_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0870015F,
     0,
     "B660M AORUS PRO DDR4",
@@ -3830,7 +4061,7 @@ static const gb_fusion2_device b660m_aor_pro_ddr4_device =
 
 static const gb_fusion2_device b760m_aor_elite_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0860015F,
     0,
     "B760M AORUS ELITE",
@@ -3838,7 +4069,7 @@ static const gb_fusion2_device b760m_aor_elite_device =
 
 static const gb_fusion2_device b760m_aor_elite_ax_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0860015F,
     0,
     "B760M AORUS ELITE AX",
@@ -3846,7 +4077,7 @@ static const gb_fusion2_device b760m_aor_elite_ax_device =
 
 static const gb_fusion2_device b760m_aor_elite_ax_ddr4_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0860015F,
     0,
     "B760M AORUS ELITE AX DDR4",
@@ -3854,7 +4085,7 @@ static const gb_fusion2_device b760m_aor_elite_ax_ddr4_device =
 
 static const gb_fusion2_device b760m_aor_elite_ddr4_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0860015F,
     0,
     "B760M AORUS ELITE DDR4",
@@ -3862,7 +4093,7 @@ static const gb_fusion2_device b760m_aor_elite_ddr4_device =
 
 static const gb_fusion2_device z690_aor_tachyon_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0120015F,
     0,
     "Z690 AORUS TACHYON",
@@ -3870,7 +4101,7 @@ static const gb_fusion2_device z690_aor_tachyon_device =
 
 static const gb_fusion2_device z790_aor_elite_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0130015F,
     0,
     "Z790 AORUS ELITE",
@@ -3878,7 +4109,7 @@ static const gb_fusion2_device z790_aor_elite_device =
 
 static const gb_fusion2_device z790_aor_elite_ax_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0130015F,
     0,
     "Z790 AORUS ELITE AX",
@@ -3886,7 +4117,7 @@ static const gb_fusion2_device z790_aor_elite_ax_device =
 
 static const gb_fusion2_device z790_aor_elite_ax_ddr4_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0130015F,
     0,
     "Z790 AORUS ELITE AX DDR4",
@@ -3894,7 +4125,7 @@ static const gb_fusion2_device z790_aor_elite_ax_ddr4_device =
 
 static const gb_fusion2_device z790_aor_elite_ax_ice_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0130015F,
     0,
     "Z790 AORUS ELITE AX ICE",
@@ -3902,7 +4133,7 @@ static const gb_fusion2_device z790_aor_elite_ax_ice_device =
 
 static const gb_fusion2_device z790_aor_elite_ax_w_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0130015F,
     0,
     "Z790 AORUS ELITE AX-W",
@@ -3910,7 +4141,7 @@ static const gb_fusion2_device z790_aor_elite_ax_w_device =
 
 static const gb_fusion2_device z790_aor_elite_ddr4_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0130015F,
     0,
     "Z790 AORUS ELITE DDR4",
@@ -3918,7 +4149,7 @@ static const gb_fusion2_device z790_aor_elite_ddr4_device =
 
 static const gb_fusion2_device z790_aor_tachyon_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0130015F,
     0,
     "Z790 AORUS TACHYON",
@@ -3926,7 +4157,7 @@ static const gb_fusion2_device z790_aor_tachyon_device =
 
 static const gb_fusion2_device z790m_aor_elite_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0030015F,
     0,
     "Z790M AORUS ELITE",
@@ -3934,7 +4165,7 @@ static const gb_fusion2_device z790m_aor_elite_device =
 
 static const gb_fusion2_device z790m_aor_elite_ax_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0030015F,
     0,
     "Z790M AORUS ELITE AX",
@@ -3942,7 +4173,7 @@ static const gb_fusion2_device z790m_aor_elite_ax_device =
 
 static const gb_fusion2_device z790m_aor_elite_ax_ice_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0030015F,
     0,
     "Z790M AORUS ELITE AX ICE",
@@ -3950,7 +4181,7 @@ static const gb_fusion2_device z790m_aor_elite_ax_ice_device =
 
 static const gb_fusion2_device a520_aor_elite_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0150005F,
     0,
     "A520 AORUS ELITE",
@@ -3958,14 +4189,14 @@ static const gb_fusion2_device a520_aor_elite_device =
 
 static const gb_fusion2_device z590_aor_tachyon_device =
 {
-    &it5702_40_device,
+    &it5702_25_device,
     0x0180005F,
     0,
     "Z590 AORUS TACHYON",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 41   048D:5702                                        |
+|  Layout 26   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -3973,7 +4204,7 @@ static const gb_fusion2_device z590_aor_tachyon_device =
 |    Zone "PCI-E Accent"                             : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_41_device =
+static gb_fusion2_layout it5702_26_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -3991,7 +4222,7 @@ static gb_fusion2_layout it5702_41_device =
 
 static const gb_fusion2_device z590m_device =
 {
-    &it5702_41_device,
+    &it5702_26_device,
     0x0020005F,
     0,
     "Z590M",
@@ -3999,14 +4230,14 @@ static const gb_fusion2_device z590m_device =
 
 static const gb_fusion2_device z590m_gmg_x_device =
 {
-    &it5702_41_device,
+    &it5702_26_device,
     0x0020005F,
     0,
     "Z590M GAMING X",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 42   048D:5702                                        |
+|  Layout 27   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4015,7 +4246,7 @@ static const gb_fusion2_device z590m_gmg_x_device =
 |    Zone "IO Cover (Bottom)"                        : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_42_device =
+static gb_fusion2_layout it5702_27_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4033,14 +4264,14 @@ static gb_fusion2_layout it5702_42_device =
 
 static const gb_fusion2_device b650e_aor_pro_x_usb4_device =
 {
-    &it5702_42_device,
+    &it5702_27_device,
     0x214001DF,
     0,
     "B650E AORUS PRO X USB4",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 43   048D:5702                                        |
+|  Layout 28   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED"                                    : Linear   |
 |    Zone "Board Accent (Right Side, Top)"           : Single   |
@@ -4051,7 +4282,7 @@ static const gb_fusion2_device b650e_aor_pro_x_usb4_device =
 |    Zone "IO Cover (Bottom)"                        : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_43_device =
+static gb_fusion2_layout it5702_28_device =
 {
     &common_d_led_zone,
     &common_brst_1_zone,
@@ -4069,7 +4300,7 @@ static gb_fusion2_layout it5702_43_device =
 
 static const gb_fusion2_device b660i_aor_pro_ddr4_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x0B5001DF,
     0,
     "B660I AORUS PRO DDR4",
@@ -4077,7 +4308,7 @@ static const gb_fusion2_device b660i_aor_pro_ddr4_device =
 
 static const gb_fusion2_device b760i_aor_pro_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x0B3001DF,
     0,
     "B760I AORUS PRO",
@@ -4085,7 +4316,7 @@ static const gb_fusion2_device b760i_aor_pro_device =
 
 static const gb_fusion2_device b760i_aor_pro_ddr4_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x0B3001DF,
     0,
     "B760I AORUS PRO DDR4",
@@ -4093,7 +4324,7 @@ static const gb_fusion2_device b760i_aor_pro_ddr4_device =
 
 static const gb_fusion2_device b690i_aor_ultra_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x034001DF,
     0,
     "Z690I AORUS ULTRA",
@@ -4101,7 +4332,7 @@ static const gb_fusion2_device b690i_aor_ultra_device =
 
 static const gb_fusion2_device b690i_aor_ultra_ddr4_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x034001DF,
     0,
     "Z690I AORUS ULTRA DDR4",
@@ -4109,7 +4340,7 @@ static const gb_fusion2_device b690i_aor_ultra_ddr4_device =
 
 static const gb_fusion2_device b690i_aor_ultra_lite_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x034001DF,
     0,
     "Z690I AORUS ULTRA LITE",
@@ -4117,7 +4348,7 @@ static const gb_fusion2_device b690i_aor_ultra_lite_device =
 
 static const gb_fusion2_device b690i_aor_ultra_lite_ddr4_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x034001DF,
     0,
     "Z690I AORUS ULTRA LITE DDR4",
@@ -4125,7 +4356,7 @@ static const gb_fusion2_device b690i_aor_ultra_lite_ddr4_device =
 
 static const gb_fusion2_device b690i_aor_ultra_plus_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x034001DF,
     0,
     "Z690I AORUS ULTRA PLUS",
@@ -4133,7 +4364,7 @@ static const gb_fusion2_device b690i_aor_ultra_plus_device =
 
 static const gb_fusion2_device b690i_aor_ultra_plus_ddr4_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x034001DF,
     0,
     "Z690I AORUS ULTRA PLUS DDR4",
@@ -4141,7 +4372,7 @@ static const gb_fusion2_device b690i_aor_ultra_plus_ddr4_device =
 
 static const gb_fusion2_device b790i_aor_ultra_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x034001DF,
     0,
     "Z790I AORUS ULTRA",
@@ -4149,7 +4380,7 @@ static const gb_fusion2_device b790i_aor_ultra_device =
 
 static const gb_fusion2_device b550i_aor_pro_ax_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x0360007F,
     0,
     "B550I AORUS PRO AX",
@@ -4157,7 +4388,7 @@ static const gb_fusion2_device b550i_aor_pro_ax_device =
 
 static const gb_fusion2_device b560i_aor_pro_ax_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x1310007F,
     0,
     "B560I AORUS PRO AX",
@@ -4165,7 +4396,7 @@ static const gb_fusion2_device b560i_aor_pro_ax_device =
 
 static const gb_fusion2_device x570si_aor_pro_ax_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x034000FF,
     0,
     "X570SI AORUS PRO AX",
@@ -4173,14 +4404,14 @@ static const gb_fusion2_device x570si_aor_pro_ax_device =
 
 static const gb_fusion2_device z590i_aor_ultra_device =
 {
-    &it5702_43_device,
+    &it5702_28_device,
     0x0350007F,
     0,
     "Z590I AORUS ULTRA",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 44   048D:5702                                        |
+|  Layout 29   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4189,7 +4420,7 @@ static const gb_fusion2_device z590i_aor_ultra_device =
 |    Zone "PCI-E Accent"                             : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_44_device =
+static gb_fusion2_layout it5702_29_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4207,7 +4438,7 @@ static gb_fusion2_layout it5702_44_device =
 
 static const gb_fusion2_device z490_aor_elite_device =
 {
-    &it5702_44_device,
+    &it5702_29_device,
     0x0160005F,
     0,
     "Z490 AORUS ELITE",
@@ -4215,7 +4446,7 @@ static const gb_fusion2_device z490_aor_elite_device =
 
 static const gb_fusion2_device z490_aor_elite_ac_device =
 {
-    &it5702_44_device,
+    &it5702_29_device,
     0x0160005F,
     0,
     "Z490 AORUS ELITE AC",
@@ -4223,7 +4454,7 @@ static const gb_fusion2_device z490_aor_elite_ac_device =
 
 static const gb_fusion2_device z490_aor_pro_ax_device =
 {
-    &it5702_44_device,
+    &it5702_29_device,
     0x0160005F,
     0,
     "Z490 AORUS PRO AX",
@@ -4231,7 +4462,7 @@ static const gb_fusion2_device z490_aor_pro_ax_device =
 
 static const gb_fusion2_device h470_aor_pro_ax_device =
 {
-    &it5702_44_device,
+    &it5702_29_device,
     0x0960005F,
     0,
     "H470 AORUS PRO AX",
@@ -4239,7 +4470,7 @@ static const gb_fusion2_device h470_aor_pro_ax_device =
 
 static const gb_fusion2_device b460_aor_pro_ac_device =
 {
-    &it5702_44_device,
+    &it5702_29_device,
     0x1170005F,
     0,
     "B460 AORUS PRO AC",
@@ -4247,14 +4478,14 @@ static const gb_fusion2_device b460_aor_pro_ac_device =
 
 static const gb_fusion2_device z590_aor_pro_ax_device =
 {
-    &it5702_44_device,
+    &it5702_29_device,
     0x0160005F,
     0,
     "Z590 AORUS PRO AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 45   048D:5702                                        |
+|  Layout 30   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4263,7 +4494,7 @@ static const gb_fusion2_device z590_aor_pro_ax_device =
 |    Zone "Chipset Accent"                           : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_45_device =
+static gb_fusion2_layout it5702_30_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4281,7 +4512,7 @@ static gb_fusion2_layout it5702_45_device =
 
 static const gb_fusion2_device z490_aor_mstr_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x0170005F,
     0,
     "Z490 AORUS MASTER",
@@ -4289,7 +4520,7 @@ static const gb_fusion2_device z490_aor_mstr_device =
 
 static const gb_fusion2_device z490_aor_mstr_waterforce_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x0170005F,
     0,
     "Z490 AORUS MASTER WATERFORCE",
@@ -4297,7 +4528,7 @@ static const gb_fusion2_device z490_aor_mstr_waterforce_device =
 
 static const gb_fusion2_device z490_aor_ultra_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x0170005F,
     0,
     "Z490 AORUS ULTRA",
@@ -4305,7 +4536,7 @@ static const gb_fusion2_device z490_aor_ultra_device =
 
 static const gb_fusion2_device z490_aor_ultra_g2_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x0170005F,
     0,
     "Z490 AORUS ULTRA G2",
@@ -4313,7 +4544,7 @@ static const gb_fusion2_device z490_aor_ultra_g2_device =
 
 static const gb_fusion2_device b760m_aor_pro_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x0840015F,
     0,
     "B760M AORUS PRO",
@@ -4321,7 +4552,7 @@ static const gb_fusion2_device b760m_aor_pro_device =
 
 static const gb_fusion2_device b760m_aor_pro_ax_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x0840015F,
     0,
     "B760M AORUS PRO AX",
@@ -4329,7 +4560,7 @@ static const gb_fusion2_device b760m_aor_pro_ax_device =
 
 static const gb_fusion2_device b760m_aor_pro_ax_ddr4_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x0840015F,
     0,
     "B760M AORUS PRO AX DDR4",
@@ -4337,7 +4568,7 @@ static const gb_fusion2_device b760m_aor_pro_ax_ddr4_device =
 
 static const gb_fusion2_device b760m_aor_pro_ddr4_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x0840015F,
     0,
     "B760M AORUS PRO DDR4",
@@ -4345,7 +4576,7 @@ static const gb_fusion2_device b760m_aor_pro_ddr4_device =
 
 static const gb_fusion2_device z590_aor_mstr_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x0170005F,
     0,
     "Z590 AORUS MASTER",
@@ -4353,14 +4584,14 @@ static const gb_fusion2_device z590_aor_mstr_device =
 
 static const gb_fusion2_device z590_aor_xtrm_device =
 {
-    &it5702_45_device,
+    &it5702_30_device,
     0x02B001DF,
     0,
     "Z590 AORUS XTREME",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 46   048D:5702                                        |
+|  Layout 31   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4369,7 +4600,7 @@ static const gb_fusion2_device z590_aor_xtrm_device =
 |    Zone "Chipset Accent"                           : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_46_device =
+static gb_fusion2_layout it5702_31_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4387,7 +4618,7 @@ static gb_fusion2_layout it5702_46_device =
 
 static const gb_fusion2_device b650_aor_elite_device =
 {
-    &it5702_46_device,
+    &it5702_31_device,
     0x0960015F,
     0,
     "B650 AORUS ELITE",
@@ -4395,7 +4626,7 @@ static const gb_fusion2_device b650_aor_elite_device =
 
 static const gb_fusion2_device b650_aor_elite_ax_device =
 {
-    &it5702_46_device,
+    &it5702_31_device,
     0x0960015F,
     0,
     "B650 AORUS ELITE AX",
@@ -4403,7 +4634,7 @@ static const gb_fusion2_device b650_aor_elite_ax_device =
 
 static const gb_fusion2_device b650m_aor_elite_device =
 {
-    &it5702_46_device,
+    &it5702_31_device,
     0x0860015F,
     0,
     "B650M AORUS ELITE",
@@ -4411,7 +4642,7 @@ static const gb_fusion2_device b650m_aor_elite_device =
 
 static const gb_fusion2_device b650m_aor_elite_ax_device =
 {
-    &it5702_46_device,
+    &it5702_31_device,
     0x0860015F,
     0,
     "B650M AORUS ELITE AX",
@@ -4419,7 +4650,7 @@ static const gb_fusion2_device b650m_aor_elite_ax_device =
 
 static const gb_fusion2_device b650m_aor_elite_ax_ice_device =
 {
-    &it5702_46_device,
+    &it5702_31_device,
     0x0860015F,
     0,
     "B650M AORUS ELITE AX ICE",
@@ -4427,14 +4658,14 @@ static const gb_fusion2_device b650m_aor_elite_ax_ice_device =
 
 static const gb_fusion2_device b650m_aor_pro_ax_device =
 {
-    &it5702_46_device,
+    &it5702_31_device,
     0x0860015F,
     0,
     "B650M AORUS PRO AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 47   048D:5702                                        |
+|  Layout 32   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4443,7 +4674,7 @@ static const gb_fusion2_device b650m_aor_pro_ax_device =
 |    Zone "Board Accent (Right Side, Top Middle)"    : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_47_device =
+static gb_fusion2_layout it5702_32_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4461,7 +4692,7 @@ static gb_fusion2_layout it5702_47_device =
 
 static const gb_fusion2_device b660_aor_elite_ax_ddr4_device =
 {
-    &it5702_47_device,
+    &it5702_32_device,
     0x096001DF,
     0,
     "B660 AORUS ELITE AX DDR4",
@@ -4469,7 +4700,7 @@ static const gb_fusion2_device b660_aor_elite_ax_ddr4_device =
 
 static const gb_fusion2_device b660_aor_elite_ddr4_device =
 {
-    &it5702_47_device,
+    &it5702_32_device,
     0x096001DF,
     0,
     "B660 AORUS ELITE DDR4",
@@ -4477,7 +4708,7 @@ static const gb_fusion2_device b660_aor_elite_ddr4_device =
 
 static const gb_fusion2_device z690_gmg_x_device =
 {
-    &it5702_47_device,
+    &it5702_32_device,
     0x01A001DF,
     0,
     "Z690 GAMING X",
@@ -4485,7 +4716,7 @@ static const gb_fusion2_device z690_gmg_x_device =
 
 static const gb_fusion2_device z690_gmg_x_ddr4_device =
 {
-    &it5702_47_device,
+    &it5702_32_device,
     0x01A001DF,
     0,
     "Z690 GAMING X DDR4",
@@ -4493,7 +4724,7 @@ static const gb_fusion2_device z690_gmg_x_ddr4_device =
 
 static const gb_fusion2_device z690_gmg_x_ddr4_v2_device =
 {
-    &it5702_47_device,
+    &it5702_32_device,
     0x01A001DF,
     0,
     "Z690 GAMING X DDR4 V2",
@@ -4501,14 +4732,14 @@ static const gb_fusion2_device z690_gmg_x_ddr4_v2_device =
 
 static const gb_fusion2_device z590_gmg_x_device =
 {
-    &it5702_47_device,
+    &it5702_32_device,
     0x0140005F,
     0,
     "Z590 GAMING X",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 48   048D:5702                                        |
+|  Layout 33   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4517,7 +4748,7 @@ static const gb_fusion2_device z590_gmg_x_device =
 |    Zone "LED_CPU"                                  : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_48_device =
+static gb_fusion2_layout it5702_33_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4535,7 +4766,7 @@ static gb_fusion2_layout it5702_48_device =
 
 static const gb_fusion2_device b550_aor_mstr_device =
 {
-    &it5702_48_device,
+    &it5702_33_device,
     0x0180005F,
     0,
     "B550 AORUS MASTER",
@@ -4543,14 +4774,14 @@ static const gb_fusion2_device b550_aor_mstr_device =
 
 static const gb_fusion2_device x570s_aor_mstr_device =
 {
-    &it5702_48_device,
+    &it5702_33_device,
     0x0130015F,
     0,
     "X570S AORUS MASTER",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 49   048D:5702                                        |
+|  Layout 34   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4559,7 +4790,7 @@ static const gb_fusion2_device x570s_aor_mstr_device =
 |    Zone "PCI-E Accent"                             : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_49_device =
+static gb_fusion2_layout it5702_34_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4577,7 +4808,7 @@ static gb_fusion2_layout it5702_49_device =
 
 static const gb_fusion2_device b550m_aor_pro_device =
 {
-    &it5702_49_device,
+    &it5702_34_device,
     0x0050005F,
     0,
     "B550M AORUS PRO",
@@ -4585,7 +4816,7 @@ static const gb_fusion2_device b550m_aor_pro_device =
 
 static const gb_fusion2_device b550m_aor_pro_ax_device =
 {
-    &it5702_49_device,
+    &it5702_34_device,
     0x0050005F,
     0,
     "B550M AORUS PRO AX",
@@ -4593,7 +4824,7 @@ static const gb_fusion2_device b550m_aor_pro_ax_device =
 
 static const gb_fusion2_device b550m_aor_pro_p_device =
 {
-    &it5702_49_device,
+    &it5702_34_device,
     0x0050005F,
     0,
     "B550M AORUS PRO-P",
@@ -4601,7 +4832,7 @@ static const gb_fusion2_device b550m_aor_pro_p_device =
 
 static const gb_fusion2_device b560_aor_pro_ax_device =
 {
-    &it5702_49_device,
+    &it5702_34_device,
     0x1150005F,
     0,
     "B560 AORUS PRO AX",
@@ -4609,7 +4840,7 @@ static const gb_fusion2_device b560_aor_pro_ax_device =
 
 static const gb_fusion2_device z590_aor_elite_device =
 {
-    &it5702_49_device,
+    &it5702_34_device,
     0x01A0005F,
     0,
     "Z590 AORUS ELITE",
@@ -4617,14 +4848,14 @@ static const gb_fusion2_device z590_aor_elite_device =
 
 static const gb_fusion2_device z590_aor_elite_ax_device =
 {
-    &it5702_49_device,
+    &it5702_34_device,
     0x01A0005F,
     0,
     "Z590 AORUS ELITE AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 50   048D:5702                                        |
+|  Layout 35   048D:5702                                        |
 |                                                               |
 |    Zone "ARGB_V2_1/ARGB_V2_3"                      : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -4634,7 +4865,7 @@ static const gb_fusion2_device z590_aor_elite_ax_device =
 |    Zone "IO Cover (Top)"                           : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_50_device =
+static gb_fusion2_layout it5702_35_device =
 {
     &common_argb_v2_1_3_zone,
     &common_argb_v2_2_zone,
@@ -4652,14 +4883,14 @@ static gb_fusion2_layout it5702_50_device =
 
 static const gb_fusion2_device b760m_aor_elite_x_ax_device =
 {
-    &it5702_50_device,
+    &it5702_35_device,
     0x181001DF,
     0,
     "B760M AORUS ELITE X AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 51   048D:5702                                        |
+|  Layout 36   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4669,7 +4900,7 @@ static const gb_fusion2_device b760m_aor_elite_x_ax_device =
 |    Zone "PCI-E Accent"                             : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_51_device =
+static gb_fusion2_layout it5702_36_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4687,14 +4918,14 @@ static gb_fusion2_layout it5702_51_device =
 
 static const gb_fusion2_device z490_vision_d_device =
 {
-    &it5702_51_device,
+    &it5702_36_device,
     0x0180005F,
     0,
     "Z490 VISION D",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 52   048D:5702                                        |
+|  Layout 37   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4704,7 +4935,7 @@ static const gb_fusion2_device z490_vision_d_device =
 |    Zone "IO Cover (Bottom)"                        : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_52_device =
+static gb_fusion2_layout it5702_37_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4722,7 +4953,7 @@ static gb_fusion2_layout it5702_52_device =
 
 static const gb_fusion2_device b650_aor_pro_ax_device =
 {
-    &it5702_52_device,
+    &it5702_37_device,
     0x09A001DF,
     0,
     "B650 AORUS PRO AX",
@@ -4730,7 +4961,7 @@ static const gb_fusion2_device b650_aor_pro_ax_device =
 
 static const gb_fusion2_device b650e_aor_mstr_device =
 {
-    &it5702_52_device,
+    &it5702_37_device,
     0x09A001DF,
     0,
     "B650E AORUS MASTER",
@@ -4738,14 +4969,14 @@ static const gb_fusion2_device b650e_aor_mstr_device =
 
 static const gb_fusion2_device x670e_aor_mstr_device =
 {
-    &it5702_52_device,
+    &it5702_37_device,
     0x024001DF,
     0,
     "X670E AORUS MASTER",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 53   048D:5702                                        |
+|  Layout 38   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4755,7 +4986,7 @@ static const gb_fusion2_device x670e_aor_mstr_device =
 |    Zone "Board Accent (Right Side, Top Middle)"    : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_53_device =
+static gb_fusion2_layout it5702_38_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4773,7 +5004,7 @@ static gb_fusion2_layout it5702_53_device =
 
 static const gb_fusion2_device b660_aor_mstr_device =
 {
-    &it5702_53_device,
+    &it5702_38_device,
     0x094001DF,
     0,
     "B660 AORUS MASTER",
@@ -4781,7 +5012,7 @@ static const gb_fusion2_device b660_aor_mstr_device =
 
 static const gb_fusion2_device b660_aor_mstr_ddr4_device =
 {
-    &it5702_53_device,
+    &it5702_38_device,
     0x094001DF,
     0,
     "B660 AORUS MASTER DDR4",
@@ -4789,7 +5020,7 @@ static const gb_fusion2_device b660_aor_mstr_ddr4_device =
 
 static const gb_fusion2_device b760_aor_mstr_ddr4_device =
 {
-    &it5702_53_device,
+    &it5702_38_device,
     0x094001DF,
     0,
     "B760 AORUS MASTER DDR4",
@@ -4797,7 +5028,7 @@ static const gb_fusion2_device b760_aor_mstr_ddr4_device =
 
 static const gb_fusion2_device z690_aor_elite_device =
 {
-    &it5702_53_device,
+    &it5702_38_device,
     0x016001DF,
     0,
     "Z690 AORUS ELITE",
@@ -4805,7 +5036,7 @@ static const gb_fusion2_device z690_aor_elite_device =
 
 static const gb_fusion2_device z690_aor_elite_ax_2_device =
 {
-    &it5702_53_device,
+    &it5702_38_device,
     0x016001DF,
     0,
     "Z690 AORUS ELITE AX",
@@ -4813,7 +5044,7 @@ static const gb_fusion2_device z690_aor_elite_ax_2_device =
 
 static const gb_fusion2_device z690_aor_elite_ax_ddr4_device =
 {
-    &it5702_53_device,
+    &it5702_38_device,
     0x016001DF,
     0,
     "Z690 AORUS ELITE AX DDR4",
@@ -4821,7 +5052,7 @@ static const gb_fusion2_device z690_aor_elite_ax_ddr4_device =
 
 static const gb_fusion2_device z690_aor_elite_ax_ddr4_v2_device =
 {
-    &it5702_53_device,
+    &it5702_38_device,
     0x016001DF,
     0,
     "Z690 AORUS ELITE AX DDR4 V2",
@@ -4829,14 +5060,14 @@ static const gb_fusion2_device z690_aor_elite_ax_ddr4_v2_device =
 
 static const gb_fusion2_device z690_aor_elite_ddr4_device =
 {
-    &it5702_53_device,
+    &it5702_38_device,
     0x016001DF,
     0,
     "Z690 AORUS ELITE DDR4",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 54   048D:5702                                        |
+|  Layout 39   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -4846,7 +5077,7 @@ static const gb_fusion2_device z690_aor_elite_ddr4_device =
 |    Zone "PCI-E Accent"                             : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_54_device =
+static gb_fusion2_layout it5702_39_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -4864,7 +5095,7 @@ static gb_fusion2_layout it5702_54_device =
 
 static const gb_fusion2_device b550_aor_elite_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0170005F,
     0,
     "B550 AORUS ELITE",
@@ -4872,7 +5103,7 @@ static const gb_fusion2_device b550_aor_elite_device =
 
 static const gb_fusion2_device b550_aor_elite_ax_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0170005F,
     0,
     "B550 AORUS ELITE AX",
@@ -4880,7 +5111,7 @@ static const gb_fusion2_device b550_aor_elite_ax_device =
 
 static const gb_fusion2_device b550_aor_elite_ax_v2_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0170005F,
     0,
     "B550 AORUS ELITE AX V2",
@@ -4888,7 +5119,7 @@ static const gb_fusion2_device b550_aor_elite_ax_v2_device =
 
 static const gb_fusion2_device b550_aor_elite_ax_v3_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0170005F,
     0,
     "B550 AORUS ELITE AX V3",
@@ -4896,7 +5127,7 @@ static const gb_fusion2_device b550_aor_elite_ax_v3_device =
 
 static const gb_fusion2_device b550_aor_elite_v2_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0170005F,
     0,
     "B550 AORUS ELITE V2",
@@ -4904,7 +5135,7 @@ static const gb_fusion2_device b550_aor_elite_v2_device =
 
 static const gb_fusion2_device b550_aor_pro_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0170005F,
     0,
     "B550 AORUS PRO",
@@ -4912,7 +5143,7 @@ static const gb_fusion2_device b550_aor_pro_device =
 
 static const gb_fusion2_device b550_aor_pro_ac_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0170005F,
     0,
     "B550 AORUS PRO AC",
@@ -4920,7 +5151,7 @@ static const gb_fusion2_device b550_aor_pro_ac_device =
 
 static const gb_fusion2_device b550_aor_pro_ax_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0170005F,
     0,
     "B550 AORUS PRO AX",
@@ -4928,7 +5159,7 @@ static const gb_fusion2_device b550_aor_pro_ax_device =
 
 static const gb_fusion2_device b550_aor_pro_v2_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0170005F,
     0,
     "B550 AORUS PRO V2",
@@ -4936,18 +5167,18 @@ static const gb_fusion2_device b550_aor_pro_v2_device =
 
 static const gb_fusion2_device x570s_aor_pro_ax_device =
 {
-    &it5702_54_device,
+    &it5702_39_device,
     0x0150015F,
     0,
     "X570S AORUS PRO AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 55   048D:5702                                        |
+|  Layout 40   048D:5702                                        |
 |                                                               |
 |    Zone "IO Cover"                                 : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_55_device =
+static gb_fusion2_layout it5702_40_device =
 {
     &common_io_cov_1_zone,
     nullptr,
@@ -4965,7 +5196,7 @@ static gb_fusion2_layout it5702_55_device =
 
 static const gb_fusion2_device z790_aor_mstr_x_2_device =
 {
-    &it5702_55_device,
+    &it5702_40_device,
     0x123001DF,
     1,
     "Z790 AORUS MASTER X",
@@ -4973,7 +5204,7 @@ static const gb_fusion2_device z790_aor_mstr_x_2_device =
 
 static const gb_fusion2_device z790_aor_mstr_2_device =
 {
-    &it5702_55_device,
+    &it5702_40_device,
     0x015001DF,
     1,
     "Z790 AORUS MASTER",
@@ -4981,18 +5212,18 @@ static const gb_fusion2_device z790_aor_mstr_2_device =
 
 static const gb_fusion2_device x670_aor_xtrm_2_device =
 {
-    &it5702_55_device,
+    &it5702_40_device,
     0x023001DF,
     1,
     "X670E AORUS XTREME",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 56   048D:5702                                        |
+|  Layout 41   048D:5702                                        |
 |                                                               |
 |    Zone "Chipset Accent"                           : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_56_device =
+static gb_fusion2_layout it5702_41_device =
 {
     &common_chip_acc_3_zone,
     nullptr,
@@ -5010,7 +5241,7 @@ static gb_fusion2_layout it5702_56_device =
 
 static const gb_fusion2_device z790_aor_xtrm_2_device =
 {
-    &it5702_56_device,
+    &it5702_41_device,
     0x026001DF,
     1,
     "Z790 AORUS XTREME",
@@ -5018,19 +5249,19 @@ static const gb_fusion2_device z790_aor_xtrm_2_device =
 
 static const gb_fusion2_device z790_aor_xtrm_x_2_device =
 {
-    &it5702_56_device,
+    &it5702_41_device,
     0x124001DF,
     1,
     "Z790 AORUS XTREME X",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 57   048D:5702                                        |
+|  Layout 42   048D:5702                                        |
 |                                                               |
 |    Zone "IO Cover"                                 : Single   |
 |    Zone "LED_CPU"                                  : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_57_device =
+static gb_fusion2_layout it5702_42_device =
 {
     &common_chip_acc_3_zone,
     &common_led_cpu_8_zone,
@@ -5048,20 +5279,20 @@ static gb_fusion2_layout it5702_57_device =
 
 static const gb_fusion2_device z690_aor_xtrm_waterforce_2_device =
 {
-    &it5702_57_device,
+    &it5702_42_device,
     0x029001DF,
     1,
     "Z690 AORUS XTREME WATERFORCE",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 58   048D:5702                                        |
+|  Layout 43   048D:5702                                        |
 |                                                               |
 |    Zone "IO Cover"                                 : Single   |
 |    Zone "Chipset Accent"                           : Single   |
 |    Zone "LED_CPU"                                  : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_58_device =
+static gb_fusion2_layout it5702_43_device =
 {
     &common_chip_acc_3_zone,
     &common_chip_acc_3_zone,
@@ -5079,7 +5310,7 @@ static gb_fusion2_layout it5702_58_device =
 
 static const gb_fusion2_device z490_aor_xtrm_2_device =
 {
-    &it5702_58_device,
+    &it5702_43_device,
     0x029001DF,
     1,
     "Z490 AORUS XTREME",
@@ -5087,7 +5318,7 @@ static const gb_fusion2_device z490_aor_xtrm_2_device =
 
 static const gb_fusion2_device z490_aor_xtrm_waterforce_2_device =
 {
-    &it5702_58_device,
+    &it5702_43_device,
     0x029001DF,
     1,
     "Z490 AORUS XTREME WATERFORCE",
@@ -5095,21 +5326,21 @@ static const gb_fusion2_device z490_aor_xtrm_waterforce_2_device =
 
 static const gb_fusion2_device z590_aor_xtrm_waterforce_2_device =
 {
-    &it5702_58_device,
+    &it5702_43_device,
     0x029001DF,
     1,
     "Z590 AORUS XTREME WATERFORCE",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 59   048D:5702                                        |
+|  Layout 44   048D:5702                                        |
 |                                                               |
 |    Zone "IO Cover"                                 : Single   |
 |    Zone "Chipset Accent"                           : Single   |
 |    Zone "RAM Cover"                                : Single   |
 |    Zone "LED_CPU"                                  : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_59_device =
+static gb_fusion2_layout it5702_44_device =
 {
     &common_chip_acc_3_zone,
     &common_chip_acc_3_zone,
@@ -5127,14 +5358,14 @@ static gb_fusion2_layout it5702_59_device =
 
 static const gb_fusion2_device z690_aor_xtrm_2_device =
 {
-    &it5702_59_device,
+    &it5702_44_device,
     0x028001DF,
     1,
     "Z690 AORUS XTREME",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 60   048D:5702                                        |
+|  Layout 45   048D:5702                                        |
 |                                                               |
 |    Zone "D_LED1"                                   : Linear   |
 |    Zone "D_LED2"                                   : Linear   |
@@ -5144,7 +5375,7 @@ static const gb_fusion2_device z690_aor_xtrm_2_device =
 |    Zone "IO Cover (Bottom)"                        : Single   |
 |    Zone "LED_C2"                                   : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5702_60_device =
+static gb_fusion2_layout it5702_45_device =
 {
     &common_d_led1_zone,
     &common_d_led2_zone,
@@ -5162,19 +5393,101 @@ static gb_fusion2_layout it5702_60_device =
 
 static const gb_fusion2_device z690_aor_mstr_device =
 {
-    &it5702_60_device,
+    &it5702_45_device,
     0x017001DF,
     0,
     "Z690 AORUS MASTER",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 60   048D:5711                                        |
+|  Layout 46   048D:5702                                        |
+|                                                               |
+|    Zone "D_LED1"                                   : Linear   |
+|    Zone "D_LED2"                                   : Linear   |
+|    Zone "LED_C1"                                   : Single   |
+|    Zone "LED_CPU"                                  : Single   |
+|    Zone "Board Accent (Right Side)"                : Single   |
+|    Zone "LED_C2"                                   : Single   |
+\*-------------------------------------------------------------*/
+static gb_fusion2_layout it5702_46_device =
+{
+    &common_d_led1_zone,
+    &common_d_led2_zone,
+    &common_led_c1_2_zone,
+    &common_led_cpu_3_zone,
+    &common_brs_4_zone,
+    &common_led_c2_5_zone,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+};
+
+static const gb_fusion2_device x570s_aor_elite_device =
+{
+    &it5702_46_device,
+    0x0120015F,
+    0,
+    "X570S AORUS ELITE",
+};
+
+static const gb_fusion2_device x570s_aor_elite_ax_device =
+{
+    &it5702_46_device,
+    0x0120015F,
+    0,
+    "X570S AORUS ELITE AX",
+};
+
+static const gb_fusion2_device x570s_gmg_x_device =
+{
+    &it5702_46_device,
+    0x0120015F,
+    0,
+    "X570S GAMING X",
+};
+
+/*-------------------------------------------------------------*\
+|  Layout 47   048D:5702                                        |
+|                                                               |
+|    Zone "D_LED1"                                   : Linear   |
+|    Zone "D_LED2"                                   : Linear   |
+|    Zone "LED_C1"                                   : Single   |
+|    Zone "Aorus Logo"                               : Single   |
+|    Zone "LED_C2"                                   : Single   |
+\*-------------------------------------------------------------*/
+static gb_fusion2_layout it5702_47_device =
+{
+    &common_d_led1_zone,
+    &common_d_led2_zone,
+    &common_led_c1_2_zone,
+    &common_aor_logo_3_zone,
+    &common_led_c2_5_zone,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+};
+
+static const gb_fusion2_device a520m_aor_elite_device =
+{
+    &it5702_47_device,
+    0x0050005F,
+    0,
+    "A520M AORUS ELITE",
+};
+
+/*-------------------------------------------------------------*\
+|  Layout 1   048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_60_device =
+static gb_fusion2_layout it5711_1_device =
 {
     &common_argb_v2_1_zone,
     &common_led_c_5_zone,
@@ -5192,19 +5505,19 @@ static gb_fusion2_layout it5711_60_device =
 
 static const gb_fusion2_device a620i_ax_5711_device =
 {
-    &it5711_60_device,
+    &it5711_1_device,
     0x4310005F,
     0,
     "A620I AX",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 61   048D:5711                                        |
+|  Layout 2   048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_61_device =
+static gb_fusion2_layout it5711_2_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -5222,20 +5535,20 @@ static gb_fusion2_layout it5711_61_device =
 
 static const gb_fusion2_device b860i_aor_pro_ice_5711_device =
 {
-    &it5711_61_device,
+    &it5711_2_device,
     0x0B10005F,
     0,
     "B860I AORUS PRO ICE",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 62   048D:5711                                        |
+|  Layout 3   048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_62_device =
+static gb_fusion2_layout it5711_3_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -5253,7 +5566,7 @@ static gb_fusion2_layout it5711_62_device =
 
 static const gb_fusion2_device a620m_ds3h_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x4020005F,
     0,
     "A620M DS3H",
@@ -5261,7 +5574,7 @@ static const gb_fusion2_device a620m_ds3h_5711_device =
 
 static const gb_fusion2_device a620m_gmg_x_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x4020005F,
     0,
     "A620M GAMING X",
@@ -5269,7 +5582,7 @@ static const gb_fusion2_device a620m_gmg_x_5711_device =
 
 static const gb_fusion2_device a620m_h_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x4030005F,
     0,
     "A620M H",
@@ -5277,7 +5590,7 @@ static const gb_fusion2_device a620m_h_5711_device =
 
 static const gb_fusion2_device a620m_s2h_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x4030005F,
     0,
     "A620M S2H",
@@ -5285,7 +5598,7 @@ static const gb_fusion2_device a620m_s2h_5711_device =
 
 static const gb_fusion2_device b840_eagle_wifi6e_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x112001DF,
     0,
     "B840 EAGLE WIFI6E",
@@ -5293,7 +5606,7 @@ static const gb_fusion2_device b840_eagle_wifi6e_5711_device =
 
 static const gb_fusion2_device b840m_d2h_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x1010005F,
     0,
     "B840M D2H",
@@ -5301,7 +5614,7 @@ static const gb_fusion2_device b840m_d2h_5711_device =
 
 static const gb_fusion2_device b840m_ds3h_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x1010005F,
     0,
     "B840M DS3H",
@@ -5309,7 +5622,7 @@ static const gb_fusion2_device b840m_ds3h_5711_device =
 
 static const gb_fusion2_device b840m_ds3h_wifi6_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x1010005F,
     0,
     "B840M DS3H WIFI6",
@@ -5317,15 +5630,23 @@ static const gb_fusion2_device b840m_ds3h_wifi6_5711_device =
 
 static const gb_fusion2_device b840m_eagle_wifi6_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x1010005F,
     0,
     "B840M EAGLE WIFI6",
 };
 
+static const gb_fusion2_device b840m_gmg_x_wifi6e_5711_device =
+{
+    &it5711_3_device,
+    0x1010005F,
+    0,
+    "B840M GAMING X WIFI6E",
+};
+
 static const gb_fusion2_device b850i_aor_pro_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x0B20005F,
     0,
     "B850I AORUS PRO",
@@ -5333,7 +5654,7 @@ static const gb_fusion2_device b850i_aor_pro_5711_device =
 
 static const gb_fusion2_device b850m_d3hp_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x0820005F,
     0,
     "B850M D3HP",
@@ -5341,20 +5662,20 @@ static const gb_fusion2_device b850m_d3hp_5711_device =
 
 static const gb_fusion2_device x870i_aor_pro_ice_5711_device =
 {
-    &it5711_62_device,
+    &it5711_3_device,
     0x0310005F,
     0,
     "X870I AORUS PRO ICE",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 63   048D:5711                                        |
+|  Layout 4   048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 |    Zone "IO Cover"                                 : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_63_device =
+static gb_fusion2_layout it5711_4_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -5372,21 +5693,21 @@ static gb_fusion2_layout it5711_63_device =
 
 static const gb_fusion2_device z890i_aor_ultra_5711_device =
 {
-    &it5711_63_device,
+    &it5711_4_device,
     0x032001DF,
     0,
     "Z890I AORUS ULTRA",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 64   048D:5711                                        |
+|  Layout 5   048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 |    Zone "ARGB_V2_3"                                : Linear   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_64_device =
+static gb_fusion2_layout it5711_5_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -5404,7 +5725,7 @@ static gb_fusion2_layout it5711_64_device =
 
 static const gb_fusion2_device b650e_eagle_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x3130005F,
     0,
     "B650E EAGLE WIFI6E",
@@ -5412,7 +5733,7 @@ static const gb_fusion2_device b650e_eagle_wifi6e_5711_device =
 
 static const gb_fusion2_device b650em_c_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x3030005F,
     0,
     "B650EM C",
@@ -5420,7 +5741,7 @@ static const gb_fusion2_device b650em_c_5711_device =
 
 static const gb_fusion2_device b650em_ds3h_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x3030005F,
     0,
     "B650EM DS3H WIFI6E",
@@ -5428,7 +5749,7 @@ static const gb_fusion2_device b650em_ds3h_wifi6e_5711_device =
 
 static const gb_fusion2_device b650em_force_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x3030005F,
     0,
     "B650EM FORCE WIFI6E",
@@ -5436,7 +5757,7 @@ static const gb_fusion2_device b650em_force_wifi6e_5711_device =
 
 static const gb_fusion2_device b760_ds3h_gen5_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2120005F,
     0,
     "B760 DS3H GEN5",
@@ -5444,7 +5765,7 @@ static const gb_fusion2_device b760_ds3h_gen5_5711_device =
 
 static const gb_fusion2_device b760_ds3h_wifi6e_gen5_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2120005F,
     0,
     "B760 DS3H WIFI6E GEN5",
@@ -5452,7 +5773,7 @@ static const gb_fusion2_device b760_ds3h_wifi6e_gen5_5711_device =
 
 static const gb_fusion2_device b760_gmg_x_ddr4_gen5_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2120005F,
     0,
     "B760 GAMING X DDR4 GEN5",
@@ -5460,7 +5781,7 @@ static const gb_fusion2_device b760_gmg_x_ddr4_gen5_5711_device =
 
 static const gb_fusion2_device b760_gmg_x_gen5_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2120005F,
     0,
     "B760 GAMING X GEN5",
@@ -5468,7 +5789,7 @@ static const gb_fusion2_device b760_gmg_x_gen5_5711_device =
 
 static const gb_fusion2_device b760_gmg_x_wifi6e_gen5_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2120005F,
     0,
     "B760 GAMING X WIFI6E GEN5",
@@ -5476,7 +5797,7 @@ static const gb_fusion2_device b760_gmg_x_wifi6e_gen5_5711_device =
 
 static const gb_fusion2_device b760m_c_v3_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2020005F,
     0,
     "B760M C V3",
@@ -5484,7 +5805,7 @@ static const gb_fusion2_device b760m_c_v3_5711_device =
 
 static const gb_fusion2_device b760m_gmg_x_ddr4_gen5_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2020005F,
     0,
     "B760M GAMING X DDR4 GEN5",
@@ -5492,7 +5813,7 @@ static const gb_fusion2_device b760m_gmg_x_ddr4_gen5_5711_device =
 
 static const gb_fusion2_device b760m_gmg_x_gen5_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2020005F,
     0,
     "B760M GAMING X GEN5",
@@ -5500,7 +5821,7 @@ static const gb_fusion2_device b760m_gmg_x_gen5_5711_device =
 
 static const gb_fusion2_device b760m_gmg_x_wifi6e_ddr4_gen5_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2020005F,
     0,
     "B760M GAMING X WIFI6E DDR4 GEN5",
@@ -5508,7 +5829,7 @@ static const gb_fusion2_device b760m_gmg_x_wifi6e_ddr4_gen5_5711_device =
 
 static const gb_fusion2_device b760m_gmg_x_wifi6e_gen5_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2020005F,
     0,
     "B760M GAMING X WIFI6E GEN5",
@@ -5516,15 +5837,47 @@ static const gb_fusion2_device b760m_gmg_x_wifi6e_gen5_5711_device =
 
 static const gb_fusion2_device b840_gmg_x_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x112001DF,
     0,
     "B840 GAMING X WIFI6E",
 };
 
+static const gb_fusion2_device b840m_d3hp_5711_device =
+{
+    &it5711_5_device,
+    0x1040005F,
+    0,
+    "B840M D3HP",
+};
+
+static const gb_fusion2_device b840m_d3hp_wifi6e_5711_device =
+{
+    &it5711_5_device,
+    0x1040005F,
+    0,
+    "B840M D3HP WIFI6E",
+};
+
+static const gb_fusion2_device b840m_force_wifi6e_5711_device =
+{
+    &it5711_5_device,
+    0x1040005F,
+    0,
+    "B840M FORCE WIFI6E",
+};
+
+static const gb_fusion2_device b840m_gmg_plus_wifi6e_5711_device =
+{
+    &it5711_5_device,
+    0x1040005F,
+    0,
+    "B840M GAMING PLUS WIFI6E",
+};
+
 static const gb_fusion2_device b840m_h_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x1030005F,
     0,
     "B840M H",
@@ -5532,7 +5885,7 @@ static const gb_fusion2_device b840m_h_5711_device =
 
 static const gb_fusion2_device b850_ai_top_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0930005F,
     0,
     "B850 AI TOP",
@@ -5540,7 +5893,7 @@ static const gb_fusion2_device b850_ai_top_5711_device =
 
 static const gb_fusion2_device b850_aor_stealth_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0930005F,
     0,
     "B850 AORUS STEALTH",
@@ -5548,7 +5901,7 @@ static const gb_fusion2_device b850_aor_stealth_5711_device =
 
 static const gb_fusion2_device b850_aor_stealth_ice_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0930005F,
     0,
     "B850 AORUS STEALTH ICE",
@@ -5556,7 +5909,7 @@ static const gb_fusion2_device b850_aor_stealth_ice_5711_device =
 
 static const gb_fusion2_device b850_eagle_ice_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0930005F,
     0,
     "B850 EAGLE ICE",
@@ -5564,7 +5917,7 @@ static const gb_fusion2_device b850_eagle_ice_5711_device =
 
 static const gb_fusion2_device b850_eagle_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0930005F,
     0,
     "B850 EAGLE WIFI6E",
@@ -5572,7 +5925,7 @@ static const gb_fusion2_device b850_eagle_wifi6e_5711_device =
 
 static const gb_fusion2_device b850_eagle_wifi7_ice_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0930005F,
     0,
     "B850 EAGLE WIFI7 ICE",
@@ -5580,7 +5933,7 @@ static const gb_fusion2_device b850_eagle_wifi7_ice_5711_device =
 
 static const gb_fusion2_device b850_gmg_wifi6_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0930005F,
     0,
     "B850 GAMING WIFI6",
@@ -5588,7 +5941,7 @@ static const gb_fusion2_device b850_gmg_wifi6_5711_device =
 
 static const gb_fusion2_device b850m_c_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0830005F,
     0,
     "B850M C",
@@ -5596,7 +5949,7 @@ static const gb_fusion2_device b850m_c_5711_device =
 
 static const gb_fusion2_device b850m_ds3h_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0830005F,
     0,
     "B850M DS3H",
@@ -5604,7 +5957,7 @@ static const gb_fusion2_device b850m_ds3h_5711_device =
 
 static const gb_fusion2_device b850m_ds3h_ice_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0830005F,
     0,
     "B850M DS3H ICE",
@@ -5612,7 +5965,7 @@ static const gb_fusion2_device b850m_ds3h_ice_5711_device =
 
 static const gb_fusion2_device b850m_eagle_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0830005F,
     0,
     "B850M EAGLE WIFI6E",
@@ -5620,15 +5973,23 @@ static const gb_fusion2_device b850m_eagle_wifi6e_5711_device =
 
 static const gb_fusion2_device b850m_eagle_wifi6e_ice_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0830005F,
     0,
     "B850M EAGLE WIFI6E ICE",
 };
 
+static const gb_fusion2_device b850m_eagle_wifi7_5711_device =
+{
+    &it5711_5_device,
+    0x0830005F,
+    0,
+    "B850M EAGLE WIFI7",
+};
+
 static const gb_fusion2_device b850m_force_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0830005F,
     0,
     "B850M FORCE",
@@ -5636,7 +5997,7 @@ static const gb_fusion2_device b850m_force_5711_device =
 
 static const gb_fusion2_device b850m_force_v2_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0830005F,
     0,
     "B850M FORCE V2",
@@ -5644,7 +6005,7 @@ static const gb_fusion2_device b850m_force_v2_5711_device =
 
 static const gb_fusion2_device b850m_force_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0830005F,
     0,
     "B850M FORCE WIFI6E",
@@ -5652,7 +6013,7 @@ static const gb_fusion2_device b850m_force_wifi6e_5711_device =
 
 static const gb_fusion2_device b850m_force_wifi6e_v2_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0830005F,
     0,
     "B850M FORCE WIFI6E V2",
@@ -5660,7 +6021,7 @@ static const gb_fusion2_device b850m_force_wifi6e_v2_5711_device =
 
 static const gb_fusion2_device b860_ds3h_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0940005F,
     0,
     "B860 DS3H",
@@ -5668,7 +6029,7 @@ static const gb_fusion2_device b860_ds3h_5711_device =
 
 static const gb_fusion2_device b860_ds3h_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0940005F,
     0,
     "B860 DS3H WIFI6E",
@@ -5676,7 +6037,7 @@ static const gb_fusion2_device b860_ds3h_wifi6e_5711_device =
 
 static const gb_fusion2_device b860m_gmg_x_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0840005F,
     0,
     "B860M GAMING X",
@@ -5684,7 +6045,7 @@ static const gb_fusion2_device b860m_gmg_x_5711_device =
 
 static const gb_fusion2_device b860m_gmg_x_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0840005F,
     0,
     "B860M GAMING X WIFI6E",
@@ -5692,7 +6053,7 @@ static const gb_fusion2_device b860m_gmg_x_wifi6e_5711_device =
 
 static const gb_fusion2_device x870_aor_tachyon_ice_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0230005F,
     0,
     "X870 AORUS TACHYON ICE",
@@ -5700,7 +6061,7 @@ static const gb_fusion2_device x870_aor_tachyon_ice_5711_device =
 
 static const gb_fusion2_device x870_gaming_wifi6_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0230005F,
     0,
     "X870 GAMING WIFI6",
@@ -5708,7 +6069,7 @@ static const gb_fusion2_device x870_gaming_wifi6_5711_device =
 
 static const gb_fusion2_device trx50_ai_top_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x3910005F,
     0,
     "TRX50 AI TOP",
@@ -5716,7 +6077,7 @@ static const gb_fusion2_device trx50_ai_top_5711_device =
 
 static const gb_fusion2_device w790_ai_top_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x2210005F,
     0,
     "W790 AI TOP",
@@ -5724,7 +6085,7 @@ static const gb_fusion2_device w790_ai_top_5711_device =
 
 static const gb_fusion2_device w880_ai_top_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x1110005F,
     0,
     "W880 AI TOP",
@@ -5732,7 +6093,7 @@ static const gb_fusion2_device w880_ai_top_5711_device =
 
 static const gb_fusion2_device z890_aero_d_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0110005F,
     0,
     "Z890 AERO D",
@@ -5740,7 +6101,7 @@ static const gb_fusion2_device z890_aero_d_5711_device =
 
 static const gb_fusion2_device z890_aero_g_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0110005F,
     0,
     "Z890 AERO G",
@@ -5748,23 +6109,39 @@ static const gb_fusion2_device z890_aero_g_5711_device =
 
 static const gb_fusion2_device z890_ai_top_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0110005F,
     0,
     "Z890 AI TOP",
 };
 
+static const gb_fusion2_device z890_aor_tachyon_duo_x_ice_5711_device =
+{
+    &it5711_5_device,
+    0x0210005F,
+    0,
+    "Z890 AORUS TACHYON DUO X ICE",
+};
+
 static const gb_fusion2_device z890_aor_tachyon_ice_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0210005F,
     0,
     "Z890 AORUS TACHYON ICE",
 };
 
+static const gb_fusion2_device z890_d_plus_5711_device =
+{
+    &it5711_5_device,
+    0x0110005F,
+    0,
+    "Z890 D PLUS",
+};
+
 static const gb_fusion2_device z890_ud_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0110005F,
     0,
     "Z890 UD",
@@ -5772,21 +6149,29 @@ static const gb_fusion2_device z890_ud_5711_device =
 
 static const gb_fusion2_device z890_ud_wifi6e_5711_device =
 {
-    &it5711_64_device,
+    &it5711_5_device,
     0x0110005F,
     0,
     "Z890 UD WIFI6E",
 };
 
+static const gb_fusion2_device z890m_force_duo_x_wifi7_5711_device =
+{
+    &it5711_5_device,
+    0x0010005F,
+    0,
+    "Z890M FORCE DUO X WIFI7",
+};
+
 /*-------------------------------------------------------------*\
-|  Layout 65   048D:5711                                        |
+|  Layout 6   048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 |    Zone "PCI-E Accent"                             : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_65_device =
+static gb_fusion2_layout it5711_6_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -5804,7 +6189,7 @@ static gb_fusion2_layout it5711_65_device =
 
 static const gb_fusion2_device b760m_ds3h_ddr4_gen5_5711_device =
 {
-    &it5711_65_device,
+    &it5711_6_device,
     0x2010005F,
     0,
     "B760M DS3H DDR4 GEN5",
@@ -5812,7 +6197,7 @@ static const gb_fusion2_device b760m_ds3h_ddr4_gen5_5711_device =
 
 static const gb_fusion2_device b760m_ds3h_gen5_5711_device =
 {
-    &it5711_65_device,
+    &it5711_6_device,
     0x2010005F,
     0,
     "B760M DS3H GEN5",
@@ -5820,7 +6205,7 @@ static const gb_fusion2_device b760m_ds3h_gen5_5711_device =
 
 static const gb_fusion2_device b760m_ds3h_wifi6e_ddr4_gen5_5711_device =
 {
-    &it5711_65_device,
+    &it5711_6_device,
     0x2010005F,
     0,
     "B760M DS3H WIFI6E DDR4 GEN5",
@@ -5828,7 +6213,7 @@ static const gb_fusion2_device b760m_ds3h_wifi6e_ddr4_gen5_5711_device =
 
 static const gb_fusion2_device b760m_ds3h_wifi6e_gen5_5711_device =
 {
-    &it5711_65_device,
+    &it5711_6_device,
     0x2010005F,
     0,
     "B760M DS3H WIFI6E GEN5",
@@ -5836,7 +6221,7 @@ static const gb_fusion2_device b760m_ds3h_wifi6e_gen5_5711_device =
 
 static const gb_fusion2_device b760m_gmg_ac_ddr4_gen5_5711_device =
 {
-    &it5711_65_device,
+    &it5711_6_device,
     0x2010005F,
     0,
     "B760M GAMING AC DDR4 GEN5",
@@ -5844,7 +6229,7 @@ static const gb_fusion2_device b760m_gmg_ac_ddr4_gen5_5711_device =
 
 static const gb_fusion2_device b760m_gmg_wifi6_plus_gen5_5711_device =
 {
-    &it5711_65_device,
+    &it5711_6_device,
     0x2010005F,
     0,
     "B760M GAMING WIFI6 PLUS GEN5",
@@ -5852,21 +6237,21 @@ static const gb_fusion2_device b760m_gmg_wifi6_plus_gen5_5711_device =
 
 static const gb_fusion2_device b760m_gmg_wifi6e_gen5_5711_device =
 {
-    &it5711_65_device,
+    &it5711_6_device,
     0x2010005F,
     0,
     "B760M GAMING WIFI6E GEN5",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 66   048D:5711                                        |
+|  Layout 7   048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 |    Zone "ARGB_V2_3"                                : Linear   |
 |    Zone "PCI-E Accent"                             : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_66_device =
+static gb_fusion2_layout it5711_7_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -5884,7 +6269,7 @@ static gb_fusion2_layout it5711_66_device =
 
 static const gb_fusion2_device b860m_d2h_5711_device =
 {
-    &it5711_66_device,
+    &it5711_7_device,
     0x0870005F,
     0,
     "B860M D2H",
@@ -5892,7 +6277,7 @@ static const gb_fusion2_device b860m_d2h_5711_device =
 
 static const gb_fusion2_device b860m_eagle_5711_device =
 {
-    &it5711_66_device,
+    &it5711_7_device,
     0x0870005F,
     0,
     "B860M EAGLE",
@@ -5900,7 +6285,7 @@ static const gb_fusion2_device b860m_eagle_5711_device =
 
 static const gb_fusion2_device b860m_eagle_v2_5711_device =
 {
-    &it5711_66_device,
+    &it5711_7_device,
     0x0870005F,
     0,
     "B860M EAGLE V2",
@@ -5908,7 +6293,7 @@ static const gb_fusion2_device b860m_eagle_v2_5711_device =
 
 static const gb_fusion2_device b860m_eagle_wifi6_5711_device =
 {
-    &it5711_66_device,
+    &it5711_7_device,
     0x0870005F,
     0,
     "B860M EAGLE WIFI6",
@@ -5916,7 +6301,7 @@ static const gb_fusion2_device b860m_eagle_wifi6_5711_device =
 
 static const gb_fusion2_device b860m_eagle_wifi6_v2_5711_device =
 {
-    &it5711_66_device,
+    &it5711_7_device,
     0x0870005F,
     0,
     "B860M EAGLE WIFI6 V2",
@@ -5924,7 +6309,7 @@ static const gb_fusion2_device b860m_eagle_wifi6_v2_5711_device =
 
 static const gb_fusion2_device b860m_gmg_wifi6_5711_device =
 {
-    &it5711_66_device,
+    &it5711_7_device,
     0x0870005F,
     0,
     "B860M GAMING WIFI6",
@@ -5932,14 +6317,14 @@ static const gb_fusion2_device b860m_gmg_wifi6_5711_device =
 
 static const gb_fusion2_device b860m_power_5711_device =
 {
-    &it5711_66_device,
+    &it5711_7_device,
     0x0870005F,
     0,
     "B860M POWER",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 67   048D:5711                                        |
+|  Layout 8   048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -5947,7 +6332,7 @@ static const gb_fusion2_device b860m_power_5711_device =
 |    Zone "PCI-E Accent"                             : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_67_device =
+static gb_fusion2_layout it5711_8_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -5965,7 +6350,7 @@ static gb_fusion2_layout it5711_67_device =
 
 static const gb_fusion2_device b860m_c_5711_device =
 {
-    &it5711_67_device,
+    &it5711_8_device,
     0x0850005F,
     0,
     "B860M C",
@@ -5973,7 +6358,7 @@ static const gb_fusion2_device b860m_c_5711_device =
 
 static const gb_fusion2_device b860m_ds3h_5711_device =
 {
-    &it5711_67_device,
+    &it5711_8_device,
     0x0850005F,
     0,
     "B860M DS3H",
@@ -5981,7 +6366,7 @@ static const gb_fusion2_device b860m_ds3h_5711_device =
 
 static const gb_fusion2_device b860m_ds3h_wifi6e_5711_device =
 {
-    &it5711_67_device,
+    &it5711_8_device,
     0x0850005F,
     0,
     "B860M DS3H WIFI6E",
@@ -5989,14 +6374,14 @@ static const gb_fusion2_device b860m_ds3h_wifi6e_5711_device =
 
 static const gb_fusion2_device b860m_eagle_plus_wifi6e_5711_device =
 {
-    &it5711_67_device,
+    &it5711_8_device,
     0x0850005F,
     0,
     "B860M EAGLE PLUS WIFI6E",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 68   048D:5711                                        |
+|  Layout 9   048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -6004,7 +6389,7 @@ static const gb_fusion2_device b860m_eagle_plus_wifi6e_5711_device =
 |    Zone "Chipset Accent"                           : Single   |
 |    Zone "LED_C"                                    : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_68_device =
+static gb_fusion2_layout it5711_9_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -6022,7 +6407,7 @@ static gb_fusion2_layout it5711_68_device =
 
 static const gb_fusion2_device b760m_aor_elite_ddr4_gen5_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x2030015F,
     0,
     "B760M AORUS ELITE DDR4 GEN5",
@@ -6030,7 +6415,7 @@ static const gb_fusion2_device b760m_aor_elite_ddr4_gen5_5711_device =
 
 static const gb_fusion2_device b760m_aor_elite_gen5_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x2030015F,
     0,
     "B760M AORUS ELITE GEN5",
@@ -6038,7 +6423,7 @@ static const gb_fusion2_device b760m_aor_elite_gen5_5711_device =
 
 static const gb_fusion2_device b760m_aor_elite_wifi6e_ddr4_gen5_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x2030015F,
     0,
     "B760M AORUS ELITE WIFI6E DDR4 GEN5",
@@ -6046,7 +6431,7 @@ static const gb_fusion2_device b760m_aor_elite_wifi6e_ddr4_gen5_5711_device =
 
 static const gb_fusion2_device b760m_aor_elite_wifi6e_gen5_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x2030015F,
     0,
     "B760M AORUS ELITE WIFI6E GEN5",
@@ -6054,7 +6439,7 @@ static const gb_fusion2_device b760m_aor_elite_wifi6e_gen5_5711_device =
 
 static const gb_fusion2_device b760m_gmg_x_wifi6e_ddr4_gen5_2_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x2030015F,
     0,
     "B760M GAMING X WIFI6E DDR4 GEN5",
@@ -6062,7 +6447,7 @@ static const gb_fusion2_device b760m_gmg_x_wifi6e_ddr4_gen5_2_5711_device =
 
 static const gb_fusion2_device b840m_aor_elite_wifi6e_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x102001DF,
     0,
     "B840M AORUS ELITE WIFI6E",
@@ -6070,7 +6455,7 @@ static const gb_fusion2_device b840m_aor_elite_wifi6e_5711_device =
 
 static const gb_fusion2_device b850_aor_elite_wifi7_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x094001DF,
     0,
     "B850 AORUS ELITE WIFI7",
@@ -6078,15 +6463,23 @@ static const gb_fusion2_device b850_aor_elite_wifi7_5711_device =
 
 static const gb_fusion2_device b850_aor_elite_wifi7_ice_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x094001DF,
     0,
     "B850 AORUS ELITE WIFI7 ICE",
 };
 
+static const gb_fusion2_device b850_gmg_x_wifi6e_5711_device =
+{
+    &it5711_9_device,
+    0x094001DF,
+    0,
+    "B850 GAMING X WIFI6E",
+};
+
 static const gb_fusion2_device b850m_aor_elite_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x084001DF,
     0,
     "B850M AORUS ELITE",
@@ -6094,7 +6487,7 @@ static const gb_fusion2_device b850m_aor_elite_5711_device =
 
 static const gb_fusion2_device b850m_aor_elite_wifi6e_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x084001DF,
     0,
     "B850M AORUS ELITE WIFI6E",
@@ -6102,7 +6495,7 @@ static const gb_fusion2_device b850m_aor_elite_wifi6e_5711_device =
 
 static const gb_fusion2_device b850m_aor_elite_wifi6e_ice_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x084001DF,
     0,
     "B850M AORUS ELITE WIFI6E ICE",
@@ -6110,7 +6503,7 @@ static const gb_fusion2_device b850m_aor_elite_wifi6e_ice_5711_device =
 
 static const gb_fusion2_device b850m_aor_elite_wifi6e_ice_p_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x084001DF,
     0,
     "B850M AORUS ELITE WIFI7 ICE-P",
@@ -6118,7 +6511,7 @@ static const gb_fusion2_device b850m_aor_elite_wifi6e_ice_p_5711_device =
 
 static const gb_fusion2_device b850m_gmg_x_wifi6e_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x084001DF,
     0,
     "B850M GAMING X WIFI6E",
@@ -6126,7 +6519,7 @@ static const gb_fusion2_device b850m_gmg_x_wifi6e_5711_device =
 
 static const gb_fusion2_device x870_aor_elite_wifi7_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x014001DF,
     0,
     "X870 AORUS ELITE WIFI7",
@@ -6134,7 +6527,7 @@ static const gb_fusion2_device x870_aor_elite_wifi7_5711_device =
 
 static const gb_fusion2_device x870_aor_elite_wifi7_ice_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x014001DF,
     0,
     "X870 AORUS ELITE WIFI7 ICE",
@@ -6142,7 +6535,7 @@ static const gb_fusion2_device x870_aor_elite_wifi7_ice_5711_device =
 
 static const gb_fusion2_device x870_eagle_wifi7_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x014001DF,
     0,
     "X870 EAGLE WIFI7",
@@ -6150,7 +6543,7 @@ static const gb_fusion2_device x870_eagle_wifi7_5711_device =
 
 static const gb_fusion2_device x870_gmg_x_wifi7_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x014001DF,
     0,
     "X870 GAMING X WIFI7",
@@ -6158,7 +6551,7 @@ static const gb_fusion2_device x870_gmg_x_wifi7_5711_device =
 
 static const gb_fusion2_device x870m_aor_elite_wifi7_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x004001DF,
     0,
     "X870M AORUS ELITE WIFI7",
@@ -6166,14 +6559,14 @@ static const gb_fusion2_device x870m_aor_elite_wifi7_5711_device =
 
 static const gb_fusion2_device x870m_aor_elite_wifi7_ice_5711_device =
 {
-    &it5711_68_device,
+    &it5711_9_device,
     0x004001DF,
     0,
     "X870M AORUS ELITE WIFI7 ICE",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 69   048D:5711                                        |
+|  Layout 10   048D:5711                                        |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -6181,7 +6574,7 @@ static const gb_fusion2_device x870m_aor_elite_wifi7_ice_5711_device =
 |    Zone "LED_C"                                    : Single   |
 |    Zone "Chipset Accent"                           : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_69_device =
+static gb_fusion2_layout it5711_10_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -6197,33 +6590,25 @@ static gb_fusion2_layout it5711_69_device =
     nullptr,
 };
 
+static const gb_fusion2_device x870_aor_elite_x3d_5711_device =
+{
+    &it5711_10_device,
+    0x015001DF,
+    0,
+    "X870 AORUS ELITE X3D",
+};
+
 static const gb_fusion2_device x870_aor_elite_x3d_ice_5711_device =
 {
-    &it5711_69_device,
+    &it5711_10_device,
     0x015001DF,
     0,
     "X870 AORUS ELITE X3D ICE",
 };
 
-static const gb_fusion2_device x870_aor_stealth_5711_device =
-{
-    &it5711_69_device,
-    0x015001DF,
-    0,
-    "X870 AORUS STEALTH",
-};
-
-static const gb_fusion2_device x870_aor_stealth_ice_5711_device =
-{
-    &it5711_69_device,
-    0x015001DF,
-    0,
-    "X870 AORUS STEALTH ICE",
-};
-
 static const gb_fusion2_device x870e_aor_elite_wifi7_5711_device =
 {
-    &it5711_69_device,
+    &it5711_10_device,
     0x015001DF,
     0,
     "X870E AORUS ELITE WIFI7",
@@ -6231,14 +6616,30 @@ static const gb_fusion2_device x870e_aor_elite_wifi7_5711_device =
 
 static const gb_fusion2_device x870e_aor_elite_wifi7_ice_5711_device =
 {
-    &it5711_69_device,
+    &it5711_10_device,
     0x015001DF,
     0,
     "X870E AORUS ELITE WIFI7 ICE",
 };
 
+static const gb_fusion2_device x870e_eagle_wifi7_5711_device =
+{
+    &it5711_10_device,
+    0x015001DF,
+    0,
+    "X870E EAGLE WIFI7",
+};
+
+static const gb_fusion2_device x870e_eagle_x3d_wifi7_5711_device =
+{
+    &it5711_10_device,
+    0x015001DF,
+    0,
+    "X870E EAGLE X3D WIFI7",
+};
+
 /*-------------------------------------------------------------*\
-|  Layout 70   048D:5711                                        |
+|  Layout 11   048D:5711                                        |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -6247,7 +6648,7 @@ static const gb_fusion2_device x870e_aor_elite_wifi7_ice_5711_device =
 |    Zone "IO Cover"                                 : Single   |
 |    Zone "Chipset Accent"                           : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_70_device =
+static gb_fusion2_layout it5711_11_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -6265,15 +6666,39 @@ static gb_fusion2_layout it5711_70_device =
 
 static const gb_fusion2_device b650e_aor_stealth_ice_5711_device =
 {
-    &it5711_70_device,
+    &it5711_11_device,
     0x311001DF,
     0,
     "B650E AORUS STEALTH ICE",
 };
 
+static const gb_fusion2_device b850_aor_elite_p_ice_5711_device =
+{
+    &it5711_11_device,
+    0x096001DF,
+    0,
+    "B850 AORUS ELITE-P ICE",
+};
+
+static const gb_fusion2_device b850_aor_elite_x3d_5711_device =
+{
+    &it5711_11_device,
+    0x096001DF,
+    0,
+    "B850 AORUS ELITE X3D",
+};
+
+static const gb_fusion2_device x870e_aero_x3d_drk_wood_5711_device =
+{
+    &it5711_11_device,
+    0x016001DF,
+    0,
+    "X870E AERO X3D DARK WOOD",
+};
+
 static const gb_fusion2_device x870e_aero_x3d_wood_5711_device =
 {
-    &it5711_70_device,
+    &it5711_11_device,
     0x016001DF,
     0,
     "X870E AERO X3D WOOD",
@@ -6281,7 +6706,7 @@ static const gb_fusion2_device x870e_aero_x3d_wood_5711_device =
 
 static const gb_fusion2_device x870e_aor_elite_x3d_5711_device =
 {
-    &it5711_70_device,
+    &it5711_11_device,
     0x016001DF,
     0,
     "X870E AORUS ELITE X3D",
@@ -6289,7 +6714,7 @@ static const gb_fusion2_device x870e_aor_elite_x3d_5711_device =
 
 static const gb_fusion2_device x870e_aor_elite_x3d_ice_5711_device =
 {
-    &it5711_70_device,
+    &it5711_11_device,
     0x016001DF,
     0,
     "X870E AORUS ELITE X3D ICE",
@@ -6297,7 +6722,7 @@ static const gb_fusion2_device x870e_aor_elite_x3d_ice_5711_device =
 
 static const gb_fusion2_device x870e_aor_pro_5711_device =
 {
-    &it5711_70_device,
+    &it5711_11_device,
     0x016001DF,
     0,
     "X870E AORUS PRO",
@@ -6305,7 +6730,7 @@ static const gb_fusion2_device x870e_aor_pro_5711_device =
 
 static const gb_fusion2_device x870e_aor_pro_ice_5711_device =
 {
-    &it5711_70_device,
+    &it5711_11_device,
     0x016001DF,
     0,
     "X870E AORUS PRO ICE",
@@ -6313,7 +6738,7 @@ static const gb_fusion2_device x870e_aor_pro_ice_5711_device =
 
 static const gb_fusion2_device x870e_aor_pro_x3d_5711_device =
 {
-    &it5711_70_device,
+    &it5711_11_device,
     0x016001DF,
     0,
     "X870E AORUS PRO X3D",
@@ -6321,14 +6746,14 @@ static const gb_fusion2_device x870e_aor_pro_x3d_5711_device =
 
 static const gb_fusion2_device x870e_aor_pro_x3d_ice_5711_device =
 {
-    &it5711_70_device,
+    &it5711_11_device,
     0x016001DF,
     0,
     "X870E AORUS PRO X3D ICE",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 71   048D:5711                                        |
+|  Layout 12  048D:5711                                         |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -6337,7 +6762,7 @@ static const gb_fusion2_device x870e_aor_pro_x3d_ice_5711_device =
 |    Zone "LED_C"                                    : Single   |
 |    Zone "IO Cover"                                 : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_71_device =
+static gb_fusion2_layout it5711_12_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -6355,7 +6780,7 @@ static gb_fusion2_layout it5711_71_device =
 
 static const gb_fusion2_device b850m_aor_pro_wifi7_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x085001DF,
     0,
     "B850M AORUS PRO WIFI7",
@@ -6363,7 +6788,7 @@ static const gb_fusion2_device b850m_aor_pro_wifi7_5711_device =
 
 static const gb_fusion2_device b860_aor_elite_wifi7_ice_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x096001DF,
     0,
     "B860 AORUS ELITE WIFI7 ICE",
@@ -6371,7 +6796,7 @@ static const gb_fusion2_device b860_aor_elite_wifi7_ice_5711_device =
 
 static const gb_fusion2_device b860_eagle_wifi6e_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x096001DF,
     0,
     "B860 EAGLE WIFI6E",
@@ -6379,7 +6804,7 @@ static const gb_fusion2_device b860_eagle_wifi6e_5711_device =
 
 static const gb_fusion2_device b860_gmg_x_wifi6e_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x096001DF,
     0,
     "B860 GAMING X WIFI6E",
@@ -6387,7 +6812,7 @@ static const gb_fusion2_device b860_gmg_x_wifi6e_5711_device =
 
 static const gb_fusion2_device b860m_aor_elite_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x086001DF,
     0,
     "B860M AORUS ELITE",
@@ -6395,7 +6820,7 @@ static const gb_fusion2_device b860m_aor_elite_5711_device =
 
 static const gb_fusion2_device b860m_aor_elite_wifi6e_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x086001DF,
     0,
     "B860M AORUS ELITE WIFI6E",
@@ -6403,7 +6828,7 @@ static const gb_fusion2_device b860m_aor_elite_wifi6e_5711_device =
 
 static const gb_fusion2_device b860m_aor_elite_wifi6e_ice_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x086001DF,
     0,
     "B860M AORUS ELITE WIFI6E ICE",
@@ -6411,15 +6836,23 @@ static const gb_fusion2_device b860m_aor_elite_wifi6e_ice_5711_device =
 
 static const gb_fusion2_device b860m_aor_pro_wifi7_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x086001DF,
     0,
     "B860M AORUS PRO WIFI7",
 };
 
+static const gb_fusion2_device z890_aor_elite_duo_x_5711_device =
+{
+    &it5711_12_device,
+    0x013001DF,
+    0,
+    "Z890 AORUS ELITE DUO X",
+};
+
 static const gb_fusion2_device z890_aor_elite_wifi7_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x013001DF,
     0,
     "Z890 AORUS ELITE WIFI7",
@@ -6427,15 +6860,23 @@ static const gb_fusion2_device z890_aor_elite_wifi7_5711_device =
 
 static const gb_fusion2_device z890_aor_elite_wifi7_ice_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x013001DF,
     0,
     "Z890 AORUS ELITE WIFI7 ICE",
 };
 
+static const gb_fusion2_device z890_aor_elite_wifi7_plus_5711_device =
+{
+    &it5711_12_device,
+    0x013001DF,
+    0,
+    "Z890 AORUS ELITE WIFI7 PLUS",
+};
+
 static const gb_fusion2_device z890_aor_elite_x_ice_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x013001DF,
     0,
     "Z890 AORUS ELITE X ICE",
@@ -6443,15 +6884,31 @@ static const gb_fusion2_device z890_aor_elite_x_ice_5711_device =
 
 static const gb_fusion2_device z890_aor_pro_ice_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x013001DF,
     0,
     "Z890 AORUS PRO ICE",
 };
 
+static const gb_fusion2_device z890_eagle_plus_5711_device =
+{
+    &it5711_12_device,
+    0x013001DF,
+    0,
+    "Z890 EAGLE PLUS",
+};
+
+static const gb_fusion2_device z890_eagle_wifi7_plus_5711_device =
+{
+    &it5711_12_device,
+    0x013001DF,
+    0,
+    "Z890 EAGLE WIFI7 PLUS",
+};
+
 static const gb_fusion2_device z890m_aor_elite_wifi7_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x003001DF,
     0,
     "Z890M AORUS ELITE WIFI7",
@@ -6459,14 +6916,14 @@ static const gb_fusion2_device z890m_aor_elite_wifi7_5711_device =
 
 static const gb_fusion2_device z890m_aor_elite_wifi7_ice_5711_device =
 {
-    &it5711_71_device,
+    &it5711_12_device,
     0x003001DF,
     0,
     "Z890M AORUS ELITE WIFI7 ICE",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 72   048D:5711                                        |
+|  Layout 13   048D:5711                                        |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -6476,7 +6933,7 @@ static const gb_fusion2_device z890m_aor_elite_wifi7_ice_5711_device =
 |    Zone "IO Cover"                                 : Single   |
 |    Zone "Chipset Accent"                           : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_72_device =
+static gb_fusion2_layout it5711_13_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -6494,7 +6951,7 @@ static gb_fusion2_layout it5711_72_device =
 
 static const gb_fusion2_device x870e_aor_mstr_5711_device =
 {
-    &it5711_72_device,
+    &it5711_13_device,
     0x017001DF,
     0,
     "X870E AORUS MASTER",
@@ -6502,7 +6959,7 @@ static const gb_fusion2_device x870e_aor_mstr_5711_device =
 
 static const gb_fusion2_device x870e_aor_mstr_x3d_5711_device =
 {
-    &it5711_72_device,
+    &it5711_13_device,
     0x017001DF,
     0,
     "X870E AORUS MASTER X3D",
@@ -6510,7 +6967,7 @@ static const gb_fusion2_device x870e_aor_mstr_x3d_5711_device =
 
 static const gb_fusion2_device x870e_aor_mstr_x3d_ice_5711_device =
 {
-    &it5711_72_device,
+    &it5711_13_device,
     0x017001DF,
     0,
     "X870E AORUS MASTER X3D ICE",
@@ -6518,14 +6975,14 @@ static const gb_fusion2_device x870e_aor_mstr_x3d_ice_5711_device =
 
 static const gb_fusion2_device z890_aor_mstr_ai_top_5711_device =
 {
-    &it5711_72_device,
+    &it5711_13_device,
     0x026001DF,
     0,
     "Z890 AORUS MASTER AI TOP",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 73   048D:5711                                        |
+|  Layout 14   048D:5711                                        |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -6536,7 +6993,7 @@ static const gb_fusion2_device z890_aor_mstr_ai_top_5711_device =
 |    Zone "IO Cover"                                 : Single   |
 |    Zone "Chipset Accent"                           : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_73_device =
+static gb_fusion2_layout it5711_14_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -6554,14 +7011,14 @@ static gb_fusion2_layout it5711_73_device =
 
 static const gb_fusion2_device x870e_aor_xtrm_ai_top_5711_device =
 {
-    &it5711_73_device,
+    &it5711_14_device,
     0x028001DF,
     0,
     "X870E AORUS XTREME AI TOP",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 74   048D:5711                                        |
+|  Layout 15   048D:5711                                        |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -6571,7 +7028,7 @@ static const gb_fusion2_device x870e_aor_xtrm_ai_top_5711_device =
 |    Zone "LED_C"                                    : Single   |
 |    Zone "IO Cover"                                 : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_74_device =
+static gb_fusion2_layout it5711_15_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -6589,7 +7046,7 @@ static gb_fusion2_layout it5711_74_device =
 
 static const gb_fusion2_device z890_eagle_5711_device =
 {
-    &it5711_74_device,
+    &it5711_15_device,
     0x014001DF,
     0,
     "Z890 EAGLE",
@@ -6597,7 +7054,7 @@ static const gb_fusion2_device z890_eagle_5711_device =
 
 static const gb_fusion2_device z890_eagle_wifi7_5711_device =
 {
-    &it5711_74_device,
+    &it5711_15_device,
     0x014001DF,
     0,
     "Z890 EAGLE WIFI7",
@@ -6605,14 +7062,14 @@ static const gb_fusion2_device z890_eagle_wifi7_5711_device =
 
 static const gb_fusion2_device z890_gmg_x_wifi7_5711_device =
 {
-    &it5711_74_device,
+    &it5711_15_device,
     0x014001DF,
     0,
     "Z890 GAMING X WIFI7",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 75   048D:5711                                        |
+|  Layout 16   048D:5711                                        |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -6621,7 +7078,7 @@ static const gb_fusion2_device z890_gmg_x_wifi7_5711_device =
 |    Zone "LED_C"                                    : Single   |
 |    Zone "WIFI Antenna"                             : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_75_device =
+static gb_fusion2_layout it5711_16_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -6639,14 +7096,14 @@ static gb_fusion2_layout it5711_75_device =
 
 static const gb_fusion2_device x870e_aor_xtrm_x3d_ai_top_5711_device =
 {
-    &it5711_75_device,
+    &it5711_16_device,
     0x029001DF,
     0,
     "X870E AORUS XTREME X3D AI TOP",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 76   048D:5711                                        |
+|  Layout 17   048D:5711                                        |
 |                                                               |
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
@@ -6656,7 +7113,7 @@ static const gb_fusion2_device x870e_aor_xtrm_x3d_ai_top_5711_device =
 |    Zone "IO Cover"                                 : Single   |
 |    Zone "WIFI Antenna"                             : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_76_device =
+static gb_fusion2_layout it5711_17_device =
 {
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
@@ -6674,20 +7131,20 @@ static gb_fusion2_layout it5711_76_device =
 
 static const gb_fusion2_device z890_aor_xtrm_ai_top_5711_device =
 {
-    &it5711_76_device,
+    &it5711_17_device,
     0x027001DF,
     0,
     "Z890 AORUS XTREME AI TOP",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 77   048D:5711                                        |
+|  Layout 18   048D:5711                                        |
 |                                                               |
-|    Zone "Chipset Accent"                           : Single   |
-|    Zone "RAM Cover"                                : Single   |
-|    Zone "SSD Cover"                                : Single   |
+|    Zone "Chipset Accent"                           : Linear   |
+|    Zone "RAM Cover"                                : Linear   |
+|    Zone "SSD Cover"                                : Linear   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_77_device =
+static gb_fusion2_layout it5711_18_device =
 {
     &common_chip_acc_6_zone,
     &common_ram_cov_7_zone,
@@ -6705,20 +7162,20 @@ static gb_fusion2_layout it5711_77_device =
 
 static const gb_fusion2_device x870e_aor_xtrm_ai_x3d_top_5711_device =
 {
-    &it5711_77_device,
+    &it5711_18_device,
     0x029001DF,
     1,
     "X870E AORUS XTREME X3D AI TOP",
 };
 
 /*-------------------------------------------------------------*\
-|  Layout 78   048D:5711                                        |
+|  Layout 19   048D:5711                                        |
 |                                                               |
 |    Zone "Chipset Accent"                           : Single   |
 |    Zone "SSD Cover"                                : Single   |
 |    Zone "RAM Cover"                                : Single   |
 \*-------------------------------------------------------------*/
-static gb_fusion2_layout it5711_78_device =
+static gb_fusion2_layout it5711_19_device =
 {
     &common_chip_acc_6_zone,
     &common_ssd_cov_7_zone,
@@ -6736,10 +7193,92 @@ static gb_fusion2_layout it5711_78_device =
 
 static const gb_fusion2_device z890_aor_xtrm_ai_top_2_5711_device =
 {
-    &it5711_78_device,
+    &it5711_19_device,
     0x027001DF,
     1,
     "Z890 AORUS XTREME AI TOP",
+};
+
+/*-------------------------------------------------------------*\
+|  Layout 20   048D:5711                                        |
+|                                                               |
+|    Zone "ARGB_V2_1"                                : Linear   |
+|    Zone "ARGB_V2_2"                                : Linear   |
+|    Zone "ARGB_V2_3"                                : Linear   |
+|    Zone "LED_C"                                    : Single   |
+|    Zone "# Teamp Up, Fight On Logo"                : Single   |
+\*-------------------------------------------------------------*/
+static gb_fusion2_layout it5711_20_device =
+{
+    &common_argb_v2_1_zone,
+    &common_argb_v2_2_zone,
+    &common_argb_v2_3_zone,
+    &common_led_c_5_zone,
+    &common_team_up_logo_11_zone,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+};
+
+static const gb_fusion2_device x870_aor_stealth_5711_device =
+{
+    &it5711_20_device,
+    0x015001DF,
+    0,
+    "X870 AORUS STEALTH",
+};
+
+static const gb_fusion2_device x870_aor_stealth_ice_5711_device =
+{
+    &it5711_20_device,
+    0x015001DF,
+    0,
+    "X870 AORUS STEALTH ICE",
+};
+
+/*-------------------------------------------------------------*\
+|  Layout 21   048D:5711                                        |
+|                                                               |
+|    Zone "ARGB_V2_1"                                : Linear   |
+|    Zone "ARGB_V2_2"                                : Linear   |
+|    Zone "ARGB_V2_3"                                : Linear   |
+|    Zone "LED_C"                                    : Single   |
+|    Zone "RAM Accent"                               : Single   |
+\*-------------------------------------------------------------*/
+static gb_fusion2_layout it5711_21_device =
+{
+    &common_argb_v2_1_zone,
+    &common_argb_v2_2_zone,
+    &common_argb_v2_3_zone,
+    &common_led_c_5_zone,
+    &common_ram_accent_11_zone,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+};
+
+static const gb_fusion2_device b850m_aor_stealth_5711_device =
+{
+    &it5711_21_device,
+    0x087001DF,
+    0,
+    "B850M AORUS STEALTH",
+};
+
+static const gb_fusion2_device b850m_aor_stealth_ice_5711_device =
+{
+    &it5711_21_device,
+    0x087001DF,
+    0,
+    "B850M AORUS STEALTH ICE",
 };
 
 /*-------------------------------------------------------------------------*\
@@ -6751,8 +7290,11 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
 |  Generic Layout (Used when no match found)                                |
 \*-------------------------------------------------------------------------*/
     &generic_it8297_device,
+    &generic_it8297_2_device,
     &generic_it8950_device,
     &generic_it5711_device,
+    &generic_it5711_2_device,
+    &generic_gc_usb_device,
 
 /*-----------------------------------------------------------------*\
 |  IT8297 Devices                                                   |
@@ -6768,9 +7310,12 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &x570_aor_elite_wifi_device,
     &x570_aor_mstr_device,
     &x570_aor_pro_device,
+    &x570_aor_pro_wifi_device,
     &x570_aor_ultra_device,
     &x570_aor_xtrm_device,
+    &x570_gmg_x_device,
     &x570_i_aor_pro_wifi_device,
+    &z390_aor_elite_device,
     &z390_aor_mstr_device,
     &z390_aor_mstr_g2_device,
     &z390_aor_pro_device,
@@ -6786,7 +7331,9 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
 \*-----------------------------------------------------------------*/
     &h810m_gmg_wifi6_device,
     &h810m_h_device,
+    &h810m_h_gen5_device,
     &h810m_s2h_device,
+    &h810m_s2h_gen5_device,
 
 /*-----------------------------------------------------------------*\
 |  IT8950 + Super I/O Hybrid Devices                                |
@@ -6794,8 +7341,11 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &b860m_d_device,
     &b860m_d3hp_device,
     &b860m_e_device,
+    &b860m_e_gen5_device,
     &b860m_h_device,
     &b860m_k_device,
+    &b860m_k_gen5_device,
+    &h810m_d2hx_si_gen5_device,
     &z890m_gmg_x_device,
 
 /*-----------------------------------------------------------------*\
@@ -6803,18 +7353,19 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
 \*-----------------------------------------------------------------*/
     &a520_aor_elite_device,
     &a520i_ac_device,
-    &a520m_ds3h_ac_device,
+    &a520m_aor_elite_device,
     &a520m_ds3h_device,
+    &a520m_ds3h_ac_device,
     &a520m_h_device,
     &a520m_s2h_device,
     &a620i_ax_device,
     &a620m_c_device,
     &a620m_ds3h_device,
     &a620m_ds3h_2_device,
-    &a620m_gmg_x_ax_device,
-    &a620m_gmg_x_ax_2_device,
     &a620m_gmg_x_device,
     &a620m_gmg_x_2_device,
+    &a620m_gmg_x_ax_device,
+    &a620m_gmg_x_ax_2_device,
     &a620m_h_device,
     &a620m_h_2_device,
     &a620m_s2h_device,
@@ -6826,15 +7377,15 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &b460m_aor_pro_device,
     &b460m_ds3h_ac_device,
     &b460m_ds3h_v2_device,
+    &b550_aor_elite_device,
     &b550_aor_elite_ax_device,
     &b550_aor_elite_ax_v2_device,
     &b550_aor_elite_ax_v3_device,
-    &b550_aor_elite_device,
     &b550_aor_elite_v2_device,
     &b550_aor_mstr_device,
+    &b550_aor_pro_device,
     &b550_aor_pro_ac_device,
     &b550_aor_pro_ax_device,
-    &b550_aor_pro_device,
     &b550_aor_pro_v2_device,
     &b550_eagle_device,
     &b550_eagle_wifi6_device,
@@ -6843,71 +7394,73 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &b550_vision_d_device,
     &b550_vision_dp_device,
     &b550i_aor_pro_ax_device,
-    &b550m_aor_elite_ax_device,
     &b550m_aor_elite_device,
-    &b550m_aor_pro_ax_device,
+    &b550m_aor_elite_ax_device,
     &b550m_aor_pro_device,
+    &b550m_aor_pro_ax_device,
     &b550m_aor_pro_p_device,
+    &b550m_ds3h_device,
     &b550m_ds3h_ac_device,
     &b550m_ds3h_ac_r2_device,
-    &b550m_ds3h_device,
     &b550m_ds3h_r2_device,
     &b550m_gmg_device,
     &b550m_gmg_x_wifi6_device,
     &b550m_h_device,
     &b550m_s2h_device,
+    &b560_aor_pro_ax_device,
+    &b560_ds3h_ac_device,
     &b560_hd3_device,
     &b560i_aor_pro_ax_device,
     &b560m_aor_elite_device,
-    &b560m_aor_pro_ax_device,
     &b560m_aor_pro_device,
+    &b560m_aor_pro_ax_device,
     &b560m_d2v_device,
     &b560m_d3h_device,
-    &b560m_ds3h_ac_device,
     &b560m_ds3h_device,
+    &b560m_ds3h_ac_device,
     &b560m_ds3h_plus_device,
     &b560m_gmg_hd_device,
     &b560m_h_device,
     &b560m_pwr_device,
     &b650_aero_g_device,
+    &b650_aor_elite_device,
     &b650_aor_elite_ax_device,
     &b650_aor_elite_ax_ice_device,
     &b650_aor_elite_ax_v2_device,
-    &b650_aor_elite_device,
     &b650_aor_elite_v2_device,
     &b650_aor_elite_x_ax_ice_device,
     &b650_aor_pro_ax_device,
-    &b650_eagle_ax_device,
     &b650_eagle_device,
+    &b650_eagle_ax_device,
+    &b650_gmg_x_device,
     &b650_gmg_x_ax_device,
     &b650_gmg_x_ax_v2_device,
-    &b650_gmg_x_device,
     &b650_ud_ac_device,
     &b650_ud_ax_device,
     &b650e_aor_mstr_device,
     &b650e_aor_pro_x_usb4_device,
-    &b650e_tachyon_device,
+    &b650e_aor_tachyon_device,
     &b650i_aor_ultra_device,
     &b650i_ax_device,
+    &b650m_aor_elite_device,
     &b650m_aor_elite_ax_device,
     &b650m_aor_elite_ax_ice_device,
-    &b650m_aor_elite_device,
     &b650m_aor_pro_ax_device,
     &b650m_c_device,
     &b650m_c_v2_device,
     &b650m_c_v3_device,
-    &b650m_d2h_ddr4_device,
     &b650m_d2h_device,
+    &b650m_d2h_ddr4_device,
     &b650m_d2hp_device,
     &b650m_d3h_ddr4_device,
-    &b650m_d3hp_ax_device,
     &b650m_d3hp_device,
-    &b650m_ds3h_ax_ddr4_device,
-    &b650m_ds3h_ddr4_device,
+    &b650m_d3hp_ax_device,
     &b650m_ds3h_device,
     &b650m_ds3h_2_device,
-    &b650m_gmg_ac_ddr4_device,
+    &b650m_ds3h_ax_ddr4_device,
+    &b650m_ds3h_ddr4_device,
     &b650m_gmg_ac_device,
+    &b650m_gmg_ac_ddr4_device,
     &b650m_gmg_ddr4_device,
     &b650m_gmg_plus_wifi_device,
     &b650m_gmg_wifi_device,
@@ -6921,86 +7474,87 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &b650m_s2h_device,
     &b660_aor_elite_ax_ddr4_device,
     &b660_aor_elite_ddr4_device,
-    &b660_aor_mstr_ddr4_device,
     &b660_aor_mstr_device,
-    &b660_ds3h_ac_ddr4_device,
+    &b660_aor_mstr_ddr4_device,
     &b660_ds3h_ac_device,
+    &b660_ds3h_ac_ddr4_device,
     &b660_ds3h_ax_ddr4_device,
     &b660_ds3h_ddr4_device,
+    &b660_gmg_x_device,
     &b660_gmg_x_ax_ddr4_device,
     &b660_gmg_x_ddr4_device,
-    &b660_gmg_x_device,
     &b660i_aor_pro_ddr4_device,
     &b660m_aor_elite_ax_ddr4_device,
     &b660m_aor_elite_ddr4_device,
-    &b660m_aor_pro_ax_ddr4_device,
-    &b660m_aor_pro_ax_device,
-    &b660m_aor_pro_ddr4_device,
     &b660m_aor_pro_device,
-    &b660m_gmg_x_ax_ddr4_device,
-    &b660m_gmg_x_ax_device,
-    &b660m_gmg_x_ddr4_device,
+    &b660m_aor_pro_ax_device,
+    &b660m_aor_pro_ax_ddr4_device,
+    &b660m_aor_pro_ddr4_device,
     &b660m_gmg_x_device,
-    &b690i_aor_ultra_ddr4_device,
+    &b660m_gmg_x_ax_device,
+    &b660m_gmg_x_ax_ddr4_device,
+    &b660m_gmg_x_ddr4_device,
     &b690i_aor_ultra_device,
-    &b690i_aor_ultra_lite_ddr4_device,
+    &b690i_aor_ultra_ddr4_device,
     &b690i_aor_ultra_lite_device,
-    &b690i_aor_ultra_plus_ddr4_device,
+    &b690i_aor_ultra_lite_ddr4_device,
     &b690i_aor_ultra_plus_device,
-    &b760_aor_elite_ax_ddr4_device,
-    &b760_aor_elite_ax_device,
-    &b760_aor_elite_ddr4_device,
+    &b690i_aor_ultra_plus_ddr4_device,
     &b760_aor_elite_device,
+    &b760_aor_elite_ax_device,
+    &b760_aor_elite_ax_ddr4_device,
+    &b760_aor_elite_ddr4_device,
     &b760_aor_mstr_ddr4_device,
-    &b760_ds3h_ac_ddr4_device,
+    &b760_ds3h_device,
     &b760_ds3h_ac_device,
-    &b760_ds3h_ax_ddr4_device,
+    &b760_ds3h_ac_ddr4_device,
     &b760_ds3h_ax_device,
+    &b760_ds3h_ax_ddr4_device,
     &b760_ds3h_ax_v2_device,
     &b760_ds3h_ddr4_device,
-    &b760_ds3h_device,
-    &b760_gmg_x_ax_ddr4_device,
-    &b760_gmg_x_ax_device,
-    &b760_gmg_x_ddr4_device,
     &b760_gmg_x_device,
-    &b760i_aor_pro_ddr4_device,
+    &b760_gmg_x_ax_device,
+    &b760_gmg_x_ax_ddr4_device,
+    &b760_gmg_x_ddr4_device,
     &b760i_aor_pro_device,
-    &b760m_aor_elite_ax_ddr4_device,
-    &b760m_aor_elite_ax_device,
-    &b760m_aor_elite_ddr4_device,
+    &b760i_aor_pro_ddr4_device,
     &b760m_aor_elite_device,
+    &b760m_aor_elite_ax_device,
+    &b760m_aor_elite_ax_ddr4_device,
+    &b760m_aor_elite_ddr4_device,
     &b760m_aor_elite_x_ax_device,
-    &b760m_aor_pro_ax_ddr4_device,
-    &b760m_aor_pro_ax_device,
-    &b760m_aor_pro_ddr4_device,
     &b760m_aor_pro_device,
+    &b760m_aor_pro_ax_device,
+    &b760m_aor_pro_ax_ddr4_device,
+    &b760m_aor_pro_ddr4_device,
     &b760m_c_device,
     &b760m_c_v2_device,
-    &b760m_d2h_ddr4_device,
     &b760m_d2h_device,
-    &b760m_d3h_ddr4_device,
+    &b760m_d2h_ddr4_device,
     &b760m_d3h_device,
-    &b760m_d3hp_ddr4_device,
+    &b760m_d3h_ddr4_device,
     &b760m_d3hp_device,
+    &b760m_d3hp_ddr4_device,
     &b760m_d3hp_wifi6_device,
-    &b760m_ds3h_ax_ddr4_device,
-    &b760m_ds3h_ax_device,
-    &b760m_ds3h_ddr4_device,
     &b760m_ds3h_device,
-    &b760m_gmg_ac_ddr4_device,
-    &b760m_gmg_ac_device,
-    &b760m_gmg_ddr4_device,
+    &b760m_ds3h_ax_device,
+    &b760m_ds3h_ax_ddr4_device,
+    &b760m_ds3h_ddr4_device,
+    &b760m_g_ax_device,
     &b760m_gmg_device,
+    &b760m_gmg_ac_device,
+    &b760m_gmg_ac_ddr4_device,
+    &b760m_gmg_ddr4_device,
     &b760m_gmg_plus_wifi_ddr4_device,
     &b760m_gmg_wifi_device,
     &b760m_gmg_wifi_plus_device,
-    &b760m_gmg_x_ax_ddr4_device,
-    &b760m_gmg_x_ax_device,
-    &b760m_gmg_x_ddr4_device,
     &b760m_gmg_x_device,
+    &b760m_gmg_x_ax_device,
+    &b760m_gmg_x_ax_ddr4_device,
+    &b760m_gmg_x_ddr4_device,
     &b760m_h_v2_device,
-    &b760m_pwr_ddr4_device,
     &b760m_pwr_device,
+    &b760m_pwr_ddr4_device,
     &b790i_aor_ultra_device,
     &h470_aor_pro_ax_device,
     &h470_hd3_device,
@@ -7012,9 +7566,13 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &h610m_d3w_wifi6_device,
     &h610m_gmg_wifi_ddr4_device,
     &trx50_aero_d_device,
+    &w480_vision_d_device,
     &x570s_aero_g_device,
+    &x570s_aor_elite_device,
+    &x570s_aor_elite_ax_device,
     &x570s_aor_mstr_device,
     &x570s_aor_pro_ax_device,
+    &x570s_gmg_x_device,
     &x570si_aor_pro_ax_device,
     &x670_aor_elite_ax_device,
     &x670_aor_xtrm_2_device,
@@ -7023,39 +7581,39 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &x670e_aor_mstr_device,
     &x670e_aor_pro_x_device,
     &x670e_aor_xtrm_device,
-    &z490_aor_elite_ac_device,
     &z490_aor_elite_device,
+    &z490_aor_elite_ac_device,
     &z490_aor_mstr_device,
     &z490_aor_mstr_waterforce_device,
     &z490_aor_pro_ax_device,
     &z490_aor_ultra_device,
     &z490_aor_ultra_g2_device,
-    &z490_aor_xtrm_2_device,
     &z490_aor_xtrm_device,
-    &z490_aor_xtrm_waterforce_2_device,
+    &z490_aor_xtrm_2_device,
     &z490_aor_xtrm_waterforce_device,
-    &z490_gmg_x_ax_device,
+    &z490_aor_xtrm_waterforce_2_device,
     &z490_gmg_x_device,
-    &z490_ud_ac_device,
+    &z490_gmg_x_ax_device,
     &z490_ud_device,
+    &z490_ud_ac_device,
     &z490_vision_d_device,
     &z490_vision_g_device,
     &z490i_aor_ultra_device,
     &z490m_device,
     &z490m_gmg_x_device,
-    &z590_aor_elite_ax_device,
     &z590_aor_elite_device,
+    &z590_aor_elite_ax_device,
     &z590_aor_mstr_device,
     &z590_aor_pro_ax_device,
     &z590_aor_tachyon_device,
     &z590_aor_ultra_device,
     &z590_aor_xtrm_device,
-    &z590_aor_xtrm_waterforce_2_device,
     &z590_aor_xtrm_waterforce_device,
+    &z590_aor_xtrm_waterforce_2_device,
     &z590_d_device,
     &z590_gmg_x_device,
-    &z590_ud_ac_device,
     &z590_ud_device,
+    &z590_ud_ac_device,
     &z590_vision_d_device,
     &z590_vision_g_device,
     &z590i_aor_ultra_device,
@@ -7063,77 +7621,78 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &z590m_device,
     &z590m_gmg_x_device,
     &z690_aero_d_device,
-    &z690_aero_g_ddr4_device,
     &z690_aero_g_device,
-    &z690_aor_elite_ax_ddr4_device,
-    &z690_aor_elite_ax_ddr4_v2_device,
+    &z690_aero_g_ddr4_device,
+    &z690_aor_elite_device,
     &z690_aor_elite_ax_device,
     &z690_aor_elite_ax_2_device,
+    &z690_aor_elite_ax_ddr4_device,
+    &z690_aor_elite_ax_ddr4_v2_device,
     &z690_aor_elite_ddr4_device,
-    &z690_aor_elite_device,
     &z690_aor_mstr_device,
-    &z690_aor_pro_ddr4_device,
     &z690_aor_pro_device,
+    &z690_aor_pro_ddr4_device,
     &z690_aor_tachyon_device,
     &z690_aor_ultra_device,
-    &z690_aor_xtrm_2_device,
     &z690_aor_xtrm_device,
-    &z690_aor_xtrm_waterforce_2_device,
+    &z690_aor_xtrm_2_device,
     &z690_aor_xtrm_waterforce_device,
+    &z690_aor_xtrm_waterforce_2_device,
+    &z690_gmg_x_device,
     &z690_gmg_x_ddr4_device,
     &z690_gmg_x_ddr4_v2_device,
-    &z690_gmg_x_device,
+    &z690_ud_device,
     &z690_ud_ac_device,
+    &z690_ud_ax_device,
     &z690_ud_ax_ddr4_device,
     &z690_ud_ax_ddr4_v2_device,
-    &z690_ud_ax_device,
     &z690_ud_ax_v2_device,
     &z690_ud_ddr4_device,
     &z690_ud_ddr4_v2_device,
-    &z690_ud_device,
     &z690m_aor_elite_ax_ddr4_device,
+    &z690m_aor_elite_ddr4_device,
     &z690m_ds3h_ddr4_device,
     &z790_aero_g_device,
-    &z790_aor_elite_ax_ddr4_device,
+    &z790_aor_elite_device,
     &z790_aor_elite_ax_device,
+    &z790_aor_elite_ax_ddr4_device,
     &z790_aor_elite_ax_ice_device,
     &z790_aor_elite_ax_w_device,
     &z790_aor_elite_ddr4_device,
-    &z790_aor_elite_device,
-    &z790_aor_elite_x_ax_device,
     &z790_aor_elite_x_device,
+    &z790_aor_elite_x_ax_device,
     &z790_aor_elite_x_wifi7_device,
-    &z790_aor_mstr_2_device,
     &z790_aor_mstr_device,
-    &z790_aor_mstr_x_2_device,
+    &z790_aor_mstr_2_device,
     &z790_aor_mstr_x_device,
+    &z790_aor_mstr_x_2_device,
     &z790_aor_pro_x_device,
     &z790_aor_pro_x_wifi7_device,
     &z790_aor_tachyon_device,
     &z790_aor_tachyon_x_device,
     &z790_aor_xtreme_x_device,
-    &z790_aor_xtrm_2_device,
+    &z790_aor_xtreme_x_ice_device,
     &z790_aor_xtrm_device,
+    &z790_aor_xtrm_2_device,
     &z790_aor_xtrm_x_2_device,
+    &z790_d_device,
     &z790_d_ac_device,
     &z790_d_ax_device,
     &z790_d_ddr4_device,
-    &z790_d_device,
     &z790_d_wifi_device,
-    &z790_eagle_ax_device,
     &z790_eagle_device,
+    &z790_eagle_ax_device,
     &z790_gmg_plus_ax_device,
-    &z790_gmg_x_ax_device,
     &z790_gmg_x_device,
+    &z790_gmg_x_ax_device,
     &z790_s_ddr4_device,
     &z790_s_wifi_ddr4_device,
+    &z790_ud_device,
     &z790_ud_ac_device,
     &z790_ud_ax_device,
-    &z790_ud_device,
+    &z790m_aor_elite_device,
     &z790m_aor_elite_ax_device,
     &z790m_aor_elite_ax_ice_device,
-    &z790m_aor_elite_device,
-
 
 /*-----------------------------------------------------------------*\
 |  IT5711 Devices                                                   |
@@ -7174,31 +7733,42 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &b840_gmg_x_wifi6e_5711_device,
     &b840m_aor_elite_wifi6e_5711_device,
     &b840m_d2h_5711_device,
+    &b840m_d3hp_5711_device,
+    &b840m_d3hp_wifi6e_5711_device,
     &b840m_ds3h_5711_device,
     &b840m_ds3h_wifi6_5711_device,
     &b840m_eagle_wifi6_5711_device,
+    &b840m_force_wifi6e_5711_device,
+    &b840m_gmg_plus_wifi6e_5711_device,
+    &b840m_gmg_x_wifi6e_5711_device,
     &b840m_h_5711_device,
     &b850_ai_top_5711_device,
+    &b850_aor_elite_p_ice_5711_device,
     &b850_aor_elite_wifi7_5711_device,
     &b850_aor_elite_wifi7_ice_5711_device,
+    &b850_aor_elite_x3d_5711_device,
     &b850_aor_stealth_5711_device,
     &b850_aor_stealth_ice_5711_device,
     &b850_eagle_ice_5711_device,
     &b850_eagle_wifi6e_5711_device,
     &b850_eagle_wifi7_ice_5711_device,
     &b850_gmg_wifi6_5711_device,
+    &b850_gmg_x_wifi6e_5711_device,
     &b850i_aor_pro_5711_device,
     &b850m_aor_elite_5711_device,
     &b850m_aor_elite_wifi6e_5711_device,
     &b850m_aor_elite_wifi6e_ice_5711_device,
     &b850m_aor_elite_wifi6e_ice_p_5711_device,
     &b850m_aor_pro_wifi7_5711_device,
+    &b850m_aor_stealth_5711_device,
+    &b850m_aor_stealth_ice_5711_device,
     &b850m_c_5711_device,
     &b850m_d3hp_5711_device,
     &b850m_ds3h_5711_device,
     &b850m_ds3h_ice_5711_device,
     &b850m_eagle_wifi6e_5711_device,
     &b850m_eagle_wifi6e_ice_5711_device,
+    &b850m_eagle_wifi7_5711_device,
     &b850m_force_5711_device,
     &b850m_force_v2_5711_device,
     &b850m_force_wifi6e_5711_device,
@@ -7231,6 +7801,7 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &w880_ai_top_5711_device,
     &x870_aor_elite_wifi7_5711_device,
     &x870_aor_elite_wifi7_ice_5711_device,
+    &x870_aor_elite_x3d_5711_device,
     &x870_aor_elite_x3d_ice_5711_device,
     &x870_aor_stealth_5711_device,
     &x870_aor_stealth_ice_5711_device,
@@ -7238,6 +7809,7 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &x870_eagle_wifi7_5711_device,
     &x870_gaming_wifi6_5711_device,
     &x870_gmg_x_wifi7_5711_device,
+    &x870e_aero_x3d_drk_wood_5711_device,
     &x870e_aero_x3d_wood_5711_device,
     &x870e_aor_elite_wifi7_5711_device,
     &x870e_aor_elite_wifi7_ice_5711_device,
@@ -7253,28 +7825,37 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &x870e_aor_xtrm_ai_top_5711_device,
     &x870e_aor_xtrm_ai_x3d_top_5711_device,
     &x870e_aor_xtrm_x3d_ai_top_5711_device,
+    &x870e_eagle_wifi7_5711_device,
+    &x870e_eagle_x3d_wifi7_5711_device,
     &x870i_aor_pro_ice_5711_device,
     &x870m_aor_elite_wifi7_5711_device,
     &x870m_aor_elite_wifi7_ice_5711_device,
     &z890_aero_d_5711_device,
     &z890_aero_g_5711_device,
     &z890_ai_top_5711_device,
+    &z890_aor_elite_duo_x_5711_device,
     &z890_aor_elite_wifi7_5711_device,
     &z890_aor_elite_wifi7_ice_5711_device,
+    &z890_aor_elite_wifi7_plus_5711_device,
     &z890_aor_elite_x_ice_5711_device,
     &z890_aor_mstr_ai_top_5711_device,
     &z890_aor_pro_ice_5711_device,
+    &z890_aor_tachyon_duo_x_ice_5711_device,
     &z890_aor_tachyon_ice_5711_device,
     &z890_aor_xtrm_ai_top_5711_device,
     &z890_aor_xtrm_ai_top_2_5711_device,
+    &z890_d_plus_5711_device,
     &z890_eagle_5711_device,
+    &z890_eagle_plus_5711_device,
     &z890_eagle_wifi7_5711_device,
+    &z890_eagle_wifi7_plus_5711_device,
     &z890_gmg_x_wifi7_5711_device,
     &z890_ud_5711_device,
     &z890_ud_wifi6e_5711_device,
     &z890i_aor_ultra_5711_device,
     &z890m_aor_elite_wifi7_5711_device,
     &z890m_aor_elite_wifi7_ice_5711_device,
+    &z890m_force_duo_x_wifi7_5711_device,
 };
 const unsigned int GB_FUSION2_DEVICE_COUNT = (sizeof(gb_fusion2_device_list_data) / sizeof(gb_fusion2_device_list_data[ 0 ]));
 const gb_fusion2_device** gb_fusion2_device_list = gb_fusion2_device_list_data;

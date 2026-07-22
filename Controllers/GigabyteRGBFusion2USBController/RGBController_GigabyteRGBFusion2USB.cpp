@@ -46,7 +46,8 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Direct;
     Direct.name                 = "Direct";
     Direct.value                = 0xFFFF;
-    Direct.flags                = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags                = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.brightness_min       = RGBFUSION2_BRIGHTNESS_MIN;
     Direct.brightness_max       = RGBFUSION2_BRIGHTNESS_MAX;
     Direct.brightness           = RGBFUSION2_BRIGHTNESS_MAX;
@@ -56,7 +57,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Static;
     Static.name                 = "Static";
     Static.value                = EFFECT_STATIC;
-    Static.flags                = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.flags                = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR
+                                | MODE_FLAG_MANUAL_SAVE;
     Static.brightness_min       = RGBFUSION2_BRIGHTNESS_MIN;
     Static.brightness_max       = RGBFUSION2_BRIGHTNESS_MAX;
     Static.brightness           = RGBFUSION2_BRIGHTNESS_MAX;
@@ -69,7 +72,11 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Breathing;
     Breathing.name              = "Breathing";
     Breathing.value             = EFFECT_PULSE;
-    Breathing.flags             = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Breathing.flags             = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_HAS_SPEED
+                                | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR
+                                | MODE_FLAG_HAS_RANDOM_COLOR
+                                | MODE_FLAG_MANUAL_SAVE;
     Breathing.brightness_min    = RGBFUSION2_BRIGHTNESS_MIN;
     Breathing.brightness_max    = 100;                      // Set 100 max due to controller quirks
     Breathing.brightness        = Breathing.brightness_max;
@@ -85,7 +92,11 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Blinking;
     Blinking.name               = "Flashing";
     Blinking.value              = EFFECT_BLINKING;
-    Blinking.flags              = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Blinking.flags              = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_HAS_SPEED
+                                | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR
+                                | MODE_FLAG_HAS_RANDOM_COLOR
+                                | MODE_FLAG_MANUAL_SAVE;
     Blinking.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
     Blinking.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
     Blinking.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
@@ -101,7 +112,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode ColorCycle;
     ColorCycle.name             = "Color Cycle";
     ColorCycle.value            = EFFECT_COLORCYCLE;
-    ColorCycle.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    ColorCycle.flags            = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_HAS_SPEED
+                                | MODE_FLAG_MANUAL_SAVE;
     ColorCycle.brightness_min   = RGBFUSION2_BRIGHTNESS_MIN;
     ColorCycle.brightness_max   = RGBFUSION2_BRIGHTNESS_MAX;
     ColorCycle.brightness       = RGBFUSION2_BRIGHTNESS_MAX;
@@ -114,7 +127,11 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Flashing;
     Flashing.name               = "Double Flash";
     Flashing.value              = EFFECT_DFLASH;
-    Flashing.flags              = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Flashing.flags              = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_HAS_SPEED
+                                | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR
+                                | MODE_FLAG_HAS_RANDOM_COLOR
+                                | MODE_FLAG_MANUAL_SAVE;
     Flashing.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
     Flashing.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
     Flashing.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
@@ -130,7 +147,10 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Wave;
     Wave.name                   = "Wave";
     Wave.value                  = EFFECT_WAVE;
-    Wave.flags                  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Wave.flags                  = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_HAS_SPEED
+                                | MODE_FLAG_REQUIRES_ENTIRE_DEVICE
+                                | MODE_FLAG_MANUAL_SAVE;
     Wave.brightness_min         = RGBFUSION2_BRIGHTNESS_MIN;
     Wave.brightness_max         = RGBFUSION2_BRIGHTNESS_MAX;
     Wave.brightness             = RGBFUSION2_BRIGHTNESS_MAX;
@@ -145,7 +165,8 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Random;
     Random.name                 = "Random";
     Random.value                = EFFECT_RANDOM;
-    Random.flags                = MODE_FLAG_HAS_BRIGHTNESS;
+    Random.flags                = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_MANUAL_SAVE;
     Random.brightness_min       = RGBFUSION2_BRIGHTNESS_MIN;
     Random.brightness_max       = RGBFUSION2_BRIGHTNESS_MAX;
     Random.brightness           = RGBFUSION2_BRIGHTNESS_MAX;
@@ -157,7 +178,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Wave1;
     Wave1.name                  = "Wave 1";
     Wave1.value                 = EFFECT_WAVE1;
-    Wave1.flags                 = MODE_FLAG_HAS_BRIGHTNESS;
+    Wave1.flags                 = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_REQUIRES_ENTIRE_DEVICE
+                                | MODE_FLAG_MANUAL_SAVE;
     Wave1.brightness_min        = RGBFUSION2_BRIGHTNESS_MIN;
     Wave1.brightness_max        = RGBFUSION2_BRIGHTNESS_MAX;
     Wave1.brightness            = RGBFUSION2_BRIGHTNESS_MAX;
@@ -169,7 +192,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Wave2;
     Wave2.name                  = "Wave 2";
     Wave2.value                 = EFFECT_WAVE2;
-    Wave2.flags                 = MODE_FLAG_HAS_BRIGHTNESS;
+    Wave2.flags                 = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_REQUIRES_ENTIRE_DEVICE
+                                | MODE_FLAG_MANUAL_SAVE;
     Wave2.brightness_min        = RGBFUSION2_BRIGHTNESS_MIN;
     Wave2.brightness_max        = RGBFUSION2_BRIGHTNESS_MAX;
     Wave2.brightness            = RGBFUSION2_BRIGHTNESS_MAX;
@@ -181,7 +206,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Wave3;
     Wave3.name                  = "Wave 3";
     Wave3.value                 = EFFECT_WAVE3;
-    Wave3.flags                 = MODE_FLAG_HAS_BRIGHTNESS;
+    Wave3.flags                 = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_REQUIRES_ENTIRE_DEVICE
+                                | MODE_FLAG_MANUAL_SAVE;
     Wave3.brightness_min        = RGBFUSION2_BRIGHTNESS_MIN;
     Wave3.brightness_max        = RGBFUSION2_BRIGHTNESS_MAX;
     Wave3.brightness            = RGBFUSION2_BRIGHTNESS_MAX;
@@ -193,7 +220,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Wave4;
     Wave4.name                  = "Wave 4";
     Wave4.value                 = EFFECT_WAVE4;
-    Wave4.flags                 = MODE_FLAG_HAS_BRIGHTNESS;
+    Wave4.flags                 = MODE_FLAG_HAS_BRIGHTNESS
+                                | MODE_FLAG_REQUIRES_ENTIRE_DEVICE
+                                | MODE_FLAG_MANUAL_SAVE;
     Wave4.brightness_min        = RGBFUSION2_BRIGHTNESS_MIN;
     Wave4.brightness_max        = RGBFUSION2_BRIGHTNESS_MAX;
     Wave4.brightness            = RGBFUSION2_BRIGHTNESS_MAX;
@@ -201,6 +230,14 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Wave4.colors_max            = 0;
     Wave4.color_mode            = MODE_COLORS_NONE;
     modes.push_back(Wave4);
+
+    if(!controller->SupportsSaveLEDState())
+    {
+        for(unsigned int mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+        {
+            modes[mode_idx].flags &= ~MODE_FLAG_MANUAL_SAVE;
+        }
+    }
 
     Init_Controller();
     SetupZones();
@@ -225,7 +262,7 @@ RGBController_RGBFusion2USB::~RGBController_RGBFusion2USB()
 \*---------------------------------------------------------*/
 void RGBController_RGBFusion2USB::Init_Controller()
 {
-
+    bool settings_changed                = false;
     const gb_fusion2_device* src_layout  = gb_fusion2_device_list[device_index];
     const std::string SectionGen2        = "Gigabyte-Gen2-ARGB";
     const std::string SectionCustomBase  = "CustomLayout";
@@ -240,37 +277,101 @@ void RGBController_RGBFusion2USB::Init_Controller()
     \*---------------------------------------------------------*/
     if(controller->SupportsGen2())
     {
-        if(!device_settings.contains(SectionGen2))
+        static const char* gen2_header_keys[4] =
         {
-            device_settings[SectionGen2]["Enabled"]   = false;
-            settings_manager->SetSettings(detector_name, device_settings);
-            settings_manager->SaveSettings();
+            "D_LED1",
+            "D_LED2",
+            "D_LED3",
+            "D_LED4"
+        };
+
+        const unsigned int header_count = controller->ExportGen2Strips().size();
+
+        bool default_enabled = false;
+        uint8_t enabled_headers = 0;
+
+        /*-----------------------------------------------------*\
+        | Preserve the old global setting when migrating        |
+        \*-----------------------------------------------------*/
+        if(device_settings[SectionGen2].contains("Enabled"))
+        {
+            default_enabled = device_settings[SectionGen2]["Enabled"];
+
+            device_settings[SectionGen2].erase("Enabled");
+            settings_changed = true;
         }
 
-        supports_gen2 = device_settings[SectionGen2]["Enabled"];
+        /*-----------------------------------------------------*\
+        | Create and read the per-header settings               |
+        \*-----------------------------------------------------*/
+        for(unsigned int header = 0; header < header_count; ++header)
+        {
+            if(!device_settings[SectionGen2].contains(gen2_header_keys[header]))
+            {
+                device_settings[SectionGen2][gen2_header_keys[header]] = default_enabled;
+                settings_changed = true;
+            }
+
+            if(device_settings[SectionGen2][gen2_header_keys[header]])
+            {
+                enabled_headers |= 1U << header;
+            }
+        }
+
+        supports_gen2 = enabled_headers != 0;
 
         if(supports_gen2)
         {
-            controller->ScanGen2Strips();
+            controller->ScanGen2Strips(enabled_headers);
         }
+    }
+    else if(device_settings.contains(SectionGen2))
+    {
+        device_settings.erase(SectionGen2);
+        settings_changed = true;
+    }
+
+    if(settings_changed)
+    {
+        settings_manager->SetSettings(detector_name, device_settings);
+        settings_manager->SaveSettings();
     }
 
     /*---------------------------------------------------------*\
     | Create the custom layout from the generic layout          |
     \*---------------------------------------------------------*/
-    switch(product_id)
+    if(device_num == 1)
     {
-        case 0x8950:
-                src_layout = gb_fusion2_device_list[device_index + 1];
-            break;
-        case 0x5711:
-                src_layout = gb_fusion2_device_list[device_index + 2];
-            break;
-        default:
-            break;
+        switch(product_id)
+        {
+                break;
+            case 0x5711:
+                    src_layout = gb_fusion2_device_list[device_index + 4];
+                break;
+            default:
+                    src_layout = gb_fusion2_device_list[device_index + 1];
+                break;
+        }
+    }
+    else
+    {
+        switch(product_id)
+        {
+            case 0x8950:
+                    src_layout = gb_fusion2_device_list[device_index + 2];
+                break;
+            case 0x5711:
+                    src_layout = gb_fusion2_device_list[device_index + 3];
+                break;
+            case 0xa100:
+                    src_layout = gb_fusion2_device_list[device_index + 5];
+                break;
+            default:
+                break;
+        }
     }
 
-    if(!device_settings.contains(SectionCustom))
+    if(!device_settings.contains(SectionCustom) && (product_id != 0xA100))
     {
         device_settings[SectionCustom]["Enabled"]   = false;
         device_settings[SectionCustom]["Data"]      = BuildCustomLayoutJson(src_layout, ReverseLedLookup);
@@ -282,7 +383,7 @@ void RGBController_RGBFusion2USB::Init_Controller()
 
     EncodedCalibration hw_cal = controller->GetCalibration(false);
 
-    if(device_num == 0)
+    if(device_num == 0 || product_id != 0xa100)
     {
         if(!device_settings.contains(SectionCalibration))
         {
@@ -382,7 +483,7 @@ void RGBController_RGBFusion2USB::Init_Controller()
         (*instance_layout.zones)[zi] = (*src_layout->zones)[zi];
     }
 
-    if(custom_layout)
+    if(custom_layout && (product_id != 0xA100))
     {
         LoadCustomLayoutFromJson(device_settings[SectionCustom]["Data"], LedLookup, &instance_layout);
     }
@@ -428,6 +529,7 @@ void RGBController_RGBFusion2USB::SetupZones()
         first_run = true;
     }
 
+
     /*-----------------------------------------------------*\
     | Clear any existing color/LED configuration            |
     \*-----------------------------------------------------*/
@@ -441,7 +543,7 @@ void RGBController_RGBFusion2USB::SetupZones()
 
     for(num_zones = 0; num_zones < GB_FUSION2_ZONES_MAX; num_zones++)
     {
-        if(!gb_fusion2_device_list[device_index]->zones[0][num_zones])
+        if(!(*instance_layout.zones)[num_zones])
         {
             break;
         }
@@ -452,13 +554,20 @@ void RGBController_RGBFusion2USB::SetupZones()
     unsigned int d1 = 0, d2 = 0, d3 = 0, d4 = 0;
 
     /*-----------------------------------------------------*\
-    | Set up zones (Fixed so as to not spam the controller) |
+    | Retrieve the latest Gen2 scan results                 |
+    \*-----------------------------------------------------*/
+    std::vector<Gen2StripInfo> strips;
+
+    if(supports_gen2)
+    {
+        strips = controller->ExportGen2Strips();
+    }
+
+    /*-----------------------------------------------------*\
+    | Set up zones                                          |
     \*-----------------------------------------------------*/
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        /*-------------------------------------------------*\
-        | Get zone configuration from device data           |
-        \*-------------------------------------------------*/
         const gb_fusion2_zone* zone_at_idx = (*instance_layout.zones)[zone_idx];
 
         if(!zone_at_idx)
@@ -466,35 +575,240 @@ void RGBController_RGBFusion2USB::SetupZones()
             continue;
         }
 
-        /*-------------------------------------------------*\
-        | Check if this is a fixed-size zone                |
-        \*-------------------------------------------------*/
         bool fixed_zone = (zone_at_idx->leds_min == zone_at_idx->leds_max);
 
+        const Gen2StripInfo* gen2_info = nullptr;
+
         /*-------------------------------------------------*\
-        | (Re-)initialize the zone                          |
+        | Locate the Gen2 result corresponding to this zone |
         \*-------------------------------------------------*/
-        if(fixed_zone)
+        if(supports_gen2 && !fixed_zone)
+        {
+            unsigned int slot = 0;
+
+            switch(zone_at_idx->idx)
+            {
+                case LED4:
+                case HDR_D_LED2:
+                    slot = 1;
+                    break;
+                case HDR_D_LED3:
+                    slot = 2;
+                    break;
+                case HDR_D_LED4:
+                    slot = 3;
+                    break;
+                default:
+                    slot = 0;
+                    break;
+            }
+
+            if(slot < strips.size())
+            {
+                if(strips[slot].totalLeds > 0)
+                {
+                    gen2_info = &strips[slot];
+                }
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Automatically detected Gen2 ARGB zone             |
+        \*-------------------------------------------------*/
+        if(gen2_info != nullptr)
+        {
+            bool preserve_segments = false;
+
+            /*---------------------------------------------*\
+            | A saved segment configuration may only rename |
+            | or subdivide each detected physical strip.    |
+            \*---------------------------------------------*/
+            if(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS)
+            {
+                bool valid_segments     = true;
+                std::size_t segment_idx = 0;
+
+                for(std::size_t strip_idx = 0; strip_idx < gen2_info->LedsOfStrip.size(); strip_idx++)
+                {
+                    unsigned int strip_leds = gen2_info->LedsOfStrip[strip_idx];
+
+                    /*-------------------------------------*\
+                    | Require one group for this strip      |
+                    \*-------------------------------------*/
+                    if(segment_idx >= zones[zone_idx].segments.size())
+                    {
+                        valid_segments = false;
+                        break;
+                    }
+
+                    if(!(zones[zone_idx].segments[segment_idx].flags & SEGMENT_FLAG_GROUP_START))
+                    {
+                        valid_segments = false;
+                        break;
+                    }
+
+                    segment_idx++;
+
+                    /*-------------------------------------*\
+                    | Validate subdivisions of this strip   |
+                    \*-------------------------------------*/
+                    unsigned int member_leds = 0;
+                    bool found_member        = false;
+
+                    while(segment_idx < zones[zone_idx].segments.size())
+                    {
+                        const segment& member = zones[zone_idx].segments[segment_idx];
+
+                        if(member.flags & SEGMENT_FLAG_GROUP_START)
+                        {
+                            break;
+                        }
+
+                        if(!(member.flags & SEGMENT_FLAG_GROUP_MEMBER)
+                                          || member.type != ZONE_TYPE_LINEAR
+                                          || member.leds_count == 0)
+                        {
+                            valid_segments = false;
+                            break;
+                        }
+
+                        member_leds += member.leds_count;
+
+                        if(member_leds > strip_leds)
+                        {
+                            valid_segments = false;
+                            break;
+                        }
+
+                        found_member = true;
+                        segment_idx++;
+                    }
+
+                    if(!valid_segments)
+                    {
+                        break;
+                    }
+
+                    if(!found_member || member_leds != strip_leds)
+                    {
+                        valid_segments = false;
+                        break;
+                    }
+                }
+
+                if(segment_idx != zones[zone_idx].segments.size())
+                {
+                    valid_segments = false;
+                }
+
+                preserve_segments = valid_segments;
+            }
+
+            /*---------------------------------------------*\
+            | Gen2 scan controls all zone-level geometry    |
+            \*---------------------------------------------*/
+            zones[zone_idx].name                        = zone_at_idx->name;
+            zones[zone_idx].type                        = ZONE_TYPE_SEGMENTED;
+            zones[zone_idx].leds_count                  = gen2_info->totalLeds;
+            zones[zone_idx].leds_min                    = zones[zone_idx].leds_count;
+            zones[zone_idx].leds_max                    = zones[zone_idx].leds_count;
+            zones[zone_idx].matrix_map.width            = 0;
+            zones[zone_idx].matrix_map.height           = 0;
+            zones[zone_idx].matrix_map.map.clear();
+            zones[zone_idx].flags                       = ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
+
+            if(preserve_segments)
+            {
+                zones[zone_idx].flags                   |= ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS;
+            }
+            else
+            {
+                zones[zone_idx].segments.clear();
+                zones[zone_idx].segments.reserve(gen2_info->LedsOfStrip.size() * 2);
+
+                unsigned int start_idx = 0;
+
+                for(std::size_t strip_idx = 0; strip_idx < gen2_info->LedsOfStrip.size(); strip_idx++)
+                {
+                    unsigned int strip_leds = gen2_info->LedsOfStrip[strip_idx];
+
+                    /*-------------------------------------*\
+                    | Empty marker for a physical strip     |
+                    \*-------------------------------------*/
+                    segment group;
+
+                    group.name                          = "Strip " + std::to_string(strip_idx + 1);
+                    group.type                          = ZONE_TYPE_LINEAR;
+                    group.start_idx                     = 0;
+                    group.leds_count                    = 0;
+                    group.flags                         = SEGMENT_FLAG_GROUP_START;
+                    group.matrix_map.width              = 0;
+                    group.matrix_map.height             = 0;
+                    group.matrix_map.map.clear();
+
+                    zones[zone_idx].segments.push_back(group);
+
+                    /*-------------------------------------*\
+                    | Initial member covers the whole strip |
+                    \*-------------------------------------*/
+                    segment member;
+
+                    member.name                         = "Strip " + std::to_string(strip_idx + 1);
+                    member.type                         = ZONE_TYPE_LINEAR;
+                    member.start_idx                    = start_idx;
+                    member.leds_count                   = strip_leds;
+                    member.flags                        = SEGMENT_FLAG_GROUP_MEMBER;
+                    member.matrix_map.width             = 0;
+                    member.matrix_map.height            = 0;
+                    member.matrix_map.map.clear();
+                    zones[zone_idx].segments.push_back(member);
+                    start_idx                           += strip_leds;
+                }
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Fixed motherboard zone                            |
+        \*-------------------------------------------------*/
+        else if(fixed_zone)
         {
             zones[zone_idx].name                        = zone_at_idx->name;
             zones[zone_idx].type                        = ZONE_TYPE_SINGLE;
             zones[zone_idx].leds_min                    = zone_at_idx->leds_min;
             zones[zone_idx].leds_max                    = zone_at_idx->leds_max;
-            zones[zone_idx].leds_count                  = zones[zone_idx].leds_min;
+            zones[zone_idx].leds_count                  = zone_at_idx->leds_min;
+            zones[zone_idx].flags                       = 0;
+            zones[zone_idx].matrix_map.width            = 0;
+            zones[zone_idx].matrix_map.height           = 0;
+            zones[zone_idx].matrix_map.map.clear();
+            zones[zone_idx].segments.clear();
         }
+
+        /*-------------------------------------------------*\
+        | Manually configurable ARGB zone                   |
+        \*-------------------------------------------------*/
         else
         {
-            zones[zone_idx].leds_min                    = zone_at_idx->leds_min;
-            zones[zone_idx].leds_max                    = zone_at_idx->leds_max;
+            bool reset_manual_zone = first_run || !(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE);
 
-            if(first_run)
+            if(reset_manual_zone)
             {
                 zones[zone_idx].flags                   = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
                                                         | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
                                                         | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
                                                         | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP
                                                         | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
+                zones[zone_idx].name                    = zone_at_idx->name;
+                zones[zone_idx].type                    = ZONE_TYPE_LINEAR;
+                zones[zone_idx].leds_count              = zone_at_idx->leds_min;
+                zones[zone_idx].matrix_map.width        = 0;
+                zones[zone_idx].matrix_map.height       = 0;
+                zones[zone_idx].matrix_map.map.clear();
+                zones[zone_idx].segments.clear();
             }
+
+            zones[zone_idx].leds_min                    = zone_at_idx->leds_min;
+            zones[zone_idx].leds_max                    = zone_at_idx->leds_max;
 
             if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
             {
@@ -515,8 +829,29 @@ void RGBController_RGBFusion2USB::SetupZones()
             {
                 zones[zone_idx].matrix_map.width        = 0;
                 zones[zone_idx].matrix_map.height       = 0;
-                zones[zone_idx].matrix_map.map.resize(0);
+                zones[zone_idx].matrix_map.map.clear();
             }
+
+            if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_SEGMENTS))
+            {
+                zones[zone_idx].segments.clear();
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Initialize per-zone modes                         |
+        \*-------------------------------------------------*/
+        if(zones[zone_idx].modes.empty())
+        {
+            for(std::size_t mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+            {
+                if(!(modes[mode_idx].flags & MODE_FLAG_REQUIRES_ENTIRE_DEVICE))
+                {
+                    zones[zone_idx].modes.push_back(modes[mode_idx]);
+                }
+            }
+
+            zones[zone_idx].active_mode = -1;
         }
 
         /*-------------------------------------------------*\
@@ -525,8 +860,7 @@ void RGBController_RGBFusion2USB::SetupZones()
         for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led new_led;
-
-            new_led.name  = zone_at_idx->name;
+            new_led.name  = zones[zone_idx].name;
             new_led.value = zone_at_idx->idx;
 
             if(!fixed_zone)
@@ -538,7 +872,7 @@ void RGBController_RGBFusion2USB::SetupZones()
         }
 
         /*-------------------------------------------------*\
-        | If not a fixed-size zone, set up LED sizes        |
+        | Restore the ARGB header LED counts                |
         \*-------------------------------------------------*/
         if(!fixed_zone)
         {
@@ -576,50 +910,67 @@ void RGBController_RGBFusion2USB::DeviceConfigureZone(int zone_idx)
 
 void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
 {
-    int         mode_value  = (modes[active_mode].value);
-    bool        random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    int         mode_value  = modes[active_mode].value;
+    bool        random      = modes[active_mode].color_mode == MODE_COLORS_RANDOM;
     uint32_t*   color       = &null_color;
 
     /*---------------------------------------------------------*\
-    | If Wave 1-4 then use special sequence.                    |
+    | Entire-device modes use the special wave sequence         |
     \*---------------------------------------------------------*/
-    if(mode_value == 6 || (mode_value >= 9 && mode_value <= 12))
+    if(modes[active_mode].flags & MODE_FLAG_REQUIRES_ENTIRE_DEVICE)
     {
         controller->SetStripBuiltinEffectState(-1, true);
-        controller->SetLEDEffect(-1, 1, 0, 0xFF, 0, color);
+        controller->SetLEDEffect(-1, EFFECT_STATIC, 0, 0xFF, false, color);
         controller->ApplyEffect();
-        controller->SetLEDEffect( 2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
+        controller->SetLEDEffect(2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
         controller->ApplyEffect();
         return;
     }
 
     for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
+        mode* selected_mode = &modes[active_mode];
+
+        /*---------------------------------------------------------*\
+        | Use the zone-specific mode when one is selected           |
+        \*---------------------------------------------------------*/
+        if(zones[zone_idx].active_mode >= 0)
+        {
+            selected_mode = &zones[zone_idx].modes[zones[zone_idx].active_mode];
+        }
+
+        mode_value = selected_mode->value;
+        random     = selected_mode->color_mode == MODE_COLORS_RANDOM;
+        color      = &null_color;
+
         if(zones[zone_idx].type == ZONE_TYPE_SINGLE)
         {
             for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
             {
+                int         led_mode_value  = mode_value;
+                uint32_t*   led_color       = color;
+
                 /*---------------------------------------------------------*\
                 | Motherboard LEDs always use effect mode, so use static for|
                 | direct mode but get colors from zone                      |
                 \*---------------------------------------------------------*/
-                if(modes[active_mode].value == 0xFFFF)
+                if(selected_mode->value == 0xFFFF)
                 {
-                    color       = &zones[zone_idx].colors[led_idx];
-                    mode_value  = EFFECT_STATIC;
+                    led_color       = &zones[zone_idx].colors[led_idx];
+                    led_mode_value  = EFFECT_STATIC;
                 }
                 /*---------------------------------------------------------*\
                 | If the mode uses mode-specific color, get color from mode |
                 \*---------------------------------------------------------*/
-                else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+                else if(selected_mode->color_mode == MODE_COLORS_MODE_SPECIFIC)
                 {
-                    color       = &modes[active_mode].colors[0];
+                    led_color = &selected_mode->colors[0];
                 }
 
                 /*---------------------------------------------------------*\
                 | Apply the mode and color to the zone                      |
                 \*---------------------------------------------------------*/
-                controller->SetLEDEffect(zones[zone_idx].leds[led_idx].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
+                controller->SetLEDEffect(zones[zone_idx].leds[led_idx].value, led_mode_value, selected_mode->speed, selected_mode->brightness, random, led_color);
             }
         }
         /*---------------------------------------------------------*\
@@ -634,7 +985,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
                 /*---------------------------------------------------------*\
                 | Direct mode addresses a different register                |
                 \*---------------------------------------------------------*/
-                if(modes[active_mode].value == 0xFFFF)
+                if(selected_mode->value == 0xFFFF)
                 {
                     controller->SetStripBuiltinEffectState(hdr, false);
                     controller->SetStripColors(hdr, zones[zone_idx].colors, zones[zone_idx].leds_count);
@@ -648,44 +999,51 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
                     /*---------------------------------------------------------*\
                     | If mode has mode specific color, load color from mode     |
                     \*---------------------------------------------------------*/
-                    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+                    if(selected_mode->color_mode == MODE_COLORS_MODE_SPECIFIC)
                     {
-                        color       = &modes[active_mode].colors[0];
+                        color = &selected_mode->colors[0];
                     }
 
                     /*---------------------------------------------------------*\
                     | Apply hardware effects to LED strips                      |
                     \*---------------------------------------------------------*/
                     controller->SetStripBuiltinEffectState(hdr, true);
-                    controller->SetLEDEffect(hdr, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
+                    controller->SetLEDEffect(hdr, mode_value, selected_mode->speed, selected_mode->brightness, random, color);
                 }
             }
         }
     }
+
     controller->ApplyEffect();
 }
 
 void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
 {
-    /*---------------------------------------------------------*\
-    | Get mode parameters                                       |
-    \*---------------------------------------------------------*/
-    int         mode_value  = (modes[active_mode].value);
-    bool        random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    int         mode_value  = modes[active_mode].value;
+    bool        random      = modes[active_mode].color_mode == MODE_COLORS_RANDOM;
     uint32_t*   color       = &null_color;
 
     /*---------------------------------------------------------*\
-    | If Wave 1-4 then use special sequence.                    |
+    | Entire-device modes cannot be updated one zone at a time  |
     \*---------------------------------------------------------*/
-    if(mode_value == 6 || (mode_value >= 9 && mode_value <= 12))
+    if(modes[active_mode].flags & MODE_FLAG_REQUIRES_ENTIRE_DEVICE)
     {
-        controller->SetStripBuiltinEffectState(-1, true);
-        controller->SetLEDEffect(-1, 1, 0, 0xFF, 0, color);
-        controller->ApplyEffect();
-        controller->SetLEDEffect( 2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
-        controller->ApplyEffect();
+        DeviceUpdateLEDs();
         return;
     }
+
+    mode* selected_mode = &modes[active_mode];
+
+    /*---------------------------------------------------------*\
+    | Use the zone-specific mode when one is selected           |
+    \*---------------------------------------------------------*/
+    if(zones[zone].active_mode >= 0)
+    {
+        selected_mode = &zones[zone].modes[zones[zone].active_mode];
+    }
+
+    mode_value = selected_mode->value;
+    random     = selected_mode->color_mode == MODE_COLORS_RANDOM;
 
     /*---------------------------------------------------------*\
     | Set motherboard LEDs                                      |
@@ -694,28 +1052,31 @@ void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
     {
         for(std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
         {
+            int         led_mode_value  = mode_value;
+            uint32_t*   led_color       = color;
+
             /*------------------------------------------------------------*\
             | Motherboard LEDs always use effect mode, so use static for   |
             | direct mode but get colors from zone                         |
             \*------------------------------------------------------------*/
-            if(mode_value == 0xFFFF)
+            if(selected_mode->value == 0xFFFF)
             {
-                color       = &zones[zone].colors[led_idx];
-                mode_value  = EFFECT_STATIC;
+                led_color       = &zones[zone].colors[led_idx];
+                led_mode_value  = EFFECT_STATIC;
             }
 
             /*---------------------------------------------------------*\
             | If the mode uses mode-specific color, get color from mode |
             \*---------------------------------------------------------*/
-            else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+            else if(selected_mode->color_mode == MODE_COLORS_MODE_SPECIFIC)
             {
-                color       = &modes[active_mode].colors[0];
+                led_color = &selected_mode->colors[0];
             }
 
             /*---------------------------------------------------------*\
             | Apply the mode and color to the zone                      |
             \*---------------------------------------------------------*/
-            controller->SetLEDEffect(zones[zone].leds[led_idx].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
+            controller->SetLEDEffect(zones[zone].leds[led_idx].value, led_mode_value, selected_mode->speed, selected_mode->brightness, random, led_color);
             controller->ApplyEffect();
         }
     }
@@ -732,7 +1093,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
             /*---------------------------------------------------------*\
             | Direct mode addresses a different register                |
             \*---------------------------------------------------------*/
-            if(mode_value == 0xFFFF)
+            if(selected_mode->value == 0xFFFF)
             {
                 controller->SetStripBuiltinEffectState(hdr, false);
                 controller->SetStripColors(hdr, zones[zone].colors, zones[zone].leds_count);
@@ -746,16 +1107,16 @@ void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
                 /*---------------------------------------------------------*\
                 | If mode has mode specific color, load color from mode     |
                 \*---------------------------------------------------------*/
-                if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+                if(selected_mode->color_mode == MODE_COLORS_MODE_SPECIFIC)
                 {
-                    color       = &modes[active_mode].colors[0];
+                    color = &selected_mode->colors[0];
                 }
 
                 /*---------------------------------------------------------*\
                 | Apply built-in effects to LED strips                      |
                 \*---------------------------------------------------------*/
                 controller->SetStripBuiltinEffectState(hdr, true);
-                controller->SetLEDEffect(hdr, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
+                controller->SetLEDEffect(hdr, mode_value, selected_mode->speed, selected_mode->brightness, random, color);
                 controller->ApplyEffect();
             }
         }
@@ -764,26 +1125,38 @@ void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
 
 void RGBController_RGBFusion2USB::DeviceUpdateSingleLED(int led)
 {
-    /*---------------------------------------------------------*\
-    | Get mode parameters                                       |
-    \*---------------------------------------------------------*/
-    int         mode_value  = (modes[active_mode].value);
-    bool        random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    int         mode_value  = modes[active_mode].value;
+    bool        random      = modes[active_mode].color_mode == MODE_COLORS_RANDOM;
     uint32_t*   color       = &null_color;
 
     /*---------------------------------------------------------*\
-    | If Wave 1-4 then use special sequence.                    |
+    | Entire-device modes cannot update an individual LED       |
     \*---------------------------------------------------------*/
-    if(mode_value == 6 || (mode_value >= 9 && mode_value <= 12))
+    if(modes[active_mode].flags & MODE_FLAG_REQUIRES_ENTIRE_DEVICE)
     {
-        controller->SetStripBuiltinEffectState(-1, true);
-        controller->SetLEDEffect(-1, 1, 0, 0xFF, 0, color);
-        controller->ApplyEffect();
-        controller->SetLEDEffect( 2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
-        controller->ApplyEffect();
+        DeviceUpdateLEDs();
         return;
     }
-    unsigned int    zone_idx    = GetLED_Zone(led);
+
+    int zone_idx = GetLED_Zone(led);
+
+    if(zone_idx < 0)
+    {
+        return;
+    }
+
+    mode* selected_mode = &modes[active_mode];
+
+    /*---------------------------------------------------------*\
+    | Use the zone-specific mode when one is selected           |
+    \*---------------------------------------------------------*/
+    if(zones[zone_idx].active_mode >= 0)
+    {
+        selected_mode = &zones[zone_idx].modes[zones[zone_idx].active_mode];
+    }
+
+    mode_value = selected_mode->value;
+    random     = selected_mode->color_mode == MODE_COLORS_RANDOM;
 
     /*---------------------------------------------------------*\
     | Set motherboard LEDs                                      |
@@ -794,7 +1167,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateSingleLED(int led)
         | Motherboard LEDs always use effect mode, so use static for|
         | direct mode but get colors from zone                      |
         \*---------------------------------------------------------*/
-        if(mode_value == 0xFFFF)
+        if(selected_mode->value == 0xFFFF)
         {
             color       = &colors[led];
             mode_value  = EFFECT_STATIC;
@@ -803,12 +1176,12 @@ void RGBController_RGBFusion2USB::DeviceUpdateSingleLED(int led)
         /*---------------------------------------------------------*\
         | If the mode uses mode-specific color, get color from mode |
         \*---------------------------------------------------------*/
-        else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+        else if(selected_mode->color_mode == MODE_COLORS_MODE_SPECIFIC)
         {
-            color       = &modes[active_mode].colors[0];
+            color = &selected_mode->colors[0];
         }
 
-        controller->SetLEDEffect(leds[led].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
+        controller->SetLEDEffect(leds[led].value, mode_value, selected_mode->speed, selected_mode->brightness, random, color);
         controller->ApplyEffect();
     }
 
@@ -824,6 +1197,11 @@ void RGBController_RGBFusion2USB::DeviceUpdateSingleLED(int led)
 void RGBController_RGBFusion2USB::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
+}
+
+void RGBController_RGBFusion2USB::DeviceUpdateZoneMode(int zone)
+{
+    DeviceUpdateZoneLEDs(zone);
 }
 
 int RGBController_RGBFusion2USB::GetLED_Zone(int led_idx)
@@ -843,6 +1221,11 @@ int RGBController_RGBFusion2USB::GetLED_Zone(int led_idx)
     | If zone is not found, return -1                           |
     \*---------------------------------------------------------*/
     return(-1);
+}
+
+void RGBController_RGBFusion2USB::DeviceSaveMode()
+{
+    controller->SaveLEDState(true);
 }
 
 /*---------------------------------------------------------*\

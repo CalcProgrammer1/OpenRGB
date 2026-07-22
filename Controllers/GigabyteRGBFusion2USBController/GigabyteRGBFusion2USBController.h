@@ -234,6 +234,10 @@ union PktEffect
         memset(buffer, 0, sizeof(buffer));
 
         e.report_id         = report_id;
+        if(pid ==0xA100)
+        {
+            led = -1;
+        }
         if(led == -1)
         {
             e.zone0  = (pid == 0x5711) ? 0x07FF : 0xFF;
@@ -337,7 +341,9 @@ public:
     bool                    SetStripBuiltinEffectState(int hdr, bool enable);
     void                    SetStripColors(unsigned int hdr, RGBColor * colors, unsigned int num_colors, int single_led = -1);
     bool                    SupportsGen2() const;
-    bool                    ScanGen2Strips();
+    bool                    ScanGen2Strips(uint8_t hdr_mask);
+    bool                    SaveLEDState(bool enable);
+    bool                    SupportsSaveLEDState() const;
 
     EncodedCalibration      GetCalibration(bool refresh_from_hw = false);
     std::string             GetDeviceName();
@@ -357,7 +363,6 @@ private:
     uint32_t                EncodeCalibrationBuffer(const std::string& rgb_order);
     bool                    RefreshHardwareInfo();
     void                    ResetController();
-    bool                    SaveLEDState(bool enable);
     bool                    SaveCalState();
     bool                    SendCCReport(uint8_t a, uint8_t b, uint8_t c = 0);
     bool                    SendReport(uint8_t id, uint8_t a, uint8_t b, uint8_t c = 0);
