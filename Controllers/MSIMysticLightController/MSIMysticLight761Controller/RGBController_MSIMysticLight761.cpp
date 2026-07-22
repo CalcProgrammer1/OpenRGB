@@ -132,10 +132,10 @@ void RGBController_MSIMysticLight761::SetupZones()
         /*-------------------------------------------------*\
         | This is a fixed size zone                         |
         \*-------------------------------------------------*/
-        if(((zd->zone_type != MSI_ZONE_J_RAINBOW_1)
-         && (zd->zone_type != MSI_ZONE_J_RAINBOW_2)
-         && (zd->zone_type != MSI_ZONE_J_RAINBOW_3)
-         && (zd->zone_type != MSI_ZONE_J_CORSAIR)))
+        if(((zd->zone_type != MSI_ZONE_JAF)
+         && (zd->zone_type != MSI_ZONE_JARGB_1)
+         && (zd->zone_type != MSI_ZONE_JARGB_2)
+         && (zd->zone_type != MSI_ZONE_JARGB_3)))
         {
             zones[zone_idx].name                        = zd->name;
             zones[zone_idx].type                        = ZONE_TYPE_SINGLE;
