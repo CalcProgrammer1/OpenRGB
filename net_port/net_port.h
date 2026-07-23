@@ -41,6 +41,7 @@
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
 #define SD_RECEIVE SHUT_RD
+#define SD_BOTH SHUT_RDWR
 #endif
 
 //Network Port Class
