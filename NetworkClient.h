@@ -100,6 +100,12 @@ public:
     void                                StartClient();
     void                                StopClient();
 
+    /*-----------------------------------------------------*\
+    | Controller teardown functions                         |
+    \*-----------------------------------------------------*/
+    void                                DeleteOrphanedControllers();
+    void                                TakeOrphanedControllers(std::vector<RGBController*>& orphaned);
+
     void                                SendRequest_ControllerData(unsigned int dev_id);
     void                                SendRequest_RescanDevices();
 
@@ -249,6 +255,7 @@ private:
     \*-----------------------------------------------------*/
     std::mutex                          ControllerListMutex;
     std::vector<RGBController*>         server_controllers;
+    std::vector<RGBController*>         orphaned_controllers;
     std::vector<unsigned int>           server_controller_ids;
 
     /*-----------------------------------------------------*\

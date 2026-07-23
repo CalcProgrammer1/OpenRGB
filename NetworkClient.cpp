@@ -106,6 +106,20 @@ NetworkClient::NetworkClient()
 NetworkClient::~NetworkClient()
 {
     StopClient();
+
+    /*-----------------------------------------------------*\
+    | Free the controllers set aside by StopClient, plus    |
+    | any left behind by a listener that never ran          |
+    \*-----------------------------------------------------*/
+    ControllerListMutex.lock();
+
+    orphaned_controllers.insert(orphaned_controllers.end(), server_controllers.begin(), server_controllers.end());
+
+    server_controllers.clear();
+
+    ControllerListMutex.unlock();
+
+    DeleteOrphanedControllers();
 }
 
 /*---------------------------------------------------------*\
@@ -324,6 +338,36 @@ void NetworkClient::StopClient()
     | Client info has changed, call the callbacks           |
     \*-----------------------------------------------------*/
     SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_STOPPED);
+}
+
+/*---------------------------------------------------------*\
+| Controller teardown functions                             |
+\*---------------------------------------------------------*/
+void NetworkClient::TakeOrphanedControllers(std::vector<RGBController*>& orphaned)
+{
+    ControllerListMutex.lock();
+
+    orphaned.insert(orphaned.end(), orphaned_controllers.begin(), orphaned_controllers.end());
+
+    orphaned_controllers.clear();
+
+    ControllerListMutex.unlock();
+}
+
+void NetworkClient::DeleteOrphanedControllers()
+{
+    /*-----------------------------------------------------*\
+    | Delete outside the mutex; the controller destructor   |
+    | waits for callbacks that are already running          |
+    \*-----------------------------------------------------*/
+    std::vector<RGBController*> orphaned;
+
+    TakeOrphanedControllers(orphaned);
+
+    for(std::size_t orphaned_idx = 0; orphaned_idx < orphaned.size(); orphaned_idx++)
+    {
+        delete orphaned[orphaned_idx];
+    }
 }
 
 void NetworkClient::SendRequest_ControllerData(unsigned int dev_id)
@@ -1905,23 +1949,27 @@ listen_done:
     server_initialized                  = false;
     server_connected                    = false;
 
+    /*-----------------------------------------------------*\
+    | Do not delete the controllers here; the front end     |
+    | still holds pointers to them. Move them to            |
+    | orphaned_controllers for the teardown thread to free  |
+    \*-----------------------------------------------------*/
     ControllerListMutex.lock();
 
-    std::vector<RGBController *> server_controllers_copy = server_controllers;
+    orphaned_controllers.insert(orphaned_controllers.end(), server_controllers.begin(), server_controllers.end());
 
     server_controllers.clear();
-
-    for(size_t server_controller_idx = 0; server_controller_idx < server_controllers_copy.size(); server_controller_idx++)
-    {
-        delete server_controllers_copy[server_controller_idx];
-    }
 
     ControllerListMutex.unlock();
 
     /*-----------------------------------------------------*\
-    | Client info has changed, call the callbacks           |
+    | Signal only an unplanned connection loss; on a        |
+    | requested stop the caller runs the teardown           |
     \*-----------------------------------------------------*/
-    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_DISCONNECTED);
+    if(client_active)
+    {
+        SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_DISCONNECTED);
+    }
 }
 
 /*---------------------------------------------------------*\

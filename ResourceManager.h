@@ -13,7 +13,9 @@
 
 #pragma once
 
+#include <condition_variable>
 #include <memory>
+#include <mutex>
 #include <vector>
 #include <functional>
 #include <thread>
@@ -102,6 +104,7 @@ public:
     \*-----------------------------------------------------*/
     void                                RegisterNetworkClient(NetworkClient* new_client);
     void                                UnregisterNetworkClient(NetworkClient* network_client);
+    void                                QueueClientTeardown();
 
     /*-----------------------------------------------------*\
     | Local Client Accessors                                |
@@ -139,6 +142,7 @@ public:
 
 private:
     bool                                AttemptLocalConnection();
+    void                                ClientTeardownThreadFunction();
     void                                SetupConfigurationDirectory();
 
     /*-----------------------------------------------------*\
@@ -214,6 +218,23 @@ private:
     | Network Clients                                       |
     \*-----------------------------------------------------*/
     std::vector<NetworkClient*>                 clients;
+    std::mutex                                  ClientListMutex;
+
+    /*-----------------------------------------------------*\
+    | Client teardown thread                                |
+    |                                                       |
+    | Frees controllers a lost connection left behind,      |
+    | inside a DETECTION_STARTED / DETECTION_COMPLETE       |
+    | sequence. Runs on its own thread: StopClient joins    |
+    | the client's listener thread, and the sequence's      |
+    | callbacks need the GUI thread free                    |
+    \*-----------------------------------------------------*/
+    std::thread*                                ClientTeardownThread;
+    std::mutex                                  ClientTeardownMutex;
+    std::condition_variable                     ClientTeardownCv;
+    bool                                        ClientTeardownPending;
+    bool                                        ClientTeardownRunning;
+    std::vector<NetworkClient*>                 clients_to_remove;
 
     /*-----------------------------------------------------*\
     | Device List Mutex                                     |

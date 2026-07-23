@@ -86,6 +86,19 @@ static void ResourceManagerNetworkClientCallback(void* this_ptr, unsigned int up
             this_obj->UpdateDeviceList();
             break;
 
+        case NETWORKCLIENT_UPDATE_REASON_CLIENT_CONNECTED:
+            this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_CLIENT_INFO_UPDATED);
+            break;
+
+        /*-------------------------------------------------*\
+        | Unplanned connection loss: free the client's      |
+        | orphaned controllers on the teardown thread       |
+        \*-------------------------------------------------*/
+        case NETWORKCLIENT_UPDATE_REASON_CLIENT_DISCONNECTED:
+            this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_CLIENT_INFO_UPDATED);
+            this_obj->QueueClientTeardown();
+            break;
+
         case NETWORKCLIENT_UPDATE_REASON_DETECTION_STARTED:
             this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_STARTED);
             break;
@@ -150,6 +163,13 @@ ResourceManager::ResourceManager()
     init_finished               = false;
     plugin_manager              = NULL;
     server                      = NULL;
+
+    /*-----------------------------------------------------*\
+    | Start the client teardown thread                      |
+    \*-----------------------------------------------------*/
+    ClientTeardownPending       = false;
+    ClientTeardownRunning       = true;
+    ClientTeardownThread        = new std::thread(&ResourceManager::ClientTeardownThreadFunction, this);
 
     SetupConfigurationDirectory();
 
@@ -274,7 +294,21 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
+    /*-----------------------------------------------------*\
+    | Stop the client teardown thread                       |
+    \*-----------------------------------------------------*/
+    ClientTeardownMutex.lock();
+    ClientTeardownRunning = false;
+    ClientTeardownMutex.unlock();
 
+    ClientTeardownCv.notify_all();
+
+    if(ClientTeardownThread)
+    {
+        ClientTeardownThread->join();
+        delete ClientTeardownThread;
+        ClientTeardownThread = nullptr;
+    }
 }
 
 /*---------------------------------------------------------*\
@@ -535,38 +569,142 @@ void ResourceManager::RegisterNetworkClient(NetworkClient* new_client)
 {
     new_client->RegisterNetworkClientCallback(ResourceManagerNetworkClientCallback, this);
 
+    ClientListMutex.lock();
+
     clients.push_back(new_client);
+
+    ClientListMutex.unlock();
 }
 
 void ResourceManager::UnregisterNetworkClient(NetworkClient* network_client)
 {
     /*-----------------------------------------------------*\
-    | Stop the disconnecting client                         |
+    | Queue the removal for the teardown thread. This is    |
+    | called on the GUI thread, and the teardown rebuilds   |
+    | the device list, whose DEVICE_LIST_UPDATED handler    |
+    | is a BlockingQueuedConnection to the GUI thread. It   |
+    | also keeps StopClient's join off the GUI thread       |
     \*-----------------------------------------------------*/
-    network_client->StopClient();
+    ClientTeardownMutex.lock();
 
-    /*-----------------------------------------------------*\
-    | Clear callbacks from the client before removal        |
-    \*-----------------------------------------------------*/
-    network_client->ClearCallbacks();
-
-    /*-----------------------------------------------------*\
-    | Find the client to remove and remove it from the      |
-    | clients list                                          |
-    \*-----------------------------------------------------*/
-    std::vector<NetworkClient*>::iterator client_it = std::find(clients.begin(), clients.end(), network_client);
-
-    if(client_it != clients.end())
+    if(std::find(clients_to_remove.begin(), clients_to_remove.end(), network_client) == clients_to_remove.end())
     {
-        clients.erase(client_it);
+        clients_to_remove.push_back(network_client);
     }
 
-    /*-----------------------------------------------------*\
-    | Delete the client                                     |
-    \*-----------------------------------------------------*/
-    delete network_client;
+    ClientTeardownPending = true;
 
-    UpdateDeviceList();
+    ClientTeardownMutex.unlock();
+
+    ClientTeardownCv.notify_all();
+}
+
+void ResourceManager::QueueClientTeardown()
+{
+    ClientTeardownMutex.lock();
+    ClientTeardownPending = true;
+    ClientTeardownMutex.unlock();
+
+    ClientTeardownCv.notify_all();
+}
+
+void ResourceManager::ClientTeardownThreadFunction()
+{
+    std::unique_lock<std::mutex> lock(ClientTeardownMutex);
+
+    while(ClientTeardownRunning)
+    {
+        if(!ClientTeardownPending)
+        {
+            ClientTeardownCv.wait(lock);
+            continue;
+        }
+
+        ClientTeardownPending = false;
+
+        /*-------------------------------------------------*\
+        | Take the clients queued for removal off the       |
+        | pending list                                      |
+        \*-------------------------------------------------*/
+        std::vector<NetworkClient*> remove_list;
+
+        remove_list.swap(clients_to_remove);
+
+        lock.unlock();
+
+        /*-------------------------------------------------*\
+        | Stop the clients being removed and take them out  |
+        | of the clients list. StopClient joins the client  |
+        | threads and moves the client's controllers to     |
+        | orphaned_controllers; the delete below frees them |
+        \*-------------------------------------------------*/
+        for(std::size_t remove_idx = 0; remove_idx < remove_list.size(); remove_idx++)
+        {
+            remove_list[remove_idx]->StopClient();
+            remove_list[remove_idx]->ClearCallbacks();
+
+            ClientListMutex.lock();
+
+            std::vector<NetworkClient*>::iterator client_it = std::find(clients.begin(), clients.end(), remove_list[remove_idx]);
+
+            if(client_it != clients.end())
+            {
+                clients.erase(client_it);
+            }
+
+            ClientListMutex.unlock();
+        }
+
+        /*-------------------------------------------------*\
+        | Collect the orphaned controllers from the clients |
+        | that remain. Ownership moves here, so a client    |
+        | deleted later cannot free them a second time      |
+        \*-------------------------------------------------*/
+        std::vector<RGBController*> orphaned;
+
+        ClientListMutex.lock();
+
+        for(std::size_t client_idx = 0; client_idx < clients.size(); client_idx++)
+        {
+            clients[client_idx]->TakeOrphanedControllers(orphaned);
+        }
+
+        ClientListMutex.unlock();
+
+        /*-------------------------------------------------*\
+        | Run the same sequence a rescan does while the     |
+        | controllers are still allocated. Consumers        |
+        | release them on DETECTION_STARTED, the GUI        |
+        | deletes the device pages (whose destructors use   |
+        | the controller) on UpdateDeviceList, and plugins  |
+        | rebuild on DETECTION_COMPLETE. Free them last,    |
+        | once nothing references them                      |
+        \*-------------------------------------------------*/
+        if(!remove_list.empty() || !orphaned.empty())
+        {
+            SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_STARTED);
+
+            UpdateDeviceList();
+
+            SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_COMPLETE);
+
+            /*---------------------------------------------*\
+            | Deleting a removed client frees the           |
+            | controllers StopClient left on it             |
+            \*---------------------------------------------*/
+            for(std::size_t remove_idx = 0; remove_idx < remove_list.size(); remove_idx++)
+            {
+                delete remove_list[remove_idx];
+            }
+
+            for(std::size_t orphaned_idx = 0; orphaned_idx < orphaned.size(); orphaned_idx++)
+            {
+                delete orphaned[orphaned_idx];
+            }
+        }
+
+        lock.lock();
+    }
 }
 
 /*---------------------------------------------------------*\
@@ -742,6 +880,8 @@ void ResourceManager::UpdateDeviceList()
     /*-----------------------------------------------------*\
     | Insert client controllers into controller list        |
     \*-----------------------------------------------------*/
+    ClientListMutex.lock();
+
     for(std::size_t client_idx = 0; client_idx < clients.size(); client_idx++)
     {
         std::vector<RGBController*> rgb_controllers_client  = clients[client_idx]->GetRGBControllers();
@@ -751,6 +891,8 @@ void ResourceManager::UpdateDeviceList()
             rgb_controllers.push_back(rgb_controllers_client[rgb_controller_idx]);
         }
     }
+
+    ClientListMutex.unlock();
 
     /*-----------------------------------------------------*\
     | Update server list                                    |
