@@ -1513,6 +1513,14 @@ void OpenRGBDialog::onDetectionStarted()
 void OpenRGBDialog::onDetectionEnded()
 {
     /*-----------------------------------------------------*\
+    | Always hide the detection view on                     |
+    | DETECTION_COMPLETE. The progress handler only hides   |
+    | it at 100%, and a client teardown raises the          |
+    | detection signals without setting the percent         |
+    \*-----------------------------------------------------*/
+    SetDetectionViewState(false);
+
+    /*-----------------------------------------------------*\
     | Detect unconfigured zones and prompt for resizing     |
     \*-----------------------------------------------------*/
     OpenRGBZoneInitializationDialog::RunChecks(this);

@@ -643,6 +643,19 @@ void ResourceManager::ClientTeardownThreadFunction()
             remove_list[remove_idx]->StopClient();
             remove_list[remove_idx]->ClearCallbacks();
 
+            /*---------------------------------------------*\
+            | If the removed client is the auto local       |
+            | connection, leave client mode. Rescan and     |
+            | GetDetection* use auto_connection_client,     |
+            | which the delete below would leave pointing   |
+            | at freed memory                               |
+            \*---------------------------------------------*/
+            if(remove_list[remove_idx] == auto_connection_client)
+            {
+                auto_connection_active  = false;
+                auto_connection_client  = NULL;
+            }
+
             ClientListMutex.lock();
 
             std::vector<NetworkClient*>::iterator client_it = std::find(clients.begin(), clients.end(), remove_list[remove_idx]);
