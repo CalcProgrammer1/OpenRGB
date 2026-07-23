@@ -100,17 +100,18 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
 OpenRGBDevicePage::~OpenRGBDevicePage()
 {
     /*-----------------------------------------------------*\
-    | Unregister update callback from the controller if the |
-    | controller still exists                               |
+    | Unregister update callback from the controller. The   |
+    | controller always outlives its device page in every   |
+    | teardown path (rescan, unplug, app exit), so the      |
+    | pointer is valid here. The old list-membership guard  |
+    | skipped this during rescan because the controller was |
+    | already removed from the list but not yet deleted,    |
+    | leaving a dangling callback that a running effect     |
+    | could invoke. UnregisterUpdateCallback waits for any  |
+    | in-flight SignalUpdate before returning, so no call   |
+    | can invoke this page after it is freed.               |
     \*-----------------------------------------------------*/
-    for(unsigned int controller_idx = 0; controller_idx < ResourceManager::get()->GetRGBControllers().size(); controller_idx++)
-    {
-        if(ResourceManager::get()->GetRGBControllers()[controller_idx] == device)
-        {
-            device->UnregisterUpdateCallback(this);
-            break;
-        }
-    }
+    device->UnregisterUpdateCallback(this);
 
     /*-----------------------------------------------------*\
     | Unregister settings manager callbacks                 |

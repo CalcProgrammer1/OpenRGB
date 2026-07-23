@@ -15,6 +15,7 @@
 #include <atomic>
 #include <thread>
 #include <chrono>
+#include <condition_variable>
 #include <mutex>
 #include <shared_mutex>
 #include "RGBControllerInterface.h"
@@ -319,7 +320,37 @@ private:
     std::vector<RGBControllerCallback>  UpdateCallbacks;
     std::vector<void *>                 UpdateCallbackArgs;
 
+    /*-----------------------------------------------------*\
+    | Callback call state, guarded by SignalMutex. The      |
+    | mutex is never held across callback code: a call      |
+    | copies the callback list, releases, then invokes.     |
+    |                                                       |
+    | SignalCalls  : calls in flight for this controller.   |
+    | SignalFrozen : set at Shutdown; no further calls run, |
+    |                so a late SignalUpdate returns rather  |
+    |                than blocking on teardown.             |
+    |                                                       |
+    | Unregister/ClearCallbacks/Shutdown remove or freeze   |
+    | the list then wait out any call already running, so   |
+    | on return a removed callback is not executing and     |
+    | cannot start again, and its owner may be freed.       |
+    \*-----------------------------------------------------*/
     std::mutex                          SignalMutex;
+    std::condition_variable             SignalCallsDone;
+    unsigned int                        SignalCalls     = 0;
+    bool                                SignalFrozen    = false;
+
+    void                                WaitSignalCalls();
+
+    /*-----------------------------------------------------*\
+    | Depth of SignalUpdate callback calls on this thread.  |
+    | Per-thread and shared across all controllers, not     |
+    | per-instance, so WaitSignalCalls can tell when a      |
+    | callback is unregistering from inside its own call    |
+    | and must not wait on itself. Not guarded by           |
+    | SignalMutex; thread_local needs no lock.              |
+    \*-----------------------------------------------------*/
+    static thread_local unsigned int    SignalCallDepth;
 
     /*-----------------------------------------------------*\
     | Private path used internally by DetectionManager      |
