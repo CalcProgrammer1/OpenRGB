@@ -53,6 +53,7 @@ enum
     RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICZONECONFIGURATION,
                                                     /* SetDeviceSpecificZoneConfiguration() called  */
     RGBCONTROLLER_UPDATE_REASON_CONFIGUREDEVICE,    /* ConfigureDevice() called         */
+    RGBCONTROLLER_UPDATE_REASON_DEVICE_CHANGED,     /* Device description replaced      */
 };
 
 /*---------------------------------------------------------*\

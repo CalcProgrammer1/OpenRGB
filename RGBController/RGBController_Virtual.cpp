@@ -86,6 +86,13 @@ void RGBController_Virtual::UpdateVirtualController(RGBController_Setup* setup)
     SetupLEDs(setup);
     SetupColors();
     AccessMutex.unlock();
+
+    /*-----------------------------------------------------*\
+    | The device description was replaced in place, notify  |
+    | subscribers so cached views of it are rebuilt.        |
+    | Signal outside AccessMutex, callbacks take it shared. |
+    \*-----------------------------------------------------*/
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_DEVICE_CHANGED);
 }
 
 void RGBController_Virtual::DeviceConfigureZone(int zone_idx)
