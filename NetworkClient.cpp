@@ -96,6 +96,9 @@ NetworkClient::NetworkClient()
     server_reinitialize                 = false;
     change_in_progress                  = false;
 
+    client_active                       = false;
+    profilemanager_thread               = NULL;
+
     ListenThread                        = NULL;
     ConnectionThread                    = NULL;
 }
