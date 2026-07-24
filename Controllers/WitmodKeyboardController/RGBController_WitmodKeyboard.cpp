@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| RGBController_RedSquareKeyroxTKLClassic.cpp               |
+| RGBController_WitmodKeyboard.cpp                           |
 |                                                           |
-|   RGBController for Red Square Keyrox TKL Classic         |
+|   RGBController for Witmod keyboards                      |
 |                                                           |
 |   vlack                                       03 May 2023 |
 |                                                           |
@@ -9,17 +9,21 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "RGBController_RedSquareKeyroxTKLClassic.h"
+#include "RGBController_WitmodKeyboard.h"
 
 /**------------------------------------------------------------------*\
-    @name Keyrox
+    @name Witmod Keyboard
     @category Keyboard
     @type USB
     @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectRedSquareKeyroxTKLClassic
-    @comment Also named Dark Project KD87a
+    @detectors DetectWitmodKeyboard
+    @comment Witmod platform.  The GK8110 (87 key) and GK8120 (104 key)
+    boards are resold under several brands, including Dark Project KD87A
+    and KD104A and the Red Square Keyrox TKL Classic.  The sizes share
+    the same USB IDs and are told apart by the model reported in the
+    device info string.
 \*-------------------------------------------------------------------*/
 
 typedef struct
@@ -27,12 +31,12 @@ typedef struct
     std::string name;
     int value;
     int flags;
-} keyrox_effect;
+} witmod_effect;
 
 /*--------------------*\
-|  Keyrox TKL Classic  |
+|  GK8110 (87 keys)    |
 \*--------------------*/
-layout_values keyrox_tkl_offset_values =
+layout_values gk8110_offset_values =
 {
     {
         /* ESC          F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12   PRSC  SCLK  PSBK */
@@ -53,90 +57,115 @@ layout_values keyrox_tkl_offset_values =
     }
 };
 
-RGBController_RedSquareKeyroxTKLClassic::RGBController_RedSquareKeyroxTKLClassic(RedSquareKeyroxTKLClassicController* controller_ptr)
+/*--------------------*\
+|  GK8120 (104 keys)   |
+\*--------------------*/
+layout_values gk8120_offset_values =
+{
+    {
+        /* ESC          F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12   PRSC  SCLK  PSBK */
+             7,         13,   16,   19,   22,   28,   31,   34,   37,   40,   43,   46,   49,   52,   55,   58,
+        /* BKTK    1     2     3     4     5     6     7     8     9     0     -     =   BSPC  INS   HOME  PGUP  NLCK  NUM/  NUM*  NUM- */
+            83,   86,   89,   92,   95,   98,  101,  104,  107,  110,  113,  116,  119,  135,  138,  141,  144,  147,  150,  153,  156,
+        /* TAB     Q     W     E     R     T     Y     U     I     O     P     [     ]     \   DEL   END   PGDN  NUM7  NUM8  NUM9  NUM+ */
+           159,  162,  165,  168,  171,  174,  177,  180,  183,  186,  199,  202,  205,  211,  214,  217,  220,  223,  226,  229,  232,
+        /* CPLK    A     S     D     F     G     H     J     K     L     ;     "     #   ENTR                    NUM4  NUM5  NUM6 */
+           235,  241,  244,  247,  250,  263,  266,  269,  272,  275,  278,  281,  284,  287,                    299,  302,  305,
+        /* LSFT  ISO\    Z     X     C     V     B     N     M     ,     .     /   RSFT                    ARWU  NUM1  NUM2  NUM3  NENT */
+           311,  314,  327,  330,  333,  336,  339,  342,  345,  348,  351,  354,  363,                    369,  375,  378,  391,  394,
+        /* LCTL  LWIN  LALT               SPC              RALT  RFNC  RMNU  RCTL              ARWL  ARWD  ARWR  NUM0  NUM. */
+           397,  400,  403,              415,              427,  430,  433,  436,              442,  455,  458,  461,  467
+    },
+    {
+        /* Add more regional layout fixes here */
+    }
+};
+
+RGBController_WitmodKeyboard::RGBController_WitmodKeyboard(WitmodKeyboardController* controller_ptr)
 {
     controller              = controller_ptr;
 
     name                    = controller->GetNameString();
-    vendor                  = "Red Square";
+    vendor                  = controller->GetVendorString();
     type                    = DEVICE_TYPE_KEYBOARD;
-    description             = "Red Square Keyrox TKL Classic Device";
+    description             = "Witmod Keyboard Device";
+    version                 = controller->GetVersionString();
     location                = controller->GetDeviceLocation();
     serial                  = controller->GetSerialString();
 
     int BASE_EFFECT_FLAGS   = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
 
     const int EFFECTS_COUNT = 14;
-    keyrox_effect keyrox_effects[EFFECTS_COUNT] =
+    witmod_effect witmod_effects[EFFECTS_COUNT] =
     {
         {
             "Static",
-            CLASSIC_CONST_MODE_VALUE,
+            WITMOD_CONST_MODE_VALUE,
             MODE_FLAG_HAS_MODE_SPECIFIC_COLOR
         },
         {
             "Direct",
-            CLASSIC_CUSTOM_MODE_VALUE,
+            WITMOD_CUSTOM_MODE_VALUE,
             MODE_FLAG_HAS_PER_LED_COLOR
         },
         {
             "Wave",
-            CLASSIC_WAVE_MODE_VALUE,
+            WITMOD_WAVE_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_DIRECTION_HV
         },
         {
             "Breathing",
-            CLASSIC_FADE_MODE_VALUE,
+            WITMOD_FADE_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED
         },
         {
             "Radar",
-            CLASSIC_RADAR_MODE_VALUE,
+            WITMOD_RADAR_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR // round animation
         },
         {
             "Star (Interactive)",
-            CLASSIC_STAR_MODE_VALUE,
+            WITMOD_STAR_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED
         },
         {
             "Line (Interactive)",
-            CLASSIC_LINE_MODE_VALUE,
+            WITMOD_LINE_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_HV
         },
         {
             "Ripple (Interactive)",
-            CLASSIC_RIPPLE_MODE_VALUE,
+            WITMOD_RIPPLE_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED
         },
         {
             "Stars",
-            CLASSIC_STARS_MODE_VALUE,
+            WITMOD_STARS_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED
         },
         {
             "Cross (Interactive)",
-            CLASSIC_CROSS_MODE_VALUE,
+            WITMOD_CROSS_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED
         },
         {
             "Horizontal bars (Interactive)",
-            CLASSIC_WTF_MODE_VALUE,
+            WITMOD_WTF_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_DIRECTION_UD
         },
         {
             "Ripple random",
-            CLASSIC_RIPPLE_RANDOM_MODE_VALUE,
+            WITMOD_RIPPLE_RANDOM_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED
         },
         {
             "Running line",
-            CLASSIC_RUNNING_LINE_MODE_VALUE,
+            WITMOD_RUNNING_LINE_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR // round direction
         },
         {
             "Fireworks (Interactive)",
-            CLASSIC_FIREWORK_MODE_VALUE,
+            WITMOD_FIREWORK_MODE_VALUE,
             BASE_EFFECT_FLAGS | MODE_FLAG_HAS_SPEED
         },
     };
@@ -144,11 +173,11 @@ RGBController_RedSquareKeyroxTKLClassic::RGBController_RedSquareKeyroxTKLClassic
     for(int i = 0; i < EFFECTS_COUNT; i++)
     {
         mode m;
-        m.name  = keyrox_effects[i].name;
-        m.value = keyrox_effects[i].value;
-        m.flags = keyrox_effects[i].flags | MODE_FLAG_HAS_BRIGHTNESS;
+        m.name  = witmod_effects[i].name;
+        m.value = witmod_effects[i].value;
+        m.flags = witmod_effects[i].flags | MODE_FLAG_HAS_BRIGHTNESS;
 
-        if(m.flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR && m.value != CLASSIC_CONST_MODE_VALUE)
+        if(m.flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR && m.value != WITMOD_CONST_MODE_VALUE)
         {
             // background and foreground
             m.color_mode = MODE_COLORS_MODE_SPECIFIC;
@@ -176,15 +205,15 @@ RGBController_RedSquareKeyroxTKLClassic::RGBController_RedSquareKeyroxTKLClassic
 
         if(m.flags & MODE_FLAG_HAS_SPEED)
         {
-            m.speed_min = CLASSIC_KEYROX_SPEED_MIN;
-            m.speed_max = CLASSIC_KEYROX_SPEED_MAX;
-            m.speed     = (CLASSIC_KEYROX_SPEED_MAX - CLASSIC_KEYROX_SPEED_MIN) / 2;
+            m.speed_min = WITMOD_SPEED_MIN;
+            m.speed_max = WITMOD_SPEED_MAX;
+            m.speed     = (WITMOD_SPEED_MAX - WITMOD_SPEED_MIN) / 2;
         }
 
         if(m.flags & MODE_FLAG_HAS_BRIGHTNESS)
         {
-            m.brightness_min = CLASSIC_KEYROX_BRIGHTNESS_MIN;
-            m.brightness_max = CLASSIC_KEYROX_BRIGHTNESS_MAX;
+            m.brightness_min = WITMOD_BRIGHTNESS_MIN;
+            m.brightness_max = WITMOD_BRIGHTNESS_MAX;
             m.brightness     = m.brightness_max;
         }
 
@@ -194,16 +223,32 @@ RGBController_RedSquareKeyroxTKLClassic::RGBController_RedSquareKeyroxTKLClassic
     SetupZones();
 }
 
-RGBController_RedSquareKeyroxTKLClassic::~RGBController_RedSquareKeyroxTKLClassic()
+RGBController_WitmodKeyboard::~RGBController_WitmodKeyboard()
 {
     Shutdown();
 
     delete controller;
 }
 
-void RGBController_RedSquareKeyroxTKLClassic::SetupZones()
+void RGBController_WitmodKeyboard::SetupZones()
 {
-    KeyboardLayoutManager new_kb(KEYBOARD_LAYOUT_ANSI_QWERTY, KEYBOARD_SIZE_TKL, keyrox_tkl_offset_values);
+    /*---------------------------------------------------------*\
+    |  Pick the layout for the size the controller reported.    |
+    |  The number pad sits in the four matrix columns to the    |
+    |  right of the GK8110 keys, so the map has to be built      |
+    |  wider or those keys are dropped from it.                 |
+    \*---------------------------------------------------------*/
+    KEYBOARD_SIZE           keyboard_size   = controller->GetKeyboardSize();
+    const layout_values*    offset_values   = &gk8110_offset_values;
+    unsigned char           matrix_width    = GK8110_WIDTH;
+
+    if(keyboard_size == KEYBOARD_SIZE_FULL)
+    {
+        offset_values   = &gk8120_offset_values;
+        matrix_width    = GK8120_WIDTH;
+    }
+
+    KeyboardLayoutManager new_kb(KEYBOARD_LAYOUT_ANSI_QWERTY, keyboard_size, *offset_values);
 
     /*---------------------------------------------------------*\
     |  Create the keyboard zone usiung Keyboard Layout Manager  |
@@ -214,7 +259,7 @@ void RGBController_RedSquareKeyroxTKLClassic::SetupZones()
     new_zone.leds_count             = new_kb.GetKeyCount();
     new_zone.leds_min               = new_zone.leds_count;
     new_zone.leds_max               = new_zone.leds_count;
-    new_zone.matrix_map             = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT, KEYROX_TKL_CLASSIC_HEIGHT, KEYROX_TKL_CLASSIC_WIDTH);
+    new_zone.matrix_map             = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT, WITMOD_MATRIX_HEIGHT, matrix_width);
 
     /*---------------------------------------------------------*\
     | Create LEDs for the Matrix zone                           |
@@ -234,22 +279,22 @@ void RGBController_RedSquareKeyroxTKLClassic::SetupZones()
     SetupColors();
 }
 
-void RGBController_RedSquareKeyroxTKLClassic::DeviceUpdateLEDs()
+void RGBController_WitmodKeyboard::DeviceUpdateLEDs()
 {
     controller->SetLEDsData(colors, leds);
 }
 
-void RGBController_RedSquareKeyroxTKLClassic::DeviceUpdateZoneLEDs(int /*zone*/)
+void RGBController_WitmodKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RedSquareKeyroxTKLClassic::DeviceUpdateSingleLED(int /*led*/)
+void RGBController_WitmodKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RedSquareKeyroxTKLClassic::DeviceUpdateMode()
+void RGBController_WitmodKeyboard::DeviceUpdateMode()
 {
     controller->SetMode(modes[active_mode]);
 }

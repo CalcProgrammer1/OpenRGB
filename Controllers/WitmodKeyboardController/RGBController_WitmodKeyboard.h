@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| RGBController_RedSquareKeyroxTKLClassic.h                 |
+| RGBController_WitmodKeyboard.h                             |
 |                                                           |
-|   RGBController for Red Square Keyrox TKL Classic         |
+|   RGBController for Witmod keyboards                      |
 |                                                           |
 |   vlack                                       03 May 2023 |
 |                                                           |
@@ -14,16 +14,22 @@
 #include "RGBController.h"
 #include "RGBControllerKeyNames.h"
 #include "KeyboardLayoutManager.h"
-#include "RedSquareKeyroxTKLClassicController.h"
+#include "WitmodKeyboardController.h"
 
-#define KEYROX_TKL_CLASSIC_WIDTH    17
-#define KEYROX_TKL_CLASSIC_HEIGHT   6
+/*---------------------------------------------------------*\
+| Both sizes share the same six row hardware matrix.  The   |
+| GK8120 adds the number pad in the four columns to the     |
+| right of the GK8110 keys.                                 |
+\*---------------------------------------------------------*/
+#define GK8110_WIDTH            17
+#define GK8120_WIDTH            21
+#define WITMOD_MATRIX_HEIGHT    6
 
-class RGBController_RedSquareKeyroxTKLClassic : public RGBController
+class RGBController_WitmodKeyboard : public RGBController
 {
 public:
-    RGBController_RedSquareKeyroxTKLClassic(RedSquareKeyroxTKLClassicController* controller_ptr);
-    ~RGBController_RedSquareKeyroxTKLClassic();
+    RGBController_WitmodKeyboard(WitmodKeyboardController* controller_ptr);
+    ~RGBController_WitmodKeyboard();
 
     void                SetupZones();
 
@@ -34,5 +40,5 @@ public:
     void                DeviceUpdateMode();
 
 private:
-    RedSquareKeyroxTKLClassicController* controller;
+    WitmodKeyboardController* controller;
 };
