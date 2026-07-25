@@ -94,7 +94,7 @@ make install INSTALL_ROOT=AppDir
 
 #-----------------------------------------------------------------------#
 # Make sure Qt plugin finds QML sources so it can deploy the imported   #
-# files                                                                 #
+# files.  Also deploy Wayland support and extra modules used by plugins #
 #-----------------------------------------------------------------------#
 export QML_SOURCES_PATHS="$REPO_ROOT"/src
 
@@ -107,7 +107,29 @@ if [ ! -f $LIBHIDAPI_LIBUSB_PATH ]; then
     LIBHIDAPI_LIBUSB_PATH=$(find /usr/lib -name "libhidapi-libusb.so")
 fi
 
-linuxdeploy-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir -e "$TARGET" -i "$REPO_ROOT"/qt/org.openrgb.OpenRGB.png -d "$REPO_ROOT"/qt/org.openrgb.OpenRGB.desktop --library "$LIBHIDAPI_LIBUSB_PATH"
+QT6_OPENGL_PATH=$(find /usr/lib -name "libQt6OpenGL.so.6")
+QT6_CORE5COMPAT_PATH=$(find /usr/lib -name "libQt6Core5Compat.so.6")
+
+#-----------------------------------------------------------------------#
+# Create custom AppRun script to set environment variables for Qt       #
+# plugins to find bundled libraries (handles both Qt5 and Qt6)          #
+#-----------------------------------------------------------------------#
+cat > AppRun << 'APPRUN_EOF'
+#!/bin/bash
+
+# Get the absolute path to the AppDir
+HERE="$(cd "$(dirname "$(readlink -f "${0}")")" && pwd)"
+
+# Set LD_LIBRARY_PATH so plugins can find bundled Qt libraries
+export LD_LIBRARY_PATH="${HERE}/usr/lib"
+
+# Execute the main binary
+exec "${HERE}/usr/bin/OpenRGB" "$@"
+APPRUN_EOF
+
+chmod +x AppRun
+
+linuxdeploy-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir --executable "$TARGET" --custom-apprun AppRun --icon-file "$REPO_ROOT"/qt/org.openrgb.OpenRGB.png --desktop-file "$REPO_ROOT"/qt/org.openrgb.OpenRGB.desktop --library "$LIBHIDAPI_LIBUSB_PATH" --library "$QT6_OPENGL_PATH" --library "$QT6_CORE5COMPAT_PATH"
 linuxdeploy-plugin-qt-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir
 linuxdeploy-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir --output appimage
 
