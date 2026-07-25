@@ -205,6 +205,13 @@ public:
     std::string                         GetDetectionString();
     void                                WaitForDetection();
 
+#ifdef __linux__
+    /*-----------------------------------------------------*\
+    | Udev rules generation function                        |
+    \*-----------------------------------------------------*/
+    bool                                GenerateUdevRules(const std::string& filepath);
+#endif
+
 private:
     /*-----------------------------------------------------*\
     | Static pointer to shared instance of DetectionManager |
