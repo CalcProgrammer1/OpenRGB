@@ -699,6 +699,8 @@ void OpenRGBDevicePage::UpdateLEDList()
                 /*-----------------------------------------*\
                 | Clear LED box                             |
                 \*-----------------------------------------*/
+                int previous_color_index = ui->LEDBox->currentIndex();
+
                 ui->LEDBox->blockSignals(true);
                 ui->LEDBox->clear();
 
@@ -714,9 +716,19 @@ void OpenRGBDevicePage::UpdateLEDList()
                 }
 
                 /*-----------------------------------------*\
-                | Enable LED box                            |
+                | Keep the selected color if it is still in |
+                | range.  Applying a color signals a mode   |
+                | update that rebuilds this box; without    |
+                | this the selection would jump back to 0.  |
                 \*-----------------------------------------*/
-                ui->LEDBox->setCurrentIndex(0);
+                if((previous_color_index > 0) && (previous_color_index < (int)mode_colors))
+                {
+                    ui->LEDBox->setCurrentIndex(previous_color_index);
+                }
+                else
+                {
+                    ui->LEDBox->setCurrentIndex(0);
+                }
                 ui->LEDBox->setEnabled(true);
                 ui->LEDBox->blockSignals(false);
             }
@@ -1019,9 +1031,23 @@ void OpenRGBDevicePage::UpdateLEDUi()
                     color = device->GetModeColor(selected_mode, index);
                 }
 
-                current_color.setRgb(RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color));
+                /*-----------------------------------------*\
+                | Repaint the picker only when the stored   |
+                | color differs from what it already shows. |
+                | A self applied color returns as the same  |
+                | RGB, and repainting from that round trip  |
+                | would drop the hue being edited at a low  |
+                | value.  An external mode change brings a  |
+                | different color and still updates.        |
+                \*-----------------------------------------*/
+                RGBColor shown_color = ToRGBColor(current_color.red(), current_color.green(), current_color.blue());
 
-                UpdateColorUi();
+                if(color != shown_color)
+                {
+                    current_color.setRgb(RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color));
+
+                    UpdateColorUi();
+                }
             }
             break;
         default:
