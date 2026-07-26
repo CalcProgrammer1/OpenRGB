@@ -296,14 +296,14 @@ void NetworkClient::StopClient()
     /*-----------------------------------------------------*\
     | Close the ProfileManager listen thread                |
     \*-----------------------------------------------------*/
-    if(profilemanager_thread->thread)
+    if(profilemanager_thread)
     {
         profilemanager_thread->online = false;
         profilemanager_thread->start_cv.notify_all();
         profilemanager_thread->thread->join();
         delete profilemanager_thread->thread;
-        profilemanager_thread->thread = nullptr;
         delete profilemanager_thread;
+        profilemanager_thread = nullptr;
     }
 
     /*-----------------------------------------------------*\
