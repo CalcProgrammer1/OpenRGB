@@ -174,6 +174,7 @@ NetworkServer::NetworkServer()
 
     plugin_manager              = nullptr;
     profile_manager             = nullptr;
+    profilemanager_thread       = nullptr;
     settings_manager            = nullptr;
 }
 
