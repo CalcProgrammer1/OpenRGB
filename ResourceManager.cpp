@@ -811,14 +811,26 @@ void ResourceManager::SignalResourceManagerUpdate(unsigned int update_reason)
         server->SignalResourceManagerUpdate(update_reason);
     }
 
+    /*-----------------------------------------------------*\
+    | Snapshot the callback list, then invoke unlocked. A   |
+    | blocking callback must not hold the mutex: the GUI's  |
+    | blocking device list callback waits forever once the  |
+    | event loop has exited at shutdown, and a held mutex   |
+    | then deadlocks the unregister in the dialog           |
+    | destructor. A callback may still fire once after its  |
+    | unregister returns.                                   |
+    \*-----------------------------------------------------*/
     ResourceManagerCallbackMutex.lock();
 
-    for(std::size_t callback_idx = 0; callback_idx < ResourceManagerCallbacks.size(); callback_idx++)
-    {
-        ResourceManagerCallbacks[callback_idx](ResourceManagerCallbackArgs[callback_idx], update_reason);
-    }
+    std::vector<ResourceManagerCallback>    callbacks       = ResourceManagerCallbacks;
+    std::vector<void *>                     callback_args   = ResourceManagerCallbackArgs;
 
     ResourceManagerCallbackMutex.unlock();
+
+    for(std::size_t callback_idx = 0; callback_idx < callbacks.size(); callback_idx++)
+    {
+        callbacks[callback_idx](callback_args[callback_idx], update_reason);
+    }
 
     LOG_TRACE("[%s] ResourceManager update signalled: %d", RESOURCEMANAGER, update_reason);
 }

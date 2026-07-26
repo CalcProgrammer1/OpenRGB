@@ -577,6 +577,14 @@ void OpenRGBDialog::closeEvent(QCloseEvent *event)
     }
     else
     {
+        /*-------------------------------------------------*\
+        | Stop receiving resource manager callbacks before  |
+        | the event loop dies: plugin teardown signals from |
+        | worker threads would post blocking calls no loop  |
+        | will ever service.                                |
+        \*-------------------------------------------------*/
+        ResourceManager::get()->UnregisterResourceManagerCallback(OpenRGBDialogResourceManagerCallback, this);
+
         plugin_manager->UnloadPlugins();
 
         if(ResourceManager::get()->GetProfileManager()->LoadAutoProfileExit())
