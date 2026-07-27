@@ -34,4 +34,6 @@ private:
     void SelectProfile(unsigned char profile);
     void SendInitialization();
     void SendDeinitialization();
+
+    unsigned int direct_packet_length;
 };

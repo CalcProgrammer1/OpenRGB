@@ -36,6 +36,19 @@ static unsigned int keys[] =
     0x63, 0xFB
 };
 
+/*---------------------------------------------------------*\
+| Models whose direct lighting feature report is shorter    |
+| than APEX_PACKET_LENGTH.  Sending the wrong report size   |
+| makes the keyboard stall the control transfer, so any     |
+| model listed here would silently ignore lighting updates  |
+| if the default length were used.                          |
+\*---------------------------------------------------------*/
+inline static const std::map<unsigned short, unsigned int> direct_packet_length_map =
+{
+    {STEELSERIES_APEX_9_TKL_PID,             APEX_9_PACKET_LENGTH},
+    {STEELSERIES_APEX_9_MINI_PID,            APEX_9_PACKET_LENGTH},
+};
+
 inline static const std::map<unsigned short, protocol_quirk> protocol_map =
 {
     {STEELSERIES_APEX_9_TKL_PID,             APEX_GEN2},
@@ -53,9 +66,14 @@ SteelSeriesApexController::SteelSeriesApexController(hid_device* dev_handle, ste
     proto_type = type;
     kbd_quirk = APEX_GEN1;
     device_pid = pid;
+    direct_packet_length = APEX_PACKET_LENGTH;
     if(protocol_map.count(device_pid) > 0)
     {
         kbd_quirk = protocol_map.at(device_pid);
+    }
+    if(direct_packet_length_map.count(device_pid) > 0)
+    {
+        direct_packet_length = direct_packet_length_map.at(device_pid);
     }
     SendInitialization();
 }
@@ -104,6 +122,20 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     int num_keys = sizeof(keys) / sizeof(*keys);
     unsigned char packet_id = APEX_GEN1_PACKET_ID_DIRECT;
 
+    /*-----------------------------------------------------*\
+    | Never write past the end of the report or past        |
+    | the end of the color vector                           |
+    \*-----------------------------------------------------*/
+    if((unsigned int)num_keys > colors.size())
+    {
+        num_keys = (int)colors.size();
+    }
+
+    if((unsigned int)((num_keys * 4) + 3) > direct_packet_length)
+    {
+        num_keys = (int)((direct_packet_length - 3) / 4);
+    }
+
     if(kbd_quirk >= APEX_GEN2)
     {
         /*-------------------------------------------------*\
@@ -134,7 +166,7 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     \*-----------------------------------------------------*/
     buf[0x00]   = 0;
     buf[0x01]   = packet_id;
-    buf[0x02]   = kbd_quirk ? (unsigned char)colors.size() : num_keys;
+    buf[0x02]   = (unsigned char)num_keys;
 
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
@@ -150,7 +182,12 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, APEX_PACKET_LENGTH);
+    int result = hid_send_feature_report(dev, buf, direct_packet_length);
+
+    if(result < 0)
+    {
+        LOG_DEBUG("[%s] Direct lighting update failed, %u byte report", name.c_str(), direct_packet_length);
+    }
 }
 
 /*---------------------------------------------------------*\

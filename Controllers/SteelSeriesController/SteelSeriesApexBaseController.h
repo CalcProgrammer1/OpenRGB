@@ -47,7 +47,7 @@ enum
 enum
 {
     APEX_PACKET_LENGTH                  = 643,
-    APEX_9_PACKET_LENGTH                = 513,      /* Test if required           */
+    APEX_9_PACKET_LENGTH                = 513,      /* Apex 9 direct report size  */
     APEX_PACKET_ID_PROFILE              = 0x89,     /* Profile                    */
     APEX_PACKET_ID_FIRMWARE             = 0x90,     /* Firmware version           */
     APEX_GEN1_PACKET_ID_DIRECT          = 0x3A,     /* Direct mode                */
