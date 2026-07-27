@@ -487,7 +487,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         \*---------------------------------------------------------*/
         if(!controller->GetVersion().empty())
         {
-            std::cout << "  Version:        " << controller->GetLocation() << std::endl;
+            std::cout << "  Version:        " << controller->GetVersion() << std::endl;
         }
 
         /*---------------------------------------------------------*\
