@@ -20,6 +20,15 @@
 #define MSI_MONITOR_PACKET_SIZE 78
 
 /*---------------------------------------------------------*\
+| This panel holds each feature report outstanding for      |
+| tens of ms while its MCU applies the frame, pinning the   |
+| shared control pipe.  Idle briefly after each write so    |
+| other non periodic traffic on the bus is not starved.     |
+| See SendFeatureReport.                                    |
+\*---------------------------------------------------------*/
+#define MSI_MONITOR_PIPE_IDLE_MS   5
+
+/*---------------------------------------------------------*\
 | 0x72 layout (dual control block, e.g. MPG 322URX QD-OLED) |
 \*---------------------------------------------------------*/
 #define MSI_MONITOR_72_PACKET_SIZE      168
@@ -132,6 +141,8 @@ public:
     void SetMode72(uint8_t mode_value, uint8_t speed, uint8_t brightness, RGBColor color1, RGBColor color2, bool user_palette, bool save, const std::vector<RGBColor>& led_colors, bool fill_both_arrays);
 
 private:
+    void SendFeatureReport(uint8_t *data, size_t length);
+
     hid_device *dev;
     std::string description;
     std::string location;

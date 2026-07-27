@@ -10,9 +10,30 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <chrono>
 #include <string.h>
+#include <thread>
 #include "MSIMonitorController.h"
 #include "StringUtils.h"
+
+/*---------------------------------------------------------*\
+| Feature reports are control transfers and this panel      |
+| holds one outstanding for tens of milliseconds.  Back     |
+| to back writes pin the shared control pipe at full        |
+| duty and starve other non periodic traffic: a device      |
+| with no interrupt OUT endpoint writes by SET_REPORT       |
+| and stops answering, while its isochronous endpoints      |
+| keep running.                                             |
+|                                                           |
+| Idle a fixed interval after each write to leave the       |
+| control pipe free.                                        |
+\*---------------------------------------------------------*/
+void MSIMonitorController::SendFeatureReport(uint8_t *data, size_t length)
+{
+    hid_send_feature_report(dev, data, length);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(MSI_MONITOR_PIPE_IDLE_MS));
+}
 
 MSIMonitorController::MSIMonitorController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
@@ -118,7 +139,7 @@ void MSIMonitorController::Set(uint8_t mode_value, const std::vector<RGBColor> c
     | Send the data (1 packet)                                  |
     \*---------------------------------------------------------*/
 
-    hid_send_feature_report(dev, data, MSI_MONITOR_PACKET_SIZE);
+    SendFeatureReport(data, MSI_MONITOR_PACKET_SIZE);
 }
 
 uint8_t MSIMonitorController::GetLayoutVersion()
@@ -238,5 +259,5 @@ void MSIMonitorController::SetMode72(uint8_t mode_value, uint8_t speed, uint8_t 
     \*-----------------------------------------------------*/
     data[MSI_MONITOR_72_STORE_INDEX] = save ? 0x01 : 0x00;
 
-    hid_send_feature_report(dev, data, MSI_MONITOR_72_PACKET_SIZE);
+    SendFeatureReport(data, MSI_MONITOR_72_PACKET_SIZE);
 }
