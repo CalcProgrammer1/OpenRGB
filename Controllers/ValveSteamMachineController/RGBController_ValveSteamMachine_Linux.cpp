@@ -47,6 +47,14 @@ RGBController_ValveSteamMachine::RGBController_ValveSteamMachine(ValveSteamMachi
         std::string effect_name = effects[effect_idx];
 
         /*-------------------------------------------------*\
+        | Set active_mode if this effect is active          |
+        \*-------------------------------------------------*/
+        if(effect_name == controller->GetEffect())
+        {
+            active_mode         = effect_idx;
+        }
+
+        /*-------------------------------------------------*\
         | Determine flags and color mode for effect         |
         \*-------------------------------------------------*/
         if(effect_name == "off")
@@ -93,10 +101,10 @@ RGBController_ValveSteamMachine::RGBController_ValveSteamMachine(ValveSteamMachi
         new_mode.color_mode     = effect_color_mode;
         new_mode.speed_min      = 20;
         new_mode.speed_max      = 0;
-        new_mode.speed          = 10;
+        new_mode.speed          = controller->GetDelay();
         new_mode.brightness_min = 0;
         new_mode.brightness_max = 0xFF;
-        new_mode.brightness     = 0x38;
+        new_mode.brightness     = controller->GetBrightness();
         modes.push_back(new_mode);
     }
 

@@ -11,7 +11,6 @@
 
 #include "ValveSteamMachineController_Linux.h"
 #include <fstream>
-#include <sstream>
 #include <algorithm>
 
 ValveSteamMachineController::ValveSteamMachineController(std::string dev_name)
@@ -116,6 +115,65 @@ std::vector<std::string> ValveSteamMachineController::GetAvailableEffects()
     return(available_effects);
 }
 
+unsigned int ValveSteamMachineController::GetBrightness()
+{
+    if(led_brightness_scale.is_open())
+    {
+        std::ifstream brightness_file(led_paths[0] + "brightness_scale");
+
+        if(brightness_file.good())
+        {
+            unsigned int brightness = 0;
+            brightness_file >> std::hex >> brightness;
+            brightness_file.close();
+            return(brightness);
+        }
+    }
+
+    return(0);
+}
+
+unsigned int ValveSteamMachineController::GetDelay()
+{
+    if(led_delay.is_open())
+    {
+        std::ifstream delay_file(led_paths[0] + "delay");
+
+        if(delay_file.good())
+        {
+            unsigned int delay = 0;
+            delay_file >> std::hex >> delay;
+            delay_file.close();
+            return(delay);
+        }
+    }
+
+    return(0);
+}
+
+std::string ValveSteamMachineController::GetEffect()
+{
+    /*-----------------------------------------------------*\
+    | Reading the effect on one LED reflects the active     |
+    | effect for all LEDs on the device, so we only need to |
+    | read it from the first LED.                           |
+    \*-----------------------------------------------------*/
+    if(led_effect.size() > 0)
+    {
+        std::ifstream effect_file(led_paths[0] + "effect");
+
+        if(effect_file.good())
+        {
+            std::string effect;
+            std::getline(effect_file, effect);
+            effect_file.close();
+            return(effect);
+        }
+    }
+
+    return("");
+}
+
 void ValveSteamMachineController::ReadAvailableEffects(std::string first_led_path)
 {
     std::ifstream effect_index_file(first_led_path + "effect_index");
@@ -132,20 +190,9 @@ void ValveSteamMachineController::ReadAvailableEffects(std::string first_led_pat
     | read, and is used to set the active effect when       |
     | written.                                              |
     \*-----------------------------------------------------*/
-    std::string content;
-    std::string line;
-
-    while(std::getline(effect_index_file, line))
-    {
-        content += line + " ";
-    }
-
-    effect_index_file.close();
-
-    std::istringstream stream(content);
     std::string token;
 
-    while(stream >> token)
+    while(effect_index_file >> token)
     {
         /*-------------------------------------------------*\
         | Add to list if not already present                |
@@ -174,22 +221,6 @@ void ValveSteamMachineController::SetLEDColor(unsigned int led_idx, unsigned cha
 
     led_multi_intensity[led_idx].write(color_str.c_str(), color_str.length());
     led_multi_intensity[led_idx].flush();
-}
-
-void ValveSteamMachineController::SetLEDEffect(unsigned int led_idx, std::string effect)
-{
-    if(led_idx >= led_paths.size())
-    {
-        return;
-    }
-
-    if(led_effect.size() <= led_idx)
-    {
-        return;
-    }
-
-    led_effect[led_idx].write(effect.c_str(), effect.length());
-    led_effect[led_idx].flush();
 }
 
 void ValveSteamMachineController::SetEffect(std::string effect)

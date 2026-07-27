@@ -29,16 +29,20 @@ public:
     std::string                 GetLEDPath(unsigned int led_idx);
 
     std::vector<std::string>    GetAvailableEffects();
+    unsigned int                GetBrightness();
+    unsigned int                GetDelay();
+    std::string                 GetEffect();
+
     bool                        SupportsEffects();
 
     void                        SetLEDColor(unsigned int led_idx, unsigned char red, unsigned char grn, unsigned char blu);
-    void                        SetLEDEffect(unsigned int led_idx, std::string effect);
     void                        SetEffect(std::string effect);
     void                        SetBrightness(unsigned int brightness);
     void                        SetDelay(unsigned int delay);
 
 private:
     std::string                 name;
+
     std::vector<std::string>    led_paths;
     std::vector<std::ofstream>  led_brightness;
     std::vector<std::ofstream>  led_multi_intensity;
