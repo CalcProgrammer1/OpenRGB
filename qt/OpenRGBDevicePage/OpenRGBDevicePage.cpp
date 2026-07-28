@@ -2026,7 +2026,7 @@ void OpenRGBDevicePage::UpdateInterface(unsigned int update_reason)
     case RGBCONTROLLER_UPDATE_REASON_HIDDEN:
     case RGBCONTROLLER_UPDATE_REASON_UNHIDDEN:
     case RGBCONTROLLER_UPDATE_REASON_CONFIGUREDEVICE:
-        emit RefreshList();
+        emit ShowHideList();
         break;
 
     case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:

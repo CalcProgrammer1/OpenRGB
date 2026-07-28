@@ -129,5 +129,7 @@ private slots:
 
 signals:
     void RefreshList();
+    void ShowHideList();
+
     void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
 };

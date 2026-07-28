@@ -148,6 +148,7 @@ private:
 
     void ClearDevicesList();
     void UpdateDevicesList();
+    void UpdateDevicesListShowHide();
     void closeEvent(QCloseEvent *event) override;
     bool SelectConfigProfile(const std::string name);
 
@@ -166,6 +167,9 @@ private:
     void UpdateTabs();
     bool isCompactTabMode();
 
+public slots:
+    void onDeviceListUpdated();
+
 private slots:
     void on_Exit();
     void on_LightsOff();
@@ -176,7 +180,7 @@ private slots:
     void on_QuickBlue();
     void on_QuickMagenta();
     void on_QuickWhite();
-    void onDeviceListUpdated();
+    void onDeviceListShowHide();
     void onDetectionProgressUpdated();
     void onDetectionStarted();
     void onDetectionEnded();
