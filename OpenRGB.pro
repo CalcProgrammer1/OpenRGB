@@ -338,6 +338,20 @@ win32:INCLUDEPATH +=                                                            
 
 win32:SOURCES += $$CONTROLLER_CPP_WINDOWS
 
+#-----------------------------------------------------------------------------------------------#
+# Exclude controllers that depend on PawnIO from the 32-bit BUILDDATE_STRING                    #
+#-----------------------------------------------------------------------------------------------#
+win32:!contains(QMAKE_TARGET.arch, x86_64) {
+    win32:SOURCES -=                                                                            \
+        Controllers/ValveSteamMachineController/RGBController_ValveSteamMachine_Windows_Linux.cpp \
+        Controllers/ValveSteamMachineController/ValveSteamMachineController_Windows.cpp         \
+        Controllers/ValveSteamMachineController/ValveSteamMachineControllerDetect_Windows.cpp   \
+
+    win32:HEADERS -=                                                                            \
+        Controllers/ValveSteamMachineController/RGBController_ValveSteamMachine_Windows_Linux.h \
+        Controllers/ValveSteamMachineController/ValveSteamMachineController_Windows.h           \
+}
+
 win32:SOURCES +=                                                                                \
     dependencies/hueplusplus-1.2.0/src/WinHttpHandler.cpp                                       \
     dependencies/NVFC/nvapi.cpp                                                                 \
@@ -441,6 +455,7 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/PawnIO/modules/SmbusIntelSkylakeIMC.bin     )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/PawnIO/modules/SmbusNCT6793.bin             )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/PawnIO/modules/LpcIO.bin                    )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/PawnIO/modules/LedsValve.bin                )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     first.depends = $(first) copydata
     export(first.depends)
     export(copydata.commands)

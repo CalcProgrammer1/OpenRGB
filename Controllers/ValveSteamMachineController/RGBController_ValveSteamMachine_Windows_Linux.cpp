@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| RGBController_ValveSteamMachine_Linux.cpp                 |
+| RGBController_ValveSteamMachine_Windows_Linux.cpp         |
 |                                                           |
 |   RGBController for Valve Steam Machine LEDs              |
 |                                                           |
@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "RGBController_ValveSteamMachine_Linux.h"
+#include "RGBController_ValveSteamMachine_Windows_Linux.h"
 #include <cctype>
 
 /**------------------------------------------------------------------*\
@@ -31,7 +31,7 @@ RGBController_ValveSteamMachine::RGBController_ValveSteamMachine(ValveSteamMachi
     vendor                      = "Valve";
     type                        = DEVICE_TYPE_LEDSTRIP;
     description                 = "Valve Steam Machine Device";
-    location                    = controller->GetLEDPath(0);
+    location                    = controller->GetLocation();
 
     /*-----------------------------------------------------*\
     | If the device supports hardware effects, add them as  |
@@ -39,6 +39,17 @@ RGBController_ValveSteamMachine::RGBController_ValveSteamMachine(ValveSteamMachi
     | is the index into the available effects list.         |
     \*-----------------------------------------------------*/
     effects                     = controller->GetAvailableEffects();
+
+    /*-----------------------------------------------------*\
+    | Add a Disabled mode as the first mode.  When this     |
+    | mode is active, the device's enabled flag is set to   |
+    | false, turning the LEDs off without applying any      |
+    | hardware effect.                                      |
+    \*-----------------------------------------------------*/
+    mode disabled_mode;
+    disabled_mode.name           = "Disabled";
+    disabled_mode.color_mode     = MODE_COLORS_NONE;
+    modes.push_back(disabled_mode);
 
     for(unsigned int effect_idx = 0; effect_idx < effects.size(); effect_idx++)
     {
@@ -51,7 +62,7 @@ RGBController_ValveSteamMachine::RGBController_ValveSteamMachine(ValveSteamMachi
         \*-------------------------------------------------*/
         if(effect_name == controller->GetEffect())
         {
-            active_mode         = effect_idx;
+            active_mode         = effect_idx + 1;
         }
 
         /*-------------------------------------------------*\
@@ -108,6 +119,16 @@ RGBController_ValveSteamMachine::RGBController_ValveSteamMachine(ValveSteamMachi
         modes.push_back(new_mode);
     }
 
+    /*-----------------------------------------------------*\
+    | If the device is not enabled at startup, initialize   |
+    | active_mode to the Disabled mode (index 0) instead    |
+    | of forcibly enabling it.                              |
+    \*-----------------------------------------------------*/
+    if(!controller->GetEnabled())
+    {
+        active_mode = 0;
+    }
+
     SetupZones();
 }
 
@@ -162,19 +183,32 @@ void RGBController_ValveSteamMachine::DeviceUpdateZoneLEDs(int /*zone*/)
 
 void RGBController_ValveSteamMachine::DeviceUpdateSingleLED(int led)
 {
-    unsigned char red = RGBGetRValue(colors[led]);
-    unsigned char grn = RGBGetGValue(colors[led]);
-    unsigned char blu = RGBGetBValue(colors[led]);
-
-    controller->SetLEDColor(led, red, grn, blu);
+    controller->SetLEDColor(led, colors[led]);
 }
 
 void RGBController_ValveSteamMachine::DeviceUpdateMode()
 {
-    if((unsigned int)active_mode < effects.size())
+    /*-----------------------------------------------------*\
+    | If the active mode is Disabled (index 0), set         |
+    | enabled to false on the device instead of forcibly    |
+    | enabling it.                                          |
+    \*-----------------------------------------------------*/
+    if(active_mode == 0)
     {
-        controller->SetEffect(effects[active_mode]);
-        controller->SetBrightness(modes[active_mode].brightness);
-        controller->SetDelay(modes[active_mode].speed);
+        controller->SetEnabled(false);
+    }
+    else
+    {
+        if(!controller->GetEnabled())
+        {
+            controller->SetEnabled(true);
+        }
+
+        if((unsigned int)(active_mode - 1) < effects.size())
+        {
+            controller->SetEffect(effects[active_mode - 1]);
+            controller->SetBrightness(modes[active_mode].brightness);
+            controller->SetDelay(modes[active_mode].speed);
+        }
     }
 }

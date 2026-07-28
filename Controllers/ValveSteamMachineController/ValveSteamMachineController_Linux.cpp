@@ -43,12 +43,8 @@ void ValveSteamMachineController::AddLED(std::string led_path)
     led_paths.push_back(path);
 
     /*-----------------------------------------------------*\
-    | Open the brightness and multi_intensity files         |
+    | Open the multi_intensity files                        |
     \*-----------------------------------------------------*/
-    std::ofstream brightness_file;
-    brightness_file.open(path + "brightness");
-    led_brightness.push_back(std::move(brightness_file));
-
     std::ofstream multi_intensity_file;
     multi_intensity_file.open(path + "multi_intensity");
     led_multi_intensity.push_back(std::move(multi_intensity_file));
@@ -62,6 +58,13 @@ void ValveSteamMachineController::AddLED(std::string led_path)
     {
         led_brightness_scale.open(path + "brightness_scale");
         led_delay.open(path + "delay");
+        led_enabled.open(path + "enabled");
+        led_breath_offset.open(path + "breath_offset");
+        led_breath_level.open(path + "breath_level");
+        led_patrol_num.open(path + "patrol_num");
+        led_color_shift.open(path + "color_shift");
+        led_multi_intensity_startup.open(path + "multi_intensity_startup");
+        led_brightness_startup.open(path + "brightness_startup");
     }
 
     /*-----------------------------------------------------*\
@@ -100,14 +103,9 @@ size_t ValveSteamMachineController::GetLEDCount()
     return(led_paths.size());
 }
 
-std::string ValveSteamMachineController::GetLEDPath(unsigned int led_idx)
+std::string ValveSteamMachineController::GetLocation()
 {
-    if(led_idx < led_paths.size())
-    {
-        return(led_paths[led_idx]);
-    }
-
-    return("");
+    return(led_paths[0]);
 }
 
 std::vector<std::string> ValveSteamMachineController::GetAvailableEffects()
@@ -174,6 +172,134 @@ std::string ValveSteamMachineController::GetEffect()
     return("");
 }
 
+bool ValveSteamMachineController::GetEnabled()
+{
+    if(led_enabled.is_open())
+    {
+        std::ifstream enabled_file(led_paths[0] + "enabled");
+
+        if(enabled_file.good())
+        {
+            unsigned int enabled = 0;
+            enabled_file >> std::hex >> enabled;
+            enabled_file.close();
+            return(enabled != 0);
+        }
+    }
+
+    return(false);
+}
+
+unsigned int ValveSteamMachineController::GetBreathOffset()
+{
+    if(led_breath_offset.is_open())
+    {
+        std::ifstream breath_offset_file(led_paths[0] + "breath_offset");
+
+        if(breath_offset_file.good())
+        {
+            unsigned int breath_offset = 0;
+            breath_offset_file >> std::hex >> breath_offset;
+            breath_offset_file.close();
+            return(breath_offset);
+        }
+    }
+
+    return(0);
+}
+
+unsigned int ValveSteamMachineController::GetBreathLevel()
+{
+    if(led_breath_level.is_open())
+    {
+        std::ifstream breath_level_file(led_paths[0] + "breath_level");
+
+        if(breath_level_file.good())
+        {
+            unsigned int breath_level = 0;
+            breath_level_file >> std::hex >> breath_level;
+            breath_level_file.close();
+            return(breath_level);
+        }
+    }
+
+    return(0);
+}
+
+unsigned int ValveSteamMachineController::GetPatrolNum()
+{
+    if(led_patrol_num.is_open())
+    {
+        std::ifstream patrol_num_file(led_paths[0] + "patrol_num");
+
+        if(patrol_num_file.good())
+        {
+            unsigned int patrol_num = 0;
+            patrol_num_file >> std::hex >> patrol_num;
+            patrol_num_file.close();
+            return(patrol_num);
+        }
+    }
+
+    return(0);
+}
+
+unsigned int ValveSteamMachineController::GetColorShift()
+{
+    if(led_color_shift.is_open())
+    {
+        std::ifstream color_shift_file(led_paths[0] + "color_shift");
+
+        if(color_shift_file.good())
+        {
+            unsigned int color_shift = 0;
+            color_shift_file >> std::hex >> color_shift;
+            color_shift_file.close();
+            return(color_shift);
+        }
+    }
+
+    return(0);
+}
+
+RGBColor ValveSteamMachineController::GetStartupColor()
+{
+    if(led_multi_intensity_startup.is_open())
+    {
+        std::ifstream startup_color_file(led_paths[0] + "multi_intensity_startup");
+
+        if(startup_color_file.good())
+        {
+            unsigned int red = 0;
+            unsigned int grn = 0;
+            unsigned int blu = 0;
+            startup_color_file >> std::hex >> red >> grn >> blu;
+            startup_color_file.close();
+            return(ToRGBColor(red, grn, blu));
+        }
+    }
+
+    return(0);
+}
+
+unsigned int ValveSteamMachineController::GetBrightnessStartup()
+{
+    if(led_brightness_startup.is_open())
+    {
+        std::ifstream brightness_startup_file(led_paths[0] + "brightness_startup");
+
+        if(brightness_startup_file.good())
+        {
+            unsigned int brightness_startup = 0;
+            brightness_startup_file >> std::hex >> brightness_startup;
+            brightness_startup_file.close();
+            return(brightness_startup);
+        }
+    }
+
+    return(0);
+}
+
 void ValveSteamMachineController::ReadAvailableEffects(std::string first_led_path)
 {
     std::ifstream effect_index_file(first_led_path + "effect_index");
@@ -204,7 +330,7 @@ void ValveSteamMachineController::ReadAvailableEffects(std::string first_led_pat
     }
 }
 
-void ValveSteamMachineController::SetLEDColor(unsigned int led_idx, unsigned char red, unsigned char grn, unsigned char blu)
+void ValveSteamMachineController::SetLEDColor(unsigned int led_idx, RGBColor color)
 {
     if(led_idx >= led_paths.size())
     {
@@ -215,9 +341,9 @@ void ValveSteamMachineController::SetLEDColor(unsigned int led_idx, unsigned cha
     | Use multi_intensity to set RGB values.  This is the   |
     | leds-valve sysfs LED interface pattern.               |
     \*-----------------------------------------------------*/
-    std::string color_str = std::to_string((unsigned int)red) + " "
-                          + std::to_string((unsigned int)grn) + " "
-                          + std::to_string((unsigned int)blu);
+    std::string color_str = std::to_string(RGBGetRValue(color)) + " "
+                          + std::to_string(RGBGetGValue(color)) + " "
+                          + std::to_string(RGBGetBValue(color));
 
     led_multi_intensity[led_idx].write(color_str.c_str(), color_str.length());
     led_multi_intensity[led_idx].flush();
@@ -254,5 +380,83 @@ void ValveSteamMachineController::SetDelay(unsigned int delay)
         std::string delay_str = std::to_string(delay);
         led_delay.write(delay_str.c_str(), delay_str.length());
         led_delay.flush();
+    }
+}
+
+void ValveSteamMachineController::SetEnabled(bool enabled)
+{
+    if(led_enabled.is_open())
+    {
+        std::string enabled_str = std::to_string(enabled ? 1 : 0);
+        led_enabled.write(enabled_str.c_str(), enabled_str.length());
+        led_enabled.flush();
+    }
+}
+
+void ValveSteamMachineController::SetBreathOffset(unsigned int breath_offset)
+{
+    if(led_breath_offset.is_open())
+    {
+        std::string breath_offset_str = std::to_string(breath_offset);
+        led_breath_offset.write(breath_offset_str.c_str(), breath_offset_str.length());
+        led_breath_offset.flush();
+    }
+}
+
+void ValveSteamMachineController::SetBreathLevel(unsigned int breath_level)
+{
+    if(led_breath_level.is_open())
+    {
+        std::string breath_level_str = std::to_string(breath_level);
+        led_breath_level.write(breath_level_str.c_str(), breath_level_str.length());
+        led_breath_level.flush();
+    }
+}
+
+void ValveSteamMachineController::SetPatrolNum(unsigned int patrol_num)
+{
+    if(led_patrol_num.is_open())
+    {
+        std::string patrol_num_str = std::to_string(patrol_num);
+        led_patrol_num.write(patrol_num_str.c_str(), patrol_num_str.length());
+        led_patrol_num.flush();
+    }
+}
+
+void ValveSteamMachineController::SetColorShift(unsigned int color_shift)
+{
+    if(led_color_shift.is_open())
+    {
+        std::string color_shift_str = std::to_string(color_shift);
+        led_color_shift.write(color_shift_str.c_str(), color_shift_str.length());
+        led_color_shift.flush();
+    }
+}
+
+void ValveSteamMachineController::SetStartupColor(RGBColor color)
+{
+    if(led_multi_intensity_startup.is_open())
+    {
+        /*-----------------------------------------------------*\
+        | Use multi_intensity_startup to set RGB values.  This  |
+        | is the leds-valve sysfs LED interface pattern for     |
+        | the startup color.                                    |
+        \*-----------------------------------------------------*/
+        std::string color_str = std::to_string(RGBGetRValue(color)) + " "
+                              + std::to_string(RGBGetGValue(color)) + " "
+                              + std::to_string(RGBGetBValue(color));
+
+        led_multi_intensity_startup.write(color_str.c_str(), color_str.length());
+        led_multi_intensity_startup.flush();
+    }
+}
+
+void ValveSteamMachineController::SetBrightnessStartup(unsigned int brightness_startup)
+{
+    if(led_brightness_startup.is_open())
+    {
+        std::string brightness_startup_str = std::to_string(brightness_startup);
+        led_brightness_startup.write(brightness_startup_str.c_str(), brightness_startup_str.length());
+        led_brightness_startup.flush();
     }
 }

@@ -15,7 +15,8 @@
 #include <cctype>
 #include "DetectionManager.h"
 #include "filesystem.h"
-#include "RGBController_ValveSteamMachine_Linux.h"
+#include "RGBController_ValveSteamMachine_Windows_Linux.h"
+#include "ValveSteamMachineController_Linux.h"
 
 /*---------------------------------------------------------*\
 | Helper function to extract the numeric index enclosed     |
