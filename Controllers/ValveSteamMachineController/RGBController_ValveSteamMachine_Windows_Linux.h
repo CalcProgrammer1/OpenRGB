@@ -12,7 +12,11 @@
 #pragma once
 
 #include "RGBController.h"
+#ifdef __linux__
 #include "ValveSteamMachineController_Linux.h"
+#else
+#include "ValveSteamMachineController_Windows.h"
+#endif
 
 class RGBController_ValveSteamMachine : public RGBController
 {

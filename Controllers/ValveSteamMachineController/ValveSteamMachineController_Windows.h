@@ -1,9 +1,9 @@
 /*---------------------------------------------------------*\
-| ValveSteamMachineController_Linux.h                       |
+| ValveSteamMachineController_Windows.h                     |
 |                                                           |
 |   Driver for Valve Steam Machine LEDs                     |
 |                                                           |
-|   Adam Honse (calcprogrammer1@gmail.com)      23 Jul 2026 |
+|   Adam Honse (calcprogrammer1@gmail.com)      28 Jul 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -11,20 +11,19 @@
 
 #pragma once
 
-#include <fstream>
+#include <Windows.h>
 #include <string>
 #include <vector>
+#include "PawnIOLib.h"
 #include "RGBControllerInterface.h"
 
 class ValveSteamMachineController
 {
 public:
-    ValveSteamMachineController(std::string dev_name);
+    ValveSteamMachineController(HANDLE dev_handle, std::string dev_name);
     ~ValveSteamMachineController();
 
     std::string                 GetName();
-
-    void                        AddLED(std::string led_path);
     size_t                      GetLEDCount();
     std::string                 GetLocation();
 
@@ -37,8 +36,11 @@ public:
     unsigned int                GetBreathLevel();
     unsigned int                GetPatrolNum();
     unsigned int                GetColorShift();
+    bool                        GetPersistence();
     RGBColor                    GetStartupColor();
     unsigned int                GetBrightnessStartup();
+
+    bool                        SupportsEffects();
 
     void                        SetLEDColor(unsigned int led_idx, RGBColor color);
     void                        SetEffect(std::string effect);
@@ -54,20 +56,5 @@ public:
 
 private:
     std::string                 name;
-
-    std::vector<std::string>    led_paths;
-    std::vector<std::ofstream>  led_multi_intensity;
-    std::vector<std::ofstream>  led_effect;
-    std::ofstream               led_brightness_scale;
-    std::ofstream               led_delay;
-    std::ofstream               led_enabled;
-    std::ofstream               led_breath_offset;
-    std::ofstream               led_breath_level;
-    std::ofstream               led_patrol_num;
-    std::ofstream               led_color_shift;
-    std::ofstream               led_multi_intensity_startup;
-    std::ofstream               led_brightness_startup;
-    std::vector<std::string>    available_effects;
-
-    void                        ReadAvailableEffects(std::string first_led_path);
+    HANDLE                      pawnio_handle;
 };

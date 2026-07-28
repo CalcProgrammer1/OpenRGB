@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| RGBController_ValveSteamMachine_Linux.cpp                 |
+| RGBController_ValveSteamMachine_Windows_Linux.cpp         |
 |                                                           |
 |   RGBController for Valve Steam Machine LEDs              |
 |                                                           |
@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "RGBController_ValveSteamMachine_Linux.h"
+#include "RGBController_ValveSteamMachine_Windows_Linux.h"
 #include <cctype>
 
 /**------------------------------------------------------------------*\
@@ -31,7 +31,7 @@ RGBController_ValveSteamMachine::RGBController_ValveSteamMachine(ValveSteamMachi
     vendor                      = "Valve";
     type                        = DEVICE_TYPE_LEDSTRIP;
     description                 = "Valve Steam Machine Device";
-    location                    = controller->GetLEDPath(0);
+    location                    = controller->GetLocation();
 
     /*-----------------------------------------------------*\
     | If the device supports hardware effects, add them as  |
@@ -162,15 +162,16 @@ void RGBController_ValveSteamMachine::DeviceUpdateZoneLEDs(int /*zone*/)
 
 void RGBController_ValveSteamMachine::DeviceUpdateSingleLED(int led)
 {
-    unsigned char red = RGBGetRValue(colors[led]);
-    unsigned char grn = RGBGetGValue(colors[led]);
-    unsigned char blu = RGBGetBValue(colors[led]);
-
-    controller->SetLEDColor(led, red, grn, blu);
+    controller->SetLEDColor(led, colors[led]);
 }
 
 void RGBController_ValveSteamMachine::DeviceUpdateMode()
 {
+    if(!controller->GetEnabled())
+    {
+        controller->SetEnabled(true);
+    }
+    
     if((unsigned int)active_mode < effects.size())
     {
         controller->SetEffect(effects[active_mode]);
