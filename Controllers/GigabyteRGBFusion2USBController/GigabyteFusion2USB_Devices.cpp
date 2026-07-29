@@ -596,8 +596,8 @@ static const gb_fusion2_zone common_team_up_logo_11_zone =
 static const gb_fusion2_zone common_wifi_ant_9_zone =
 {
     LED9,
-    1,
-    1,
+    2,
+    2,
     "WIFI Antenna"
 };
 
@@ -3930,6 +3930,23 @@ static const gb_fusion2_device b550_vision_dp_device =
     "B550 VISION D-P",
 };
 
+static const gb_fusion2_device b550_ud_ac_device =
+{
+    &it5702_24_device,
+    0x0140005F,
+    0,
+    "B550 UD AC",
+};
+
+static const gb_fusion2_device b550_ud_ac_y1_device =
+{
+    &it5702_24_device,
+    0x0140005F,
+    0,
+    "B550 UD AC-Y1",
+};
+
+
 static const gb_fusion2_device b550m_aor_elite_device =
 {
     &it5702_24_device,
@@ -6987,7 +7004,6 @@ static const gb_fusion2_device z890_aor_mstr_ai_top_5711_device =
 |    Zone "ARGB_V2_1"                                : Linear   |
 |    Zone "ARGB_V2_2"                                : Linear   |
 |    Zone "ARGB_V2_3"                                : Linear   |
-|    Zone "ARGB_V2_4"                                : Linear   |
 |    Zone "LED_C"                                    : Single   |
 |    Zone "WIFI Antenna"                             : Single   |
 |    Zone "IO Cover"                                 : Single   |
@@ -6998,11 +7014,11 @@ static gb_fusion2_layout it5711_14_device =
     &common_argb_v2_1_zone,
     &common_argb_v2_2_zone,
     &common_argb_v2_3_zone,
-    &common_argb_v2_4_zone,
     &common_led_c_5_zone,
     &common_wifi_ant_9_zone,
     &common_io_cov_10_zone,
     &common_chip_acc_11_zone,
+    nullptr,
     nullptr,
     nullptr,
     nullptr,
@@ -7393,6 +7409,8 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &b550_gmg_x_v2_device,
     &b550_vision_d_device,
     &b550_vision_dp_device,
+    &b550_ud_ac_device,
+    &b550_ud_ac_y1_device,
     &b550i_aor_pro_ax_device,
     &b550m_aor_elite_device,
     &b550m_aor_elite_ax_device,

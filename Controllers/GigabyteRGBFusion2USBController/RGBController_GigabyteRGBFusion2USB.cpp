@@ -575,7 +575,7 @@ void RGBController_RGBFusion2USB::SetupZones()
             continue;
         }
 
-        bool fixed_zone = (zone_at_idx->leds_min == zone_at_idx->leds_max);
+        bool fixed_zone = (zone_at_idx->leds_min == 1 && zone_at_idx->leds_max == 1);
 
         const Gen2StripInfo* gen2_info = nullptr;
 
