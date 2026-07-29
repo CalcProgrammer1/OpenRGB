@@ -120,6 +120,21 @@ bool AutoStart::IsAutoStartEnabled()
 std::string AutoStart::GetExePath()
 {
     /*-----------------------------------------------------*\
+    | When running from an AppImage, the AppImage runtime   |
+    | sets the APPIMAGE environment variable to the path of |
+    | the AppImage file itself.  /proc/self/exe would       |
+    | instead point at the extracted binary inside the      |
+    | temporary squashfs mount, which disappears once the   |
+    | AppImage is closed, so prefer APPIMAGE when it is set |
+    \*-----------------------------------------------------*/
+    const char* appimage_path = getenv("APPIMAGE");
+
+    if(appimage_path != NULL)
+    {
+        return(std::string(appimage_path));
+    }
+
+    /*-----------------------------------------------------*\
     | Create the OpenRGB executable path                    |
     \*-----------------------------------------------------*/
     char exepath[ PATH_MAX ];

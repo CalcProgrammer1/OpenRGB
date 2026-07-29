@@ -1857,17 +1857,17 @@ void RGBController::UnregisterUpdateCallback(void * callback_arg)
     | callback, return immediately rather than waiting for  |
     | callback completion to avoid deadlock.                |
     \*-----------------------------------------------------*/
-    if(SignalCalls != 0)
-    {
-        return;
-    }
+    //if(SignalCalls != 0)
+    //{
+    //    return;
+    //}
 
     /*-----------------------------------------------------*\
     | Otherwise, wait for all currently active callbacks to |
     | complete before returning                             |
     \*-----------------------------------------------------*/
-    std::unique_lock<std::mutex> wait_lock(SignalMutex);
-    SignalCallsDone.wait(wait_lock, [this]{ return SignalCalls == 0; });
+    //std::unique_lock<std::mutex> wait_lock(SignalMutex);
+    //SignalCallsDone.wait(wait_lock, [this]{ return SignalCalls == 0; });
 }
 
 void RGBController::ClearCallbacks()
@@ -1882,17 +1882,17 @@ void RGBController::ClearCallbacks()
     | callback, return immediately rather than waiting for  |
     | callback completion to avoid deadlock.                |
     \*-----------------------------------------------------*/
-    if(SignalCalls != 0)
-    {
-        return;
-    }
+    //if(SignalCalls != 0)
+    //{
+    //    return;
+    //}
 
     /*-----------------------------------------------------*\
     | Otherwise, wait for all currently active callbacks to |
     | complete before returning                             |
     \*-----------------------------------------------------*/
-    std::unique_lock<std::mutex> wait_lock(SignalMutex);
-    SignalCallsDone.wait(wait_lock, [this]{ return SignalCalls == 0; });
+    //std::unique_lock<std::mutex> wait_lock(SignalMutex);
+    //SignalCallsDone.wait(wait_lock, [this]{ return SignalCalls == 0; });
 }
 
 void RGBController::SignalUpdate(unsigned int update_reason)
@@ -1913,14 +1913,14 @@ void RGBController::SignalUpdate(unsigned int update_reason)
     | count.  Return immediately if the controller has been |
     | shut down.                                            |
     \*-----------------------------------------------------*/
-    SignalMutex.lock();
-    if(SignalShutdown)
-    {
-        UpdateMutex.unlock();
-        return;
-    }
-    SignalCalls++;
-    SignalMutex.unlock();
+    //SignalMutex.lock();
+    //if(SignalShutdown)
+    //{
+    //    UpdateMutex.unlock();
+    //    return;
+    //}
+    //SignalCalls++;
+    //SignalMutex.unlock();
 
     /*-----------------------------------------------------*\
     | Copy the list of callbacks and unlock the update      |
@@ -1929,7 +1929,7 @@ void RGBController::SignalUpdate(unsigned int update_reason)
     callbacks       = UpdateCallbacks;
     callback_args   = UpdateCallbackArgs;
 
-    UpdateMutex.unlock();
+    //UpdateMutex.unlock();
 
     /*-----------------------------------------------------*\
     | Invoke the copied callbacks                           |
@@ -1939,20 +1939,21 @@ void RGBController::SignalUpdate(unsigned int update_reason)
         callbacks[callback_idx](callback_args[callback_idx], update_reason, this);
     }
 
+    UpdateMutex.unlock();
     /*-----------------------------------------------------*\
     | Decrement the signal call count once callbacks have   |
     | been called.  Notify anyone waiting on signal calls   |
     | to be done.                                           |
     \*-----------------------------------------------------*/
-    SignalMutex.lock();
-    SignalCalls--;
+    //SignalMutex.lock();
+    //SignalCalls--;
 
-    if(SignalCalls == 0)
-    {
-        SignalCallsDone.notify_all();
-    }
+    //if(SignalCalls == 0)
+    //{
+    //    SignalCallsDone.notify_all();
+    //}
 
-    SignalMutex.unlock();
+    //SignalMutex.unlock();
 }
 
 /*---------------------------------------------------------*\
