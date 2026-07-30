@@ -1038,8 +1038,8 @@ void OpenRGBDialog::UpdateDevicesList()
                     \*-------------------------------------*/
                     else
                     {
+                        ui->DevicesTabBar->tabBar()->moveTab(tab_idx, controller_tab_count);
                         controller_tab_count++;
-                        ui->DevicesTabBar->tabBar()->moveTab(tab_idx, controller_idx);
                     }
                     break;
                 }
@@ -1278,6 +1278,7 @@ void OpenRGBDialog::UpdateDevicesList()
     }
 
     bool found = true;
+    base_tab   = controllers.size();
 
     while(found)
     {
