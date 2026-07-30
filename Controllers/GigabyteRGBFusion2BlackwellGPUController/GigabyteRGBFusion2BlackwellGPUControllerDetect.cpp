@@ -44,8 +44,9 @@ bool TestForGigabyteRGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, u
     //GeForce RTX 5070 Ti Gaming OC 16G                         0x01 0x01 0x01 0x00
     //GeForce RTX 5070 Gaming OC 12G                            0x01 0x01 0x01 0x00
     //GeForce RTX 5080 AORUS MASTER 16G                         0x01 0x01 0x01 0x10
+    //Radeon RX 9070 XT GAMING OC 16G                           0x01 0x02 0x01 0x00
 
-    if(res < 0 || data_readpkt[0] != 0x01 || data_readpkt[1] != 0x01 || data_readpkt[2] != 0x01)
+    if(res < 0 || data_readpkt[0] != 0x01 || (data_readpkt[1] != 0x01 && data_readpkt[1] != 0x02) || data_readpkt[2] != 0x01)
     {
         // Assemble C-string with respons for debugging
         std::string text = "";
@@ -57,7 +58,7 @@ bool TestForGigabyteRGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, u
             text.append(str);
         }
 
-        LOG_DEBUG("[%s] at address 0x%02X invalid. Expected 0x01 0x01 0x01 [0x*] but received:%s", GIGABYTEGPU_CONTROLLER_NAME3, address, text.c_str());
+        LOG_DEBUG("[%s] at address 0x%02X invalid. Expected 0x01 0x01/0x02 0x01 [0x*] but received:%s", GIGABYTEGPU_CONTROLLER_NAME3, address, text.c_str());
         pass = false;
     }
 
