@@ -3028,7 +3028,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_SetHidden(NetworkCli
         return(NET_PACKET_STATUS_ERROR_INVALID_ID);
     }
 
-    controllers[controller_idx]->SetHidden((bool*)data_ptr);
+    controllers[controller_idx]->SetHidden(*(bool*)data_ptr);
 
     return(NET_PACKET_STATUS_OK);
 }

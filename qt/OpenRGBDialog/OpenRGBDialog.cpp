@@ -38,6 +38,7 @@
 #include <QCheckBox>
 #include <QScreen>
 #include <QSpinBox>
+#include <QThread>
 
 #include <string>
 #include <functional>
@@ -106,7 +107,14 @@ static void OpenRGBDialogResourceManagerCallback(void * this_ptr, unsigned int u
             break;
 
         case RESOURCEMANAGER_UPDATE_REASON_DEVICE_LIST_UPDATED:
-            QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::BlockingQueuedConnection);
+            if(QThread::currentThread() != qApp->thread())
+            {
+                QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::BlockingQueuedConnection);
+            }
+            else
+            {
+                QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::DirectConnection);
+            }
             break;
     }
 }
@@ -960,6 +968,84 @@ void OpenRGBDialog::ClearDevicesList()
     }
 }
 
+void OpenRGBDialog::ShowHideDevicesList()
+{
+    /*-----------------------------------------------------*\
+    | Loop through all controller tabs and move any hidden  |
+    | controller's page to the hidden pages vector          |
+    \*-----------------------------------------------------*/
+    for(int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
+    {
+        /*-------------------------------------------------*\
+        | Get a pointer to the page at this index in the    |
+        | tab bar                                           |
+        \*-------------------------------------------------*/
+        QWidget* page = ui->DevicesTabBar->widget(tab_idx);
+
+        /*-------------------------------------------------*\
+        | Verify this page is an OpenRGBDevicePage          |
+        \*-------------------------------------------------*/
+        if(dynamic_cast<OpenRGBDevicePage*>(page) != nullptr)
+        {
+            /*---------------------------------------------*\
+            | If the controller for this page is hidden,    |
+            | remove the page from the tab bar and store it |
+            | in the hidden pages vector                    |
+            \*---------------------------------------------*/
+            if(((OpenRGBDevicePage*)page)->GetController()->GetHidden())
+            {
+                hidden_pages.push_back((OpenRGBDevicePage*)page);
+                ui->DevicesTabBar->removeTab(tab_idx);
+
+                /*-----------------------------------------*\
+                | Decrement tab index to account for        |
+                | removing tab                              |
+                \*-----------------------------------------*/
+                tab_idx--;
+            }
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Loop through all pages in the hidden pages vector and |
+    | move any no-longer-hidden controller's page back to   |
+    | the tab bar                                           |
+    \*-----------------------------------------------------*/
+    for(std::size_t page_idx = 0; page_idx < hidden_pages.size(); page_idx++)
+    {
+        /*-------------------------------------------------*\
+        | Get a pointer to the page at this index in the    |
+        | hidden pages vector                               |
+        \*-------------------------------------------------*/
+        OpenRGBDevicePage* page = hidden_pages[page_idx];
+
+        /*-------------------------------------------------*\
+        | If the controller for this page is not hidden,    |
+        | remove the page from the hidden pages vector and  |
+        | add it to the tab bar                             |
+        \*-------------------------------------------------*/
+        if(!(page->GetController()->GetHidden()))
+        {
+            ui->DevicesTabBar->addTab(page, "");
+
+            /*---------------------------------------------*\
+            | Create the tab label                          |
+            \*---------------------------------------------*/
+            TabLabel* NewTabLabel = new TabLabel(OpenRGBFont::GetIconIDFromDeviceType(page->GetController()->GetDeviceType()), (char *)page->GetController()->GetDisplayName().c_str(), (char *)context, false);
+
+            ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
+
+            hidden_pages.erase(hidden_pages.begin() + page_idx);
+
+            /*---------------------------------------------*\
+            | Decrement page index to account for removing  |
+            | page                                          |
+            \*---------------------------------------------*/
+            page_idx--;
+        }
+    }
+}
+
 void OpenRGBDialog::UpdateDevicesList()
 {
     std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
@@ -1140,7 +1226,7 @@ void OpenRGBDialog::UpdateDevicesList()
             connect(NewPage,
                     SIGNAL(RefreshList()),
                     this,
-                    SLOT(onDeviceListUpdated()));
+                    SLOT(onDeviceListShowHide()));
 
             if(controllers[controller_idx]->GetHidden())
             {
@@ -1469,6 +1555,11 @@ void OpenRGBDialog::on_QuickMagenta()
 void OpenRGBDialog::on_QuickWhite()
 {
     on_SetAllDevices(0xFF, 0xFF, 0xFF);
+}
+
+void OpenRGBDialog::onDeviceListShowHide()
+{
+    ShowHideDevicesList();
 }
 
 void OpenRGBDialog::onDeviceListUpdated()

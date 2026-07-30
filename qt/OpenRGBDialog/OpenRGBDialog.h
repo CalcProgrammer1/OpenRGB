@@ -148,6 +148,7 @@ private:
 
     void ClearDevicesList();
     void UpdateDevicesList();
+    void ShowHideDevicesList();
     void closeEvent(QCloseEvent *event) override;
     bool SelectConfigProfile(const std::string name);
 
@@ -176,6 +177,7 @@ private slots:
     void on_QuickBlue();
     void on_QuickMagenta();
     void on_QuickWhite();
+    void onDeviceListShowHide();
     void onDeviceListUpdated();
     void onDetectionProgressUpdated();
     void onDetectionStarted();
