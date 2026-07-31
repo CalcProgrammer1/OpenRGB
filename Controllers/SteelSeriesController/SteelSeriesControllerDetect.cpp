@@ -83,6 +83,11 @@ DetectedControllers DetectSteelSeriesAerox3WirelessWired(hid_device_info* info, 
     return(DetectSteelSeriesAeroxWireless(info, name, AEROX_3_WIRELESS_WIRED));
 }
 
+DetectedControllers DetectSteelSeriesAerox3Gen2Wireless(hid_device_info* info, const std::string& name)
+{
+    return(DetectSteelSeriesAeroxWireless(info, name, AEROX_3_GEN2_WIRELESS));
+}
+
 DetectedControllers DetectSteelSeriesAerox5(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
@@ -437,7 +442,8 @@ REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 Wireless",                       
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 Wireless Wired",                          DetectSteelSeriesAerox3WirelessWired,         STEELSERIES_VID, STEELSERIES_AEROX_3_WIRELESS_WIRED_PID,          3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 CS2 Dragon Lore Edition Wireless",        DetectSteelSeriesAerox3Wireless,              STEELSERIES_VID, STEELSERIES_AEROX_3_CS2_WIRELESS_PID,            3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 CS2 Dragon Lore Edition Wireless Wired",  DetectSteelSeriesAerox3WirelessWired,         STEELSERIES_VID, STEELSERIES_AEROX_3_CS2_WIRELESS_WIRED_PID,      3, 0xFFC0, 1 );
-REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 Wired",                                   DetectSteelSeriesAerox3,                      STEELSERIES_VID, STEELSERIES_AEROX_3_PID,                         3, 0xFFC0, 1 );
+REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 Wireless Gen 2",                           DetectSteelSeriesAerox3Gen2Wireless,          STEELSERIES_VID, STEELSERIES_AEROX_3_GEN2_WIRELESS_PID,           3, 0xFFC0, 1 );
+REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 Wired",                                   DetectSteelSeriesAerox3,                     STEELSERIES_VID, STEELSERIES_AEROX_3_PID,                         3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 5 Wireless",                                DetectSteelSeriesAerox5Wireless,              STEELSERIES_VID, STEELSERIES_AEROX_5_WIRELESS_PID,                3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 5 Wireless Wired",                          DetectSteelSeriesAerox5WirelessWired,         STEELSERIES_VID, STEELSERIES_AEROX_5_WIRELESS_WIRED_PID,          3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 5 Destiny 2 Edition Wireless",              DetectSteelSeriesAerox5DestinyWireless,       STEELSERIES_VID, STEELSERIES_AEROX_5_DESTINY_WIRELESS_PID,        3, 0xFFC0, 1 );

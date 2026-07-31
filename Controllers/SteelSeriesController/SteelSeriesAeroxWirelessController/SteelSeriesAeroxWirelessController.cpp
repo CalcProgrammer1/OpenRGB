@@ -22,6 +22,9 @@ SteelSeriesAeroxWirelessController::SteelSeriesAeroxWirelessController(hid_devic
         case AEROX_3_WIRELESS_WIRED:
             name = STEELSERIES_AEROX3_WIRELESS_WIRED_NAME;
             break;
+        case AEROX_3_GEN2_WIRELESS:
+            name = STEELSERIES_AEROX3_GEN2_WIRELESS_NAME;
+            break;
         case AEROX_5_WIRELESS:
             name = STEELSERIES_AEROX5_WIRELESS_NAME;
             break;
@@ -75,6 +78,7 @@ bool SteelSeriesAeroxWirelessController::IsWireless()
     switch(proto)
     {
         case AEROX_3_WIRELESS:
+        case AEROX_3_GEN2_WIRELESS:
         case AEROX_5_WIRELESS:
         case AEROX_5_DESTINY_WIRELESS:
         case AEROX_5_DIABLO_WIRELESS:
