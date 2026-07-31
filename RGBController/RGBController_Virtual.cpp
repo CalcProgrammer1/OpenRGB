@@ -99,7 +99,9 @@ void RGBController_Virtual::DeviceConfigureZone(int zone_idx)
 {
     if(DeviceConfigureZone_ptr)
     {
+        AccessMutex.unlock();
         DeviceConfigureZone_ptr(object_ptr, zone_idx);
+        AccessMutex.lock();
     }
 }
 
@@ -107,7 +109,9 @@ void RGBController_Virtual::DeviceUpdateLEDs()
 {
     if(DeviceUpdateLEDs_ptr)
     {
+        AccessMutex.unlock_shared();
         DeviceUpdateLEDs_ptr(object_ptr);
+        AccessMutex.lock_shared();
     }
 }
 
@@ -115,7 +119,9 @@ void RGBController_Virtual::DeviceUpdateZoneLEDs(int zone)
 {
     if(DeviceUpdateZoneLEDs_ptr)
     {
+        AccessMutex.unlock_shared();
         DeviceUpdateZoneLEDs_ptr(object_ptr, zone);
+        AccessMutex.lock_shared();
     }
 }
 
@@ -123,7 +129,9 @@ void RGBController_Virtual::DeviceUpdateSingleLED(int led)
 {
     if(DeviceUpdateSingleLED_ptr)
     {
+        AccessMutex.unlock_shared();
         DeviceUpdateSingleLED_ptr(object_ptr, led);
+        AccessMutex.lock_shared();
     }
 }
 
@@ -131,7 +139,9 @@ void RGBController_Virtual::DeviceUpdateMode()
 {
     if(DeviceUpdateMode_ptr)
     {
+        AccessMutex.unlock_shared();
         DeviceUpdateMode_ptr(object_ptr);
+        AccessMutex.lock_shared();
     }
 }
 
@@ -139,7 +149,9 @@ void RGBController_Virtual::DeviceUpdateZoneMode(int zone)
 {
     if(DeviceUpdateZoneMode_ptr)
     {
+        AccessMutex.unlock_shared();
         DeviceUpdateZoneMode_ptr(object_ptr, zone);
+        AccessMutex.lock_shared();
     }
 }
 
@@ -147,7 +159,9 @@ void RGBController_Virtual::DeviceSaveMode()
 {
     if(DeviceSaveMode_ptr)
     {
+        AccessMutex.unlock_shared();
         DeviceSaveMode_ptr(object_ptr);
+        AccessMutex.lock_shared();
     }
 }
 
@@ -155,7 +169,9 @@ void RGBController_Virtual::DeviceUpdateDeviceSpecificConfiguration()
 {
     if(DeviceUpdateDeviceSpecificConfiguration_ptr)
     {
+        AccessMutex.unlock();
         DeviceUpdateDeviceSpecificConfiguration_ptr(object_ptr);
+        AccessMutex.lock();
     }
 }
 
@@ -163,6 +179,8 @@ void RGBController_Virtual::DeviceUpdateDeviceSpecificZoneConfiguration(int zone
 {
     if(DeviceUpdateDeviceSpecificZoneConfiguration_ptr)
     {
+        AccessMutex.unlock();
         DeviceUpdateDeviceSpecificZoneConfiguration_ptr(object_ptr, zone);
+        AccessMutex.lock();
     }
 }
