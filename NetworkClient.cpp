@@ -1993,7 +1993,11 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, unsigned
     | Create a new controller from the received data    |
     \*-------------------------------------------------*/
     new_controller = new RGBController_Network(this, dev_id);
-    RGBController::SetDeviceDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), new_controller, GetProtocolVersion());
+
+    if(RGBController::SetDeviceDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), new_controller, GetProtocolVersion()) == NULL)
+    {
+        goto COPY_DATA_ERROR;
+    }
 
     /*-------------------------------------------------*\
     | Mark this controller as remote owned              |
@@ -2290,7 +2294,10 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
         | UpdateLEDs() sends color description              |
         \*-------------------------------------------------*/
         case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:
-            RGBController::SetColorDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), controller, GetProtocolVersion());
+            if(RGBController::SetColorDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), controller, GetProtocolVersion()) == NULL)
+            {
+                goto COPY_DATA_ERROR;
+            }
             break;
 
         /*-------------------------------------------------*\
@@ -2307,7 +2314,10 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
         case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICCONFIGURATION:
         case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICZONECONFIGURATION:
         default:
-            RGBController::SetDeviceDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), controller, GetProtocolVersion());
+            if(RGBController::SetDeviceDescription(data_ptr, data_size - (unsigned int)(data_ptr - data_start), controller, GetProtocolVersion()) == NULL)
+            {
+                goto COPY_DATA_ERROR;
+            }
 
             /*---------------------------------------------*\
             | Mark this controller as remote owned          |
