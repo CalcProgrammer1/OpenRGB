@@ -1688,7 +1688,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetHIDDeviceInfo(NetworkClientInfo
     std::vector<HIDDeviceInfo>  device_info     = ResourceManager::get()->GetHIDDeviceInfo();
 
     unsigned int                data_size       = 0;
-    unsigned int                device_count    = (unsigned int)device_info.size();
+    unsigned short              device_count    = (unsigned short)device_info.size();
 
     /*-----------------------------------------------------*\
     | Calculate data size                                   |
@@ -1696,7 +1696,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetHIDDeviceInfo(NetworkClientInfo
     data_size                                  += sizeof(data_size);
     data_size                                  += sizeof(device_count);
 
-    for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+    for(unsigned short device_idx = 0; device_idx < device_count; device_idx++)
     {
         data_size                              += sizeof(device_info[device_idx].vendor_id);
         data_size                              += sizeof(device_info[device_idx].product_id);
@@ -1796,7 +1796,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetI2CBusInfo(NetworkClientInfo* c
     std::vector<i2c_smbus_info> bus_info    = ResourceManager::get()->GetI2CBusInfo();
 
     unsigned int                data_size   = 0;
-    unsigned int                bus_count   = (unsigned int)bus_info.size();
+    unsigned short              bus_count   = (unsigned short)bus_info.size();
     data_size                              += sizeof(data_size);
     data_size                              += sizeof(bus_count);
     data_size                              += bus_count * sizeof(i2c_smbus_info);
@@ -1810,7 +1810,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetI2CBusInfo(NetworkClientInfo* c
     memcpy(data_ptr, &bus_count, sizeof(bus_count));
     data_ptr += sizeof(bus_count);
 
-    for(std::size_t bus_idx = 0; bus_idx < bus_info.size(); bus_idx++)
+    for(unsigned short bus_idx = 0; bus_idx < bus_count; bus_idx++)
     {
         memcpy(data_ptr, &bus_info[bus_idx], sizeof(bus_info[bus_idx]));
         data_ptr += sizeof(bus_info[bus_idx]);
@@ -1841,7 +1841,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetSerialPorts(NetworkClientInfo* 
     std::vector<std::string>    serial_ports    = ResourceManager::get()->GetSerialPorts();
 
     unsigned int                data_size       = 0;
-    unsigned int                port_count      = (unsigned int)serial_ports.size();
+    unsigned short              port_count      = (unsigned short)serial_ports.size();
 
     /*-----------------------------------------------------*\
     | Calculate data size                                   |
@@ -1849,7 +1849,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetSerialPorts(NetworkClientInfo* 
     data_size                                  += sizeof(data_size);
     data_size                                  += sizeof(port_count);
 
-    for(unsigned int port_idx = 0; port_idx < port_count; port_idx++)
+    for(unsigned short port_idx = 0; port_idx < port_count; port_idx++)
     {
         data_size                              += sizeof(unsigned short);
         data_size                              += (unsigned int)strlen(serial_ports[port_idx].c_str()) + 1;
@@ -1867,7 +1867,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetSerialPorts(NetworkClientInfo* 
     memcpy(data_ptr, &port_count, sizeof(port_count));
     data_ptr += sizeof(port_count);
 
-    for(unsigned int port_idx = 0; port_idx < port_count; port_idx++)
+    for(unsigned short port_idx = 0; port_idx < port_count; port_idx++)
     {
         unsigned short port_string_size = (unsigned short)strlen(serial_ports[port_idx].c_str()) + 1;
         memcpy(data_ptr, &port_string_size, sizeof(port_string_size));
@@ -1901,7 +1901,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetUSBDeviceInfo(NetworkClientInfo
     std::vector<USBDeviceInfo>  device_info     = ResourceManager::get()->GetUSBDeviceInfo();
 
     unsigned int                data_size       = 0;
-    unsigned int                device_count    = (unsigned int)device_info.size();
+    unsigned short              device_count    = (unsigned short)device_info.size();
 
     /*-----------------------------------------------------*\
     | Calculate data size                                   |
@@ -1909,7 +1909,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetUSBDeviceInfo(NetworkClientInfo
     data_size                                  += sizeof(data_size);
     data_size                                  += sizeof(device_count);
 
-    for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+    for(unsigned short device_idx = 0; device_idx < device_count; device_idx++)
     {
         data_size                              += sizeof(device_info[device_idx].vendor_id);
         data_size                              += sizeof(device_info[device_idx].product_id);
@@ -1985,7 +1985,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetUSBSerialPorts(NetworkClientInf
     std::vector<SerialDeviceInfo>   device_info     = ResourceManager::get()->GetUSBSerialPorts();
 
     unsigned int                    data_size       = 0;
-    unsigned int                    device_count    = (unsigned int)device_info.size();
+    unsigned short                  device_count    = (unsigned short)device_info.size();
 
     /*-----------------------------------------------------*\
     | Calculate data size                                   |
@@ -1993,7 +1993,7 @@ NetPacketStatus NetworkServer::ProcessRequest_GetUSBSerialPorts(NetworkClientInf
     data_size                                      += sizeof(data_size);
     data_size                                      += sizeof(device_count);
 
-    for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+    for(unsigned short device_idx = 0; device_idx < device_count; device_idx++)
     {
         data_size                                  += sizeof(device_info[device_idx].vendor_id);
         data_size                                  += sizeof(device_info[device_idx].product_id);

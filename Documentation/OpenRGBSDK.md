@@ -393,7 +393,7 @@ The server responds with a data block containing I2C bus information.
 | Size     | Format                     | Name        | Protocol Version | Description                                                                  |
 | -------- | -------------------------- | ----------- | ---------------- | ---------------------------------------------------------------------------- |
 | 4        | unsigned int               | data_size   | 6                | Size of all data in packet                                                   |
-| 4        | unsigned int               | bus_count   | 6                | Number of I2C bus entries                                                    |
+| 2        | unsigned short             | bus_count   | 6                | Number of I2C bus entries                                                    |
 | Variable | i2c_smbus_info[bus_count]  | bus_info    | 6                | I2C bus info data, each entry is the fixed-size `i2c_smbus_info` struct      |
 
 ## NET_PACKET_ID_GET_HID_DEVICE_INFO
@@ -409,7 +409,7 @@ The server responds with a data block containing HID device information.
 | Size     | Format                         | Name           | Protocol Version | Description                                                                            |
 | -------- | ------------------------------ | -------------- | ---------------- | -------------------------------------------------------------------------------------- |
 | 4        | unsigned int                   | data_size      | 6                | Size of all data in packet                                                             |
-| 4        | unsigned int                   | device_count   | 6                | Number of HID device entries                                                           |
+| 2        | unsigned short                 | device_count   | 6                | Number of HID device entries                                                           |
 | Variable | HID Device Data[device_count]  | device_data    | 6                | See [HID Device Data](#hid-device-data) block format table.  Repeat device_count times |
 
 ### HID Device Data
@@ -444,7 +444,7 @@ The server responds with a data block containing USB device information.
 | Size     | Format                          | Name           | Protocol Version | Description                                                                            |
 | -------- | ------------------------------- | -------------- | ---------------- | -------------------------------------------------------------------------------------- |
 | 4        | unsigned int                    | data_size      | 6                | Size of all data in packet                                                             |
-| 4        | unsigned int                    | device_count   | 6                | Number of USB device entries                                                           |
+| 2        | unsigned short                  | device_count   | 6                | Number of USB device entries                                                           |
 | Variable | USB Device Data[device_count]   | device_data    | 6                | See [USB Device Data](#usb-device-data) block format table.  Repeat device_count times |
 
 ### USB Device Data
@@ -473,7 +473,7 @@ The server responds with a data block containing serial port information.
 | Size     | Format                          | Name           | Protocol Version | Description                                                                                |
 | -------- | ------------------------------- | -------------- | ---------------- | ------------------------------------------------------------------------------------------ |
 | 4        | unsigned int                    | data_size      | 6                | Size of all data in packet                                                                 |
-| 4        | unsigned int                    | port_count     | 6                | Number of serial port entries                                                              |
+| 2        | unsigned short                  | port_count     | 6                | Number of serial port entries                                                              |
 | Variable | Serial Port Data[port_count]    | port_data      | 6                | See [Serial Port Data](#serial-port-data) block format table.  Repeat port_count times     |
 
 ### Serial Port Data
@@ -496,7 +496,7 @@ The server responds with a data block containing USB serial port information.
 | Size     | Format                          | Name           | Protocol Version | Description                                                                                |
 | -------- | ------------------------------- | -------------- | ---------------- | ------------------------------------------------------------------------------------------ |
 | 4        | unsigned int                    | data_size      | 6                | Size of all data in packet                                                                 |
-| 4        | unsigned int                    | port_count     | 6                | Number of USB serial port entries                                                          |
+| 2        | unsigned short                  | port_count     | 6                | Number of USB serial port entries                                                          |
 | Variable | Serial Port Data[port_count]    | port_data      | 6                | See [Serial Port Data](#usb-serial-port-data) block format table.  Repeat port_count times |
 
 ### USB Serial Port Data

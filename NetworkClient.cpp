@@ -465,7 +465,7 @@ std::vector<HIDDeviceInfo> NetworkClient::GetHIDDeviceInfo()
         \*-------------------------------------------------*/
         if(response_entry.data != NULL)
         {
-            unsigned int            device_count    = 0;
+            unsigned short          device_count    = 0;
             unsigned char*          data_ptr        = response_entry.data;
             unsigned int&           data_size       = response_entry.header.pkt_size;
             unsigned int            data_size_pkt;
@@ -476,7 +476,7 @@ std::vector<HIDDeviceInfo> NetworkClient::GetHIDDeviceInfo()
             {
                 COPY_DATA_FIELD(data_ptr, response_entry.data, device_count);
 
-                for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+                for(unsigned short device_idx = 0; device_idx < device_count; device_idx++)
                 {
                     HIDDeviceInfo   device;
 
@@ -541,7 +541,7 @@ std::vector<i2c_smbus_info> NetworkClient::GetI2CBusInfo()
         \*-------------------------------------------------*/
         if(response_entry.data != NULL)
         {
-            unsigned int            bus_count       = 0;
+            unsigned short          bus_count       = 0;
             unsigned char*          data_ptr        = response_entry.data;
             unsigned int&           data_size       = response_entry.header.pkt_size;
             unsigned int            data_size_pkt;
@@ -552,7 +552,7 @@ std::vector<i2c_smbus_info> NetworkClient::GetI2CBusInfo()
             {
                 COPY_DATA_FIELD(data_ptr, response_entry.data, bus_count);
 
-                for(unsigned int bus_idx = 0; bus_idx < bus_count; bus_idx++)
+                for(unsigned short bus_idx = 0; bus_idx < bus_count; bus_idx++)
                 {
                     i2c_smbus_info  bus;
 
@@ -596,7 +596,7 @@ std::vector<std::string> NetworkClient::GetSerialPorts()
         \*-------------------------------------------------*/
         if(response_entry.data != NULL)
         {
-            unsigned int            port_count      = 0;
+            unsigned short          port_count      = 0;
             unsigned char*          data_ptr        = response_entry.data;
             unsigned int&           data_size       = response_entry.header.pkt_size;
             unsigned int            data_size_pkt;
@@ -607,7 +607,7 @@ std::vector<std::string> NetworkClient::GetSerialPorts()
             {
                 COPY_DATA_FIELD(data_ptr, response_entry.data, port_count);
 
-                for(unsigned int port_idx = 0; port_idx < port_count; port_idx++)
+                for(unsigned short port_idx = 0; port_idx < port_count; port_idx++)
                 {
                     std::string port_string;
                     unsigned short port_string_size;
@@ -652,7 +652,7 @@ std::vector<USBDeviceInfo> NetworkClient::GetUSBDeviceInfo()
         \*-------------------------------------------------*/
         if(response_entry.data != NULL)
         {
-            unsigned int            device_count    = 0;
+            unsigned short          device_count    = 0;
             unsigned char*          data_ptr        = response_entry.data;
             unsigned int&           data_size       = response_entry.header.pkt_size;
             unsigned int            data_size_pkt;
@@ -663,7 +663,7 @@ std::vector<USBDeviceInfo> NetworkClient::GetUSBDeviceInfo()
             {
                 COPY_DATA_FIELD(data_ptr, response_entry.data, device_count);
 
-                for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+                for(unsigned short device_idx = 0; device_idx < device_count; device_idx++)
                 {
                     USBDeviceInfo   device;
 
@@ -720,7 +720,7 @@ std::vector<SerialDeviceInfo> NetworkClient::GetUSBSerialPorts()
         \*-------------------------------------------------*/
         if(response_entry.data != NULL)
         {
-            unsigned int            device_count    = 0;
+            unsigned short          device_count    = 0;
             unsigned char*          data_ptr        = response_entry.data;
             unsigned int&           data_size       = response_entry.header.pkt_size;
             unsigned int            data_size_pkt;
@@ -731,7 +731,7 @@ std::vector<SerialDeviceInfo> NetworkClient::GetUSBSerialPorts()
             {
                 COPY_DATA_FIELD(data_ptr, response_entry.data, device_count);
 
-                for(unsigned int device_idx = 0; device_idx < device_count; device_idx++)
+                for(unsigned short device_idx = 0; device_idx < device_count; device_idx++)
                 {
                     SerialDeviceInfo device;
 
