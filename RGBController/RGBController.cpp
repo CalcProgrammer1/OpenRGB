@@ -3176,18 +3176,18 @@ unsigned char * RGBController::GetZoneDescriptionData(unsigned char* data_ptr, z
     if(protocol_version >= 6)
     {
         /*-------------------------------------------------*\
+        | Copy in active mode                               |
+        \*-------------------------------------------------*/
+        memcpy(data_ptr, &zone.active_mode, sizeof(zone.active_mode));
+        data_ptr += sizeof(zone.active_mode);
+
+        /*-------------------------------------------------*\
         | Copy in number of modes                           |
         \*-------------------------------------------------*/
         unsigned short num_modes            = (unsigned short)zone.modes.size();
 
         memcpy(data_ptr, &num_modes, sizeof(num_modes));
         data_ptr += sizeof(num_modes);
-
-        /*-------------------------------------------------*\
-        | Copy in active mode                               |
-        \*-------------------------------------------------*/
-        memcpy(data_ptr, &zone.active_mode, sizeof(zone.active_mode));
-        data_ptr += sizeof(zone.active_mode);
 
         /*-------------------------------------------------*\
         | Copy in modes                                     |
@@ -3262,8 +3262,8 @@ unsigned int RGBController::GetZoneDescriptionSize(zone zone, unsigned int proto
     {
         unsigned short num_modes            = (unsigned short)zone.modes.size();
 
-        data_size                          += sizeof(num_modes);
         data_size                          += sizeof(zone.active_mode);
+        data_size                          += sizeof(num_modes);
 
         for(int mode_index = 0; mode_index < num_modes; mode_index++)
         {
@@ -3891,15 +3891,15 @@ unsigned char* RGBController::SetZoneDescription(unsigned char* data_ptr, unsign
     if(protocol_version >= 6)
     {
         /*-------------------------------------------------*\
+        | Copy in active mode                               |
+        \*-------------------------------------------------*/
+        COPY_DATA_FIELD(data_ptr, data_start, zone->active_mode);
+
+        /*-------------------------------------------------*\
         | Copy in number of modes                           |
         \*-------------------------------------------------*/
         unsigned short num_modes;
         COPY_DATA_FIELD(data_ptr, data_start, num_modes);
-
-        /*-------------------------------------------------*\
-        | Copy in active mode                               |
-        \*-------------------------------------------------*/
-        COPY_DATA_FIELD(data_ptr, data_start, zone->active_mode);
 
         /*-------------------------------------------------*\
         | Copy in modes                                     |

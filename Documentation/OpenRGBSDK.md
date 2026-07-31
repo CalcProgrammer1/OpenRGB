@@ -228,8 +228,8 @@ The Zone Data block represents one entry in the `RGBController::zones` vector.  
 | 2                      | unsigned short                    | num_segments        | 4                | Number of segments in zone                                                             |
 | Variable               | Segment Data[num_segments]        | segments            | 4                | See [Segment Data](#segment-data) block format table.  Repeat num_segments times       |
 | 4                      | unsigned int                      | zone_flags          | 5                | Zone flags value                                                                       |
-| 2                      | unsigned short                    | zone_num_modes      | 6                | Number of modes in zone                                                                |
 | 4                      | int                               | zone_active_mode    | 6                | Zone active_mode field value                                                           |
+| 2                      | unsigned short                    | zone_num_modes      | 6                | Number of modes in zone                                                                |
 | Variable               | Mode Data[zone_num_modes]         | zone_modes          | 6                | See [Mode Data](#mode-data) block format table.  Repeat zone_num_modes times           |
 
 ## Segment Data
