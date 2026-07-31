@@ -8,5 +8,15 @@ Restart=always
 RuntimeDirectory=openrgb
 WorkingDirectory=/run/openrgb
 
+ProtectSystem=strict
+ProtectHome=true
+
+PrivateDevices=false
+ProtectKernelTunables=false
+ProtectControlGroups=false
+
+ReadWritePaths=/etc/openrgb
+ReadWritePaths=/run/openrgb
+
 [Install]
 WantedBy=multi-user.target
