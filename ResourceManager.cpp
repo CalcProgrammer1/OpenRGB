@@ -1110,9 +1110,9 @@ void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool start
 {
     /*-----------------------------------------------------*\
     | Cache the parameters                                  |
-    | TODO: Possibly cache them in the CLI file somewhere   |
+    | Don't try auto connect if starting server             |
     \*-----------------------------------------------------*/
-    tryAutoConnect                  = tryConnect;
+    tryAutoConnect                  = tryConnect && !startServer;
     detection_enabled               = detectDevices;
     start_server                    = startServer;
     apply_post_options              = applyPostOptions;
