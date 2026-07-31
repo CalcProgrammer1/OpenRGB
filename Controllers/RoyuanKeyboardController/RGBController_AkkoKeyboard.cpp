@@ -10,96 +10,96 @@
 #include "RGBController_AkkoKeyboard.h"
 
 /**------------------------------------------------------------------*\
-    @name Akko Multi-modes Keyboard-B
+    @name Akko 3068B Plus
     @category Keyboard
     @type USB
     @save :white_check_mark:
     @direct :x:
     @effects :white_check_mark:
-    @detectors DetectAkkoKeyboardControllers
+    @detectors DetectRoyuanAkkoKeyboardControllers
     @comment
         Global-color hardware lighting support for Akko/RongYuan keyboards
         using USB ID 3151:4003 in wired mode.
 \*-------------------------------------------------------------------*/
 
-RGBController_AkkoKeyboard::RGBController_AkkoKeyboard(AkkoKeyboardController* controller_ptr)
+RGBController_AkkoKeyboard::RGBController_AkkoKeyboard(RoyuanKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;
 
-    name        = controller->GetDeviceName();
+    name        = "Akko 3068B Plus";
     vendor      = "Akko";
     type        = DEVICE_TYPE_KEYBOARD;
-    description = "Akko Multi-modes keyboard lighting controller";
+    description = "Akko 3068B Plus lighting controller";
     serial      = controller->GetSerial();
     location    = controller->GetLocation();
 
     mode off;
     off.name                = "Off";
-    off.value               = AKKO_EFFECT_OFF;
+    off.value               = ROYUAN_AKKO_EFFECT_OFF;
     off.flags               = MODE_FLAG_AUTOMATIC_SAVE;
     off.color_mode          = MODE_COLORS_NONE;
     modes.push_back(off);
 
     mode static_mode;
     static_mode.name                = "Static";
-    static_mode.value               = AKKO_EFFECT_STATIC;
+    static_mode.value               = ROYUAN_AKKO_EFFECT_STATIC;
     static_mode.flags               = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
     static_mode.color_mode          = MODE_COLORS_PER_LED;
-    static_mode.brightness_min      = AKKO_BRIGHTNESS_MIN;
-    static_mode.brightness_max      = AKKO_BRIGHTNESS_MAX;
-    static_mode.brightness          = AKKO_BRIGHTNESS_DEFAULT;
+    static_mode.brightness_min      = ROYUAN_AKKO_BRIGHTNESS_MIN;
+    static_mode.brightness_max      = ROYUAN_AKKO_BRIGHTNESS_MAX;
+    static_mode.brightness          = ROYUAN_AKKO_BRIGHTNESS_DEFAULT;
     modes.push_back(static_mode);
 
     mode breathing;
     breathing.name                  = "Breathing";
-    breathing.value                 = AKKO_EFFECT_BREATHING;
+    breathing.value                 = ROYUAN_AKKO_EFFECT_BREATHING;
     breathing.flags                 = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     breathing.color_mode            = MODE_COLORS_PER_LED;
-    breathing.brightness_min        = AKKO_BRIGHTNESS_MIN;
-    breathing.brightness_max        = AKKO_BRIGHTNESS_MAX;
-    breathing.brightness            = AKKO_BRIGHTNESS_DEFAULT;
-    breathing.speed_min             = AKKO_SPEED_MIN;
-    breathing.speed_max             = AKKO_SPEED_MAX;
-    breathing.speed                 = AKKO_SPEED_DEFAULT;
+    breathing.brightness_min        = ROYUAN_AKKO_BRIGHTNESS_MIN;
+    breathing.brightness_max        = ROYUAN_AKKO_BRIGHTNESS_MAX;
+    breathing.brightness            = ROYUAN_AKKO_BRIGHTNESS_DEFAULT;
+    breathing.speed_min             = ROYUAN_AKKO_SPEED_MIN;
+    breathing.speed_max             = ROYUAN_AKKO_SPEED_MAX;
+    breathing.speed                 = ROYUAN_AKKO_SPEED_DEFAULT;
     modes.push_back(breathing);
 
     mode wave;
     wave.name                       = "Wave";
-    wave.value                      = AKKO_EFFECT_WAVE;
+    wave.value                      = ROYUAN_AKKO_EFFECT_WAVE;
     wave.flags                      = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     wave.color_mode                 = MODE_COLORS_PER_LED;
-    wave.brightness_min             = AKKO_BRIGHTNESS_MIN;
-    wave.brightness_max             = AKKO_BRIGHTNESS_MAX;
-    wave.brightness                 = AKKO_BRIGHTNESS_DEFAULT;
-    wave.speed_min                  = AKKO_SPEED_MIN;
-    wave.speed_max                  = AKKO_SPEED_MAX;
-    wave.speed                      = AKKO_SPEED_DEFAULT;
+    wave.brightness_min             = ROYUAN_AKKO_BRIGHTNESS_MIN;
+    wave.brightness_max             = ROYUAN_AKKO_BRIGHTNESS_MAX;
+    wave.brightness                 = ROYUAN_AKKO_BRIGHTNESS_DEFAULT;
+    wave.speed_min                  = ROYUAN_AKKO_SPEED_MIN;
+    wave.speed_max                  = ROYUAN_AKKO_SPEED_MAX;
+    wave.speed                      = ROYUAN_AKKO_SPEED_DEFAULT;
     modes.push_back(wave);
 
     mode ripple;
     ripple.name                     = "Ripple";
-    ripple.value                    = AKKO_EFFECT_RIPPLE;
+    ripple.value                    = ROYUAN_AKKO_EFFECT_RIPPLE;
     ripple.flags                    = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     ripple.color_mode               = MODE_COLORS_PER_LED;
-    ripple.brightness_min           = AKKO_BRIGHTNESS_MIN;
-    ripple.brightness_max           = AKKO_BRIGHTNESS_MAX;
-    ripple.brightness               = AKKO_BRIGHTNESS_DEFAULT;
-    ripple.speed_min                = AKKO_SPEED_MIN;
-    ripple.speed_max                = AKKO_SPEED_MAX;
-    ripple.speed                    = AKKO_SPEED_DEFAULT;
+    ripple.brightness_min           = ROYUAN_AKKO_BRIGHTNESS_MIN;
+    ripple.brightness_max           = ROYUAN_AKKO_BRIGHTNESS_MAX;
+    ripple.brightness               = ROYUAN_AKKO_BRIGHTNESS_DEFAULT;
+    ripple.speed_min                = ROYUAN_AKKO_SPEED_MIN;
+    ripple.speed_max                = ROYUAN_AKKO_SPEED_MAX;
+    ripple.speed                    = ROYUAN_AKKO_SPEED_DEFAULT;
     modes.push_back(ripple);
 
     mode reactive;
     reactive.name                   = "Reactive";
-    reactive.value                  = AKKO_EFFECT_REACTIVE;
+    reactive.value                  = ROYUAN_AKKO_EFFECT_REACTIVE;
     reactive.flags                  = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     reactive.color_mode             = MODE_COLORS_PER_LED;
-    reactive.brightness_min         = AKKO_BRIGHTNESS_MIN;
-    reactive.brightness_max         = AKKO_BRIGHTNESS_MAX;
-    reactive.brightness             = AKKO_BRIGHTNESS_DEFAULT;
-    reactive.speed_min              = AKKO_SPEED_MIN;
-    reactive.speed_max              = AKKO_SPEED_MAX;
-    reactive.speed                  = AKKO_SPEED_DEFAULT;
+    reactive.brightness_min         = ROYUAN_AKKO_BRIGHTNESS_MIN;
+    reactive.brightness_max         = ROYUAN_AKKO_BRIGHTNESS_MAX;
+    reactive.brightness             = ROYUAN_AKKO_BRIGHTNESS_DEFAULT;
+    reactive.speed_min              = ROYUAN_AKKO_SPEED_MIN;
+    reactive.speed_max              = ROYUAN_AKKO_SPEED_MAX;
+    reactive.speed                  = ROYUAN_AKKO_SPEED_DEFAULT;
     modes.push_back(reactive);
 
     for(unsigned int mode_index = 0; mode_index < modes.size(); mode_index++)

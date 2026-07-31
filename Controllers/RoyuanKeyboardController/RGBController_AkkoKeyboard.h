@@ -10,12 +10,12 @@
 #pragma once
 
 #include "RGBController.h"
-#include "AkkoKeyboardController.h"
+#include "RoyuanKeyboardController.h"
 
 class RGBController_AkkoKeyboard : public RGBController
 {
 public:
-    RGBController_AkkoKeyboard(AkkoKeyboardController* controller_ptr);
+    RGBController_AkkoKeyboard(RoyuanKeyboardController* controller_ptr);
     ~RGBController_AkkoKeyboard();
 
     void        SetupZones();
@@ -28,5 +28,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AkkoKeyboardController* controller;
+    RoyuanKeyboardController* controller;
 };

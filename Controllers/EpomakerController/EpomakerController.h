@@ -13,6 +13,7 @@
 
 #include <string>
 #include <hidapi.h>
+#include "../RoyuanKeyboardController/RoyuanKeyboardController.h"
 
 #define EPOMAKER_PACKET_LENGTH                      0x40
 #define EPOMAKER_COMMAND_RGB                        0x07
@@ -90,36 +91,9 @@ enum
     EPOMAKER_OPTION_PEAK_TURN_CLOCKWISE             = 0x10,
 };
 
-class EpomakerController
+class EpomakerController : public RoyuanKeyboardController
 {
 public:
-    EpomakerController(hid_device* dev_handle, char *_path);
+    EpomakerController(hid_device* dev_handle, char* path);
     ~EpomakerController();
-
-    std::string GetDeviceName();
-    std::string GetSerial();
-    std::string GetLocation();
-
-    void SetDazzle(bool is_dazzle);
-    void SetOption(unsigned char option);
-
-    void SetMode(unsigned char mode, unsigned char speed, unsigned char brightness);
-    void SetColor(unsigned char red, unsigned char green, unsigned char blue);
-
-private:
-    std::string             device_name;
-    std::string             location;
-    hid_device*             dev;
-
-    unsigned char           current_mode;
-    unsigned char           current_speed;
-    unsigned char           current_brightness;
-    unsigned char           current_dazzle;
-    unsigned char           current_option;
-
-    unsigned char           current_red;
-    unsigned char           current_green;
-    unsigned char           current_blue;
-
-    void SendUpdate();
 };
