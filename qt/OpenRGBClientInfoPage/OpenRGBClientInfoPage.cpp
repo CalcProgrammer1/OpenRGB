@@ -203,18 +203,27 @@ void OpenRGBClientInfoPage::UpdateInfo()
         }
 
         /*-----------------------------------------------------*\
-        | Create the disconnect button                          |
+        | Create the disconnect button.  If this client is the  |
+        | local client, disallow disconnecting.                 |
         \*-----------------------------------------------------*/
         QPushButton* button_disconnect          = new QPushButton(tr("Disconnect"));
         ui->ClientTree->setItemWidget(new_top_item, 4, button_disconnect);
 
-        connect(button_disconnect, SIGNAL(clicked()), signalMapperDisconnect, SLOT(map()));
+        if(ResourceManager::get()->GetClients()[client_idx] == ResourceManager::get()->GetLocalClient())
+        {
+            button_disconnect->setEnabled(false);
+            button_disconnect->setToolTip(tr("OpenRGB is in local client mode.  The local connection may not be disconnected."));
+        }
+        else
+        {
+            connect(button_disconnect, SIGNAL(clicked()), signalMapperDisconnect, SLOT(map()));
 
-        NetworkClientPointer * arg_disconnect   = new NetworkClientPointer();
-        arg_disconnect->net_client              = ResourceManager::get()->GetClients()[client_idx];
-        arg_disconnect->widget                  = button_disconnect;
+            NetworkClientPointer * arg_disconnect   = new NetworkClientPointer();
+            arg_disconnect->net_client              = ResourceManager::get()->GetClients()[client_idx];
+            arg_disconnect->widget                  = button_disconnect;
 
-        signalMapperDisconnect->setMapping(button_disconnect, arg_disconnect);
+            signalMapperDisconnect->setMapping(button_disconnect, arg_disconnect);
+        }
 
         /*-----------------------------------------------------*\
         | Add child items for each device in the client         |
