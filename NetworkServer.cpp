@@ -8,6 +8,7 @@
 
 #include "NetworkServer.h"
 #include "LogManager.h"
+#include "StringUtils.h"
 #include <cstring>
 
 #ifndef WIN32
@@ -266,7 +267,7 @@ void NetworkServer::StartServer()
     for(res = result; res && socket_count < MAXSOCK; res = res->ai_next)
     {
         server_sock[socket_count] = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-        
+
         if(server_sock[socket_count] == INVALID_SOCKET)
         {
             printf("Error: network socket could not be created\n");
@@ -320,7 +321,7 @@ void NetworkServer::StartServer()
 
     freeaddrinfo(result);
     server_online = true;
-    
+
     /*-------------------------------------------------*\
     | Start the connection thread                       |
     \*-------------------------------------------------*/
@@ -430,7 +431,7 @@ void NetworkServer::ConnectionThreadFunction(int socket_idx)
         socklen_t len;
         len = sizeof(tmp_addr);
         getpeername(client_info->client_sock, (struct sockaddr*)&tmp_addr, &len);
-        
+
         if(tmp_addr.ss_family == AF_INET)
         {
             struct sockaddr_in *s_4 = (struct sockaddr_in *)&tmp_addr;
@@ -780,7 +781,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                 if(profile_manager)
                 {
-                    profile_manager->SaveProfile(data);
+                    profile_manager->SaveProfile(StringUtils::make_filename(data));
                 }
 
                 break;
@@ -793,7 +794,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                 if(profile_manager)
                 {
-                    profile_manager->LoadProfile(data);
+                    profile_manager->LoadProfile(StringUtils::make_filename(data));
                 }
 
                 for(RGBController* controller : controllers)
@@ -811,7 +812,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                 if(profile_manager)
                 {
-                    profile_manager->DeleteProfile(data);
+                    profile_manager->DeleteProfile(StringUtils::make_filename(data));
                 }
 
                 break;
@@ -1028,7 +1029,7 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
 {
     unsigned int data_size = 0;
     unsigned int data_ptr = 0;
-    
+
     /*---------------------------------------------------------*\
     | Calculate data size                                       |
     \*---------------------------------------------------------*/
@@ -1045,12 +1046,12 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
         data_size += strlen(plugins[i].version.c_str()) + 1;
         data_size += sizeof(unsigned int) * 2;
     }
-    
+
     /*---------------------------------------------------------*\
     | Create data buffer                                        |
     \*---------------------------------------------------------*/
     unsigned char *data_buf = new unsigned char[data_size];
-    
+
     /*---------------------------------------------------------*\
     | Copy in data size                                         |
     \*---------------------------------------------------------*/
@@ -1103,14 +1104,14 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
         \*---------------------------------------------------------*/
         memcpy(&data_buf[data_ptr], &i, sizeof(unsigned int));
         data_ptr += sizeof(unsigned int);
-        
+
         /*---------------------------------------------------------*\
         | Copy in plugin sdk version (data)                         |
         \*---------------------------------------------------------*/
         memcpy(&data_buf[data_ptr], &plugins[i].protocol_version, sizeof(int));
         data_ptr += sizeof(int);
     }
-    
+
     NetPacketHeader reply_hdr;
     unsigned int reply_size;
 
