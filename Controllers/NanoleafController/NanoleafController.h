@@ -18,6 +18,7 @@
 #define NANOLEAF_LIGHT_PANELS_MODEL         "NL22"
 #define NANOLEAF_CANVAS_MODEL               "NL29"
 #define NANOLEAF_SHAPES_MODEL               "NL42"
+#define NANOLEAF_LINES_MODEL                "NL59"
 
 class NanoleafController
 {
