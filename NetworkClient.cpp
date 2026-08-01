@@ -101,11 +101,176 @@ NetworkClient::NetworkClient()
 
     ListenThread                        = NULL;
     ConnectionThread                    = NULL;
+    ReceiveQueueThread                  = NULL;
+    receive_generation                  = 0;
+    receive_queue_thread_running        = false;
+}
+
+/*---------------------------------------------------------*\
+| Packets the receive queue thread claims.  Everything else |
+| in the queue is a synchronous reply for WaitForResponse.  |
+| Must match the queueing cases in ListenThreadFunction.    |
+\*---------------------------------------------------------*/
+static bool IsCallbackPacket(unsigned int pkt_id)
+{
+    switch(pkt_id)
+    {
+        case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
+        case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+        case NET_PACKET_ID_SET_SERVER_NAME:
+        case NET_PACKET_ID_DEVICE_LIST_UPDATED:
+        case NET_PACKET_ID_DETECTION_STARTED:
+        case NET_PACKET_ID_DETECTION_PROGRESS_CHANGED:
+        case NET_PACKET_ID_DETECTION_COMPLETE:
+            return(true);
+
+        default:
+            return(false);
+    }
+}
+
+/*---------------------------------------------------------*\
+| Receive queue thread (see NetworkClient.h)                |
+\*---------------------------------------------------------*/
+void NetworkClient::ReceiveQueueThreadFunction()
+{
+    std::unique_lock<std::mutex> lock(receive_queue_mutex);
+
+    while(receive_queue_thread_running)
+    {
+        /*-------------------------------------------------*\
+        | Wait for a callback-emitting packet.  Replies are |
+        | left in the queue for WaitForResponse to claim.   |
+        \*-------------------------------------------------*/
+        receive_queue_cv.wait(lock, [this]
+        {
+            if(!receive_queue_thread_running)
+            {
+                return true;
+            }
+
+            for(std::list<NetworkClientListenerThreadQueueEntry>::iterator it = receive_queue.begin(); it != receive_queue.end(); it++)
+            {
+                if(it->generation != receive_generation || IsCallbackPacket(it->header.pkt_id))
+                {
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        if(!receive_queue_thread_running)
+        {
+            return;
+        }
+
+        /*-------------------------------------------------*\
+        | Drop what a previous connection queued            |
+        \*-------------------------------------------------*/
+        for(std::list<NetworkClientListenerThreadQueueEntry>::iterator it = receive_queue.begin(); it != receive_queue.end(); )
+        {
+            if(it->generation != receive_generation)
+            {
+                delete[] it->data;
+                it = receive_queue.erase(it);
+            }
+            else
+            {
+                it++;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Take the oldest callback-emitting packet          |
+        \*-------------------------------------------------*/
+        NetworkClientListenerThreadQueueEntry entry;
+        bool                                  claimed = false;
+
+        for(std::list<NetworkClientListenerThreadQueueEntry>::iterator it = receive_queue.begin(); it != receive_queue.end(); it++)
+        {
+            if(IsCallbackPacket(it->header.pkt_id))
+            {
+                entry   = *it;
+                claimed = true;
+                receive_queue.erase(it);
+                break;
+            }
+        }
+
+        if(!claimed)
+        {
+            continue;
+        }
+
+        lock.unlock();
+
+        switch(entry.header.pkt_id)
+        {
+            case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
+                ProcessReply_ControllerIDs(entry.header.pkt_size, entry.data);
+                break;
+
+            case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+                ProcessReply_ControllerData(entry.header.pkt_size, entry.data, entry.header.pkt_dev_id);
+                break;
+
+            case NET_PACKET_ID_SET_SERVER_NAME:
+                ProcessRequest_ServerString(entry.header.pkt_size, entry.data);
+                break;
+
+            case NET_PACKET_ID_DETECTION_STARTED:
+                SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_STARTED);
+                break;
+
+            case NET_PACKET_ID_DETECTION_PROGRESS_CHANGED:
+                ProcessRequest_DetectionProgressChanged(entry.header.pkt_size, entry.data);
+                break;
+
+            case NET_PACKET_ID_DETECTION_COMPLETE:
+                SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE);
+                break;
+
+            case NET_PACKET_ID_DEVICE_LIST_UPDATED:
+                ProcessRequest_DeviceListChanged();
+                break;
+        }
+
+        delete[] entry.data;
+
+        lock.lock();
+    }
+}
+
+void NetworkClient::StopReceiveQueueThread()
+{
+    {
+        std::lock_guard<std::mutex> lock(receive_queue_mutex);
+
+        receive_queue_thread_running = false;
+
+        for(std::list<NetworkClientListenerThreadQueueEntry>::iterator it = receive_queue.begin(); it != receive_queue.end(); it++)
+        {
+            delete[] it->data;
+        }
+
+        receive_queue.clear();
+    }
+
+    receive_queue_cv.notify_all();
+
+    if(ReceiveQueueThread)
+    {
+        ReceiveQueueThread->join();
+        delete ReceiveQueueThread;
+        ReceiveQueueThread = NULL;
+    }
 }
 
 NetworkClient::~NetworkClient()
 {
     StopClient();
+
+    StopReceiveQueueThread();
 
     /*-----------------------------------------------------*\
     | Free the controllers set aside by StopClient, plus    |
@@ -265,6 +430,16 @@ void NetworkClient::StartClient()
     ConnectionThread = new std::thread(&NetworkClient::ConnectionThreadFunction, this);
 
     /*-----------------------------------------------------*\
+    | Start the receive queue thread.  It spans             |
+    | reconnects; entries age out by generation.            |
+    \*-----------------------------------------------------*/
+    if(!ReceiveQueueThread)
+    {
+        receive_queue_thread_running                = true;
+        ReceiveQueueThread                          = new std::thread(&NetworkClient::ReceiveQueueThreadFunction, this);
+    }
+
+    /*-----------------------------------------------------*\
     | Start the ProfileManager listen thread                |
     \*-----------------------------------------------------*/
     profilemanager_thread                           = new NetworkClientListenerThread;
@@ -287,6 +462,17 @@ void NetworkClient::StopClient()
     \*-----------------------------------------------------*/
     server_connected = false;
     client_active    = false;
+
+    /*-----------------------------------------------------*\
+    | Retire this connection's generation so requests still |
+    | waiting on a reply that is never coming wake up       |
+    \*-----------------------------------------------------*/
+    {
+        std::lock_guard<std::mutex> lock(receive_queue_mutex);
+        receive_generation++;
+    }
+
+    receive_queue_cv.notify_all();
 
     /*-----------------------------------------------------*\
     | Shut down and close the client socket                 |
@@ -1752,6 +1938,16 @@ void NetworkClient::ListenThreadFunction()
     LOG_INFO("[%s] Listener thread started", NETWORKCLIENT);
 
     /*-----------------------------------------------------*\
+    | Claim this connection's receive generation            |
+    \*-----------------------------------------------------*/
+    unsigned int listen_generation;
+
+    {
+        std::lock_guard<std::mutex> gen_lock(receive_queue_mutex);
+        listen_generation = ++receive_generation;
+    }
+
+    /*-----------------------------------------------------*\
     | This thread handles messages received from the server |
     \*-----------------------------------------------------*/
     while(server_connected == true)
@@ -1834,46 +2030,30 @@ void NetworkClient::ListenThreadFunction()
         \*-------------------------------------------------*/
         switch(header.pkt_id)
         {
-            case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
-                ProcessReply_ControllerIDs(header.pkt_size, data);
-                break;
-
-            case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
-                ProcessReply_ControllerData(header.pkt_size, data, header.pkt_dev_id);
-                break;
-
             case NET_PACKET_ID_REQUEST_PROTOCOL_VERSION:
                 ProcessReply_ProtocolVersion(header.pkt_size, data);
-                break;
-
-            case NET_PACKET_ID_SET_SERVER_NAME:
-                ProcessRequest_ServerString(header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_SET_SERVER_FLAGS:
                 ProcessRequest_ServerFlags(header.pkt_size, data);
                 break;
 
-            case NET_PACKET_ID_DEVICE_LIST_UPDATED:
-                ProcessRequest_DeviceListChanged();
-                break;
-
-            case NET_PACKET_ID_DETECTION_STARTED:
-                SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_STARTED);
-                break;
-
-            case NET_PACKET_ID_DETECTION_PROGRESS_CHANGED:
-                ProcessRequest_DetectionProgressChanged(header.pkt_size, data);
-                break;
-
-            case NET_PACKET_ID_DETECTION_COMPLETE:
-                SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE);
-                break;
-
             case NET_PACKET_ID_LOGMANAGER_LOGGED_ENTRY:
                 ProcessRequest_LogManager_LoggedEntry(header.pkt_size, data);
                 break;
 
+            /*---------------------------------------------*\
+            | Queue what is not handled inline; the queue   |
+            | owns the data.  Running callback packets here |
+            | would block the listener on the GUI.          |
+            \*---------------------------------------------*/
+            case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
+            case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+            case NET_PACKET_ID_SET_SERVER_NAME:
+            case NET_PACKET_ID_DEVICE_LIST_UPDATED:
+            case NET_PACKET_ID_DETECTION_STARTED:
+            case NET_PACKET_ID_DETECTION_PROGRESS_CHANGED:
+            case NET_PACKET_ID_DETECTION_COMPLETE:
             case NET_PACKET_ID_GET_I2C_BUS_INFO:
             case NET_PACKET_ID_GET_HID_DEVICE_INFO:
             case NET_PACKET_ID_GET_USB_DEVICE_INFO:
@@ -1885,14 +2065,15 @@ void NetworkClient::ListenThreadFunction()
             case NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS:
             case NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS_SCHEMA:
                 {
-                    std::lock_guard<std::mutex> lock(response_queue_mutex);
+                    std::lock_guard<std::mutex> lock(receive_queue_mutex);
 
                     NetworkClientListenerThreadQueueEntry new_entry;
-                    new_entry.data                      = data;
                     new_entry.header                    = header;
+                    new_entry.data                      = data;
+                    new_entry.generation                = listen_generation;
 
-                    response_queue.push_back(new_entry);
-                    response_queue_cv.notify_all();
+                    receive_queue.push_back(new_entry);
+                    receive_queue_cv.notify_all();
 
                     delete_data = false;
                 }
@@ -1912,8 +2093,9 @@ void NetworkClient::ListenThreadFunction()
                     profilemanager_thread->queue_mutex.lock();
 
                     NetworkClientListenerThreadQueueEntry new_entry;
-                    new_entry.data                      = data;
                     new_entry.header                    = header;
+                    new_entry.data                      = data;
+                    new_entry.generation                = listen_generation;
 
                     profilemanager_thread->queue.push(new_entry);
                     profilemanager_thread->queue_mutex.unlock();
@@ -1932,6 +2114,7 @@ void NetworkClient::ListenThreadFunction()
 
 listen_done:
     LOG_INFO("[%s] Client socket has been closed", NETWORKCLIENT);
+
     client_flags                        = NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER
                                         | NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER
                                         | NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER;
@@ -1948,6 +2131,18 @@ listen_done:
     server_flags_initialized            = false;
     server_initialized                  = false;
     server_connected                    = false;
+
+    /*-----------------------------------------------------*\
+    | Retire this connection's generation.  Blocked         |
+    | requests wake with a cleared response and the         |
+    | packets this connection queued age out.               |
+    \*-----------------------------------------------------*/
+    {
+        std::lock_guard<std::mutex> lock(receive_queue_mutex);
+        receive_generation++;
+    }
+
+    receive_queue_cv.notify_all();
 
     /*-----------------------------------------------------*\
     | Do not delete the controllers here; the front end     |
@@ -2552,18 +2747,26 @@ NetworkClientListenerThreadQueueEntry NetworkClient::WaitForResponse(unsigned in
 {
     NetworkClientListenerThreadQueueEntry result;
 
-    result.data = NULL;
+    result.data         = NULL;
+    result.generation   = 0;
 
-    std::unique_lock<std::mutex> lock(response_queue_mutex);
+    std::unique_lock<std::mutex> lock(receive_queue_mutex);
 
     /*-----------------------------------------------------*\
-    | Wait until a matching entry appears in the queue      |
+    | Wait for a reply on this connection, or for the       |
+    | connection to drop.  Without the connection test a    |
+    | request whose reply is lost waits forever.            |
     \*-----------------------------------------------------*/
-    response_queue_cv.wait(lock, [this, expected_pkt_id]()
+    receive_queue_cv.wait(lock, [this, expected_pkt_id]()
     {
-        for(std::list<NetworkClientListenerThreadQueueEntry>::iterator it = response_queue.begin(); it != response_queue.end(); it++)
+        if(!server_connected)
         {
-            if(it->header.pkt_id == expected_pkt_id)
+            return true;
+        }
+
+        for(std::list<NetworkClientListenerThreadQueueEntry>::iterator it = receive_queue.begin(); it != receive_queue.end(); it++)
+        {
+            if(it->header.pkt_id == expected_pkt_id && it->generation == receive_generation)
             {
                 return true;
             }
@@ -2572,14 +2775,15 @@ NetworkClientListenerThreadQueueEntry NetworkClient::WaitForResponse(unsigned in
     });
 
     /*-----------------------------------------------------*\
-    | Find and remove the matching entry from the queue     |
+    | Find and remove the matching entry from the queue.    |
+    | The caller owns the data pointer from here.           |
     \*-----------------------------------------------------*/
-    for(std::list<NetworkClientListenerThreadQueueEntry>::iterator it = response_queue.begin(); it != response_queue.end(); it++)
+    for(std::list<NetworkClientListenerThreadQueueEntry>::iterator it = receive_queue.begin(); it != receive_queue.end(); it++)
     {
-        if(it->header.pkt_id == expected_pkt_id)
+        if(it->header.pkt_id == expected_pkt_id && it->generation == receive_generation)
         {
             result = *it;
-            response_queue.erase(it);
+            receive_queue.erase(it);
             break;
         }
     }

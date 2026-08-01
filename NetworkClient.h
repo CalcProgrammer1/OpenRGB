@@ -51,6 +51,7 @@ typedef struct
 {
     NetPacketHeader             header;
     unsigned char*              data;
+    unsigned int                generation;
 } NetworkClientListenerThreadQueueEntry;
 
 typedef struct
@@ -203,12 +204,16 @@ private:
     std::mutex                          send_in_progress;
 
     /*-----------------------------------------------------*\
-    | Response queue                                        |
+    | Every packet the listener does not handle inline.     |
+    | Replies are claimed by WaitForResponse, callback      |
+    | packets by the receive queue thread.  Whoever         |
+    | claims an entry frees its data.                       |
     \*-----------------------------------------------------*/
     std::list<NetworkClientListenerThreadQueueEntry>
-                                        response_queue;
-    std::mutex                          response_queue_mutex;
-    std::condition_variable             response_queue_cv;
+                                        receive_queue;
+    std::mutex                          receive_queue_mutex;
+    std::condition_variable             receive_queue_cv;
+    unsigned int                        receive_generation;
 
     /*-----------------------------------------------------*\
     | Client information                                    |
@@ -242,6 +247,18 @@ private:
     std::thread *                       ConnectionThread;
     std::thread *                       ListenThread;
     NetworkClientListenerThread*        profilemanager_thread;
+
+    /*-----------------------------------------------------*\
+    | Receive queue thread.  Runs the callback-emitting     |
+    | packets, which block on the GUI thread while the      |
+    | GUI may itself be blocked on a reply.  Queue order    |
+    | keeps plugin callbacks single threaded.               |
+    \*-----------------------------------------------------*/
+    std::thread*                        ReceiveQueueThread;
+    bool                                receive_queue_thread_running;
+
+    void                                ReceiveQueueThreadFunction();
+    void                                StopReceiveQueueThread();
 
     /*-----------------------------------------------------*\
     | Callbacks                                             |
