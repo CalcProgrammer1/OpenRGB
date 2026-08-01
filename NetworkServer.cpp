@@ -1110,7 +1110,7 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread* this_t
 
                 delete[] queue_entry.data;
 
-                SendAck(queue_entry.client_info, queue_entry.header.pkt_id, queue_entry.header.pkt_id, status);
+                SendAck(queue_entry.client_info, queue_entry.header.pkt_dev_id, queue_entry.header.pkt_id, status);
             }
         }
         else
@@ -1178,7 +1178,7 @@ void NetworkServer::ProfileManagerListenThread(NetworkServerControllerThread* th
 
             delete[] queue_entry.data;
 
-            SendAck(queue_entry.client_info, queue_entry.header.pkt_id, queue_entry.header.pkt_id, status);
+            SendAck(queue_entry.client_info, queue_entry.header.pkt_dev_id, queue_entry.header.pkt_id, status);
         }
     }
 }
