@@ -1075,7 +1075,8 @@ void RGBController::SetZoneModeDirection(unsigned int zone, unsigned int mode, u
     && (mode < zones[zone].modes.size())
     && (((zones[zone].modes[mode].flags & MODE_FLAG_HAS_DIRECTION_HV) && ((direction == MODE_DIRECTION_HORIZONTAL) || (direction == MODE_DIRECTION_VERTICAL)))
      || ((zones[zone].modes[mode].flags & MODE_FLAG_HAS_DIRECTION_LR) && ((direction == MODE_DIRECTION_LEFT) || (direction == MODE_DIRECTION_RIGHT)))
-     || ((zones[zone].modes[mode].flags & MODE_FLAG_HAS_DIRECTION_UD) && ((direction == MODE_DIRECTION_UP) || (direction == MODE_DIRECTION_DOWN)))))
+     || ((zones[zone].modes[mode].flags & MODE_FLAG_HAS_DIRECTION_UD) && ((direction == MODE_DIRECTION_UP) || (direction == MODE_DIRECTION_DOWN)))
+     || ((zones[zone].modes[mode].flags & MODE_FLAG_HAS_DIRECTION_DIAG) && (direction >= MODE_DIRECTION_UP_LEFT) && (direction <= MODE_DIRECTION_DOWN_RIGHT))))
     {
         zones[zone].modes[mode].direction = direction;
     }
@@ -1408,7 +1409,8 @@ void RGBController::SetModeDirection(unsigned int mode, unsigned int direction)
     if((mode < modes.size())
     && (((modes[mode].flags & MODE_FLAG_HAS_DIRECTION_HV) && ((direction == MODE_DIRECTION_HORIZONTAL) || (direction == MODE_DIRECTION_VERTICAL)))
      || ((modes[mode].flags & MODE_FLAG_HAS_DIRECTION_LR) && ((direction == MODE_DIRECTION_LEFT) || (direction == MODE_DIRECTION_RIGHT)))
-     || ((modes[mode].flags & MODE_FLAG_HAS_DIRECTION_UD) && ((direction == MODE_DIRECTION_UP) || (direction == MODE_DIRECTION_DOWN)))))
+     || ((modes[mode].flags & MODE_FLAG_HAS_DIRECTION_UD) && ((direction == MODE_DIRECTION_UP) || (direction == MODE_DIRECTION_DOWN)))
+     || ((modes[mode].flags & MODE_FLAG_HAS_DIRECTION_DIAG) && (direction >= MODE_DIRECTION_UP_LEFT) && (direction <= MODE_DIRECTION_DOWN_RIGHT))))
     {
         modes[mode].direction = direction;
     }
@@ -2883,9 +2885,15 @@ unsigned char * RGBController::GetModeDescriptionData(unsigned char* data_ptr, m
 
     /*-----------------------------------------------------*\
     | Copy in mode flags (data)                             |
+    | Strip diagonal flag for SDK v5 and earlier clients    |
     \*-----------------------------------------------------*/
-    memcpy(data_ptr, &mode.flags, sizeof(mode.flags));
-    data_ptr += sizeof(mode.flags);
+    unsigned int flags = mode.flags;
+    if(protocol_version < 6)
+    {
+        flags &= ~MODE_FLAG_HAS_DIRECTION_DIAG;
+    }
+    memcpy(data_ptr, &flags, sizeof(flags));
+    data_ptr += sizeof(flags);
 
     /*-----------------------------------------------------*\
     | Copy in mode speed_min (data)                         |
@@ -2942,9 +2950,15 @@ unsigned char * RGBController::GetModeDescriptionData(unsigned char* data_ptr, m
 
     /*-----------------------------------------------------*\
     | Copy in mode direction (data)                         |
+    | Clamp diagonal directions for SDK v5 and earlier      |
     \*-----------------------------------------------------*/
-    memcpy(data_ptr, &mode.direction, sizeof(mode.direction));
-    data_ptr += sizeof(mode.direction);
+    unsigned int dir = mode.direction;
+    if(protocol_version < 6 && dir > MODE_DIRECTION_VERTICAL)
+    {
+        dir = MODE_DIRECTION_LEFT;
+    }
+    memcpy(data_ptr, &dir, sizeof(dir));
+    data_ptr += sizeof(dir);
 
     /*-----------------------------------------------------*\
     | Copy in mode color_mode (data)                        |

@@ -73,6 +73,7 @@ enum
     MODE_FLAG_AUTOMATIC_SAVE            = (1 << 9), /* Mode automatically saves         */
     MODE_FLAG_REQUIRES_ENTIRE_DEVICE    = (1 << 10),/* Mode always applies to entire    */
                                                     /* device, overrides per-zone modes */
+    MODE_FLAG_HAS_DIRECTION_DIAG        = (1 << 11),/* Mode has diagonal direction      */
 };
 
 /*---------------------------------------------------------*\
@@ -86,6 +87,10 @@ enum
     MODE_DIRECTION_DOWN         = 3,        /* Mode direction down              */
     MODE_DIRECTION_HORIZONTAL   = 4,        /* Mode direction horizontal        */
     MODE_DIRECTION_VERTICAL     = 5,        /* Mode direction vertical          */
+    MODE_DIRECTION_UP_LEFT      = 6,        /* Mode direction up-left           */
+    MODE_DIRECTION_UP_RIGHT     = 7,        /* Mode direction up-right          */
+    MODE_DIRECTION_DOWN_LEFT    = 8,        /* Mode direction down-left         */
+    MODE_DIRECTION_DOWN_RIGHT   = 9,        /* Mode direction down-right        */
 };
 
 /*---------------------------------------------------------*\

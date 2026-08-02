@@ -1094,18 +1094,21 @@ void OpenRGBDevicePage::UpdateMode()
         bool supports_dir_lr        = 0;
         bool supports_dir_ud        = 0;
         bool supports_dir_hv        = 0;
+        bool supports_dir_diag      = 0;
 
         if(selected_zone_mode)
         {
             supports_dir_lr         = ( device->GetZoneModeFlags(selected_zone, (unsigned int)selected_mode) & MODE_FLAG_HAS_DIRECTION_LR );
             supports_dir_ud         = ( device->GetZoneModeFlags(selected_zone, (unsigned int)selected_mode) & MODE_FLAG_HAS_DIRECTION_UD );
             supports_dir_hv         = ( device->GetZoneModeFlags(selected_zone, (unsigned int)selected_mode) & MODE_FLAG_HAS_DIRECTION_HV );
+            supports_dir_diag       = ( device->GetZoneModeFlags(selected_zone, (unsigned int)selected_mode) & MODE_FLAG_HAS_DIRECTION_DIAG );
         }
         else
         {
             supports_dir_lr         = ( device->GetModeFlags((unsigned int)selected_mode) & MODE_FLAG_HAS_DIRECTION_LR );
             supports_dir_ud         = ( device->GetModeFlags((unsigned int)selected_mode) & MODE_FLAG_HAS_DIRECTION_UD );
             supports_dir_hv         = ( device->GetModeFlags((unsigned int)selected_mode) & MODE_FLAG_HAS_DIRECTION_HV );
+            supports_dir_diag       = ( device->GetModeFlags((unsigned int)selected_mode) & MODE_FLAG_HAS_DIRECTION_DIAG );
         }
 
         /*-----------------------------------------------------*\
@@ -1113,38 +1116,29 @@ void OpenRGBDevicePage::UpdateMode()
         \*-----------------------------------------------------*/
         if(ui->DirectionBox->isEnabled())
         {
-            if(supports_dir_hv)
-            {
-                if(supports_dir_lr && supports_dir_ud)
-                {
-                    current_direction = current_dir_idx;
-                }
-                else if(supports_dir_lr || supports_dir_ud)
-                {
-                    current_direction = current_dir_idx + 2;
-                }
-                else
-                {
-                    current_direction = current_dir_idx + 4;
-                }
-            }
+            int offset = 0;
 
-            if(supports_dir_ud)
+            if(supports_dir_lr && current_dir_idx < offset + 2)
             {
-                if(supports_dir_lr)
-                {
-                    current_direction = current_dir_idx;
-                }
-                else
-                {
-                    current_direction = current_dir_idx + 2;
-                }
+                current_direction = current_dir_idx - offset;
             }
+            if(supports_dir_lr) offset += 2;
 
-            if((supports_dir_lr)
-                &&(current_dir_idx < 2))
+            if(supports_dir_ud && current_dir_idx >= offset && current_dir_idx < offset + 2)
             {
-                current_direction = current_dir_idx;
+                current_direction = MODE_DIRECTION_UP + (current_dir_idx - offset);
+            }
+            if(supports_dir_ud) offset += 2;
+
+            if(supports_dir_hv && current_dir_idx >= offset && current_dir_idx < offset + 2)
+            {
+                current_direction = MODE_DIRECTION_HORIZONTAL + (current_dir_idx - offset);
+            }
+            if(supports_dir_hv) offset += 2;
+
+            if(supports_dir_diag && current_dir_idx >= offset && current_dir_idx < offset + 4)
+            {
+                current_direction = MODE_DIRECTION_UP_LEFT + (current_dir_idx - offset);
             }
 
             if(selected_zone_mode)
@@ -1446,6 +1440,7 @@ void OpenRGBDevicePage::UpdateModeUi()
     bool    supports_dir_lr         = flags & MODE_FLAG_HAS_DIRECTION_LR;
     bool    supports_dir_ud         = flags & MODE_FLAG_HAS_DIRECTION_UD;
     bool    supports_dir_hv         = flags & MODE_FLAG_HAS_DIRECTION_HV;
+    bool    supports_dir_diag       = flags & MODE_FLAG_HAS_DIRECTION_DIAG;
     bool    per_led                 = color_mode == MODE_COLORS_PER_LED;
     bool    mode_specific           = color_mode == MODE_COLORS_MODE_SPECIFIC;
     bool    random                  = color_mode == MODE_COLORS_RANDOM;
@@ -1539,7 +1534,15 @@ void OpenRGBDevicePage::UpdateModeUi()
         ui->DirectionBox->addItem(tr("Vertical"));
     }
 
-    if(supports_dir_lr || supports_dir_ud || supports_dir_hv)
+    if(supports_dir_diag)
+    {
+        ui->DirectionBox->addItem(tr("Up-Left"));
+        ui->DirectionBox->addItem(tr("Up-Right"));
+        ui->DirectionBox->addItem(tr("Down-Left"));
+        ui->DirectionBox->addItem(tr("Down-Right"));
+    }
+
+    if(supports_dir_lr || supports_dir_ud || supports_dir_hv || supports_dir_diag)
     {
         if((supports_dir_lr)
          &&((direction == MODE_DIRECTION_LEFT)
@@ -1578,6 +1581,19 @@ void OpenRGBDevicePage::UpdateModeUi()
             {
                 ui->DirectionBox->setCurrentIndex(direction - 4);
             }
+        }
+
+        if((supports_dir_diag)
+         &&((direction == MODE_DIRECTION_UP_LEFT)
+          ||(direction == MODE_DIRECTION_UP_RIGHT)
+          ||(direction == MODE_DIRECTION_DOWN_LEFT)
+          ||(direction == MODE_DIRECTION_DOWN_RIGHT)))
+        {
+            int offset = 0;
+            if(supports_dir_lr) offset += 2;
+            if(supports_dir_ud) offset += 2;
+            if(supports_dir_hv) offset += 2;
+            ui->DirectionBox->setCurrentIndex(direction - MODE_DIRECTION_UP_LEFT + offset);
         }
 
         ui->DirectionBox->setEnabled(enable_controls);
