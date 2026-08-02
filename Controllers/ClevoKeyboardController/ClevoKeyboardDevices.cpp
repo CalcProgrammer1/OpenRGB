@@ -1,9 +1,11 @@
 /*---------------------------------------------------------*\
 | ClevoKeyboardDevices.cpp                                  |
 |                                                           |
-|   Device list for Clevo per-key RGB keyboards (ITE 8291)  |
+|   Device list for Clevo per-key RGB keyboards             |
+|   Supports ITE 8291 (PID 0x600B) and ITE 829x (0x8910)    |
 |                                                           |
 |   Kyle Cascade (kyle@cascade.family)          21 Jan 2026 |
+|   Valentin Lobstein (balgogan@protonmail.com) 27 Mar 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -112,6 +114,48 @@ static const std::vector<unsigned int> clevo_tkl_values =
     15,                                                         // Right
 };
 
+/*---------------------------------------------------------*\
+| ITE 829x LED value mapping                                |
+| LED ID = ((row & 7) << 5) | col                           |
+| Row 5 (F-keys) = 0xA0+, Row 4 (numbers) = 0x80+           |
+| Row 3 (QWERTY) = 0x60+, Row 2 (home)    = 0x40+           |
+| Row 1 (Z row)  = 0x20+, Row 0 (mods)    = 0x00+           |
+\*---------------------------------------------------------*/
+static const std::vector<unsigned int> clevo_829x_full_values =
+{
+    /*---------------------------------------------------------*\
+    | Values in FULL layout visual order (same as CM keyboard)  |
+    | LED ID = ((row & 7) << 5) | col                           |
+    | Row counts: 16, 21, 21, 17, 18, 13                        |
+    \*---------------------------------------------------------*/
+/*  ESC   F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12   PRSC  SCLK  PSBK */
+    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0,    0,
+/*  BKTK  1     2     3     4     5     6     7     8     9     0     -     =     BSPC  INS   HOME  PGUP  NMLK  NMDV  NMTM  NMMI */
+    0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2D, 0x2E, 0x0E, 0x10, 0x12, 0x30, 0x31, 0x32, 0x33,
+/*  TAB   Q     W     E     R     T     Y     U     I     O     P     [     ]     ANSI\ DEL   END   PGDN  NM7   NM8   NM9   NMPL */
+    0x40, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x0F, 0x11, 0x13, 0x50, 0x51, 0x52, 0x53,
+/*  CPLK  A     S     D     F     G     H     J     K     L     ;     '     #     ENTR  NM4   NM5   NM6        */
+    0x60, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0,    0x6E, 0x70, 0x71, 0x72,
+/*  LSFT  ISO\  Z     X     C     V     B     N     M     ,     .     /     RSFT  ARWU  NM1   NM2   NM3   NMER */
+    0x80, 0,    0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8F, 0x90, 0x91, 0x92, 0x93,
+/*  LCTL  LFNC  LWIN  LALT  SPACE                         RALT  RMNU  RCTL  ARWL  ARDN  ARWR  NM0   NMPD */
+    0xA0, 0xA2, 0xA3, 0xA4, 0xA5,                         0xAA, 0xAB, 0xAC, 0xAE, 0xAF, 0xB0, 0xB1, 0xB2,
+};
+
+keyboard_keymap_overlay_values clevo_829x_keyboard_layout
+{
+    KEYBOARD_SIZE_FULL,
+    {
+        clevo_829x_full_values,
+        {
+            /* No regional overlays needed */
+        }
+    },
+    {
+        /* No edit keys needed - all keys defined in full layout */
+    }
+};
+
 keyboard_keymap_overlay_values clevo_keyboard_layout
 {
     KEYBOARD_SIZE_TKL,
@@ -122,10 +166,9 @@ keyboard_keymap_overlay_values clevo_keyboard_layout
         }
     },
     {
-        /*-------------------------------------------------------------------------------------------------------------------------------------*\
-        | Edit Keys                                                                                                                             |
-        |   Zone,   Row,    Column,     Value,      Key,                        Alternate Name,             OpCode,                             |
-        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        /*---------------------------------------------------------*\
+        | Edit Keys                                                 |
+        \*---------------------------------------------------------*/
 
         /*---------------------------------------------------------*\
         | Remove keys not present on Clevo keyboard                 |

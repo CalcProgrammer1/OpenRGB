@@ -1,9 +1,11 @@
 /*---------------------------------------------------------*\
 | ClevoKeyboardControllerDetect.cpp                         |
 |                                                           |
-|   Detector for Clevo per-key RGB keyboard (ITE 8291)      |
+|   Detector for Clevo per-key RGB keyboard                 |
+|   Supports ITE 8291 (PID 0x600B) and ITE 829x (0x8910)    |
 |                                                           |
 |   Kyle Cascade (kyle@cascade.family)          16 Jan 2026 |
+|   Valentin Lobstein (balgogan@protonmail.com) 27 Mar 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -22,11 +24,12 @@
 
 /*---------------------------------------------------------*\
 | Clevo Keyboard product IDs                                |
-| These are ITE 8291 per-key RGB keyboard controllers       |
+|   ITE 8291 and ITE 829x per-key RGB keyboard controllers  |
 \*---------------------------------------------------------*/
-#define CLEVO_KEYBOARD_PID_600B                 0x600B
+#define CLEVO_KEYBOARD_PID_8291                 0x600B
+#define CLEVO_KEYBOARD_PID_829X                 0x8910
 
-DetectedControllers DetectClevoKeyboardControllers(hid_device_info* info, const std::string& /*name*/)
+static DetectedControllers DetectClevoKeyboard(hid_device_info* info, clevo_keyboard_type kb_type)
 {
     DetectedControllers detected_controllers;
     hid_device*         dev;
@@ -35,7 +38,7 @@ DetectedControllers DetectClevoKeyboardControllers(hid_device_info* info, const 
 
     if(dev)
     {
-        ClevoKeyboardController*     controller     = new ClevoKeyboardController(dev, *info);
+        ClevoKeyboardController*     controller     = new ClevoKeyboardController(dev, *info, kb_type);
         RGBController_ClevoKeyboard* rgb_controller = new RGBController_ClevoKeyboard(controller);
 
         detected_controllers.push_back(rgb_controller);
@@ -44,4 +47,15 @@ DetectedControllers DetectClevoKeyboardControllers(hid_device_info* info, const 
     return(detected_controllers);
 }
 
-REGISTER_HID_DETECTOR_PU("CLEVO Keyboard", DetectClevoKeyboardControllers, 0x048D, 0x600B, 0xFF03, 0x01);
+DetectedControllers DetectClevoKeyboard8291(hid_device_info* info, const std::string& /*name*/)
+{
+    return(DetectClevoKeyboard(info, CLEVO_KB_ITE8291));
+}
+
+DetectedControllers DetectClevoKeyboard829x(hid_device_info* info, const std::string& /*name*/)
+{
+    return(DetectClevoKeyboard(info, CLEVO_KB_ITE829X));
+}
+
+REGISTER_HID_DETECTOR_PU("Clevo Keyboard (ITE 8291)", DetectClevoKeyboard8291, ITE_VID, CLEVO_KEYBOARD_PID_8291, 0xFF03, 0x01);
+REGISTER_HID_DETECTOR_PU("Clevo Keyboard (ITE 829x)", DetectClevoKeyboard829x, ITE_VID, CLEVO_KEYBOARD_PID_829X, 0xFF89, 0xCC);
