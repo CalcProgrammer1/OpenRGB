@@ -22,6 +22,7 @@
 #include "SteelSeriesQCKMatController.h"
 #include "SteelSeriesRivalController.h"
 #include "SteelSeriesRival3Controller.h"
+#include "SteelSeriesRival5Controller.h"
 #include "SteelSeriesSenseiController.h"
 #include "SteelSeriesSiberiaController.h"
 #include "RGBController_SteelSeriesArctisNova3.h"
@@ -32,6 +33,7 @@
 #include "RGBController_SteelSeriesQCKMat.h"
 #include "RGBController_SteelSeriesRival.h"
 #include "RGBController_SteelSeriesRival3.h"
+#include "RGBController_SteelSeriesRival5.h"
 #include "RGBController_SteelSeriesSensei.h"
 #include "RGBController_SteelSeriesSiberia.h"
 
@@ -434,6 +436,32 @@ DetectedControllers DetectSteelSeriesArctis5(hid_device_info* info, const std::s
 
     return(detected_controllers);
 }
+DetectedControllers DetectSteelSeriesRival5(
+    hid_device_info* info,
+    const std::string& name)
+{
+    DetectedControllers detected_controllers;
+
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        SteelSeriesRival5Controller* controller =
+            new SteelSeriesRival5Controller(
+                dev,
+                RIVAL_5,
+                info->path,
+                name
+            );
+
+        RGBController_SteelSeriesRival5* rgb_controller =
+            new RGBController_SteelSeriesRival5(controller);
+
+        detected_controllers.push_back(rgb_controller);
+    }
+
+    return detected_controllers;
+}
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Mice                                                                                                                                                                      |
@@ -477,6 +505,7 @@ REGISTER_HID_DETECTOR_I("SteelSeries Rival 700",                                
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 710",                                         DetectSteelSeriesRival700,                    STEELSERIES_VID, STEELSERIES_RIVAL_710_PID,                       0);
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 3 (Old Firmware)",                            DetectSteelSeriesRival3,                      STEELSERIES_VID, STEELSERIES_RIVAL_3_OLD_PID,                     3);
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 3",                                           DetectSteelSeriesRival3,                      STEELSERIES_VID, STEELSERIES_RIVAL_3_PID,                         3);
+REGISTER_HID_DETECTOR_IPU("SteelSeries Rival 5",                                         DetectSteelSeriesRival5,                      STEELSERIES_VID, STEELSERIES_RIVAL_5_PID,                         0, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN",                                        DetectSteelSeriesSensei,                      STEELSERIES_VID, STEELSERIES_SENSEI_TEN_PID,                      0);
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN CS:GO Neon Rider Edition",               DetectSteelSeriesSensei,                      STEELSERIES_VID, STEELSERIES_SENSEI_TEN_CSGO_NEON_RIDER_PID,      0);
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei 310",                                        DetectSteelSeriesSensei,                      STEELSERIES_VID, STEELSERIES_SENSEI_310_PID,                      0);

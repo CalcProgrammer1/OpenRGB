@@ -49,6 +49,7 @@
 #define STEELSERIES_RIVAL_310_PID                       0x1720
 #define STEELSERIES_RIVAL_310_CSGO_HOWL_PID             0x171E
 #define STEELSERIES_RIVAL_310_PUBG_PID                  0x1736
+#define STEELSERIES_RIVAL_5_PID                         0x183C
 #define STEELSERIES_RIVAL_600_PID                       0x1724
 #define STEELSERIES_RIVAL_600_DOTA_2_PID                0x172E
 #define STEELSERIES_RIVAL_650_PID                       0x172B
@@ -137,4 +138,5 @@ typedef enum
     AEROX_9_WIRELESS               = 0x16,
     AEROX_9_WIRELESS_WIRED         = 0x17,
     AEROX_3_GEN2_WIRELESS          = 0x18,
+    RIVAL_5                        = 0x19
 } steelseries_type;
