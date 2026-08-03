@@ -1144,6 +1144,13 @@ void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool start
     }
 
     /*-----------------------------------------------------*\
+    | Migrate legacy profiles after attempting local        |
+    | connection so that migrated profiles get uploaded to  |
+    | the server if connected                               |
+    \*-----------------------------------------------------*/
+    profile_manager->MigrateLegacyProfiles();
+
+    /*-----------------------------------------------------*\
     | Initialize Saved Client Connections                   |
     \*-----------------------------------------------------*/
     json client_settings            = settings_manager->GetSettings("Client");

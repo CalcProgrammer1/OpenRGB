@@ -176,6 +176,106 @@ std::string ProfileManager::GetActiveProfile()
     return(active_profile);
 }
 
+std::vector<RGBController*> ProfileManager::GetControllerListFromLegacyProfile(std::string profile_name, bool sizes)
+{
+    unsigned int                controller_size;
+    unsigned int                profile_offset = 0;
+    std::vector<RGBController*> temp_controllers;
+
+    filesystem::path filename = configuration_directory / StringUtils::make_filename(profile_name);
+
+    /*-----------------------------------------------------*\
+    | Determine file extension                              |
+    \*-----------------------------------------------------*/
+    if(sizes)
+    {
+        filename.concat(".ors");
+    }
+    else
+    {
+        if(filename.extension() != ".orp")
+        {
+            filename.concat(".orp");
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Open input file in binary mode                        |
+    \*-----------------------------------------------------*/
+    std::ifstream profile_file(filename, std::ios::in | std::ios::binary);
+
+    if(!profile_file.is_open())
+    {
+        LOG_WARNING("[%s] Unable to open legacy profile: %s", PROFILEMANAGER, filename.string().c_str());
+        return(temp_controllers);
+    }
+
+    /*-----------------------------------------------------*\
+    | Read and verify file header                           |
+    \*-----------------------------------------------------*/
+    char            profile_string[16]  = "";
+    unsigned int    profile_version     = 0;
+
+    profile_file.read(profile_string, 16);
+    profile_file.read((char *)&profile_version, sizeof(unsigned int));
+
+    /*-----------------------------------------------------*\
+    | Profile version started at 1 and protocol version     |
+    | started at 0.  Version 1 profiles should use protocol |
+    | 0, but 2 or greater should be synchronized            |
+    \*-----------------------------------------------------*/
+    if(profile_version == 1)
+    {
+        profile_version = 0;
+    }
+
+    profile_offset += 16 + sizeof(unsigned int);
+    profile_file.seekg(profile_offset);
+
+    if(strcmp(profile_string, OPENRGB_PROFILE_HEADER) == 0)
+    {
+        if(profile_version <= OPENRGB_PROFILE_VERSION)
+        {
+            /*---------------------------------------------*\
+            | Read controller data from file until EOF      |
+            \*---------------------------------------------*/
+            while(!(profile_file.peek() == EOF))
+            {
+                profile_file.read((char *)&controller_size, sizeof(controller_size));
+
+                unsigned char *controller_data = new unsigned char[controller_size];
+
+                profile_file.seekg(profile_offset);
+
+                profile_file.read((char *)controller_data, controller_size);
+
+                RGBController_Dummy *temp_controller = new RGBController_Dummy();
+
+                RGBController::SetDeviceDescription(controller_data + sizeof(unsigned int), controller_size - sizeof(unsigned int), temp_controller, profile_version);
+
+                temp_controllers.push_back(temp_controller);
+
+                delete[] controller_data;
+
+                profile_offset += controller_size;
+                profile_file.seekg(profile_offset);
+            }
+        }
+        else
+        {
+            LOG_WARNING("[%s] Legacy profile has unsupported version %u: %s", PROFILEMANAGER, profile_version, filename.string().c_str());
+            return(temp_controllers);
+        }
+    }
+    else
+    {
+        LOG_WARNING("[%s] Unable to read legacy profile: %s", PROFILEMANAGER, filename.string().c_str());
+        return(temp_controllers);
+    }
+
+    return(temp_controllers);
+}
+
 std::vector<RGBController*> ProfileManager::GetControllerListFromProfileJson(nlohmann::json profile_json)
 {
     std::vector<RGBController*> profile_controllers;
@@ -681,8 +781,6 @@ bool ProfileManager::SaveProfileFromJSON(nlohmann::json profile_json)
         \*-------------------------------------------------*/
         UpdateProfileList();
 
-        SetActiveProfile(profile_json["profile_name"]);
-
         return(true);
     }
     else
@@ -822,11 +920,6 @@ void ProfileManager::SetConfigurationDirectory(const filesystem::path& directory
     filesystem::create_directories(profile_directory);
 
     /*-----------------------------------------------------*\
-    | Migrate legacy binary profiles to JSON                |
-    \*-----------------------------------------------------*/
-    MigrateLegacyProfiles();
-
-    /*-----------------------------------------------------*\
     | Reload profile list                                   |
     \*-----------------------------------------------------*/
     UpdateProfileList();
@@ -839,6 +932,10 @@ void ProfileManager::SetConfigurationDirectory(const filesystem::path& directory
 
 void ProfileManager::MigrateLegacyProfiles()
 {
+    /*-----------------------------------------------------*\
+    | Look at each file in the configuration directory for  |
+    | files with .orp extension                             |
+    \*-----------------------------------------------------*/
     for(const filesystem::directory_entry &entry : filesystem::directory_iterator(configuration_directory))
     {
         std::string filename = entry.path().filename().string();
@@ -848,123 +945,42 @@ void ProfileManager::MigrateLegacyProfiles()
             continue;
         }
 
-        std::string profile_name = StringUtils::make_filename(filename.substr(0, filename.size() - 4));
-        filesystem::path profile_path = profile_directory / filesystem::u8path(profile_name + ".json");
+        /*-------------------------------------------------*\
+        | Determine the profile name based on the filename  |
+        \*-------------------------------------------------*/
+        std::string                 profile_name = StringUtils::make_filename(filename.substr(0, filename.size() - 4));
+        std::vector<RGBController*> profile_controllers;
+        std::vector<std::string>    profile_plugin_data;
 
-        if(filesystem::exists(profile_path))
+        /*-------------------------------------------------*\
+        | If this profile name already exists, skip it      |
+        \*-------------------------------------------------*/
+        bool found = false;
+
+        for(std::size_t profile_idx = 0; profile_idx < profile_list.size(); profile_idx++)
+        {
+            if(profile_name == profile_list[profile_idx])
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if(found)
         {
             continue;
         }
 
-        if(MigrateLegacyProfile(entry.path()))
-        {
-            LOG_INFO("[%s] Migrated legacy profile: %s", PROFILEMANAGER, filename.c_str());
-        }
+        /*-------------------------------------------------*\
+        | Read the controller data from the profile         |
+        \*-------------------------------------------------*/
+        profile_controllers = GetControllerListFromLegacyProfile(profile_name, false);
+
+        /*-------------------------------------------------*\
+        | Save the profile in JSON format                   |
+        \*-------------------------------------------------*/
+        SaveProfileCustom(profile_name, profile_controllers, 0, false, profile_plugin_data);
     }
-}
-
-bool ProfileManager::MigrateLegacyProfile(filesystem::path profile_path)
-{
-    std::ifstream profile_file(profile_path, std::ios::in | std::ios::binary | std::ios::ate);
-
-    if(!profile_file.is_open())
-    {
-        LOG_WARNING("[%s] Unable to open legacy profile: %s", PROFILEMANAGER, profile_path.string().c_str());
-        return(false);
-    }
-
-    std::streamsize file_size = profile_file.tellg();
-
-    if(file_size < 20)
-    {
-        LOG_WARNING("[%s] Legacy profile is too small: %s", PROFILEMANAGER, profile_path.string().c_str());
-        return(false);
-    }
-
-    std::vector<unsigned char> profile_data((std::size_t)file_size);
-    profile_file.seekg(0, std::ios::beg);
-    profile_file.read((char *)profile_data.data(), file_size);
-
-    if(profile_file.fail())
-    {
-        LOG_WARNING("[%s] Unable to read legacy profile: %s", PROFILEMANAGER, profile_path.string().c_str());
-        return(false);
-    }
-
-    profile_file.close();
-
-    if(memcmp(profile_data.data(), OPENRGB_PROFILE_HEADER, 16) != 0)
-    {
-        LOG_WARNING("[%s] Legacy profile has an invalid header: %s", PROFILEMANAGER, profile_path.string().c_str());
-        return(false);
-    }
-
-    unsigned int profile_version;
-    memcpy(&profile_version, &profile_data[16], sizeof(profile_version));
-
-    if(profile_version == 0 || profile_version > 5)
-    {
-        LOG_WARNING("[%s] Legacy profile has unsupported version %u: %s", PROFILEMANAGER, profile_version, profile_path.string().c_str());
-        return(false);
-    }
-
-    std::string filename = profile_path.filename().string();
-    std::string profile_name = StringUtils::make_filename(filename.substr(0, filename.size() - 4));
-    nlohmann::json profile_json;
-    profile_json["profile_version"] = OPENRGB_PROFILE_VERSION;
-    profile_json["profile_name"]    = profile_name;
-
-    std::size_t data_ptr = 20;
-    std::size_t controller_index = 0;
-
-    while(data_ptr < profile_data.size())
-    {
-        if(profile_data.size() - data_ptr < sizeof(unsigned int))
-        {
-            LOG_WARNING("[%s] Legacy profile has truncated controller data: %s", PROFILEMANAGER, profile_path.string().c_str());
-            return(false);
-        }
-
-        unsigned int controller_size;
-        memcpy(&controller_size, &profile_data[data_ptr], sizeof(controller_size));
-
-        if(controller_size < sizeof(unsigned int) || controller_size > profile_data.size() - data_ptr)
-        {
-            LOG_WARNING("[%s] Legacy profile has invalid controller size: %s", PROFILEMANAGER, profile_path.string().c_str());
-            return(false);
-        }
-
-        RGBController_Dummy *legacy_controller = new RGBController_Dummy();
-        unsigned char *controller_data = &profile_data[data_ptr + sizeof(unsigned int)];
-        unsigned int controller_data_size = controller_size - sizeof(unsigned int);
-        unsigned char *controller_end = RGBController::SetDeviceDescription(controller_data, controller_data_size, legacy_controller, profile_version);
-
-        if(controller_end == NULL || controller_end != controller_data + controller_data_size)
-        {
-            delete legacy_controller;
-            LOG_WARNING("[%s] Unable to decode legacy controller data: %s", PROFILEMANAGER, profile_path.string().c_str());
-            return(false);
-        }
-
-        profile_json["controllers"][controller_index] = RGBController::GetDeviceDescriptionJSON(legacy_controller);
-        controller_index++;
-        delete legacy_controller;
-        data_ptr += controller_size;
-    }
-
-    filesystem::path output_path = profile_directory / filesystem::u8path(profile_name + ".json");
-    std::ofstream output_file(output_path, std::ios::out);
-
-    if(!output_file.is_open())
-    {
-        LOG_WARNING("[%s] Unable to create migrated profile: %s", PROFILEMANAGER, output_path.string().c_str());
-        return(false);
-    }
-
-    output_file << std::setw(4) << profile_json << std::endl;
-    output_file.close();
-
-    return(true);
 }
 
 void ProfileManager::SetProfileListFromDescription(unsigned int /*data_size*/, char * data_buf)
