@@ -933,6 +933,39 @@ void ProfileManager::SetConfigurationDirectory(const filesystem::path& directory
 void ProfileManager::MigrateLegacyProfiles()
 {
     /*-----------------------------------------------------*\
+    | Migrate any controller configuration in sizes.ors     |
+    | that doesn't already exist in the manual              |
+    | configuration list                                    |
+    \*-----------------------------------------------------*/
+    std::vector<RGBController*> sizes_controllers;
+
+    sizes_controllers = GetControllerListFromLegacyProfile("sizes", true);
+
+    if(sizes_controllers.size() > 0)
+    {
+        for(std::size_t controller_idx = 0; controller_idx < sizes_controllers.size(); controller_idx++)
+        {
+            bool found = false;
+
+            for(std::size_t manually_configured_idx = 0; manually_configured_idx < manually_configured_rgb_controllers.size(); manually_configured_idx++)
+            {
+                if(RGBController::CompareControllers(sizes_controllers[controller_idx], manually_configured_rgb_controllers[manually_configured_idx]))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found)
+            {
+                manually_configured_rgb_controllers.push_back(sizes_controllers[controller_idx]);
+            }
+        }
+
+        SaveConfiguration();
+    }
+
+    /*-----------------------------------------------------*\
     | Look at each file in the configuration directory for  |
     | files with .orp extension                             |
     \*-----------------------------------------------------*/
