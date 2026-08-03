@@ -45,6 +45,7 @@ public:
     void                                    ClearActiveProfile();
     std::vector<std::string>                GetProfileList();
     bool                                    LoadProfile(std::string profile_name);
+    bool                                    SaveProfileFromPlugin(std::string profile_name, std::string plugin_name, nlohmann::json plugin_data);
 
     /*-----------------------------------------------------*\
     | ResourceManager APIs                                  |
@@ -56,6 +57,27 @@ public:
     void                                    RescanDevices();
     void                                    WaitForDetection();
     std::vector<RGBControllerInterface*>    GetRGBControllers();
+
+    /*-----------------------------------------------------*\
+    | RGBController APIs                                    |
+    \*-----------------------------------------------------*/
+    nlohmann::json                          GetDeviceDescriptionJSON(RGBControllerInterface* controller);
+    nlohmann::json                          GetLEDDescriptionJSON(led led);
+    nlohmann::json                          GetMatrixMapDescriptionJSON(matrix_map_type matrix_map);
+    nlohmann::json                          GetModeDescriptionJSON(mode mode);
+    nlohmann::json                          GetSegmentDescriptionJSON(segment segment);
+    nlohmann::json                          GetZoneDescriptionJSON(zone zone);
+
+    RGBControllerInterface*                 SetDeviceDescriptionJSON(nlohmann::json controller_json);
+    led                                     SetLEDDescriptionJSON(nlohmann::json led_json);
+    matrix_map_type                         SetMatrixMapDescriptionJSON(nlohmann::json matrix_map_json);
+    mode                                    SetModeDescriptionJSON(nlohmann::json mode_json);
+    segment                                 SetSegmentDescriptionJSON(nlohmann::json segment_json);
+    zone                                    SetZoneDescriptionJSON(nlohmann::json zone_json);
+
+    bool                                    CompareControllers(RGBControllerInterface* controller_1, RGBControllerInterface* controller_2);
+    std::string                             DeviceTypeToString(device_type type);
+    bool                                    SetModeValuesFromMode(mode& destination, mode& source);
 
     /*-----------------------------------------------------*\
     | SettingsManager APIs                                  |

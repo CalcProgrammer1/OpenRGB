@@ -125,6 +125,7 @@ public:
     bool                        SaveProfile(std::string profile_name);
     bool                        SaveProfileCustom(std::string profile_name, std::vector<RGBController*> controllers, RGBColor base_color, bool base_color_enabled, std::vector<std::string> enabled_plugins);
     bool                        SaveProfileFromJSON(nlohmann::json profile_json);
+    bool                        SaveProfileFromPlugin(std::string profile_name, std::string plugin_name, nlohmann::json plugin_data);
     bool                        SaveConfiguration();
 
     void                        SetActiveProfile(std::string profile_name);

@@ -789,6 +789,45 @@ bool ProfileManager::SaveProfileFromJSON(nlohmann::json profile_json)
     }
 }
 
+bool ProfileManager::SaveProfileFromPlugin(std::string profile_name, std::string plugin_name, nlohmann::json plugin_data)
+{
+    /*-----------------------------------------------------*\
+    | If a name was entered, save the profile file          |
+    \*-----------------------------------------------------*/
+    if(profile_name != "")
+    {
+        /*-------------------------------------------------*\
+        | Start filling in profile json data                |
+        \*-------------------------------------------------*/
+        nlohmann::json profile_json;
+
+        profile_json["profile_version"]         = OPENRGB_PROFILE_VERSION;
+        profile_json["profile_name"]            = profile_name;
+        profile_json["plugins"][plugin_name]    = plugin_data;
+
+        if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
+        {
+            /*---------------------------------------------*\
+            | Upload the profile to the server              |
+            \*---------------------------------------------*/
+            ResourceManager::get()->GetLocalClient()->ProfileManager_UploadProfile(profile_json.dump());
+        }
+        else
+        {
+            /*---------------------------------------------*\
+            | Save the profile to file from the JSON        |
+            \*---------------------------------------------*/
+            SaveProfileFromJSON(profile_json);
+        }
+
+        return(true);
+    }
+    else
+    {
+        return(false);
+    }
+}
+
 bool ProfileManager::SaveConfiguration()
 {
     /*-----------------------------------------------------*\

@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "OpenRGBPluginAPI.h"
+#include "RGBController_Dummy.h"
 #include "RGBController_Virtual.h"
 
 OpenRGBPluginAPI::OpenRGBPluginAPI()
@@ -185,6 +186,11 @@ bool OpenRGBPluginAPI::LoadProfile(std::string profile_name)
     return(profile_manager->LoadProfile(profile_name));
 }
 
+bool OpenRGBPluginAPI::SaveProfileFromPlugin(std::string profile_name, std::string plugin_name, nlohmann::json plugin_data)
+{
+    return(profile_manager->SaveProfileFromPlugin(profile_name, plugin_name, plugin_data));
+}
+
 /*---------------------------------------------------------*\
 | ResourceManager APIs                                      |
 \*---------------------------------------------------------*/
@@ -221,6 +227,87 @@ void OpenRGBPluginAPI::WaitForDetection()
 std::vector<RGBControllerInterface*> OpenRGBPluginAPI::GetRGBControllers()
 {
     return(resource_manager->GetRGBControllerInterfaces());
+}
+
+/*---------------------------------------------------------*\
+| RGBController APIs                                        |
+\*---------------------------------------------------------*/
+nlohmann::json OpenRGBPluginAPI::GetDeviceDescriptionJSON(RGBControllerInterface* controller)
+{
+    return(RGBController::GetDeviceDescriptionJSON((RGBController*)controller));
+}
+
+nlohmann::json OpenRGBPluginAPI::GetLEDDescriptionJSON(led led)
+{
+    return(RGBController::GetLEDDescriptionJSON(led));
+}
+
+nlohmann::json OpenRGBPluginAPI::GetMatrixMapDescriptionJSON(matrix_map_type matrix_map)
+{
+    return(RGBController::GetMatrixMapDescriptionJSON(matrix_map));
+}
+
+nlohmann::json OpenRGBPluginAPI::GetModeDescriptionJSON(mode mode)
+{
+    return(RGBController::GetModeDescriptionJSON(mode));
+}
+
+nlohmann::json OpenRGBPluginAPI::GetSegmentDescriptionJSON(segment segment)
+{
+    return(RGBController::GetSegmentDescriptionJSON(segment));
+}
+
+nlohmann::json OpenRGBPluginAPI::GetZoneDescriptionJSON(zone zone)
+{
+    return(RGBController::GetZoneDescriptionJSON(zone));
+}
+
+RGBControllerInterface* OpenRGBPluginAPI::SetDeviceDescriptionJSON(nlohmann::json controller_json)
+{
+    RGBController_Dummy* new_controller = new RGBController_Dummy();
+    RGBController::SetDeviceDescriptionJSON(controller_json, (RGBController*)new_controller);
+
+    return(new_controller);
+}
+
+led OpenRGBPluginAPI::SetLEDDescriptionJSON(nlohmann::json led_json)
+{
+    return(RGBController::SetLEDDescriptionJSON(led_json));
+}
+
+matrix_map_type OpenRGBPluginAPI::SetMatrixMapDescriptionJSON(nlohmann::json matrix_map_json)
+{
+    return(RGBController::SetMatrixMapDescriptionJSON(matrix_map_json));
+}
+
+mode OpenRGBPluginAPI::SetModeDescriptionJSON(nlohmann::json mode_json)
+{
+    return(RGBController::SetModeDescriptionJSON(mode_json));
+}
+
+segment OpenRGBPluginAPI::SetSegmentDescriptionJSON(nlohmann::json segment_json)
+{
+    return(RGBController::SetSegmentDescriptionJSON(segment_json));
+}
+
+zone OpenRGBPluginAPI::SetZoneDescriptionJSON(nlohmann::json zone_json)
+{
+    return(RGBController::SetZoneDescriptionJSON(zone_json));
+}
+
+bool OpenRGBPluginAPI::CompareControllers(RGBControllerInterface* controller_1, RGBControllerInterface* controller_2)
+{
+    return(RGBController::CompareControllers((RGBController*)controller_1, (RGBController*)controller_2));
+}
+
+std::string OpenRGBPluginAPI::DeviceTypeToString(device_type type)
+{
+    return(RGBController::DeviceTypeToString(type));
+}
+
+bool OpenRGBPluginAPI::SetModeValuesFromMode(mode& destination, mode& source)
+{
+    return(RGBController::SetModeValuesFromMode(destination, source));
 }
 
 /*---------------------------------------------------------*\
