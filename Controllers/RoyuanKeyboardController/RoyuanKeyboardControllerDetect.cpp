@@ -9,21 +9,24 @@
 
 #include <hidapi.h>
 #include "DetectionManager.h"
-#include "RoyuanKeyboardController.h"
+#include "EpomakerController.h"
 #include "RGBController_AkkoKeyboard.h"
-#include "../EpomakerController/EpomakerController.h"
-#include "../EpomakerController/RGBController_EpomakerController.h"
+#include "RGBController_EpomakerController.h"
+#include "RoyuanKeyboardController.h"
 
-#define ROYUAN_KEYBOARD_VID                  0x3151
-#define ROYUAN_AKKO_B_SERIES_PID             0x4003
-#define ROYUAN_EPOMAKER_TH80_PRO_USB_PID     0x4010
-#define ROYUAN_EPOMAKER_TH80_PRO_DONGLE_PID  0x4011
-#define ROYUAN_ATTACKSHARK_K86_USB_PID        0x4015
+#define ROYUAN_KEYBOARD_VID                         0x3151
+
+#define ROYUAN_AKKO_B_SERIES_PID                    0x4003
+#define ROYUAN_EPOMAKER_TH80_PRO_USB_PID            0x4010
+#define ROYUAN_EPOMAKER_TH80_PRO_DONGLE_PID         0x4011
+#define ROYUAN_ATTACKSHARK_K86_USB_PID              0x4015
 
 DetectedControllers DetectRoyuanAkkoKeyboardControllers(hid_device_info* info, const std::string&)
 {
     DetectedControllers detected_controllers;
-    hid_device* dev = hid_open_path(info->path);
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
@@ -45,18 +48,22 @@ DetectedControllers DetectRoyuanAkkoKeyboardControllers(hid_device_info* info, c
 DetectedControllers DetectRoyuanLegacyKeyboardControllers(hid_device_info* info, const std::string&)
 {
     DetectedControllers detected_controllers;
-    hid_device* dev = hid_open_path(info->path);
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        EpomakerController* controller = new EpomakerController(dev, info->path);
-        detected_controllers.push_back(new RGBController_EpomakerController(controller));
+        EpomakerController*               controller     = new EpomakerController(dev, info->path);
+        RGBController_EpomakerController* rgb_controller = new RGBController_EpomakerController(controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
 
     return(detected_controllers);
 }
 
-REGISTER_HID_DETECTOR_I("Akko 3068B Plus", DetectRoyuanAkkoKeyboardControllers, ROYUAN_KEYBOARD_VID, ROYUAN_AKKO_B_SERIES_PID, 0);
-REGISTER_HID_DETECTOR_I("Epomaker TH80 Pro (USB Cable)", DetectRoyuanLegacyKeyboardControllers, ROYUAN_KEYBOARD_VID, ROYUAN_EPOMAKER_TH80_PRO_USB_PID, 2);
-REGISTER_HID_DETECTOR_I("Epomaker TH80 Pro (USB Dongle)", DetectRoyuanLegacyKeyboardControllers, ROYUAN_KEYBOARD_VID, ROYUAN_EPOMAKER_TH80_PRO_DONGLE_PID, 2);
-REGISTER_HID_DETECTOR_I("Attack Shark K86 (USB Cable)", DetectRoyuanLegacyKeyboardControllers, ROYUAN_KEYBOARD_VID, ROYUAN_ATTACKSHARK_K86_USB_PID, 2);
+REGISTER_HID_DETECTOR_I("Akko 3068B Plus",                  DetectRoyuanAkkoKeyboardControllers,    ROYUAN_KEYBOARD_VID, ROYUAN_AKKO_B_SERIES_PID,              0);
+REGISTER_HID_DETECTOR_I("Epomaker TH80 Pro (USB Cable)",    DetectRoyuanLegacyKeyboardControllers,  ROYUAN_KEYBOARD_VID, ROYUAN_EPOMAKER_TH80_PRO_USB_PID,      2);
+REGISTER_HID_DETECTOR_I("Epomaker TH80 Pro (USB Dongle)",   DetectRoyuanLegacyKeyboardControllers,  ROYUAN_KEYBOARD_VID, ROYUAN_EPOMAKER_TH80_PRO_DONGLE_PID,   2);
+REGISTER_HID_DETECTOR_I("Attack Shark K86 (USB Cable)",     DetectRoyuanLegacyKeyboardControllers,  ROYUAN_KEYBOARD_VID, ROYUAN_ATTACKSHARK_K86_USB_PID,        2);
