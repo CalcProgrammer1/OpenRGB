@@ -64,8 +64,8 @@ enum
 };
 
 /*---------------------------------------------------------*\
-| Range of the illumination brightness setting, the same     |
-| range the brightness keys on the keyboard step through     |
+| Range of the illumination brightness setting, the same    |
+| range the brightness keys on the keyboard step through    |
 \*---------------------------------------------------------*/
 #define APEX_BRIGHTNESS_MIN             0
 #define APEX_BRIGHTNESS_MAX             10
@@ -86,12 +86,12 @@ public:
     virtual void        SetLEDsDirect(std::vector<RGBColor> colors)                = 0;
 
     /*-----------------------------------------------------*\
-    | Illumination brightness, offered only by the models    |
-    | that answer the read back request                      |
+    | Illumination brightness, offered only by the models   |
+    | that answer the read back request                     |
     \*-----------------------------------------------------*/
-    virtual bool          SupportsBrightness()                     { return false; }
-    virtual unsigned char GetBrightness()                          { return APEX_BRIGHTNESS_MAX; }
-    virtual void          SetBrightness(unsigned char /*value*/)   { }
+    virtual bool          SupportsBrightness();
+    virtual unsigned char GetBrightness();
+    virtual void          SetBrightness(unsigned char /*value*/);
 
     steelseries_type    proto_type;
 

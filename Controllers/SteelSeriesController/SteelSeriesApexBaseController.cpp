@@ -150,3 +150,18 @@ std::string SteelSeriesApexBaseController::GetVersion()
 
     return(return_string);
 }
+
+bool SteelSeriesApexBaseController::SupportsBrightness()
+{
+    return(false);
+}
+
+unsigned char SteelSeriesApexBaseController::GetBrightness()
+{
+    return(APEX_BRIGHTNESS_MAX);
+}
+
+void SteelSeriesApexBaseController::SetBrightness(unsigned char /*value*/)
+{
+
+}
