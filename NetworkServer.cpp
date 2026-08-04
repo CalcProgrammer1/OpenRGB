@@ -154,6 +154,7 @@ NetworkServer::NetworkServer()
 {
     host                        = OPENRGB_SDK_HOST;
     port_num                    = OPENRGB_SDK_PORT;
+    server_hostname             = GetHostname();
     server_online               = false;
     server_listening            = false;
     legacy_workaround_enabled   = false;
@@ -220,24 +221,44 @@ unsigned int NetworkServer::GetNumClients()
     return((unsigned int)ServerClients.size());
 }
 
-const char * NetworkServer::GetClientString(unsigned int client_num)
+std::string NetworkServer::GetClientHostname(unsigned int client_num)
 {
-    const char * result;
+    std::string hostname;
 
     ServerClientsMutex.lock();
 
     if(client_num < ServerClients.size())
     {
-        result = ServerClients[client_num]->client_string.c_str();
+        hostname = ServerClients[client_num]->client_hostname;
     }
     else
     {
-        result = "";
+        hostname = "";
     }
 
     ServerClientsMutex.unlock();
 
-    return(result);
+    return(hostname);
+}
+
+std::string NetworkServer::GetClientString(unsigned int client_num)
+{
+    std::string name;
+
+    ServerClientsMutex.lock();
+
+    if(client_num < ServerClients.size())
+    {
+        name = ServerClients[client_num]->client_string.c_str();
+    }
+    else
+    {
+        name = "";
+    }
+
+    ServerClientsMutex.unlock();
+
+    return(name);
 }
 
 const char * NetworkServer::GetClientIP(unsigned int client_num)
@@ -1318,6 +1339,11 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo* client_info)
                 SendReply_ServerFlags(client_info);
                 break;
 
+            case NET_PACKET_ID_SET_CLIENT_HOSTNAME:
+                status = ProcessRequest_ClientHostname(client_info, header.pkt_size, data);
+                SendReply_ServerHostname(client_info);
+                break;
+
             case NET_PACKET_ID_SET_CLIENT_NAME:
                 status = ProcessRequest_ClientString(client_info, header.pkt_size, data);
                 break;
@@ -1609,6 +1635,29 @@ NetPacketStatus NetworkServer::ProcessRequest_ClientFlags(NetworkClientInfo* cli
     }
 
     return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+}
+
+NetPacketStatus NetworkServer::ProcessRequest_ClientHostname(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr)
+{
+    /*-----------------------------------------------------*\
+    | If data pointer is null, return                       |
+    \*-----------------------------------------------------*/
+    if(data_ptr == NULL)
+    {
+        return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
+    }
+
+    ServerClientsMutex.lock();
+    client_info->client_hostname.assign((char*)data_ptr, data_size);
+    client_info->client_hostname = StringUtils::remove_null_terminating_chars(client_info->client_hostname);
+    ServerClientsMutex.unlock();
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    SignalClientInfoChanged();
+
+    return(NET_PACKET_STATUS_OK);
 }
 
 NetPacketStatus NetworkServer::ProcessRequest_ClientProtocolVersion(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr)
@@ -3682,6 +3731,27 @@ void NetworkServer::SendReply_ServerFlags(NetworkClientInfo* client_info)
         send_in_progress.lock();
         send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
         send(client_info->client_sock, (char *)&flags_value, reply_hdr.pkt_size, MSG_NOSIGNAL);
+        send_in_progress.unlock();
+    }
+    ServerClientsMutex.unlock();
+}
+
+void NetworkServer::SendReply_ServerHostname(NetworkClientInfo* client_info)
+{
+    /*---------------------------------------------------------*\
+    | Send server hostname to client only if protocol is 6 or   |
+    | greater                                                   |
+    \*---------------------------------------------------------*/
+    ServerClientsMutex.lock();
+    if(client_info->client_protocol_version >= 6)
+    {
+        NetPacketHeader reply_hdr;
+
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SET_SERVER_HOSTNAME, (unsigned int)strlen(server_hostname.c_str()) + 1);
+
+        send_in_progress.lock();
+        send(client_info->client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_info->client_sock, (char *)server_hostname.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
         send_in_progress.unlock();
     }
     ServerClientsMutex.unlock();

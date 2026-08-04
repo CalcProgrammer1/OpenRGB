@@ -59,6 +59,7 @@ public:
     SOCKET          client_sock;
     unsigned int    client_flags;
     std::thread*    client_listen_thread;
+    std::string     client_hostname;
     std::string     client_string;
     unsigned int    client_protocol_version;
     std::string     client_ip;
@@ -119,7 +120,8 @@ public:
     bool                                GetOnline();
     bool                                GetListening();
     unsigned int                        GetNumClients();
-    const char *                        GetClientString(unsigned int client_num);
+    std::string                         GetClientHostname(unsigned int client_num);
+    std::string                         GetClientString(unsigned int client_num);
     const char *                        GetClientIP(unsigned int client_num);
     unsigned int                        GetClientProtocolVersion(unsigned int client_num);
 
@@ -178,6 +180,7 @@ private:
     unsigned short                      port_num;
     std::mutex                          send_in_progress;
     unsigned int                        server_flags;
+    std::string                         server_hostname;
     std::string                         server_name;
     std::atomic<bool>                   server_online;
     std::atomic<bool>                   server_listening;
@@ -260,6 +263,7 @@ private:
     | Server Protocol functions                             |
     \*-----------------------------------------------------*/
     NetPacketStatus                     ProcessRequest_ClientFlags(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
+    NetPacketStatus                     ProcessRequest_ClientHostname(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
     NetPacketStatus                     ProcessRequest_ClientProtocolVersion(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
     NetPacketStatus                     ProcessRequest_ClientString(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr);
     NetPacketStatus                     ProcessRequest_RescanDevices();
@@ -311,6 +315,7 @@ private:
     void                                SendReply_ControllerData(NetworkClientInfo* client_info, unsigned int dev_id, unsigned int protocol_version);
     void                                SendReply_ProtocolVersion(NetworkClientInfo* client_info);
     void                                SendReply_ServerFlags(NetworkClientInfo* client_info);
+    void                                SendReply_ServerHostname(NetworkClientInfo* client_info);
     void                                SendReply_ServerString(NetworkClientInfo* client_info);
 
     void                                SendReply_PluginList(NetworkClientInfo* client_info);

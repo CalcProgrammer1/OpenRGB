@@ -45,6 +45,7 @@ enum
     NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE,                     /* Detection completed              */
     NETWORKCLIENT_UPDATE_REASON_PROFILEMANAGER_PROFILE_LIST_UPDATED,    /* Profile list updated             */
     NETWORKCLIENT_UPDATE_REASON_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED,  /* Active profile changed           */
+    NETWORKCLIENT_UPDATE_REASON_SERVER_HOSTNAME_RECEIVED,               /* Server hostname received         */
 };
 
 typedef struct
@@ -81,6 +82,7 @@ public:
     unsigned short                      GetPort();
     unsigned int                        GetProtocolVersion();
     bool                                GetOnline();
+    std::string                         GetServerHostname();
     std::string                         GetServerName();
     bool                                GetSupportsRGBControllerAPI();
     bool                                GetSupportsLogManagerAPI();
@@ -219,6 +221,7 @@ private:
     | Client information                                    |
     \*-----------------------------------------------------*/
     unsigned int                        client_flags;
+    std::string                         client_hostname;
     std::string                         client_name;
     SOCKET                              client_sock;
     net_port                            port;
@@ -230,6 +233,7 @@ private:
     \*-----------------------------------------------------*/
     unsigned int                        server_flags;
     bool                                server_flags_initialized;
+    std::string                         server_hostname;
     std::string                         server_name;
     bool                                server_connected;
     bool                                server_initialized;
@@ -303,6 +307,7 @@ private:
     void                                ProcessRequest_DeviceListChanged();
     void                                ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, unsigned char* data_ptr, unsigned int dev_id);
     void                                ProcessRequest_ServerFlags(unsigned int data_size, unsigned char* data_ptr);
+    void                                ProcessRequest_ServerHostname(unsigned int data_size, unsigned char* data_ptr);
     void                                ProcessRequest_ServerString(unsigned int data_size, unsigned char* data_ptr);
 
     void                                ProcessRequest_LogManager_LoggedEntry(unsigned int data_size, unsigned char* data_ptr);
@@ -313,6 +318,7 @@ private:
     void                                ProcessRequest_ProfileManager_ProfileLoaded(unsigned int data_size, unsigned char* data_ptr);
 
     void                                SendData_ClientFlags();
+    void                                SendData_ClientHostname();
     void                                SendData_ClientString();
     void                                SendRequest_ControllerIDs();
     void                                SendRequest_ProtocolVersion();

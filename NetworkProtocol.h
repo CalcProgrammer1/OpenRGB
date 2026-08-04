@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include <string>
+
 /*---------------------------------------------------------------------*\
 | OpenRGB SDK protocol version                                          |
 |                                                                       |
@@ -108,6 +110,8 @@ enum
     NET_PACKET_ID_SET_SERVER_NAME               = 51,   /* Send server name string to client                    */
     NET_PACKET_ID_SET_CLIENT_FLAGS              = 52,   /* Send client flags to server                          */
     NET_PACKET_ID_SET_SERVER_FLAGS              = 53,   /* Send server flags to client                          */
+    NET_PACKET_ID_SET_CLIENT_HOSTNAME           = 54,   /* Send client hostname string to server                */
+    NET_PACKET_ID_SET_SERVER_HOSTNAME           = 55,   /* Send server hostname string to client                */
 
     /*----------------------------------------------------------------------------------------------------------*\
     | Detection functions                                                                                        |
@@ -198,6 +202,8 @@ enum
 
     NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE        = 1150, /* RGBController::SignalUpdate()                    */
 };
+
+std::string GetHostname();
 
 void InitNetPacketHeader
     (

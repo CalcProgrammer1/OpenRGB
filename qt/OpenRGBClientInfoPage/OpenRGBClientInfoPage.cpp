@@ -147,16 +147,21 @@ void OpenRGBClientInfoPage::UpdateInfo()
         | First column, display the server IP and optionally    |
         | the server name if it exists                          |
         \*-----------------------------------------------------*/
-        std::string server_name = ResourceManager::get()->GetClients()[client_idx]->GetServerName();
-        std::string ip          = ResourceManager::get()->GetClients()[client_idx]->GetIP();
+        std::string server_hostname = ResourceManager::get()->GetClients()[client_idx]->GetServerHostname();
+        std::string server_name     = ResourceManager::get()->GetClients()[client_idx]->GetServerName();
+        std::string ip              = ResourceManager::get()->GetClients()[client_idx]->GetIP();
 
         if(server_name == "")
         {
             new_top_item->setText(0, QString::fromStdString(ip));
         }
-        else
+        else if(server_hostname == "")
         {
             new_top_item->setText(0, QString::fromStdString(ip + ": " + server_name));
+        }
+        else
+        {
+            new_top_item->setText(0, QString::fromStdString(ip + ": " + server_name + " (" + server_hostname + ")"));
         }
 
         /*-----------------------------------------------------*\

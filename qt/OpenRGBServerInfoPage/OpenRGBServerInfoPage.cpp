@@ -95,7 +95,14 @@ void OpenRGBServerInfoPage::UpdateInfo()
 
             new_item->setText(0, network_server->GetClientIP(client_idx));
             new_item->setText(1, QString::number(network_server->GetClientProtocolVersion(client_idx)));
-            new_item->setText(2, network_server->GetClientString(client_idx));
+            if(network_server->GetClientHostname(client_idx) != "")
+            {
+                new_item->setText(2, QString::fromStdString(network_server->GetClientString(client_idx) + " (" + network_server->GetClientHostname(client_idx) + ")"));
+            }
+            else
+            {
+                new_item->setText(2, QString::fromStdString(network_server->GetClientString(client_idx)));
+            }
 
             ui->ServerClientTree->addTopLevelItem(new_item);
         }

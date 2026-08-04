@@ -12,6 +12,7 @@
 #include <cstring>
 #include "LogManager.h"
 #include "NetworkClient.h"
+#include "NetworkProtocol.h"
 #include "ProfileManager.h"
 #include "ResourceManager.h"
 #include "RGBController_Network.h"
@@ -81,6 +82,7 @@ NetworkClient::NetworkClient()
                                         | NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER
                                         | NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER;
     client_flags_sent                   = false;
+    client_hostname                     = GetHostname();
     client_is_local_client              = false;
     client_string_sent                  = false;
     client_sock                         = -1;
@@ -117,6 +119,7 @@ static bool IsCallbackPacket(unsigned int pkt_id)
     {
         case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
         case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+        case NET_PACKET_ID_SET_SERVER_HOSTNAME:
         case NET_PACKET_ID_SET_SERVER_NAME:
         case NET_PACKET_ID_DEVICE_LIST_UPDATED:
         case NET_PACKET_ID_DETECTION_STARTED:
@@ -212,6 +215,10 @@ void NetworkClient::ReceiveQueueThreadFunction()
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
                 ProcessReply_ControllerData(entry.header.pkt_size, entry.data, entry.header.pkt_dev_id);
+                break;
+
+            case NET_PACKET_ID_SET_SERVER_HOSTNAME:
+                ProcessRequest_ServerHostname(entry.header.pkt_size, entry.data);
                 break;
 
             case NET_PACKET_ID_SET_SERVER_NAME:
@@ -318,6 +325,11 @@ unsigned int NetworkClient::GetProtocolVersion()
 bool NetworkClient::GetOnline()
 {
     return(server_connected && client_string_sent && protocol_initialized && server_flags_initialized && server_initialized);
+}
+
+std::string NetworkClient::GetServerHostname()
+{
+    return(server_hostname);
 }
 
 std::string NetworkClient::GetServerName()
@@ -1828,9 +1840,10 @@ void NetworkClient::ConnectionThreadFunction()
             {
                 /*-----------------------------------------*\
                 | Once server is connected, send client     |
-                | string                                    |
+                | string and hostname                       |
                 \*-----------------------------------------*/
                 SendData_ClientString();
+                SendData_ClientHostname();
 
                 client_string_sent = true;
             }
@@ -2049,6 +2062,7 @@ void NetworkClient::ListenThreadFunction()
             \*---------------------------------------------*/
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+            case NET_PACKET_ID_SET_SERVER_HOSTNAME:
             case NET_PACKET_ID_SET_SERVER_NAME:
             case NET_PACKET_ID_DEVICE_LIST_UPDATED:
             case NET_PACKET_ID_DETECTION_STARTED:
@@ -2559,6 +2573,25 @@ void NetworkClient::ProcessRequest_ServerFlags(unsigned int data_size, unsigned 
     server_flags_initialized = true;
 }
 
+void NetworkClient::ProcessRequest_ServerHostname(unsigned int data_size, unsigned char* data_ptr)
+{
+    /*-----------------------------------------------------*\
+    | Validate inputs                                       |
+    \*-----------------------------------------------------*/
+    if((data_size == 0) || (data_ptr == NULL))
+    {
+        return;
+    }
+
+    server_hostname.assign((char*)data_ptr, data_size);
+    server_hostname = StringUtils::remove_null_terminating_chars(server_hostname);
+
+    /*-----------------------------------------------------*\
+    | Client info has changed, call the callbacks           |
+    \*-----------------------------------------------------*/
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_SERVER_HOSTNAME_RECEIVED);
+}
+
 void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, unsigned char* data_ptr)
 {
     /*-----------------------------------------------------*\
@@ -2587,6 +2620,27 @@ void NetworkClient::SendData_ClientFlags()
     send_in_progress.lock();
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)&client_flags, reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendData_ClientHostname()
+{
+    /*-----------------------------------------------------*\
+    | Client hostname was added in protocol 6, return if    |
+    | it is not supported                                   |
+    \*-----------------------------------------------------*/
+    if(protocol_version < 6)
+    {
+        return;
+    }
+
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SET_CLIENT_HOSTNAME, (unsigned int)strlen(client_hostname.c_str()) + 1);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)client_hostname.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
