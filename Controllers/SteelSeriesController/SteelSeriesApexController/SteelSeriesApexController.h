@@ -30,10 +30,17 @@ public:
     void SetLEDsDirect(std::vector<RGBColor> colors) override;
     std::string GetSerial() override;
 
+    bool          SupportsBrightness() override;
+    unsigned char GetBrightness() override;
+    void          SetBrightness(unsigned char brightness) override;
+
 private:
     void SelectProfile(unsigned char profile);
     void SendInitialization();
     void SendDeinitialization();
+    bool ReadBrightness(unsigned char& brightness);
 
-    unsigned int direct_packet_length;
+    unsigned int  direct_packet_length;
+    bool          brightness_supported;
+    unsigned char current_brightness;
 };

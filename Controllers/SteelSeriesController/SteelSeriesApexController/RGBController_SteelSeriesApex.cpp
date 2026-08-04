@@ -65,6 +65,20 @@ RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBase
     Onboard.value       = APEX_MODE_ONBOARD;
     Onboard.flags       = 0;
     Onboard.color_mode  = MODE_COLORS_NONE;
+
+    /*---------------------------------------------------------*\
+    | The brightness setting applies to the on-board lighting.  |
+    | Direct mode sends absolute colors and is not affected by  |
+    | it, so it is offered on this mode only.                   |
+    \*---------------------------------------------------------*/
+    if(controller->SupportsBrightness())
+    {
+        Onboard.flags          |= MODE_FLAG_HAS_BRIGHTNESS;
+        Onboard.brightness_min  = APEX_BRIGHTNESS_MIN;
+        Onboard.brightness_max  = APEX_BRIGHTNESS_MAX;
+        Onboard.brightness      = controller->GetBrightness();
+    }
+
     modes.push_back(Onboard);
 
     SetupZones();
@@ -143,5 +157,11 @@ void RGBController_SteelSeriesApex::DeviceUpdateSingleLED(int /*led*/)
 void RGBController_SteelSeriesApex::DeviceUpdateMode()
 {
     std::vector<RGBColor> temp_colors;
+
+    if(modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
+    {
+        controller->SetBrightness((unsigned char)modes[active_mode].brightness);
+    }
+
     controller->SetMode(modes[active_mode].value, temp_colors);
 }

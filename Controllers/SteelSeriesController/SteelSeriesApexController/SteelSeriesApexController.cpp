@@ -76,6 +76,15 @@ SteelSeriesApexController::SteelSeriesApexController(hid_device* dev_handle, ste
         direct_packet_length = direct_packet_length_map.at(device_pid);
     }
     SendInitialization();
+
+    /*-----------------------------------------------------*\
+    | Illumination brightness is offered only when the      |
+    | keyboard answers the read back request, so models     |
+    | that do not implement it are left alone.  Asked after |
+    | initialization, so the keyboard is in a known state   |
+    \*-----------------------------------------------------*/
+    current_brightness   = APEX_BRIGHTNESS_MAX;
+    brightness_supported = ReadBrightness(current_brightness);
 }
 
 SteelSeriesApexController::~SteelSeriesApexController()
@@ -263,6 +272,80 @@ void SteelSeriesApexController::SendInitialization()
         reset_cmd = APEX_GEN1_PACKET_ID_ONBOARD;
         LOG_DEBUG("[%s] Using Apex Legacy protocol.", name.c_str());
     }
+}
+
+/*---------------------------------------------------------*\
+| Illumination brightness, the same setting the brightness  |
+| keys on the keyboard step through.  It applies to the     |
+| on-board lighting; direct mode carries absolute colors    |
+| and is not affected.                                      |
+\*---------------------------------------------------------*/
+bool SteelSeriesApexController::ReadBrightness(unsigned char& brightness)
+{
+    unsigned char obuf[STEELSERIES_PACKET_OUT_SIZE];
+    unsigned char ibuf[STEELSERIES_PACKET_IN_SIZE];
+
+    memset(obuf, 0x00, sizeof(obuf));
+    memset(ibuf, 0x00, sizeof(ibuf));
+
+    obuf[0x00] = 0x00;
+    obuf[0x01] = APEX_PACKET_ID_GET_BRIGHTNESS;
+
+    hid_write(dev, obuf, STEELSERIES_PACKET_OUT_SIZE);
+
+    int result = hid_read_timeout(dev, ibuf, STEELSERIES_PACKET_IN_SIZE, STEELSERIES_APEX_HID_TIMEOUT);
+
+    /*-----------------------------------------------------*\
+    | An unsupported request is answered with 0xFF in the   |
+    | status byte                                           |
+    \*-----------------------------------------------------*/
+    if(result < 3 || ibuf[0x00] != APEX_PACKET_ID_GET_BRIGHTNESS || ibuf[0x01] != 0x00)
+    {
+        return false;
+    }
+
+    if(ibuf[0x02] > APEX_BRIGHTNESS_MAX)
+    {
+        return false;
+    }
+
+    brightness = ibuf[0x02];
+    return true;
+}
+
+bool SteelSeriesApexController::SupportsBrightness()
+{
+    return brightness_supported;
+}
+
+unsigned char SteelSeriesApexController::GetBrightness()
+{
+    return current_brightness;
+}
+
+void SteelSeriesApexController::SetBrightness(unsigned char brightness)
+{
+    if(!brightness_supported)
+    {
+        return;
+    }
+
+    if(brightness > APEX_BRIGHTNESS_MAX)
+    {
+        brightness = APEX_BRIGHTNESS_MAX;
+    }
+
+    unsigned char obuf[STEELSERIES_PACKET_OUT_SIZE];
+
+    memset(obuf, 0x00, sizeof(obuf));
+
+    obuf[0x00] = 0x00;
+    obuf[0x01] = APEX_PACKET_ID_SET_BRIGHTNESS;
+    obuf[0x02] = brightness;
+
+    hid_write(dev, obuf, STEELSERIES_PACKET_OUT_SIZE);
+
+    current_brightness = brightness;
 }
 
 std::string SteelSeriesApexController::GetSerial()

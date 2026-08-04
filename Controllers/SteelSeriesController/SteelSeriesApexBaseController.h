@@ -19,6 +19,7 @@
 
 #define STEELSERIES_PACKET_IN_SIZE      64
 #define STEELSERIES_PACKET_OUT_SIZE     STEELSERIES_PACKET_IN_SIZE + 1
+#define STEELSERIES_APEX_HID_TIMEOUT    100
 
 /*-------------------------------------------------*\
 | Protocol quirk applicability                      |
@@ -58,7 +59,16 @@ enum
     APEX_2023_PACKET_ID_INIT            = 0x4B,     /* New Initialization         */
     APEX_2023_PACKET_ID_ONBOARD         = 0x41,     /* New Wired onboard mode     */
     APEX_2023_PACKET_ID_REGION          = 0xF5,     /* Region byte                */
+    APEX_PACKET_ID_SET_BRIGHTNESS       = 0x23,     /* Illumination brightness    */
+    APEX_PACKET_ID_GET_BRIGHTNESS       = 0xA3,     /* Brightness read back       */
 };
+
+/*---------------------------------------------------------*\
+| Range of the illumination brightness setting, the same     |
+| range the brightness keys on the keyboard step through     |
+\*---------------------------------------------------------*/
+#define APEX_BRIGHTNESS_MIN             0
+#define APEX_BRIGHTNESS_MAX             10
 
 class SteelSeriesApexBaseController
 {
@@ -74,6 +84,14 @@ public:
     virtual void        SetMode(unsigned char mode, std::vector<RGBColor> colors)  = 0;
 
     virtual void        SetLEDsDirect(std::vector<RGBColor> colors)                = 0;
+
+    /*-----------------------------------------------------*\
+    | Illumination brightness, offered only by the models    |
+    | that answer the read back request                      |
+    \*-----------------------------------------------------*/
+    virtual bool          SupportsBrightness()                     { return false; }
+    virtual unsigned char GetBrightness()                          { return APEX_BRIGHTNESS_MAX; }
+    virtual void          SetBrightness(unsigned char /*value*/)   { }
 
     steelseries_type    proto_type;
 
