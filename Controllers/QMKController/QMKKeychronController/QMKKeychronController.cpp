@@ -135,6 +135,7 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     dev                     = dev_handle;
     location                = path;
     kc_protocol_version     = 0;
+    kc_rgb_protocol_version = 0;
     pid                     = dev_pid;
     supported_features      = 0;
     via_protocol_version    = 0;
@@ -207,15 +208,16 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     \*-----------------------------------------------------*/
     CmdGetSupportFeature(&supported_features);
 
+    /*-----------------------------------------------------*\
+    | Get Keychron RGB protocol version, ahead of the       |
+    | GetSupported() gate below since it needs the result   |
+    \*-----------------------------------------------------*/
+    CmdGetKeychronRGBProtocolVersion(&kc_rgb_protocol_version);
+
     if(!GetSupported())
     {
         return;
     }
-
-    /*-----------------------------------------------------*\
-    | Get Keychron RGB protocol version                     |
-    \*-----------------------------------------------------*/
-    CmdGetKeychronRGBProtocolVersion(&kc_rgb_protocol_version);
 
     /*-----------------------------------------------------*\
     | Get count of LEDs                                     |
@@ -307,7 +309,11 @@ std::string QMKKeychronController::GetVersion()
 
 bool QMKKeychronController::GetSupported()
 {
-    return(supported_features & KC_FEATURE_KEYCHRON_RGB);
+    /*-----------------------------------------------------*\
+    | Some boards don't set the feature bit even though the |
+    | RGB sub-protocol responds, so fall back to that       |
+    \*-----------------------------------------------------*/
+    return((supported_features & KC_FEATURE_KEYCHRON_RGB) || (kc_rgb_protocol_version != 0));
 }
 
 unsigned short QMKKeychronController::GetKeycode(unsigned short led_index)
