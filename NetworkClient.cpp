@@ -2129,9 +2129,6 @@ void NetworkClient::ListenThreadFunction()
 listen_done:
     LOG_INFO("[%s] Client socket has been closed", NETWORKCLIENT);
 
-    client_flags                        = NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER
-                                        | NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER
-                                        | NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER;
     client_flags_sent                   = false;
     client_is_local_client              = false;
     client_string_sent                  = false;
