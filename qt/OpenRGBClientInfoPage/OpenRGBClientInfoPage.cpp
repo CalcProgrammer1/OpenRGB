@@ -139,6 +139,11 @@ void OpenRGBClientInfoPage::UpdateInfo()
         }
 
         /*-----------------------------------------------------*\
+        | Determine if this client is the local client          |
+        \*-----------------------------------------------------*/
+        bool        local_client    = (ResourceManager::get()->GetClients()[client_idx] == ResourceManager::get()->GetLocalClient());
+
+        /*-----------------------------------------------------*\
         | Create the top level tree widget items                |
         \*-----------------------------------------------------*/
         QTreeWidgetItem* new_top_item = new QTreeWidgetItem(ui->ClientTree);
@@ -172,34 +177,40 @@ void OpenRGBClientInfoPage::UpdateInfo()
         /*-----------------------------------------------------*\
         | Create the save checkbox                              |
         \*-----------------------------------------------------*/
-        QCheckBox* checkbox_save                = new QCheckBox( "" );
-        ui->ClientTree->setItemWidget(new_top_item, 2, checkbox_save);
-        checkbox_save->setChecked(found);
+        if(!local_client)
+        {
+            QCheckBox* checkbox_save                = new QCheckBox( "" );
+            ui->ClientTree->setItemWidget(new_top_item, 2, checkbox_save);
+            checkbox_save->setChecked(found);
 
-        connect(checkbox_save, SIGNAL(clicked()), signalMapperSave, SLOT(map()));
+            connect(checkbox_save, SIGNAL(clicked()), signalMapperSave, SLOT(map()));
 
-        NetworkClientPointer * arg_save         = new NetworkClientPointer();
-        arg_save->net_client                    = ResourceManager::get()->GetClients()[client_idx];
-        arg_save->widget                        = checkbox_save;
+            NetworkClientPointer * arg_save         = new NetworkClientPointer();
+            arg_save->net_client                    = ResourceManager::get()->GetClients()[client_idx];
+            arg_save->widget                        = checkbox_save;
 
-        signalMapperSave->setMapping(checkbox_save, arg_save);
+            signalMapperSave->setMapping(checkbox_save, arg_save);
+        }
 
         /*-----------------------------------------------------*\
         | Create the rescan button if protocol version is 5 or  |
         | greater                                               |
         \*-----------------------------------------------------*/
-        if(ResourceManager::get()->GetClients()[client_idx]->GetProtocolVersion() >= 5)
+        if(!local_client)
         {
-            QPushButton* button_rescan              = new QPushButton(tr("Rescan Devices"));
-            ui->ClientTree->setItemWidget(new_top_item, 3, button_rescan);
+            if(ResourceManager::get()->GetClients()[client_idx]->GetProtocolVersion() >= 5)
+            {
+                QPushButton* button_rescan              = new QPushButton(tr("Rescan Devices"));
+                ui->ClientTree->setItemWidget(new_top_item, 3, button_rescan);
 
-            connect(button_rescan, SIGNAL(clicked()), signalMapperRescan, SLOT(map()));
+                connect(button_rescan, SIGNAL(clicked()), signalMapperRescan, SLOT(map()));
 
-            NetworkClientPointer * arg_rescan       = new NetworkClientPointer();
-            arg_rescan->net_client                  = ResourceManager::get()->GetClients()[client_idx];
-            arg_rescan->widget                      = button_rescan;
+                NetworkClientPointer * arg_rescan       = new NetworkClientPointer();
+                arg_rescan->net_client                  = ResourceManager::get()->GetClients()[client_idx];
+                arg_rescan->widget                      = button_rescan;
 
-            signalMapperRescan->setMapping(button_rescan, arg_rescan);
+                signalMapperRescan->setMapping(button_rescan, arg_rescan);
+            }
         }
 
         /*-----------------------------------------------------*\
@@ -209,7 +220,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
         QPushButton* button_disconnect          = new QPushButton(tr("Disconnect"));
         ui->ClientTree->setItemWidget(new_top_item, 4, button_disconnect);
 
-        if(ResourceManager::get()->GetClients()[client_idx] == ResourceManager::get()->GetLocalClient())
+        if(local_client)
         {
             button_disconnect->setEnabled(false);
             button_disconnect->setToolTip(tr("OpenRGB is in local client mode.  The local connection may not be disconnected."));
