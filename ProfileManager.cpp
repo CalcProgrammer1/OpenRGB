@@ -1114,7 +1114,9 @@ void ProfileManager::UpdateProfileList()
     if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
     {
         ResourceManager::get()->GetLocalClient()->ProfileManager_GetProfileList();
-        ResourceManager::get()->GetLocalClient()->ProfileManager_GetActiveProfile();
+        active_profile = ResourceManager::get()->GetLocalClient()->ProfileManager_GetActiveProfile();
+
+        SignalProfileManagerUpdate(PROFILEMANAGER_UPDATE_REASON_PROFILE_LIST_UPDATED);
     }
     else
     {

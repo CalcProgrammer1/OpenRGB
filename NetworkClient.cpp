@@ -119,6 +119,7 @@ static bool IsCallbackPacket(unsigned int pkt_id)
     {
         case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
         case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+        case NET_PACKET_ID_SET_SERVER_FLAGS:
         case NET_PACKET_ID_SET_SERVER_HOSTNAME:
         case NET_PACKET_ID_SET_SERVER_NAME:
         case NET_PACKET_ID_DEVICE_LIST_UPDATED:
@@ -215,6 +216,10 @@ void NetworkClient::ReceiveQueueThreadFunction()
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
                 ProcessReply_ControllerData(entry.header.pkt_size, entry.data, entry.header.pkt_dev_id);
+                break;
+
+            case NET_PACKET_ID_SET_SERVER_FLAGS:
+                ProcessRequest_ServerFlags(entry.header.pkt_size, entry.data);
                 break;
 
             case NET_PACKET_ID_SET_SERVER_HOSTNAME:
@@ -2047,10 +2052,6 @@ void NetworkClient::ListenThreadFunction()
                 ProcessReply_ProtocolVersion(header.pkt_size, data);
                 break;
 
-            case NET_PACKET_ID_SET_SERVER_FLAGS:
-                ProcessRequest_ServerFlags(header.pkt_size, data);
-                break;
-
             case NET_PACKET_ID_LOGMANAGER_LOGGED_ENTRY:
                 ProcessRequest_LogManager_LoggedEntry(header.pkt_size, data);
                 break;
@@ -2062,6 +2063,7 @@ void NetworkClient::ListenThreadFunction()
             \*---------------------------------------------*/
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+            case NET_PACKET_ID_SET_SERVER_FLAGS:
             case NET_PACKET_ID_SET_SERVER_HOSTNAME:
             case NET_PACKET_ID_SET_SERVER_NAME:
             case NET_PACKET_ID_DEVICE_LIST_UPDATED:
@@ -2568,6 +2570,8 @@ void NetworkClient::ProcessRequest_ServerFlags(unsigned int data_size, unsigned 
     }
 
     server_flags_initialized = true;
+
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_SERVER_FLAGS_RECEIVED);
 }
 
 void NetworkClient::ProcessRequest_ServerHostname(unsigned int data_size, unsigned char* data_ptr)

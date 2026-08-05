@@ -46,6 +46,7 @@ enum
     NETWORKCLIENT_UPDATE_REASON_PROFILEMANAGER_PROFILE_LIST_UPDATED,    /* Profile list updated             */
     NETWORKCLIENT_UPDATE_REASON_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED,  /* Active profile changed           */
     NETWORKCLIENT_UPDATE_REASON_SERVER_HOSTNAME_RECEIVED,               /* Server hostname received         */
+    NETWORKCLIENT_UPDATE_REASON_SERVER_FLAGS_RECEIVED,                  /* Server flags received            */
 };
 
 typedef struct
