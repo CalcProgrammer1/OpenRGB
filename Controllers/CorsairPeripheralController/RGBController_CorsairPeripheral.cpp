@@ -23,6 +23,15 @@ static unsigned int matrix_map[6][23] =
       {   4, 111,  22,  32,  40,  50,  NA,  59,  NA,  68,  78,  88,  97, 106,  61,  NA,  NA,  81,  NA,  73,  83,  92, 109 },
       {   5,  14,  23,  NA,  NA,  NA,  NA,  41,  NA,  NA,  NA,  NA,  69,  79,  89,  71,  90,  99, 108, 101,  NA, 110,  NA } };
 
+static unsigned int matrix_map_k70_lux_rgb[7][23] =
+    { {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 107,  8,  NA,  NA,  16,  NA,  NA,},
+      {   0,  NA,  10,  18,  28,  36,  NA,  46,  55,  64,  74,  NA,  84,  93, 102,   6,  15,  24,  33,  26,  35,  44,  53 },
+      {   1,  11,  19,  29,  37,  47,  NA,  56,  65,  75,  85,  94, 103,   7,  25,  NA,  42,  51,  60,  62,  72,  82,  91 },
+      {   2,  NA,  12,  20,  30,  38,  48,  57,  66,  76,  86,  NA,  95, 104,  70,  80,  34,  43,  52,  9,   17,  27, 100 },
+      {   3,  NA,  13,  21,  31,  39,  49,  58,  67,  77,  87,  NA,  96, 105,  98, 112,  NA,  NA,  NA,  45,  54,  63,  NA },
+      {   4, 111,  NA,  22,  32,  40,  50,  59,  68,  78,  88,  97,  NA, 106,  61,  NA,  NA,  81,  NA,  73,  83,  92, 109 },
+      {   5,  NA,  14,  23,  NA,  NA,  NA,  41,  NA,  NA,  NA,  69,  NA,  79,  89,  71,  90,  99, 108, 101,  NA, 110,  NA } };
+
 static unsigned int matrix_map_k70_mk2[7][23] =
     { {  NA,  NA,  NA, 115, 107,   8,  NA,  NA,  NA,  NA,  NA, 113, 114,  NA,  NA,  NA,  NA,  NA,  NA,  16,  NA,  NA,  NA,},
       {   0,  NA,  10,  18,  28,  36,  NA,  46,  55,  64,  74,  NA,  84,  93, 102,   6,  15,  24,  33,  26,  35,  44,  53 },
@@ -64,6 +73,24 @@ static const unsigned int zone_sizes[] =
 };
 
 static const zone_type zone_types[] =
+{
+    ZONE_TYPE_MATRIX,
+};
+
+/*---------------------------------------------------------*\
+| K70 LUX RGB Corsair Layout                                    |
+\*---------------------------------------------------------*/
+static const char* zone_names_k70_lux_rgb[] =
+{
+    ZONE_EN_KEYBOARD,
+};
+
+static const unsigned int zone_sizes_k70_lux_rgb[] =
+{
+    116
+};
+
+static const zone_type zone_types_k70_lux_rgb[] =
 {
     ZONE_TYPE_MATRIX,
 };
@@ -159,7 +186,7 @@ static const char* led_names[] =
     KEY_EN_LEFT_CONTROL,        //5
     KEY_EN_F12,                 //6
     KEY_EN_EQUALS,              //7
-    "Key: Lock",                //8
+    KEY_EN_WINDOWS_LOCK,        //8
     KEY_EN_NUMPAD_7,            //9
     KEY_EN_F1,                  //12
     KEY_EN_1,                   //13
@@ -258,7 +285,7 @@ static const char* led_names[] =
     KEY_EN_LEFT_BRACKET,        //134
     KEY_EN_QUOTE,               //135
     KEY_EN_FORWARD_SLASH,       //136
-    "Key: Brightness",          //137
+    KEY_EN_BRIGHTNESS,          //137
     KEY_EN_RIGHT_ARROW,         //139
     KEY_EN_NUMPAD_ENTER,        //140
     KEY_EN_NUMPAD_PERIOD,       //141
@@ -266,7 +293,7 @@ static const char* led_names[] =
     KEY_EN_ISO_BACK_SLASH,
 };
 
-static const char* led_names_k70_mk2[] =
+static const char* led_names_k70_lux_rgb[] =
 {
     KEY_EN_ESCAPE,              //0
     KEY_EN_BACK_TICK,           //1
@@ -276,7 +303,7 @@ static const char* led_names_k70_mk2[] =
     KEY_EN_LEFT_CONTROL,        //5
     KEY_EN_F12,                 //6
     KEY_EN_EQUALS,              //7
-    "Key: Lock",                //8
+    KEY_EN_WINDOWS_LOCK,        //8
     KEY_EN_NUMPAD_7,            //9
     KEY_EN_F1,                  //12
     KEY_EN_1,                   //13
@@ -380,7 +407,132 @@ static const char* led_names_k70_mk2[] =
     KEY_EN_LEFT_BRACKET,        //134
     KEY_EN_QUOTE,               //135
     KEY_EN_FORWARD_SLASH,       //136
-    "Key: Brightness",          //137
+    KEY_EN_BRIGHTNESS,          //137
+    KEY_EN_RIGHT_ARROW,         //139
+    KEY_EN_NUMPAD_ENTER,        //140
+    KEY_EN_NUMPAD_PERIOD,       //141
+    "Key: / (ISO)",             //16
+    KEY_EN_ISO_BACK_SLASH,      //114
+    "Key: Logo Left",           //047
+    "Key: Logo Right",          //059
+    "Key: Profile",             //125
+};
+
+static const char* led_names_k70_mk2[] =
+{
+    KEY_EN_ESCAPE,              //0
+    KEY_EN_BACK_TICK,           //1
+    KEY_EN_TAB,                 //2
+    KEY_EN_CAPS_LOCK,           //3
+    KEY_EN_LEFT_SHIFT,          //4
+    KEY_EN_LEFT_CONTROL,        //5
+    KEY_EN_F12,                 //6
+    KEY_EN_EQUALS,              //7
+    KEY_EN_WINDOWS_LOCK,        //8
+    KEY_EN_NUMPAD_7,            //9
+    KEY_EN_F1,                  //12
+    KEY_EN_1,                   //13
+    KEY_EN_Q,                   //14
+    KEY_EN_A,                   //15
+    //"Key: / (ISO)",           //16
+    KEY_EN_LEFT_WINDOWS,        //17
+    KEY_EN_PRINT_SCREEN,        //18
+    KEY_EN_MEDIA_MUTE,          //20
+    KEY_EN_NUMPAD_8,            //21
+    KEY_EN_F2,                  //24
+    KEY_EN_2,                   //25
+    KEY_EN_W,                   //26
+    KEY_EN_S,                   //27
+    KEY_EN_Z,                   //28
+    KEY_EN_LEFT_ALT,            //29
+    KEY_EN_SCROLL_LOCK,         //30
+    KEY_EN_BACKSPACE,           //31
+    KEY_EN_MEDIA_STOP,          //32
+    KEY_EN_NUMPAD_9,            //33
+    KEY_EN_F3,                  //36
+    KEY_EN_3,                   //37
+    KEY_EN_E,                   //38
+    KEY_EN_D,                   //39
+    KEY_EN_X,                   //40
+    KEY_EN_PAUSE_BREAK,         //42
+    KEY_EN_DELETE,              //43
+    KEY_EN_MEDIA_PREVIOUS,      //44
+    //"Key: Logo Left",         //047
+    KEY_EN_F4,                  //48
+    KEY_EN_4,                   //49
+    KEY_EN_R,                   //50
+    KEY_EN_F,                   //51
+    KEY_EN_C,                   //52
+    KEY_EN_SPACE,               //53
+    KEY_EN_INSERT,              //54
+    KEY_EN_END,                 //55
+    KEY_EN_MEDIA_PLAY_PAUSE,    //56
+    KEY_EN_NUMPAD_4,            //57
+    //"Key: Logo Right",        //059
+    KEY_EN_F5,                  //60
+    KEY_EN_5,                   //61
+    KEY_EN_T,                   //62
+    KEY_EN_G,                   //63
+    KEY_EN_V,                   //64
+    KEY_EN_HOME,                //66
+    KEY_EN_PAGE_DOWN,           //67
+    KEY_EN_MEDIA_NEXT,          //68
+    KEY_EN_NUMPAD_5,            //69
+    KEY_EN_F6,                  //72
+    KEY_EN_6,                   //73
+    KEY_EN_Y,                   //74
+    KEY_EN_H,                   //75
+    KEY_EN_B,                   //76
+    KEY_EN_PAGE_UP,             //78
+    KEY_EN_RIGHT_SHIFT,         //79
+    KEY_EN_NUMPAD_LOCK,         //80
+    KEY_EN_NUMPAD_6,            //81
+    KEY_EN_F7,                  //84
+    KEY_EN_7,                   //85
+    KEY_EN_U,                   //86
+    KEY_EN_J,                   //87
+    KEY_EN_N,                   //88
+    KEY_EN_RIGHT_ALT,           //89
+    KEY_EN_RIGHT_BRACKET,       //90
+    KEY_EN_RIGHT_CONTROL,       //91
+    KEY_EN_NUMPAD_DIVIDE,       //92
+    KEY_EN_NUMPAD_1,            //93
+    KEY_EN_F8,                  //96
+    KEY_EN_8,                   //97
+    KEY_EN_I,                   //98
+    KEY_EN_K,                   //99
+    KEY_EN_M,                   //100
+    KEY_EN_RIGHT_WINDOWS,       //101
+    KEY_EN_ANSI_BACK_SLASH,     //102
+    KEY_EN_UP_ARROW,            //103
+    KEY_EN_NUMPAD_TIMES,        //104
+    KEY_EN_NUMPAD_2,            //105
+    KEY_EN_F9,                  //108
+    KEY_EN_9,                   //109
+    KEY_EN_O,                   //110
+    KEY_EN_L,                   //111
+    KEY_EN_COMMA,               //112
+    KEY_EN_MENU,                //113
+    //KEY_EN_ISO_BACK_SLASH,    //114
+    KEY_EN_LEFT_ARROW,          //115
+    KEY_EN_NUMPAD_MINUS,        //116
+    KEY_EN_NUMPAD_3,            //117
+    KEY_EN_F10,                 //120
+    KEY_EN_0,                   //121
+    KEY_EN_P,                   //122
+    KEY_EN_SEMICOLON,           //123
+    //"Key: Profile",           //125
+    KEY_EN_PERIOD,              //124
+    KEY_EN_ANSI_ENTER,          //126
+    KEY_EN_DOWN_ARROW,          //127
+    KEY_EN_NUMPAD_PLUS,         //128
+    KEY_EN_NUMPAD_0,            //129
+    KEY_EN_F11,                 //132
+    KEY_EN_MINUS,               //133
+    KEY_EN_LEFT_BRACKET,        //134
+    KEY_EN_QUOTE,               //135
+    KEY_EN_FORWARD_SLASH,       //136
+    KEY_EN_BRIGHTNESS,          //137
     KEY_EN_RIGHT_ARROW,         //139
     KEY_EN_NUMPAD_ENTER,        //140
     KEY_EN_NUMPAD_PERIOD,       //141
@@ -401,7 +553,7 @@ static const char* led_names_k95_plat[] =
     KEY_EN_LEFT_CONTROL,        //5
     KEY_EN_F12,                 //6
     KEY_EN_EQUALS,              //7
-    "Key: Lock",                //8
+    KEY_EN_WINDOWS_LOCK,        //8
     KEY_EN_NUMPAD_7,            //9
     KEY_EN_F1,                  //12
     KEY_EN_1,                   //13
@@ -500,7 +652,7 @@ static const char* led_names_k95_plat[] =
     KEY_EN_LEFT_BRACKET,        //134
     KEY_EN_QUOTE,               //135
     KEY_EN_FORWARD_SLASH,       //136
-    "Key: Brightness",          //137
+    KEY_EN_BRIGHTNESS,          //137
     KEY_EN_RIGHT_ARROW,         //139
     KEY_EN_NUMPAD_ENTER,        //140
     KEY_EN_NUMPAD_PERIOD,       //141
@@ -544,7 +696,7 @@ static const char* led_names_k95[] =
     KEY_EN_LEFT_CONTROL,        //5
     KEY_EN_F12,                 //6
     KEY_EN_EQUALS,              //7
-    "Key: Lock",                //8
+    KEY_EN_WINDOWS_LOCK,        //8
     KEY_EN_NUMPAD_7,            //9
     KEY_EN_F1,                  //12
     KEY_EN_1,                   //13
@@ -643,7 +795,7 @@ static const char* led_names_k95[] =
     KEY_EN_LEFT_BRACKET,        //134
     KEY_EN_QUOTE,               //135
     KEY_EN_FORWARD_SLASH,       //136
-    "Key: Brightness",          //137
+    KEY_EN_BRIGHTNESS,          //137
     KEY_EN_RIGHT_ARROW,         //139
     KEY_EN_NUMPAD_ENTER,        //140
     KEY_EN_NUMPAD_PERIOD,       //141
@@ -1012,6 +1164,19 @@ void RGBController_CorsairPeripheral::SetupZones()
                     new_zone.leds_max               = zone_sizes_k55[zone_idx];
                     new_zone.leds_count             = zone_sizes_k55[zone_idx];
                 }
+                else if (logical_layout == CORSAIR_TYPE_K70_LUX_RGB)
+                {
+                    new_zone.name                   = zone_names_k70_lux_rgb[zone_idx];
+                    new_zone.type                   = zone_types_k70_lux_rgb[zone_idx];
+                    new_zone.leds_min               = zone_sizes_k70_lux_rgb[zone_idx];
+                    new_zone.leds_max               = zone_sizes_k70_lux_rgb[zone_idx];
+                    new_zone.leds_count             = zone_sizes_k70_lux_rgb[zone_idx];
+
+                    if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
+                    {
+                        new_zone.matrix_map.Set(7, 23, (unsigned int *)&matrix_map_k70_lux_rgb);
+                    }
+                }
                 else if (logical_layout == CORSAIR_TYPE_K70_MK2)
                 {
                     new_zone.name                   = zone_names_k70_mk2[zone_idx];
@@ -1100,6 +1265,10 @@ void RGBController_CorsairPeripheral::SetupZones()
                 else if(logical_layout == CORSAIR_TYPE_K55)
                 {
                     new_led.name = led_names_k55[led_idx];
+                }
+                else if(logical_layout == CORSAIR_TYPE_K70_LUX_RGB)
+                {
+                    new_led.name = led_names_k70_lux_rgb[led_idx];
                 }
                 else if(logical_layout == CORSAIR_TYPE_K70_MK2)
                 {

@@ -142,6 +142,8 @@ const char* KEY_EN_MEDIA_STOP         = "Key: Media Stop";
 const char* KEY_EN_MEDIA_MUTE         = "Key: Media Mute";
 const char* KEY_EN_MEDIA_VOLUME_DOWN  = "Key: Media Volume -";
 const char* KEY_EN_MEDIA_VOLUME_UP    = "Key: Media Volume +";
+const char* KEY_EN_BRIGHTNESS         = "Key: Brightness";
+const char* KEY_EN_WINDOWS_LOCK       = "Key: Windows Lock";
 
 const char* KEY_EN_F13                = "Key: F13";
 const char* KEY_EN_F14                = "Key: F14";

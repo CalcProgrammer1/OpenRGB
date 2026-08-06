@@ -157,6 +157,8 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_EN_MEDIA_MUTE,        { "Mte"   , "\xF0\x9F\x94\x87", }}, // 🔇
     { KEY_EN_MEDIA_VOLUME_DOWN, { "Vl-"   , "\xF0\x9F\x94\x88", }}, // 🔉
     { KEY_EN_MEDIA_VOLUME_UP,   { "Vl+"   , "\xF0\x9F\x94\x89", }}, // 🔊
+    { KEY_EN_BRIGHTNESS,        { "Bri"   , "\xE2\x98\xBC",     }}, // ☀
+    { KEY_EN_WINDOWS_LOCK,      { "Loc"   , "\xF0\x9F\x94\x92", }}, // 🔒
     { KEY_EN_POWER,             { "Pwr"   , "\xE2\x8F\xBB",     }}, // ⏻
     { KEY_JP_RO,                { "_"     , "_",                }},
     { KEY_JP_EJ,                { "E/J"   , "E/J",              }},

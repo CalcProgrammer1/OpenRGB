@@ -217,7 +217,7 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
             blu_val[keys_k95[color_idx]] = RGBGetBValue(color);
             data_sz = 48; //untested
         }
-        else if (logical_layout == CORSAIR_TYPE_K70_MK2)
+        else if (logical_layout == CORSAIR_TYPE_K70_MK2 || logical_layout == CORSAIR_TYPE_K70_LUX_RGB)
         {
             red_val[keys_k70_mk2[color_idx]] = RGBGetRValue(color);
             grn_val[keys_k70_mk2[color_idx]] = RGBGetGValue(color);
@@ -447,7 +447,7 @@ void CorsairPeripheralController::SetupK55AndK95LightingControl()
 
     if (physical_layout == CORSAIR_LAYOUT_ISO)
     {
-        if(logical_layout == CORSAIR_TYPE_K70_MK2)
+        if(logical_layout == CORSAIR_TYPE_K70_MK2 || logical_layout == CORSAIR_TYPE_K70_LUX_RGB)
         {
             skipped_identifiers = key_mapping_k70_mk2_plat_iso;
             skipped_identifiers_count = sizeof(key_mapping_k70_mk2_plat_iso) / sizeof(key_mapping_k70_mk2_plat_iso[0]);
@@ -630,6 +630,10 @@ void CorsairPeripheralController::ReadFirmwareInfo()
 
                     case 0x1B3D:
                     logical_layout = CORSAIR_TYPE_K55;
+                    break;
+
+                    case 0x1B33:
+                    logical_layout = CORSAIR_TYPE_K70_LUX_RGB;
                     break;
 
                     case 0x1B38:

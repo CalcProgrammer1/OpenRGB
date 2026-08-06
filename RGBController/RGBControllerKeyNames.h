@@ -142,6 +142,8 @@ extern const char* KEY_EN_MEDIA_STOP;
 extern const char* KEY_EN_MEDIA_MUTE;
 extern const char* KEY_EN_MEDIA_VOLUME_DOWN;
 extern const char* KEY_EN_MEDIA_VOLUME_UP;
+extern const char* KEY_EN_BRIGHTNESS;
+extern const char* KEY_EN_WINDOWS_LOCK;
 
 extern const char* KEY_EN_F13;
 extern const char* KEY_EN_F14;
