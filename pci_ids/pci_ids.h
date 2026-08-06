@@ -586,6 +586,7 @@
 #define KFA2_RTX_2080_SUPER_EX_OC_SUB_DEV                       0x13A1
 #define KFA2_RTX_2080TI_EX_OC_SUB_DEV                           0x1323
 #define GALAX_RTX_3080_SG_SUB_DEV                               0x1455
+#define GALAX_RTX_3070_1_CLICK_OC_SUB_DEV  			0x146B
 #define GALAX_RTX_5070TI_EX_OC_SUB_DEV                          0x205C
 
 /*-----------------------------------------------------*\
