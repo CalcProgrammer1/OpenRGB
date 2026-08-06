@@ -47,7 +47,7 @@ void superio_enter(int ioreg)
 
     if (pawnio_handle == NULL)
     {
-        status = i2c_smbus_pawnio::start_pawnio("superio", &pawnio_handle);
+        status = i2c_smbus_pawnio::start_pawnio("LpcIO.bin", &pawnio_handle);
         if (status != S_OK)
         {
             // TODO: Figure out how to handle errors
