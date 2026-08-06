@@ -1,0 +1,49 @@
+/*---------------------------------------------------------*\
+| RGBController_MSIMotherboard112.h                         |
+|                                                           |
+|   RGBController for MSI Mystic Light 112-byte motherboard |
+|                                                           |
+|   thombo                                      17 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
+\*---------------------------------------------------------*/
+
+#pragma once
+
+#include "RGBController.h"
+#include "MSIMotherboard112Controller.h"
+
+class RGBController_MSIMotherboard112: public RGBController
+{
+public:
+    RGBController_MSIMotherboard112(MSIMotherboard112Controller* controller_ptr);
+    ~RGBController_MSIMotherboard112();
+
+    void        SetupZones();
+
+    void        DeviceUpdateLEDs();
+    void        DeviceUpdateZoneLEDs(int zone);
+    void        DeviceUpdateSingleLED(int led);
+
+    void        DeviceUpdateMode();
+    void        DeviceSaveMode();
+
+private:
+    MSIMotherboard112Controller*    controller;
+
+    void        SetupModes();
+    void        UpdateLed
+                    (
+                    int zone,
+                    int led
+                    );
+    void        SetupMode
+                    (
+                    const char      *name,
+                    MSI_MODE        mode,
+                    unsigned int    flags
+                    );
+    int         GetDeviceMode();
+    void        GetDeviceConfig();
+};
