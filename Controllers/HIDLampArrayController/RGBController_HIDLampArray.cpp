@@ -319,7 +319,7 @@ static const char *HIDUsageIDsToKeyNames[HID_KEYBOARD_USAGE_IDS_COUNT] =
 void RGBController_HIDLampArray::SetupZones()
 {
     zone new_zone;
-    new_zone.name       = ZONE_EN_KEYBOARD;
+    new_zone.name       = RGBController::DeviceTypeToString(type);
     new_zone.type       = ZONE_TYPE_MATRIX;
     new_zone.leds_count = controller->GetLampCount();
     new_zone.leds_min   = new_zone.leds_count;
