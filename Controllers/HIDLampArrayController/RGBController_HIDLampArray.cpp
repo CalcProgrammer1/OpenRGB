@@ -408,12 +408,12 @@ void RGBController_HIDLampArray::DeviceUpdateLEDs()
 
 void RGBController_HIDLampArray::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-
+    DeviceUpdateLEDs();
 }
 
 void RGBController_HIDLampArray::DeviceUpdateSingleLED(int /*led*/)
 {
-
+    DeviceUpdateLEDs();
 }
 
 void RGBController_HIDLampArray::DeviceUpdateMode()
