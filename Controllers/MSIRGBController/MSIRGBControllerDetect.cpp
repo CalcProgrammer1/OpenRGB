@@ -10,10 +10,11 @@
 \*---------------------------------------------------------*/
 
 #include "DetectionManager.h"
+#include "dmiinfo.h"
+#include "LogManager.h"
 #include "MSIRGBController.h"
 #include "RGBController_MSIRGB.h"
 #include "super_io.h"
-#include "dmiinfo.h"
 
 #define NUM_COMPATIBLE_DEVICES (sizeof(compatible_devices) / sizeof(compatible_devices[0]))
 
@@ -87,6 +88,8 @@ DetectedControllers DetectMSIRGBControllers()
 
     if(manufacturer == "Micro-Star International Co., Ltd." || manufacturer == "Micro-Star International Co., Ltd" || manufacturer == "MSI")
     {
+        LOG_TRACE("[MSIRGBController] MSI motherboard %s detected, attempting Super-IO detection", board_dmi.c_str());
+
         for(int sioaddr_idx = 0; sioaddr_idx < 2; sioaddr_idx++)
         {
             int sioaddr = sio_addrs[sioaddr_idx];
@@ -94,6 +97,8 @@ DetectedControllers DetectMSIRGBControllers()
             superio_enter(sioaddr);
 
             int val = (superio_inb(sioaddr, SIO_REG_DEVID) << 8) | superio_inb(sioaddr, SIO_REG_DEVID + 1);
+
+            LOG_TRACE("[MSIRGBController] Super IO address 0x%02X probed value 0x%08X", sioaddr, val);
 
             switch(val & SIO_ID_MASK)
             {
