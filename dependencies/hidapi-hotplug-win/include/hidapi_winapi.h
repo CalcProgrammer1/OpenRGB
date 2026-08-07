@@ -80,7 +80,7 @@ extern "C" {
 		 *
 		 * When the timeout is set to 0, hid_write function becomes non-blocking and would exit immediately.
 		 * When the timeout is set to INFINITE ((DWORD)-1), the function will not exit,
-		 * until the write operation is performed or an error occurred.
+		 * until the write operation is performed or an error occured.
 		 * See dwMilliseconds parameter documentation of WaitForSingleObject function.
 		 *
 		 * @param timeout New timeout value in milliseconds.
