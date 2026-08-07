@@ -20,17 +20,22 @@ RoyuanKeyboardProfile RoyuanKeyboardProfile::EpomakerLegacy()
 {
     RoyuanKeyboardProfile profile;
 
-    profile.protocol             = RoyuanKeyboardProtocol::Legacy;
-    profile.checksum_type        = RoyuanChecksumType::NextPowerOfTwo;
-    profile.speed_max            = 0x05;
-    profile.speed_default        = 0x04;
-    profile.brightness_max       = 0x04;
-    profile.brightness_default   = 0x04;
-    profile.option_default       = 0x00;
-    profile.dazzle_default       = 0x07;
-    profile.reverse_speed        = false;
-    profile.supports_readback    = false;
-    profile.fallback_name        = "ROYUAN Keyboard";
+    profile.protocol                           = RoyuanKeyboardProtocol::Legacy;
+    profile.checksum_type                      = RoyuanChecksumType::NextPowerOfTwo;
+    profile.speed_max                          = 0x05;
+    profile.speed_default                      = 0x04;
+    profile.brightness_max                     = 0x04;
+    profile.brightness_default                 = 0x04;
+    profile.option_default                     = 0x00;
+    profile.dazzle_default                     = 0x07;
+    profile.direct_mode_id                     = 0x00;
+    profile.reverse_speed                      = false;
+    profile.supports_readback                  = false;
+    profile.supports_direct_mode               = false;
+    profile.force_option_default               = false;
+    profile.solid_option_default               = 0x00;
+    profile.solid_option_overrides_static      = false;
+    profile.fallback_name                      = "ROYUAN Keyboard";
 
     return(profile);
 }
@@ -39,17 +44,46 @@ RoyuanKeyboardProfile RoyuanKeyboardProfile::AkkoBSeries()
 {
     RoyuanKeyboardProfile profile;
 
-    profile.protocol             = RoyuanKeyboardProtocol::AkkoBSeries;
-    profile.checksum_type        = RoyuanChecksumType::OnesComplement;
-    profile.speed_max            = ROYUAN_AKKO_SPEED_MAX;
-    profile.speed_default        = ROYUAN_AKKO_SPEED_DEFAULT;
-    profile.brightness_max       = ROYUAN_AKKO_BRIGHTNESS_MAX;
-    profile.brightness_default   = ROYUAN_AKKO_BRIGHTNESS_DEFAULT;
-    profile.option_default       = 0x08;
-    profile.dazzle_default       = 0x00;
-    profile.reverse_speed        = true;
-    profile.supports_readback    = true;
-    profile.fallback_name        = "Akko 3068B Plus";
+    profile.protocol                           = RoyuanKeyboardProtocol::AkkoBSeries;
+    profile.checksum_type                      = RoyuanChecksumType::OnesComplement;
+    profile.speed_max                          = ROYUAN_AKKO_SPEED_MAX;
+    profile.speed_default                      = ROYUAN_AKKO_SPEED_DEFAULT;
+    profile.brightness_max                     = ROYUAN_AKKO_BRIGHTNESS_MAX;
+    profile.brightness_default                 = ROYUAN_AKKO_BRIGHTNESS_DEFAULT;
+    profile.option_default                     = 0x08;
+    profile.dazzle_default                     = 0x00;
+    profile.direct_mode_id                     = 0x00;
+    profile.reverse_speed                      = true;
+    profile.supports_readback                  = true;
+    profile.supports_direct_mode               = false;
+    profile.force_option_default               = true;
+    profile.solid_option_default               = 0x00;
+    profile.solid_option_overrides_static      = false;
+    profile.fallback_name                      = "Akko 3068B Plus";
+
+    return(profile);
+}
+
+RoyuanKeyboardProfile RoyuanKeyboardProfile::GK68HEPro()
+{
+    RoyuanKeyboardProfile profile;
+
+    profile.protocol                           = RoyuanKeyboardProtocol::AkkoBSeries;
+    profile.checksum_type                      = RoyuanChecksumType::OnesComplement;
+    profile.speed_max                          = ROYUAN_SKYLOONG_GK68HE_PRO_SPEED_MAX;
+    profile.speed_default                      = ROYUAN_SKYLOONG_GK68HE_PRO_SPEED_DEFAULT;
+    profile.brightness_max                     = ROYUAN_SKYLOONG_GK68HE_PRO_BRIGHTNESS_MAX;
+    profile.brightness_default                 = ROYUAN_SKYLOONG_GK68HE_PRO_BRIGHTNESS_DEFAULT;
+    profile.option_default                     = 0x08;
+    profile.dazzle_default                     = 0x00;
+    profile.direct_mode_id                     = ROYUAN_SKYLOONG_GK68HE_PRO_EFFECT_DIRECT;
+    profile.reverse_speed                      = true;
+    profile.supports_readback                  = true;
+    profile.supports_direct_mode               = true;
+    profile.force_option_default               = false;
+    profile.solid_option_default               = 0x07;
+    profile.solid_option_overrides_static      = true;
+    profile.fallback_name                      = "Skyloong GK68HE Pro";
 
     return(profile);
 }
@@ -154,6 +188,11 @@ unsigned char RoyuanKeyboardController::GetBrightness() const
     return(current_brightness);
 }
 
+unsigned char RoyuanKeyboardController::GetDirectModeID() const
+{
+    return(profile.direct_mode_id);
+}
+
 unsigned char RoyuanKeyboardController::GetRed() const
 {
     return(current_red);
@@ -249,7 +288,16 @@ bool RoyuanKeyboardController::SendUpdate()
     }
 
     buffer[4] = std::min<unsigned char>(current_brightness, profile.brightness_max);
-    buffer[5] = current_option | current_dazzle;
+
+    if(profile.solid_option_overrides_static && current_mode == ROYUAN_AKKO_EFFECT_STATIC)
+    {
+        buffer[5] = profile.solid_option_default;
+    }
+    else
+    {
+        buffer[5] = current_option | current_dazzle;
+    }
+
     buffer[6] = current_red;
     buffer[7] = current_green;
     buffer[8] = current_blue;
@@ -285,12 +333,17 @@ void RoyuanKeyboardController::SetMode(unsigned char mode, unsigned char speed, 
     current_speed       = std::min<unsigned char>(speed, profile.speed_max);
     current_brightness  = std::min<unsigned char>(brightness, profile.brightness_max);
 
-    if(profile.protocol == RoyuanKeyboardProtocol::AkkoBSeries)
+    if(profile.protocol == RoyuanKeyboardProtocol::AkkoBSeries && profile.force_option_default)
     {
-        current_option = profile.option_default;
+        current_option = (profile.supports_direct_mode && mode == profile.direct_mode_id) ? 0x00 : profile.option_default;
     }
 
     SendUpdate();
+
+    if(profile.supports_direct_mode && mode == profile.direct_mode_id)
+    {
+        SendDirectColor();
+    }
 }
 
 void RoyuanKeyboardController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
@@ -299,10 +352,85 @@ void RoyuanKeyboardController::SetColor(unsigned char red, unsigned char green, 
     current_green   = green;
     current_blue    = blue;
 
-    if(profile.protocol == RoyuanKeyboardProtocol::AkkoBSeries)
+    if(profile.supports_direct_mode && current_mode == profile.direct_mode_id)
+    {
+        SendDirectColor();
+        return;
+    }
+
+    if(profile.protocol == RoyuanKeyboardProtocol::AkkoBSeries && profile.force_option_default)
     {
         current_option = profile.option_default;
     }
 
     SendUpdate();
+}
+
+bool RoyuanKeyboardController::SendDirectColor()
+{
+    unsigned char buffer[ROYUAN_REPORT_LENGTH + 1] = { 0x00 };
+
+    buffer[1] = ROYUAN_COMMAND_SET_DIRECT_COLOR;
+    buffer[2] = current_red;
+    buffer[3] = current_green;
+    buffer[4] = current_blue;
+    buffer[8] = CalculateChecksum(&buffer[1], 7);
+
+    int result = hid_send_feature_report(dev, buffer, sizeof(buffer));
+
+    if(result < 0)
+    {
+        LOG_ERROR("[ROYUAN]: SET_DIRECT_COLOR failed: %ls", hid_error(dev));
+        return(false);
+    }
+
+    return(true);
+}
+
+bool RoyuanKeyboardController::SetUserPic(const unsigned char* slot_colors, unsigned char layer)
+{
+    static const unsigned int frame_sizes[ROYUAN_SKYLOONG_GK68HE_PRO_USERPIC_FRAMES] =
+    {
+        56, 56, 56, 56, 56, 56, 48
+    };
+
+    static const unsigned char frame_length_lo[ROYUAN_SKYLOONG_GK68HE_PRO_USERPIC_FRAMES] =
+    {
+        56, 56, 56, 56, 56, 56, 42
+    };
+
+    static const unsigned char frame_length_hi[ROYUAN_SKYLOONG_GK68HE_PRO_USERPIC_FRAMES] =
+    {
+        0, 0, 0, 0, 0, 0, 1
+    };
+
+    unsigned int offset = 0;
+
+    for(unsigned int frame = 0; frame < ROYUAN_SKYLOONG_GK68HE_PRO_USERPIC_FRAMES; frame++)
+    {
+        unsigned char buffer[ROYUAN_REPORT_LENGTH + 1] = { 0x00 };
+
+        buffer[1] = ROYUAN_COMMAND_SET_USERPIC;
+        buffer[2] = layer;
+        buffer[3] = 0xFF;
+        buffer[4] = frame;
+        buffer[5] = frame_length_lo[frame];
+        buffer[6] = frame_length_hi[frame];
+        buffer[7] = 0x00;
+
+        std::memcpy(&buffer[9], &slot_colors[offset], frame_sizes[frame]);
+        offset += frame_sizes[frame];
+
+        buffer[8] = CalculateChecksum(&buffer[1], 7);
+
+        int result = hid_send_feature_report(dev, buffer, sizeof(buffer));
+
+        if(result < 0)
+        {
+            LOG_ERROR("[ROYUAN]: SET_USERPIC failed: %ls", hid_error(dev));
+            return(false);
+        }
+    }
+
+    return(true);
 }
