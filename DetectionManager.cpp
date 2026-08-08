@@ -848,23 +848,35 @@ void DetectionManager::BackgroundDetectDevices()
     bool udev_not_exist     = false;
     bool udev_multiple      = false;
 
-    if(access("/etc/udev/rules.d/60-openrgb.rules", F_OK) != 0)
+    /*-----------------------------------------------------*\
+    | Track if rules exist in any /etc location             |
+    | Note: Flatpak mounts this at /run/host/etc            |
+    \*-----------------------------------------------------*/
+    bool in_etc             = (access("/etc/udev/rules.d/60-openrgb.rules", F_OK) == 0) || 
+                              (access("/run/host/etc/udev/rules.d/60-openrgb.rules", F_OK) == 0);
+
+    /*-----------------------------------------------------*\
+    | Track if rules exist in any /usr/lib location         |
+    | Note: Flatpak mounts this at /run/host/usr            |
+    \*-----------------------------------------------------*/
+    bool in_usr_lib         = (access("/usr/lib/udev/rules.d/60-openrgb.rules", F_OK) == 0) || 
+                              (access("/run/host/usr/lib/udev/rules.d/60-openrgb.rules", F_OK) == 0);
+
+    /*-----------------------------------------------------*\
+    | Evaluate final state flags                            |
+    \*-----------------------------------------------------*/
+    if(!in_etc && !in_usr_lib)
     {
-        if(access("/usr/lib/udev/rules.d/60-openrgb.rules", F_OK) != 0)
-        {
-            udev_not_exist  = true;
-        }
+        udev_not_exist  = true;
     }
-    else
+    else if(in_etc && in_usr_lib)
     {
-        if(access("/usr/lib/udev/rules.d/60-openrgb.rules", F_OK) == 0)
-        {
-            udev_multiple   = true;
-        }
+        udev_multiple   = true;
     }
 
     /*-----------------------------------------------------*\
-    | If the udev rules file is not installed, show a dialog|
+    | If the udev rules file is not installed, show a       |
+    | dialog                                                |
     \*-----------------------------------------------------*/
     if(udev_not_exist)
     {
