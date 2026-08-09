@@ -1,0 +1,74 @@
+id: org.openrgb.OpenRGB
+sdk: org.kde.Sdk
+runtime: org.kde.Platform
+runtime-version: 6.10
+command: openrgb
+finish-args:
+  - --device=all
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Tray Icon
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Udev Check
+  - --filesystem=host-etc:ro
+  - --filesystem=host:ro
+
+cleanup:
+  - /include
+  - /lib/cmake
+  - /lib/pkgconfig
+  - '*.a'
+  - '*.la'
+
+add-extensions:
+  org.openrgb.OpenRGB.Plugin:
+    version: '5'
+    directory: lib/openrgb/plugins
+    add-ld-path: lib
+    subdirectories: true
+    no-autodownload: false
+    
+modules:
+  - name: libhidapi-hotplug
+    buildsystem: cmake-ninja
+    sources:
+      - type: git
+        url: https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug.git
+        tag: hidapi-hotplug-0.15.0
+        commit: 238df449ecc0a56a70a3c8f4ebf46bb46857af27
+
+  - name: mbedtls
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+      - -DENABLE_PROGRAMS=OFF
+      - -DENABLE_TESTING=OFF
+      - -DUSE_SHARED_MBEDTLS_LIBRARY=ON
+      - -DUSE_STATIC_MBEDTLS_LIBRARY=OFF
+    sources:
+      - type: git
+        url: https://github.com/ARMmbed/mbedtls.git
+        tag: v3.6.7
+        commit: 068ff080b369adfac81509f9b57b2afabaf82dc5
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
+          versions:
+            <: v4.0
+
+  - name: openrgb
+    buildsystem: qmake
+    config-opts:
+      - QMAKE_LIBS+=-L/app/lib
+    sources:
+      - type: dir
+        path: ../
+
+  - name: create-mount-points
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/openrgb/plugins

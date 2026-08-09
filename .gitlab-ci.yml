@@ -321,6 +321,44 @@ before_script:
     - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------#
+# OpenRGB Common Flatpak Build Steps                        #
+#-----------------------------------------------------------#
+.hidden_flatpak_script: &flatpak_script_steps
+  image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.10
+  stage: build
+  tags:
+  - linux
+  - ${TGT_ARCH}
+  script:
+  - flatpak-builder --user --disable-rofiles-fuse --repo=build/repo build/flatpak-build flatpak/org.openrgb.OpenRGB.yaml
+  - flatpak build-bundle build/repo org.openrgb.OpenRGB.flatpak org.openrgb.OpenRGB
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Linux_${TGT_ARCH}_Flatpak_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - org.openrgb.OpenRGB.flatpak
+    expire_in: 30 days
+
+  rules:
+    - !reference [.upstream_rules, rules]
+
+#-----------------------------------------------------------#
+# Linux Flatpak amd64 Build Target                          #
+#-----------------------------------------------------------#
+"Linux amd64 Flatpak":
+  variables:
+    TGT_ARCH: "amd64"
+  <<: *flatpak_script_steps
+
+#-----------------------------------------------------------#
+# Linux Flatpak arm64 Build Target                          #
+#-----------------------------------------------------------#
+"Linux arm64 Flatpak":
+  variables:
+    TGT_ARCH: "arm64"
+  <<: *flatpak_script_steps
+
+#-----------------------------------------------------------#
 # Debian i386 Bookworm test                                 #
 #-----------------------------------------------------------#
 "Debian i386 Bookworm":

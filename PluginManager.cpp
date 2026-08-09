@@ -152,7 +152,7 @@ void PluginManager::ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir,
     /*-----------------------------------------------------*\
     | Get a list of all files in the plugins directory      |
     \*-----------------------------------------------------*/
-    for(const filesystem::directory_entry& entry: filesystem::directory_iterator(plugins_dir))
+    for(const filesystem::directory_entry& entry: filesystem::recursive_directory_iterator(plugins_dir))
     {
         if(filesystem::is_directory(entry.path()))
         {
