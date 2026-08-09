@@ -960,6 +960,8 @@
 #define POWERCOLOR_RED_DEVIL_RX6750XT_SUB_DEV                   0x2419
 #define POWERCOLOR_RED_DEVIL_RX6950XT_SUB_DEV                   0x2420
 
+#define POWERCOLOR_RED_DEVIL_RX7900XTX_SUB_DEV                  0x2422
+
 #define POWERCOLOR_RED_DEVIL_RX9070XT_SUB_DEV                   0x2435
 #define POWERCOLOR_RED_DEVIL_RX9070_SUB_DEV                     0x2436
 
