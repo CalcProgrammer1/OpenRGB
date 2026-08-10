@@ -94,10 +94,6 @@ void RGBController_SinowealthKeyboard10c::SetupZones()
                                  device.keyboard_layout.key_values);
     new_kb.ChangeKeys(device.keyboard_layout.edit_keys);
 
-    new_zone.leds_count             = new_kb.GetRowCount() * new_kb.GetColumnCount();
-    new_zone.leds_min               = new_zone.leds_count;
-    new_zone.leds_max               = new_zone.leds_count;
-
     /*---------------------------------------------------------*\
     | These keyboards use sparse LED indexes — for example, a   |
     | 99-key board might use LED indexes 0–112, leaving some    |
@@ -106,13 +102,36 @@ void RGBController_SinowealthKeyboard10c::SetupZones()
     | We map each key to its actual LED index, filling the      |
     | `leds` vector by those indexes and leaving gaps where no  |
     | LED exists.                                               |
+    |                                                           |
+    | The LED buffer must be sized to (max index + 1), not      |
+    | rows*cols. On 75% boards the matrix can be 6x15 (90)      |
+    | while hardware indices still go to 90+ (ex: Cyberlynx     |
+    | RX75).                                                    |
     \*---------------------------------------------------------*/
 
     new_zone.matrix_map = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_VALUE);
 
+    unsigned int max_led_count = 0;
+
+    for(unsigned int i = 0; i < new_zone.matrix_map.map.size(); i++)
+    {
+        if(new_zone.matrix_map.map[i] == 0xFFFFFFFF)
+        {
+            continue;
+        }
+
+        unsigned int led_idx = new_zone.matrix_map.map[i] + 1;
+
+        max_led_count = (led_idx > max_led_count) ? led_idx : max_led_count;
+    }
+
+    new_zone.leds_count = max_led_count;
+    new_zone.leds_min   = new_zone.leds_count;
+    new_zone.leds_max   = new_zone.leds_count;
+
     leds.resize(new_zone.leds_count);
 
-    for(unsigned int i = 0, j = 0; i < new_zone.leds_count; i++)
+    for(unsigned int i = 0, j = 0; i < new_zone.matrix_map.map.size(); i++)
     {
         if(new_zone.matrix_map.map[i] == 0xFFFFFFFF)
         {
