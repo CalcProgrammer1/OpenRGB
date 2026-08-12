@@ -627,7 +627,12 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         | Header received, now receive the data                     |
         \*---------------------------------------------------------*/
         bytes_read = 0;
-        if(header.pkt_size > 0)
+        if(header.pkt_size > OPENRGB_SDK_MAX_PACKET_SIZE)
+        {
+            LOG_ERROR("[NetworkServer] received too large packet, closing listener");
+            goto listen_done;
+        }
+        else if(header.pkt_size > 0)
         {
             data = new char[header.pkt_size];
 

@@ -515,7 +515,11 @@ void NetworkClient::ListenThreadFunction()
         /*---------------------------------------------------------*\
         | Header received, now receive the data                     |
         \*---------------------------------------------------------*/
-        if(header.pkt_size > 0)
+        if(header.pkt_size > OPENRGB_SDK_MAX_PACKET_SIZE)
+        {
+            goto listen_done;
+        }
+        else if(header.pkt_size > 0)
         {
             bytes_read = 0;
 

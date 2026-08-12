@@ -66,7 +66,7 @@ bool ProfileManager::SaveProfile(std::string profile_name, bool sizes)
         /*---------------------------------------------------------*\
         | Open an output file in binary mode                        |
         \*---------------------------------------------------------*/
-        filesystem::path profile_path = configuration_directory / filesystem::u8path(filename);
+        filesystem::path profile_path = configuration_directory / filesystem::u8path(StringUtils::make_filename(filename));
         std::ofstream controller_file(profile_path, std::ios::out | std::ios::binary | std::ios::trunc);
 
         /*---------------------------------------------------------*\
@@ -149,7 +149,7 @@ std::vector<RGBController*> ProfileManager::LoadProfileToList
     unsigned int                controller_size;
     unsigned int                controller_offset = 0;
 
-    filesystem::path filename = configuration_directory / filesystem::u8path(profile_name);
+    filesystem::path filename = configuration_directory / filesystem::u8path(StringUtils::make_filename(profile_name));
 
     /*---------------------------------------------------------*\
     | Determine file extension                                  |
@@ -437,7 +437,7 @@ void ProfileManager::DeleteProfile(std::string profile_name)
 {
     profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
-    filesystem::path filename = configuration_directory / profile_name;
+    filesystem::path filename = configuration_directory / StringUtils::make_filename(profile_name);
     filename.concat(".orp");
 
     filesystem::remove(filename);
