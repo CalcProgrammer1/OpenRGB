@@ -2021,7 +2021,12 @@ void NetworkClient::ListenThreadFunction()
         /*-------------------------------------------------*\
         | Header received, now receive the data             |
         \*-------------------------------------------------*/
-        if(header.pkt_size > 0)
+        if(header.pkt_size > OPENRGB_SDK_MAX_PACKET_SIZE)
+        {
+            LOG_ERROR("[%s] received too large packet, closing listener", NETWORKCLIENT);
+            goto listen_done;
+        }
+        else if(header.pkt_size > 0)
         {
             bytes_read = 0;
 
