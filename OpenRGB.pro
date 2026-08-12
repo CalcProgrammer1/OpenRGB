@@ -26,7 +26,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #-----------------------------------------------------------------------------------------------#
 MAJOR       = 0
 MINOR       = 9
-SUFFIX      = 1.0rc3
+SUFFIX      = 1.0rc3.1
 
 SHORTHASH   = $$system("git rev-parse --short=7 HEAD")
 LASTTAG     = "release_"$$MAJOR"."$$MINOR
