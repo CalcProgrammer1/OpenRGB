@@ -940,6 +940,25 @@ static const aura_core_laptop_device g814jv_device =
     }
 };
 
+/*-------------------------------------------------------------*\
+|  ASUS ROG Strix G18 (G814JIR)                                 |
+|                                                               |
+|  G814JIR uses the same Aura Core keyboard and lightbar        |
+|  layout as the G814JV G18 profile.                            |
+\*-------------------------------------------------------------*/
+static const aura_core_laptop_device g814jir_device =
+{
+    "G814JIR",
+    {
+        &g814rw_keyboard_zone,
+        &g814jv_lightbar_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    }
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -954,6 +973,7 @@ const aura_core_laptop_device* aura_core_laptop_device_list_data[] =
     &g713rw_device,
     &g733qr_device,
     &g814jv_device,
+    &g814jir_device,
 };
 
 const unsigned int AURA_CORE_LAPTOP_DEVICE_COUNT = (sizeof(aura_core_laptop_device_list_data) / sizeof(aura_core_laptop_device_list_data[ 0 ]));
