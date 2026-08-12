@@ -631,9 +631,7 @@ void OpenRGBDialog::keyPressEvent(QKeyEvent *event)
 
 bool OpenRGBDialog::isCompactTabMode()
 {
-    QScreen* screen  = QGuiApplication::primaryScreen();
-    qreal    scale   = screen->devicePixelRatio();
-    return((width() < (700 * scale)) | force_compact_tabs);
+    return(force_compact_tabs);
 }
 
 void OpenRGBDialog::UpdateTabs()
