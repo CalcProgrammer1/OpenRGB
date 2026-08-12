@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
+#include <QScrollBar>
 #include "filesystem.h"
 #include "LogManager.h"
 #include "SettingsManager.h"
@@ -31,6 +32,8 @@ OpenRGBPluginsPage::OpenRGBPluginsPage(PluginManager* plugin_manager_ptr, QWidge
 {
     plugin_manager = plugin_manager_ptr;
     ui->setupUi(this);
+
+    ui->PluginsList->verticalScrollBar()->setSingleStep(10);
 
     RefreshList();
 }
