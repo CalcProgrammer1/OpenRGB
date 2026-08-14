@@ -56,6 +56,7 @@ json rgb_fusion_2_smbus_motherboards[] =
     "X470 AORUS ULTRA GAMING",
     "X470 AORUS ULTRA GAMING-CF",
     "B360M AORUS Gaming 3-CF",
+    "B360 AORUS GAMING 3 WIFI-CF",
     "Z370 AORUS Gaming 5-CF",
     "Z370 AORUS Ultra Gaming-CF"
 };
