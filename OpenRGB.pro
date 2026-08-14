@@ -482,10 +482,25 @@ contains(QMAKE_PLATFORM, linux) {
     INCLUDEPATH +=                                                                              \
     dependencies/NVFC                                                                           \
     i2c_smbus/Linux                                                                             \
-    /usr/include/mbedtls/                                                                       \
+
+    #-------------------------------------------------------------------------------------------#
+    # mbedtls 3.x packages install to /usr/include/mbedtls3 and /usr/lib/mbedtls3 to            #
+    #   avoid conflicting with other mbedtls versions. Prefer the mbedtls3 paths since          #
+    #   OpenRGB depends on mbedtls 3.x and will not work with mbedtls 4.x.                      #
+    #-------------------------------------------------------------------------------------------#
+    exists(/usr/include/mbedtls3) {
+        INCLUDEPATH += /usr/include/mbedtls3/
+    } else {
+        INCLUDEPATH += /usr/include/mbedtls/
+    }
+
+    exists(/usr/lib/mbedtls3) {
+        LIBS += -L/usr/lib/mbedtls3/
+    } else {
+        LIBS += -L/usr/lib/mbedtls/
+    }
 
     LIBS +=                                                                                     \
-    -L/usr/lib/mbedtls/                                                                         \
     -lmbedx509                                                                                  \
     -lmbedtls                                                                                   \
     -lmbedcrypto                                                                                \
