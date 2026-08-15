@@ -27,11 +27,91 @@ const char* SETTINGSMANAGER = "SettingsManager";
 
 static const std::string ui_settings_keys[4] =
 {
-    "UserInterface",
-    "AutoStart",
     "Plugins",
     "Client",
 };
+
+/*---------------------------------------------------------*\
+| Schema Validation Static Helper                           |
+\*---------------------------------------------------------*/
+static bool SettingsValueMatchesType(const json& value, const std::string& schema_type)
+{
+    /*-----------------------------------------------------*\
+    | Map schema type strings to nlohmann::json type checks |
+    \------------------------------------------------------*/
+    if(schema_type == "bool")
+    {
+        return value.is_boolean();
+    }
+
+    if(schema_type == "integer")
+    {
+        return value.is_number_integer();
+    }
+
+    if(schema_type == "number")
+    {
+        return value.is_number();
+    }
+
+    if(schema_type == "string")
+    {
+        return value.is_string();
+    }
+
+    if(schema_type == "array")
+    {
+        return value.is_array();
+    }
+
+    if(schema_type == "object")
+    {
+        return value.is_object();
+    }
+
+    /*-----------------------------------------------------*\
+    | Custom OpenRGB type aliases                           |
+    \------------------------------------------------------*/
+    if(schema_type == "language")
+    {
+        return value.is_string();
+    }
+
+    if(schema_type == "profile")
+    {
+        return value.is_object();
+    }
+
+    /*-----------------------------------------------------*\
+    | Unknown type string                                   |
+    \------------------------------------------------------*/
+    LOG_WARNING("[%s] Unknown schema type \"%s\"", SETTINGSMANAGER, schema_type.c_str());
+    return false;
+}
+
+/*---------------------------------------------------------*\
+| Check if setting schema has local_only parameter          |
+\*---------------------------------------------------------*/
+static bool IsLocalOnlySetting(const nlohmann::json& settings_schema, const std::string& settings_key)
+{
+    /*-----------------------------------------------------*\
+    | Check if the schema exists for this settings_key      |
+    \------------------------------------------------------*/
+    if(!settings_schema.contains(settings_key))
+    {
+        return false;
+    }
+
+    /*-----------------------------------------------------*\
+    | Check if the schema has local_only set to true        |
+    \------------------------------------------------------*/
+    if(settings_schema[settings_key].contains("local_only"))
+    {
+        return settings_schema[settings_key]["local_only"].get<bool>();
+    }
+
+    return false;
+}
 
 SettingsManager::SettingsManager()
 {
@@ -46,18 +126,18 @@ SettingsManager::~SettingsManager()
 json SettingsManager::GetSettings(std::string settings_key)
 {
     json result;
-    bool ui_settings_key = false;
+    bool local_setting = IsLocalOnlySetting(settings_schema, settings_key);
 
     for(std::size_t settings_key_idx = 0; settings_key_idx < 4; settings_key_idx++)
     {
         if(settings_key == ui_settings_keys[settings_key_idx])
         {
-            ui_settings_key = true;
+            local_setting = true;
             break;
         }
     }
 
-    if(!ui_settings_key && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
+    if(!local_setting && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
     {
         /*-------------------------------------------------*\
         | If this is a local client, request the settings   |
@@ -104,14 +184,15 @@ json SettingsManager::GetSettingsSchema(std::string settings_key)
 
 void SettingsManager::RegisterSettingsSchema(std::string settings_key, std::string settings_title, json& new_schema)
 {
-    RegisterSettingsSchema(settings_key, settings_title, new_schema, -1);
+    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, -1, false);
 }
 
-void SettingsManager::RegisterSettingsSchema(std::string settings_key, std::string settings_title, json& new_schema, int order)
+void SettingsManager::RegisterSettingsSchemaComplete(std::string settings_key, std::string settings_title, json& new_schema, int order, bool local_only)
 {
-    settings_schema[settings_key]["title"] = settings_title;
-    settings_schema[settings_key]["type"]  = "object";
+    settings_schema[settings_key]["title"]      = settings_title;
+    settings_schema[settings_key]["type"]       = "object";
     settings_schema[settings_key]["properties"].update(new_schema, true);
+    settings_schema[settings_key]["local_only"] = local_only;
 
     if(order >= 0)
     {
@@ -121,20 +202,30 @@ void SettingsManager::RegisterSettingsSchema(std::string settings_key, std::stri
     SignalSettingsManagerUpdate(SETTINGSMANAGER_UPDATE_REASON_SETTINGS_SCHEMA_UPDATED);
 }
 
-void SettingsManager::ModifySettings(std::string settings_key, json new_settings)
+void SettingsManager::RegisterSettingsSchemaLocalOnly(std::string settings_key, std::string settings_title, json& new_schema)
 {
-    bool ui_settings_key = false;
+    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, -1, true);
+}
+
+void SettingsManager::RegisterSettingsSchemaOrder(std::string settings_key, std::string settings_title, json& new_schema, int order)
+{
+    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, order, false);
+}
+
+void SettingsManager::ModifySettings(std::string settings_key, json new_settings, bool from_server)
+{
+    bool local_setting = IsLocalOnlySetting(settings_schema, settings_key);
 
     for(std::size_t settings_key_idx = 0; settings_key_idx < 4; settings_key_idx++)
     {
         if(settings_key == ui_settings_keys[settings_key_idx])
         {
-            ui_settings_key = true;
+            local_setting = true;
             break;
         }
     }
 
-    if(!ui_settings_key && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
+    if(!local_setting && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
     {
         /*-------------------------------------------------*\
         | If this is a local client, request the settings   |
@@ -146,17 +237,18 @@ void SettingsManager::ModifySettings(std::string settings_key, json new_settings
 
         ResourceManager::get()->GetLocalClient()->SettingsManager_ModifySettings(settings_json.dump());
     }
-    else
+    else if(!from_server)
     {
         mutex.lock();
-        settings_data[settings_key].update(new_settings, true);
+        json filtered_settings = FilterSettingsAgainstSchema(settings_key, new_settings);
+        settings_data[settings_key].update(filtered_settings, true);
         mutex.unlock();
     }
 
     SignalSettingsManagerUpdate(SETTINGSMANAGER_UPDATE_REASON_SETTINGS_UPDATED);
 }
 
-void SettingsManager::ModifySettingsFromJsonString(std::string settings_json_str)
+void SettingsManager::ModifySettingsFromJsonString(std::string settings_json_str, bool from_server)
 {
     /*-----------------------------------------------------*\
     | Parse the JSON string                                 |
@@ -176,20 +268,20 @@ void SettingsManager::ModifySettingsFromJsonString(std::string settings_json_str
     }
 }
 
-void SettingsManager::SetSettings(std::string settings_key, json new_settings)
+void SettingsManager::SetSettings(std::string settings_key, json new_settings, bool from_server)
 {
-    bool ui_settings_key = false;
+    bool local_setting = IsLocalOnlySetting(settings_schema, settings_key);
 
     for(std::size_t settings_key_idx = 0; settings_key_idx < 4; settings_key_idx++)
     {
         if(settings_key == ui_settings_keys[settings_key_idx])
         {
-            ui_settings_key = true;
+            local_setting = true;
             break;
         }
     }
 
-    if(!ui_settings_key && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
+    if(!local_setting && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
     {
         /*-------------------------------------------------*\
         | If this is a local client, request the settings   |
@@ -201,17 +293,18 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings)
 
         ResourceManager::get()->GetLocalClient()->SettingsManager_SetSettings(settings_json.dump());
     }
-    else
+    else if(!from_server)
     {
         mutex.lock();
-        settings_data[settings_key] = new_settings;
+        json filtered_settings = FilterSettingsAgainstSchema(settings_key, new_settings);
+        settings_data[settings_key] = filtered_settings;
         mutex.unlock();
     }
 
     SignalSettingsManagerUpdate(SETTINGSMANAGER_UPDATE_REASON_SETTINGS_UPDATED);
 }
 
-void SettingsManager::SetSettingsFromJsonString(std::string settings_json_str)
+void SettingsManager::SetSettingsFromJsonString(std::string settings_json_str, bool from_server)
 {
     /*-----------------------------------------------------*\
     | Parse the JSON string                                 |
@@ -377,4 +470,84 @@ void SettingsManager::SignalSettingsManagerUpdate(unsigned int update_reason)
     SettingsManagerCallbackMutex.unlock();
 
     LOG_TRACE("[%s] SettingsManager update signalled: %d", SETTINGSMANAGER, update_reason);
+}
+
+/*---------------------------------------------------------*\
+| Schema Validation                                         |
+\*---------------------------------------------------------*/
+json SettingsManager::FilterSettingsAgainstSchema(std::string settings_key, json new_settings)
+{
+    json filtered;
+
+    /*------------------------------------------------------*
+    | If new_settings is not an object, there is nothing    |
+    | to filter. Return an empty object.                    |
+    \------------------------------------------------------*/
+    if(!new_settings.is_object())
+    {
+        LOG_WARNING("[%s] Settings for key \"%s\" is not a JSON object, nothing will be stored", SETTINGSMANAGER, settings_key.c_str());
+        return filtered;
+    }
+
+    /*-----------------------------------------------------*\
+    | Check if a schema is registered for this settings_key |
+    | If not, return without filtering.                     |
+    \------------------------------------------------------*/
+    if(!settings_schema.contains(settings_key))
+    {
+        return new_settings;
+    }
+
+    /*-----------------------------------------------------*\
+    | Check that this schema has properties.                |
+    | If not, return an empty object.                       |
+    \------------------------------------------------------*/
+    if(!settings_schema[settings_key].contains("properties"))
+    {
+        LOG_WARNING("[%s] Schema for settings key \"%s\" missing the properties key, nothing will be stored", SETTINGSMANAGER, settings_key.c_str());
+        return filtered;
+    }
+
+    json& schema_properties = settings_schema[settings_key]["properties"];
+
+    /*-----------------------------------------------------*\
+    | Iterate through each entry in new_settings and check  |
+    | it against the schema properties.   This use of       |
+    | `auto` is acceptable due to how the JSON library      |
+    | implements iterators, the type would change based on  |
+    | the library version.                                  |
+    \------------------------------------------------------*/
+    for(auto& element : new_settings.items())
+    {
+        std::string key = element.key();
+        json& value     = element.value();
+
+        /*-------------------------------------------------*\
+        | Check if the key exists in the schema properties  |
+        \*-------------------------------------------------*/
+        if(!schema_properties.contains(key))
+        {
+            LOG_WARNING("[%s] Settings key \"%s\" not found in schema for \"%s\", skipping", SETTINGSMANAGER, key.c_str(), settings_key.c_str());
+            continue;
+        }
+
+        /*-------------------------------------------------*\
+        | Check if the value type matches the schema's      |
+        | declared type                                     |
+        \*-------------------------------------------------*/
+        if(schema_properties[key].contains("type"))
+        {
+            std::string schema_type = schema_properties[key]["type"];
+
+            if(!SettingsValueMatchesType(value, schema_type))
+            {
+                LOG_WARNING("[%s] Settings key \"%s\" has incorrect type (expected %s), skipping", SETTINGSMANAGER, key.c_str(), schema_type.c_str());
+                continue;
+            }
+        }
+
+        filtered[key] = value;
+    }
+
+    return filtered;
 }

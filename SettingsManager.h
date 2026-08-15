@@ -39,15 +39,15 @@ enum
 class SettingsManagerInterface
 {
 public:
-    virtual nlohmann::json      GetSettings(std::string settings_key)                                   = 0;
-    virtual nlohmann::json      GetSettingsSchema(std::string settings_key)                             = 0;
-    virtual void                ModifySettings(std::string settings_key, nlohmann::json new_settings)   = 0;
-    virtual void                ModifySettingsFromJsonString(std::string settings_json_str)             = 0;
-    virtual void                SetSettings(std::string settings_key, nlohmann::json new_settings)      = 0;
-    virtual void                SetSettingsFromJsonString(std::string settings_json_str)                = 0;
+    virtual nlohmann::json      GetSettings(std::string settings_key)                                                   = 0;
+    virtual nlohmann::json      GetSettingsSchema(std::string settings_key)                                             = 0;
+    virtual void                ModifySettings(std::string settings_key, nlohmann::json new_settings, bool from_server) = 0;
+    virtual void                ModifySettingsFromJsonString(std::string settings_json_str, bool from_server)           = 0;
+    virtual void                SetSettings(std::string settings_key, nlohmann::json new_settings, bool from_server)    = 0;
+    virtual void                SetSettingsFromJsonString(std::string settings_json_str, bool from_server)              = 0;
 
-    virtual void                LoadSettings(const filesystem::path& filename)                          = 0;
-    virtual void                SaveSettings()                                                          = 0;
+    virtual void                LoadSettings(const filesystem::path& filename)                                          = 0;
+    virtual void                SaveSettings()                                                                          = 0;
 
 protected:
     virtual ~SettingsManagerInterface() {};
@@ -62,11 +62,13 @@ public:
     nlohmann::json              GetSettings(std::string settings_key);
     nlohmann::json              GetSettingsSchema(std::string settings_key);
     void                        RegisterSettingsSchema(std::string settings_key, std::string settings_title, nlohmann::json& new_schema);
-    void                        RegisterSettingsSchema(std::string settings_key, std::string settings_title, nlohmann::json& new_schema, int order);
-    void                        ModifySettings(std::string settings_key, nlohmann::json new_settings);
-    void                        ModifySettingsFromJsonString(std::string settings_json_str);
-    void                        SetSettings(std::string settings_key, nlohmann::json new_settings);
-    void                        SetSettingsFromJsonString(std::string settings_json_str);
+    void                        RegisterSettingsSchemaComplete(std::string settings_key, std::string settings_title, nlohmann::json& new_schema, int order, bool local_only);
+    void                        RegisterSettingsSchemaLocalOnly(std::string settings_key, std::string settings_title, nlohmann::json& new_schema);
+    void                        RegisterSettingsSchemaOrder(std::string settings_key, std::string settings_title, nlohmann::json& new_schema, int order);
+    void                        ModifySettings(std::string settings_key, nlohmann::json new_settings, bool from_server = false);
+    void                        ModifySettingsFromJsonString(std::string settings_json_str, bool from_server = false);
+    void                        SetSettings(std::string settings_key, nlohmann::json new_settings, bool from_server = false);
+    void                        SetSettingsFromJsonString(std::string settings_json_str, bool from_server = false);
 
     void                        LoadSettings(const filesystem::path& filename);
     void                        SaveSettings();
@@ -107,4 +109,9 @@ private:
     std::vector<SettingsManagerCallback>        SettingsManagerCallbacks;
     std::vector<void *>                         SettingsManagerCallbackArgs;
     std::mutex                                  SettingsManagerCallbackMutex;
+
+    /*-----------------------------------------------------*\
+    | Schema Validation                                     |
+    \*-----------------------------------------------------*/
+    nlohmann::json              FilterSettingsAgainstSchema(std::string settings_key, nlohmann::json new_settings);
 };

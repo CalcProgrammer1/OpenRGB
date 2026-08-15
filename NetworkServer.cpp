@@ -2560,7 +2560,7 @@ NetPacketStatus NetworkServer::ProcessRequest_SettingsManager_ModifySettings(Net
         settings_json_str.assign((char*)data_ptr, data_size);
         settings_json_str = StringUtils::remove_null_terminating_chars(settings_json_str);
 
-        settings_manager->ModifySettingsFromJsonString(settings_json_str);
+        settings_manager->ModifySettingsFromJsonString(settings_json_str, true);
 
         return(NET_PACKET_STATUS_OK);
     }
@@ -2592,7 +2592,7 @@ NetPacketStatus NetworkServer::ProcessRequest_SettingsManager_SetSettings(Networ
         settings_json_str.assign((char*)data_ptr, data_size);
         settings_json_str = StringUtils::remove_null_terminating_chars(settings_json_str);
 
-        settings_manager->SetSettingsFromJsonString(settings_json_str);
+        settings_manager->SetSettingsFromJsonString(settings_json_str, true);
 
         return(NET_PACKET_STATUS_OK);
     }

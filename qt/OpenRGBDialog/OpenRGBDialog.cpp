@@ -175,7 +175,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     autostart_settings_schema["custom_arguments"]["description"]            = QT_TRANSLATE_NOOP("Settings", "Additional command line arguments to pass to OpenRGB when starting on login");
     autostart_settings_schema["custom_arguments"]["order"]                  = 2;
 
-    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("AutoStart", QT_TRANSLATE_NOOP("Settings", "Start at Login"), autostart_settings_schema, 2);
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchemaComplete("AutoStart", QT_TRANSLATE_NOOP("Settings", "Start at Login"), autostart_settings_schema, 2, true);
 
     /*-----------------------------------------------------*\
     | Create UserInterface settings schema                  |
@@ -260,7 +260,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     ui_settings_schema["geometry"]["properties"]["height"]["type"]                  = "integer";
     ui_settings_schema["geometry"]["properties"]["height"]["order"]                 = 5;
 
-    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("UserInterface", QT_TRANSLATE_NOOP("Settings", "User Interface"), ui_settings_schema, 0);
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchemaComplete("UserInterface", QT_TRANSLATE_NOOP("Settings", "User Interface"), ui_settings_schema, 0, true);
 
 #if defined(_WIN32) || defined(_MACOSX_X86_X64)
     /*-----------------------------------------------------*\
