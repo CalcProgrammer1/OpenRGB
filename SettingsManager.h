@@ -62,7 +62,8 @@ public:
     nlohmann::json              GetSettings(std::string settings_key);
     nlohmann::json              GetSettingsSchema(std::string settings_key);
     void                        RegisterSettingsSchema(std::string settings_key, std::string settings_title, nlohmann::json& new_schema);
-    void                        RegisterSettingsSchemaComplete(std::string settings_key, std::string settings_title, nlohmann::json& new_schema, int order, bool local_only);
+    void                        RegisterSettingsSchemaComplete(std::string settings_key, std::string settings_title, nlohmann::json& new_schema, int order, bool local_only, bool ignore_filter);
+    void                        RegisterSettingsSchemaIgnoreFilter(std::string settings_key, std::string settings_title, nlohmann::json& new_schema);
     void                        RegisterSettingsSchemaLocalOnly(std::string settings_key, std::string settings_title, nlohmann::json& new_schema);
     void                        RegisterSettingsSchemaOrder(std::string settings_key, std::string settings_title, nlohmann::json& new_schema, int order);
     void                        ModifySettings(std::string settings_key, nlohmann::json new_settings, bool from_server = false);
@@ -113,5 +114,5 @@ private:
     /*-----------------------------------------------------*\
     | Schema Validation                                     |
     \*-----------------------------------------------------*/
-    nlohmann::json              FilterSettingsAgainstSchema(std::string settings_key, nlohmann::json new_settings);
+    nlohmann::json              FilterSettingsAgainstSchema(std::string& settings_key, nlohmann::json& new_settings);
 };

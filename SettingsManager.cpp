@@ -25,7 +25,7 @@
 \*---------------------------------------------------------*/
 const char* SETTINGSMANAGER = "SettingsManager";
 
-static const std::string ui_settings_keys[4] =
+static const std::string local_settings_keys[2] =
 {
     "Plugins",
     "Client",
@@ -128,9 +128,9 @@ json SettingsManager::GetSettings(std::string settings_key)
     json result;
     bool local_setting = IsLocalOnlySetting(settings_schema, settings_key);
 
-    for(std::size_t settings_key_idx = 0; settings_key_idx < 4; settings_key_idx++)
+    for(std::size_t settings_key_idx = 0; settings_key_idx < 2; settings_key_idx++)
     {
-        if(settings_key == ui_settings_keys[settings_key_idx])
+        if(settings_key == local_settings_keys[settings_key_idx])
         {
             local_setting = true;
             break;
@@ -184,15 +184,16 @@ json SettingsManager::GetSettingsSchema(std::string settings_key)
 
 void SettingsManager::RegisterSettingsSchema(std::string settings_key, std::string settings_title, json& new_schema)
 {
-    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, -1, false);
+    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, -1, false, false);
 }
 
-void SettingsManager::RegisterSettingsSchemaComplete(std::string settings_key, std::string settings_title, json& new_schema, int order, bool local_only)
+void SettingsManager::RegisterSettingsSchemaComplete(std::string settings_key, std::string settings_title, json& new_schema, int order, bool local_only, bool ignore_filter)
 {
-    settings_schema[settings_key]["title"]      = settings_title;
-    settings_schema[settings_key]["type"]       = "object";
+    settings_schema[settings_key]["title"]          = settings_title;
+    settings_schema[settings_key]["type"]           = "object";
     settings_schema[settings_key]["properties"].update(new_schema, true);
-    settings_schema[settings_key]["local_only"] = local_only;
+    settings_schema[settings_key]["local_only"]     = local_only;
+    settings_schema[settings_key]["ignore_filter"]  = ignore_filter;
 
     if(order >= 0)
     {
@@ -202,23 +203,28 @@ void SettingsManager::RegisterSettingsSchemaComplete(std::string settings_key, s
     SignalSettingsManagerUpdate(SETTINGSMANAGER_UPDATE_REASON_SETTINGS_SCHEMA_UPDATED);
 }
 
+void SettingsManager::RegisterSettingsSchemaIgnoreFilter(std::string settings_key, std::string settings_title, json& new_schema)
+{
+    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, -1, false, true);
+}
+
 void SettingsManager::RegisterSettingsSchemaLocalOnly(std::string settings_key, std::string settings_title, json& new_schema)
 {
-    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, -1, true);
+    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, -1, true, false);
 }
 
 void SettingsManager::RegisterSettingsSchemaOrder(std::string settings_key, std::string settings_title, json& new_schema, int order)
 {
-    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, order, false);
+    RegisterSettingsSchemaComplete(settings_key, settings_title, new_schema, order, false, false);
 }
 
 void SettingsManager::ModifySettings(std::string settings_key, json new_settings, bool from_server)
 {
     bool local_setting = IsLocalOnlySetting(settings_schema, settings_key);
 
-    for(std::size_t settings_key_idx = 0; settings_key_idx < 4; settings_key_idx++)
+    for(std::size_t settings_key_idx = 0; settings_key_idx < 2; settings_key_idx++)
     {
-        if(settings_key == ui_settings_keys[settings_key_idx])
+        if(settings_key == local_settings_keys[settings_key_idx])
         {
             local_setting = true;
             break;
@@ -272,9 +278,9 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings, b
 {
     bool local_setting = IsLocalOnlySetting(settings_schema, settings_key);
 
-    for(std::size_t settings_key_idx = 0; settings_key_idx < 4; settings_key_idx++)
+    for(std::size_t settings_key_idx = 0; settings_key_idx < 2; settings_key_idx++)
     {
-        if(settings_key == ui_settings_keys[settings_key_idx])
+        if(settings_key == local_settings_keys[settings_key_idx])
         {
             local_setting = true;
             break;
@@ -475,15 +481,15 @@ void SettingsManager::SignalSettingsManagerUpdate(unsigned int update_reason)
 /*---------------------------------------------------------*\
 | Schema Validation                                         |
 \*---------------------------------------------------------*/
-json SettingsManager::FilterSettingsAgainstSchema(std::string settings_key, json new_settings)
+json SettingsManager::FilterSettingsAgainstSchema(std::string& settings_key, json& settings)
 {
     json filtered;
 
     /*------------------------------------------------------*
-    | If new_settings is not an object, there is nothing    |
-    | to filter. Return an empty object.                    |
+    | If settings is not an object, there is nothing to     |
+    | filter. Return an empty object.                       |
     \------------------------------------------------------*/
-    if(!new_settings.is_object())
+    if(!settings.is_object())
     {
         LOG_WARNING("[%s] Settings for key \"%s\" is not a JSON object, nothing will be stored", SETTINGSMANAGER, settings_key.c_str());
         return filtered;
@@ -495,7 +501,15 @@ json SettingsManager::FilterSettingsAgainstSchema(std::string settings_key, json
     \------------------------------------------------------*/
     if(!settings_schema.contains(settings_key))
     {
-        return new_settings;
+        return settings;
+    }
+
+    /*-----------------------------------------------------*\
+    | Check if the schema is marked to ignore filtering     |
+    \------------------------------------------------------*/
+    if(settings_schema[settings_key].contains("ignore_filter") && (settings_schema[settings_key]["ignore_filter"] == true))
+    {
+        return settings;
     }
 
     /*-----------------------------------------------------*\
@@ -511,13 +525,13 @@ json SettingsManager::FilterSettingsAgainstSchema(std::string settings_key, json
     json& schema_properties = settings_schema[settings_key]["properties"];
 
     /*-----------------------------------------------------*\
-    | Iterate through each entry in new_settings and check  |
-    | it against the schema properties.   This use of       |
-    | `auto` is acceptable due to how the JSON library      |
-    | implements iterators, the type would change based on  |
-    | the library version.                                  |
+    | Iterate through each entry in settings and check it   |
+    | against the schema properties.   This use of `auto`   |
+    | is acceptable due to how the JSON library implements  |
+    | iterators, the type would change based on the library |
+    | version.                                              |
     \------------------------------------------------------*/
-    for(auto& element : new_settings.items())
+    for(auto& element : settings.items())
     {
         std::string key = element.key();
         json& value     = element.value();

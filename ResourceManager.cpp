@@ -202,7 +202,7 @@ ResourceManager::ResourceManager()
     detection_settings_schema["initial_detection_delay_ms"]["type"]         = "integer";
     detection_settings_schema["initial_detection_delay_ms"]["description"]  = QT_TRANSLATE_NOOP("Settings", "Amount of time, in milliseconds, to wait before detecting devices when started");
 
-    settings_manager->RegisterSettingsSchema("Detectors", QT_TRANSLATE_NOOP("Settings", "Detection"), detection_settings_schema);
+    settings_manager->RegisterSettingsSchemaIgnoreFilter("Detectors", QT_TRANSLATE_NOOP("Settings", "Detection"), detection_settings_schema);
 
     /*-----------------------------------------------------*\
     | Create LogManager settings schema                     |
