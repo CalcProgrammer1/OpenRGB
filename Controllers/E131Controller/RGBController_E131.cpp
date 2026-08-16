@@ -223,33 +223,68 @@ RGBController_E131::~RGBController_E131()
 void RGBController_E131::SetupZones()
 {
     /*-----------------------------------------------------*\
-    | Add Zones                                             |
+    | Only set LED count on the first run                   |
     \*-----------------------------------------------------*/
-    for(std::size_t zone_idx = 0; zone_idx < devices.size(); zone_idx++)
-    {
-        zone led_zone;
-        led_zone.name           = devices[zone_idx].name;
-        led_zone.type           = ZONE_TYPE_LINEAR;
-        led_zone.leds_min       = devices[zone_idx].num_leds;
-        led_zone.leds_max       = devices[zone_idx].num_leds;
-        led_zone.leds_count     = devices[zone_idx].num_leds;
-        led_zone.flags          = ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
-                                | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP
-                                | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
+    bool first_run = false;
 
-        zones.push_back(led_zone);
+    if(zones.size() == 0)
+    {
+        first_run = true;
     }
 
     /*-----------------------------------------------------*\
-    | Add LEDs                                              |
+    | Clear any existing color/LED configuration            |
     \*-----------------------------------------------------*/
+    leds.clear();
+    colors.clear();
+    zones.resize(devices.size());
+
+    /*-----------------------------------------------------*\
+    | Set zones and leds                                    |
+    \*-----------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].leds_min                = devices[zone_idx].num_leds;
+        zones[zone_idx].leds_max                = devices[zone_idx].num_leds;
+
+        if(first_run)
+        {
+            zones[zone_idx].flags               = ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                                | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                                | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP
+                                                | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+        {
+            zones[zone_idx].name                = devices[zone_idx].name;
+        }
+
+        zones[zone_idx].leds_count = devices[zone_idx].num_leds;
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+        {
+            zones[zone_idx].type                = ZONE_TYPE_LINEAR;
+        }
+
+        if(!(zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+        {
+            zones[zone_idx].matrix_map.width    = 0;
+            zones[zone_idx].matrix_map.height   = 0;
+            zones[zone_idx].matrix_map.map.resize(0);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+     | Add LEDs                                              |
+     \*-----------------------------------------------------*/
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led new_led;
 
-            new_led.name = zones[zone_idx].name + " LED ";
+            new_led.name                        = zones[zone_idx].name + " LED ";
             new_led.name.append(std::to_string(led_idx));
 
             leds.push_back(new_led);
@@ -257,6 +292,14 @@ void RGBController_E131::SetupZones()
     }
 
     SetupColors();
+}
+
+void RGBController_E131::DeviceConfigureZone(int zone_idx)
+{
+    if((size_t)zone_idx < zones.size())
+    {
+        SetupZones();
+    }
 }
 
 void RGBController_E131::DeviceUpdateLEDs()

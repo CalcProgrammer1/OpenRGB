@@ -50,24 +50,74 @@ RGBController_LEDStrip::~RGBController_LEDStrip()
 
 void RGBController_LEDStrip::SetupZones()
 {
-    zone led_zone;
-    led_zone.name       = "LED Strip";
-    led_zone.type       = ZONE_TYPE_LINEAR;
-    led_zone.leds_min   = controller->num_leds;
-    led_zone.leds_max   = controller->num_leds;
-    led_zone.leds_count = controller->num_leds;
-    zones.push_back(led_zone);
+    /*-----------------------------------------------------*\
+    | Only set LED count on the first run                   |
+    \------------------------------------------------------*/
+    bool first_run = false;
 
-    for(int led_idx = 0; led_idx < controller->num_leds; led_idx++)
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    /*-----------------------------------------------------*\
+    | Clear any existing color/LED configuration            |
+    \------------------------------------------------------*/
+    leds.clear();
+    colors.clear();
+    zones.resize(1);
+
+    /*-----------------------------------------------------*\
+    | Set zones and leds                                    |
+    \------------------------------------------------------*/
+    zones[0].leds_min               = controller->num_leds;
+    zones[0].leds_max               = controller->num_leds;
+
+    if(first_run)
+    {
+        zones[0].flags              = ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP
+                                    | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
+    }
+
+    if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+    {
+        zones[0].name               = "LED Strip";
+    }
+
+    zones[0].leds_count             = controller->num_leds;
+
+    if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+    {
+        zones[0].type               = ZONE_TYPE_LINEAR;
+    }
+
+    if(!(zones[0].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+    {
+        zones[0].matrix_map.width   = 0;
+        zones[0].matrix_map.height  = 0;
+        zones[0].matrix_map.map.resize(0);
+    }
+
+    for(unsigned int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
         led new_led;
-        new_led.name    = "LED ";
+        new_led.name                = zones[0].name + ", LED ";
         new_led.name.append(std::to_string(led_idx));
 
         leds.push_back(new_led);
     }
 
     SetupColors();
+}
+
+void RGBController_LEDStrip::DeviceConfigureZone(int zone_idx)
+{
+    if((size_t)zone_idx < zones.size())
+    {
+        SetupZones();
+    }
 }
 
 void RGBController_LEDStrip::DeviceUpdateLEDs()

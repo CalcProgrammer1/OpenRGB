@@ -35,6 +35,8 @@ public:
 
     void        SetupZones();
 
+    void        DeviceConfigureZone(int zone_idx);
+
     void        DeviceUpdateLEDs();
     void        DeviceUpdateZoneLEDs(int zone);
     void        DeviceUpdateSingleLED(int led);
