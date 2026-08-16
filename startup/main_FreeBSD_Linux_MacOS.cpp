@@ -66,7 +66,8 @@ int main(int argc, char* argv[])
         !(ret_flags & RET_FLAG_NO_AUTO_CONNECT),
         !(ret_flags & RET_FLAG_NO_DETECT),
         ret_flags & RET_FLAG_START_SERVER,
-        ret_flags & RET_FLAG_CLI_POST_DETECTION);
+        ret_flags & RET_FLAG_CLI_POST_DETECTION,
+        ret_flags & RET_FLAG_START_GUI);
 
     /*-----------------------------------------------------*\
     | Perform application startup and run the application.  |

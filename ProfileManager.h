@@ -93,6 +93,7 @@ public:
     bool                        LoadAutoProfileExit();
     bool                        LoadAutoProfileOpen();
     bool                        LoadAutoProfileResume();
+    bool                        LoadAutoProfileServiceStartup();
     bool                        LoadAutoProfileSuspend();
 
     bool                        LoadControllerFromListWithOptions

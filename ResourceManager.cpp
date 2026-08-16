@@ -70,6 +70,7 @@ static void ResourceManagerDetectionCallback(void * this_ptr, unsigned int updat
             break;
 
         case DETECTIONMANAGER_UPDATE_REASON_DETECTION_COMPLETE:
+            this_obj->HandleDetectionComplete();
             this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_COMPLETE);
             break;
     }
@@ -167,6 +168,7 @@ ResourceManager::ResourceManager()
     default_server_host         = "";
     default_server_port         = 0;
     detection_enabled           = true;
+    first_detection_complete    = false;
     init_finished               = false;
     plugin_manager              = NULL;
     server                      = NULL;
@@ -823,6 +825,19 @@ std::string ResourceManager::GetDetectionString()
     }
 }
 
+void ResourceManager::HandleDetectionComplete()
+{
+    if(!first_detection_complete)
+    {
+        if(start_server && !start_gui)
+        {
+            profile_manager->LoadAutoProfileServiceStartup();
+        }
+
+        first_detection_complete = true;
+    }
+}
+
 void ResourceManager::RescanDevices()
 {
     /*-----------------------------------------------------*\
@@ -1113,7 +1128,7 @@ bool ResourceManager::AttemptLocalConnection()
     return success;
 }
 
-void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool startServer, bool applyPostOptions)
+void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool startServer, bool applyPostOptions, bool startGui)
 {
     /*-----------------------------------------------------*\
     | Cache the parameters                                  |
@@ -1122,6 +1137,7 @@ void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool start
     tryAutoConnect                  = tryConnect && !startServer;
     detection_enabled               = detectDevices;
     start_server                    = startServer;
+    start_gui                       = startGui;
     apply_post_options              = applyPostOptions;
 
     /*-----------------------------------------------------*\

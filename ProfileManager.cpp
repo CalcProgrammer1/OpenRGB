@@ -45,24 +45,28 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
     /*-----------------------------------------------------*\
     | Create ProfileManager settings schema                 |
     \*-----------------------------------------------------*/
-    SettingsManager*    settings_manager                                = ResourceManager::get()->GetSettingsManager();
+    SettingsManager*    settings_manager                                        = ResourceManager::get()->GetSettingsManager();
     json                profilemanager_settings_schema;
 
-    profilemanager_settings_schema["exit_profile"]["title"]             = QT_TRANSLATE_NOOP("Settings", "Load Profile on Exit");
-    profilemanager_settings_schema["exit_profile"]["type"]              = "profile";
-    profilemanager_settings_schema["exit_profile"]["description"]       = QT_TRANSLATE_NOOP("Settings", "Profile to load when OpenRGB exits");
+    profilemanager_settings_schema["exit_profile"]["title"]                     = QT_TRANSLATE_NOOP("Settings", "Load Profile on Exit");
+    profilemanager_settings_schema["exit_profile"]["type"]                      = "profile";
+    profilemanager_settings_schema["exit_profile"]["description"]               = QT_TRANSLATE_NOOP("Settings", "Profile to load when OpenRGB exits");
 
-    profilemanager_settings_schema["open_profile"]["title"]             = QT_TRANSLATE_NOOP("Settings", "Load Profile on Open");
-    profilemanager_settings_schema["open_profile"]["type"]              = "profile";
-    profilemanager_settings_schema["open_profile"]["description"]       = QT_TRANSLATE_NOOP("Settings", "Profile to load when OpenRGB opens");
+    profilemanager_settings_schema["open_profile"]["title"]                     = QT_TRANSLATE_NOOP("Settings", "Load Profile on Open");
+    profilemanager_settings_schema["open_profile"]["type"]                      = "profile";
+    profilemanager_settings_schema["open_profile"]["description"]               = QT_TRANSLATE_NOOP("Settings", "Profile to load when OpenRGB opens");
 
-    profilemanager_settings_schema["resume_profile"]["title"]           = QT_TRANSLATE_NOOP("Settings", "Load Profile on Resume");
-    profilemanager_settings_schema["resume_profile"]["type"]            = "profile";
-    profilemanager_settings_schema["resume_profile"]["description"]     = QT_TRANSLATE_NOOP("Settings", "Profile to load after system resumes from sleep");
+    profilemanager_settings_schema["resume_profile"]["title"]                   = QT_TRANSLATE_NOOP("Settings", "Load Profile on Resume");
+    profilemanager_settings_schema["resume_profile"]["type"]                    = "profile";
+    profilemanager_settings_schema["resume_profile"]["description"]             = QT_TRANSLATE_NOOP("Settings", "Profile to load after system resumes from sleep");
 
-    profilemanager_settings_schema["suspend_profile"]["title"]          = QT_TRANSLATE_NOOP("Settings", "Load Profile on Suspend");
-    profilemanager_settings_schema["suspend_profile"]["type"]           = "profile";
-    profilemanager_settings_schema["suspend_profile"]["description"]    = QT_TRANSLATE_NOOP("Settings", "Profile to load before system enters sleep mode");
+    profilemanager_settings_schema["service_startup_profile"]["title"]          = QT_TRANSLATE_NOOP("Settings", "Load Profile on Service Startup");
+    profilemanager_settings_schema["service_startup_profile"]["type"]           = "profile";
+    profilemanager_settings_schema["service_startup_profile"]["description"]    = QT_TRANSLATE_NOOP("Settings", "Profile to load when the OpenRGB background service starts");
+
+    profilemanager_settings_schema["suspend_profile"]["title"]                  = QT_TRANSLATE_NOOP("Settings", "Load Profile on Suspend");
+    profilemanager_settings_schema["suspend_profile"]["type"]                   = "profile";
+    profilemanager_settings_schema["suspend_profile"]["description"]            = QT_TRANSLATE_NOOP("Settings", "Profile to load before system enters sleep mode");
 
     settings_manager->RegisterSettingsSchemaOrder("ProfileManager", QT_TRANSLATE_NOOP("Settings", "Profile Manager"), profilemanager_settings_schema, 1);
 
@@ -70,43 +74,52 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
     | Read in profile manager settings and initialize any   |
     | missing settings to defaults                          |
     \*-----------------------------------------------------*/
-    json                profilemanager_settings     = settings_manager->GetSettings("ProfileManager");
-    bool                new_settings_keys           = false;
+    json                profilemanager_settings             = settings_manager->GetSettings("ProfileManager");
+    bool                new_settings_keys                   = false;
 
     if(!profilemanager_settings.contains("open_profile"))
     {
         json profile;;
-        profile["enabled"]                          = false;
-        profile["name"]                             = "";
-        profilemanager_settings["open_profile"]     = profile;
-        new_settings_keys                           = true;
+        profile["enabled"]                                  = false;
+        profile["name"]                                     = "";
+        profilemanager_settings["open_profile"]             = profile;
+        new_settings_keys                                   = true;
     }
 
     if(!profilemanager_settings.contains("exit_profile"))
     {
         json profile;
-        profile["enabled"]                          = false;
-        profile["name"]                             = "";
-        profilemanager_settings["exit_profile"]     = profile;
-        new_settings_keys                           = true;
+        profile["enabled"]                                  = false;
+        profile["name"]                                     = "";
+        profilemanager_settings["exit_profile"]             = profile;
+        new_settings_keys                                   = true;
     }
 
     if(!profilemanager_settings.contains("resume_profile"))
     {
         json profile;
-        profile["enabled"]                          = false;
-        profile["name"]                             = "";
-        profilemanager_settings["resume_profile"]   = profile;
-        new_settings_keys                           = true;
+        profile["enabled"]                                  = false;
+        profile["name"]                                     = "";
+        profilemanager_settings["resume_profile"]           = profile;
+        new_settings_keys                                   = true;
+    }
+
+    if(!profilemanager_settings.contains("service_startup_profile"))
+    {
+        json profile;
+        profile["enabled"]                                  = false;
+        profile["name"]                                     = "";
+        profilemanager_settings["service_startup_profile"]  = profile;
+        new_settings_keys                                   = true;
     }
 
     if(!profilemanager_settings.contains("suspend_profile"))
     {
         json profile;
-        profile["enabled"]                          = false;
-        profile["name"]                             = "";
-        profilemanager_settings["suspend_profile"]  = profile;
-        new_settings_keys                           = true;
+        profile["enabled"]                                  = false;
+        profile["name"]                                     = "";
+        profilemanager_settings["suspend_profile"]          = profile;
+        new_settings_keys                                   = true;
     }
 
     /*-----------------------------------------------------*\
@@ -385,6 +398,11 @@ bool ProfileManager::LoadAutoProfileOpen()
 bool ProfileManager::LoadAutoProfileResume()
 {
     return(LoadAutoProfile("resume_profile"));
+}
+
+bool ProfileManager::LoadAutoProfileServiceStartup()
+{
+    return(LoadAutoProfile("service_startup_profile"));
 }
 
 bool ProfileManager::LoadAutoProfileSuspend()
