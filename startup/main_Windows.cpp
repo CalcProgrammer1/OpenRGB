@@ -588,7 +588,7 @@ static int common_main(int argc, char* argv[])
         !(ret_flags & RET_FLAG_NO_DETECT),
         ret_flags & RET_FLAG_START_SERVER,
         ret_flags & RET_FLAG_CLI_POST_DETECTION,
-        ret_valgs & RET_FLAG_START_GUI);
+        ret_flags & RET_FLAG_START_GUI);
 
     /*-----------------------------------------------------*\
     | If running as a service, register the service startup |
