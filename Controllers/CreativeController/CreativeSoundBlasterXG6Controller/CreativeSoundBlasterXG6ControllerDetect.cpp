@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| CreativeControllerDetect.cpp                              |
+| CreativeSoundBlasterXG6ControllerDetect.cpp               |
 |                                                           |
-|   Detector for Creative devices                           |
+|   Detector for Creative Sound Blaster XG6 devices         |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -15,14 +15,14 @@
 /*---------------------------------------------------------*\
 | Creative vendor ID                                        |
 \*---------------------------------------------------------*/
-#define CREATIVE_VID                            0x041E
+#define CREATIVE_VID                                0x041E
 
 /*---------------------------------------------------------*\
-| SoundCards                                                |
+| Creative Sound Blaster XG6 product ID                     |
 \*---------------------------------------------------------*/
-#define CREATIVE_SOUNDBLASTERX_G6_PID           0x3256
+#define CREATIVE_SOUNDBLASTERX_G6_PID               0x3256
 
-DetectedControllers DetectCreativeDevice(hid_device_info* info, const std::string& name)
+DetectedControllers DetectCreativeSoundBlasterXG6Device(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
     hid_device*         dev;
@@ -40,7 +40,7 @@ DetectedControllers DetectCreativeDevice(hid_device_info* info, const std::strin
     return(detected_controllers);
 }
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------*\
-| Sound Cards                                                                                                                                       |
-\*-------------------------------------------------------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_I("Creative SoundBlasterX G6",               DetectCreativeDevice,         CREATIVE_VID,     CREATIVE_SOUNDBLASTERX_G6_PID, 4);
+/*---------------------------------------------------------*\
+| Sound Cards                                               |
+\*---------------------------------------------------------*/
+REGISTER_HID_DETECTOR_I("Creative SoundBlasterX G6",    DetectCreativeSoundBlasterXG6Device,    CREATIVE_VID,     CREATIVE_SOUNDBLASTERX_G6_PID, 4);

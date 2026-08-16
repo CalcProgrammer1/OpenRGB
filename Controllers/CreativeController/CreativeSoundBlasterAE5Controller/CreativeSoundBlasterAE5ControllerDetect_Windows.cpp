@@ -16,13 +16,10 @@ DetectedControllers DetectCreativeAE5Device()
 {
     DetectedControllers detected_controllers;
 
-    LOG_INFO("[Creative SoundBlaster AE-5] Windows detection function called");
-
     CreativeSoundBlasterAE5Controller_Windows* controller = new CreativeSoundBlasterAE5Controller_Windows();
 
     if(controller->Initialize())
     {
-        LOG_INFO("[Creative SoundBlaster AE-5] Device initialized successfully, registering controller");
         RGBController_CreativeSoundBlasterAE5* rgb_controller = new RGBController_CreativeSoundBlasterAE5(controller);
 
         detected_controllers.push_back(rgb_controller);
