@@ -69,6 +69,10 @@ void QMKOpenRGBRev9Controller::GetLEDInfo(unsigned int led)
             led_names.push_back(KEY_EN_UNUSED);
         }
     }
+    else if(usb_buf[QMK_OPENRGB_FLAG_BYTE] & 8)
+    {
+        led_names.push_back("Indicator LED");
+    }
 }
 
 bool QMKOpenRGBRev9Controller::GetIsModeEnabled(unsigned int mode)

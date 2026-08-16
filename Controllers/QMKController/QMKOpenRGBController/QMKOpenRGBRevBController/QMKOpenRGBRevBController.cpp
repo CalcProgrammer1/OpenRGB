@@ -83,6 +83,10 @@ void QMKOpenRGBRevBController::GetLEDInfo(unsigned int leds_count)
                     led_names.push_back(KEY_EN_UNUSED);
                 }
             }
+            else if(usb_buf[offset + QMK_OPENRGB_FLAG_BYTE] & 8)
+            {
+                led_names.push_back("Indicator LED");
+            }
         }
 
         leds_sent += leds_per_update_info;

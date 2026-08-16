@@ -108,6 +108,10 @@ void QMKOpenRGBRevDController::GetLEDInfo(unsigned int leds_count)
             {
                 underglow_names.push_back("Underglow: " + std::to_string(underglow_names.size() + led_names.size()));
             }
+            else if(usb_buf[offset + QMK_OPENRGB_FLAG_BYTE] & 8)
+            {
+                led_names.push_back("Indicator LED");
+            }
         }
 
         leds_sent += leds_per_update_info;
