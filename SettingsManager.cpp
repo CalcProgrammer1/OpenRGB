@@ -264,7 +264,7 @@ void SettingsManager::ModifySettingsFromJsonString(std::string settings_json_str
     \*-----------------------------------------------------*/
     for(auto& element : settings_json.items())
     {
-        ModifySettings(element.key(), element.value());
+        ModifySettings(element.key(), element.value(), from_server);
     }
 }
 
@@ -320,7 +320,7 @@ void SettingsManager::SetSettingsFromJsonString(std::string settings_json_str, b
     \*-----------------------------------------------------*/
     for(auto& element : settings_json.items())
     {
-        SetSettings(element.key(), element.value());
+        SetSettings(element.key(), element.value(), from_server);
     }
 }
 
