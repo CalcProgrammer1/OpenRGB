@@ -22,12 +22,15 @@
 #define LOGITECH_SHORT_MESSAGE_LEN                      7
 #define LOGITECH_LONG_MESSAGE                           0x11
 #define LOGITECH_LONG_MESSAGE_LEN                       20
+#define LOGITECH_VERY_LONG_MESSAGE                      0x12
+#define LOGITECH_VERY_LONG_MESSAGE_LEN                  64
 #define LOGITECH_FAP_RESPONSE_LEN                       64      //Define a universal response buffer and allow the hidapi to determine the size
 
 #define LOGITECH_DEFAULT_DEVICE_INDEX                   0xFF
 #define LOGITECH_RECEIVER_DEVICE_INDEX                  0xFF    //The Unifying receiver uses RAP or register access protocol
 #define LOGITECH_SET_REGISTER_REQUEST                   0x80
 #define LOGITECH_GET_REGISTER_REQUEST                   0x81
+#define LOGITECH_GET_LONG_REGISTER_REQUEST              0x83
 
 #define LOGITECH_HIDPP_PAGE_ROOT_IDX                    0x00    //Used for querying the feature index
 #define LOGITECH_CMD_ROOT_GET_FEATURE                   0x01
@@ -63,7 +66,18 @@ enum LOGITECH_DEVICE_TYPE
     LOGITECH_DEVICE_TYPE_TRACKBALL      = 5,
     LOGITECH_DEVICE_TYPE_PRESENTER      = 6,
     LOGITECH_DEVICE_TYPE_RECEIVER       = 7,
-    LOGITECH_DEVICE_TYPE_HEADSET        = 8
+    LOGITECH_DEVICE_TYPE_HEADSET        = 8,
+    LOGITECH_DEVICE_TYPE_WEBCAM         = 9,
+    LOGITECH_DEVICE_TYPE_STEERINGWHEEL  = 10,
+    LOGITECH_DEVICE_TYPE_JOYSTICK       = 11,
+    LOGITECH_DEVICE_TYPE_GAMEPAD        = 12,
+    LOGITECH_DEVICE_TYPE_DOCK           = 13,
+    LOGITECH_DEVICE_TYPE_SPEAKER        = 14,
+    LOGITECH_DEVICE_TYPE_MICROPHONE     = 15,
+    LOGITECH_DEVICE_TYPE_LIGHT          = 16,
+    LOGITECH_DEVICE_TYPE_PROGRAMMABLE   = 17,
+    LOGITECH_DEVICE_TYPE_CARSIMPEDALS   = 18,
+    LOGITECH_DEVICE_TYPE_ADAPTER        = 19
 };
 
 enum LOGITECH_DEVICE_MODE
@@ -270,7 +284,9 @@ struct logitech_led
         leds_fx                         fx;
 };
 
-int getWirelessDevice(usages _usages, uint16_t pid, wireless_map *wireless_devices);    //Helper function needed outside of class
+int getWirelessDevice(usages _usages, uint16_t pid, wireless_map *wireless_devices, std::map<uint8_t, bool> *online_out = nullptr);    //Helper function needed outside of class; online_out (optional) reports per-index link state
+std::string getWirelessDeviceName(usages _usages, uint8_t device_index);                                                               //Receiver-stored device codename (reg 0xB5 sub 0x4N); works while the device is asleep
+std::string getWirelessDeviceSerial(usages _usages, uint8_t device_index);                                                             //Receiver-stored device serial (extended pairing info reg 0xB5 sub 0x3N); works while the device is asleep, and matches the device's own HID++ unit id
 
 class logitech_device
 {

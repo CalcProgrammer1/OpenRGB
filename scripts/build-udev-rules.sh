@@ -25,6 +25,7 @@ echo -e "Adding Static Headers"
 UDEV_HEADER=${UDEV_LINE}'#  OpenRGB udev rules - Git Commit: '${GIT_SHORT_HASH:0:8}'                    #\n'${UDEV_LINE}'\n'
 UDEV_HEADER+=${UDEV_LINE}'#  User I2C/SMBus Access                                        #\n'${UDEV_LINE}'KERNEL=="i2c-[0-99]*", TAG+="uaccess"\n\n'
 UDEV_HEADER+=${UDEV_LINE}'#  Super I/O Access                                             #\n'${UDEV_LINE}'KERNEL=="port", TAG+="uaccess"\n\n'
+UDEV_HEADER+=${UDEV_LINE}'#  Logitech HID++ 2.0 - VID-generic detection                   #\n'${UDEV_LINE}'SUBSYSTEM=="hidraw", ATTRS{idVendor}=="046d", TAG+="uaccess", TAG+="Logitech_HID_20"\nSUBSYSTEM=="usb", ATTR{idVendor}=="046d", TAG+="uaccess", TAG+="Logitech_HID_20"\n\n'
 
 # Faustus rules
 ASUS_TUF_DEVICES=('blue' 'flags' 'green' 'mode' 'red' 'set' 'speed')
