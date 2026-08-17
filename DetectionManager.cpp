@@ -107,8 +107,8 @@ bool BasicHIDBlock::compare(hid_device_info* info)
 
 bool BasicHIDBlock::matching_id(hid_device_info* info)
 {
-    return(((vid == HID_VID_ANY) || (vid == info->vendor_id))
-        && ((pid == HID_PID_ANY) || (pid == info->product_id)));
+    return(((vid == info->vendor_id))
+        && ((pid == info->product_id) || (pid == HID_PID_ANY)));
 }
 
 /*---------------------------------------------------------*\
@@ -1472,14 +1472,12 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json&
             if(this_device_enabled)
             {
                 /*-----------------------------------------*\
-                | Exact VID/PID detectors take precedence   |
-                | over generic detectors. Wildcard-ID       |
-                | detectors must not suppress generic       |
-                | detectors on unrelated interfaces.        |
+                | If this was a specific detector, this     |
+                | device VID/PID has at least one specific  |
+                | detector available, so ignore generic     |
+                | detectors.                                |
                 \*-----------------------------------------*/
-                if(!generic_detector
-                && detector->vid != HID_VID_ANY
-                && detector->pid != HID_PID_ANY)
+                if(!generic_detector)
                 {
                     skip_generic_detectors = true;
                 }
@@ -1590,14 +1588,12 @@ void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_
             if(this_device_enabled)
             {
                 /*-----------------------------------------*\
-                | Exact VID/PID detectors take precedence   |
-                | over generic detectors. Wildcard-ID       |
-                | detectors must not suppress generic       |
-                | detectors on unrelated interfaces.        |
+                | If this was a specific detector, this     |
+                | device VID/PID has at least one specific  |
+                | detector available, so ignore generic     |
+                | detectors.                                |
                 \*-----------------------------------------*/
-                if(!generic_detector
-                && detector->vid != HID_VID_ANY
-                && detector->pid != HID_PID_ANY)
+                if(!generic_detector)
                 {
                     skip_generic_detectors = true;
                 }
