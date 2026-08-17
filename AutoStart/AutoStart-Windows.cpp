@@ -175,9 +175,25 @@ void AutoStart::InitAutoStart(std::string name)
 
     if(SUCCEEDED(result))
     {
-        autostart_file = std::string(startMenuPath);
+        std::string autostart_dir = std::string(startMenuPath);
+        autostart_dir += "\\Startup\\";
 
-        autostart_file += "\\Startup\\" + autostart_name + ".lnk";
+        /*-------------------------------------------------*\
+        | Create the directory if it doesn't exist          |
+        \*-------------------------------------------------*/
+        std::error_code ec;
+
+        bool success = true;
+
+        if(!filesystem::exists(autostart_dir))
+        {
+            success = filesystem::create_directories(autostart_dir, ec);
+        }
+
+        if(success)
+        {
+            autostart_file = autostart_dir + autostart_name + ".lnk";
+        }
     }
     else
     {
