@@ -22,8 +22,9 @@
 | Product ID                                                |
 \*---------------------------------------------------------*/
 #define ASUS_ROG_STRIX_XG27AQDMG_PID                   0x1BA3
-#define ASUS_ROG_SWIFT_XG27UCG_PID                     0x1BB4
+#define ASUS_ROG_STRIX_XG27UCG_PID                     0x1BB4
 #define ASUS_ROG_SWIFT_PG32UCDM_PID                    0x1B2B
+#define ASUS_ROG_SWIFT_PG32UCDMR_PID                   0x1C9B
 
 DetectedControllers DetectAsusMonitorControllers(hid_device_info* info, const std::string& name)
 {
@@ -44,5 +45,7 @@ DetectedControllers DetectAsusMonitorControllers(hid_device_info* info, const st
 }
 
 REGISTER_HID_DETECTOR_IPU("Asus ROG STRIX XG27AQDMG",   DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_STRIX_XG27AQDMG_PID,   1, 0xFF72, 0x00A1);
-REGISTER_HID_DETECTOR_IPU("Asus ROG STRIX XG27UCG",     DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_SWIFT_XG27UCG_PID,     1, 0xFF72, 0x00A1);
-REGISTER_HID_DETECTOR_IPU("Asus ROG STRIX PG32UCDM",    DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_SWIFT_PG32UCDM_PID,    1, 0xFF72, 0x00A1);
+REGISTER_HID_DETECTOR_IPU("Asus ROG STRIX XG27UCG",     DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_STRIX_XG27UCG_PID,     1, 0xFF72, 0x00A1);
+REGISTER_HID_DETECTOR_IPU("Asus ROG SWIFT PG32UCDM",    DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_SWIFT_PG32UCDM_PID,    1, 0xFF72, 0x00A1);
+REGISTER_HID_DETECTOR_IPU("Asus ROG SWIFT PG32UCDMR",   DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_SWIFT_PG32UCDMR_PID,   1, 0xFF72, 0x00A1);
+
