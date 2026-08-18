@@ -2765,25 +2765,28 @@ unsigned int RGBController::GetLEDDescriptionSize(led led, unsigned int protocol
 
 unsigned char * RGBController::GetMatrixMapDescriptionData(unsigned char* data_ptr, matrix_map_type matrix_map, unsigned int /*protocol_version*/)
 {
-    /*-------------------------------------------------*\
-    | Copy in matrix height                             |
-    \*-------------------------------------------------*/
-    memcpy(data_ptr, &matrix_map.height, sizeof(matrix_map.height));
-    data_ptr += sizeof(matrix_map.height);
-
-    /*-------------------------------------------------*\
-    | Copy in matrix width                              |
-    \*-------------------------------------------------*/
-    memcpy(data_ptr, &matrix_map.width, sizeof(matrix_map.width));
-    data_ptr += sizeof(matrix_map.width);
-
-    /*-------------------------------------------------*\
-    | Copy in matrix map                                |
-    \*-------------------------------------------------*/
-    for(unsigned int matrix_idx = 0; matrix_idx < (matrix_map.height * matrix_map.width); matrix_idx++)
+    if(!matrix_map.Empty())
     {
-        memcpy(data_ptr, &matrix_map.map[matrix_idx], sizeof(matrix_map.map[matrix_idx]));
-        data_ptr += sizeof(matrix_map.map[matrix_idx]);
+        /*---------------------------------------------*\
+        | Copy in matrix height                         |
+        \*---------------------------------------------*/
+        memcpy(data_ptr, &matrix_map.height, sizeof(matrix_map.height));
+        data_ptr += sizeof(matrix_map.height);
+
+        /*---------------------------------------------*\
+        | Copy in matrix width                          |
+        \*---------------------------------------------*/
+        memcpy(data_ptr, &matrix_map.width, sizeof(matrix_map.width));
+        data_ptr += sizeof(matrix_map.width);
+
+        /*---------------------------------------------*\
+        | Copy in matrix map                            |
+        \*---------------------------------------------*/
+        for(unsigned int matrix_idx = 0; matrix_idx < (matrix_map.height * matrix_map.width); matrix_idx++)
+        {
+            memcpy(data_ptr, &matrix_map.map[matrix_idx], sizeof(matrix_map.map[matrix_idx]));
+            data_ptr += sizeof(matrix_map.map[matrix_idx]);
+        }
     }
 
     return(data_ptr);
@@ -2800,9 +2803,12 @@ unsigned int RGBController::GetMatrixMapDescriptionSize(matrix_map_type matrix_m
     | Calculate description data size for the given matrix  |
     | map                                                   |
     \*-----------------------------------------------------*/
-    data_size                              += sizeof(matrix_map.height);
-    data_size                              += sizeof(matrix_map.width);
-    data_size                              += (matrix_map.height * matrix_map.width) * sizeof(unsigned int);
+    if(!matrix_map.Empty())
+    {
+        data_size                          += sizeof(matrix_map.height);
+        data_size                          += sizeof(matrix_map.width);
+        data_size                          += (matrix_map.height * matrix_map.width) * sizeof(unsigned int);
+    }
 
     return(data_size);
 }

@@ -262,6 +262,11 @@ public:
 
     }
 
+    bool Empty()
+    {
+        return((height == 0) && (width == 0) && (map.size() == 0));
+    }
+
     void Reset()
     {
         Set(0, 0, NULL);
