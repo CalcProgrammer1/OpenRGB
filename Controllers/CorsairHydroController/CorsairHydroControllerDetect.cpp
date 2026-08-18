@@ -77,6 +77,9 @@ DetectedControllers DetectCorsairHydroControllers()
 }
 
 REGISTER_DETECTOR("Corsair Hydro Series", DetectCorsairHydroControllers);
+REGISTER_CUSTOM_UDEV_RULE(corsair_hydro_1, "Corsair Hydro Series", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1b1c\", ATTRS{idProduct}==\"0c12\", TAG+=\"uaccess\", TAG+=\"Corsair_Hydro_Series\"");
+REGISTER_CUSTOM_UDEV_RULE(corsair_hydro_2, "Corsair Hydro Series", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1b1c\", ATTRS{idProduct}==\"0c13\", TAG+=\"uaccess\", TAG+=\"Corsair_Hydro_Series\"");
+REGISTER_CUSTOM_UDEV_RULE(corsair_hydro_3, "Corsair Hydro Series", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1b1c\", ATTRS{idProduct}==\"0c15\", TAG+=\"uaccess\", TAG+=\"Corsair_Hydro_Series\"");
 /*---------------------------------------------------------------------------------------------------------*\
 | Entries for dynamic UDEV rules                                                                            |
 |                                                                                                           |

@@ -44,6 +44,7 @@ DetectedControllers DetectCorsairHydro2Controllers()
 }
 
 REGISTER_DETECTOR("Corsair H100i v2", DetectCorsairHydro2Controllers);
+REGISTER_CUSTOM_UDEV_RULE(corsair_h100i_v2, "Corsair H100i v2", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1b1c\", ATTRS{idProduct}==\"0c09\", TAG+=\"uaccess\", TAG+=\"Corsair_H100i_v2\"");
 /*---------------------------------------------------------------------------------------------------------*\
 | Entries for dynamic UDEV rules                                                                            |
 |                                                                                                           |

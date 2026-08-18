@@ -1712,6 +1712,9 @@ REGISTER_HID_DETECTOR_IP_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 1, 0
 REGISTER_HID_DETECTOR_PU_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFFA0, 1);
 
 REGISTER_CUSTOM_UDEV_RULE(logitech_hidpp20, "Logitech HID++ 2.0", "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"046d\", TAG+=\"uaccess\", TAG+=\"Logitech_HID_20\"\nSUBSYSTEM==\"usb\", ATTR{idVendor}==\"046d\", TAG+=\"uaccess\", TAG+=\"Logitech_HID_20\"");
+REGISTER_CUSTOM_UDEV_RULE(logitech_g560, "Logitech G560 Lightsync Speaker", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"046d\", ATTRS{idProduct}==\"0a78\", TAG+=\"uaccess\", TAG+=\"Logitech_G560_Lightsync_Speaker\"");
+REGISTER_CUSTOM_UDEV_RULE(logitech_lightspeed, "Logitech G Lightspeed Receiver", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"046d\", ATTRS{idProduct}==\"c539\", TAG+=\"uaccess\", TAG+=\"Logitech_G_Lightspeed_Receiver\"");
+REGISTER_CUSTOM_UDEV_RULE(logitech_powerplay, "Logitech Powerplay Mat Receiver", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"046d\", ATTRS{idProduct}==\"c53a\", TAG+=\"uaccess\", TAG+=\"Logitech_Powerplay_Mat_Receiver\"");
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                         |

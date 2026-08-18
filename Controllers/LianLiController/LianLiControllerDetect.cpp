@@ -342,3 +342,6 @@ REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL Infinity",      DetectLianLiUniH
 REGISTER_HID_DETECTOR_IPU("Lian Li Strimer L Connect",          DetectLianLiStrimerControllers, ENE_USB_VID,        STRIMER_L_CONNECT_PID,       1,   0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_I("Lian Li GA II Trinity",                DetectLianLiGAIITrinity,        NUVOTON_USB_VID,    GAII_USB_PID,                             0x02);
 REGISTER_HID_DETECTOR_I("Lian Li GA II Trinity Performance",    DetectLianLiGAIITrinity,        NUVOTON_USB_VID,    GAII_Perf_USB_PID,                        0x02);
+
+REGISTER_CUSTOM_UDEV_RULE(lianli_uni_hub, "Lian Li Uni Hub", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"0cf2\", ATTRS{idProduct}==\"7750\", TAG+=\"uaccess\", TAG+=\"Lian_Li_Uni_Hub\"");
+REGISTER_CUSTOM_UDEV_RULE(lianli_universal_screen, "Lian Li Universal Screen", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"0416\", ATTRS{idProduct}==\"8050\", TAG+=\"uaccess\", TAG+=\"Lian_Li_Universal_Screen\"");

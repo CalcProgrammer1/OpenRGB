@@ -240,6 +240,13 @@ REGISTER_HID_DETECTOR_PU("MSI Mystic Light X870",       DetectMSIMotherboardCont
 | DUMMY_DEVICE_DETECTOR("MSI Mystic Light MS_7E49", DetectMSIMotherboardControllers, 0x1462, 0x7E49 )       |
 \*---------------------------------------------------------------------------------------------------------*/
 
+REGISTER_CUSTOM_UDEV_RULE(msi_7e12, "MSI Mystic Light MS_7E12", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e12\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E12\"");
+REGISTER_CUSTOM_UDEV_RULE(msi_7e16, "MSI Mystic Light MS_7E16", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e16\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E16\"");
+REGISTER_CUSTOM_UDEV_RULE(msi_7e24, "MSI Mystic Light MS_7E24", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e24\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E24\"");
+REGISTER_CUSTOM_UDEV_RULE(msi_7e26, "MSI Mystic Light MS_7E26", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e26\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E26\"");
+REGISTER_CUSTOM_UDEV_RULE(msi_7e27, "MSI Mystic Light MS_7E27", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e27\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E27\"");
+REGISTER_CUSTOM_UDEV_RULE(msi_7e49, "MSI Mystic Light MS_7E49", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e49\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E49\"");
+
 #ifdef ENABLE_UNTESTED_MYSTIC_LIGHT
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_3EA4",    DetectMSIMotherboardControllers,   MSI_USB_VID,    0x3EA4,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_4459",    DetectMSIMotherboardControllers,   MSI_USB_VID,    0x4459,   0x0001, 0x00);

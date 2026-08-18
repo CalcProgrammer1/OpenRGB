@@ -44,6 +44,7 @@ DetectedControllers DetectNZXTHuePlusControllers()
 }
 
 REGISTER_DETECTOR("NZXT Hue+", DetectNZXTHuePlusControllers);
+REGISTER_CUSTOM_UDEV_RULE(nzxt_hue_plus, "NZXT Hue+", "SUBSYSTEMS==\"serial|hidraw\", ATTRS{idVendor}==\"04d8\", ATTRS{idProduct}==\"00df\", TAG+=\"uaccess\", TAG+=\"NZXT_Hue\"");
 /*---------------------------------------------------------------------------------------------------------*\
 | Entries for dynamic UDEV rules                                                                            |
 |                                                                                                           |

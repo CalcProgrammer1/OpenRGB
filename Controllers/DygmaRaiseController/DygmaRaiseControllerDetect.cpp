@@ -40,6 +40,7 @@ DetectedControllers DetectDygmaRaiseControllers()
 }
 
 REGISTER_DETECTOR("Dygma Raise", DetectDygmaRaiseControllers);
+REGISTER_CUSTOM_UDEV_RULE(dygma_raise, "Dygma Raise", "SUBSYSTEMS==\"serial|hidraw\", ATTRS{idVendor}==\"1209\", ATTRS{idProduct}==\"2201\", TAG+=\"uaccess\", TAG+=\"Dygma_Raise\"");
 /*---------------------------------------------------------------------------------------------------------*\
 | Entries for dynamic UDEV rules                                                                            |
 |                                                                                                           |
