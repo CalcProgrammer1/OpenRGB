@@ -105,6 +105,12 @@ typedef struct
     uint8_t                             dram_type;
 } I2CDRAMDeviceDetectorBlock;
 
+typedef struct
+{
+    std::string                         name;
+    std::string                         rule;
+} CustomUdevRuleBlock;
+
 /*---------------------------------------------------------*\
 | Detection Callback Type                                   |
 \*---------------------------------------------------------*/
@@ -177,6 +183,13 @@ public:
     \*-----------------------------------------------------*/
     void                                RegisterPreDetectionHook(PreDetectionHookFunction hook);
 
+#ifdef __linux__
+    /*-----------------------------------------------------*\
+    | Custom Udev Rules Registration Function               |
+    *------------------------------------------------------*/
+    void                                RegisterCustomUdevRule(std::string name, std::string rule);
+#endif
+
     /*-----------------------------------------------------*\
     | Detection Callback Registration Functions             |
     \*-----------------------------------------------------*/
@@ -247,6 +260,10 @@ private:
     std::vector<DynamicDetectorFunction>        dynamic_detectors;
     std::vector<std::string>                    dynamic_detector_strings;
     std::vector<PreDetectionHookFunction>       pre_detection_hooks;
+
+#ifdef __linux__
+    std::vector<CustomUdevRuleBlock>            custom_udev_rules;
+#endif
 
 #ifdef __linux__
 #ifdef __GLIBC__
@@ -459,6 +476,20 @@ public:
     }
 };
 
+class CustomUdevRule
+{
+public:
+    CustomUdevRule(std::string name, std::string rule)
+    {
+#ifdef __linux__
+        DetectionManager::get()->RegisterCustomUdevRule(name, rule);
+#else
+        (void)name;
+        (void)rule;
+#endif
+    }
+};
+
 /*---------------------------------------------------------*\
 | Detector Registration Macros                              |
 \*---------------------------------------------------------*/
@@ -500,3 +531,5 @@ public:
 #define REGISTER_DYNAMIC_HID_DETECTOR_IPU(name, func, vid, pid, interface, page, usage) HIDDeviceDetector               device_detector_obj_##vid##pid##_##interface##_##page##_##usage(name, func, vid, pid, interface, page, usage)
 #define REGISTER_DYNAMIC_HID_DETECTOR_P(name, func, vid, pid, page)                     HIDDeviceDetector               device_detector_obj_##vid##pid##__##page(name, func, vid, pid, HID_INTERFACE_ANY, page, HID_USAGE_ANY)
 #define REGISTER_DYNAMIC_HID_DETECTOR_PU(name, func, vid, pid, page, usage)             HIDDeviceDetector               device_detector_obj_##vid##pid##__##page##_##usage(name, func, vid, pid, HID_INTERFACE_ANY, page, usage)
+
+#define REGISTER_CUSTOM_UDEV_RULE(id, name, rule)                                       static CustomUdevRule           device_detector_obj_##id(name, rule)

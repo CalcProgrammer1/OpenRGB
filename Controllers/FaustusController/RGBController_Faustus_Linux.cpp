@@ -197,3 +197,5 @@ DetectedControllers DetectFaustusControllers()
 }
 
 REGISTER_DETECTOR("Faustus", DetectFaustusControllers);
+
+REGISTER_CUSTOM_UDEV_RULE(faustus, "ASUS TUF Laptops (faustus)", "ACTION==\"add\", SUBSYSTEM==\"platform\", KERNEL==\"faustus\", RUN+=\"/usr/bin/env chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_blue\"\nACTION==\"add\", SUBSYSTEM==\"platform\", KERNEL==\"faustus\", RUN+=\"/usr/bin/env chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_flags\"\nACTION==\"add\", SUBSYSTEM==\"platform\", KERNEL==\"faustus\", RUN+=\"/usr/bin/env chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_green\"\nACTION==\"add\", SUBSYSTEM==\"platform\", KERNEL==\"faustus\", RUN+=\"/usr/bin/env chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_mode\"\nACTION==\"add\", SUBSYSTEM==\"platform\", KERNEL==\"faustus\", RUN+=\"/usr/bin/env chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_red\"\nACTION==\"add\", SUBSYSTEM==\"platform\", KERNEL==\"faustus\", RUN+=\"/usr/bin/env chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_set\"\nACTION==\"add\", SUBSYSTEM==\"platform\", KERNEL==\"faustus\", RUN+=\"/usr/bin/env chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_speed\"");

@@ -36,3 +36,5 @@ DetectedControllers DetectAsusTUFLaptopLinuxControllers()
 }
 
 REGISTER_DETECTOR("ASUS TUF Laptop", DetectAsusTUFLaptopLinuxControllers);
+
+REGISTER_CUSTOM_UDEV_RULE(asus_wmi, "ASUS TUF Laptops (asus-wmi)", "ACTION==\"add\", SUBSYSTEM==\"leds\", KERNEL==\"asus::kbd_backlight\", RUN+=\"/usr/bin/env chmod a+w /sys%p/kbd_rgb_mode\"\nACTION==\"add\", SUBSYSTEM==\"leds\", KERNEL==\"asus::kbd_backlight\", RUN+=\"/usr/bin/env chmod a+w /sys%p/brightness\"");

@@ -350,6 +350,21 @@ void DetectionManager::RegisterPreDetectionHook(PreDetectionHookFunction hook)
     pre_detection_hooks.push_back(hook);
 }
 
+#ifdef __linux__
+/*---------------------------------------------------------*\
+| Custom Udev Rules Registration Function                   |
+\*---------------------------------------------------------*/
+void DetectionManager::RegisterCustomUdevRule(std::string name, std::string rule)
+{
+    CustomUdevRuleBlock block;
+
+    block.name = name;
+    block.rule = rule;
+
+    custom_udev_rules.push_back(block);
+}
+#endif
+
 /*---------------------------------------------------------*\
 | Detection Callback Registration Functions                 |
 \*---------------------------------------------------------*/
@@ -2165,6 +2180,18 @@ bool DetectionManager::GenerateUdevRules(const std::string& filepath)
         {
             fprintf(output_file, "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"%04x\", ATTRS{idProduct}==\"%04x\", TAG+=\"uaccess\", TAG+=\"%s\"\n", vid_pid.first, vid_pid.second, device_name_tag.c_str());
         }
+        fprintf(output_file, "\n");
+    }
+
+    /*-----------------------------------------------------*\
+    | Write custom udev rules                               |
+    \*-----------------------------------------------------*/
+    for(const CustomUdevRuleBlock& custom_rule : custom_udev_rules)
+    {
+        fprintf(output_file, "#---------------------------------------------------------------#\n");
+        fprintf(output_file, "#  %s\n", custom_rule.name.c_str());
+        fprintf(output_file, "#---------------------------------------------------------------#\n");
+        fprintf(output_file, "%s\n", custom_rule.rule.c_str());
         fprintf(output_file, "\n");
     }
 

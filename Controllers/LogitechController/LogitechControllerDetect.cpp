@@ -1711,6 +1711,8 @@ REGISTER_HID_DETECTOR_P_ONLY  ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFF
 REGISTER_HID_DETECTOR_IP_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 1, 0xFF00);
 REGISTER_HID_DETECTOR_PU_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFFA0, 1);
 
+REGISTER_CUSTOM_UDEV_RULE(logitech_hidpp20, "Logitech HID++ 2.0", "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"046d\", TAG+=\"uaccess\", TAG+=\"Logitech_HID_20\"\nSUBSYSTEM==\"usb\", ATTR{idVendor}==\"046d\", TAG+=\"uaccess\", TAG+=\"Logitech_HID_20\"");
+
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/

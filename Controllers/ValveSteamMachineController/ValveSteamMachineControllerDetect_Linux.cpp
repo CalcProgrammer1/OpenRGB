@@ -140,3 +140,5 @@ DetectedControllers DetectValveSteamMachineControllers()
 }
 
 REGISTER_DETECTOR("Valve Steam Machine", DetectValveSteamMachineControllers);
+
+REGISTER_CUSTOM_UDEV_RULE(valve_steam, "Valve Steam Machine", "SUBSYSTEM==\"leds\", KERNEL==\"valve-leds[0-9]*\", TAG+=\"uaccess\"");
