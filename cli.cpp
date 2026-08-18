@@ -402,7 +402,7 @@ void OptionHelp()
     help_text += "--server-port                            Sets the SDK's server port. Default: 6742 (1024-65535)\n";
     help_text += "-l,  --list-devices                      Displays a simple list of active devices\n";
     help_text += "-ld  --list-detailed                     Displays a detailed list of active devices\n";
-    help_text += "-lp  --list-profiles                     Displays a list of availabl profiles\n";
+    help_text += "-lp  --list-profiles                     Displays a list of available profiles\n";
     help_text += "-d,  --device [0-9 | \"name\"]             Selects device to apply colors and/or effect to, or applies to all devices if omitted\n";
     help_text += "                                           Basic string search is implemented 3 characters or more\n";
     help_text += "                                           Can be specified multiple times with different modes and colors\n";
@@ -412,8 +412,8 @@ void OptionHelp()
     help_text += "                                           If there are more LEDs than colors given, the last color will be applied to the remaining LEDs\n";
     help_text += "-m,  --mode [breathing | static | ...]   Sets the mode to be applied, check --list-devices to see which modes are supported on your device\n";
     help_text += "-b,  --brightness [0-100]                Sets the brightness as a percentage if the mode supports brightness\n";
-    help_text += "-s, --speed [0-100]                      Sets the speed as a percentage if the mode supports speed\n";
-    help_text += "-sz,  --size [0-N]                       Sets the new size of the specified device zone.\n";
+    help_text += "-s,  --speed [0-100]                     Sets the speed as a percentage if the mode supports speed\n";
+    help_text += "-sz, --size [0-N]                        Sets the new size of the specified device zone.\n";
     help_text += "                                           Must be specified after specifying a zone.\n";
     help_text += "                                           If the specified size is out of range, or the zone does not offer resizing capability, the size will not be changed\n";
     help_text += "-V,  --version                           Display version and software build information\n";
