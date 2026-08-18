@@ -400,7 +400,8 @@ void OptionHelp()
     help_text += "--server                                 Starts the SDK's server\n";
     help_text += "--server-host                            Sets the SDK's server host. Default: 0.0.0.0 (all network interfaces)\n";
     help_text += "--server-port                            Sets the SDK's server port. Default: 6742 (1024-65535)\n";
-    help_text += "-l,  --list-devices                      Lists every compatible device with their number\n";
+    help_text += "-l,  --list-devices                      Displays a simple list of active devices\n";
+    help_text += "-ld  --list-detailed                     Displays a detailed list of active devices\n";
     help_text += "-d,  --device [0-9 | \"name\"]             Selects device to apply colors and/or effect to, or applies to all devices if omitted\n";
     help_text += "                                           Basic string search is implemented 3 characters or more\n";
     help_text += "                                           Can be specified multiple times with different modes and colors\n";
@@ -456,7 +457,7 @@ void OptionVersion()
     std::cout << version_text << std::endl;
 }
 
-void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
+void OptionListDevices(std::vector<RGBController *>& rgb_controllers, bool detailed)
 {
     ResourceManager::get()->WaitForDetection();
 
@@ -468,6 +469,11 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         | Print device name                                         |
         \*---------------------------------------------------------*/
         std::cout << controller_idx << ": " << controller->GetDisplayName() << std::endl;
+
+        if(!detailed)
+        {
+            continue;
+        }
 
         /*---------------------------------------------------------*\
         | Print device type                                         |
@@ -937,7 +943,16 @@ int ProcessOptions(Options* options, std::vector<RGBController *>& rgb_controlle
         \*---------------------------------------------------------*/
         if(option == "--list-devices" || option == "-l")
         {
-            OptionListDevices(rgb_controllers);
+            OptionListDevices(rgb_controllers, false);
+            exit(0);
+        }
+
+        /*---------------------------------------------------------*\
+        | -ld / --list-detailed (no arguments)                      |
+        \*---------------------------------------------------------*/
+        else if(option == "--list-detailed" || option == "-ld")
+        {
+            OptionListDevices(rgb_controllers, true);
             exit(0);
         }
 
