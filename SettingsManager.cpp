@@ -231,6 +231,11 @@ void SettingsManager::ModifySettings(std::string settings_key, json new_settings
         }
     }
 
+    if(local_setting && from_server)
+    {
+        return;
+    }
+
     if(!local_setting && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
     {
         /*-------------------------------------------------*\
@@ -243,7 +248,7 @@ void SettingsManager::ModifySettings(std::string settings_key, json new_settings
 
         ResourceManager::get()->GetLocalClient()->SettingsManager_ModifySettings(settings_json.dump());
     }
-    else if(!from_server)
+    else
     {
         mutex.lock();
         json filtered_settings = FilterSettingsAgainstSchema(settings_key, new_settings);
@@ -287,6 +292,11 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings, b
         }
     }
 
+    if(local_setting && from_server)
+    {
+        return;
+    }
+
     if(!local_setting && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
     {
         /*-------------------------------------------------*\
@@ -299,7 +309,7 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings, b
 
         ResourceManager::get()->GetLocalClient()->SettingsManager_SetSettings(settings_json.dump());
     }
-    else if(!from_server)
+    else
     {
         mutex.lock();
         json filtered_settings = FilterSettingsAgainstSchema(settings_key, new_settings);
