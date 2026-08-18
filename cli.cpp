@@ -991,6 +991,7 @@ int ProcessOptions(Options* options, std::vector<RGBController *>& rgb_controlle
         else if(option == "--list-profiles" || option == "-lp")
         {
             OptionListProfiles();
+            exit(0);
         }
 
         /*---------------------------------------------------------*\
