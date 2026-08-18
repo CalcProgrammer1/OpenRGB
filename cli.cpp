@@ -390,7 +390,7 @@ void OptionHelp()
     std::string help_text;
     help_text += "OpenRGB ";
     help_text += VERSION_STRING;
-    help_text += ", for controlling RGB lighting.\n";
+    help_text += ", an open-source RGB control utility\n";
     help_text += "Usage: OpenRGB (--device [--mode] [--color])...\n";
     help_text += "\n";
     help_text += "Options:\n";
