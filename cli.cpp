@@ -402,6 +402,7 @@ void OptionHelp()
     help_text += "--server-port                            Sets the SDK's server port. Default: 6742 (1024-65535)\n";
     help_text += "-l,  --list-devices                      Displays a simple list of active devices\n";
     help_text += "-ld  --list-detailed                     Displays a detailed list of active devices\n";
+    help_text += "-lp  --list-profiles                     Displays a list of availabl profiles\n";
     help_text += "-d,  --device [0-9 | \"name\"]             Selects device to apply colors and/or effect to, or applies to all devices if omitted\n";
     help_text += "                                           Basic string search is implemented 3 characters or more\n";
     help_text += "                                           Can be specified multiple times with different modes and colors\n";
@@ -416,8 +417,8 @@ void OptionHelp()
     help_text += "                                           Must be specified after specifying a zone.\n";
     help_text += "                                           If the specified size is out of range, or the zone does not offer resizing capability, the size will not be changed\n";
     help_text += "-V,  --version                           Display version and software build information\n";
-    help_text += "-p,  --profile filename[.orp]            Load the profile from filename/filename.orp\n";
-    help_text += "-sp, --save-profile filename.orp         Save the given settings to profile filename.orp\n";
+    help_text += "-p,  --profile [name]                    Load the given profile\n";
+    help_text += "-sp, --save-profile [name]               Save the given profile\n";
     help_text += "--i2c-tools                              Shows the I2C/SMBus Tools page in the GUI. Implies --gui, even if not specified.\n";
     help_text += "                                           USE I2C TOOLS AT YOUR OWN RISK! Don't use this option if you don't know what you're doing!\n";
     help_text += "                                           There is a risk of bricking your motherboard, RGB controller, and RAM if you send invalid SMBus/I2C transactions.\n";
@@ -562,6 +563,34 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers, bool detai
         }
 
         std::cout << std::endl;
+    }
+}
+
+void OptionListProfiles()
+{
+    ResourceManager::get()->WaitForDetection();
+    std::string                 active_profile  = ResourceManager::get()->GetProfileManager()->GetActiveProfile();
+    std::vector<std::string>    profile_list    = ResourceManager::get()->GetProfileManager()->GetProfileList();
+    std::string                 prefix          = "";
+
+    if(active_profile != "")
+    {
+        prefix = " ";
+    }
+
+    for(std::size_t profile_idx = 0; profile_idx < profile_list.size(); profile_idx++)
+    {
+        /*---------------------------------------------------------*\
+        | Print profile name                                        |
+        \*---------------------------------------------------------*/
+        if(profile_list[profile_idx] == active_profile)
+        {
+            std::cout << "*" << profile_idx << ": " << profile_list[profile_idx] << std::endl;
+        }
+        else
+        {
+            std::cout << prefix << profile_idx << ": " << profile_list[profile_idx] << std::endl;
+        }
     }
 }
 
@@ -957,6 +986,14 @@ int ProcessOptions(Options* options, std::vector<RGBController *>& rgb_controlle
         }
 
         /*---------------------------------------------------------*\
+        | -lp / --list-profiles (no arguments)                      |
+        \*---------------------------------------------------------*/
+        else if(option == "--list-profiles" || option == "-lp")
+        {
+            OptionListProfiles();
+        }
+
+        /*---------------------------------------------------------*\
         | -d / --device                                             |
         \*---------------------------------------------------------*/
         else if(option == "--device" || option == "-d")
@@ -1158,8 +1195,13 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
     RGBController* device = rgb_controllers[options.device];
 
     /*---------------------------------------------------------*\
+    | Clear the active profile when applying device changes     |
+    \*---------------------------------------------------------*/
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
+    /*---------------------------------------------------------*\
     | Set mode first, in case it's 'direct' (which affects      |
-    | SetColor below)                                             |
+    | SetColor below)                                           |
     \*---------------------------------------------------------*/
     unsigned int mode = ParseMode(options, rgb_controllers);
 
