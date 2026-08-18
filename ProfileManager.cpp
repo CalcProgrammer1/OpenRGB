@@ -232,7 +232,6 @@ std::vector<RGBController*> ProfileManager::GetControllerListFromLegacyProfile(s
 
     if(!profile_file.is_open())
     {
-        LOG_WARNING("[%s] Unable to open legacy profile: %s", PROFILEMANAGER, filename.string().c_str());
         return(temp_controllers);
     }
 
