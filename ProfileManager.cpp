@@ -60,9 +60,13 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
     profilemanager_settings_schema["resume_profile"]["type"]                    = "profile";
     profilemanager_settings_schema["resume_profile"]["description"]             = QT_TRANSLATE_NOOP("Settings", "Profile to load after system resumes from sleep");
 
+    profilemanager_settings_schema["service_shutdown_profile"]["title"]         = QT_TRANSLATE_NOOP("Settings", "Load Profile on Service Shutdown");
+    profilemanager_settings_schema["service_shutdown_profile"]["type"]          = "profile";
+    profilemanager_settings_schema["service_shutdown_profile"]["description"]   = QT_TRANSLATE_NOOP("Settings", "Profile to load when the OpenRGB background service shuts down");
+
     profilemanager_settings_schema["service_startup_profile"]["title"]          = QT_TRANSLATE_NOOP("Settings", "Load Profile on Service Startup");
     profilemanager_settings_schema["service_startup_profile"]["type"]           = "profile";
-    profilemanager_settings_schema["service_startup_profile"]["description"]    = QT_TRANSLATE_NOOP("Settings", "Profile to load when the OpenRGB background service starts");
+    profilemanager_settings_schema["service_startup_profile"]["description"]    = QT_TRANSLATE_NOOP("Settings", "Profile to load when the OpenRGB background service starts up");
 
     profilemanager_settings_schema["suspend_profile"]["title"]                  = QT_TRANSLATE_NOOP("Settings", "Load Profile on Suspend");
     profilemanager_settings_schema["suspend_profile"]["type"]                   = "profile";
@@ -101,6 +105,15 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
         profile["enabled"]                                  = false;
         profile["name"]                                     = "";
         profilemanager_settings["resume_profile"]           = profile;
+        new_settings_keys                                   = true;
+    }
+
+    if(!profilemanager_settings.contains("service_shutdown_profile"))
+    {
+        json profile;
+        profile["enabled"]                                  = false;
+        profile["name"]                                     = "";
+        profilemanager_settings["service_shutdown_profile"] = profile;
         new_settings_keys                                   = true;
     }
 
@@ -398,6 +411,11 @@ bool ProfileManager::LoadAutoProfileOpen()
 bool ProfileManager::LoadAutoProfileResume()
 {
     return(LoadAutoProfile("resume_profile"));
+}
+
+bool ProfileManager::LoadAutoProfileServiceShutdown()
+{
+    return(LoadAutoProfile("service_shutdown_profile"));
 }
 
 bool ProfileManager::LoadAutoProfileServiceStartup()

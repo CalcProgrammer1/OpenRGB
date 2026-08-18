@@ -23,7 +23,22 @@ io_connect_t macUSPCIO_driver_connection;
 #include "macutils.h"
 #endif
 
+#include <condition_variable>
+#include <mutex>
+
 using namespace std::chrono_literals;
+
+#include <csignal>
+
+static volatile bool service_stop_requested = false;
+static std::mutex service_stop_mutex;
+static std::condition_variable service_stop_cv;
+
+static void sigHandler(int s)
+{
+    service_stop_requested = true;
+    service_stop_cv.notify_one();
+}
 
 /*---------------------------------------------------------*\
 | WaitWhileServerOnline                                     |
@@ -33,9 +48,15 @@ using namespace std::chrono_literals;
 \*---------------------------------------------------------*/
 void WaitWhileServerOnline(NetworkServer* srv)
 {
+    std::unique_lock<std::mutex> lock(service_stop_mutex);
     while(srv->GetOnline())
     {
-        std::this_thread::sleep_for(1s);
+        if(service_stop_requested)
+        {
+            srv->StopServer();
+            break;
+        }
+        service_stop_cv.wait_for(lock, 1s);
     };
 }
 
@@ -70,6 +91,16 @@ int main(int argc, char* argv[])
         ret_flags & RET_FLAG_START_GUI);
 
     /*-----------------------------------------------------*\
+    | If running as a headless server, register signal      |
+    | handler for stopping server                           |
+    \*-----------------------------------------------------*/
+    if((ret_flags & RET_FLAG_START_SERVER) && !(ret_flags & RET_FLAG_START_GUI))
+    {
+        std::signal(SIGINT,  sigHandler);
+        std::signal(SIGTERM, sigHandler);
+    }
+
+    /*-----------------------------------------------------*\
     | Perform application startup and run the application.  |
     | This call returns only when the GUI application is    |
     | closing or if not running the GUI.                    |
@@ -88,6 +119,13 @@ int main(int argc, char* argv[])
             WaitWhileServerOnline(server);
         }
     }
+
+    /*-----------------------------------------------------*\
+    | Call ServiceShutdown to allow operations before       |
+    | controllers are closed and deleted. Only runs when    |
+    | running as a background service (headless server).    |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->ServiceShutdown();
 
     /*-----------------------------------------------------*\
     | Clean up detected devices so destructors can run.     |

@@ -838,6 +838,47 @@ void ResourceManager::HandleDetectionComplete()
     }
 }
 
+void ResourceManager::ServiceShutdown()
+{
+    /*-----------------------------------------------------*\
+    | Only run service shutdown operations when running as  |
+    | a background service (headless server mode). In GUI   |
+    | mode, the GUI close event handles profile loading.    |
+    \*-----------------------------------------------------*/
+    if(!start_server || start_gui)
+    {
+        return;
+    }
+
+    LOG_INFO("[%s] Service shutting down", RESOURCEMANAGER);
+
+    /*-----------------------------------------------------*\
+    | Wait for any in-progress detection to finish before   |
+    | loading a profile so that the full device list is     |
+    | available.                                            |
+    \*-----------------------------------------------------*/
+    WaitForDetection();
+
+    /*-----------------------------------------------------*\
+    | Load the exit profile if one is configured. This      |
+    | runs the same profile mechanism used when the GUI     |
+    | closes, allowing a profile to be applied to           |
+    | controllers before they are closed and deleted during |
+    | Cleanup().                                            |
+    \*-----------------------------------------------------*/
+    if(profile_manager)
+    {
+        if(profile_manager->LoadAutoProfileServiceShutdown())
+        {
+            /*---------------------------------------------*\
+            | Pause briefly to ensure that all profiles     |
+            | are loaded.                                   |
+            \*---------------------------------------------*/
+            std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        }
+    }
+}
+
 void ResourceManager::RescanDevices()
 {
     /*-----------------------------------------------------*\

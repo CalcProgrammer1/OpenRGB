@@ -141,6 +141,11 @@ public:
 
     void                                WaitForInitialization();
 
+    /*-----------------------------------------------------*\
+    | Service Shutdown                                      |
+    \*-----------------------------------------------------*/
+    void                                ServiceShutdown();
+
 private:
     bool                                AttemptLocalConnection();
     void                                ClientTeardownThreadFunction();

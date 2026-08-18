@@ -93,6 +93,7 @@ public:
     bool                        LoadAutoProfileExit();
     bool                        LoadAutoProfileOpen();
     bool                        LoadAutoProfileResume();
+    bool                        LoadAutoProfileServiceShutdown();
     bool                        LoadAutoProfileServiceStartup();
     bool                        LoadAutoProfileSuspend();
 
