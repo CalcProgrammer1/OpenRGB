@@ -640,6 +640,7 @@ void CorsairPeripheralController::ReadFirmwareInfo()
                     case 0x1B49:
                     case 0x1B6B:
                     case 0x1B55:
+                    case 0x1B48:
                     logical_layout = CORSAIR_TYPE_K70_MK2;
                     break;
 
