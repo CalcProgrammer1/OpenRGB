@@ -684,9 +684,11 @@ void OpenRGBDevicePage::UpdateLEDList()
                     mode_colors     = device->GetModeColorsCount(selected_mode);
                 }
 
+                ui->SpinBoxModeColors->blockSignals(true);
                 ui->SpinBoxModeColors->setMinimum(mode_colors_min);
                 ui->SpinBoxModeColors->setMaximum(mode_colors_max);
                 ui->SpinBoxModeColors->setValue(mode_colors);
+                ui->SpinBoxModeColors->blockSignals(false);
 
                 /*-----------------------------------------*\
                 | Swap Select ALl button for Mode Colors    |
