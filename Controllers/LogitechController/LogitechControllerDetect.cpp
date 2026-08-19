@@ -748,14 +748,20 @@ DetectedControllers DetectLogitechX56(hid_device_info* info, const std::string& 
 | Group the nodes of one physical device by path. Windows   |
 | splits a multi-collection HID interface into one node per |
 | collection (the RAP usage-1 and FAP usage-2 handles are   |
-| separate nodes); the paths differ only in the collection  |
-| token, so stripping it names the physical device. On      |
-| Linux/macOS the interface is one node and a path names    |
-| itself.                                                   |
+| separate nodes), and numbers the collection twice:        |
+|                                                           |
+|   ...&MI_02&Col01#8&b41415e&0&0000#{guid}   usage 1       |
+|   ...&MI_02&Col02#8&b41415e&0&0001#{guid}   usage 2       |
+|                                                           |
+| Trim both or the two nodes key apart and never bundle.    |
+| The instance id stays, so two identical receivers still   |
+| key apart. Linux/macOS paths carry no &Col token, so      |
+| neither trim runs and a path names itself.                |
 \*---------------------------------------------------------*/
 static std::string LogitechDevicePathKey(const char* path)
 {
-    std::string key = (path != nullptr) ? path : "";
+    std::string key        = (path != nullptr) ? path : "";
+    bool        collection = false;
 
     for(size_t pos = 0; pos + 4 <= key.size(); pos++)
     {
@@ -772,7 +778,19 @@ static std::string LogitechDevicePathKey(const char* path)
             }
 
             key.erase(pos, end - pos);
+            collection = true;
             break;
+        }
+    }
+
+    if(collection)
+    {
+        size_t guid = key.rfind('#');
+        size_t last = (guid == std::string::npos) ? std::string::npos : key.rfind('&', guid);
+
+        if(last != std::string::npos)
+        {
+            key.erase(last, guid - last);
         }
     }
 
@@ -1164,7 +1182,12 @@ static std::vector<std::string> HIDPP20Enumerate(hid_device_info* info)
     | Linux and macOS expose the whole interface as one     |
     | node that accepts every report ID, so it may not key  |
     | a usage-1 handle. One handle serves RAP and FAP both. |
+    | Not on Windows: the node this runs on is the usage-2  |
+    | collection, which rejects the 7-byte writes the       |
+    | pairing read is made of. Aliasing it turns a missing  |
+    | handle into silent read timeouts.                     |
     \*-----------------------------------------------------*/
+#if !defined(_WIN32)
     if(bundle.find(1) == bundle.end())
     {
         hid_device* rap = hid_open_path(info->path);
@@ -1174,6 +1197,7 @@ static std::vector<std::string> HIDPP20Enumerate(hid_device_info* info)
             bundle.emplace((uint8_t)1, rap);
         }
     }
+#endif
 
     wireless_map            wireless_devices;
     std::map<uint8_t, bool> online;
