@@ -1054,6 +1054,7 @@ private:
     std::atomic<bool>       power_thread_running;
     std::atomic<int>        pending_activity;       // -1=none, 0=idle, 1+=active
     std::atomic<int>        pending_connection;     // 0=none, +1=connected, -1=disconnected
+    std::atomic<bool>       pending_power_check;    // device broadcast 0x1004, re-read its status
     std::atomic<bool>       device_online;          // false when device is unreachable
     std::atomic<int>        consecutive_timeouts;   // reset on successful response
 
@@ -1092,6 +1093,14 @@ private:
     | about half a second without any callback plumbing.    |
     \*-----------------------------------------------------*/
     std::chrono::steady_clock::time_point last_idle_poll;
+
+    /*-----------------------------------------------------*\
+    | Last power-source read. Reads are driven by the       |
+    | device's 0x1004 broadcast; this interval is the       |
+    | backstop, see PowerThreadFunc.                        |
+    \*-----------------------------------------------------*/
+    #define POWER_POLL_INTERVAL_MS              60000
+    std::chrono::steady_clock::time_point last_power_poll;
 
     /*-----------------------------------------------------*\
     | Effective idle/sleep timers used by the state         |

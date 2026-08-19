@@ -182,6 +182,7 @@ LogitechHIDPP20Controller::LogitechHIDPP20Controller
     this->power_thread_running = false;
     this->pending_activity     = -1;
     this->pending_connection   = 0;
+    this->pending_power_check  = false;
     this->device_online        = true;
     this->consecutive_timeouts = 0;
     this->power_state          = HIDPP20_POWER_ACTIVE;
@@ -6121,6 +6122,13 @@ void LogitechHIDPP20Controller::RediscoverFeatures()
     last_power_raw      = 0xFFFF;
 
     /*-----------------------------------------------------*\
+    | Clearing the index disarms the broadcast match until  |
+    | a read resolves it again, and the source often        |
+    | changed with the link.                                |
+    \*-----------------------------------------------------*/
+    pending_power_check.store(true);
+
+    /*-----------------------------------------------------*\
     | Force ApplyPowerSavingProfile's dedup to              |
     | re-emit its "Idle management: ..." line on            |
     | the next call so a path transition always             |
@@ -6311,7 +6319,9 @@ void LogitechHIDPP20Controller::StartPowerManager()
     | 500ms re-read happens one interval from now,          |
     | not immediately (we just applied above).              |
     \*-----------------------------------------------------*/
-    last_idle_poll = std::chrono::steady_clock::now();
+    last_idle_poll  = std::chrono::steady_clock::now();
+    last_power_poll = last_idle_poll;
+    pending_power_check.store(false);
 
     /*-----------------------------------------------------*\
     | Don't claim SW control here. The device runs its      |
@@ -6467,6 +6477,21 @@ void LogitechHIDPP20Controller::ReaderThreadFunc()
             }
 
             /*---------------------------------------------*\
+            | Feature 0x1004 broadcast: the power source    |
+            | changed. Flag a re-read rather than decode    |
+            | the event, so GetStatus stays the only        |
+            | reader of the layout. Cached index only,      |
+            | this thread must never send commands.         |
+            \*---------------------------------------------*/
+            if(idx_unified_battery != 0 && feat == idx_unified_battery &&
+               (func & 0x0F) != HIDPP20_SW_ID)
+            {
+                pending_power_check.store(true);
+
+                continue;
+            }
+
+            /*---------------------------------------------*\
             | Only queue responses to OUR commands. Our     |
             | commands use HIDPP20_SW_ID (0x0A) in the      |
             | low nibble. Firmware-generated messages       |
@@ -6592,21 +6617,30 @@ void LogitechHIDPP20Controller::PowerThreadFunc()
         }
 
         /*-------------------------------------------------*\
-        | Fast poll of idle settings + external-power       |
-        | flag. QueryExternalPower is a single HID++        |
-        | 0x1004 GetStatus call, cheap on wire and lets     |
-        | ApplyPowerSavingProfile pick between the          |
-        | on_battery and plugged_in profiles within half a  |
-        | second of a power-source transition. The idle-    |
-        | settings reload itself is purely in-memory.       |
+        | Read the power source on the device's broadcast.  |
+        | Each read is a 0x1004 GetStatus on the link that  |
+        | also carries paint, so the interval is only the   |
+        | backstop for devices that do not broadcast and    |
+        | for changes made while asleep.                    |
+        |                                                   |
+        | The idle-settings reload keeps its own fast tick: |
+        | it is an in-memory lookup and only reaches the    |
+        | wire when a timer value changes.                  |
         \*-------------------------------------------------*/
         if(caps.has_power_mgmt)
         {
             std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+            if(pending_power_check.exchange(false)
+            || now - last_power_poll >= std::chrono::milliseconds(POWER_POLL_INTERVAL_MS))
+            {
+                last_power_poll = now;
+                QueryExternalPower();
+            }
+
             if(now - last_idle_poll >= std::chrono::milliseconds(500))
             {
                 last_idle_poll = now;
-                QueryExternalPower();
                 ApplyPowerSavingProfile();
             }
         }
@@ -6778,9 +6812,9 @@ void LogitechHIDPP20Controller::ApplyPowerSavingProfile()
     /*-----------------------------------------------------*\
     | Configured: pick the active profile based on          |
     | whether the device is currently externally            |
-    | powered. ps_on_external_ power is refreshed           |
-    | by QueryExternalPower() on the same 500 ms            |
-    | power-thread poll that calls us.                      |
+    | powered. ps_on_external_power is refreshed by         |
+    | QueryExternalPower() when the device broadcasts a     |
+    | change, and on the backstop interval.                 |
     \*-----------------------------------------------------*/
     const LogitechHIDPP20IdleProfile& profile = ps_on_external_power
         ? settings->pluggedIn()
