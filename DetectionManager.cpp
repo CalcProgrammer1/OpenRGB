@@ -2088,6 +2088,87 @@ bool DetectionManager::IsAnyDimmDetectorEnabled(json &detector_settings)
 
 #ifdef __linux__
 /*---------------------------------------------------------*\
+| Convert a device name into a udev tag.                    |
+|                                                           |
+| Replace spaces with underscores and strip any character   |
+| that is not alphanumeric, e.g.                            |
+|   "MSI Mystic Light MS_7E12" -> "MSI_Mystic_Light_MS7E12" |
+| This matches the name processing used by                  |
+| build-udev-rules.sh so both generators produce the same   |
+| device name tags.                                         |
+\*---------------------------------------------------------*/
+static std::string UdevDeviceNameToTag(std::string device_name)
+{
+    for(std::string::iterator character = device_name.begin(); character != device_name.end();)
+    {
+        if(*character == ' ')
+        {
+            *character = '_';
+            ++character;
+        }
+        else if(!isalnum(*character))
+        {
+            character = device_name.erase(character);
+        }
+        else
+        {
+            ++character;
+        }
+    }
+
+    return device_name;
+}
+
+/*---------------------------------------------------------*\
+| Apply the processed device name tag to a registered custom|
+| udev rule. Any device-name TAG value inside the rule is   |
+| replaced with the normalized device name so that custom   |
+| rules follow the same naming convention as the grouped    |
+| HID rules. "uaccess" tags and tags that already match are |
+| left untouched.                                           |
+\*---------------------------------------------------------*/
+static std::string UdevApplyDeviceNameTagToRule(const std::string& rule, const std::string& device_name_tag)
+{
+    std::string       processed_rule  = rule;
+    const std::string tag_prefix      = "TAG+=\"";
+    std::size_t       search_position = 0;
+
+    while(search_position < processed_rule.length())
+    {
+        std::size_t tag_start = processed_rule.find(tag_prefix, search_position);
+        if(tag_start == std::string::npos)
+        {
+            break;
+        }
+
+        std::size_t value_start = tag_start + tag_prefix.length();
+        std::size_t value_end   = processed_rule.find('"', value_start);
+
+        if(value_end == std::string::npos)
+        {
+            break;
+        }
+
+        std::string tag_value     = processed_rule.substr(value_start, value_end - value_start);
+        std::string new_tag_value = tag_value;
+
+        if(tag_value != "uaccess" && tag_value != device_name_tag)
+        {
+            new_tag_value = device_name_tag;
+        }
+
+        if(new_tag_value != tag_value)
+        {
+            processed_rule.replace(value_start, value_end - value_start, new_tag_value);
+        }
+
+        search_position = value_start + new_tag_value.length() + 1;
+    }
+
+    return processed_rule;
+}
+
+/*---------------------------------------------------------*\
 | Udev rules generation function                            |
 \*---------------------------------------------------------*/
 bool DetectionManager::GenerateUdevRules(const std::string& filepath)
@@ -2145,7 +2226,7 @@ bool DetectionManager::GenerateUdevRules(const std::string& filepath)
             continue;
         }
 
-        std::string group_name = detector.name + " (libusb)";
+        std::string group_name = detector.name;
         detector_groups[group_name].push_back({(uint16_t)detector.vid, (uint16_t)detector.pid});
     }
 
@@ -2158,23 +2239,7 @@ bool DetectionManager::GenerateUdevRules(const std::string& filepath)
         fprintf(output_file, "#  %s\n", group.first.c_str());
         fprintf(output_file, "#---------------------------------------------------------------#\n");
 
-        std::string device_name_tag = group.first;
-        for(auto it = device_name_tag.begin(); it != device_name_tag.end();)
-        {
-            if(*it == ' ')
-            {
-                *it = '_';
-                ++it;
-            }
-            else if(!isalnum(*it))
-            {
-                it = device_name_tag.erase(it);
-            }
-            else
-            {
-                ++it;
-            }
-        }
+        std::string device_name_tag = UdevDeviceNameToTag(group.first);
 
         for(const std::pair<uint16_t, uint16_t>& vid_pid : group.second)
         {
@@ -2191,7 +2256,13 @@ bool DetectionManager::GenerateUdevRules(const std::string& filepath)
         fprintf(output_file, "#---------------------------------------------------------------#\n");
         fprintf(output_file, "#  %s\n", custom_rule.name.c_str());
         fprintf(output_file, "#---------------------------------------------------------------#\n");
-        fprintf(output_file, "%s\n", custom_rule.rule.c_str());
+
+        /*-----------------------------------------------------*\
+        | Apply the shared device name processing to any        |
+        | device-name tag embedded in the custom rule           |
+        \*-----------------------------------------------------*/
+        std::string device_name_tag = UdevDeviceNameToTag(custom_rule.name);
+        fprintf(output_file, "%s\n", UdevApplyDeviceNameTagToRule(custom_rule.rule, device_name_tag).c_str());
         fprintf(output_file, "\n");
     }
 
