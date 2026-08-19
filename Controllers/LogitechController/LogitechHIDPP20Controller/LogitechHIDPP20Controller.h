@@ -454,6 +454,8 @@ static constexpr uint16_t HIDPP20_BACKOFF_RELIABLE[] =
     { 0, 63, 125, 250, 500, 1000, 2000 };
 static constexpr uint16_t HIDPP20_BACKOFF_PROBE[] =
     { 0, 100 };
+static constexpr uint16_t HIDPP20_BACKOFF_FIRST_CONTACT[] =
+    { 0, 100, 250, 500 };
 
 /*---------------------------------------------------------*\
 | SW-control reclaim backoff. Used by ReconnectDevice       |
@@ -555,6 +557,20 @@ static constexpr HIDPP20RetryPolicy HIDPP20_POLICY_PROBE = {
     true,   // flush_before
     true,   // retry_on_busy
     "probe"
+};
+
+/*---------------------------------------------------------*\
+| First-contact policy: probe budget for a device named by  |
+| a receiver's pairing table. A radio leaving power save    |
+| can miss the first frames; worst case ~1.2s.              |
+\*---------------------------------------------------------*/
+static constexpr HIDPP20RetryPolicy HIDPP20_POLICY_FIRST_CONTACT = {
+    HIDPP20_BACKOFF_FIRST_CONTACT,
+    sizeof(HIDPP20_BACKOFF_FIRST_CONTACT) / sizeof(uint16_t),
+    300,    // read window
+    true,   // flush_before
+    true,   // retry_on_busy
+    "first-contact"
 };
 
 /*---------------------------------------------------------*\

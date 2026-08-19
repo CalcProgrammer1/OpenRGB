@@ -1530,6 +1530,12 @@ uint8_t LogitechHIDPP20Controller::GetFeatureIndex(uint16_t feature_page,
         }
         else
         {
+            /*---------------------------------------------*\
+            | The device answered: absent is an answer,     |
+            | cache it.                                     |
+            \*---------------------------------------------*/
+            caps.feature_map[feature_page] = 0;
+
             LOG_DEBUG("%s Feature 0x%04X not present", LOG_TAG, feature_page);
         }
 
@@ -1537,11 +1543,10 @@ uint8_t LogitechHIDPP20Controller::GetFeatureIndex(uint16_t feature_page,
     }
 
     /*-----------------------------------------------------*\
-    | Cache misses too so failed lookups are not re-queried |
+    | No answer describes the link, not the feature: do not |
+    | cache it, or retries would answer from the map.       |
     \*-----------------------------------------------------*/
-    caps.feature_map[feature_page] = 0;
-
-    LOG_DEBUG("%s Feature 0x%04X not found", LOG_TAG, feature_page);
+    LOG_DEBUG("%s Feature 0x%04X did not answer", LOG_TAG, feature_page);
     return 0;
 }
 
@@ -3333,6 +3338,15 @@ bool LogitechHIDPP20Controller::Probe()
     \*-----------------------------------------------------*/
     uint8_t test_idx = 0;
 
+    /*-----------------------------------------------------*\
+    | A receiver-paired device is known to speak HID++, so  |
+    | it gets the wider first-contact budget; an unknown    |
+    | node keeps the tight probe and fails fast.            |
+    \*-----------------------------------------------------*/
+    const HIDPP20RetryPolicy& first_contact = wireless
+                                            ? HIDPP20_POLICY_FIRST_CONTACT
+                                            : HIDPP20_POLICY_PROBE;
+
     if(transport.type == HIDPP20_TRANSPORT_CENTURION)
     {
         /*-------------------------------------------------*\
@@ -3419,16 +3433,16 @@ bool LogitechHIDPP20Controller::Probe()
         else
         {
             LOG_DEBUG("%s No CentPPBridge: Centurion direct connection", LOG_TAG);
-            test_idx = GetFeatureIndex(HIDPP20_FEAT_FEATURE_SET, HIDPP20_POLICY_PROBE);
+            test_idx = GetFeatureIndex(HIDPP20_FEAT_FEATURE_SET, first_contact);
         }
     }
     else
     {
         /*-------------------------------------------------*\
-        | Standard HID++: probe FeatureSet (0x0001):        |
-        | fast-fail. The probe policy already includes      |
-        | its own retry; the outer loop is preserved for    |
-        | buffer-flushing behavior between attempts.        |
+        | Standard HID++: probe FeatureSet (0x0001). The    |
+        | policy retries on the wire; the outer loop adds a |
+        | buffer flush between bursts to clear stale        |
+        | queued responses.                                 |
         \*-------------------------------------------------*/
         for(int attempt = 0; attempt < 3 && test_idx == 0; attempt++)
         {
@@ -3443,7 +3457,7 @@ bool LogitechHIDPP20Controller::Probe()
                 LOG_DEBUG("%s IRoot retry %d at %s", LOG_TAG, attempt + 1, location.c_str());
             }
 
-            test_idx = GetFeatureIndex(HIDPP20_FEAT_FEATURE_SET, HIDPP20_POLICY_PROBE);
+            test_idx = GetFeatureIndex(HIDPP20_FEAT_FEATURE_SET, first_contact);
         }
     }
 
