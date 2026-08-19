@@ -24,6 +24,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef __APPLE__
+#include <hidapi_darwin.h>
+#endif
+
 using namespace std::chrono_literals;
 
 /*---------------------------------------------------------*\
@@ -1352,6 +1356,15 @@ void DetectionManager::BackgroundHIDInit()
     int hid_status = hid_init();
 
     LOG_DEBUG("[%s] Initializing HID interfaces: %s", DETECTIONMANAGER, ((hid_status == 0) ? "Success" : "Failed"));
+
+#ifdef __APPLE__
+    /*-----------------------------------------------------*\
+    | hidapi defaults macOS opens to exclusive (seize)      |
+    | mode: privileged, and a second open of a held device  |
+    | fails. Shared matches Linux and Windows.              |
+    \*-----------------------------------------------------*/
+    hid_darwin_set_open_exclusive(0);
+#endif
 
 #ifdef __linux__
 #ifdef __GLIBC__
