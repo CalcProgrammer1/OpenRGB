@@ -183,6 +183,8 @@ The Device Data block represents an entire `RGBController`.  This data block is 
 | 2                   | unsigned short                            | num_led_display_names | 5                | Number of LED alternate name strings                                                                         |
 | Variable            | LED Display Name[num_led_display_names]   | led_display_names     | 5                | See [LED Display Name Data](#led-display-name-data) block format table.  Repeat num_led_display_names times  |
 | 4                   | unsigned int                              | flags                 | 5                | RGBController flags field value                                                                              |
+| 2                   | unsigned short                            | display_name_len      | 6                | Length of RGBController display name field string, including null termination                                |
+| display_name_len    | char[display_name_len]                    | display_name          | 6                | RGBController display name field string value, including null termination                                    |
 | 4                   | unsigned int                              | configuration_len     | 6                | Length of RGBController configuration field string, including null termination                               |
 | configuration_len   | char[configuration_len]                   | configuration         | 6                | RGBController configuration field string value, including null termination                                   |
 
@@ -215,22 +217,24 @@ The Mode Data block represents one entry in the `RGBController::modes` vector.  
 
 The Zone Data block represents one entry in the `RGBController::zones` vector.  This data block is provided by `RGBController::GetZoneDescriptionData()`.  Portions of this block are omitted if the requested protocol level is below the listed value.
 
-| Size                   | Format                            | Name                | Protocol Version | Description                                                                            |
-| ---------------------- | --------------------------------- | ------------------- | ---------------- | -------------------------------------------------------------------------------------- |
-| 2                      | unsigned short                    | zone_name_len       | 0                | Length of zone name string, including null termination                                 |
-| zone_name_len          | char[zone_name_len]               | zone_name           | 0                | Zone name string value, including null termination                                     |
-| 4                      | int                               | zone_type           | 0                | Zone type value                                                                        |
-| 4                      | unsigned int                      | zone_leds_min       | 0                | Zone leds_min value                                                                    |
-| 4                      | unsigned int                      | zone_leds_max       | 0                | Zone leds_max value                                                                    |
-| 4                      | unsigned int                      | zone_leds_count     | 0                | Zone leds_count value                                                                  |
-| 2                      | unsigned short                    | zone_matrix_len     | 0                | Zone matrix map length if matrix_map exists, otherwise 0 if matrix_map NULL            |
-| zone_matrix_len        | Matrix Map Data                   | zone_matrix_map     | 0                | See [Matrix Map Data](#matrix-map-data) block format table, only if matrix_map exists. |
-| 2                      | unsigned short                    | num_segments        | 4                | Number of segments in zone                                                             |
-| Variable               | Segment Data[num_segments]        | segments            | 4                | See [Segment Data](#segment-data) block format table.  Repeat num_segments times       |
-| 4                      | unsigned int                      | zone_flags          | 5                | Zone flags value                                                                       |
-| 4                      | int                               | zone_active_mode    | 6                | Zone active_mode field value                                                           |
-| 2                      | unsigned short                    | zone_num_modes      | 6                | Number of modes in zone                                                                |
-| Variable               | Mode Data[zone_num_modes]         | zone_modes          | 6                | See [Mode Data](#mode-data) block format table.  Repeat zone_num_modes times           |
+| Size                   | Format                            | Name                  | Protocol Version | Description                                                                            |
+| ---------------------- | --------------------------------- | --------------------- | ---------------- | -------------------------------------------------------------------------------------- |
+| 2                      | unsigned short                    | zone_name_len         | 0                | Length of zone name string, including null termination                                 |
+| zone_name_len          | char[zone_name_len]               | zone_name             | 0                | Zone name string value, including null termination                                     |
+| 4                      | int                               | zone_type             | 0                | Zone type value                                                                        |
+| 4                      | unsigned int                      | zone_leds_min         | 0                | Zone leds_min value                                                                    |
+| 4                      | unsigned int                      | zone_leds_max         | 0                | Zone leds_max value                                                                    |
+| 4                      | unsigned int                      | zone_leds_count       | 0                | Zone leds_count value                                                                  |
+| 2                      | unsigned short                    | zone_matrix_len       | 0                | Zone matrix map length if matrix_map exists, otherwise 0 if matrix_map NULL            |
+| zone_matrix_len        | Matrix Map Data                   | zone_matrix_map       | 0                | See [Matrix Map Data](#matrix-map-data) block format table, only if matrix_map exists. |
+| 2                      | unsigned short                    | num_segments          | 4                | Number of segments in zone                                                             |
+| Variable               | Segment Data[num_segments]        | segments              | 4                | See [Segment Data](#segment-data) block format table.  Repeat num_segments times       |
+| 4                      | unsigned int                      | zone_flags            | 5                | Zone flags value                                                                       |
+| 4                      | int                               | zone_active_mode      | 6                | Zone active_mode field value                                                           |
+| 2                      | unsigned short                    | zone_num_modes        | 6                | Number of modes in zone                                                                |
+| Variable               | Mode Data[zone_num_modes]         | zone_modes            | 6                | See [Mode Data](#mode-data) block format table.  Repeat zone_num_modes times           |
+| 2                      | unsigned short                    | zone_display_name_len | 6                | Length of zone display name string, including null termination                         |
+| zone_display_name_len  | char[zone_display_name_len]       | zone_display_name     | 6                | Zone display name string value, including null termination                             |
 
 ## Segment Data
 
