@@ -42,6 +42,21 @@ static const int HIDPP20_READ_DRAIN_BUDGET = 64;
 static const int CENTURION_PROBE_PER_ADDR_TIMEOUT_MS = 5;
 
 /*---------------------------------------------------------*\
+| Consecutive CenturionFeatureSet batches that answer       |
+| nothing before the walk gives up. A wireless sub-device   |
+| can drop a frame; one that has gone away drops them all.  |
+\*---------------------------------------------------------*/
+static const int CENTURION_FEATURE_MISS_BUDGET = 3;
+
+/*---------------------------------------------------------*\
+| Feature entries in one CenturionFeatureSet reply. A 64    |
+| byte frame less the addressed header and the bridge       |
+| wrapper leaves 53 payload bytes: one count byte and 13    |
+| four byte entries.                                        |
+\*---------------------------------------------------------*/
+static const int CENTURION_FEATURES_PER_FRAME = 13;
+
+/*---------------------------------------------------------*\
 | Device-name helpers. A placeholder is empty or one of the |
 | HIDPP20_NAME_PLACEHOLDER_* strings. A name "looks real"   |
 | when it is non-empty, printable ASCII, and a sane length. |
@@ -2030,46 +2045,124 @@ void LogitechHIDPP20Controller::EnumerateFeatures(uint8_t feature_set_idx)
     if(transport.type == HIDPP20_TRANSPORT_CENTURION)
     {
         /*-------------------------------------------------*\
-        | Centurion sub-device: CenturionFeatureSet fn1     |
-        | returns ALL features in one bulk response.        |
-        | [count, (feat_hi, feat_lo, type, version) x N]    |
+        | Centurion sub-device: CenturionFeatureSet         |
+        | GetCount (fn0) for the total, then GetFeatureId   |
+        | (fn1), which answers [remaining, (feat_hi,        |
+        | feat_lo, type, version) x N] listing from the     |
+        | requested index.                                  |
         \*-------------------------------------------------*/
-        uint8_t send_data[1] = { 0x00 };
-        uint8_t recv_data[60] = {};
+        uint8_t count_resp[16] = {};
 
-        int result = SendAcked(feature_set_idx, 0x10,
-                               send_data, 1, recv_data, sizeof(recv_data));
+        int result = SendAcked(feature_set_idx, FN_0001_GET_COUNT,
+                               nullptr, 0, count_resp, sizeof(count_resp));
 
-        if(result > 0)
+        if(result <= 0)
         {
-            uint8_t count = recv_data[0];
+            return;
+        }
 
-            LOG_DEBUG("%s CenturionFeatureSet: %d features", LOG_TAG, count);
+        uint8_t      count    = count_resp[0];
+        unsigned int resolved = 0;
+        unsigned int misses   = 0;
+        uint8_t      next     = 0;
 
-            for(uint8_t i = 0; i < count && (1 + i * 4 + 3) < (int)sizeof(recv_data); i++)
+        LOG_DEBUG("%s CenturionFeatureSet: %u features", LOG_TAG, count);
+
+        while(next < count)
+        {
+            uint8_t send_idx      = next;
+            uint8_t recv_data[60] = {};
+
+            /*---------------------------------------------*\
+            | Probe policy: the device has just answered    |
+            | GetCount, so a batch that goes quiet means it |
+            | left. Reliable retries per batch would stall  |
+            | detection for minutes.                        |
+            \*---------------------------------------------*/
+            int batch_result = SendAcked(feature_set_idx, FN_0001_GET_FEATURE_ID,
+                                         &send_idx, 1, recv_data, sizeof(recv_data),
+                                         HIDPP20_POLICY_PROBE);
+
+            uint8_t parsed = 0;
+
+            if(batch_result > 0)
             {
-                int offset = 1 + i * 4;
-                uint16_t feat_id      = ((uint16_t)recv_data[offset] << 8) | recv_data[offset + 1];
-                uint8_t  feat_type    = recv_data[offset + 2];
-                uint8_t  feat_version = recv_data[offset + 3];
-                uint8_t  feat_idx     = i;  // 0-based: bulk includes root at 0
+                uint8_t in_frame = CENTURION_FEATURES_PER_FRAME;
 
-                caps.feature_map[feat_id]      = feat_idx;
-                caps.feature_versions[feat_id] = feat_version;
-
-                LOG_DEBUG("%s   [%2d] Feature 0x%04X V%u type=0x%02X",
-                          LOG_TAG, feat_idx, feat_id, feat_version, feat_type);
-
-                if(!FeatureVersionIsObserved(feat_id, feat_version))
+                if(recv_data[0] < in_frame)
                 {
-                    LOG_INFO("%s Feature 0x%04X V%u not previously observed, "
-                             "tripwire for version-gated behavior",
-                             LOG_TAG, feat_id, feat_version);
+                    in_frame = recv_data[0];
+                }
+
+                for(uint8_t j = 0; j < in_frame && (next + j) < count; j++)
+                {
+                    int      offset       = 1 + j * 4;
+                    uint16_t feat_id      = ((uint16_t)recv_data[offset] << 8) | recv_data[offset + 1];
+                    uint8_t  feat_type    = recv_data[offset + 2];
+                    uint8_t  feat_version = recv_data[offset + 3];
+                    uint8_t  feat_idx     = next + j;
+
+                    /*-------------------------------------*\
+                    | Root is index 0. A 0x0000 at any      |
+                    | other index is frame padding past the |
+                    | last entry, not a feature.            |
+                    \*-------------------------------------*/
+                    if(feat_id == HIDPP20_FEAT_IROOT && feat_idx != 0)
+                    {
+                        break;
+                    }
+
+                    caps.feature_map[feat_id]      = feat_idx;
+                    caps.feature_versions[feat_id] = feat_version;
+                    parsed++;
+                    resolved++;
+
+                    LOG_DEBUG("%s   [%2d] Feature 0x%04X V%u type=0x%02X",
+                              LOG_TAG, feat_idx, feat_id, feat_version, feat_type);
+
+                    if(!FeatureVersionIsObserved(feat_id, feat_version))
+                    {
+                        LOG_INFO("%s Feature 0x%04X V%u not previously observed, "
+                                 "tripwire for version-gated behavior",
+                                 LOG_TAG, feat_id, feat_version);
+                    }
                 }
             }
 
-            caps.feature_map_complete = true;
+            if(parsed == 0)
+            {
+                if(++misses > CENTURION_FEATURE_MISS_BUDGET)
+                {
+                    LOG_DEBUG("%s CenturionFeatureSet: no entries from index %u, "
+                              "stopping enumeration", LOG_TAG, next);
+                    break;
+                }
+
+                continue;
+            }
+
+            misses = 0;
+            next   = next + parsed;
         }
+
+        /*-------------------------------------------------*\
+        | Nothing read is an unreachable sub-device: leave  |
+        | the map incomplete for the caller. A partial read |
+        | is usable, but an unread feature reads as absent. |
+        \*-------------------------------------------------*/
+        if(resolved == 0)
+        {
+            return;
+        }
+
+        if(resolved < count)
+        {
+            LOG_INFO("%s CenturionFeatureSet: read %u of %u features, "
+                     "the rest are treated as absent",
+                     LOG_TAG, resolved, count);
+        }
+
+        caps.feature_map_complete = true;
     }
     else
     {
