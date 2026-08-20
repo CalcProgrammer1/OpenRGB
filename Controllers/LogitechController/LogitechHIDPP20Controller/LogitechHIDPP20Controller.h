@@ -372,6 +372,7 @@ struct HIDPP20Transport
 {
     HIDPP20TransportType  type;
     uint16_t            usage_page;         // 0xFF00, 0xFF43, or 0xFFA0
+    bool                bluetooth;          // link is a Bluetooth radio, not USB
     uint8_t             report_id;          // 0x10/0x11 for standard, 0x51/0x50 for Centurion
     bool                addressed;          // Centurion 0x50 has device address byte
     uint8_t             device_address;     // Centurion 0x50: device address (e.g., 0x23)
@@ -462,6 +463,8 @@ static constexpr uint16_t HIDPP20_BACKOFF_PROBE[] =
     { 0, 100 };
 static constexpr uint16_t HIDPP20_BACKOFF_FIRST_CONTACT[] =
     { 0, 100, 250, 500 };
+static constexpr uint16_t HIDPP20_BACKOFF_BLUETOOTH[] =
+    { 0, 200, 500 };
 
 /*---------------------------------------------------------*\
 | SW-control reclaim backoff. Used by ReconnectDevice       |
@@ -580,6 +583,30 @@ static constexpr HIDPP20RetryPolicy HIDPP20_POLICY_FIRST_CONTACT = {
 };
 
 /*---------------------------------------------------------*\
+| Bluetooth policy: a BLE link answers its first exchange   |
+| in ~300ms cold and ~40ms once awake, so the first-contact |
+| window is sized for the cold case rather than retried     |
+| into it. Worst case ~2.1s for a node that never answers.  |
+\*---------------------------------------------------------*/
+static constexpr HIDPP20RetryPolicy HIDPP20_POLICY_BLUETOOTH = {
+    HIDPP20_BACKOFF_BLUETOOTH,
+    sizeof(HIDPP20_BACKOFF_BLUETOOTH) / sizeof(uint16_t),
+    700,    // read window
+    true,   // flush_before
+    true,   // retry_on_busy
+    "bluetooth"
+};
+
+/*---------------------------------------------------------*\
+| Grace for an answer to a send that already timed out. It  |
+| arrives after the retry has been answered, and IRoot      |
+| replies carry nothing that ties them to the feature they  |
+| were asked about, so one left in the pipe is read as the  |
+| next request's answer.                                    |
+\*---------------------------------------------------------*/
+#define HIDPP20_LATE_ANSWER_GRACE_MS    150
+
+/*---------------------------------------------------------*\
 | Rolling resync.  The per-key stream is a delta and takes  |
 | an ACK as proof of paint, so a write the device answers   |
 | but does not apply leaves that key wrong until its colour |
@@ -602,7 +629,8 @@ public:
                             uint8_t device_index, bool wireless,
                             std::shared_ptr<std::mutex> mutex_ptr,
                             uint16_t usage_page = 0xFF00,
-                            hid_device* perkey_vl_dev = nullptr);
+                            hid_device* perkey_vl_dev = nullptr,
+                            bool bluetooth = false);
     ~LogitechHIDPP20Controller();
 
     /*-----------------------------------------------------*\
@@ -947,6 +975,29 @@ private:
     int             SendAndReceive(uint8_t feat_idx, uint8_t function,
                                    const uint8_t* send_data, size_t send_len,
                                    uint8_t* recv_data, size_t recv_max);
+
+    /*-----------------------------------------------------*\
+    | True when a payload of len fits the short (0x10)      |
+    | frame and this collection still accepts one.          |
+    \*-----------------------------------------------------*/
+    bool            PrefersShortFrame(size_t len) const;
+
+    /*-----------------------------------------------------*\
+    | Discard up to `expected` answers to sends that had    |
+    | already timed out when the reply to the retry came    |
+    | in.                                                   |
+    \*-----------------------------------------------------*/
+    void            DrainLateAnswers(uint8_t feat_idx, uint8_t function, int expected);
+
+    /*-----------------------------------------------------*\
+    | Budget for the first exchange with a node. A device   |
+    | named by a receiver's pairing table is known to speak |
+    | HID++, and a Bluetooth link can take several          |
+    | connection intervals to answer; both get the wider    |
+    | window. An unknown wired node keeps the tight probe   |
+    | and fails fast.                                       |
+    \*-----------------------------------------------------*/
+    const HIDPP20RetryPolicy& FirstContactPolicy() const;
 
     /*-----------------------------------------------------*\
     | Unified send-and-ack primitive with retry policy.     |

@@ -165,7 +165,8 @@ LogitechHIDPP20Controller::LogitechHIDPP20Controller
     bool                        wireless,
     std::shared_ptr<std::mutex> mutex_ptr,
     uint16_t                    usage_page,
-    hid_device*                 perkey_vl_dev
+    hid_device*                 perkey_vl_dev,
+    bool                        bluetooth
     )
 {
     this->dev           = dev;
@@ -173,6 +174,7 @@ LogitechHIDPP20Controller::LogitechHIDPP20Controller
     this->location      = path;
     this->device_index  = device_index;
     this->wireless      = wireless;
+    this->transport.bluetooth = bluetooth;
     this->mutex         = mutex_ptr;
     this->long_only     = false;
 
@@ -404,6 +406,58 @@ int LogitechHIDPP20Controller::ReadFromQueue
 }
 
 /*---------------------------------------------------------*\
+| An answer to a send that had already timed out arrives    |
+| after the retry has been answered. Nothing in an IRoot    |
+| reply says which feature it was asked about, so one left  |
+| in the pipe becomes the next request's answer and the     |
+| feature map takes a wrong index. Read them off before the |
+| next command goes out.                                    |
+\*---------------------------------------------------------*/
+void LogitechHIDPP20Controller::DrainLateAnswers(uint8_t feat_idx, uint8_t function, int expected)
+{
+    std::chrono::steady_clock::time_point deadline = std::chrono::steady_clock::now()
+                                                   + std::chrono::milliseconds(HIDPP20_LATE_ANSWER_GRACE_MS);
+    int drained = 0;
+
+    while(drained < expected)
+    {
+        std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+        if(now >= deadline)
+        {
+            break;
+        }
+
+        int remaining = (int)std::chrono::duration_cast<std::chrono::milliseconds>(
+                              deadline - now).count();
+
+        uint8_t resp_feat     = 0;
+        uint8_t resp_func     = 0;
+        uint8_t resp_data[60] = {};
+
+        int rd = ReadMessage(&resp_feat, &resp_func, resp_data, sizeof(resp_data), remaining);
+
+        if(rd <= 0)
+        {
+            break;
+        }
+
+        if(resp_feat == feat_idx
+        && (resp_func & 0xF0) == (function & 0xF0)
+        && (resp_func & 0x0F) == HIDPP20_SW_ID)
+        {
+            drained++;
+        }
+    }
+
+    if(drained > 0)
+    {
+        LOG_DEBUG("%s Discarded %d late answer(s) for feat=0x%02X func=0x%02X",
+                  LOG_TAG, drained, feat_idx, function);
+    }
+}
+
+/*---------------------------------------------------------*\
 | Sleep delay_ms in slices, waking early when the link is   |
 | about to change or the device went offline. Returns false |
 | when interrupted.                                         |
@@ -500,7 +554,9 @@ int LogitechHIDPP20Controller::SendAcked
     int     last_result = 0;
     uint8_t last_error  = 0;
 
-    for(uint8_t attempt = 0; attempt < policy.attempts; attempt++)
+    bool long_latch_retry = false;
+
+    for(int attempt = 0; attempt < (int)policy.attempts; attempt++)
     {
         /*-------------------------------------------------*\
         | Backoff before each attempt (0 on first).         |
@@ -533,6 +589,9 @@ int LogitechHIDPP20Controller::SendAcked
                       LOG_TAG, policy.name);
             return 0;
         }
+
+        const bool sent_short = (transport.type == HIDPP20_TRANSPORT_STANDARD)
+                             && PrefersShortFrame(send_len);
 
         int send_result = SendMessage(feat_idx, function, send_data, send_len);
 
@@ -693,6 +752,8 @@ int LogitechHIDPP20Controller::SendAcked
                     LOG_DEBUG("%s SendAcked[%s] succeeded on attempt %d "
                               "feat=0x%02X func=0x%02X",
                               LOG_TAG, policy.name, attempt, feat_idx, function);
+
+                    DrainLateAnswers(feat_idx, function, attempt);
                 }
 
                 consecutive_timeouts.store(0);
@@ -700,6 +761,32 @@ int LogitechHIDPP20Controller::SendAcked
             }
 
             /* Non-matching, non-error: stale unrelated frame, keep reading */
+        }
+
+        /*-------------------------------------------------*\
+        | A collection with no short report answers nothing |
+        | rather than rejecting the write: Linux hidraw     |
+        | takes the 0x10 frame and drops it. Silence to a   |
+        | short frame is the same evidence as a rejected    |
+        | write, so latch long and let the next attempt     |
+        | resend.                                           |
+        \*-------------------------------------------------*/
+        if(!need_resend && sent_short && !long_only.load())
+        {
+            LOG_DEBUG("%s Short report went unanswered, using long frames", LOG_TAG);
+            long_only.store(true);
+
+            /*---------------------------------------------*\
+            | The frame the device could not receive says   |
+            | nothing about whether it answers, so repeat   |
+            | this attempt as long rather than spend one on |
+            | the discovery. Once per call.                 |
+            \*---------------------------------------------*/
+            if(!long_latch_retry)
+            {
+                long_latch_retry = true;
+                attempt--;
+            }
         }
     }
 
@@ -803,6 +890,39 @@ int LogitechHIDPP20Controller::SendAckedIntoFAP
 \*---------------------------------------------------------*/
 
 /*---------------------------------------------------------*\
+| Budget for the first exchange with a node: wider for a    |
+| device a receiver already named and for a Bluetooth link, |
+| whose connection interval puts the first answer hundreds  |
+| of ms out. Everything else fails fast.                    |
+\*---------------------------------------------------------*/
+const HIDPP20RetryPolicy& LogitechHIDPP20Controller::FirstContactPolicy() const
+{
+    if(transport.bluetooth)
+    {
+        return HIDPP20_POLICY_BLUETOOTH;
+    }
+
+    return wireless ? HIDPP20_POLICY_FIRST_CONTACT
+                    : HIDPP20_POLICY_PROBE;
+}
+
+/*---------------------------------------------------------*\
+| Frame choice for standard HID++: short (0x10) carries 3   |
+| payload bytes, long (0x11) carries 16. Windows opens the  |
+| long-message collection only, and long_only latches a     |
+| collection that has no short report at all.               |
+\*---------------------------------------------------------*/
+bool LogitechHIDPP20Controller::PrefersShortFrame(size_t len) const
+{
+#if defined(_WIN32)
+    (void)len;
+    return false;
+#else
+    return (len <= 3) && !long_only.load();
+#endif
+}
+
+/*---------------------------------------------------------*\
 | Outgoing frame as hex, for trace-level wire comparison.   |
 \*---------------------------------------------------------*/
 static std::string hex_frame(const uint8_t* buf, size_t len)
@@ -845,11 +965,7 @@ int LogitechHIDPP20Controller::SendStandard
     uint8_t buf[LOGITECH_LONG_MESSAGE_LEN];
     size_t  msg_len;
 
-#if defined(_WIN32)
-    const bool prefer_short = false;
-#else
-    const bool prefer_short = (len <= 3) && !long_only.load();
-#endif
+    const bool prefer_short = PrefersShortFrame(len);
 
     if(prefer_short)
     {
@@ -3432,14 +3548,7 @@ bool LogitechHIDPP20Controller::Probe()
     \*-----------------------------------------------------*/
     uint8_t test_idx = 0;
 
-    /*-----------------------------------------------------*\
-    | A receiver-paired device is known to speak HID++, so  |
-    | it gets the wider first-contact budget; an unknown    |
-    | node keeps the tight probe and fails fast.            |
-    \*-----------------------------------------------------*/
-    const HIDPP20RetryPolicy& first_contact = wireless
-                                            ? HIDPP20_POLICY_FIRST_CONTACT
-                                            : HIDPP20_POLICY_PROBE;
+    const HIDPP20RetryPolicy& first_contact = FirstContactPolicy();
 
     if(transport.type == HIDPP20_TRANSPORT_CENTURION)
     {
@@ -3691,7 +3800,7 @@ std::string LogitechHIDPP20Controller::ProbeIdentity()
     /*-----------------------------------------------------*\
     | Nothing else is worth asking until IRoot answers.     |
     \*-----------------------------------------------------*/
-    if(GetFeatureIndex(HIDPP20_FEAT_FEATURE_SET, HIDPP20_POLICY_PROBE) == 0)
+    if(GetFeatureIndex(HIDPP20_FEAT_FEATURE_SET, FirstContactPolicy()) == 0)
     {
         return "";
     }
@@ -6276,12 +6385,24 @@ void LogitechHIDPP20Controller::RediscoverFeatures()
 std::string LogitechHIDPP20Controller::CurrentLinkKey() const
 {
     /*-----------------------------------------------------*\
-    | Key the link: rx#slot over the dongle, usb#idx        |
-    | direct. hidraw paths are reused by the kernel so      |
-    | aren't used. A slot collision across dongles is       |
-    | caught by the reclaim self-heal.                      |
+    | Key the link: rx#page#slot over the dongle,           |
+    | bt#page#idx over a Bluetooth radio, usb#page#idx on a |
+    | cable or a dongle of the device's own. hidraw paths   |
+    | are reused by the kernel so aren't used. Every direct |
+    | link is device index 0xFF, so the page is what        |
+    | separates two of them, a cable at 0xFF00 from a       |
+    | Centurion dongle at 0xFFA0. A slot collision across   |
+    | dongles is caught by the reclaim self-heal.           |
     \*-----------------------------------------------------*/
-    return std::string(wireless ? "rx#" : "usb#") + std::to_string((int)device_index);
+    const char* link = wireless                ? "rx#"
+                     : transport.bluetooth     ? "bt#"
+                                               : "usb#";
+
+    char key[32];
+
+    snprintf(key, sizeof(key), "%s%04X#%d", link, transport.usage_page, (int)device_index);
+
+    return std::string(key);
 }
 
 HIDPP20LinkIndexMap LogitechHIDPP20Controller::SnapshotLinkIndexMap() const

@@ -1153,7 +1153,9 @@ static std::vector<std::string> HIDPP20Enumerate(hid_device_info* info)
     }
 
     {
-        LogitechHIDPP20Controller probe(dev, info->path, LOGITECH_DEFAULT_DEVICE_INDEX, false, nullptr, info->usage_page);
+        LogitechHIDPP20Controller probe(dev, info->path, LOGITECH_DEFAULT_DEVICE_INDEX, false, nullptr,
+                                        info->usage_page, nullptr,
+                                        info->bus_type == HID_API_BUS_BLUETOOTH);
 
         std::string unit_id = probe.ProbeIdentity();
 
@@ -1303,6 +1305,7 @@ public:
     uint16_t                    vendor_id           = 0;
     uint16_t                    product_id          = 0;
     bool                        behind_receiver     = false;
+    bool                        bluetooth           = false;
     std::shared_ptr<std::mutex> node_mutex;
     std::string                 pairing_name;
 };
@@ -1432,7 +1435,8 @@ static RGBController_LogitechHIDPP20* HIDPP20BuildController(const HIDPP20BuildT
 
     LogitechHIDPP20Controller* controller = new LogitechHIDPP20Controller(dev, target.node_path.c_str(), target.index,
                                                                           target.behind_receiver, target.node_mutex,
-                                                                          target.usage_page, perkey_vl);
+                                                                          target.usage_page, perkey_vl,
+                                                                          target.bluetooth);
 
     if(target.behind_receiver)
     {
@@ -1561,6 +1565,7 @@ static DetectedControllers HIDPP20Create(hid_device_info* info, const std::strin
     target.product_id      = (uint16_t)info->product_id;
     target.node_mutex      = slot.node_mutex;
     target.pairing_name    = slot.pairing_name;
+    target.bluetooth       = (info->bus_type == HID_API_BUS_BLUETOOTH);
 
     HIDPP20RecordTarget(target);
 
@@ -1687,10 +1692,10 @@ DetectedControllers DetectLogitechHIDPP20(hid_device_info* info, const std::stri
 | The registrations cover every legacy transport signature:                                                                             |
 |  any interface, 0xFF00 usage 2    standard HID++ long report (modern keyboards/mice, receivers, G915 family, wired Lightspeed mice).  |
 |                                   Usage 2 is the collection we write to, on Windows, the only one that accepts our writes.            |
-|  interface 1, 0xFF43 any usage    keyboards (G213/G512/G610/G810/G813/G815/G910/G Pro); usage varies by model                         |
+|  any interface, 0xFF43 any usage  keyboards (G213/G512/G610/G810/G813/G815/G910/G Pro), the G560 speaker, the                         |
+|                                   G933 headset, and Bluetooth nodes. Not interface-keyed: a Bluetooth node                            |
+|                                   reports interface -1, which is also HID_INTERFACE_ANY, so it can never match.                       |
 |  interface 1, 0xFF00 any usage    older mice whose HID++ collection is not the usage-2 one                                            |
-|  interface 2, 0xFF43 usage 514    G560 speaker                                                                                        |
-|  interface 3, 0xFF43 usage 514    G933 headset                                                                                        |
 |  any interface, 0xFFA0 usage 1    Centurion (G522, PRO X 2)                                                                           |
 |                                                                                                                                       |
 | Not covered, deliberately: the G600 (page 0xFF80) and the X56 (own VID) are not HID++ 2.0. A matching non-HID++ node costs one failed |
@@ -1702,10 +1707,8 @@ DetectedControllers DetectLogitechHIDPP20(hid_device_info* info, const std::stri
 | DUMMY_DEVICE_DETECTOR("Logitech G560 Lightsync Speaker", DetectLogitechHIDPP20, 0x046D, 0x0A78 )                                      |
 \*-------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_PU_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFF00, 2);
-REGISTER_HID_DETECTOR_IP_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 1, 0xFF43);
+REGISTER_HID_DETECTOR_P_ONLY  ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFF43);
 REGISTER_HID_DETECTOR_IP_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 1, 0xFF00);
-REGISTER_HID_DETECTOR_IPU_ONLY("Logitech HID++ 2.0", DetectLogitechHIDPP20, 2, 0xFF43, 514);
-REGISTER_HID_DETECTOR_IPU_ONLY("Logitech HID++ 2.0", DetectLogitechHIDPP20, 3, 0xFF43, 514);
 REGISTER_HID_DETECTOR_PU_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFFA0, 1);
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
