@@ -51,7 +51,7 @@ before_script:
 # Supported Devices Build Target                            #
 #-----------------------------------------------------------#
 "Supported Devices":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:trixie-amd64
   tags:
   - linux
   - amd64
@@ -71,10 +71,10 @@ before_script:
     - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------#
-# OpenRGB Common Appimage Build Steps                       #
+# OpenRGB Common AppImage Build Steps                       #
 #-----------------------------------------------------------#
 .hidden_appimage_script: &appimage_script_steps
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-${TGT_ARCH}
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:trixie-${TGT_ARCH}
   tags:
   - linux
   - ${TGT_ARCH}
@@ -290,10 +290,10 @@ before_script:
   <<: *debian_script_steps
 
 #-----------------------------------------------------------#
-# Linux (.rpm, F43) 64-bit Build Target                     #
+# Linux (.rpm) Fedora 44 amd64 Build Target                 #
 #-----------------------------------------------------------#
-"Linux 64 F43 rpm":
-  image: fedora:43
+"Linux amd64 .rpm (Fedora 44)":
+  image: fedora:44
   stage: build
   script:
   - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel git wget -y
@@ -312,7 +312,7 @@ before_script:
   - cd ${CI_PROJECT_DIR}
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_64_rpm_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Linux_amd64_rpm_${CI_COMMIT_SHORT_SHA}"
     paths:
     - openrgb*.rpm
     expire_in: 30 days
@@ -425,10 +425,10 @@ before_script:
   - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------#
-# Fedora 64 v43 test                                        #
+# Fedora amd64 44 test                                      #
 #-----------------------------------------------------------#
-"Fedora 64 v43":
-  image: fedora:43
+"Fedora 64 44":
+  image: fedora:44
   stage: test
   script:
   - dnf install unzip wget -y
@@ -439,9 +439,9 @@ before_script:
   - openrgb --version
   - dnf5 -y remove openrgb
   dependencies:
-  - "Linux 64 F43 rpm"
+  - "Linux amd64 .rpm (Fedora 44)"
   needs:
-  - "Linux 64 F43 rpm"
+  - "Linux amd64 .rpm (Fedora 44)"
   rules:
   - !reference [.upstream_rules, rules]
 
