@@ -23,6 +23,9 @@
 #define RASPBERRY_PI_VID                        0x2E8A
 #define RASPBERRY_PI_500_PLUS_PID               0x0011
 
+#define YMDK_84_VID                             0x20A0
+#define YMDK_84_PID                             0x422D
+
 /*-----------------------------------------------------*\
 | Usage and Usage Page                                  |
 \*-----------------------------------------------------*/
@@ -88,3 +91,4 @@ void RegisterQMKVialRGBDetectors()
 REGISTER_DYNAMIC_DETECTOR("QMK VialRGB Devices", RegisterQMKVialRGBDetectors);
 
 REGISTER_HID_DETECTOR_PU( "Raspberry Pi 500+", DetectQMKVialRGBControllers, RASPBERRY_PI_VID, RASPBERRY_PI_500_PLUS_PID, QMK_USAGE_PAGE, QMK_USAGE );
+REGISTER_HID_DETECTOR_PU( "YMDK 84", DetectQMKVialRGBControllers, YMDK_84_VID, YMDK_84_PID, QMK_USAGE_PAGE, QMK_USAGE );

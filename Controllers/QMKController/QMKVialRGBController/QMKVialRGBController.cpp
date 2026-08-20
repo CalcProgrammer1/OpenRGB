@@ -150,7 +150,10 @@ std::string QMKVialRGBController::GetVersion()
     | Format UID string                                     |
     \*-----------------------------------------------------*/
     char uid_buf[17];
-    snprintf(uid_buf, sizeof(uid_buf), "%016llX", keyboard_uid);
+    unsigned char* uid_bytes = (unsigned char*)&keyboard_uid;
+    snprintf(uid_buf, sizeof(uid_buf), "%02X%02X%02X%02X%02X%02X%02X%02X",
+             uid_bytes[0], uid_bytes[1], uid_bytes[2], uid_bytes[3],
+             uid_bytes[4], uid_bytes[5], uid_bytes[6], uid_bytes[7]);
 
     /*-----------------------------------------------------*\
     | Format multi-line version text                        |
@@ -333,9 +336,9 @@ void QMKVialRGBController::CmdGetVialInfo
 
     SendCommand(CMD_VIAL_COMMAND, VIAL_GET_KEYBOARD_ID, NULL, 0, data, sizeof(data));
 
-    memcpy(vial_protocol, &data[0], sizeof(int));
-    memcpy(keyboard_uid, &data[sizeof(int)], sizeof(unsigned long long));
-    memcpy(vialrgb_flag, &data[sizeof(int) + sizeof(unsigned long long)], sizeof(unsigned char));
+    memcpy(vial_protocol, &data[0], sizeof(unsigned int));
+    memcpy(keyboard_uid, &data[sizeof(unsigned int)], sizeof(unsigned long long));
+    memcpy(vialrgb_flag, &data[sizeof(unsigned int) + sizeof(unsigned long long)], sizeof(unsigned char));
 }
 
 void QMKVialRGBController::CmdGetVialRGBInfo
@@ -346,10 +349,10 @@ void QMKVialRGBController::CmdGetVialRGBInfo
 {
     unsigned char data[sizeof(unsigned short) + sizeof(unsigned char)];
 
-    SendCommand(CMD_VIAL_COMMAND, VIAL_GET_KEYBOARD_ID, NULL, 0, data, sizeof(data));
+    SendCheckCommand(CMD_LIGHTING_GET_VALUE, VIALRGB_GET_INFO, NULL, 0, data, sizeof(data));
 
     memcpy(vialrgb_protocol_version, &data[0], sizeof(unsigned short));
-    memcpy(maximum_brightness, &data[sizeof(unsigned char)], sizeof(unsigned short));
+    memcpy(maximum_brightness, &data[sizeof(unsigned short)], sizeof(unsigned char));
 }
 
 void QMKVialRGBController::CmdGetViaProtocolVersion

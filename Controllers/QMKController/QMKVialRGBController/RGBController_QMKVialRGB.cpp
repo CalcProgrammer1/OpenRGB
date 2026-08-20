@@ -175,6 +175,11 @@ void RGBController_QMKVialRGB::SetupZones()
     {
         qmk_rgb_matrix_led_info info = controller->GetLEDInfo(led_index);
 
+        if(info.row == 0xFF || info.col == 0xFF)
+        {
+            continue;
+        }
+
         if(info.col > max_col)
         {
             max_col = info.col;
@@ -196,6 +201,11 @@ void RGBController_QMKVialRGB::SetupZones()
     for(unsigned short led_index = 0; led_index < controller->GetLEDCount(); led_index++)
     {
         qmk_rgb_matrix_led_info info = controller->GetLEDInfo(led_index);
+
+        if(info.row == 0xFF || info.col == 0xFF)
+        {
+            continue;
+        }
 
         matrix_map[(width * info.row) + info.col] = (unsigned int)led_index;
     }
