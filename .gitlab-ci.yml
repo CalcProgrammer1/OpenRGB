@@ -296,7 +296,7 @@ before_script:
   image: fedora:44
   stage: build
   script:
-  - dnf install rpmdevtools dnf-plugins-core libcurl-devel git wget -y
+  - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt6-qtbase-devel git wget -y
   - 'wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+64+F43+rpm'
   - unzip hidapi-hotplug.zip
   - dnf install ./*.rpm -y

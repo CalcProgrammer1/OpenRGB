@@ -29,7 +29,7 @@ fi
 
 if [[ ${1} == *"fedora"* ]]; then
   VERSION_VAR="VERSION_RPM"
-  QMAKE_EXE="qmake-qt5"
+  QMAKE_EXE="qmake"
 fi
 
 PACKAGE_VERSION=$(${QMAKE_EXE} ${PROJECT_FILE} 2>&1 | grep ${VERSION_VAR} | cut -d ':' -f 3 | tr -d ' ')
