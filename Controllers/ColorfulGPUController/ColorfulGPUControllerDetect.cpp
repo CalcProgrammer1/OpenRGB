@@ -1,4 +1,4 @@
-﻿/*---------------------------------------------------------*\
+/*---------------------------------------------------------*\
 | ColorfulGPUControllerDetect.cpp                           |
 |                                                           |
 |   Detector for Colorful GPU                               |
@@ -51,6 +51,7 @@ DetectedControllers DetectColorfulGPUControllers(i2c_smbus_interface* bus, uint8
 REGISTER_I2C_PCI_DETECTOR("iGame GeForce RTX 3060 Advanced OC 12G L-V",    DetectColorfulGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_LHR_DEV,      COLORFUL_SUB_VEN,   COLORFUL_IGAME_RTX_3060_ADVANCED_OC_12G_LV,     0x61);
 REGISTER_I2C_PCI_DETECTOR("iGame GeForce RTX 3060 Ultra W OC 12G L-V",     DetectColorfulGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_LHR_DEV,      COLORFUL_SUB_VEN,   COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G,          0x61);
 REGISTER_I2C_PCI_DETECTOR("iGame GeForce RTX 3060 Ultra W OC 12G L-V",     DetectColorfulGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_GA106_DEV,    COLORFUL_SUB_VEN,   COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G,          0x61);
+REGISTER_I2C_PCI_DETECTOR("iGame GeForce RTX 3060 Ultra W OC 12G L-V",     DetectColorfulGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_GA106_DEV,    COLORFUL_SUB_VEN,   COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G_2,        0x61);
 REGISTER_I2C_PCI_DETECTOR("iGame GeForce RTX 3060 Ultra W OC 12G L-V",     DetectColorfulGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_LHR_DEV,      COLORFUL_SUB_VEN,   COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G_2,        0x61);
 REGISTER_I2C_PCI_DETECTOR("iGame GeForce RTX 3060 Ti Ultra W OC LHR-V",    DetectColorfulGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060TI_LHR_DEV,    COLORFUL_SUB_VEN,   COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G,          0x61);
 REGISTER_I2C_PCI_DETECTOR("iGame GeForce RTX 3060 Ti Ultra W OC LHR-V",    DetectColorfulGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060TI_LHR_DEV,    COLORFUL_SUB_VEN,   COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G_2,        0x61);
