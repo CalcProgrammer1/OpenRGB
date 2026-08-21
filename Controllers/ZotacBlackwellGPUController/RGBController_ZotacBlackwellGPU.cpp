@@ -39,6 +39,7 @@ const RGBController_ZotacBlackwellGPU::DeviceZoneConfig RGBController_ZotacBlack
 {
     { NVIDIA_RTX5080_DEV, ZOTAC_RTX5080_AMP_EXTREME_SUB_DEV, { "Logo", "Side Bar", "Infinity Mirror" }, 3 },
     { NVIDIA_RTX5090_DEV, ZOTAC_RTX5090_SOLID_OC_SUB_DEV,     { "ZOTAC Gaming", "Logo" },                2 },
+    { NVIDIA_RTX5090D_DEV, ZOTAC_RTX5090D_SOLID_OC_SUB_DEV,   { "ZOTAC Gaming", "Logo" },                2 },
     { 0, 0, { nullptr }, 0 }
 };
 
