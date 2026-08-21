@@ -15,6 +15,14 @@
 
 enum
 {
+    /*-----------------------------------*\
+    | Extended Function Mode Entry Values |
+    \*_----------------------------------*/
+    GIGABYTE_SUPERIO_EXTENDED_FUNCTION_ENTRY_1       = 0x87,
+    GIGABYTE_SUPERIO_EXTENDED_FUNCTION_ENTRY_2       = 0x01,
+    GIGABYTE_SUPERIO_EXTENDED_FUNCTION_ENTRY_3       = 0x55,
+    GIGABYTE_SUPERIO_EXTENDED_FUNCTION_ENTRY_4       = 0x55,
+
     /*--------------------------------*\
     | Chip Entry Registers and Values  |
     \*_-------------------------------*/
@@ -128,6 +136,8 @@ enum
     GIGABYTE_SUPERIO_FLASHING_VALUE_6       = 0x10,
 
 };
+
+void GigabyteSuperIOEnter(int sioaddr);
 
 class GigabyteSuperIORGBController
 {

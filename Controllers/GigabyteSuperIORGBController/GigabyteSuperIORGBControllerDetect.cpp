@@ -24,7 +24,8 @@ typedef struct
 
 static gig_device compatible_devices[] =
 {
-    {"X570 UD"}
+    {"X570 UD"},
+    {"Z390 DESIGNARE-CF"}
 };
 
 DetectedControllers DetectGigabyteSuperIORGBControllers()
@@ -41,12 +42,13 @@ DetectedControllers DetectGigabyteSuperIORGBControllers()
         {
             int sioaddr = sio_addrs[sioaddr_idx];
 
-            superio_enter(sioaddr);
+            GigabyteSuperIOEnter(sioaddr);
 
             int val = (superio_inb(sioaddr, SIO_REG_DEVID) << 8) | superio_inb(sioaddr, SIO_REG_DEVID + 1);
 
             switch(val & SIO_ID_MASK)
             {
+                case SIO_ITE8620_ID:
                 case SIO_ITE8688_ID:
                     for(unsigned int i = 0; i < NUM_COMPATIBLE_DEVICES; i++)
                     {

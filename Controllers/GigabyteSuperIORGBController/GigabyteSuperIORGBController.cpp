@@ -12,6 +12,18 @@
 #include "GigabyteSuperIORGBController.h"
 #include "super_io.h"
 
+void GigabyteSuperIOEnter(int sioaddr)
+{
+    /*-----------------------------------------------------*\
+    | ITE8620 Ambient LED Extended Function Mode sequence   |
+    \*-----------------------------------------------------*/
+    superio_enter(sioaddr);
+    superio_inb(sioaddr, GIGABYTE_SUPERIO_EXTENDED_FUNCTION_ENTRY_1);
+    superio_inb(sioaddr, GIGABYTE_SUPERIO_EXTENDED_FUNCTION_ENTRY_2);
+    superio_inb(sioaddr, GIGABYTE_SUPERIO_EXTENDED_FUNCTION_ENTRY_3);
+    superio_inb(sioaddr, GIGABYTE_SUPERIO_EXTENDED_FUNCTION_ENTRY_4);
+}
+
 GigabyteSuperIORGBController::GigabyteSuperIORGBController(int sioaddr, std::string dev_name)
 {
     gig_sioaddr = sioaddr;
@@ -40,10 +52,7 @@ void GigabyteSuperIORGBController::ChipEntry()
     /*--------------------------------*\
     | Chip Entry Command               |
     \*_-------------------------------*/
-    superio_enter(gig_sioaddr);
-    superio_outb(gig_sioaddr, GIGABYTE_SUPERIO_CHIPENTRY_REGISTER_1, GIGABYTE_SUPERIO_CHIPENTRY_VALUE_1);
-    superio_outb(gig_sioaddr, GIGABYTE_SUPERIO_CHIPENTRY_REGISTER_2, GIGABYTE_SUPERIO_CHIPENTRY_VALUE_2);
-    superio_outb(gig_sioaddr, GIGABYTE_SUPERIO_CHIPENTRY_REGISTER_2, GIGABYTE_SUPERIO_CHIPENTRY_VALUE_2);
+    GigabyteSuperIOEnter(gig_sioaddr);
 
     /*--------------------------------*\
     | Chip Select Command              |
