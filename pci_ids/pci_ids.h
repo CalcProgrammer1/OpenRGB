@@ -696,6 +696,7 @@
 #define GIGABYTE_RTX4060_GAMING_OC_8G_SUB_DEV                   0x4109
 #define GIGABYTE_RTX4060TI_GAMING_OC_8G_SUB_DEV                 0x40F8
 #define GIGABYTE_RTX4060TI_GAMING_OC_16G_SUB_DEV                0x4112
+#define GIGABYTE_RTX4060TI_AERO_OC_16G_SUB_DEV                  0x4113
 #define GIGABYTE_RTX4070_GAMING_OC_12G                          0x40C6
 #define GIGABYTE_RTX4070_GAMING_OC_12G_V2                       0x412B
 #define GIGABYTE_RTX4070_AERO_OC_12G_SUB_DEV                    0x40E6
