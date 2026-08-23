@@ -8,6 +8,13 @@ override_dh_auto_configure:
 	ln -s /usr/bin/qmake6 ./qmake
 	PATH=`pwd`:$(PATH) dh_auto_configure
 
+# Generate the udev rules with the freshly installed OpenRGB binary.
+override_dh_auto_install:
+	dh_auto_install
+	debian/openrgb/usr/bin/openrgb --generate-udev-rules 60-openrgb.rules
+	install -D --mode=0644 60-openrgb.rules debian/openrgb/usr/lib/udev/rules.d/60-openrgb.rules
+
 override_dh_auto_clean:
 	$(RM) qmake
+	$(RM) 60-openrgb.rules
 	dh_auto_clean
