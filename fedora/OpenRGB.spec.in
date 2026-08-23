@@ -28,6 +28,10 @@ export CXXFLAGS=${CXXFLAGS/-pipe}
 %install
 %make_install INSTALL_ROOT=%{buildroot}
 
+# Generate the udev rules with the freshly installed OpenRGB binary.
+%{buildroot}%{_bindir}/%{name} --generate-udev-rules 60-openrgb.rules
+install -p -D --mode=0644 60-openrgb.rules %{buildroot}%{_udevrulesdir}/60-openrgb.rules
+
 #desktop
 desktop-file-install %{_sourcedir}/%{_name}/qt/org.%{name}.%{_name}.desktop
 
