@@ -1148,18 +1148,6 @@ int ProcessOptions(Options* options, std::vector<RGBController *>& rgb_controlle
             arg_index++;
         }
 
-#ifdef __linux__
-        /*-------------------------------------------------*\
-        | --generate-udev-rules                             |
-        \*-------------------------------------------------*/
-        else if(option == "--generate-udev-rules")
-        {
-            OptionGenerateUdevRules(arg_path.generic_u8string());
-
-            arg_index++;
-        }
-#endif
-
         /*-------------------------------------------------*\
         | Invalid option                                    |
         \*-------------------------------------------------*/
@@ -1191,6 +1179,9 @@ int ProcessOptions(Options* options, std::vector<RGBController *>& rgb_controlle
                   ||(option == "--loglevel")
                   ||(option == "--config")
                   ||(option == "--client")
+#ifdef __linux__
+                  ||(option == "--generate-udev-rules")
+#endif
                   ||(option == "--autostart-enable"))
             {
                 /*-----------------------------------------*\
@@ -1714,6 +1705,29 @@ unsigned int cli_pre_detection(int argc, char* argv[])
             cfg_args++;
             arg_index++;
         }
+
+#ifdef __linux__
+        /*-------------------------------------------------*\
+        | --generate-udev-rules                             |
+        \*-------------------------------------------------*/
+        else if(option == "--generate-udev-rules")
+        {
+            if(argument == "")
+            {
+                std::cout << "Error: Missing argument for --generate-udev-rules" << std::endl;
+                print_help          = true;
+                break;
+            }
+
+            OptionGenerateUdevRules(argument);
+
+            /*---------------------------------------------*\
+            | No device detection is needed, exit           |
+            | immediately after writing the udev rules      |
+            \*---------------------------------------------*/
+            exit(0);
+        }
+#endif
 
         /*-------------------------------------------------*\
         | --gui (no arguments)                              |
