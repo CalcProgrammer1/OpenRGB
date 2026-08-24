@@ -96,14 +96,6 @@ for artifact in artifacts:
         os.system(command)
 
         #########################################
-        # If AppImage, also copy udev rules     #
-        #########################################
-        if(artifact[2] == ".AppImage"):
-            command = "mv download/60-openrgb.rules artifacts/60-openrgb.rules"
-            print(command)
-            os.system(command)
-
-        #########################################
         # Delete any remaining download files   #
         #########################################
         command = "rm -r download/*"
@@ -118,14 +110,3 @@ for artifact in artifacts:
         command = "mv download.zip artifacts/" + artifact[1] + artifact[2]
         print(command)
         os.system(command)
-
-#############################################
-# The openrgb-udev-install.sh script is     #
-# not a CI artifact.  Download it           #
-# separately.                               #
-#############################################
-udev_url = "https://gitlab.com/CalcProgrammer1/OpenRGB/-/raw/master/scripts/openrgb-udev-install.sh"
-
-command = "wget " + udev_url + " -O artifacts/openrgb-udev-install.sh"
-print(command)
-os.system(command)
