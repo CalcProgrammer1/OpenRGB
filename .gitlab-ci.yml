@@ -87,8 +87,6 @@ before_script:
     name: "${CI_PROJECT_NAME}_Linux_${TGT_NAME}_${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB-${TGT_PATH}.AppImage
-    - 60-openrgb.rules
-    - README.md
     expire_in: 30 days
 
   rules:
