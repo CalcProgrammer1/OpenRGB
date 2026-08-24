@@ -2182,6 +2182,24 @@ bool DetectionManager::GenerateUdevRules(const std::string& filepath)
         return false;
     }
 
+    bool result = WriteUdevRules(output_file);
+
+    fclose(output_file);
+
+    LOG_INFO("[%s] Successfully generated udev rules file: %s", DETECTIONMANAGER, filepath.c_str());
+    return result;
+}
+
+bool DetectionManager::PrintUdevRules()
+{
+    return WriteUdevRules(stdout);
+}
+
+/*---------------------------------------------------------*\
+| Write udev rules to the given output stream               |
+\*---------------------------------------------------------*/
+bool DetectionManager::WriteUdevRules(FILE* output_file)
+{
     /*-----------------------------------------------------*\
     | Write udev rules header                               |
     \*-----------------------------------------------------*/
@@ -2201,7 +2219,7 @@ bool DetectionManager::GenerateUdevRules(const std::string& filepath)
     }
 
     written                 = fprintf(output_file, "#  Git commit: " GIT_COMMIT_ID);
-    
+
     if(written < total_line_width)
     {
         fprintf(output_file, "%*s#\n", total_line_width - written, "");
@@ -2290,9 +2308,6 @@ bool DetectionManager::GenerateUdevRules(const std::string& filepath)
         fprintf(output_file, "\n");
     }
 
-    fclose(output_file);
-
-    LOG_INFO("[%s] Successfully generated udev rules file: %s", DETECTIONMANAGER, filepath.c_str());
     return true;
 }
 #endif

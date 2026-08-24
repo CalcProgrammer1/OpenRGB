@@ -15,6 +15,7 @@
 #include <atomic>
 #include <condition_variable>
 #include <cstdint>
+#include <cstdio>
 #include <functional>
 #include <mutex>
 #include <string>
@@ -223,6 +224,7 @@ public:
     | Udev rules generation function                        |
     \*-----------------------------------------------------*/
     bool                                GenerateUdevRules(const std::string& filepath);
+    bool                                PrintUdevRules();
 #endif
 
 private:
@@ -263,6 +265,8 @@ private:
 
 #ifdef __linux__
     std::vector<CustomUdevRuleBlock>            custom_udev_rules;
+
+    bool                                        WriteUdevRules(FILE* output_file);
 #endif
 
 #ifdef __linux__

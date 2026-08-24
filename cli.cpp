@@ -458,6 +458,7 @@ void OptionHelp()
     help_text += "--autostart-enable arguments             Enable OpenRGB to start at login. Requires arguments to give to OpenRGB at login.\n";
 #ifdef __linux__
     help_text += "--generate-udev-rules [filename]         Generate the OpenRGB udev rules file and save it to the given filename.\n";
+    help_text += "--print-udev-rules                       Print the OpenRGB udev rules to stdout. Can be redirected to a file. No arguments.\n";
 #endif
 
     std::cout << help_text << std::endl;
@@ -968,6 +969,11 @@ bool OptionSaveProfile(std::string argument)
 void OptionGenerateUdevRules(std::string argument)
 {
     DetectionManager::get()->GenerateUdevRules(argument);
+}
+
+void OptionPrintUdevRules()
+{
+    DetectionManager::get()->PrintUdevRules();
 }
 #endif
 
@@ -1724,6 +1730,20 @@ unsigned int cli_pre_detection(int argc, char* argv[])
             /*---------------------------------------------*\
             | No device detection is needed, exit           |
             | immediately after writing the udev rules      |
+            \*---------------------------------------------*/
+            exit(0);
+        }
+
+        /*-------------------------------------------------*\
+        | --print-udev-rules (no arguments)                 |
+        \*-------------------------------------------------*/
+        else if(option == "--print-udev-rules")
+        {
+            OptionPrintUdevRules();
+
+            /*---------------------------------------------*\
+            | No device detection is needed, exit           |
+            | immediately after printing the udev rules     |
             \*---------------------------------------------*/
             exit(0);
         }
