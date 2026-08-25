@@ -1444,6 +1444,44 @@ static const corsair_v2_device m75_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair M75 Wireless 1B1C:1BF1                               |
+|                                                               |
+|  Reached through the Slipstream receiver 1B1C:1BDC, which     |
+|  reports the mouse PID 0x1BF1 once the write command is       |
+|  switched to the wireless ID.                                 |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|                                                               |
+|  Zone "Bottom"                                                |
+|       Single                                                  |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone m75_wireless_bottom_zone =
+{
+    "Bottom",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_device m75_wireless_device =
+{
+    CORSAIR_M75_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    1,
+    2,
+    {
+        &m75_logo_zone,
+        &m75_wireless_bottom_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    nullptr
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair MM700 1B1C:1B9B                                      |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -1550,6 +1588,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &m65_rgb_ultra_wired_device,
     &m65_ultra_rgb_device,
     &m75_device,
+    &m75_wireless_device,
 
 /*-----------------------------------------------------------------*\
 |  MOUSEMATS                                                        |

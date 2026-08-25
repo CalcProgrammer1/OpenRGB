@@ -9,6 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <chrono>
+#include <thread>
+
 #include "CorsairPeripheralV2Controller.h"
 #include "StringUtils.h"
 
@@ -19,21 +22,23 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
     dev                 = dev_handle;
     location            = path;
     device_name         = name;
+    device_index        = CORSAIR_V2_DEVICE_NOT_FOUND;
 
     /*---------------------------------------------------------*\
     | Get PID                                                   |
     |   If the PID is in the know wireless receivers list       |
     |   switch the write_cmd to talk to the device and retry    |
     \*---------------------------------------------------------*/
-    unsigned int pid    = GetAddress(0x12);
+    unsigned int pid    = GetAddressRetry(0x12);
 
     switch(pid)
     {
         case CORSAIR_SLIPSTREAM_WIRELESS_PID1:
         case CORSAIR_SLIPSTREAM_WIRELESS_V2_PID1:
         case CORSAIR_SLIPSTREAM_WIRELESS_PID2:
+        case CORSAIR_SLIPSTREAM_M75_PID:
             write_cmd   = CORSAIR_V2_WRITE_WIRELESS_ID;
-            pid         = GetAddress(0x12);
+            pid         = GetAddressRetry(0x12);
             break;
 
         case CORSAIR_K57_RGB_WIRED_PID:
@@ -88,10 +93,18 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
         }
     }
 
+    /*---------------------------------------------------------*\
+    | Unknown PID                                               |
+    |   Leave device_index at CORSAIR_V2_DEVICE_NOT_FOUND so    |
+    |   GetDeviceData() returns nullptr and the detector drops  |
+    |   the device, rather than building an RGBController on    |
+    |   top of an out of range index.                           |
+    \*---------------------------------------------------------*/
     if(not_found)
     {
         LOG_ERROR("[%s] device capabilities not found. Please creata a new device request.",
                   device_name.c_str());
+        return;
     }
 
     /*---------------------------------------------------------*\
@@ -119,7 +132,17 @@ CorsairPeripheralV2Controller::~CorsairPeripheralV2Controller()
 
 const corsair_v2_device* CorsairPeripheralV2Controller::GetDeviceData()
 {
+    if(!IsDeviceSupported())
+    {
+        return nullptr;
+    }
+
     return corsair_v2_device_list[device_index];
+}
+
+bool CorsairPeripheralV2Controller::IsDeviceSupported()
+{
+    return device_index < CORSAIR_V2_DEVICE_COUNT;
 }
 
 std::string CorsairPeripheralV2Controller::GetDeviceLocation()
@@ -214,6 +237,34 @@ void CorsairPeripheralV2Controller::LightingControl(uint8_t opt1)
 unsigned int CorsairPeripheralV2Controller::GetKeyboardLayout()
 {
     return GetAddress(0x41);
+}
+
+/*---------------------------------------------------------*\
+| GetAddress returns NA when the device answers with a      |
+|   protocol error, and a receiver whose device has not     |
+|   woken answers zero.  Straight after enumeration both    |
+|   are normal, so poll before treating either as final.    |
+\*---------------------------------------------------------*/
+unsigned int CorsairPeripheralV2Controller::GetAddressRetry(uint8_t address)
+{
+    unsigned int value = NA;
+
+    for(unsigned int attempt = 0; attempt < CORSAIR_V2_PID_RETRIES; attempt++)
+    {
+        value = GetAddress(address);
+
+        if(value != NA && value != 0)
+        {
+            return value;
+        }
+
+        if(attempt + 1 < CORSAIR_V2_PID_RETRIES)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(CORSAIR_V2_PID_RETRY_DELAY));
+        }
+    }
+
+    return value;
 }
 
 unsigned int CorsairPeripheralV2Controller::GetAddress(uint8_t address)

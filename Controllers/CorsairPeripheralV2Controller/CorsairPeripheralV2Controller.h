@@ -37,6 +37,19 @@
 #define CORSAIR_V2_BRIGHTNESS_MIN       0
 #define CORSAIR_V2_BRIGHTNESS_MAX       0xFF
 
+/*---------------------------------------------------------*\
+| A device that has just enumerated does not answer the PID |
+|   query straight away, so retry before giving up on it.   |
+\*---------------------------------------------------------*/
+#define CORSAIR_V2_PID_RETRIES          8
+#define CORSAIR_V2_PID_RETRY_DELAY      120
+
+/*---------------------------------------------------------*\
+| device_index when the PID is not in the device list.      |
+|   Never index the device list with it.                    |
+\*---------------------------------------------------------*/
+#define CORSAIR_V2_DEVICE_NOT_FOUND     0xFFFF
+
 enum corsair_v2_cmd
 {
     CORSAIR_V2_CMD_SET                  = 0x01,     /* Command for setting values       */
@@ -84,6 +97,7 @@ public:
     std::string                     GetName();
     std::string                     GetSerialString();
     const corsair_v2_device*        GetDeviceData();
+    bool                            IsDeviceSupported();
     unsigned int                    GetKeyboardLayout();
 
     void                            SetRenderMode(corsair_v2_device_mode mode);
@@ -102,6 +116,7 @@ protected:
 private:
     void                            ClearPacketBuffer();
     unsigned int                    GetAddress(uint8_t address);
+    unsigned int                    GetAddressRetry(uint8_t address);
     unsigned char                   StartTransaction(uint8_t opt1);
     void                            StopTransaction(uint8_t opt1);
 

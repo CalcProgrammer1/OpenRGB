@@ -12,6 +12,7 @@
 \*---------------------------------------------------------*/
 #include <hidapi.h>
 #include "DetectionManager.h"
+#include "LogManager.h"
 
 /*---------------------------------------------------------*\
 | Corsair Peripheral specific includes                      |
@@ -37,6 +38,20 @@ DetectedControllers DetectCorsairV2HardwareControllers(hid_device_info* info, co
     if(dev)
     {
         CorsairPeripheralV2HWController*    controller      = new CorsairPeripheralV2HWController(dev, info->path, name);
+
+        /*---------------------------------------------------------*\
+        | A device whose PID is not in the device list has no       |
+        |   zone or LED data to build an RGBController from.        |
+        |   Drop it here: building one anyway indexes the device    |
+        |   list with an index that was never set.                  |
+        \*---------------------------------------------------------*/
+        if(!controller->IsDeviceSupported())
+        {
+            LOG_WARNING("[%s] not registering device, capabilities unknown.", name.c_str());
+            delete controller;
+            return(detected_controllers);
+        }
+
         RGBController_CorsairV2HW*          rgb_controller  = new RGBController_CorsairV2HW(controller);
 
         detected_controllers.push_back(rgb_controller);
@@ -55,6 +70,14 @@ DetectedControllers DetectCorsairV2SoftwareControllers(hid_device_info* info, co
     if(dev)
     {
         CorsairPeripheralV2SWController*    controller      = new CorsairPeripheralV2SWController(dev, info->path, name);
+
+        if(!controller->IsDeviceSupported())
+        {
+            LOG_WARNING("[%s] not registering device, capabilities unknown.", name.c_str());
+            delete controller;
+            return(detected_controllers);
+        }
+
         RGBController_CorsairV2SW*          rgb_controller  = new RGBController_CorsairV2SW(controller);
 
         detected_controllers.push_back(rgb_controller);
@@ -98,6 +121,8 @@ REGISTER_HID_DETECTOR_IP("Corsair M55 RGB PRO",                     DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair M65 RGB Ultra Wired",             DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_M65_RGB_ULTRA_WIRED_PID,        1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair M65 RGB Ultra Wireless (Wired)",  DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_M65_RGB_ULTRA_WIRELESS_PID,     1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair M75 Gaming Mouse",                DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_M75_GAMING_MOUSE_PID,           1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair M75 Wireless",                    DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_M75_PID,             1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair M75 Wireless (Wired)",            DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_M75_WIRELESS_PID,               1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver HW", DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_PID1,       1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver SW", DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_PID2,       1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver HW", DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_V2_PID1,    1,  0xFF42);
