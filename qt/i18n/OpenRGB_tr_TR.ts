@@ -92,7 +92,7 @@
         <translation>Bağlantı Noktası:</translation>
     </message>
     <message>
-        <location filename="../ManualDevicesSettingsPage/DMXSettingsEntry/DMXSettingsEntry.cpp" line="36"/>
+        <location filename="../ManualDevicesSettingsPage/DMXSettingsEntry/DMXSettingsEntry.cpp" line="37"/>
         <source>No serial ports found</source>
         <translation>Hiçbir seri port bulunamadı</translation>
     </message>
@@ -158,22 +158,22 @@
 <context>
     <name>DetectionManager</name>
     <message>
-        <location filename="../../DetectionManager.cpp" line="37"/>
+        <location filename="../../DetectionManager.cpp" line="48"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;One or more I2C/SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.&lt;/p&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the PawnIO driver.&lt;/p&gt;&lt;p&gt;For OpenRGB to access these devices, you must install PawnIO from &lt;a href=&apos;https://pawnio.eu/&apos;&gt;https://pawnio.eu&lt;/a&gt; and run OpenRGB as administrator or as a system service.&lt;/p&gt;&lt;p&gt;If you are not using any of the devices listed above, you can safely ignore this message.&lt;/p&gt;</source>
         <translation>&lt;h2&gt;Uyarı:&lt;/h2&gt;&lt;p&gt;Bir veya daha fazla I2C/SMBus arayüzü başlatılamadı.&lt;/p&gt;&lt;p&gt;Başlatılamayan arayüzlerin hangileri olduğuna bağlı olarak, OpenRGB&apos;de bazı RGB DRAM modülleri, bazı anakartların entegre RGB aydınlatması ve RGB grafik kartları kullanılabilir olmayabilir.&lt;/p&gt;&lt;p&gt;Windows üzerinde bu, genellikle PawnIO sürücüsünün yüklenememesi nedeniyle oluşur.&lt;/p&gt;&lt;p&gt;OpenRGB&apos;nin bu cihazlara erişebilmesi için, &lt;a href=&apos;https://pawnio.eu/&apos;&gt;https://pawnio.eu&lt;/a&gt;&apos;den PawnIO&apos;yu yüklemeniz ve OpenRGB&apos;yi yönetici olarak veya sistem hizmeti olarak çalıştırmanız gerekir.&lt;/p&gt;&lt;p&gt;Yukarıda listelenen cihazlardan hiçbiri kullanmıyorsanız, bu mesajı güvenle ihmal edebilirsiniz.</translation>
     </message>
     <message>
-        <location filename="../../DetectionManager.cpp" line="44"/>
+        <location filename="../../DetectionManager.cpp" line="55"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;One or more I2C/SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.&lt;/p&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;For OpenRGB to access these devices, you must load the i2c-dev module along with the correct I2C driver module for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;If you are not using any of the devices listed above, you can safely ignore this message.&lt;/p&gt;</source>
         <translation>&lt;h2&gt;Uyarı:&lt;/h2&gt;&lt;p&gt;Bir veya daha fazla I2C/SMBus arayüzü başlatılamadı.&lt;/p&gt;&lt;p&gt;Başlatılamayan arayüzlerin hangileri olduğuna bağlı olarak, OpenRGB&apos;de bazı RGB DRAM modülleri, bazı anakartların entegre RGB aydınlatması ve RGB grafik kartları kullanılabilir olmayabilir.&lt;/p&gt;&lt;p&gt;Linux&apos;ta bu genellikle i2c-dev modülü yüklü değilse olur.&lt;/p&gt;&lt;p&gt;OpenRGB&apos;ın bu cihazlara erişebilmesi için, anakartınız için doğru I2C sürücü modülü ile birlikte i2c-dev modülünü yüklemeniz gerekir. Bu genellikle AMD sistemler için i2c-piix4 ve Intel sistemler için i2c-i801&apos;dir.&lt;/p&gt;&lt;p&gt;Eğer yukarıda listelenen cihazlardan hiçbiri kullanmıyorsanız, bu mesajı güvenle ihmal edebilirsiniz.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../DetectionManager.cpp" line="53"/>
-        <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
-        <translation>&lt;h2&gt;Uyarı:&lt;/h2&gt;&lt;p&gt;OpenRGB udev kuralları yüklü değil.&lt;/p&gt;&lt;p&gt;OpenRGB&apos;yi kök kullanıcı olarak çalıştırmadan önce çoğu cihaz kullanılamayacaktır.&lt;/p&gt;&lt;p&gt;AppImage, Flatpak veya kendi derlenmiş OpenRGB sürümlerini kullanıyorsanız, udev kurallarını el ile yüklemeniz gerekir.&lt;/p&gt;&lt;p&gt;Kuralları el ile yüklemek için &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt;&apos;ye bakın.&lt;/p&gt;</translation>
+        <location filename="../../DetectionManager.cpp" line="64"/>
+        <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as as a system service or as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
+        <translation>&lt;h2&gt;Uyarı:&lt;/h2&gt;&lt;p&gt;OpenRGB udev kuralları yüklü değil.&lt;/p&gt;&lt;p&gt;OpenRGB sistem hizmeti olarak veya root olarak çalışmadığı sürece çoğu cihaz kullanılamayacaktır.&lt;/p&gt;&lt;p&gt;AppImage, Flatpak veya kendi derlenmiş OpenRGB sürümlerini kullanıyorsanız, udev kurallarını el ile yüklemeniz gerekir.&lt;/p&gt;&lt;p&gt;Kuralları el ile yüklemek için &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; adresine bakın.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../DetectionManager.cpp" line="59"/>
+        <location filename="../../DetectionManager.cpp" line="70"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
         <translation>&lt;h2&gt;Uyarı:&lt;/h2&gt;&lt;p&gt;Birden fazla OpenRGB udev kuralı yüklüdür.&lt;/p&gt;&lt;p&gt;udev kuralları dosyası 60-openrgb.rules hem /etc/udev/rules.d hem de /usr/lib/udev/rules.d içinde yüklenmiştir.&lt;/p&gt;&lt;p&gt;Birden fazla udev kuralları dosyası çakışabilir, bunlardan birinin kaldırılması önerilir.</translation>
     </message>
@@ -219,22 +219,6 @@
         <translation>İsim:</translation>
     </message>
     <message>
-        <source>Matrix Order:</source>
-        <translation type="vanished">Matris Sırası:</translation>
-    </message>
-    <message>
-        <source>Matrix Height:</source>
-        <translation type="vanished">Matris Yüksekliği:</translation>
-    </message>
-    <message>
-        <source>Matrix Width:</source>
-        <translation type="vanished">Matris Genişliği:</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="vanished">Tür:</translation>
-    </message>
-    <message>
         <location filename="../ManualDevicesSettingsPage/E131SettingsEntry/E131SettingsEntry.ui" line="65"/>
         <source>IP (Unicast):</source>
         <translation>IP (Bireysel Yayın):</translation>
@@ -248,54 +232,6 @@
         <location filename="../ManualDevicesSettingsPage/E131SettingsEntry/E131SettingsEntry.ui" line="32"/>
         <source>Keepalive Time:</source>
         <translation>Bağlantı Koruma Süresi:</translation>
-    </message>
-    <message>
-        <source>RGB Order:</source>
-        <translation type="vanished">RGB Sırası:</translation>
-    </message>
-    <message>
-        <source>Single</source>
-        <translation type="vanished">Basit</translation>
-    </message>
-    <message>
-        <source>Linear</source>
-        <translation type="vanished">Doğrusal</translation>
-    </message>
-    <message>
-        <source>Matrix</source>
-        <translation type="vanished">Matris</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Left</source>
-        <translation type="vanished">Yatay Sol Üst</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Right</source>
-        <translation type="vanished">Yatay Sağ Üst</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Left</source>
-        <translation type="vanished">Yatay Sol Alt</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Right</source>
-        <translation type="vanished">Yatay Sağ Salt</translation>
-    </message>
-    <message>
-        <source>Vertical Top Left</source>
-        <translation type="vanished">Dikey Sol Üst</translation>
-    </message>
-    <message>
-        <source>Vertical Top Right</source>
-        <translation type="vanished">Dikey Sağ Üst</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Left</source>
-        <translation type="vanished">Dikey Sol Alt</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Right</source>
-        <translation type="vanished">Dikey Sağ Alt</translation>
     </message>
 </context>
 <context>
@@ -386,15 +322,7 @@
 <context>
     <name>ManualDevice</name>
     <message>
-        <source>E1.31 (including WLED)</source>
-        <translation type="vanished">E1.31 (WLED dahil)</translation>
-    </message>
-    <message>
-        <source>QMK (built with ORGB support)</source>
-        <translation type="vanished">QMK (ORGB desteğiyle oluşturulmuştur)</translation>
-    </message>
-    <message>
-        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="162"/>
+        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="163"/>
         <source>Serial Device</source>
         <translation>Seri Cihaz</translation>
     </message>
@@ -555,14 +483,19 @@
         <translation>Bağlantıyı Kaydet</translation>
     </message>
     <message>
-        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="188"/>
+        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="203"/>
         <source>Rescan Devices</source>
         <translation>Cihazları Yeniden Tara</translation>
     </message>
     <message>
-        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="203"/>
+        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="220"/>
         <source>Disconnect</source>
         <translation>Bağlantıyı Kes</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="226"/>
+        <source>OpenRGB is in local client mode.  The local connection may not be disconnected.</source>
+        <translation>OpenRGB yerel istemci modundadır. Yerel bağlantı kesilemez.</translation>
     </message>
 </context>
 <context>
@@ -574,44 +507,64 @@
     </message>
     <message>
         <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="20"/>
+        <source>Device Configuration</source>
+        <translation>Cihaz Yapılandırması</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="26"/>
+        <source>Device Name:</source>
+        <translation>Cihaz Adı:</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="39"/>
         <source>Device-Specific Configuration</source>
         <translation>Cihaz Özelliğine Göre Yapılandırma</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="47"/>
+        <source>Reset Device Configuration</source>
+        <translation>Cihaz Yapılandırmasını Sıfırla</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBDeviceInfoPage</name>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="68"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="51"/>
         <source>Name:</source>
         <translation>İsim:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="85"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="109"/>
         <source>Vendor:</source>
         <translation>Üretici:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="102"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="133"/>
         <source>Type:</source>
         <translation>Tür:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="129"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="177"/>
+        <source>Display Name:</source>
+        <translation>Gösterim Adı:</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="75"/>
         <source>Description:</source>
         <translation>Açıklama:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="136"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="126"/>
         <source>Version:</source>
         <translation>Sürüm:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="143"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="92"/>
         <source>Location:</source>
         <translation>Konum:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="51"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="58"/>
         <source>Serial:</source>
         <translation>Seri:</translation>
     </message>
@@ -709,7 +662,7 @@
         <translation>V:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="593"/>
         <source>Edit Zone</source>
         <translation>Alanı Düzenle</translation>
     </message>
@@ -730,7 +683,7 @@
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="183"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1610"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1662"/>
         <source>Save To Device</source>
         <translation>Cihaza Kaydet</translation>
     </message>
@@ -740,112 +693,138 @@
         <translation>Hex:</translation>
     </message>
     <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
         <source>Edit</source>
-        <translation type="vanished">Düzenle</translation>
+        <translation>Düzenle</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1966"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2013"/>
         <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
         <translation>LED&apos;leri tek tek sabit renklere ayarlayın. Yazılım tabanlı efektlerle kullanım için güvenlidir.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1967"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2014"/>
         <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
         <translation>LED&apos;leri tek tek statik renklere ayarlayın. Yazılım tabanlı efektlerle kullanım için güvenli değildir.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2015"/>
         <source>Sets the entire device or a zone to a single color.</source>
         <translation>Cihazın tamamını veya belirlenen bir bölgeyii tek bir renge ayarlar.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2016"/>
         <source>Gradually fades between fully off and fully on.</source>
         <translation>Yavaş yavaş tamamen kapalı ve tamamen açık arasında geçiş yapar.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2017"/>
         <source>Abruptly changes between fully off and fully on.</source>
         <translation>Tamamen kapalı ve tamamen açık durumlar arasında ani geçiş yapar.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2018"/>
         <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
         <translation>Renk spektrumunun tamamını kademeli olarak dolaşır. Cihazdaki tüm ışıklar aynı renktedir.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2019"/>
         <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
         <translation>Renk spektrumunun tamamını kademeli olarak dolaşır. Hareketli bir gökkuşağı deseni oluşturur.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2020"/>
         <source>Flashes lights when keys or buttons are pressed.</source>
         <translation>Tuşlara veya düğmelere basıldığında ışıklar yanıp söner.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="505"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1759"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="506"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1811"/>
         <source>Entire Device</source>
         <translation>Tüm Cihaz</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="552"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="537"/>
+        <source>Edit Device</source>
+        <translation>Cihazı Düzenle</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="562"/>
         <source>Entire Zone</source>
         <translation>Tüm Bölge</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1492"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1523"/>
         <source>Left</source>
         <translation>Sol</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1493"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1524"/>
         <source>Right</source>
         <translation>Sağ</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1498"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1529"/>
         <source>Up</source>
         <translation>Yukarı</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1530"/>
         <source>Down</source>
         <translation>Aşağı</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1504"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1535"/>
         <source>Horizontal</source>
         <translation>Yatay</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1536"/>
         <source>Vertical</source>
         <translation>Dikey</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1605"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1541"/>
+        <source>Up-Left</source>
+        <translation>Yukarı-Sol</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1542"/>
+        <source>Up-Right</source>
+        <translation>Sağ-Yukarı</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1543"/>
+        <source>Down-Left</source>
+        <translation>Aşağı-Sol</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1544"/>
+        <source>Down-Right</source>
+        <translation>Aşağı-Sağ</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1657"/>
         <source>Saved To Device</source>
         <translation>Saved To Device</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1615"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1667"/>
         <source>Saving Not Supported</source>
         <translation>Kaydetme Desteklenmiyor</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1675"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1727"/>
         <source>All Zones</source>
         <translation>Tüm Bölgeler</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1713"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1765"/>
         <source>Mode Specific</source>
         <translation>Özel Mod</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="608"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="616"/>
         <source>Entire Segment</source>
         <translation>Tüm Bölüm</translation>
     </message>
@@ -884,7 +863,8 @@
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="108"/>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="378"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="386"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="569"/>
         <source>Rescan Devices</source>
         <translation>Cihazları Yeniden Tara</translation>
     </message>
@@ -897,13 +877,9 @@
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="115"/>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1828"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1985"/>
         <source>Delete Profile</source>
         <translation>Profili Sil</translation>
-    </message>
-    <message>
-        <source>Load Profile</source>
-        <translation type="vanished">Profil Yükle</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="165"/>
@@ -926,112 +902,124 @@
         <translation>Profili özel adla kaydet</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="333"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="342"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="567"/>
         <source>Show/Hide</source>
         <translation>Göster/Gizle</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="337"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="346"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="558"/>
         <source>Profiles</source>
         <translation>Profiller</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="341"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="350"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="559"/>
         <source>Quick Colors</source>
         <translation>Hızlı Renkler</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="343"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="352"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="560"/>
         <source>Red</source>
         <translation>Kırmızı</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="347"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="356"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="561"/>
         <source>Yellow</source>
         <translation>Sarı</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="351"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="360"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="562"/>
         <source>Green</source>
         <translation>Yeşil</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="355"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="364"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="563"/>
         <source>Cyan</source>
         <translation>Camgöbeği</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="359"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="368"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="564"/>
         <source>Blue</source>
         <translation>Mavi</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="363"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="372"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="565"/>
         <source>Magenta</source>
         <translation>Fuşya</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="367"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="376"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="566"/>
         <source>White</source>
         <translation>Beyaz</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="373"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="382"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="568"/>
         <source>Lights Off</source>
         <translation>Işıklar Kapalı</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="382"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="390"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="570"/>
         <source>Exit</source>
         <translation>Çık</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="658"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="686"/>
         <source>Plugins</source>
         <translation>Eklentiler</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="709"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="737"/>
         <source>General Settings</source>
         <translation>Genel Ayarlar</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="889"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="917"/>
         <source>SMBus Tools</source>
         <translation>SMBus Araçları</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="903"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="931"/>
         <source>SDK Client</source>
         <translation>SDK İstemcisi</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="916"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="944"/>
         <source>SDK Server</source>
         <translation>SDK Sunucusu</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1828"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1985"/>
         <source>Do you really want to delete this profile?</source>
         <translation>Bu profili gerçekten silmek istiyor musunuz?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="2096"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="2255"/>
         <source>Log Console</source>
         <translation>Günlük Konsolu</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="692"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="720"/>
         <source>Supported Devices</source>
         <translation>Supported Devices</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="675"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="703"/>
         <source>About OpenRGB</source>
         <translation>OpenRGB Hakkında</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="726"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="754"/>
         <source>Manually Added Devices</source>
         <translation>Elle Eklenen Cihazlar</translation>
     </message>
@@ -1155,10 +1143,6 @@
         <source>API Version:</source>
         <translation>API Sürümü:</translation>
     </message>
-    <message>
-        <source>API Version Value</source>
-        <translation type="vanished">APU Sürümü Değeri</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBPluginsPage</name>
@@ -1169,7 +1153,7 @@
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="37"/>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="161"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="164"/>
         <source>Remove Plugin</source>
         <translation>Eklentiyi Kaldır</translation>
     </message>
@@ -1179,37 +1163,37 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Eklenti mi arıyorsunuz? Resmî listeye &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt; üzerinden ulaşabilirsiniz.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="86"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="89"/>
         <source>Install OpenRGB Plugin</source>
         <translation>OpenRGB Eklentisini Yükle</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="86"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="89"/>
         <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
         <translation>Eklenti dosyaları (*.dll *.dylib *.so *.so.*)</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="123"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="126"/>
         <source>Replace Plugin</source>
         <translation>Eklentiyi Değiştir</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="123"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="126"/>
         <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
         <translation>Bu dosya adına sahip bir eklenti zaten yüklü. Bu eklentiyi değiştirmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="161"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="164"/>
         <source>Are you sure you want to remove this plugin?</source>
         <translation>Bu eklentiyi kaldırmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="221"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="224"/>
         <source>Restart Needed</source>
         <translation>Yeniden Başlatılması Gerekiyor</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="221"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="224"/>
         <source>The plugin will be fully removed after restarting OpenRGB.</source>
         <translation>OpenRGB yeniden başlatıldıktan sonra eklenti tamamen kaldırılacaktır.</translation>
     </message>
@@ -1276,14 +1260,6 @@
 </context>
 <context>
     <name>OpenRGBProfileListDialog</name>
-    <message>
-        <source>Profile Name</source>
-        <translation type="vanished">Profil Adı</translation>
-    </message>
-    <message>
-        <source>Save to an existing profile:</source>
-        <translation type="vanished">Mevcut bir profile kaydet:</translation>
-    </message>
     <message>
         <location filename="../OpenRGBProfileListDialog/OpenRGBProfileListDialog.ui" line="20"/>
         <source>Profile Selection</source>
@@ -1448,14 +1424,6 @@
         <translation>Web Sayfası:</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>
-        <translation type="vanished">&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;https://gitlab.com/CalcProgrammer1/OpenRGB&quot;&gt;https://gitlab.com/CalcProgrammer1/OpenRGB&lt;/a&gt;</source>
-        <translation type="vanished">&lt;a href=&quot;https://gitlab.com/CalcProgrammer1/OpenRGB&quot;&gt;https://gitlab.com/CalcProgrammer1/OpenRGB&lt;/a&gt;</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="41"/>
         <source>SDK Version:</source>
         <translation>SDK Sürümü:</translation>
@@ -1466,10 +1434,6 @@
         <translation>Eklenti API Sürümü:</translation>
     </message>
     <message>
-        <source>Qt Version Value</source>
-        <translation type="vanished">Qt Sürüm Değeri</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="167"/>
         <source>Qt Version:</source>
         <translation>Qt Sürümü:</translation>
@@ -1478,10 +1442,6 @@
         <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="195"/>
         <source>OS Version:</source>
         <translation>İşletim Sistemi Sürümü:</translation>
-    </message>
-    <message>
-        <source>OS Version Value</source>
-        <translation type="vanished">İşletim Sistemi Değeri</translation>
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="298"/>
@@ -1570,10 +1530,6 @@
         <translation>Adres:</translation>
     </message>
     <message>
-        <source>Read Device</source>
-        <translation type="vanished">Cihazı Oku</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.ui" line="34"/>
         <source>SMBus Dumper:</source>
         <translation>SMBus Dökümü:</translation>
@@ -1626,10 +1582,6 @@
         <translation>Cihaz Dökümü</translation>
     </message>
     <message>
-        <source>SMBus Reader:</source>
-        <translation type="vanished">SMBus Okuyucusu:</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.ui" line="91"/>
         <source>Addr:</source>
         <translation>Adres:</translation>
@@ -1647,10 +1599,6 @@
 </context>
 <context>
     <name>OpenRGBZoneEditorDialog</name>
-    <message>
-        <source>Resize Zone</source>
-        <translation type="vanished">Bölgeyi Yeniden Boyutlandır</translation>
-    </message>
     <message>
         <location filename="../OpenRGBZoneEditorDialog/OpenRGBZoneEditorDialog.ui" line="40"/>
         <source>Add Segment</source>
@@ -1761,18 +1709,6 @@
         <translation>Yoksay</translation>
     </message>
     <message>
-        <source>Zones Resizer</source>
-        <translation type="vanished">Bölge Boyutlandırıcı</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Bir veya daha fazla yeniden boyutlandırılabilir bölge yapılandırılmamış. Yeniden boyutlandırılabilir bölgeler genellikle bağlı cihazın boyutu otomatik olarak algılanamayan adreslenebilir RGB başlıkları için kullanılır.&lt;/p&gt;&lt;p&gt;Lütfen her bölgedeki LED sayısını aşağıya girin.&lt;/p&gt;&lt;p&gt;Doğru boyutu hesaplamak hakkında daha fazla bilgi için lütfen &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;bu bağlantıya&lt;/span&gt;&lt;/a&gt; göz atın.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>Resize the zones</source>
-        <translation type="vanished">Bölgeleri yeniden boyutlandır</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBZoneInitializationDialog/OpenRGBZoneInitializationDialog.cpp" line="119"/>
         <source>Controller</source>
         <translation>Kontrolcü</translation>
@@ -1872,10 +1808,6 @@
 <context>
     <name>QMKORGBSettingsEntry</name>
     <message>
-        <source>QMK Device</source>
-        <translation type="vanished">QMK Cihazı</translation>
-    </message>
-    <message>
         <location filename="../ManualDevicesSettingsPage/QMKORGBSettingsEntry/QMKORGBSettingsEntry.ui" line="26"/>
         <source>QMK OpenRGB Device</source>
         <translation>QMK OpenRGB Cihazı</translation>
@@ -1920,25 +1852,6 @@
     </message>
 </context>
 <context>
-    <name>ResourceManager</name>
-    <message>
-        <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the WinRing0 driver.&lt;/p&gt;&lt;p&gt;You must run OpenRGB as administrator at least once to allow WinRing0 to set up.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="vanished">&lt;h2&gt;Bazı dahili cihazlar algılanamayabilir:&lt;/h2&gt;&lt;p&gt;Bir veya daha fazla I2C veya SMBus arabirimi başlatılamadı.&lt;/p&gt;&lt;p&gt;&lt;b&gt;I2C veya SMBus olmadan; RGB DRAM modülleri, bazı anakartların dahili RGB aydınlatmaları ve RGB ekran kartları OpenRGB’de kullanılamaz.&lt;/b&gt;&lt;/p&gt;&lt;h4&gt;Bu sorunu nasıl düzeltebilirsiniz:&lt;/h4&gt;&lt;p&gt;Windows’ta bu durum genellikle WinRing0 sürücüsünün yüklenememesinden kaynaklanır.&lt;/p&gt;&lt;p&gt;WinRing0’ın kurulabilmesi için OpenRGB’yi en az bir kez yönetici olarak çalıştırmanız gerekir.&lt;/p&gt;&lt;p&gt;Bu mesajı görmeye devam ederseniz, ek sorun giderme adımları için &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; adresini ziyaret edin.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;Masaüstü bilgisayarınızda dahili RGB kullanmıyorsanız, bu mesaj sizin için önemli değildir.&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="vanished">&lt;h2&gt;Bazı dahili cihazlar algılanamayabilir:&lt;/h2&gt;&lt;p&gt;Bir veya daha fazla I2C veya SMBus arabirimi başlatılamadı.&lt;/p&gt;&lt;p&gt;&lt;b&gt;I2C veya SMBus olmadan; RGB DRAM modülleri, bazı anakartların dahili RGB aydınlatmaları ve RGB ekran kartları OpenRGB’de kullanılamaz.&lt;/b&gt;&lt;/p&gt;&lt;h4&gt;Bu sorunu nasıl düzeltebilirsiniz:&lt;/h4&gt;&lt;p&gt;Linux’ta bu durum genellikle i2c-dev modülünün yüklü olmamasından kaynaklanır.&lt;/p&gt;&lt;p&gt;Anakartınız için doğru I2C sürücüsüyle birlikte i2c-dev modülünü yüklemeniz gerekir. Bu genellikle AMD sistemlerde &lt;b&gt;i2c-piix4&lt;/b&gt;, Intel sistemlerde ise &lt;b&gt;i2c-i801&lt;/b&gt; modülüdür.&lt;/p&gt;&lt;p&gt;Bu mesajı görmeye devam ederseniz, ek sorun giderme adımları için &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; adresini ziyaret edin.&lt;/p&gt;&lt;h3&gt;Masaüstü bilgisayarda dahili RGB kullanmıyorsanız bu mesaj sizin için önemli değildir.&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
-        <translation type="vanished">&lt;h2&gt;UYARI:&lt;/h2&gt;&lt;p&gt;OpenRGB udev kuralları yüklü değil.&lt;/p&gt;&lt;p&gt;OpenRGB root olarak çalıştırılmadığı sürece çoğu cihaz kullanılamayacaktır.&lt;/p&gt;&lt;p&gt;AppImage, Flatpak veya kendiniz derlediğiniz OpenRGB sürümlerini kullanıyorsanız udev kurallarını manuel olarak yüklemeniz gerekir.&lt;/p&gt;&lt;p&gt;udev kurallarını manuel olarak yüklemek için &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; adresini ziyaret edin.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;h2&gt;UYARI:&lt;/h2&gt;&lt;p&gt;Birden fazla OpenRGB udev kuralı yüklü.&lt;/p&gt;&lt;p&gt;60-openrgb.rules udev kural dosyası hem /etc/udev/rules.d hem de /usr/lib/udev/rules.d dizinlerinde bulunuyor.&lt;/p&gt;&lt;p&gt;Birden fazla udev kural dosyası çakışmaya neden olabilir, bunlardan birinin kaldırılması önerilir.&lt;/p&gt;</translation>
-    </message>
-</context>
-<context>
     <name>SerialSettingsEntry</name>
     <message>
         <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.ui" line="26"/>
@@ -1971,7 +1884,7 @@
         <translation>Protokol:</translation>
     </message>
     <message>
-        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="41"/>
+        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="42"/>
         <source>No serial ports found</source>
         <translation>Seri port bulunamadı</translation>
     </message>
@@ -1979,348 +1892,284 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="229"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="238"/>
         <source>Load Window Geometry</source>
         <translation>Pencere Geometrisini Yükle</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="221"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="230"/>
         <source>Run Zone Checks on Rescan</source>
         <translation>Yeniden Taramada Bölge Kontrollerini Çalıştır</translation>
     </message>
     <message>
-        <source>Start Server</source>
-        <translation type="vanished">Sunucuyu Başlat</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="159"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="168"/>
         <source>Start Minimized</source>
         <translation>Başlangıçta Simge Durumuna Küçült</translation>
     </message>
     <message>
-        <source>User Interface Settings:</source>
-        <translation type="vanished">Kullanıcı Arayüzü Ayarları:</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="169"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="178"/>
         <source>Start at Login</source>
         <translation>Oturum Açıldığında Başlat</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="181"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="190"/>
         <source>Minimize on Close</source>
         <translation>Kapatıldığında Simge Durumuna Küçült</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="212"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="221"/>
         <source>Numerical Labels</source>
         <translation>Sayısal Etiketler</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="213"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="222"/>
         <source>Display numerical labels for otherwise non-labeled LEDs in the LED view</source>
         <translation>LED görünümünde etiketsiz olan LED&apos;ler için sayısal etiketler görüntüleyin</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="225"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="234"/>
         <source>Window Geometry</source>
         <translation>Pencere Geometrisi</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="233"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="242"/>
         <source>Save on Exit</source>
         <translation>Kapatırken Geometriyi Kaydet</translation>
     </message>
     <message>
-        <source>Start Client</source>
-        <translation type="vanished">İstemciyi Başlat</translation>
-    </message>
-    <message>
-        <source>Load Profile</source>
-        <translation type="vanished">Profili Yükle</translation>
-    </message>
-    <message>
-        <source>Set Server Port</source>
-        <translation type="vanished">Sunucu Bağlantı Noktasını Ayarla</translation>
-    </message>
-    <message>
-        <location filename="../../ResourceManager.cpp" line="160"/>
+        <location filename="../../ResourceManager.cpp" line="197"/>
         <source>HID Safe Mode</source>
         <translation>HID Güvenli Mod</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="162"/>
+        <location filename="../../ResourceManager.cpp" line="199"/>
         <source>Use an alternate method for detecting HID devices</source>
         <translation>HID cihazlarını tespit etmek için alternatif bir yöntem kullan</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="164"/>
+        <location filename="../../ResourceManager.cpp" line="201"/>
         <source>Initial Detection Delay (ms)</source>
         <translation>İlk Tespit Gecikmesi (ms)</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="166"/>
+        <location filename="../../ResourceManager.cpp" line="203"/>
         <source>Amount of time, in milliseconds, to wait before detecting devices when started</source>
         <translation>Başlatıldığında cihazları tespit etmeden beklemek için geçen zaman (milisaniye cinsinden)</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="168"/>
+        <location filename="../../ResourceManager.cpp" line="205"/>
         <source>Detection</source>
         <translation>Tespit</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="175"/>
+        <location filename="../../ResourceManager.cpp" line="212"/>
         <source>Enable Log Console</source>
         <translation>Kayıt Konsolunu Etkinleştir</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="182"/>
+        <location filename="../../ResourceManager.cpp" line="219"/>
         <source>Log Level</source>
         <translation>Günlük Seviyesi</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="200"/>
+        <location filename="../../ResourceManager.cpp" line="237"/>
         <source>Log File Count Limit</source>
         <translation>Günlük Dosya Sayısı Sınırı</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="202"/>
+        <location filename="../../ResourceManager.cpp" line="239"/>
         <source>Maximum number of log files to keep, 0 for no limit</source>
         <translation>Korumak için tutulacak en fazla günlük dosyası sayısı, sınırsız için 0</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="206"/>
+        <location filename="../../ResourceManager.cpp" line="243"/>
         <source>Log Manager</source>
         <translation>Günlük Yöneticisi</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="213"/>
+        <location filename="../../ResourceManager.cpp" line="250"/>
         <source>Serve All Controllers</source>
         <translation>Tüm Kontrolcüleri Sun</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="215"/>
+        <location filename="../../ResourceManager.cpp" line="252"/>
         <source>Include controllers provided by client connections and plugins</source>
         <translation>İstemci bağlantıları ve eklentiler tarafından sağlanan denetleyicileri dahil et</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="217"/>
+        <location filename="../../ResourceManager.cpp" line="254"/>
         <source>Default Host</source>
         <translation>Varsayılan Sunucu</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="221"/>
+        <location filename="../../ResourceManager.cpp" line="258"/>
         <source>Default Port</source>
         <translation>Varsayılan Port</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="227"/>
+        <location filename="../../ResourceManager.cpp" line="264"/>
         <source>Legacy Workaround</source>
         <translation>Geleneksel Çözüm</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="229"/>
+        <location filename="../../ResourceManager.cpp" line="266"/>
         <source>Workaround for some older SDK implementations that sent incorrect packet size for certain packets</source>
         <translation>Bazı daha eski SDK uygulamaları için, belirli paketler için yanlış paket boyutu gönderen bir geçici çözüm</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="231"/>
+        <location filename="../../ResourceManager.cpp" line="268"/>
         <source>Server</source>
         <translation>Sunucu</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="164"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="173"/>
         <source>Custom Arguments</source>
         <translation>Özel Argümanlar</translation>
     </message>
     <message>
-        <source>Log Manager Settings:</source>
-        <translation type="vanished">Kayıt Yöneticisi Ayarları:</translation>
-    </message>
-    <message>
-        <source>Start at Login Status</source>
-        <translation type="vanished">Oturum Açıldığında Başlatma Durumu</translation>
-    </message>
-    <message>
-        <source>Start at Login Settings:</source>
-        <translation type="vanished">Oturum Açıldığında Başlatma Ayarları:</translation>
-    </message>
-    <message>
-        <source>Open Settings Folder</source>
-        <translation type="vanished">Ayarlar Klasörünü Aç</translation>
-    </message>
-    <message>
-        <source>Drivers Settings</source>
-        <translation type="vanished">Sürücü Ayarları</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="186"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="195"/>
         <source>Monochrome Tray Icon</source>
         <translation>Gri Tonlu Sistem Tepsisi Simgesi</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="235"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="244"/>
         <source>Save window geometry on exit</source>
         <translation>Çıkışta pencere geometrisini kaydet</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="238"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="247"/>
         <source>X</source>
-        <translation></translation>
+        <translation>X</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="242"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="251"/>
         <source>Y</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="246"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="255"/>
         <source>Width</source>
         <translation>Genişlik</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="250"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="259"/>
         <source>Height</source>
         <translation>Yükseklik</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="254"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="263"/>
         <source>User Interface</source>
         <translation>Kullanıcı Arayüzü</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="266"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="275"/>
         <source>SMBus Sleep Mode (restart required)</source>
         <translation>SMBus Uyku Modu (yeniden başlatma gerekli)</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="275"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="284"/>
         <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
         <translation>AMD SMBus: CPU Kullanımını Azalt (yeniden başlatma gerekli)</translation>
     </message>
     <message>
-        <source>Set Profile on Exit</source>
-        <translation type="vanished">Çıkışta Profili Ayarla</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="263"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="272"/>
         <source>Shared SMBus Access (restart required)</source>
         <translation>Paylaşılan SMBus Erişimi (yeniden başlatma gerekli)</translation>
     </message>
     <message>
-        <source>Set Server Host</source>
-        <translation type="vanished">Sunucu Ana Bilgisayarını Ayarla</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="176"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="185"/>
         <source>Language</source>
         <translation>Dil</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="217"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="226"/>
         <source>Disable Key Expansion</source>
         <translation>Cihaz Görünümünde Tuş Genişletmeyi Devre Dışı Bırak</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="191"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="200"/>
         <source>Hex Format</source>
         <translation>Hex Formatı</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="154"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="163"/>
         <source>Enable Start at Login</source>
         <translation>Girişte Başlatı</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="156"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="165"/>
         <source>Start OpenRGB on login</source>
         <translation>Giriş yaparken OpenRGB&apos;i başlat</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="161"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="170"/>
         <source>Start minimized to the system tray</source>
         <translation>Sisteme en az gösterilmesi için sistem sepetine başla</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="166"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="175"/>
         <source>Additional command line arguments to pass to OpenRGB when starting on login</source>
         <translation>Kullanıcı girişi sırasında OpenRGB başlatıldığında geçirilecek ek komut satırı argümanları</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="178"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="187"/>
         <source>Language for the user interface</source>
         <translation>Kullanıcı arayüzü için dil</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="182"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="191"/>
         <source>Keep OpenRGB active in the system tray when closing the main window</source>
         <translation>Ana pencere kapatıldığında OpenRGB&apos;i sistem çantasında aktif tut</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="187"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="196"/>
         <source>Use a monochrome icon in the system tray instead of a full color icon</source>
         <translation>Sistem sehpesinde tam renkli bir ikon yerine monokrom bir ikon kullan</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="193"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="202"/>
         <source>Select #BBGGRR or #RRGGBB format for hex display and input</source>
         <translation>#BBGGRR veya #RRGGBB formatını ondalık ve girdi için onaltılık olarak seçin</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="198"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="207"/>
         <source>Compact Tabs</source>
         <translation>Kompakt Sekmeler</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="200"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="209"/>
         <source>Display sidebar tabs as icons only</source>
         <translation>Yan çubuk sekmesini yalnızca simgeler olarak göster</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="203"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="212"/>
         <source>Tabs on Top</source>
         <translation>Üstte Sekmeler</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="205"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="214"/>
         <source>Display tabs on top instead of on the left</source>
         <translation>Sol tarafta yerine sekme çubuklarını üstte görüntüle</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="208"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="217"/>
         <source>Show LED View by Default</source>
         <translation>Varsayılan olarak LED görünümünü göster</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="279"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="288"/>
         <source>Drivers</source>
         <translation>Sürücüler</translation>
     </message>
     <message>
-        <source>Set Profile on Suspend</source>
-        <translation type="vanished">Askıya alındığında profili ayarla</translation>
-    </message>
-    <message>
-        <source>Set Profile on Resume</source>
-        <translation type="vanished">Devam edildiğinde profil ayarla</translation>
-    </message>
-    <message>
-        <location filename="../../ResourceManager.cpp" line="178"/>
+        <location filename="../../ResourceManager.cpp" line="215"/>
         <source>Enable Log File</source>
         <translation>Kayıt dosyasını etkinleştir</translation>
-    </message>
-    <message>
-        <source>A problem occurred enabling Start at Login.</source>
-        <translation type="vanished">Oturum açarken Başlat özelliği etkinleştirilirken bir sorun oluştu.</translation>
     </message>
     <message>
         <location filename="../OpenRGBDynamicSettingsWidget/OpenRGBDynamicSettingsWidget.cpp" line="357"/>
         <source>English - US</source>
         <translation>Türkçe - TR</translation>
-    </message>
-    <message>
-        <source>System Default</source>
-        <translation type="vanished">Sistem Varsayılanı</translation>
     </message>
     <message>
         <location filename="../../ProfileManager.cpp" line="51"/>
@@ -2354,16 +2203,36 @@
     </message>
     <message>
         <location filename="../../ProfileManager.cpp" line="63"/>
+        <source>Load Profile on Service Shutdown</source>
+        <translation>Hizmet Kapatıldığında Profil Yükle</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="65"/>
+        <source>Profile to load when the OpenRGB background service shuts down</source>
+        <translation>Açılışta OpenRGB arka plan hizmeti kapatıldığında yüklenecek profil</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="67"/>
+        <source>Load Profile on Service Startup</source>
+        <translation>Hizmet Başlangıçında Profil Yükle</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="69"/>
+        <source>Profile to load when the OpenRGB background service starts up</source>
+        <translation>OpenRGB arka plan hizmeti başlatıldığında yüklenecek profil</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="71"/>
         <source>Load Profile on Suspend</source>
         <translation>Suspend durumunda profil yükle</translation>
     </message>
     <message>
-        <location filename="../../ProfileManager.cpp" line="65"/>
+        <location filename="../../ProfileManager.cpp" line="73"/>
         <source>Profile to load before system enters sleep mode</source>
         <translation>Uyku moduna girmeden önce yüklenecek profil</translation>
     </message>
     <message>
-        <location filename="../../ProfileManager.cpp" line="67"/>
+        <location filename="../../ProfileManager.cpp" line="75"/>
         <source>Profile Manager</source>
         <translation>Profil Yöneticisi</translation>
     </message>

@@ -92,7 +92,7 @@
         <translation>ポート:</translation>
     </message>
     <message>
-        <location filename="../ManualDevicesSettingsPage/DMXSettingsEntry/DMXSettingsEntry.cpp" line="36"/>
+        <location filename="../ManualDevicesSettingsPage/DMXSettingsEntry/DMXSettingsEntry.cpp" line="37"/>
         <source>No serial ports found</source>
         <translation>シリアルポートが見つかりません</translation>
     </message>
@@ -158,38 +158,22 @@
 <context>
     <name>DetectionManager</name>
     <message>
-        <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the PawnIO driver.&lt;/p&gt;&lt;p&gt;You must first install &lt;a href=&apos;https://pawnio.eu/&apos;&gt;PawnIO&lt;/a&gt;, then you must OpenRGB as administrator in order to access these devices.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="vanished">&lt;h2&gt;一部の内部デバイスが検出されない可能性があります：&lt;/h2&gt;&lt;p&gt;I2CまたはSMBusインターフェースの1つ以上が初期化に失敗しました。&lt;/p&gt;&lt;p&gt;&lt;b&gt;I2CまたはSMBusがない場合、RGB DRAMモジュール、一部のマザーボードのオンボードRGB照明、およびRGBグラフィックカードはOpenRGBで利用できません。&lt;/b&gt;&lt;/p&gt;&lt;h4&gt;これを修正する方法：&lt;/h4&gt;&lt;p&gt;Windowsでは、PawnIOドライバの読み込みに失敗していることが原因であることが一般的です。&lt;/p&gt;&lt;p&gt;PawnIOをまずインストールし、その後OpenRGBを管理者として実行する必要があります。&lt;/p&gt;&lt;p&gt;このメッセージが繰り返し表示される場合は、&lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt;で追加のトラブルシューティング手順を参照してください。&lt;br&gt;&lt;/p&gt;&lt;h3&gt;デスクトップで内部RGBを使用していない場合は、このメッセージはあなたにとって重要ではありません。&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="vanished">&lt;h2&gt;一部の内部デバイスが検出されない可能性があります：&lt;/h2&gt;&lt;p&gt;I2CまたはSMBusインターフェースの1つ以上が初期化に失敗しました。&lt;/p&gt;&lt;p&gt;&lt;b&gt;I2CまたはSMBusがない場合、RGB DRAMモジュール、一部のマザーボードのオンボードRGB照明、およびRGBグラフィックカードはOpenRGBで利用できません。&lt;/b&gt;&lt;/p&gt;&lt;h4&gt;これを修正する方法：&lt;/h4&gt;&lt;p&gt;Linuxでは、通常i2c-devモジュールが読み込まれていないことが原因です。&lt;/p&gt;&lt;p&gt;マザーボードに適したi2cドライバー（AMDシステムでは通常i2c-piix4、Intelシステムではi2c-i801）とともにi2c-devモジュールを読み込む必要があります。&lt;/p&gt;&lt;p&gt;このメッセージが繰り返し表示される場合は、&lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt;で追加のトラブルシューティング手順をご覧ください。&lt;br&gt;&lt;/p&gt;&lt;h3&gt;デスクトップで内部RGBを使用していない場合は、このメッセージはあなたにとって重要ではありません。&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
-        <translation type="vanished">&lt;h2&gt;警告:&lt;/h2&gt;&lt;p&gt;OpenRGBのudevルールがインストールされていません。&lt;/p&gt;&lt;p&gt;OpenRGBをrootとして実行しない限り、ほとんどのデバイスが利用できません。&lt;/p&gt;&lt;p&gt;AppImage、Flatpak、またはOpenRGBの自分でコンパイルしたバージョンを使用している場合、udevルールを手動でインストールする必要があります。&lt;/p&gt;&lt;p&gt;&lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt;を参照して、udevルールを手動でインストールしてください。&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;h2&gt;警告:&lt;/h2&gt;&lt;p&gt;複数のOpenRGB udevルールがインストールされています。&lt;/p&gt;&lt;p&gt;udevルールファイル60-openrgb.rulesは、/etc/udev/rules.dと/usr/lib/udev/rules.dの両方にインストールされています。&lt;/p&gt;&lt;p&gt;複数のudevルールファイルは競合する可能性があります。どちらか一方を削除することをお勧めします。&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../DetectionManager.cpp" line="37"/>
+        <location filename="../../DetectionManager.cpp" line="48"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;One or more I2C/SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.&lt;/p&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the PawnIO driver.&lt;/p&gt;&lt;p&gt;For OpenRGB to access these devices, you must install PawnIO from &lt;a href=&apos;https://pawnio.eu/&apos;&gt;https://pawnio.eu&lt;/a&gt; and run OpenRGB as administrator or as a system service.&lt;/p&gt;&lt;p&gt;If you are not using any of the devices listed above, you can safely ignore this message.&lt;/p&gt;</source>
         <translation>&lt;h2&gt;警告:&lt;/h2&gt;&lt;p&gt;I²C/SMBusインターフェースの1つ以上が初期化に失敗しました。&lt;/p&gt;&lt;p&gt;初期化に失敗したインターフェースによって、OpenRGBでは一部のRGB DRAMモジュール、一部のマザーボードのオンボードRGB照明、およびRGBグラフィックカードが利用できない場合があります。&lt;/p&gt;&lt;p&gt;Windowsでは、PawnIOドライバの読み込みに失敗していることが原因であることが一般的です。&lt;/p&gt;&lt;p&gt;OpenRGBがこれらのデバイスにアクセスできるようにするには、&lt;a href=&apos;https://pawnio.eu/&apos;&gt;https://pawnio.eu&lt;/a&gt;からPawnIOをインストールし、OpenRGBを管理者として実行するか、システムサービスとして実行する必要があります。&lt;/p&gt;&lt;p&gt;上記で挙げたデバイスを使用していない場合は、このメッセージを無視しても問題ありません。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../DetectionManager.cpp" line="44"/>
+        <location filename="../../DetectionManager.cpp" line="55"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;One or more I2C/SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.&lt;/p&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;For OpenRGB to access these devices, you must load the i2c-dev module along with the correct I2C driver module for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;If you are not using any of the devices listed above, you can safely ignore this message.&lt;/p&gt;</source>
         <translation>&lt;h2&gt;警告:&lt;/h2&gt;&lt;p&gt;I2C/SMBusインターフェースの1つ以上が初期化に失敗しました。&lt;/p&gt;&lt;p&gt;初期化に失敗したインターフェースによって、OpenRGBでは一部のRGB DRAMモジュール、一部のマザーボードのオンボードRGB照明、およびRGBグラフィックカードが利用できない可能性があります。&lt;/p&gt;&lt;p&gt;Linuxでは、通常i2c-devモジュールが読み込まれていないことが原因です。&lt;/p&gt;&lt;p&gt;OpenRGBがこれらのデバイスにアクセスできるようにするには、i2c-devモジュールと、マザーボードに適した正しいI2Cドライバモジュール（AMDシステムでは通常i2c-piix4、Intelシステムではi2c-i801）を読み込む必要があります。&lt;/p&gt;&lt;p&gt;上記で挙げたデバイスを使用していない場合は、このメッセージを無視しても問題ありません。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../DetectionManager.cpp" line="53"/>
-        <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
-        <translation>&lt;h2&gt;警告:&lt;/h2&gt;&lt;p&gt;OpenRGB の udev ルールがインストールされていません。&lt;/p&gt;&lt;p&gt;OpenRGB を root として実行しない限り、ほとんどのデバイスが利用できません。&lt;/p&gt;&lt;p&gt;AppImage、Flatpak、または OpenRGB の自作バージョンを使用している場合は、udev ルールを手動でインストールする必要があります。&lt;/p&gt;&lt;p&gt;&lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; を参照して、udev ルールを手動でインストールしてください。&lt;/p&gt;</translation>
+        <location filename="../../DetectionManager.cpp" line="64"/>
+        <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as as a system service or as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
+        <translation>&lt;h2&gt;警告:&lt;/h2&gt;&lt;p&gt;OpenRGB の udev ルールがインストールされていません。&lt;/p&gt;&lt;p&gt;OpenRGB をシステムサービスとして、または root として実行しない限り、ほとんどのデバイスは利用できません。&lt;/p&gt;&lt;p&gt;AppImage、Flatpak、または OpenRGB の自作バージョンを使用している場合は、udev ルールを手動でインストールする必要があります。&lt;/p&gt;&lt;p&gt;&lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; を参照して、udev ルールを手動でインストールしてください。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../DetectionManager.cpp" line="59"/>
+        <location filename="../../DetectionManager.cpp" line="70"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
         <translation>&lt;h2&gt;警告:&lt;/h2&gt;&lt;p&gt;複数の OpenRGB udev ルールがインストールされています。&lt;/p&gt;&lt;p&gt;udev ルールファイル 60-openrgb.rules は、/etc/udev/rules.d と /usr/lib/udev/rules.d の両方にインストールされています。&lt;/p&gt;&lt;p&gt;複数の udev ルールファイルは競合する可能性があるため、どちらか一方を削除することをお勧めします。&lt;/p&gt;</translation>
     </message>
@@ -363,7 +347,7 @@
         <translation>QMK (VialRGBプロトコル)</translation>
     </message>
     <message>
-        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="162"/>
+        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="163"/>
         <source>Serial Device</source>
         <translation>シリアルデバイス</translation>
     </message>
@@ -499,44 +483,19 @@
         <translation>接続を保存</translation>
     </message>
     <message>
-        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="188"/>
+        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="203"/>
         <source>Rescan Devices</source>
         <translation>デバイス再検索</translation>
     </message>
     <message>
-        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="203"/>
+        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="220"/>
         <source>Disconnect</source>
         <translation>切断</translation>
     </message>
-</context>
-<context>
-    <name>OpenRGBDMXSettingsEntry</name>
     <message>
-        <source>Name:</source>
-        <translation type="vanished">名前:</translation>
-    </message>
-    <message>
-        <source>Keepalive Time:</source>
-        <translation type="obsolete">Keepalive Time:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">ポート:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBDMXSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
+        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="226"/>
+        <source>OpenRGB is in local client mode.  The local connection may not be disconnected.</source>
+        <translation>OpenRGBはローカルクライアントモードです。ローカル接続は切断されない場合があります。</translation>
     </message>
 </context>
 <context>
@@ -548,44 +507,64 @@
     </message>
     <message>
         <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="20"/>
+        <source>Device Configuration</source>
+        <translation>デバイス構成</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="26"/>
+        <source>Device Name:</source>
+        <translation>デバイス名:</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="39"/>
         <source>Device-Specific Configuration</source>
         <translation>デバイス固有の設定</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="47"/>
+        <source>Reset Device Configuration</source>
+        <translation>デバイス設定をリセット</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBDeviceInfoPage</name>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="68"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="51"/>
         <source>Name:</source>
         <translation>名前:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="85"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="109"/>
         <source>Vendor:</source>
         <translation>ベンダー:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="102"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="133"/>
         <source>Type:</source>
         <translation>タイプ:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="129"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="177"/>
+        <source>Display Name:</source>
+        <translation>表示名:</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="75"/>
         <source>Description:</source>
         <translation>説明:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="136"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="126"/>
         <source>Version:</source>
         <translation>バージョン:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="143"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="92"/>
         <source>Location:</source>
         <translation>ロケーション:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="51"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="58"/>
         <source>Serial:</source>
         <translation>シリアル:</translation>
     </message>
@@ -683,7 +662,7 @@
         <translation>明度(V):</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="592"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="593"/>
         <source>Edit Zone</source>
         <translation>ゾーンの編集</translation>
     </message>
@@ -704,7 +683,7 @@
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="183"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1617"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1662"/>
         <source>Save To Device</source>
         <translation>デバイスに保存</translation>
     </message>
@@ -719,113 +698,133 @@
         <translation>編集</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2013"/>
         <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
         <translation>個々のLEDを固定に設定する。 ソフトウェア駆動のエフェクトで使用しても安全です。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2014"/>
         <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
         <translation>個々のLEDを固定に設定する。 ソフトウェア駆動のエフェクトで使用すると不安定な動作の原因になります。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2015"/>
         <source>Sets the entire device or a zone to a single color.</source>
         <translation>デバイス全体またはゾーンを1色に設定。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2016"/>
         <source>Gradually fades between fully off and fully on.</source>
         <translation>消灯と点灯の間で徐々にフェードイン・オフします。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2017"/>
         <source>Abruptly changes between fully off and fully on.</source>
         <translation>消灯と点灯を繰り返す。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2018"/>
         <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
         <translation>全色を徐々に循環させます。 デバイスのライトはすべて同じ色になります。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1974"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2019"/>
         <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
         <translation>全色のスペクトルを徐々に循環させる。 動く虹のパターンを作り出す。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1975"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2020"/>
         <source>Flashes lights when keys or buttons are pressed.</source>
         <translation>キーやボタンが押されると、ライトが点滅します。</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="505"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1766"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="506"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1811"/>
         <source>Entire Device</source>
         <translation>LED全て</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="536"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="537"/>
         <source>Edit Device</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイスの編集</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="561"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="562"/>
         <source>Entire Zone</source>
         <translation>ゾーン全て</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1523"/>
         <source>Left</source>
         <translation>左</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1500"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1524"/>
         <source>Right</source>
         <translation>右</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1529"/>
         <source>Up</source>
         <translation>上</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1506"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1530"/>
         <source>Down</source>
         <translation>下</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1511"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1535"/>
         <source>Horizontal</source>
         <translation>水平</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1512"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1536"/>
         <source>Vertical</source>
         <translation>垂直</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1612"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1541"/>
+        <source>Up-Left</source>
+        <translation>上-左</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1542"/>
+        <source>Up-Right</source>
+        <translation>右上</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1543"/>
+        <source>Down-Left</source>
+        <translation>下-左</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1544"/>
+        <source>Down-Right</source>
+        <translation>下-右</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1657"/>
         <source>Saved To Device</source>
         <translation>デバイスに保存しました</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1622"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1667"/>
         <source>Saving Not Supported</source>
         <translation>設定の保存が非対応です</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1682"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1727"/>
         <source>All Zones</source>
         <translation>全てのゾーン</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1720"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1765"/>
         <source>Mode Specific</source>
         <translation>特定のモード</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="615"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="616"/>
         <source>Entire Segment</source>
         <translation>セグメント全体</translation>
     </message>
@@ -864,7 +863,8 @@
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="108"/>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="378"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="386"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="569"/>
         <source>Rescan Devices</source>
         <translation>デバイス再検索</translation>
     </message>
@@ -877,13 +877,9 @@
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="115"/>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1828"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1985"/>
         <source>Delete Profile</source>
         <translation>プロファイル削除</translation>
-    </message>
-    <message>
-        <source>Load Profile</source>
-        <translation type="vanished">プロファイルをロード</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="165"/>
@@ -906,164 +902,124 @@
         <translation>名前をつけてプロファイルを保存</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="333"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="342"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="567"/>
         <source>Show/Hide</source>
         <translation>表示/隠す</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="337"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="346"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="558"/>
         <source>Profiles</source>
         <translation>プロファイル</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="341"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="350"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="559"/>
         <source>Quick Colors</source>
         <translation>簡易色指定</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="343"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="352"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="560"/>
         <source>Red</source>
         <translation>赤</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="347"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="356"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="561"/>
         <source>Yellow</source>
         <translation>黄色</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="351"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="360"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="562"/>
         <source>Green</source>
         <translation>緑</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="355"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="364"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="563"/>
         <source>Cyan</source>
         <translation>シアン</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="359"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="368"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="564"/>
         <source>Blue</source>
         <translation>青</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="363"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="372"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="565"/>
         <source>Magenta</source>
         <translation>マゼンタ</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="367"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="376"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="566"/>
         <source>White</source>
         <translation>白</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="373"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="382"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="568"/>
         <source>Lights Off</source>
         <translation>消灯</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="382"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="390"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="570"/>
         <source>Exit</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="658"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="686"/>
         <source>Plugins</source>
         <translation>プラグイン</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="675"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="703"/>
         <source>About OpenRGB</source>
         <translation>OpenRGBについて</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="726"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="754"/>
         <source>Manually Added Devices</source>
         <translation>手動で追加されたデバイス</translation>
     </message>
     <message>
-        <source>Software</source>
-        <translation type="vanished">ソフトウェア</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="692"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="720"/>
         <source>Supported Devices</source>
         <translation>対応デバイス</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="709"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="737"/>
         <source>General Settings</source>
         <translation>一般設定</translation>
     </message>
     <message>
-        <source>DMX Devices</source>
-        <translation type="vanished">DMXデバイス</translation>
-    </message>
-    <message>
-        <source>E1.31 Devices</source>
-        <translation type="vanished">E1.31デバイス</translation>
-    </message>
-    <message>
-        <source>Kasa Smart Devices</source>
-        <translation type="vanished">Kasa Smart デバイス</translation>
-    </message>
-    <message>
-        <source>LIFX Devices</source>
-        <translation type="vanished">LIFX デバイス</translation>
-    </message>
-    <message>
-        <source>Philips Hue Devices</source>
-        <translation type="vanished">フィリップスHueデバイス</translation>
-    </message>
-    <message>
-        <source>Philips Wiz Devices</source>
-        <translation type="vanished">フィリップスWizデバイス</translation>
-    </message>
-    <message>
-        <source>OpenRGB QMK Protocol</source>
-        <translation type="vanished">OpenRGB QMK プロトコル</translation>
-    </message>
-    <message>
-        <source>Serial Devices</source>
-        <translation type="vanished">シリアルデバイス</translation>
-    </message>
-    <message>
-        <source>Yeelight Devices</source>
-        <translation type="vanished">Yeelightデバイス</translation>
-    </message>
-    <message>
-        <source>Nanoleaf Devices</source>
-        <translation type="vanished">Nanoleaf デバイス</translation>
-    </message>
-    <message>
-        <source>Elgato KeyLight Devices</source>
-        <translation type="vanished">Elgato KeyLight デバイス</translation>
-    </message>
-    <message>
-        <source>Elgato LightStrip Devices</source>
-        <translation type="vanished">Elgato LightStrip デバイス</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="889"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="917"/>
         <source>SMBus Tools</source>
         <translation>SMBus ツール</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="903"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="931"/>
         <source>SDK Client</source>
         <translation>SDKクライアント</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="916"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="944"/>
         <source>SDK Server</source>
         <translation>SDKサーバー</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1828"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1985"/>
         <source>Do you really want to delete this profile?</source>
         <translation>本当にプロファイルを削除しますか?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="2096"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="2255"/>
         <source>Log Console</source>
         <translation>ログコンソール</translation>
     </message>
@@ -1079,182 +1035,6 @@
         <location filename="../OpenRGBDynamicSettingsWidget/OpenRGBDynamicSettingsWidget.cpp" line="361"/>
         <source>System Default</source>
         <translation>システム</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBE131SettingsEntry</name>
-    <message>
-        <source>Start Channel:</source>
-        <translation type="vanished">Start Channel:</translation>
-    </message>
-    <message>
-        <source>Number of LEDs:</source>
-        <translation type="vanished">LED数:</translation>
-    </message>
-    <message>
-        <source>Start Universe:</source>
-        <translation type="vanished">Start Universe:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">名前:</translation>
-    </message>
-    <message>
-        <source>Matrix Order:</source>
-        <translation type="vanished">Matrix Order:</translation>
-    </message>
-    <message>
-        <source>Matrix Height:</source>
-        <translation type="vanished">Matrix Height:</translation>
-    </message>
-    <message>
-        <source>Matrix Width:</source>
-        <translation type="vanished">Matrix Width:</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="vanished">タイプ:</translation>
-    </message>
-    <message>
-        <source>IP (Unicast):</source>
-        <translation type="vanished">IP (ユニキャスト):</translation>
-    </message>
-    <message>
-        <source>Universe Size:</source>
-        <translation type="vanished">Universe Size:</translation>
-    </message>
-    <message>
-        <source>Keepalive Time:</source>
-        <translation type="vanished">Keepalive Time:</translation>
-    </message>
-    <message>
-        <source>RGB Order:</source>
-        <translation type="vanished">RGB順序:</translation>
-    </message>
-    <message>
-        <source>Single</source>
-        <translation type="vanished">Single</translation>
-    </message>
-    <message>
-        <source>Linear</source>
-        <translation type="vanished">リニア</translation>
-    </message>
-    <message>
-        <source>Matrix</source>
-        <translation type="vanished">マトリックス</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Left</source>
-        <translation type="vanished">Horizontal Top Left</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Right</source>
-        <translation type="vanished">Horizontal Top Right</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Left</source>
-        <translation type="vanished">Horizontal Bottom Left</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Right</source>
-        <translation type="vanished">Horizontal Bottom Right</translation>
-    </message>
-    <message>
-        <source>Vertical Top Left</source>
-        <translation type="vanished">Vertical Top Left</translation>
-    </message>
-    <message>
-        <source>Vertical Top Right</source>
-        <translation type="vanished">Vertical Top Right</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Left</source>
-        <translation type="vanished">Vertical Bottom Left</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Right</source>
-        <translation type="vanished">Vertical Bottom Right</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBE131SettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoKeyLightSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoKeyLightSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoLightStripSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoLightStripSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBGoveeSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="obsolete">IP:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBGoveeSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="obsolete">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="obsolete">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="obsolete">保存</translation>
     </message>
 </context>
 <context>
@@ -1283,58 +1063,6 @@
         <location filename="../OpenRGBHardwareIDsDialog/OpenRGBHardwareIDsDialog.ui" line="38"/>
         <source>Vendor</source>
         <translation>ベンダー</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBKasaSmartSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">名前</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBKasaSmartSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBLIFXSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">名前</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBLIFXSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
     </message>
 </context>
 <context>
@@ -1371,143 +1099,6 @@
         <location filename="../OpenRGBMatrixMapEditorDialog/OpenRGBMatrixMapEditorDialog.ui" line="72"/>
         <source>Width:</source>
         <translation>幅:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafNewDeviceDialog</name>
-    <message>
-        <source>New Nanoleaf device</source>
-        <translation type="vanished">新しいNanoleafデバイス</translation>
-    </message>
-    <message>
-        <source>IP address:</source>
-        <translation type="vanished">IPアドレス:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">ポート:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">ポート:</translation>
-    </message>
-    <message>
-        <source>Auth Key:</source>
-        <translation type="vanished">Auth Key:</translation>
-    </message>
-    <message>
-        <source>Unpair</source>
-        <translation type="vanished">ペア解除</translation>
-    </message>
-    <message>
-        <source>Pair</source>
-        <translation type="vanished">ペア</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Scan</source>
-        <translation type="vanished">スキャン</translation>
-    </message>
-    <message>
-        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation type="vanished">ペアリングするには、LEDがパターン状に点滅し始めるまでオン-オフボタンを5～7秒間押し続け、30秒以内に&quot;ペア&quot; ボタンをクリックします。</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsHueSettingsEntry</name>
-    <message>
-        <source>Entertainment Mode:</source>
-        <translation type="vanished">Entertainment Mode:</translation>
-    </message>
-    <message>
-        <source>Auto Connect Group:</source>
-        <translation type="vanished">Auto Connect Group:</translation>
-    </message>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Client Key:</source>
-        <translation type="vanished">Client Key:</translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation type="vanished">Username:</translation>
-    </message>
-    <message>
-        <source>MAC:</source>
-        <translation type="vanished">MAC:</translation>
-    </message>
-    <message>
-        <source>Unpair Bridge</source>
-        <translation type="vanished">Unpair Bridge</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsHueSettingsPage</name>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-    <message>
-        <source>After adding a Hue entry and saving, restart OpenRGB and press the Sync button on your Hue bridge to pair it.</source>
-        <translation type="vanished">Hueエントリーを追加して保存したら、OpenRGBを再起動し、HueブリッジのSyncボタンを押してペアリングします。</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsWizSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Average</source>
-        <translation type="vanished">平均 </translation>
-    </message>
-    <message>
-        <source>Minimum</source>
-        <translation type="vanished">最小限</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsWizSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
     </message>
 </context>
 <context>
@@ -1552,10 +1143,6 @@
         <source>API Version:</source>
         <translation>APIバージョン:</translation>
     </message>
-    <message>
-        <source>API Version Value</source>
-        <translation type="vanished">APIバージョン番号</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBPluginsPage</name>
@@ -1566,7 +1153,7 @@
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="37"/>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="161"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="164"/>
         <source>Remove Plugin</source>
         <translation>プラグイン削除</translation>
     </message>
@@ -1576,37 +1163,37 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;プラグインをお探しですか？ でしたら公式リストをご覧ください。&lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="86"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="89"/>
         <source>Install OpenRGB Plugin</source>
         <translation>OpenRGB用プラグインをインストール</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="86"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="89"/>
         <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
         <translation>プラグインファイル (*.dll *.dylib *.so *.so.*)</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="123"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="126"/>
         <source>Replace Plugin</source>
         <translation>プラグインを入れ替え</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="123"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="126"/>
         <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
         <translation>このファイル名のプラグインはすでにインストールされています。 本当にこのプラグインを置き換えますか?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="161"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="164"/>
         <source>Are you sure you want to remove this plugin?</source>
         <translation>本当にこのプラグインを削除しますか?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="221"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="224"/>
         <source>Restart Needed</source>
         <translation>再起動が必要</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="221"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="224"/>
         <source>The plugin will be fully removed after restarting OpenRGB.</source>
         <translation>OpenRGB を再起動すると、プラグインは完全に削除されます。</translation>
     </message>
@@ -1674,14 +1261,6 @@
 <context>
     <name>OpenRGBProfileListDialog</name>
     <message>
-        <source>Profile Name</source>
-        <translation type="vanished">プロファイル名</translation>
-    </message>
-    <message>
-        <source>Save to an existing profile:</source>
-        <translation type="vanished">既存プロファイルへ保存:</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBProfileListDialog/OpenRGBProfileListDialog.ui" line="20"/>
         <source>Profile Selection</source>
         <translation>プロファイル選択</translation>
@@ -1695,36 +1274,6 @@
         <location filename="../OpenRGBProfileListDialog/OpenRGBProfileListDialog.ui" line="36"/>
         <source>Create a new profile:</source>
         <translation>新規プロファイル作成:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBQMKORGBSettingsEntry</name>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">名前:</translation>
-    </message>
-    <message>
-        <source>USB PID:</source>
-        <translation type="vanished">USB PID:</translation>
-    </message>
-    <message>
-        <source>USB VID:</source>
-        <translation type="vanished">USB VID:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBQMKORGBSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
     </message>
 </context>
 <context>
@@ -1753,44 +1302,6 @@
         <location filename="../OpenRGBSegmentExportDialog/OpenRGBSegmentExportDialog.ui" line="72"/>
         <source>Device Name (Optional):</source>
         <translation>デバイス名（任意）：</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBSerialSettingsEntry</name>
-    <message>
-        <source>Baud:</source>
-        <translation type="vanished">Baud:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">名前:</translation>
-    </message>
-    <message>
-        <source>Number of LEDs:</source>
-        <translation type="vanished">LED数:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">ポート:</translation>
-    </message>
-    <message>
-        <source>Protocol:</source>
-        <translation type="vanished">プロトコル:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBSerialSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
     </message>
 </context>
 <context>
@@ -2019,10 +1530,6 @@
         <translation>アドレス:</translation>
     </message>
     <message>
-        <source>Read Device</source>
-        <translation type="vanished">デバイス読み取り</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.ui" line="34"/>
         <source>SMBus Dumper:</source>
         <translation>SMBus ダンパ:</translation>
@@ -2075,10 +1582,6 @@
         <translation>Dump Device</translation>
     </message>
     <message>
-        <source>SMBus Reader:</source>
-        <translation type="vanished">SMBus リーダー:</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.ui" line="91"/>
         <source>Addr:</source>
         <translation>アドレス:</translation>
@@ -2095,57 +1598,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation type="vanished">?</translation>
-    </message>
-    <message>
-        <source>Music Mode:</source>
-        <translation type="vanished">音楽モード:</translation>
-    </message>
-    <message>
-        <source>Override host IP:</source>
-        <translation type="vanished">ホストのIPにオーバーライド:</translation>
-    </message>
-    <message>
-        <source>Left blank for auto discovering host ip</source>
-        <translation type="vanished">ホストIPを自動検出する場合は空白にします</translation>
-    </message>
-    <message>
-        <source>Choose an IP...</source>
-        <translation type="vanished">IPを一つ選択...</translation>
-    </message>
-    <message>
-        <source>Choose the correct IP for the host</source>
-        <translation type="vanished">ホストのIPを正しく選択する</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBYeelightSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">削除</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-</context>
-<context>
     <name>OpenRGBZoneEditorDialog</name>
-    <message>
-        <source>Resize Zone</source>
-        <translation type="vanished">ゾーンリサイズ</translation>
-    </message>
     <message>
         <location filename="../OpenRGBZoneEditorDialog/OpenRGBZoneEditorDialog.ui" line="40"/>
         <source>Add Segment</source>
@@ -2254,14 +1707,6 @@
         <location filename="../OpenRGBZoneInitializationDialog/OpenRGBZoneInitializationDialog.ui" line="88"/>
         <source>Ignore</source>
         <translation>無視</translation>
-    </message>
-    <message>
-        <source>Zones Resizer</source>
-        <translation type="vanished">ゾーンリサイザー</translation>
-    </message>
-    <message>
-        <source>Resize the zones</source>
-        <translation type="vanished">ゾーンをリサイズ</translation>
     </message>
     <message>
         <location filename="../OpenRGBZoneInitializationDialog/OpenRGBZoneInitializationDialog.cpp" line="119"/>
@@ -2439,7 +1884,7 @@
         <translation>ポート:</translation>
     </message>
     <message>
-        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="41"/>
+        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="42"/>
         <source>No serial ports found</source>
         <translation>シリアルポートが見つかりません</translation>
     </message>
@@ -2447,337 +1892,277 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="229"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="238"/>
         <source>Load Window Geometry</source>
         <translation>ウィンドウジオメトリをロード</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="181"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="190"/>
         <source>Minimize on Close</source>
         <translation>閉じる時は最小化させる</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="154"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="163"/>
         <source>Enable Start at Login</source>
         <translation>ログイン時に起動する</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="156"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="165"/>
         <source>Start OpenRGB on login</source>
         <translation>ログイン時にOpenRGBを起動する</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="161"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="170"/>
         <source>Start minimized to the system tray</source>
         <translation>システムトレイに最小化して起動</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="166"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="175"/>
         <source>Additional command line arguments to pass to OpenRGB when starting on login</source>
         <translation>ログイン時にOpenRGBを起動するときに渡す追加のコマンドライン引数</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="178"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="187"/>
         <source>Language for the user interface</source>
         <translation>ユーザーインターフェースの言語</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="182"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="191"/>
         <source>Keep OpenRGB active in the system tray when closing the main window</source>
         <translation>メインウィンドウを閉じたときにOpenRGBをシステムトレイでアクティブにします</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="187"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="196"/>
         <source>Use a monochrome icon in the system tray instead of a full color icon</source>
         <translation>システムトレイにフルカラーのアイコンの代わりにモノクロのアイコンを使用する</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="193"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="202"/>
         <source>Select #BBGGRR or #RRGGBB format for hex display and input</source>
         <translation>#BBGGRR または #RRGGBB 形式を、16進数の表示および入力に選択してください</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="198"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="207"/>
         <source>Compact Tabs</source>
         <translation>コンパクトタブ</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="200"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="209"/>
         <source>Display sidebar tabs as icons only</source>
         <translation>サイドバーのタブをアイコンのみとして表示</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="203"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="212"/>
         <source>Tabs on Top</source>
         <translation>タブを上に</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="205"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="214"/>
         <source>Display tabs on top instead of on the left</source>
         <translation>タブを左ではなく上に表示する</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="212"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="221"/>
         <source>Numerical Labels</source>
         <translation>数値ラベル</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="213"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="222"/>
         <source>Display numerical labels for otherwise non-labeled LEDs in the LED view</source>
         <translation>LEDビューでラベルがついていないLEDに数値ラベルを表示する</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="225"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="234"/>
         <source>Window Geometry</source>
         <translation>ウィンドウの幾何学</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="233"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="242"/>
         <source>Save on Exit</source>
         <translation>ウィンドウジオメトリを閉じるときに保存</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="279"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="288"/>
         <source>Drivers</source>
         <translation>ドライバー</translation>
     </message>
     <message>
-        <source>90000</source>
-        <translation type="vanished">90000</translation>
-    </message>
-    <message>
-        <source>Start Server</source>
-        <translation type="vanished">サーバースタート</translation>
-    </message>
-    <message>
-        <location filename="../../ResourceManager.cpp" line="160"/>
+        <location filename="../../ResourceManager.cpp" line="197"/>
         <source>HID Safe Mode</source>
         <translation>HIDセーフモード</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="162"/>
+        <location filename="../../ResourceManager.cpp" line="199"/>
         <source>Use an alternate method for detecting HID devices</source>
         <translation>HIDデバイスの検出に代替方法を使用する</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="164"/>
+        <location filename="../../ResourceManager.cpp" line="201"/>
         <source>Initial Detection Delay (ms)</source>
         <translation>初期検出遅延 (ms)</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="166"/>
+        <location filename="../../ResourceManager.cpp" line="203"/>
         <source>Amount of time, in milliseconds, to wait before detecting devices when started</source>
         <translation>起動時にデバイスの検出を開始するまでの待ち時間（ミリ秒）</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="168"/>
+        <location filename="../../ResourceManager.cpp" line="205"/>
         <source>Detection</source>
         <translation>検出</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="175"/>
+        <location filename="../../ResourceManager.cpp" line="212"/>
         <source>Enable Log Console</source>
         <translation>ログコンソールを有効にする</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="182"/>
+        <location filename="../../ResourceManager.cpp" line="219"/>
         <source>Log Level</source>
         <translation>ログレベル</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="200"/>
+        <location filename="../../ResourceManager.cpp" line="237"/>
         <source>Log File Count Limit</source>
         <translation>ログファイルの数の上限</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="202"/>
+        <location filename="../../ResourceManager.cpp" line="239"/>
         <source>Maximum number of log files to keep, 0 for no limit</source>
         <translation>保持するログファイルの最大数、0を指定すると制限なし</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="206"/>
+        <location filename="../../ResourceManager.cpp" line="243"/>
         <source>Log Manager</source>
         <translation>ログ マネージャー</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="213"/>
+        <location filename="../../ResourceManager.cpp" line="250"/>
         <source>Serve All Controllers</source>
         <translation>すべてのコントローラを提供する</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="215"/>
+        <location filename="../../ResourceManager.cpp" line="252"/>
         <source>Include controllers provided by client connections and plugins</source>
         <translation>クライアント接続およびプラグインによって提供されるコントローラーを含める</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="217"/>
+        <location filename="../../ResourceManager.cpp" line="254"/>
         <source>Default Host</source>
         <translation>デフォルトホスト</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="221"/>
+        <location filename="../../ResourceManager.cpp" line="258"/>
         <source>Default Port</source>
         <translation>デフォルトポート</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="227"/>
+        <location filename="../../ResourceManager.cpp" line="264"/>
         <source>Legacy Workaround</source>
         <translation>レガシーワークアラウンド</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="229"/>
+        <location filename="../../ResourceManager.cpp" line="266"/>
         <source>Workaround for some older SDK implementations that sent incorrect packet size for certain packets</source>
         <translation>一部の古いSDK実装向けの回避策。特定のパケットに対して不正確なパケットサイズが送信される問題に対処するもの</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="231"/>
+        <location filename="../../ResourceManager.cpp" line="268"/>
         <source>Server</source>
         <translation>サーバー</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="164"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="173"/>
         <source>Custom Arguments</source>
         <translation>カスタム引数</translation>
     </message>
     <message>
-        <source>Start Client</source>
-        <translation type="vanished">クライアントスタート</translation>
-    </message>
-    <message>
-        <source>Start at Login Settings:</source>
-        <translation type="vanished">ログイン時に起動設定:</translation>
-    </message>
-    <message>
-        <source>Log Manager Settings:</source>
-        <translation type="vanished">ログマネージャ設定:</translation>
-    </message>
-    <message>
-        <source>Start at Login Status</source>
-        <translation type="vanished">Start at Login Status</translation>
-    </message>
-    <message>
-        <source>Set Profile on Exit</source>
-        <translation type="vanished">終了時にプロファイルをセット</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="263"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="272"/>
         <source>Shared SMBus Access (restart required)</source>
         <translation>SMBus Accessを共有 (再起動が必要)</translation>
     </message>
     <message>
-        <source>Set Server Host</source>
-        <translation type="vanished">サーバーホストを設定</translation>
-    </message>
-    <message>
-        <source>Set Server Port</source>
-        <translation type="vanished">サーバーポートをセット</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="176"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="185"/>
         <source>Language</source>
         <translation>言語</translation>
     </message>
     <message>
-        <source>Load Profile</source>
-        <translation type="vanished">プロファイルをロード</translation>
-    </message>
-    <message>
-        <source>Drivers Settings</source>
-        <translation type="vanished">ドライバ設定</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="221"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="230"/>
         <source>Run Zone Checks on Rescan</source>
         <translation>再スキャン時に動作ゾーンをチェック</translation>
     </message>
     <message>
-        <source>User Interface Settings:</source>
-        <translation type="vanished">ユーザーインターフェイス設定:</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="169"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="178"/>
         <source>Start at Login</source>
         <translation>ログイン時に起動</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="159"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="168"/>
         <source>Start Minimized</source>
         <translation>最小化で起動させる</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="235"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="244"/>
         <source>Save window geometry on exit</source>
         <translation>終了時にウィンドウの幾何学を保存する</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="238"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="247"/>
         <source>X</source>
         <translation>X</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="242"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="251"/>
         <source>Y</source>
         <translation>Y</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="246"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="255"/>
         <source>Width</source>
         <translation>幅</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="250"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="259"/>
         <source>Height</source>
         <translation>高さ</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="254"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="263"/>
         <source>User Interface</source>
         <translation>ユーザーインターフェース</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="266"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="275"/>
         <source>SMBus Sleep Mode (restart required)</source>
         <translation>SMBus スリープモード（再起動が必要）</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="275"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="284"/>
         <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
         <translation>AMD SMBus: CPU使用率低減 (再起動が必要)</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="186"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="195"/>
         <source>Monochrome Tray Icon</source>
         <translation>トレイアイコンをグレースケールで表示させる</translation>
     </message>
     <message>
-        <source>Open Settings Folder</source>
-        <translation type="vanished">設定フォルダを開く</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="217"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="226"/>
         <source>Disable Key Expansion</source>
         <translation>デバイスビューでキー拡張を無効にする</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="191"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="200"/>
         <source>Hex Format</source>
         <translation>Hex フォーマット</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="208"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="217"/>
         <source>Show LED View by Default</source>
         <translation>デフォルトでLEDビューを表示する</translation>
     </message>
     <message>
-        <source>Set Profile on Suspend</source>
-        <translation type="vanished">スリープ時にプロファイルをセット</translation>
-    </message>
-    <message>
-        <source>Set Profile on Resume</source>
-        <translation type="vanished">復帰時にプロファイルをセット</translation>
-    </message>
-    <message>
-        <location filename="../../ResourceManager.cpp" line="178"/>
+        <location filename="../../ResourceManager.cpp" line="215"/>
         <source>Enable Log File</source>
         <translation>ログファイルを有効にする</translation>
     </message>
@@ -2785,14 +2170,6 @@
         <location filename="../OpenRGBDynamicSettingsWidget/OpenRGBDynamicSettingsWidget.cpp" line="357"/>
         <source>English - US</source>
         <translation>日本語</translation>
-    </message>
-    <message>
-        <source>System Default</source>
-        <translation type="vanished">システム</translation>
-    </message>
-    <message>
-        <source>A problem occurred enabling Start at Login.</source>
-        <translation type="vanished">Start At Loginを有効にする際に問題が発生しました。</translation>
     </message>
     <message>
         <location filename="../../ProfileManager.cpp" line="51"/>
@@ -2826,16 +2203,36 @@
     </message>
     <message>
         <location filename="../../ProfileManager.cpp" line="63"/>
+        <source>Load Profile on Service Shutdown</source>
+        <translation>サービスシャットダウン時にプロファイルを読み込む</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="65"/>
+        <source>Profile to load when the OpenRGB background service shuts down</source>
+        <translation>OpenRGBバックグラウンドサービスがシャットダウンするときに読み込むプロファイル</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="67"/>
+        <source>Load Profile on Service Startup</source>
+        <translation>サービス起動時にプロファイルを読み込む</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="69"/>
+        <source>Profile to load when the OpenRGB background service starts up</source>
+        <translation>OpenRGBバックグラウンドサービスが起動時に読み込むプロファイル</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="71"/>
         <source>Load Profile on Suspend</source>
         <translation>スリープ時にプロファイルを読み込む</translation>
     </message>
     <message>
-        <location filename="../../ProfileManager.cpp" line="65"/>
+        <location filename="../../ProfileManager.cpp" line="73"/>
         <source>Profile to load before system enters sleep mode</source>
         <translation>システムがスリープモードに入る前に読み込むプロファイル</translation>
     </message>
     <message>
-        <location filename="../../ProfileManager.cpp" line="67"/>
+        <location filename="../../ProfileManager.cpp" line="75"/>
         <source>Profile Manager</source>
         <translation>プロファイル マネージャー</translation>
     </message>

@@ -92,7 +92,7 @@
         <translation>포트:</translation>
     </message>
     <message>
-        <location filename="../ManualDevicesSettingsPage/DMXSettingsEntry/DMXSettingsEntry.cpp" line="36"/>
+        <location filename="../ManualDevicesSettingsPage/DMXSettingsEntry/DMXSettingsEntry.cpp" line="37"/>
         <source>No serial ports found</source>
         <translation>직렬 포트를 찾을 수 없습니다</translation>
     </message>
@@ -158,38 +158,22 @@
 <context>
     <name>DetectionManager</name>
     <message>
-        <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the PawnIO driver.&lt;/p&gt;&lt;p&gt;You must first install &lt;a href=&apos;https://pawnio.eu/&apos;&gt;PawnIO&lt;/a&gt;, then you must OpenRGB as administrator in order to access these devices.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="vanished">&lt;h2&gt;일부 내부 장치가 감지되지 않을 수 있습니다:&lt;/h2&gt;&lt;p&gt;I2C 또는 SMBus 인터페이스 하나 이상이 초기화에 실패했습니다.&lt;/p&gt;&lt;p&gt;&lt;b&gt;I2C 또는 SMBus가 없으면 RGB DRAM 모듈, 일부 메인보드의 내장 RGB 조명, RGB 그래픽 카드는 OpenRGB에서 사용할 수 없습니다.&lt;/b&gt;&lt;/p&gt;&lt;h4&gt;이 문제를 해결하는 방법:&lt;/h4&gt;&lt;p&gt;Windows에서는 일반적으로 PawnIO 드라이버가 로드되지 못한 경우에 발생합니다.&lt;/p&gt;&lt;p&gt;먼저 &lt;a href=&apos;https://pawnio.eu/&apos;&gt;PawnIO&lt;/a&gt;를 설치해야 하며, 이후 이 장치에 액세스하려면 OpenRGB을 관리자 권한으로 실행해야 합니다.&lt;/p&gt;&lt;p&gt;이 메시지가 계속 나타난다면 &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt;에서 추가 문제 해결 단계를 참조하십시오.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;데스크탑에서 내부 RGB를 사용하지 않는다면 이 메시지는 당신에게 중요하지 않습니다.&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="vanished">&lt;h2&gt;일부 내부 장치는 감지되지 않을 수 있습니다:&lt;/h2&gt;&lt;p&gt;I2C 또는 SMBus 인터페이스 하나 이상이 초기화에 실패했습니다.&lt;/p&gt;&lt;p&gt;&lt;b&gt;I2C 또는 SMBus가 없으면 RGB DRAM 모듈, 일부 메인보드의 내장 RGB 조명, RGB 그래픽 카드는 OpenRGB에서 사용할 수 없습니다.&lt;/b&gt;&lt;/p&gt;&lt;h4&gt;이 문제를 해결하는 방법:&lt;/h4&gt;&lt;p&gt;리눅스에서는 일반적으로 i2c-dev 모듈이 로드되지 않았기 때문입니다.&lt;/p&gt;&lt;p&gt;메인보드에 맞는 올바른 I2C 드라이버와 함께 i2c-dev 모듈을 로드해야 합니다. 일반적으로 AMD 시스템에서는 i2c-piix4, 인텔 시스템에서는 i2c-i801 드라이버를 사용합니다.&lt;/p&gt;&lt;p&gt;이 메시지가 계속 나타난다면 &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt;에서 추가 문제 해결 단계를 확인하십시오.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;데스크탑에서 내부 RGB를 사용하지 않는다면 이 메시지는 중요하지 않습니다.&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
-        <translation type="vanished">&lt;h2&gt;경고:&lt;/h2&gt;&lt;p&gt;OpenRGB의 udev 규칙이 설치되어 있지 않습니다.&lt;/p&gt;&lt;p&gt;OpenRGB를 루트로 실행하지 않는 한 대부분의 장치가 사용할 수 없습니다.&lt;/p&gt;&lt;p&gt;AppImage, Flatpak 또는 OpenRGB의 자체 컴파일 버전을 사용하는 경우 udev 규칙을 수동으로 설치해야 합니다.&lt;/p&gt;&lt;p&gt;&lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt;에서 udev 규칙을 수동으로 설치할 수 있습니다.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;h2&gt;경고:&lt;/h2&gt;&lt;p&gt;여러 개의 OpenRGB udev 규칙이 설치되어 있습니다.&lt;/p&gt;&lt;p&gt;udev 규칙 파일 60-openrgb.rules는 /etc/udev/rules.d 및 /usr/lib/udev/rules.d 모두에 설치되어 있습니다.&lt;/p&gt;&lt;p&gt;여러 udev 규칙 파일은 충돌할 수 있으므로, 하나를 제거하는 것이 좋습니다.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../DetectionManager.cpp" line="37"/>
+        <location filename="../../DetectionManager.cpp" line="48"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;One or more I2C/SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.&lt;/p&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the PawnIO driver.&lt;/p&gt;&lt;p&gt;For OpenRGB to access these devices, you must install PawnIO from &lt;a href=&apos;https://pawnio.eu/&apos;&gt;https://pawnio.eu&lt;/a&gt; and run OpenRGB as administrator or as a system service.&lt;/p&gt;&lt;p&gt;If you are not using any of the devices listed above, you can safely ignore this message.&lt;/p&gt;</source>
         <translation>&lt;h2&gt;경고:&lt;/h2&gt;&lt;p&gt;I2C/SMBus 인터페이스 하나 이상이 초기화에 실패했습니다.&lt;/p&gt;&lt;p&gt;초기화에 실패한 인터페이스에 따라 OpenRGB에서 일부 RGB DRAM 모듈, 일부 메인보드의 내장 RGB 조명, RGB 그래픽 카드가 사용되지 않을 수 있습니다.&lt;/p&gt;&lt;p&gt;Windows에서는 일반적으로 PawnIO 드라이버를 로드하는 데 실패했기 때문에 발생합니다.&lt;/p&gt;&lt;p&gt;OpenRGB가 이러한 장치에 액세스할 수 있도록 하려면 https://pawnio.eu에서 PawnIO를 설치하고 OpenRGB를 관리자 권한으로 실행하거나 시스템 서비스로 실행해야 합니다.&lt;/p&gt;&lt;p&gt;위에 나열된 장치를 사용하지 않는다면 이 메시지는 무시해도 안전합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../DetectionManager.cpp" line="44"/>
+        <location filename="../../DetectionManager.cpp" line="55"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;One or more I2C/SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.&lt;/p&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;For OpenRGB to access these devices, you must load the i2c-dev module along with the correct I2C driver module for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;If you are not using any of the devices listed above, you can safely ignore this message.&lt;/p&gt;</source>
         <translation>&lt;h2&gt;경고:&lt;/h2&gt;&lt;p&gt;하나 이상의 I2C/SMBus 인터페이스가 초기화에 실패했습니다.&lt;/p&gt;&lt;p&gt;초기화에 실패한 인터페이스에 따라 OpenRGB에서 일부 RGB DRAM 모듈, 일부 메인보드의 내장 RGB 조명, RGB 그래픽 카드가 사용되지 않을 수 있습니다.&lt;/p&gt;&lt;p&gt;Linux에서 이는 일반적으로 i2c-dev 모듈이 로드되지 않았기 때문입니다.&lt;/p&gt;&lt;p&gt;OpenRGB가 이러한 장치에 액세스할 수 있도록 i2c-dev 모듈과 메인보드에 적합한 I2C 드라이버 모듈을 함께 로드해야 합니다. 이는 일반적으로 AMD 시스템의 경우 i2c-piix4, Intel 시스템의 경우 i2c-i801입니다.&lt;/p&gt;&lt;p&gt;위에 나열된 장치를 사용하지 않는다면 이 메시지는 무시해도 안전합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../DetectionManager.cpp" line="53"/>
-        <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
-        <translation>&lt;h2&gt;경고:&lt;/h2&gt;&lt;p&gt;OpenRGB의 udev 규칙이 설치되어 있지 않습니다.&lt;/p&gt;&lt;p&gt;OpenRGB를 루트로 실행하지 않는 한 대부분의 장치가 사용할 수 없습니다.&lt;/p&gt;&lt;p&gt;AppImage, Flatpak 또는 OpenRGB의 자체 컴파일 버전을 사용하는 경우 udev 규칙을 수동으로 설치해야 합니다.&lt;/p&gt;&lt;p&gt;&lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt;에서 udev 규칙을 수동으로 설치할 수 있습니다.&lt;/p&gt;</translation>
+        <location filename="../../DetectionManager.cpp" line="64"/>
+        <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as as a system service or as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
+        <translation>&lt;h2&gt;경고:&lt;/h2&gt;&lt;p&gt;OpenRGB udev 규칙이 설치되어 있지 않습니다.&lt;/p&gt;&lt;p&gt;시스템 서비스로 또는 루트로 OpenRGB를 실행하지 않는 한 대부분의 장치가 사용할 수 없습니다.&lt;/p&gt;&lt;p&gt;AppImage, Flatpak 또는 OpenRGB의 자체 컴파일 버전을 사용하는 경우 udev 규칙을 수동으로 설치해야 합니다.&lt;/p&gt;&lt;p&gt;&lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt;에서 udev 규칙을 수동으로 설치할 수 있습니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../DetectionManager.cpp" line="59"/>
+        <location filename="../../DetectionManager.cpp" line="70"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
         <translation>&lt;h2&gt;경고:&lt;/h2&gt;&lt;p&gt;여러 개의 OpenRGB udev 규칙이 설치되어 있습니다.&lt;/p&gt;&lt;p&gt;udev 규칙 파일 60-openrgb.rules는 /etc/udev/rules.d 및 /usr/lib/udev/rules.d 모두에 설치되어 있습니다.&lt;/p&gt;&lt;p&gt;여러 udev 규칙 파일은 충돌할 수 있으므로, 하나를 제거하는 것이 좋습니다.&lt;/p&gt;</translation>
     </message>
@@ -363,7 +347,7 @@
         <translation>QMK (VialRGB 프로토콜)</translation>
     </message>
     <message>
-        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="162"/>
+        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="163"/>
         <source>Serial Device</source>
         <translation>직렬 장치</translation>
     </message>
@@ -499,60 +483,19 @@
         <translation>연결 저장</translation>
     </message>
     <message>
-        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="188"/>
+        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="203"/>
         <source>Rescan Devices</source>
         <translation>장치 다시 스캔</translation>
     </message>
     <message>
-        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="203"/>
+        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="220"/>
         <source>Disconnect</source>
         <translation>연결 끊기</translation>
     </message>
-</context>
-<context>
-    <name>OpenRGBDMXSettingsEntry</name>
     <message>
-        <source>Brightness Channel:</source>
-        <translation type="vanished">밝기 채널:</translation>
-    </message>
-    <message>
-        <source>Blue Channel:</source>
-        <translation type="vanished">청색 채널:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">이름:</translation>
-    </message>
-    <message>
-        <source>Green Channel:</source>
-        <translation type="vanished">녹색 채널:</translation>
-    </message>
-    <message>
-        <source>Red Channel:</source>
-        <translation type="vanished">적색 채널:</translation>
-    </message>
-    <message>
-        <source>Keepalive Time:</source>
-        <translation type="vanished">지속 시간:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">포트:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBDMXSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">삭제</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
+        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp" line="226"/>
+        <source>OpenRGB is in local client mode.  The local connection may not be disconnected.</source>
+        <translation>OpenRGB는 로컬 클라이언트 모드에 있습니다. 로컬 연결은 끊기지 않을 수 있습니다.</translation>
     </message>
 </context>
 <context>
@@ -564,44 +507,64 @@
     </message>
     <message>
         <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="20"/>
+        <source>Device Configuration</source>
+        <translation>기기 설정</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="26"/>
+        <source>Device Name:</source>
+        <translation>기기 이름:</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="39"/>
         <source>Device-Specific Configuration</source>
         <translation>기기별 설정</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="47"/>
+        <source>Reset Device Configuration</source>
+        <translation>기기 설정 초기화</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBDeviceInfoPage</name>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="68"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="51"/>
         <source>Name:</source>
         <translation>이름:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="85"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="109"/>
         <source>Vendor:</source>
         <translation>제조업체:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="102"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="133"/>
         <source>Type:</source>
         <translation>유형:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="129"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="177"/>
+        <source>Display Name:</source>
+        <translation>표시 이름:</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="75"/>
         <source>Description:</source>
         <translation>설명:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="136"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="126"/>
         <source>Version:</source>
         <translation>버전:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="143"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="92"/>
         <source>Location:</source>
         <translation>위치:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="51"/>
+        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="58"/>
         <source>Serial:</source>
         <translation>시리얼:</translation>
     </message>
@@ -699,7 +662,7 @@
         <translation>명도(V):</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="592"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="593"/>
         <source>Edit Zone</source>
         <translation>존 편집</translation>
     </message>
@@ -720,7 +683,7 @@
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="183"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1617"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1662"/>
         <source>Save To Device</source>
         <translation>장치에 저장</translation>
     </message>
@@ -735,113 +698,133 @@
         <translation>HEX:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1968"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2013"/>
         <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
         <translation>개별 LED를 정적 색상으로 설정합니다. 소프트웨어 기반 이펙트와 같이 사용해도 안전합니다.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1969"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2014"/>
         <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
         <translation>개별 LED를 정적 색상으로 설정합니다. 소프트웨어 기반 이펙트와 같이 사용하기에는 안전하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1970"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2015"/>
         <source>Sets the entire device or a zone to a single color.</source>
         <translation>전체 장치 혹은 구역을 한가지 색상으로 설정합니다.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1971"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2016"/>
         <source>Gradually fades between fully off and fully on.</source>
         <translation>완전히 꺼지고 켜진 상태 사이에서 서서히 페이드됩니다.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1972"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2017"/>
         <source>Abruptly changes between fully off and fully on.</source>
         <translation>완전히 꺼지고 켜진 상태 사이에서 갑자기 변경됩니다.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1973"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2018"/>
         <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
         <translation>전체 색상 스펙트럼을 서서히 순환합니다. 장치의 모든 조명이 같은 색으로 표시됩니다.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1974"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2019"/>
         <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
         <translation>전체 색상 스펙트럼을 서서히 순환합니다. 움직이는 무지개 무늬를 나타냅니다.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1975"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="2020"/>
         <source>Flashes lights when keys or buttons are pressed.</source>
         <translation>키나 버튼을 누르면 불빛이 깜박입니다.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="505"/>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1766"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="506"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1811"/>
         <source>Entire Device</source>
         <translation>장치 전체</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="536"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="537"/>
         <source>Edit Device</source>
-        <translation type="unfinished"></translation>
+        <translation>기기 편집</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="561"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="562"/>
         <source>Entire Zone</source>
         <translation>구역 전체</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1499"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1523"/>
         <source>Left</source>
         <translation>왼쪽</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1500"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1524"/>
         <source>Right</source>
         <translation>오른쪽</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1505"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1529"/>
         <source>Up</source>
         <translation>위</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1506"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1530"/>
         <source>Down</source>
         <translation>아래</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1511"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1535"/>
         <source>Horizontal</source>
         <translation>가로</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1512"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1536"/>
         <source>Vertical</source>
         <translation>세로</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1612"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1541"/>
+        <source>Up-Left</source>
+        <translation>상-좌</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1542"/>
+        <source>Up-Right</source>
+        <translation>우상</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1543"/>
+        <source>Down-Left</source>
+        <translation>왼쪽 아래</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1544"/>
+        <source>Down-Right</source>
+        <translation>하단-우측</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1657"/>
         <source>Saved To Device</source>
         <translation>장치에 저장됨</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1622"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1667"/>
         <source>Saving Not Supported</source>
         <translation>저장이 지원되지 않습니다</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1682"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1727"/>
         <source>All Zones</source>
         <translation>모든 구역</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1720"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1765"/>
         <source>Mode Specific</source>
         <translation>특정 모드</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="615"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="616"/>
         <source>Entire Segment</source>
         <translation>세그먼트 전체</translation>
     </message>
@@ -880,7 +863,8 @@
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="108"/>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="378"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="386"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="569"/>
         <source>Rescan Devices</source>
         <translation>장치 다시 스캔</translation>
     </message>
@@ -893,13 +877,9 @@
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="115"/>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1828"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1985"/>
         <source>Delete Profile</source>
         <translation>프로파일 삭제</translation>
-    </message>
-    <message>
-        <source>Load Profile</source>
-        <translation type="vanished">프로파일 불러오기</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="165"/>
@@ -922,166 +902,126 @@
         <translation>다른 이름으로 프로파일 저장</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="333"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="342"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="567"/>
         <source>Show/Hide</source>
         <translation>표시/숨김</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="337"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="346"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="558"/>
         <source>Profiles</source>
         <translation>프로파일</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="341"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="350"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="559"/>
         <source>Quick Colors</source>
         <translation>간편 색상 지정</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="343"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="352"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="560"/>
         <source>Red</source>
         <translation>Red</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="347"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="356"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="561"/>
         <source>Yellow</source>
         <translation>Yellow</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="351"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="360"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="562"/>
         <source>Green</source>
         <translation>Green</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="355"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="364"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="563"/>
         <source>Cyan</source>
         <translation>Cyan</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="359"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="368"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="564"/>
         <source>Blue</source>
         <translation>Blue</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="363"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="372"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="565"/>
         <source>Magenta</source>
         <translation>Magenta</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="367"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="376"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="566"/>
         <source>White</source>
         <translation>White</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="373"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="382"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="568"/>
         <source>Lights Off</source>
         <translation>조명 끄기</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="382"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="390"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="570"/>
         <source>Exit</source>
         <translation>종료</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="658"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="686"/>
         <source>Plugins</source>
         <translation>플러그인</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="675"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="703"/>
         <source>About OpenRGB</source>
         <translation>오픈RGB 정보</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="709"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="737"/>
         <source>General Settings</source>
         <translation>일반 설정</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="726"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="754"/>
         <source>Manually Added Devices</source>
         <translation>수동으로 추가된 장치</translation>
     </message>
     <message>
-        <source>E1.31 Devices</source>
-        <translation type="vanished">E1.31 장치</translation>
-    </message>
-    <message>
-        <source>Philips Hue Devices</source>
-        <translation type="vanished">필립스 Hue 장치</translation>
-    </message>
-    <message>
-        <source>Philips Wiz Devices</source>
-        <translation type="vanished">필립스 Wiz 장치</translation>
-    </message>
-    <message>
-        <source>OpenRGB QMK Protocol</source>
-        <translation type="vanished">OpenRGB QMK 프로토콜</translation>
-    </message>
-    <message>
-        <source>Serial Devices</source>
-        <translation type="vanished">시리얼 장치</translation>
-    </message>
-    <message>
-        <source>Yeelight Devices</source>
-        <translation type="vanished">Yeelight 장치</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="889"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="917"/>
         <source>SMBus Tools</source>
         <translation>SMBus 도구</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="903"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="931"/>
         <source>SDK Client</source>
         <translation>SDK 클라이언트</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="916"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="944"/>
         <source>SDK Server</source>
         <translation>SDK 서버</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1828"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1985"/>
         <source>Do you really want to delete this profile?</source>
         <translation>정말로 이 프로파일을 삭제하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="2096"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="2255"/>
         <source>Log Console</source>
         <translation>로그 콘솔</translation>
     </message>
     <message>
-        <source>LIFX Devices</source>
-        <translation type="vanished">LIFX 장치</translation>
-    </message>
-    <message>
-        <source>Nanoleaf Devices</source>
-        <translation type="vanished">Nanoleaf 장치</translation>
-    </message>
-    <message>
-        <source>Elgato KeyLight Devices</source>
-        <translation type="vanished">Elgato KeyLight 장치</translation>
-    </message>
-    <message>
-        <source>Elgato LightStrip Devices</source>
-        <translation type="vanished">Elgato LightStrip 장치</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="692"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="720"/>
         <source>Supported Devices</source>
         <translation>지원되는 장치</translation>
-    </message>
-    <message>
-        <source>Software</source>
-        <translation type="vanished">소프트웨어</translation>
-    </message>
-    <message>
-        <source>DMX Devices</source>
-        <translation type="vanished">DMX 장치</translation>
-    </message>
-    <message>
-        <source>Kasa Smart Devices</source>
-        <translation type="vanished">Kasa Smart 장치</translation>
     </message>
 </context>
 <context>
@@ -1095,167 +1035,6 @@
         <location filename="../OpenRGBDynamicSettingsWidget/OpenRGBDynamicSettingsWidget.cpp" line="361"/>
         <source>System Default</source>
         <translation>시스템 기본값</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBE131SettingsEntry</name>
-    <message>
-        <source>Start Channel:</source>
-        <translation type="vanished">시작 채널:</translation>
-    </message>
-    <message>
-        <source>Number of LEDs:</source>
-        <translation type="vanished">LED 개수:</translation>
-    </message>
-    <message>
-        <source>Start Universe:</source>
-        <translation type="vanished">시작 Universe:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">이름:</translation>
-    </message>
-    <message>
-        <source>Matrix Order:</source>
-        <translation type="vanished">매트릭스 순서:</translation>
-    </message>
-    <message>
-        <source>Matrix Height:</source>
-        <translation type="vanished">매트릭스 높이:</translation>
-    </message>
-    <message>
-        <source>Matrix Width:</source>
-        <translation type="vanished">매트릭스 너비:</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="vanished">유형:</translation>
-    </message>
-    <message>
-        <source>IP (Unicast):</source>
-        <translation type="vanished">IP (Unicast):</translation>
-    </message>
-    <message>
-        <source>Universe Size:</source>
-        <translation type="vanished">Universe 크기:</translation>
-    </message>
-    <message>
-        <source>Keepalive Time:</source>
-        <translation type="vanished">지속 시간:</translation>
-    </message>
-    <message>
-        <source>RGB Order:</source>
-        <translation type="vanished">RGB 순서:</translation>
-    </message>
-    <message>
-        <source>Single</source>
-        <translation type="vanished">단일</translation>
-    </message>
-    <message>
-        <source>Linear</source>
-        <translation type="vanished">선형</translation>
-    </message>
-    <message>
-        <source>Matrix</source>
-        <translation type="vanished">매트릭스</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Left</source>
-        <translation type="vanished">가로 왼쪽 상단</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Right</source>
-        <translation type="vanished">가로 오른쪽 상단</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Left</source>
-        <translation type="vanished">가로 왼쪽 하단</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Right</source>
-        <translation type="vanished">가로 오른쪽 하단</translation>
-    </message>
-    <message>
-        <source>Vertical Top Left</source>
-        <translation type="vanished">세로 왼쪽 상단</translation>
-    </message>
-    <message>
-        <source>Vertical Top Right</source>
-        <translation type="vanished">세로 오른쪽 상단</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Left</source>
-        <translation type="vanished">세로 왼쪽 하단</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Right</source>
-        <translation type="vanished">세로 오른쪽 하단</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBE131SettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">제거</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoKeyLightSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoKeyLightSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">삭제</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoLightStripSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoLightStripSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">삭제</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBGoveeSettingsPage</name>
-    <message>
-        <source>Save</source>
-        <translation type="obsolete">저장</translation>
     </message>
 </context>
 <context>
@@ -1284,58 +1063,6 @@
         <location filename="../OpenRGBHardwareIDsDialog/OpenRGBHardwareIDsDialog.ui" line="38"/>
         <source>Vendor</source>
         <translation>제조업체</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBKasaSmartSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">이름</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBKasaSmartSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">제거</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBLIFXSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">이름</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBLIFXSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">제거</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
     </message>
 </context>
 <context>
@@ -1372,143 +1099,6 @@
         <location filename="../OpenRGBMatrixMapEditorDialog/OpenRGBMatrixMapEditorDialog.ui" line="72"/>
         <source>Width:</source>
         <translation>너비:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafNewDeviceDialog</name>
-    <message>
-        <source>New Nanoleaf device</source>
-        <translation type="vanished">새로운 Nanoleaf 장치</translation>
-    </message>
-    <message>
-        <source>IP address:</source>
-        <translation type="vanished">IP 주소:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">포트:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">포트:</translation>
-    </message>
-    <message>
-        <source>Auth Key:</source>
-        <translation type="vanished">인증 키:</translation>
-    </message>
-    <message>
-        <source>Unpair</source>
-        <translation type="vanished">페어링 해제</translation>
-    </message>
-    <message>
-        <source>Pair</source>
-        <translation type="vanished">페어링</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsPage</name>
-    <message>
-        <source>Scan</source>
-        <translation type="vanished">스캔</translation>
-    </message>
-    <message>
-        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation type="vanished">페어링을 하려면 온오프 버튼을 5-7초 LED가 규칙적으로 깜빡이기 시작할 때 까지 누르세요, 그리고 30초 내로 &quot;페어링&quot; 버튼을 누르세요.</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">제거</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsHueSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Entertainment Mode:</source>
-        <translation type="vanished">엔터테이먼트 모드:</translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation type="vanished">Username:</translation>
-    </message>
-    <message>
-        <source>Client Key:</source>
-        <translation type="vanished">클라이언트 키:</translation>
-    </message>
-    <message>
-        <source>Unpair Bridge</source>
-        <translation type="vanished">브릿지 페어링 해제</translation>
-    </message>
-    <message>
-        <source>MAC:</source>
-        <translation type="vanished">MAC 주소:</translation>
-    </message>
-    <message>
-        <source>Auto Connect Group:</source>
-        <translation type="vanished">자동 연결 그룹:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsHueSettingsPage</name>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">제거</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
-    </message>
-    <message>
-        <source>After adding a Hue entry and saving, restart OpenRGB and press the Sync button on your Hue bridge to pair it.</source>
-        <translation type="vanished">Hue 항목을 추가하고 저장한 후에 OpenRGB를 재시작하고 Hue Bridge의 Sync 버튼을 눌러 페어링하세요.</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsWizSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP:</translation>
-    </message>
-    <message>
-        <source>Use Cool White</source>
-        <translation type="vanished">Cool White 사용</translation>
-    </message>
-    <message>
-        <source>Use Warm White</source>
-        <translation type="vanished">Warm White 사용</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsWizSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">제거</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
     </message>
 </context>
 <context>
@@ -1553,10 +1143,6 @@
         <source>API Version:</source>
         <translation>API 버전:</translation>
     </message>
-    <message>
-        <source>API Version Value</source>
-        <translation type="vanished">API 버전 값</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBPluginsPage</name>
@@ -1567,7 +1153,7 @@
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="37"/>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="161"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="164"/>
         <source>Remove Plugin</source>
         <translation>플러그인 제거</translation>
     </message>
@@ -1577,37 +1163,37 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;플러그인을 찾고 있나요? &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;의 공식 목록을 참고하세요.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="86"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="89"/>
         <source>Install OpenRGB Plugin</source>
         <translation>OpenRGB 플러그인 설치</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="86"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="89"/>
         <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
         <translation>플러그인 파일 (*.dll *.dylib *.so *.so.*)</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="123"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="126"/>
         <source>Replace Plugin</source>
         <translation>플러그인 교체</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="123"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="126"/>
         <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
         <translation>같은 파일 이름의 플러그인이 이미 설치됐습니다. 정말로 이 플러그인을 교체 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="161"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="164"/>
         <source>Are you sure you want to remove this plugin?</source>
         <translation>정말로 이 플러그인을 제거하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="221"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="224"/>
         <source>Restart Needed</source>
         <translation>재시작 필요</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="221"/>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="224"/>
         <source>The plugin will be fully removed after restarting OpenRGB.</source>
         <translation>플러그인은 OpenRGB를 다시 시작한 후에 완전히 제거됩니다.</translation>
     </message>
@@ -1675,14 +1261,6 @@
 <context>
     <name>OpenRGBProfileListDialog</name>
     <message>
-        <source>Profile Name</source>
-        <translation type="vanished">프로파일 이름</translation>
-    </message>
-    <message>
-        <source>Save to an existing profile:</source>
-        <translation type="vanished">이미 있는 프로파일에 저장:</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBProfileListDialog/OpenRGBProfileListDialog.ui" line="20"/>
         <source>Profile Selection</source>
         <translation>프로필 선택</translation>
@@ -1696,36 +1274,6 @@
         <location filename="../OpenRGBProfileListDialog/OpenRGBProfileListDialog.ui" line="36"/>
         <source>Create a new profile:</source>
         <translation>새로운 프로파일 만들기:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBQMKORGBSettingsEntry</name>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">이름:</translation>
-    </message>
-    <message>
-        <source>USB PID:</source>
-        <translation type="vanished">USB PID:</translation>
-    </message>
-    <message>
-        <source>USB VID:</source>
-        <translation type="vanished">USB VID:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBQMKORGBSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">제거</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
     </message>
 </context>
 <context>
@@ -1754,44 +1302,6 @@
         <location filename="../OpenRGBSegmentExportDialog/OpenRGBSegmentExportDialog.ui" line="72"/>
         <source>Device Name (Optional):</source>
         <translation>기기 이름 (선택 사항):</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBSerialSettingsEntry</name>
-    <message>
-        <source>Baud:</source>
-        <translation type="vanished">Baud:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">이름:</translation>
-    </message>
-    <message>
-        <source>Number of LEDs:</source>
-        <translation type="vanished">LED 개수:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">포트:</translation>
-    </message>
-    <message>
-        <source>Protocol:</source>
-        <translation type="vanished">프로토콜:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBSerialSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">제거</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
     </message>
 </context>
 <context>
@@ -1914,14 +1424,6 @@
         <translation>웹사이트:</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>
-        <translation type="vanished">&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;https://gitlab.com/CalcProgrammer1/OpenRGB&quot;&gt;https://gitlab.com/CalcProgrammer1/OpenRGB&lt;/a&gt;</source>
-        <translation type="vanished">&lt;a href=&quot;https://gitlab.com/CalcProgrammer1/OpenRGB&quot;&gt;https://gitlab.com/CalcProgrammer1/OpenRGB&lt;/a&gt;</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="41"/>
         <source>SDK Version:</source>
         <translation>SDK 버전:</translation>
@@ -2028,10 +1530,6 @@
         <translation>주소:</translation>
     </message>
     <message>
-        <source>Read Device</source>
-        <translation type="vanished">장치 읽기</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.ui" line="34"/>
         <source>SMBus Dumper:</source>
         <translation>SMBus Dumper:</translation>
@@ -2084,10 +1582,6 @@
         <translation>장치 덤프</translation>
     </message>
     <message>
-        <source>SMBus Reader:</source>
-        <translation type="vanished">SMBus Reader:</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.ui" line="91"/>
         <source>Addr:</source>
         <translation>주소:</translation>
@@ -2104,57 +1598,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="vanished">IP 주소:</translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation type="vanished">?</translation>
-    </message>
-    <message>
-        <source>Music Mode:</source>
-        <translation type="vanished">음악 모드:</translation>
-    </message>
-    <message>
-        <source>Override host IP:</source>
-        <translation type="vanished">호스트 IP 덮어쓰기:</translation>
-    </message>
-    <message>
-        <source>Left blank for auto discovering host ip</source>
-        <translation type="vanished">비워두면 자동으로 호스트 IP 감지</translation>
-    </message>
-    <message>
-        <source>Choose an IP...</source>
-        <translation type="vanished">IP 선택...</translation>
-    </message>
-    <message>
-        <source>Choose the correct IP for the host</source>
-        <translation type="vanished">호스트에 알맞는 IP 선택</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBYeelightSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">제거</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">저장</translation>
-    </message>
-</context>
-<context>
     <name>OpenRGBZoneEditorDialog</name>
-    <message>
-        <source>Resize Zone</source>
-        <translation type="vanished">구역 크기 조절</translation>
-    </message>
     <message>
         <location filename="../OpenRGBZoneEditorDialog/OpenRGBZoneEditorDialog.ui" line="40"/>
         <source>Add Segment</source>
@@ -2263,14 +1707,6 @@
         <location filename="../OpenRGBZoneInitializationDialog/OpenRGBZoneInitializationDialog.ui" line="88"/>
         <source>Ignore</source>
         <translation>무시</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;하나 이상의 크기 조정 가능 구역이 구성되지 않았습니다. 크기 조정 가능 구역은 연결된 장치의 크기를 자동으로 감지할 수 없는 ADDRESSABLE RGB 헤더에 보통 사용됩니다. &lt;/p&gt;&lt;p&gt;각 구역의 LED 개수를 입력하세요&lt;/p&gt;&lt;p&gt;정확한 크기를 계산하는 방법에 대해 더 많은 정보를 얻고 싶다면 &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;다음 링크를&lt;/span&gt;&lt;/a&gt; 확인하세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>Resize the zones</source>
-        <translation type="vanished">구역 재설정</translation>
     </message>
     <message>
         <location filename="../OpenRGBZoneInitializationDialog/OpenRGBZoneInitializationDialog.cpp" line="119"/>
@@ -2448,7 +1884,7 @@
         <translation>포트:</translation>
     </message>
     <message>
-        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="41"/>
+        <location filename="../ManualDevicesSettingsPage/SerialSettingsEntry/SerialSettingsEntry.cpp" line="42"/>
         <source>No serial ports found</source>
         <translation>직렬 포트를 찾을 수 없습니다</translation>
     </message>
@@ -2456,344 +1892,284 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="229"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="238"/>
         <source>Load Window Geometry</source>
         <translation>윈도우 지오메트리 불러오기</translation>
     </message>
     <message>
-        <source>90000</source>
-        <translation type="vanished">90000</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="221"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="230"/>
         <source>Run Zone Checks on Rescan</source>
         <translation>다시 스캔할 때 구역 검사 진행</translation>
     </message>
     <message>
-        <source>Start Server</source>
-        <translation type="vanished">서버 시작</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="159"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="168"/>
         <source>Start Minimized</source>
         <translation>최소화 상태로 시작</translation>
     </message>
     <message>
-        <source>User Interface Settings:</source>
-        <translation type="vanished">UI 설정:</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="169"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="178"/>
         <source>Start at Login</source>
         <translation>로그인 시에 시작</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="181"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="190"/>
         <source>Minimize on Close</source>
         <translation>종료되지 않고 최소화</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="212"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="221"/>
         <source>Numerical Labels</source>
         <translation>수치 라벨</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="213"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="222"/>
         <source>Display numerical labels for otherwise non-labeled LEDs in the LED view</source>
         <translation>LED 보기에서 라벨이 없는 LED에 수치 라벨을 표시합니다</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="225"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="234"/>
         <source>Window Geometry</source>
         <translation>창 기하학</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="233"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="242"/>
         <source>Save on Exit</source>
         <translation>닫을 때 지오메트리 저장</translation>
     </message>
     <message>
-        <source>Start Client</source>
-        <translation type="vanished">클라이언트 시작</translation>
-    </message>
-    <message>
-        <source>Load Profile</source>
-        <translation type="vanished">프로파일 불러오기</translation>
-    </message>
-    <message>
-        <source>Set Server Port</source>
-        <translation type="vanished">서버 포트 설정</translation>
-    </message>
-    <message>
-        <location filename="../../ResourceManager.cpp" line="160"/>
+        <location filename="../../ResourceManager.cpp" line="197"/>
         <source>HID Safe Mode</source>
         <translation>HID 안전 모드</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="162"/>
+        <location filename="../../ResourceManager.cpp" line="199"/>
         <source>Use an alternate method for detecting HID devices</source>
         <translation>HID 장치를 감지하는 대체 방법 사용</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="164"/>
+        <location filename="../../ResourceManager.cpp" line="201"/>
         <source>Initial Detection Delay (ms)</source>
         <translation>초기 감지 지연 (ms)</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="166"/>
+        <location filename="../../ResourceManager.cpp" line="203"/>
         <source>Amount of time, in milliseconds, to wait before detecting devices when started</source>
         <translation>기기 감지 시작 시 기다릴 시간(밀리초)</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="168"/>
+        <location filename="../../ResourceManager.cpp" line="205"/>
         <source>Detection</source>
         <translation>감지</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="175"/>
+        <location filename="../../ResourceManager.cpp" line="212"/>
         <source>Enable Log Console</source>
         <translation>콘솔 로그 활성화</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="182"/>
+        <location filename="../../ResourceManager.cpp" line="219"/>
         <source>Log Level</source>
         <translation>로그 수준</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="200"/>
+        <location filename="../../ResourceManager.cpp" line="237"/>
         <source>Log File Count Limit</source>
         <translation>로그 파일 수 제한</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="202"/>
+        <location filename="../../ResourceManager.cpp" line="239"/>
         <source>Maximum number of log files to keep, 0 for no limit</source>
         <translation>보관할 로그 파일의 최대 수, 0은 제한 없음</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="206"/>
+        <location filename="../../ResourceManager.cpp" line="243"/>
         <source>Log Manager</source>
         <translation>로그 관리자</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="213"/>
+        <location filename="../../ResourceManager.cpp" line="250"/>
         <source>Serve All Controllers</source>
         <translation>모든 컨트롤러 제공</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="215"/>
+        <location filename="../../ResourceManager.cpp" line="252"/>
         <source>Include controllers provided by client connections and plugins</source>
         <translation>클라이언트 연결 및 플러그인에서 제공하는 컨트롤러 포함</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="217"/>
+        <location filename="../../ResourceManager.cpp" line="254"/>
         <source>Default Host</source>
         <translation>기본 호스트</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="221"/>
+        <location filename="../../ResourceManager.cpp" line="258"/>
         <source>Default Port</source>
         <translation>기본 포트</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="227"/>
+        <location filename="../../ResourceManager.cpp" line="264"/>
         <source>Legacy Workaround</source>
         <translation>레거시 대안</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="229"/>
+        <location filename="../../ResourceManager.cpp" line="266"/>
         <source>Workaround for some older SDK implementations that sent incorrect packet size for certain packets</source>
         <translation>일부 오래된 SDK 구현을 위한 대안으로, 특정 패킷에 대해 잘못된 패킷 크기를 보낸 경우에 사용합니다</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="231"/>
+        <location filename="../../ResourceManager.cpp" line="268"/>
         <source>Server</source>
         <translation>서버</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="164"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="173"/>
         <source>Custom Arguments</source>
         <translation>사용자 인자</translation>
     </message>
     <message>
-        <source>Log Manager Settings:</source>
-        <translation type="vanished">로그 관리자 설정:</translation>
-    </message>
-    <message>
-        <source>Start at Login Status</source>
-        <translation type="vanished">로그인 상태에서 시작</translation>
-    </message>
-    <message>
-        <source>Start at Login Settings:</source>
-        <translation type="vanished">로그인 시에 시작 설정:</translation>
-    </message>
-    <message>
-        <source>Open Settings Folder</source>
-        <translation type="vanished">설정 폴더 열기</translation>
-    </message>
-    <message>
-        <source>Drivers Settings</source>
-        <translation type="vanished">드라이버 설정</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="186"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="195"/>
         <source>Monochrome Tray Icon</source>
         <translation>흑백 트레이 아이콘</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="235"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="244"/>
         <source>Save window geometry on exit</source>
         <translation>종료 시 창 기하학적 형태 저장</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="238"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="247"/>
         <source>X</source>
         <translation>X</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="242"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="251"/>
         <source>Y</source>
         <translation>Y</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="246"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="255"/>
         <source>Width</source>
         <translation>너비</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="250"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="259"/>
         <source>Height</source>
         <translation>높이</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="254"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="263"/>
         <source>User Interface</source>
         <translation>사용자 인터페이스</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="266"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="275"/>
         <source>SMBus Sleep Mode (restart required)</source>
         <translation>SMBus 수면 모드 (재시작 필요)</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="275"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="284"/>
         <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
         <translation>AMD SMBus : CPU 사용량 감소 (재시작 필요)</translation>
     </message>
     <message>
-        <source>Set Profile on Exit</source>
-        <translation type="vanished">종료 시 프로파일 설정</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="263"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="272"/>
         <source>Shared SMBus Access (restart required)</source>
         <translation>공유된 SMBus 접근 (재시작 필요)</translation>
     </message>
     <message>
-        <source>Set Server Host</source>
-        <translation type="vanished">서버 호스트 설정</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="176"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="185"/>
         <source>Language</source>
         <translation>언어 (Language)</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="217"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="226"/>
         <source>Disable Key Expansion</source>
         <translation>장치 화면에서 키 확장 비활성화</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="191"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="200"/>
         <source>Hex Format</source>
         <translation>16진수 형식</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="154"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="163"/>
         <source>Enable Start at Login</source>
         <translation>로그인 시 시작 활성화</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="156"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="165"/>
         <source>Start OpenRGB on login</source>
         <translation>로그인 시 OpenRGB 시작</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="161"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="170"/>
         <source>Start minimized to the system tray</source>
         <translation>시스템 트레이에 최소화하여 시작</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="166"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="175"/>
         <source>Additional command line arguments to pass to OpenRGB when starting on login</source>
         <translation>로그인 시 OpenRGB를 시작할 때 전달할 추가 명령줄 인수</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="178"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="187"/>
         <source>Language for the user interface</source>
         <translation>사용자 인터페이스 언어</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="182"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="191"/>
         <source>Keep OpenRGB active in the system tray when closing the main window</source>
         <translation>메인 창을 닫을 때 시스템 트레이에서 OpenRGB를 활성화 상태로 유지합니다</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="187"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="196"/>
         <source>Use a monochrome icon in the system tray instead of a full color icon</source>
         <translation>시스템 트레이에 풀 컬러 아이콘 대신 모노크롬 아이콘을 사용합니다</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="193"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="202"/>
         <source>Select #BBGGRR or #RRGGBB format for hex display and input</source>
         <translation>#BBGGRR 또는 #RRGGBB 형식을 사용하여 16진수 표시 및 입력을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="198"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="207"/>
         <source>Compact Tabs</source>
         <translation>컴팩트 탭</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="200"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="209"/>
         <source>Display sidebar tabs as icons only</source>
         <translation>사이드바 탭을 아이콘만으로 표시</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="203"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="212"/>
         <source>Tabs on Top</source>
         <translation>탭 위에</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="205"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="214"/>
         <source>Display tabs on top instead of on the left</source>
         <translation>탭을 왼쪽 대신 상단에 표시</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="208"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="217"/>
         <source>Show LED View by Default</source>
         <translation>기본적으로 LED 뷰 표시</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="279"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="288"/>
         <source>Drivers</source>
         <translation>드라이버</translation>
     </message>
     <message>
-        <location filename="../../ResourceManager.cpp" line="178"/>
+        <location filename="../../ResourceManager.cpp" line="215"/>
         <source>Enable Log File</source>
         <translation>로그 파일 활성화</translation>
-    </message>
-    <message>
-        <source>A problem occurred enabling Start at Login.</source>
-        <translation type="vanished">로그인 시에 시작을 활성화 하는 도중에 문제가 발생했습니다.</translation>
     </message>
     <message>
         <location filename="../OpenRGBDynamicSettingsWidget/OpenRGBDynamicSettingsWidget.cpp" line="357"/>
         <source>English - US</source>
         <translation>한국인</translation>
-    </message>
-    <message>
-        <source>System Default</source>
-        <translation type="vanished">시스템 기본값</translation>
     </message>
     <message>
         <location filename="../../ProfileManager.cpp" line="51"/>
@@ -2827,16 +2203,36 @@
     </message>
     <message>
         <location filename="../../ProfileManager.cpp" line="63"/>
+        <source>Load Profile on Service Shutdown</source>
+        <translation>서비스 종료 시 프로필 로드</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="65"/>
+        <source>Profile to load when the OpenRGB background service shuts down</source>
+        <translation>OpenRGB 백그라운드 서비스가 종료될 때 로드할 프로필</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="67"/>
+        <source>Load Profile on Service Startup</source>
+        <translation>서비스 시작 시 프로필 로드</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="69"/>
+        <source>Profile to load when the OpenRGB background service starts up</source>
+        <translation>OpenRGB 백그라운드 서비스가 시작될 때 로드할 프로필</translation>
+    </message>
+    <message>
+        <location filename="../../ProfileManager.cpp" line="71"/>
         <source>Load Profile on Suspend</source>
         <translation>스스로 정지 시 프로필 로드</translation>
     </message>
     <message>
-        <location filename="../../ProfileManager.cpp" line="65"/>
+        <location filename="../../ProfileManager.cpp" line="73"/>
         <source>Profile to load before system enters sleep mode</source>
         <translation>시스템이 수면 모드에 진입하기 전에 로드할 프로필</translation>
     </message>
     <message>
-        <location filename="../../ProfileManager.cpp" line="67"/>
+        <location filename="../../ProfileManager.cpp" line="75"/>
         <source>Profile Manager</source>
         <translation>프로필 관리자</translation>
     </message>
