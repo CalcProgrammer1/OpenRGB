@@ -1,4 +1,4 @@
-﻿/*---------------------------------------------------------*\
+/*---------------------------------------------------------*\
 | pci_ids.h                                                 |
 |                                                           |
 |   PCI Vendor and Device ID constants                      |
@@ -373,6 +373,7 @@
 #define ASUS_ROG_ASTRAL_RTX_5090_O32G_GAMING                    0x89E3
 #define ASUS_ROG_ASTRAL_RTX_5090_O32G_GAMING_2                  0x89E4
 #define ASUS_ROG_ASTRAL_RTX_5090_O32G_GAMING_BTF                0x8A3C
+#define ASUS_ROG_ASTRAL_RTX_5090_O32G_GAMING_BTF_2              0x8A5A
 #define ASUS_ROG_ASTRAL_RTX_5090_O32G_GAMING_WHITE              0x8A2E
 #define ASUS_ROG_ASTRAL_LC_RTX_5090_O32G_GAMING                 0x89EC
 #define ASUS_ROG_ASTRAL_LC_OC_RTX_5090_O32G_GAMING              0x89ED
