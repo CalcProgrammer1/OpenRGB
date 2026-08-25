@@ -656,7 +656,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
                 | Read the controller data for this         |
                 | controller into the profile json          |
                 \*-----------------------------------------*/
-                    profile_json["controllers"][new_profile_controller_index] = RGBController::GetDeviceDescriptionJSON(manually_configured_rgb_controllers[existing_controller_index]);
+                    profile_json["controllers"][new_profile_controller_index] = RGBController::GetDeviceDescriptionJSON(existing_controllers[existing_controller_index]);
                     new_profile_controller_index++;
                 }
             }
