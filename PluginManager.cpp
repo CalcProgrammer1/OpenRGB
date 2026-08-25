@@ -160,6 +160,20 @@ void PluginManager::ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir,
         }
 
         filesystem::path plugin_path = entry.path();
+
+        /*-------------------------------------------------*\
+        | Skip any files that are not plugin files          |
+        |                                                   |
+        | Plugin files are shared libraries with .dll, .so, |
+        | or .dylib extensions                              |
+        \*-------------------------------------------------*/
+        if((plugin_path.extension() != ".dll")
+        && (plugin_path.extension() != ".so")
+        && (plugin_path.extension() != ".dylib"))
+        {
+            continue;
+        }
+
         LOG_TRACE("[%s] Found plugin file %s", PLUGINMANAGER, plugin_path.filename().generic_u8string().c_str());
         AddPlugin(plugin_path, is_system);
     }
