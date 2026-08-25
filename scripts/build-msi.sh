@@ -152,7 +152,7 @@ XML_FILE+="                    <Publish Event='SetInstallLevel' Value='2'>2</Pub
 XML_FILE+="                    <Publish Event='NewDialog' Value='VerifyReadyDlg'>1</Publish>\r\n"
 XML_FILE+="                </Control>\r\n"
 XML_FILE+="                <Control Id='TypicalText' Type='Text' X='40' Y='160' Width='300' Height='40' Text='Installing OpenRGB without registering as a system service means nothing runs automatically in the background by default.  Accessing devices through PawnIO will require running OpenRGB as administrator.' />\r\n"
-XML_FILE+="                <Control Id='TypicalButton' Type='PushButton' X='40' Y='180' Width='200' Height='17' ToolTip='Does not register OpenRGB as a system service.  Accessing certain devices will require running the application as administrator.' Text='Do not Install System Service'>\r\n"
+XML_FILE+="                <Control Id='TypicalButton' Type='PushButton' X='40' Y='200' Width='200' Height='17' ToolTip='Does not register OpenRGB as a system service.  Accessing certain devices will require running the application as administrator.' Text='Do not Install System Service'>\r\n"
 XML_FILE+="                    <Publish Property='WixUI_InstallMode' Value='InstallTypical'>1</Publish>\r\n"
 XML_FILE+="                    <Publish Event='SetInstallLevel' Value='1'>1</Publish>\r\n"
 XML_FILE+="                    <Publish Event='NewDialog' Value='VerifyReadyDlg'>1</Publish>\r\n"
