@@ -45,6 +45,7 @@ bool TestDDR5Models(char code)
 TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr, bool (*modelChecker)(char))
 {
     bool passed = true;
+    bool signature_ok = true;
     char test_str[] = "FURY";
     int res;
 
@@ -92,6 +93,24 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
         }
     }
 
+    /*-----------------------------------------------------------------*\
+    | Some Kingston Fury DDR5 modules return garbage for the signature  |
+    | and model registers (e.g. res=0708 at register 01) while every    |
+    | other register and the apply command work normally. This happens  |
+    | per slot on some boards (seen on ASUS B650 with DIMMs swapped:    |
+    | the bad readings stay on the slot, not on the module). The SPD    |
+    | already told us this slot holds a Kingston DDR5 module and the    |
+    | RGB controller ACKed the transaction, so accept it with a warning.|
+    | See https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/4981     |
+    \*-----------------------------------------------------------------*/
+    if(!passed)
+    {
+        LOG_WARNING("[%s] 0x%02X: unreadable FURY signature, accepting anyway (SPD says Kingston DDR5, controller ACKs). See issue #4981",
+                    FURY_CONTROLLER_NAME, slot_addr);
+        passed = true;
+        signature_ok = false;
+    }
+
     if(passed)
     {
         // Get the model code
@@ -103,8 +122,16 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
 
         if(!modelChecker(model_code))
         {
-            LOG_INFO("[%s] Unknown model code 0x%02X", FURY_CONTROLLER_NAME, model_code);
-            passed = false;
+            if(signature_ok)
+            {
+                LOG_INFO("[%s] Unknown model code 0x%02X", FURY_CONTROLLER_NAME, model_code);
+                passed = false;
+            }
+            else
+            {
+                LOG_WARNING("[%s] 0x%02X: model code 0x%02X unreadable too, assuming Fury Beast DDR5",
+                            FURY_CONTROLLER_NAME, slot_addr, model_code);
+            }
         }
     }
 
