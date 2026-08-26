@@ -322,7 +322,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7D59, 0,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B660-A DDR4
     { 0x7D67, 0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO X670-P WIFI
     { 0x7D69, 9,  2,  4, 1, &zones_set15, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG X670E ACE
-    { 0x7D70, 0,  6,  0, 1, &zones_set4,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG X670E Carbon WIFI
+    { 0x7D70, 0,  6,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG X670E Carbon WIFI
     { 0x7D73, 1,  0,  0, 0, &zones_set6,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B650I EDGE WIFI
     { 0x7D74, 0,  6,  0, 1, &zones_set18, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B650 CARBON WIFI
     { 0x7D75, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B650 TOMAHAWK WIFI
