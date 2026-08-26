@@ -137,6 +137,43 @@ std::string AutoStart::GetExePath()
 | Private Methods                                           |
 \*---------------------------------------------------------*/
 
+/*---------------------------------------------------------*\
+| Escape a string for embedding inside an XML element       |
+| (used by the .plist generator) to avoid producing         |
+| malformed property list files.                            |
+\*---------------------------------------------------------*/
+static std::string XmlEscape(const std::string& input)
+{
+    std::string escaped;
+
+    for(char c : input)
+    {
+        switch(c)
+        {
+            case '&':
+                escaped += "&amp;";
+                break;
+            case '<':
+                escaped += "&lt;";
+                break;
+            case '>':
+                escaped += "&gt;";
+                break;
+            case '"':
+                escaped += "&quot;";
+                break;
+            case '\'':
+                escaped += "&apos;";
+                break;
+            default:
+                escaped += c;
+                break;
+        }
+    }
+
+    return(escaped);
+}
+
 std::string AutoStart::GenerateLaunchAgentFile(AutoStartInfo autostart_info)
 {
     /*-----------------------------------------------------*\
@@ -153,7 +190,8 @@ std::string AutoStart::GenerateLaunchAgentFile(AutoStartInfo autostart_info)
     fileContents << "    <string>org.openrgb</string>"                                                                              << std::endl;
     fileContents << "    <key>ProgramArguments</key>"                                                                               << std::endl;
     fileContents << "    <array>"                                                                                                   << std::endl;
-    fileContents << "        <string>" << autostart_info.path << "</string>"                                                        << std::endl;
+    fileContents << "        <string>" << XmlEscape(autostart_info.path) << "</string>"
+                 << std::endl;
 
     if(autostart_info.args != "")
     {
@@ -162,7 +200,8 @@ std::string AutoStart::GenerateLaunchAgentFile(AutoStartInfo autostart_info)
 
         while(arg_parser >> arg)
         {
-            fileContents << "        <string>" << arg << "</string>"                                                                << std::endl;
+            fileContents << "        <string>" << XmlEscape(arg) << "</string>"
+                         << std::endl;
         }
     }
 
