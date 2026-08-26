@@ -178,6 +178,22 @@ static const MSILaptopModel msi_laptop_models[] =
         MSI_LAPTOP_ARRAY_SIZE(msi_raider_a18_alc_leds),
         MSI_LAPTOP_ALC_LIGHTBAR_LEDS,
     },
+    {
+        "Micro-Star International Co., Ltd.",
+        "Raider 18 HX AI A2XWIG",
+
+        /* Keyboard layout (shares the Raider 18 chassis / keyboard) */
+        msi_raider_a18_klc_leds,
+        MSI_LAPTOP_ARRAY_SIZE(msi_raider_a18_klc_leds),
+        MSI_LAPTOP_KLC_MATRIX_HEIGHT,
+        MSI_LAPTOP_KLC_MATRIX_WIDTH,
+        (const unsigned int*)msi_raider_a18_klc_matrix_map,
+
+        /* Lightbar layout */
+        msi_raider_a18_alc_leds,
+        MSI_LAPTOP_ARRAY_SIZE(msi_raider_a18_alc_leds),
+        MSI_LAPTOP_ALC_LIGHTBAR_LEDS,
+    },
 };
 
 static const MSILaptopModel* GetMSILaptopModelDMI()
