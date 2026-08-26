@@ -12,6 +12,7 @@
 #include <shlobj.h>
 #include "AutoStart-Windows.h"
 #include "LogManager.h"
+#include "StringUtils.h"
 #include "filesystem.h"
 #include "windows.h"
 
@@ -71,11 +72,11 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
         HRESULT         result;
         IShellLinkW*    shellLink                   = NULL;
 
-        std::wstring    exepathw                    = utf8_decode(autostart_info.path);
-        std::wstring    argumentsw                  = utf8_decode(autostart_info.args);
-        std::wstring    startupfilepathw            = utf8_decode(autostart_file);
-        std::wstring    descriptionw                = utf8_decode(autostart_info.desc);
-        std::wstring    iconw                       = utf8_decode(autostart_info.path);
+        std::wstring    exepathw                    = StringUtils::string_to_wstring(autostart_info.path);
+        std::wstring    argumentsw                  = StringUtils::string_to_wstring(autostart_info.args);
+        std::wstring    startupfilepathw            = StringUtils::string_to_wstring(autostart_file);
+        std::wstring    descriptionw                = StringUtils::string_to_wstring(autostart_info.desc);
+        std::wstring    iconw                       = StringUtils::string_to_wstring(autostart_info.path);
 
         result                                      = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_ALL, IID_IShellLinkW, (void**)&shellLink);
 
@@ -150,11 +151,16 @@ std::string AutoStart::GetExePath()
     /*-----------------------------------------------------*\
     | Create the OpenRGB executable path                    |
     \*-----------------------------------------------------*/
-    char exepath[MAX_PATH] = "";
+    wchar_t exepath[MAX_PATH] = L"";
 
-    DWORD count = GetModuleFileNameA(NULL, exepath, MAX_PATH);
+    DWORD count = GetModuleFileNameW(NULL, exepath, MAX_PATH);
 
-    return(std::string(exepath, (count > 0) ? count : 0));
+    if(count == 0)
+    {
+        return(std::string());
+    }
+
+    return(StringUtils::wstring_to_string(std::wstring(exepath, count)));
 }
 
 /*---------------------------------------------------------*\
@@ -164,18 +170,18 @@ std::string AutoStart::GetExePath()
 
 void AutoStart::InitAutoStart(std::string name)
 {
-    char startMenuPath[MAX_PATH];
+    wchar_t startMenuPath[MAX_PATH];
 
     autostart_name = name;
 
     /*-----------------------------------------------------*\
     | Get startup applications path                         |
     \*-----------------------------------------------------*/
-    HRESULT result = SHGetFolderPathA(NULL, CSIDL_PROGRAMS, NULL, 0, startMenuPath);
+    HRESULT result = SHGetFolderPathW(NULL, CSIDL_PROGRAMS, NULL, 0, startMenuPath);
 
     if(SUCCEEDED(result))
     {
-        std::string autostart_dir = std::string(startMenuPath);
+        std::string autostart_dir = StringUtils::wstring_to_string(startMenuPath);
         autostart_dir += "\\Startup\\";
 
         /*-------------------------------------------------*\
@@ -199,24 +205,4 @@ void AutoStart::InitAutoStart(std::string name)
     {
         autostart_file.clear();
     }
-}
-
-/*---------------------------------------------------------*\
-| Convert an UTF8 string to a wide Unicode String           |
-| (from wmi.cpp)                                            |
-\*---------------------------------------------------------*/
-std::wstring AutoStart::utf8_decode(const std::string& str)
-{
-    if(str.empty())
-    {
-        return std::wstring();
-    }
-
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int) str.size(), nullptr, 0);
-
-    std::wstring wstrTo(size_needed, 0);
-
-    MultiByteToWideChar(CP_UTF8, 0, &str[0], (int) str.size(), &wstrTo[0], size_needed);
-
-    return(wstrTo);
 }
