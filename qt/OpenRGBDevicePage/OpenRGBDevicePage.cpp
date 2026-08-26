@@ -1623,8 +1623,10 @@ void OpenRGBDevicePage::UpdateModeUi()
 
     if(supports_per_led)
     {
+        ui->PerLEDCheck->blockSignals(true);
         ui->PerLEDCheck->setEnabled(enable_controls);
         ui->PerLEDCheck->setChecked(per_led);
+        ui->PerLEDCheck->blockSignals(false);
 
         if(DeviceViewShowing)
         {
@@ -1633,37 +1635,48 @@ void OpenRGBDevicePage::UpdateModeUi()
     }
     else
     {
+        ui->PerLEDCheck->blockSignals(true);
         ui->PerLEDCheck->setEnabled(false);
         ui->PerLEDCheck->setAutoExclusive(false);
         ui->PerLEDCheck->setChecked(false);
         ui->PerLEDCheck->setAutoExclusive(true);
+        ui->PerLEDCheck->blockSignals(false);
+
         ui->DeviceViewBoxFrame->hide();
     }
 
     if(supports_mode_specific)
     {
+        ui->ModeSpecificCheck->blockSignals(true);
         ui->ModeSpecificCheck->setEnabled(enable_controls);
         ui->ModeSpecificCheck->setChecked(mode_specific);
+        ui->ModeSpecificCheck->blockSignals(false);
     }
     else
     {
+        ui->ModeSpecificCheck->blockSignals(true);
         ui->ModeSpecificCheck->setEnabled(false);
         ui->ModeSpecificCheck->setAutoExclusive(false);
         ui->ModeSpecificCheck->setChecked(false);
         ui->ModeSpecificCheck->setAutoExclusive(true);
+        ui->ModeSpecificCheck->blockSignals(false);
     }
 
     if(supports_random)
     {
+        ui->RandomCheck->blockSignals(true);
         ui->RandomCheck->setEnabled(enable_controls);
         ui->RandomCheck->setChecked(random);
+        ui->RandomCheck->blockSignals(false);
     }
     else
     {
+        ui->RandomCheck->blockSignals(true);
         ui->RandomCheck->setEnabled(false);
         ui->RandomCheck->setAutoExclusive(false);
         ui->RandomCheck->setChecked(false);
         ui->RandomCheck->setAutoExclusive(true);
+        ui->RandomCheck->blockSignals(false);
     }
 
     if(automatic_save)
@@ -2071,9 +2084,20 @@ void OpenRGBDevicePage::UpdateInterface(unsigned int update_reason)
     case RGBCONTROLLER_UPDATE_REASON_UPDATEMODE:
     case RGBCONTROLLER_UPDATE_REASON_SAVEMODE:
         /*-------------------------------------------------*\
-        | Update mode list to update selected mode          |
+        | If the update was initiated by the user, the mode |
+        | box already reflects the requested selection.     |
         \*-------------------------------------------------*/
-        UpdateModeList();
+        if(ModeUpdatePending)
+        {
+            ModeUpdatePending = false;
+        }
+        else
+        {
+            /*---------------------------------------------*\
+            | Update mode list to update selected mode      |
+            \*---------------------------------------------*/
+            UpdateModeList();
+        }
 
         /*-------------------------------------------------*\
         | Update mode user interface elements               |
@@ -2396,6 +2420,11 @@ void OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
     ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
 
     /*-----------------------------------------------------*\
+    | Mark the pending mode update                          |
+    \*-----------------------------------------------------*/
+    ModeUpdatePending = true;
+
+    /*-----------------------------------------------------*\
     | Update mode user interface elements                   |
     \*-----------------------------------------------------*/
     UpdateModeUi();
@@ -2419,6 +2448,11 @@ void OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
 void OpenRGBDevicePage::on_ModeSpecificCheck_clicked()
 {
     ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
+    /*-----------------------------------------------------*\
+    | Mark the pending mode update                          |
+    \*-----------------------------------------------------*/
+    ModeUpdatePending = true;
 
     /*-----------------------------------------------------*\
     | Change device mode                                    |
@@ -2446,6 +2480,11 @@ void OpenRGBDevicePage::on_PerLEDCheck_clicked()
     ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
 
     /*-----------------------------------------------------*\
+    | Mark the pending mode update                          |
+    \*-----------------------------------------------------*/
+    ModeUpdatePending = true;
+
+    /*-----------------------------------------------------*\
     | Change device mode                                    |
     \*-----------------------------------------------------*/
     UpdateMode();
@@ -2469,6 +2508,11 @@ void OpenRGBDevicePage::on_PerLEDCheck_clicked()
 void OpenRGBDevicePage::on_RandomCheck_clicked()
 {
     ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
+    /*-----------------------------------------------------*\
+    | Mark the pending mode update                          |
+    \*-----------------------------------------------------*/
+    ModeUpdatePending = true;
 
     /*-----------------------------------------------------*\
     | Change device mode                                    |
