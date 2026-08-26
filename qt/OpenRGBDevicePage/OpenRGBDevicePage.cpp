@@ -1312,23 +1312,37 @@ void OpenRGBDevicePage::UpdateModeList()
 
     int entry_count = 0;
 
-    if(!selected_all_zones && !(device->GetModeFlags(device->GetActiveMode()) & MODE_FLAG_REQUIRES_ENTIRE_DEVICE) && (selected_zone >= 0) && device->SupportsPerZoneModes())
+    if(!selected_all_zones && (selected_zone >= 0) && device->SupportsPerZoneModes())
     {
         ui->ModeBox->addItem("Follow Device Mode");
         ui->ModeBox->setItemData(entry_count, "Follow the device's global mode", Qt::ToolTipRole);
 
         entry_count++;
 
-        for(unsigned int i = 0; i < device->GetZoneModeCount(selected_zone); i++)
+        /*-------------------------------------------------*\
+        | If the device level mode requires the entire      |
+        | device, per-zone modes are not usable.  Populate  |
+        | only the "Follow Device Mode" option and disable  |
+        | the mode box.                                     |
+        \*-------------------------------------------------*/
+        if(device->GetModeFlags(device->GetActiveMode()) & MODE_FLAG_REQUIRES_ENTIRE_DEVICE)
         {
-            ui->ModeBox->addItem(device->GetZoneModeName(selected_zone, (unsigned int)i).c_str());
-            ui->ModeBox->setItemData(entry_count, ModeDescription(device->GetZoneModeName(selected_zone, i)), Qt::ToolTipRole);
-
-            entry_count++;
+            ui->ModeBox->setCurrentIndex(0);
+            ui->ModeBox->setEnabled(false);
         }
+        else
+        {
+            for(unsigned int i = 0; i < device->GetZoneModeCount(selected_zone); i++)
+            {
+                ui->ModeBox->addItem(device->GetZoneModeName(selected_zone, (unsigned int)i).c_str());
+                ui->ModeBox->setItemData(entry_count, ModeDescription(device->GetZoneModeName(selected_zone, i)), Qt::ToolTipRole);
 
-        ui->ModeBox->setCurrentIndex(device->GetZoneActiveMode(selected_zone) + 1);
-        ui->ModeBox->setEnabled(true);
+                entry_count++;
+            }
+
+            ui->ModeBox->setCurrentIndex(device->GetZoneActiveMode(selected_zone) + 1);
+            ui->ModeBox->setEnabled(true);
+        }
     }
     else
     {
@@ -1896,7 +1910,7 @@ void OpenRGBDevicePage::GetSelectedMode(bool * selected_zone_mode, int * selecte
 
     GetSelectedZone(&selected_all_zones, &selected_zone, &selected_segment);
 
-    if(selected_all_zones || !device->SupportsPerZoneModes() || (device->GetModeFlags(device->GetActiveMode()) & MODE_FLAG_REQUIRES_ENTIRE_DEVICE))
+    if(selected_all_zones || !device->SupportsPerZoneModes())
     {
         *selected_zone_mode = false;
         *selected_mode      = ui->ModeBox->currentIndex();
