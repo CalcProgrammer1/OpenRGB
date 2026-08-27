@@ -116,12 +116,7 @@ void SteelSeriesRival5Controller::UpdateLEDs(const std::vector<RGBColor>& colors
         report[4 + (i * 3) + 2] = RGBGetBValue(colors[i]);
     }
 
-    int result =
-        hid_send_feature_report(
-            dev,
-            report,
-            sizeof(report)
-        );
+    hid_send_feature_report(dev, report, sizeof(report));
 }
 
 void SteelSeriesRival5Controller::SetBrightness(uint8_t brightness)
@@ -161,13 +156,13 @@ void SteelSeriesRival5Controller::SetReactiveColor(bool on, uint8_t r, uint8_t g
 
     report[1] = 0x26;
 
-    if(on) 
-    { 
-        report[2] = 0x01; 
-        report[3] = 0x00; 
-        report[4] = r; 
-        report[5] = g; 
-        report[6] = b; 
+    if(on)
+    {
+        report[2] = 0x01;
+        report[3] = 0x00;
+        report[4] = r;
+        report[5] = g;
+        report[6] = b;
     }
     // off → bytes stay 0x00 → [00 26 00 00 00 00 00]
     hid_send_feature_report(dev, report, sizeof(report));
