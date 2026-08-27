@@ -37,6 +37,7 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
         case CORSAIR_SLIPSTREAM_WIRELESS_V2_PID1:
         case CORSAIR_SLIPSTREAM_WIRELESS_PID2:
         case CORSAIR_SLIPSTREAM_M75_PID:
+        case CORSAIR_SLIPSTREAM_IRONCLAW_SE_PID:
             write_cmd   = CORSAIR_V2_WRITE_WIRELESS_ID;
             pid         = GetAddressRetry(0x12);
             break;

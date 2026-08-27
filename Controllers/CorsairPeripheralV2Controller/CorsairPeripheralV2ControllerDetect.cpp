@@ -114,6 +114,8 @@ REGISTER_HID_DETECTOR_IP("Corsair Dark Core RGB SE (Wired)",        DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair Dark Core RGB Pro SE (Wired)",    DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_DARK_CORE_RGB_PRO_PID,          1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Harpoon Wireless (Wired)",        DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_HARPOON_WIRELESS_PID,           1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Ironclaw Wireless (Wired)",       DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_IRONCLAW_WIRELESS_PID,          1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair Ironclaw Wireless SE (Wired)",    DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_IRONCLAW_WIRELESS_SE_PID,       1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair Ironclaw Wireless SE",            DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_IRONCLAW_SE_PID,     1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Katar Pro",                       DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_KATAR_PRO_PID,                  1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Katar Pro V2",                    DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_KATAR_PRO_V2_PID,               1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Katar Pro XT",                    DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_KATAR_PRO_XT_PID,               1,  0xFF42);

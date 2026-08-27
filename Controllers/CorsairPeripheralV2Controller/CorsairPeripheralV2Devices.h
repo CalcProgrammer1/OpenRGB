@@ -93,6 +93,8 @@ typedef struct
 #define CORSAIR_DARK_CORE_RGB_PRO_PID               0x1B7E
 #define CORSAIR_HARPOON_WIRELESS_PID                0x1B5E
 #define CORSAIR_IRONCLAW_WIRELESS_PID               0x1B4C
+#define CORSAIR_IRONCLAW_WIRELESS_SE_PID            0x2B32
+#define CORSAIR_SLIPSTREAM_IRONCLAW_SE_PID          0x2B00
 #define CORSAIR_KATAR_PRO_PID                       0x1B93
 #define CORSAIR_KATAR_PRO_V2_PID                    0x1BBA
 #define CORSAIR_KATAR_PRO_XT_PID                    0x1BAC
