@@ -266,42 +266,53 @@ bool AlienwareController::Dim(std::vector<uint8_t> zones, double percent)
         return(true);
     }
 
-    unsigned char usb_buf[HIDAPI_ALIENWARE_REPORT_SIZE];
+    bool result = true;
 
     /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
+    | Split the zone list into packet-sized chunks so it    |
+    | never overflows usb_buf                               |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    /*-----------------------------------------------------*\
-    | Set up message packet with leading 00, per hidapi     |
-    \*-----------------------------------------------------*/
-    uint16_t num_zones  = (uint16_t)zones.size();
-
-    usb_buf[0x00]       = 0x00;
-    usb_buf[0x01]       = 0x03;
-    usb_buf[0x02]       = ALIENWARE_COMMAND_DIM;
-    usb_buf[0x03]       = static_cast<uint8_t>(percent);
-    usb_buf[0x04]       = num_zones >> 8;
-    usb_buf[0x05]       = num_zones & 0xFF;
-
-    for(size_t i = 0; i < num_zones; i++)
+    for(size_t offset = 0; offset < zones.size(); offset += ALIENWARE_MAX_ZONES_PER_PACKET)
     {
-        usb_buf[0x06+i] = zones[i];
+        unsigned char usb_buf[HIDAPI_ALIENWARE_REPORT_SIZE];
+
+        /*-------------------------------------------------*\
+        | Zero out buffer                                   |
+        \*-------------------------------------------------*/
+        memset(usb_buf, 0x00, sizeof(usb_buf));
+
+        /*-------------------------------------------------*\
+        | Set up message packet with leading 00, per hidapi |
+        \*-------------------------------------------------*/
+        uint16_t num_zones  = (uint16_t)std::min<size_t>(ALIENWARE_MAX_ZONES_PER_PACKET, zones.size() - offset);
+
+        usb_buf[0x00]       = 0x00;
+        usb_buf[0x01]       = 0x03;
+        usb_buf[0x02]       = ALIENWARE_COMMAND_DIM;
+        usb_buf[0x03]       = static_cast<uint8_t>(percent);
+        usb_buf[0x04]       = num_zones >> 8;
+        usb_buf[0x05]       = num_zones & 0xFF;
+
+        for(size_t i = 0; i < num_zones; i++)
+        {
+            usb_buf[0x06+i] = zones[offset + i];
+        }
+
+        /*-------------------------------------------------*\
+        | Send packet                                       |
+        \*-------------------------------------------------*/
+        SendHIDReport(dev, usb_buf, sizeof(usb_buf));
+
+        HidapiAlienwareReport response = GetResponse();
+
+        /*-------------------------------------------------*\
+        | For this command, error is if the output equals   |
+        | the input                                         |
+        \*-------------------------------------------------*/
+        result &= (response.data[1] == 0x03) && memcmp(usb_buf, response.data, HIDAPI_ALIENWARE_REPORT_SIZE);
     }
 
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    SendHIDReport(dev, usb_buf, sizeof(usb_buf));
-
-    HidapiAlienwareReport response = GetResponse();
-
-    /*-----------------------------------------------------*\
-    | For this command, error is if the output equals the   |
-    | input                                                 |
-    \*-----------------------------------------------------*/
-    return((response.data[1] == 0x03) && memcmp(usb_buf, response.data, HIDAPI_ALIENWARE_REPORT_SIZE));
+    return(result);
 }
 
 bool AlienwareController::UserAnimation(uint16_t subcommand, uint16_t animation, uint16_t duration)
@@ -370,42 +381,53 @@ bool AlienwareController::SelectZones(const std::vector<uint8_t>& zones)
         return(false);
     }
 
-    unsigned char usb_buf[HIDAPI_ALIENWARE_REPORT_SIZE];
+    bool result = true;
 
     /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
+    | Split the zone list into packet-sized chunks so it    |
+    | never overflows usb_buf                               |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    /*-----------------------------------------------------*\
-    | Set up message packet with leading 00, per hidapi     |
-    \*-----------------------------------------------------*/
-    uint16_t num_zones  = (uint16_t)zones.size();
-
-    usb_buf[0x00]       = 0x00;
-    usb_buf[0x01]       = 0x03;
-    usb_buf[0x02]       = ALIENWARE_COMMAND_SELECT_ZONES;
-    usb_buf[0x03]       = 1; // loop?
-    usb_buf[0x04]       = num_zones >> 8;
-    usb_buf[0x05]       = num_zones & 0xFF;
-
-    for(size_t i = 0; i < num_zones; i++)
+    for(size_t offset = 0; offset < zones.size(); offset += ALIENWARE_MAX_ZONES_PER_PACKET)
     {
-        usb_buf[0x06+i] = zones[i];
+        unsigned char usb_buf[HIDAPI_ALIENWARE_REPORT_SIZE];
+
+        /*-------------------------------------------------*\
+        | Zero out buffer                                   |
+        \*-------------------------------------------------*/
+        memset(usb_buf, 0x00, sizeof(usb_buf));
+
+        /*-------------------------------------------------*\
+        | Set up message packet with leading 00, per hidapi |
+        \*-------------------------------------------------*/
+        uint16_t num_zones  = (uint16_t)std::min<size_t>(ALIENWARE_MAX_ZONES_PER_PACKET, zones.size() - offset);
+
+        usb_buf[0x00]       = 0x00;
+        usb_buf[0x01]       = 0x03;
+        usb_buf[0x02]       = ALIENWARE_COMMAND_SELECT_ZONES;
+        usb_buf[0x03]       = 1; // loop?
+        usb_buf[0x04]       = num_zones >> 8;
+        usb_buf[0x05]       = num_zones & 0xFF;
+
+        for(size_t i = 0; i < num_zones; i++)
+        {
+            usb_buf[0x06+i] = zones[offset + i];
+        }
+
+        /*-------------------------------------------------*\
+        | Send packet                                       |
+        \*-------------------------------------------------*/
+        SendHIDReport(dev, usb_buf, sizeof(usb_buf));
+
+        HidapiAlienwareReport response = GetResponse();
+
+        /*-------------------------------------------------*\
+        | For this command, error is if the output equals   |
+        | the input                                         |
+        \*-------------------------------------------------*/
+        result &= (response.data[1] == 0x03) && memcmp(usb_buf, response.data, HIDAPI_ALIENWARE_REPORT_SIZE);
     }
 
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    SendHIDReport(dev, usb_buf, sizeof(usb_buf));
-
-    HidapiAlienwareReport response = GetResponse();
-
-    /*-----------------------------------------------------*\
-    | For this command, error is if the output equals the   |
-    | input                                                 |
-    \*-----------------------------------------------------*/
-    return((response.data[1] == 0x03) && memcmp(usb_buf, response.data, HIDAPI_ALIENWARE_REPORT_SIZE));
+    return(result);
 }
 
 bool AlienwareController::ModeAction(uint8_t mode, uint16_t duration, uint16_t tempo, RGBColor color)
@@ -509,44 +531,55 @@ bool AlienwareController::SetColorDirect(RGBColor color, std::vector<uint8_t> zo
         return(true);
     }
 
-    unsigned char usb_buf[HIDAPI_ALIENWARE_REPORT_SIZE];
+    bool result = true;
 
     /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
+    | Split the zone list into packet-sized chunks so it    |
+    | never overflows usb_buf                               |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    /*-----------------------------------------------------*\
-    | Set up message packet with leading 00, per hidapi     |
-    \*-----------------------------------------------------*/
-    uint16_t num_zones      = (uint16_t)zones.size();
-
-    usb_buf[0x00]           = 0x00;
-    usb_buf[0x01]           = 0x03;
-    usb_buf[0x02]           = ALIENWARE_COMMAND_SET_COLOR;
-    usb_buf[0x03]           = RGBGetRValue(color);
-    usb_buf[0x04]           = RGBGetGValue(color);
-    usb_buf[0x05]           = RGBGetBValue(color);
-    usb_buf[0x06]           = num_zones >> 8;
-    usb_buf[0x07]           = num_zones & 0xFF;
-
-    for(size_t i = 0; i < num_zones; i++)
+    for(size_t offset = 0; offset < zones.size(); offset += ALIENWARE_MAX_ZONES_PER_PACKET)
     {
-        usb_buf[0x08 + i]   = zones[i];
+        unsigned char usb_buf[HIDAPI_ALIENWARE_REPORT_SIZE];
+
+        /*-------------------------------------------------*\
+        | Zero out buffer                                   |
+        \*-------------------------------------------------*/
+        memset(usb_buf, 0x00, sizeof(usb_buf));
+
+        /*-------------------------------------------------*\
+        | Set up message packet with leading 00, per hidapi |
+        \*-------------------------------------------------*/
+        uint16_t num_zones      = (uint16_t)std::min<size_t>(ALIENWARE_MAX_ZONES_PER_PACKET, zones.size() - offset);
+
+        usb_buf[0x00]           = 0x00;
+        usb_buf[0x01]           = 0x03;
+        usb_buf[0x02]           = ALIENWARE_COMMAND_SET_COLOR;
+        usb_buf[0x03]           = RGBGetRValue(color);
+        usb_buf[0x04]           = RGBGetGValue(color);
+        usb_buf[0x05]           = RGBGetBValue(color);
+        usb_buf[0x06]           = num_zones >> 8;
+        usb_buf[0x07]           = num_zones & 0xFF;
+
+        for(size_t i = 0; i < num_zones; i++)
+        {
+            usb_buf[0x08 + i]   = zones[offset + i];
+        }
+
+        /*-------------------------------------------------*\
+        | Send packet                                       |
+        \*-------------------------------------------------*/
+        SendHIDReport(dev, usb_buf, sizeof(usb_buf));
+
+        HidapiAlienwareReport response = GetResponse();
+
+        /*-------------------------------------------------*\
+        | For this command, error is if the output equals   |
+        | the input                                         |
+        \*-------------------------------------------------*/
+        result &= (response.data[1] == 0x03) && memcmp(usb_buf, response.data, HIDAPI_ALIENWARE_REPORT_SIZE);
     }
 
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    SendHIDReport(dev, usb_buf, sizeof(usb_buf));
-
-    HidapiAlienwareReport response = GetResponse();
-
-    /*-----------------------------------------------------*\
-    | For this command, error is if the output equals the   |
-    | input                                                 |
-    \*-----------------------------------------------------*/
-    return((response.data[1] == 0x03) && memcmp(usb_buf, response.data, HIDAPI_ALIENWARE_REPORT_SIZE));
+    return(result);
 }
 
 bool AlienwareController::Reset()

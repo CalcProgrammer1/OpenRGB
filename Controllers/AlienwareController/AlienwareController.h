@@ -22,6 +22,14 @@
 #define ALIENWARE_REPORT_SIZE               33
 #define HIDAPI_ALIENWARE_REPORT_SIZE        (ALIENWARE_REPORT_SIZE + 1)
 #define ALIENWARE_CONTROLLER_NAME           "AlienWare Controller"
+
+/*---------------------------------------------------------*\
+| Max zone IDs that fit in one report after the command     |
+| header.  Selections larger than this must be split across |
+| multiple packets; writing them into a single report       |
+| overflows usb_buf (e.g. desktops with ~100 zones).        |
+\*---------------------------------------------------------*/
+#define ALIENWARE_MAX_ZONES_PER_PACKET      25
 enum
 {
     ALIENWARE_COMMAND_REPORT                = 0x20,     /* Set report type to get               */
