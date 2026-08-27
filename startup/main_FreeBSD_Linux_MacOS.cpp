@@ -34,7 +34,7 @@ static volatile bool service_stop_requested = false;
 static std::mutex service_stop_mutex;
 static std::condition_variable service_stop_cv;
 
-static void sigHandler(int s)
+static void sigHandler(int /*s*/)
 {
     service_stop_requested = true;
     service_stop_cv.notify_one();
