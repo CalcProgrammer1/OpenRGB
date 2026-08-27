@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include <chrono>
+#include <thread>
 #include "RGBController.h"
 #include "SkydimoSerialController.h"
 
@@ -28,6 +30,11 @@ public:
     void        DeviceUpdateSingleLED(int led);
     void        DeviceUpdateMode();
 
+    void        KeepaliveThreadFunction();
+
 private:
-    SkydimoSerialController* controller;
+    SkydimoSerialController*                                  controller;
+    std::chrono::time_point<std::chrono::steady_clock>         last_update_time;
+    std::atomic<bool>                                          keepalive_thread_run;
+    std::thread                                                keepalive_thread;
 };

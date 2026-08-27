@@ -436,8 +436,15 @@ bool SkydimoSerialController::WriteFrame(const std::vector<RGBColor>& colors, un
         packet.push_back(skydimo_serial_frame_header[header_idx]);
     }
 
-    packet.push_back((unsigned char)((count >> 8) & 0xFF));
-    packet.push_back((unsigned char)(count & 0xFF));
+    /*-----------------------------------------------------*\
+    | Skydimo uses the Adalight length convention: the      |
+    | 16-bit field contains the last LED index, not the     |
+    | number of LEDs.                                       |
+    \*-----------------------------------------------------*/
+    unsigned int frame_length = count > 0 ? count - 1 : 0;
+
+    packet.push_back((unsigned char)((frame_length >> 8) & 0xFF));
+    packet.push_back((unsigned char)(frame_length & 0xFF));
 
     for(unsigned int led_idx = 0; led_idx < count; led_idx++)
     {

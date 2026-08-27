@@ -11,6 +11,11 @@
 
 #include "RGBController_SkydimoSerial.h"
 
+using namespace std::chrono_literals;
+
+#define SKYDIMO_SERIAL_SLEEP_THRESHOLD 100ms
+#define SKYDIMO_SERIAL_KEEPALIVE_PERIOD 1500ms
+
 /**------------------------------------------------------------------*\
     @name Skydimo Serial
     @category LEDStrip
@@ -41,11 +46,18 @@ RGBController_SkydimoSerial::RGBController_SkydimoSerial(SkydimoSerialController
     modes.push_back(direct_mode);
 
     SetupZones();
+
+    last_update_time    = std::chrono::steady_clock::now();
+    keepalive_thread_run = true;
+    keepalive_thread    = std::thread(&RGBController_SkydimoSerial::KeepaliveThreadFunction, this);
 }
 
 RGBController_SkydimoSerial::~RGBController_SkydimoSerial()
 {
     Shutdown();
+
+    keepalive_thread_run = false;
+    keepalive_thread.join();
 
     controller->SetBlack();
     delete controller;
@@ -129,6 +141,8 @@ void RGBController_SkydimoSerial::DeviceConfigureZone(int zone_idx)
 
 void RGBController_SkydimoSerial::DeviceUpdateLEDs()
 {
+    last_update_time = std::chrono::steady_clock::now();
+
     controller->SetLEDs(colors);
 }
 
@@ -144,4 +158,30 @@ void RGBController_SkydimoSerial::DeviceUpdateSingleLED(int)
 
 void RGBController_SkydimoSerial::DeviceUpdateMode()
 {
+}
+
+void RGBController_SkydimoSerial::KeepaliveThreadFunction()
+{
+    std::chrono::nanoseconds sleep_time;
+
+    while(keepalive_thread_run.load())
+    {
+        sleep_time = SKYDIMO_SERIAL_KEEPALIVE_PERIOD
+                   - (std::chrono::steady_clock::now() - last_update_time);
+
+        if(sleep_time <= SKYDIMO_SERIAL_SLEEP_THRESHOLD)
+        {
+            /*-----------------------------------------------------*\
+            | SK0L32 turns its output off when it does not receive  |
+            | a frame for a short period. Repeat the current frame  |
+            | while the device is connected, like the vendor app.  |
+            \*-----------------------------------------------------*/
+            UpdateLEDsInternal();   // Already protected through the device update thread
+            std::this_thread::sleep_for(SKYDIMO_SERIAL_KEEPALIVE_PERIOD);
+        }
+        else
+        {
+            std::this_thread::sleep_for(sleep_time);
+        }
+    }
 }
