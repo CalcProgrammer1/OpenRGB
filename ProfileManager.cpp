@@ -1036,7 +1036,16 @@ void ProfileManager::MigrateLegacyProfiles()
             }
         }
 
+        /*-------------------------------------------------*\
+        | Save the configuration in JSON format             |
+        \*-------------------------------------------------*/
         SaveConfiguration();
+
+        /*-------------------------------------------------*\
+        | Rename the legacy sizes to .ors.bak so it does    |
+        | not get re-migrated on subsequent loads           |
+        \*-------------------------------------------------*/
+        RenameLegacyProfile("sizes", true);
     }
 
     /*-----------------------------------------------------*\
@@ -1087,6 +1096,12 @@ void ProfileManager::MigrateLegacyProfiles()
         | Save the profile in JSON format                   |
         \*-------------------------------------------------*/
         SaveProfileCustom(profile_name, profile_controllers, 0, false, profile_plugin_data);
+
+        /*-------------------------------------------------*\
+        | Rename the legacy profile to .orp.bak so it does  |
+        | not get re-migrated on subsequent loads           |
+        \*-------------------------------------------------*/
+        RenameLegacyProfile(profile_name, false);
     }
 }
 
@@ -1626,4 +1641,37 @@ nlohmann::json ProfileManager::ReadProfileFileJSON(filesystem::path profile_file
     profile_file.close();
 
     return(profile_json);
+}
+
+void ProfileManager::RenameLegacyProfile(std::string profile_name, bool sizes)
+{
+    /*-----------------------------------------------------*\
+    | Rename legacy profile file with the .bak extension    |
+    | so it does not get re-migrated on subsequent startups |
+    \*-----------------------------------------------------*/
+    filesystem::path profile_filename = configuration_directory / StringUtils::make_filename(profile_name);
+
+    if(sizes)
+    {
+        profile_filename.concat(".ors");
+    }
+    else
+    {
+        profile_filename.concat(".orp");
+    }
+
+    filesystem::path profile_bak_filename = profile_filename;
+    profile_bak_filename.concat(".bak");
+
+    std::error_code rename_ec;
+    filesystem::rename(profile_filename, profile_bak_filename, rename_ec);
+
+    if(rename_ec)
+    {
+        LOG_ERROR("[%s] Failed to rename legacy profile %s to %s: %s", PROFILEMANAGER, profile_filename.string().c_str(), profile_bak_filename.string().c_str(), rename_ec.message().c_str());
+    }
+    else
+    {
+        LOG_INFO("[%s] Renamed legacy profile %s to %s", PROFILEMANAGER, profile_filename.string().c_str(), profile_bak_filename.string().c_str());
+    }
 }

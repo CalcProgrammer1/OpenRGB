@@ -188,4 +188,6 @@ private:
                                     );
 
     nlohmann::json              ReadProfileFileJSON(filesystem::path profile_filepath);
+
+    void                        RenameLegacyProfile(std::string profile_name, bool sizes);
 };
