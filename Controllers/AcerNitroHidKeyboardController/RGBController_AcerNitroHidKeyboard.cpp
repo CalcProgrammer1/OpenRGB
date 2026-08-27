@@ -11,16 +11,16 @@
 
 #include "RGBController_AcerNitroHidKeyboard.h"
 
-// /**------------------------------------------------------------------*\
-//     @name Acer Nitro HID Keyboard
-//     @category Laptop
-//     @type HID
-//     @save :x:
-//     @direct :white_check_mark:
-//     @effects :white_check_mark:
-//     @detectors DetectAcerHIDControllers
-//     @comment
-// \*-------------------------------------------------------------------*/
+/**------------------------------------------------------------------*\
+    @name Acer Nitro HID Keyboard
+    @category Laptop
+    @type HID
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectAcerHIDControllers
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_AcerNitroHidKeyboard::RGBController_AcerNitroHidKeyboard(std::shared_ptr<AcerNitroHidKeyboardController> controller)
 {
@@ -72,7 +72,7 @@ RGBController_AcerNitroHidKeyboard::RGBController_AcerNitroHidKeyboard(std::shar
     Breathing.speed_min         = 1;
     Breathing.speed_max         = 9;
     Breathing.speed             = 4;
-    Breathing.colors.resize(1);    
+    Breathing.colors.resize(1);
 
     modes.push_back(Breathing);
 
@@ -86,7 +86,7 @@ RGBController_AcerNitroHidKeyboard::RGBController_AcerNitroHidKeyboard(std::shar
     Neon.brightness             = 100;
     Neon.speed_min              = 1;
     Neon.speed_max              = 9;
-    Neon.speed                  = 4;  
+    Neon.speed                  = 4;
 
     modes.push_back(Neon);
 
@@ -104,7 +104,7 @@ RGBController_AcerNitroHidKeyboard::RGBController_AcerNitroHidKeyboard(std::shar
     Wave.direction              = 0;
 
     modes.push_back(Wave);
-    
+
     mode Shifting;
     Shifting.name               = "Shifting";
     Shifting.value              = ACER_HID_MODE_SHIFTING;
@@ -199,15 +199,15 @@ void RGBController_AcerNitroHidKeyboard::SetupZones()
 void RGBController_AcerNitroHidKeyboard::DeviceUpdateLEDs()
 {
     mode& current_mode = modes[active_mode];
-    if(current_mode.value == ACER_HID_MODE_DIRECT) 
+    if(current_mode.value == ACER_HID_MODE_DIRECT)
     {
         controller->SetLEDs(colors, current_mode.brightness, device_id);
     }
-    else 
+    else
     {
         RGBColor color          = current_mode.colors.size()==0? (RGBColor)0 :  current_mode.colors[0];
         unsigned char direction = 1;
-        if((modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR) && modes[active_mode].direction) 
+        if((modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR) && modes[active_mode].direction)
         {
             direction           = 2;
         }
