@@ -3532,6 +3532,10 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(Netwo
             controllers[controller_idx]->zones[zone_idx].active_mode = mode_idx;
         }
     }
+    else if(mode_idx == -1)
+    {
+        controllers[controller_idx]->zones[zone_idx].active_mode = mode_idx;
+    }
 
     /*-----------------------------------------------------*\
     | Unlock access mutex                                   |
