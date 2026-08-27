@@ -11,16 +11,16 @@
 
 #include "RGBController_AcerNitroHidLed.h"
 
-// /**------------------------------------------------------------------*\
-//     @name Acer Nitro HID Led
-//     @category Laptop
-//     @type HID
-//     @save :x:
-//     @direct :white_check_mark:
-//     @effects :white_check_mark:
-//     @detectors DetectAcerHIDControllers
-//     @comment
-// \*-------------------------------------------------------------------*/
+/**------------------------------------------------------------------*\
+    @name Acer Nitro HID Led
+    @category Laptop
+    @type HID
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectAcerHIDControllers
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_AcerNitroHidLed::RGBController_AcerNitroHidLed(std::shared_ptr<AcerNitroHidKeyboardController> controller)
 {
@@ -108,27 +108,27 @@ void RGBController_AcerNitroHidLed::SetupZones()
     new_zone->leds_max      = 1;
     new_zone->leds_count    = 1;
     zones.push_back(*new_zone);
-    
+
     led* new_led            = new led();
     new_led->name           = "LED";
     new_led->value          = (unsigned int)leds.size();
     leds.push_back(*new_led);
-    
+
     SetupColors();
 }
 
 void RGBController_AcerNitroHidLed::DeviceUpdateLEDs()
 {
     mode& current_mode = modes[active_mode];
-    if(current_mode.value == ACER_HID_MODE_DIRECT) 
+    if(current_mode.value == ACER_HID_MODE_DIRECT)
     {
         controller->SetLEDs(colors, current_mode.brightness, device_id);
     }
-    else 
+    else
     {
         RGBColor color          = current_mode.colors.size()==0? (RGBColor)0 :  current_mode.colors[0];
         unsigned char direction = 1;
-        if((modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR) && modes[active_mode].direction) 
+        if((modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR) && modes[active_mode].direction)
         {
             direction           = 2;
         }
