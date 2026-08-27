@@ -96,7 +96,7 @@ HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const cha
     /*-----------------------------------------------------*\
     | Get the report IDs for each report                    |
     \*-----------------------------------------------------*/
-    for(const std::pair<unsigned int, unsigned int>& pair : usage_to_report_id)
+    for(const std::pair<const unsigned int, unsigned int>& pair : usage_to_report_id)
     {
         switch(pair.first)
         {
@@ -229,7 +229,6 @@ std::vector<LampAttributes> HIDLampArrayController::GetLamps()
 void HIDLampArrayController::GetLampArrayAttributesReport()
 {
     unsigned char   usb_buf[sizeof(LampArrayAttributes) + 1];
-    int             report_size;
 
     memset(usb_buf, 0, sizeof(usb_buf));
 
@@ -241,7 +240,7 @@ void HIDLampArrayController::GetLampArrayAttributesReport()
     /*-----------------------------------------------------*\
     | Get the report                                        |
     \*-----------------------------------------------------*/
-    report_size         = hid_get_feature_report(dev, usb_buf, sizeof(usb_buf));
+    hid_get_feature_report(dev, usb_buf, sizeof(usb_buf));
 
     memcpy(&LampArray, &usb_buf[1], sizeof(LampArray));
 }
@@ -249,7 +248,6 @@ void HIDLampArrayController::GetLampArrayAttributesReport()
 void HIDLampArrayController::GetLampAttributesResponseReport()
 {
     unsigned char   usb_buf[65];
-    int             report_size;
     LampAttributes  attributes;
 
     memset(usb_buf, 0, sizeof(usb_buf));
@@ -262,7 +260,7 @@ void HIDLampArrayController::GetLampAttributesResponseReport()
     /*-----------------------------------------------------*\
     | Get the report                                        |
     \*-----------------------------------------------------*/
-    report_size = hid_get_feature_report(dev, usb_buf, sizeof(usb_buf));
+    hid_get_feature_report(dev, usb_buf, sizeof(usb_buf));
 
     memcpy(&attributes, &usb_buf[1], sizeof(attributes));
 
