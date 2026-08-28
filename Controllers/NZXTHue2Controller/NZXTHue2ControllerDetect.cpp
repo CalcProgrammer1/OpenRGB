@@ -21,8 +21,8 @@
 #define NZXT_MOTHERBOARD_DEVICE_PID             0x2005
 #define NZXT_MOTHERBOARD_DEVICE_2_PID           0x200B
 #define NZXT_SMART_DEVICE_V2_PID                0x2006
-#define NZXT_KRAKEN_X3_SERIES_PID               0x2007
-#define NZXT_KRAKEN_X3_SERIES_RGB_PID           0x2014
+/* NZXT_KRAKEN_X3_SERIES_PID and NZXT_KRAKEN_X3_SERIES_RGB_PID now live in */
+/* NZXTHue2Controller.h - RGBController_NZXTHue2.cpp switches on them too */
 #define NZXT_KRAKEN_2024_ELITE_SERIES_RGB_PID   0x3012
 #define NZXT_RGB_FAN_CONTROLLER_PID             0x2009
 #define NZXT_RGB_FAN_CONTROLLER2_PID            0x2010
@@ -47,7 +47,7 @@ static DetectedControllers spawn_hue(hid_device_info* info, const std::string& n
 
     if(dev)
     {
-        NZXTHue2Controller*     controller     = new NZXTHue2Controller(dev, rgb_channels, fan_channels, info->path, name, use_2023_effects);
+        NZXTHue2Controller*     controller     = new NZXTHue2Controller(dev, rgb_channels, fan_channels, info->path, name, info->product_id, use_2023_effects);
         RGBController_NZXTHue2* rgb_controller = new RGBController_NZXTHue2(controller);
 
         detected_controllers.push_back(rgb_controller);

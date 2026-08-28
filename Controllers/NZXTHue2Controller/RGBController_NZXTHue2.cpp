@@ -270,6 +270,8 @@ void RGBController_NZXTHue2::SetupModes()
 
 void RGBController_NZXTHue2::SetupZones()
 {
+    unsigned short pid = controller->GetPID();
+
     /*-------------------------------------------------*\
     | Set up zones                                      |
     \*-------------------------------------------------*/
@@ -277,8 +279,34 @@ void RGBController_NZXTHue2::SetupZones()
     {
         zone* new_zone = new zone;
 
-        new_zone->name          = "Hue 2 Channel ";
-        new_zone->name.append(std::to_string(zone_idx + 1));
+        switch(pid)
+        {
+        case NZXT_KRAKEN_X3_SERIES_PID:
+        case NZXT_KRAKEN_X3_SERIES_RGB_PID:
+            if(zone_idx == 0)
+            {
+                new_zone->name = "RGB Header";
+            }
+            else if(zone_idx == 1)
+            {
+                new_zone->name = "Ring";
+            }
+            else if(zone_idx == 2)
+            {
+                new_zone->name = "Logo";
+            }
+            else
+            {
+                new_zone->name = "Channel " + std::to_string(zone_idx + 1);
+            }
+            break;
+
+        default:
+            new_zone->name          = "Hue 2 Channel ";
+            new_zone->name.append(std::to_string(zone_idx + 1));
+            break;
+        }
+
         new_zone->type          = ZONE_TYPE_LINEAR;
         new_zone->leds_min      = 0;
         new_zone->leds_max      = 40;
@@ -295,10 +323,35 @@ void RGBController_NZXTHue2::SetupZones()
         for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led new_led;
-            new_led.name = "Hue 2 Channel ";
-            new_led.name.append(std::to_string(zone_idx + 1));
-            new_led.name.append(", LED ");
-            new_led.name.append(std::to_string(led_idx + 1));
+            switch(pid)
+            {
+            case NZXT_KRAKEN_X3_SERIES_PID:
+            case NZXT_KRAKEN_X3_SERIES_RGB_PID:
+                if(zone_idx == 0)
+                {
+                    new_led.name = "RGB Header - LED " + std::to_string(led_idx + 1);
+                }
+                else if(zone_idx == 1)
+                {
+                    new_led.name = "Ring LED " + std::to_string(led_idx + 1);
+                }
+                else if(zone_idx == 2)
+                {
+                    new_led.name = "Logo LED";
+                }
+                else
+                {
+                    new_led.name = "Channel " + std::to_string(zone_idx + 1) + " - LED " + std::to_string(led_idx + 1);
+                }
+                break;
+
+            default:
+                new_led.name = "Hue 2 Channel ";
+                new_led.name.append(std::to_string(zone_idx + 1));
+                new_led.name.append(", LED ");
+                new_led.name.append(std::to_string(led_idx + 1));
+                break;
+            }
             new_led.value = zone_idx;
 
             leds.push_back(new_led);

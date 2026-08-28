@@ -45,6 +45,26 @@ enum
     HUE_2_SPEED_FASTEST         = 0x04,     /* Fastest speed                */
 };
 
+/*---------------------------------------------------------*\
+| PIDs that need naming distinct from a plain Hue 2         |
+| channel layout - shared with the detector so both         |
+| sides switch on the same values                           |
+\*---------------------------------------------------------*/
+#define NZXT_KRAKEN_X3_SERIES_PID                0x2007
+#define NZXT_KRAKEN_X3_SERIES_RGB_PID            0x2014
+
+/*---------------------------------------------------------*\
+| Bounds for the device-list read-until-response loop.      |
+| Neither value comes from a measurement against real       |
+| hardware - it's a reasonable default at the same scale    |
+| hid_read_timeout() is used elsewhere in this codebase     |
+| (10-100ms per read). 1s total worst-case is enough to     |
+| absorb a slow reply without hanging forever if the        |
+| device never answers correctly at all.                    |
+\*---------------------------------------------------------*/
+#define NZXT_HUE_2_DEVICE_LIST_READ_TIMEOUT_MS  50
+#define NZXT_HUE_2_DEVICE_LIST_MAX_RETRIES      20
+
 enum
 {
     HUE_2_MODE_FIXED            = 0x00,     /* Fixed colors mode            */
@@ -68,12 +88,13 @@ enum
 class NZXTHue2Controller
 {
 public:
-    NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name, bool use_2023_effects = false);
+    NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name, unsigned short dev_pid, bool use_2023_effects = false);
     ~NZXTHue2Controller();
 
     std::string     GetFirmwareVersion();
     std::string     GetLocation();
     std::string     GetName();
+    unsigned short  GetPID();
     std::string     GetSerialString();
 
     unsigned char   GetFanCommand
@@ -131,6 +152,7 @@ private:
     char            firmware_version[16];
     std::string     location;
     std::string     name;
+    unsigned short  pid;
     bool            use_2023_effects;
     unsigned int    num_fan_channels;
     unsigned int    num_rgb_channels;

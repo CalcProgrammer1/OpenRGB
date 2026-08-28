@@ -17,11 +17,12 @@
 #include "NZXTHue2Controller.h"
 #include "StringUtils.h"
 
-NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name, bool use_2023_effects_val)
+NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name, unsigned short dev_pid, bool use_2023_effects_val)
 {
     dev         = dev_handle;
     location    = path;
     name        = dev_name;
+    pid         = dev_pid;
 
     use_2023_effects = use_2023_effects_val;
     num_fan_channels = fan_channels;
@@ -64,6 +65,11 @@ std::string NZXTHue2Controller::GetLocation()
 std::string NZXTHue2Controller::GetName()
 {
     return(name);
+}
+
+unsigned short NZXTHue2Controller::GetPID()
+{
+    return(pid);
 }
 
 unsigned int NZXTHue2Controller::GetNumFanChannels()
@@ -145,12 +151,21 @@ void NZXTHue2Controller::UpdateDeviceList()
     hid_write(dev, usb_buf, 64);
 
     /*-----------------------------------------------------*\
-    | Receive packets until 0x21 0x03 is received           |
+    | Receive packets until 0x21 0x03 is received, bailing  |
+    | out after the retry cap rather than looping forever   |
+    | if it never arrives. A plain blocking hid_read() has  |
+    | no timeout of its own, so hid_read_timeout() is what  |
+    | actually bounds this - a bare retry count does not,   |
+    | since a device that goes silent (rather than replying |
+    | with the wrong packet) would still block forever on   |
+    | the very first call.                                  |
     \*-----------------------------------------------------*/
+    int retries = 0;
     do
     {
-        ret_val = hid_read(dev, usb_buf, sizeof(usb_buf));
-    } while( (ret_val != 64) || (usb_buf[0] != 0x21) || (usb_buf[1] != 0x03) );
+        ret_val = hid_read_timeout(dev, usb_buf, sizeof(usb_buf), NZXT_HUE_2_DEVICE_LIST_READ_TIMEOUT_MS);
+        retries++;
+    } while( ((ret_val != 64) || (usb_buf[0] != 0x21) || (usb_buf[1] != 0x03)) && retries < NZXT_HUE_2_DEVICE_LIST_MAX_RETRIES );
 
     for(unsigned int chan = 0; chan < num_rgb_channels; chan++)
     {
