@@ -139,6 +139,46 @@ const char* RESOURCEMANAGER = "ResourceManager";
 \*---------------------------------------------------------*/
 ResourceManager* ResourceManager::instance;
 
+/*---------------------------------------------------------*\
+| Save default Server settings to the settings file if      |
+| they do not already exist in the loaded settings          |
+\*---------------------------------------------------------*/
+static void SaveDefaultServerSettings(SettingsManager* settings_manager)
+{
+    json server_settings    = settings_manager->GetSettings("Server");
+    bool settings_changed   = false;
+
+    if(!server_settings.contains("default_host"))
+    {
+        server_settings["default_host"]     = OPENRGB_SDK_HOST;
+        settings_changed                    = true;
+    }
+
+    if(!server_settings.contains("default_port"))
+    {
+        server_settings["default_port"]     = OPENRGB_SDK_PORT;
+        settings_changed                    = true;
+    }
+
+    if(!server_settings.contains("all_controllers"))
+    {
+        server_settings["all_controllers"]  = false;
+        settings_changed                    = true;
+    }
+
+    if(!server_settings.contains("legacy_workaround"))
+    {
+        server_settings["legacy_workaround"]= false;
+        settings_changed                    = true;
+    }
+
+    if(settings_changed)
+    {
+        settings_manager->SetSettings("Server", server_settings);
+        settings_manager->SaveSettings();
+    }
+}
+
 ResourceManager::ResourceManager()
 {
     /*-----------------------------------------------------*\
@@ -271,6 +311,11 @@ ResourceManager::ResourceManager()
     | Configure the log manager                             |
     \*-----------------------------------------------------*/
     LogManager::get()->Configure(settings_manager->GetSettings("LogManager"), GetConfigurationDirectory());
+
+    /*-----------------------------------------------------*\
+    | Save default Server settings if not present           |
+    \*-----------------------------------------------------*/
+    SaveDefaultServerSettings(settings_manager);
 
     /*-----------------------------------------------------*\
     | Load sizes list from file                             |
@@ -548,6 +593,7 @@ void ResourceManager::SetConfigurationDirectory(const filesystem::path &director
     config_dir = directory;
     settings_manager->LoadSettings(directory / "OpenRGB.json");
     LogManager::get()->Configure(settings_manager->GetSettings("LogManager"), GetConfigurationDirectory());
+    SaveDefaultServerSettings(settings_manager);
     profile_manager->SetConfigurationDirectory(directory);
 }
 
