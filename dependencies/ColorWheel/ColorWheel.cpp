@@ -16,6 +16,15 @@
 #include <QDebug>
 #include <QPainterPath>
 
+namespace
+{
+QSize devicePixelSize(const QSize &logicalSize, const qreal devicePixelRatio)
+{
+    return QSize(qMax(1, qRound(logicalSize.width() * devicePixelRatio)),
+                 qMax(1, qRound(logicalSize.height() * devicePixelRatio)));
+}
+}
+
 ColorWheel::ColorWheel(QWidget *parent) :
     QWidget(parent),
     initSize(128,128),
@@ -67,31 +76,31 @@ QColor ColorWheel::posColor(const QPoint &point)
     if(inWheel)
     {
         qreal hue = 0;
-        int r = qMin(width() - x_offset, height() - y_offset) / 2;
-        if( point_x > r )
+        const qreal center = qMin(width(), height()) / 2.0;
+        if( point_x > center )
         {
-            if(point_y < r )
+            if(point_y < center )
             {
                 //1
-                hue = 90 - (qAtan2( (point_x - r) , (r - point_y) )  / 3.14 / 2 * 360);
+                hue = 90 - (qAtan2( (point_x - center) , (center - point_y) )  / 3.14 / 2 * 360);
             }
             else
             {
                 //4
-                hue = 270 + (qAtan2( (point_x - r) , (point_y - r ) )  / 3.14 / 2 * 360);
+                hue = 270 + (qAtan2( (point_x - center) , (point_y - center ) )  / 3.14 / 2 * 360);
             }
         }
         else
         {
-            if(point_y < r )
+            if(point_y < center )
             {
                 //2
-                hue =  90 + (qAtan2( (r - point_x) , (r - point_y) )  / 3.14 / 2 * 360);
+                hue =  90 + (qAtan2( (center - point_x) , (center - point_y) )  / 3.14 / 2 * 360);
             }
             else
             {
                 //3
-                hue =  270 - (qAtan2( (r - point_x) , (point_y - r ))  / 3.14 / 2 * 360);
+                hue =  270 - (qAtan2( (center - point_x) , (point_y - center ))  / 3.14 / 2 * 360);
             }
         }
 
@@ -113,7 +122,7 @@ QColor ColorWheel::posColor(const QPoint &point)
     if(inSquare)
     {
         // region of the widget
-        int w = qMin(width() - x_offset, height() - y_offset);
+        int w = qMin(width(), height());
 
         // radius of outer circle
         qreal r = w/2 - margin;
@@ -121,11 +130,14 @@ QColor ColorWheel::posColor(const QPoint &point)
         // radius of inner circle
         qreal ir = r - wheelWidth;
 
-        // left corner of square
-        qreal m = w/2.0 - ir/qSqrt(2);
+        // Leave a small gap between the square and the inner edge of the wheel
+        qreal squareRadius = qMax(0.0, ir - squareGap);
 
-        QPoint p = point - QPoint(x_offset, y_offset) - QPoint(m, m);
-        qreal SquareWidth = 2*ir/qSqrt(2);
+        // left corner of square
+        qreal m = w/2.0 - squareRadius/qSqrt(2);
+
+        QPointF p = QPointF(point.x() - x_offset, point.y() - y_offset) - QPointF(m, m);
+        qreal SquareWidth = 2*squareRadius/qSqrt(2);
         qreal saturation = qBound(0.0, p.x()/SquareWidth, 1.0);
         qreal value      = qBound(0.0, p.y()/SquareWidth, 1.0);
 
@@ -231,28 +243,17 @@ void ColorWheel::mouseReleaseEvent(QMouseEvent *)
 
 void ColorWheel::resizeEvent(QResizeEvent *event)
 {
-    unsigned int size = 0;
-
-    if(event->size().width() < event->size().height())
-    {
-        size = event->size().width();
-    }
-    else
-    {
-        size = event->size().height();
-    }
-
-    wheelWidth = 0.1 * size;
-
-    wheel = QPixmap(event->size());
-    wheel.fill(Qt::transparent);
-    drawWheelImage(event->size());
-    drawSquareImage(current.hue());
+    rebuildCache(event->size());
     update();
 }
 
 void ColorWheel::paintEvent(QPaintEvent *)
 {
+    if(wheel.isNull() || !qFuzzyCompare(wheel.devicePixelRatio(), devicePixelRatioF()))
+    {
+        rebuildCache(size());
+    }
+
     QPainter painter(this);
     QStyleOption opt;
     opt.initFrom(this);
@@ -261,12 +262,28 @@ void ColorWheel::paintEvent(QPaintEvent *)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
 }
 
+void ColorWheel::rebuildCache(const QSize &newSize)
+{
+    const unsigned int size = qMin(newSize.width(), newSize.height());
+    const qreal devicePixelRatio = devicePixelRatioF();
+
+    wheelWidth = 0.1 * size;
+
+    wheel = QPixmap(devicePixelSize(newSize, devicePixelRatio));
+    wheel.setDevicePixelRatio(devicePixelRatio);
+    wheel.fill(Qt::transparent);
+    drawWheelImage(newSize);
+    drawSquareImage(current.hue());
+}
+
 void ColorWheel::drawWheelImage(const QSize &newSize)
 {
     /*-----------------------------------------------------*\
     | Create image canvas                                   |
     \*-----------------------------------------------------*/
-    wheelImage = QImage(newSize, QImage::Format_ARGB32_Premultiplied);
+    const qreal devicePixelRatio = devicePixelRatioF();
+    wheelImage = QImage(devicePixelSize(newSize, devicePixelRatio), QImage::Format_ARGB32_Premultiplied);
+    wheelImage.setDevicePixelRatio(devicePixelRatio);
 
     /*-----------------------------------------------------*\
     | Paint the background                                  |
@@ -298,12 +315,15 @@ void ColorWheel::drawWheelImage(const QSize &newSize)
     x_offset = (newSize.width() - size) / 2;
     y_offset = (newSize.height() - size) / 2;
     int r = size;
+    const qreal center = size / 2.0;
+    const qreal outerRadius = center - margin;
+    const qreal innerRadius = outerRadius - wheelWidth;
 
     QPainterPath painterpath;
-    painterpath.addEllipse(QPoint(0,0),r/2-margin,r/2-margin);
-    painterpath.addEllipse(QPoint(0,0),r/2-margin-wheelWidth,r/2-margin-wheelWidth);
+    painterpath.addEllipse(QPointF(0,0), outerRadius, outerRadius);
+    painterpath.addEllipse(QPointF(0,0), innerRadius, innerRadius);
 
-    painter.translate(x_offset + (size / 2), y_offset + (size / 2));
+    painter.translate(x_offset + center, y_offset + center);
 
     QBrush brush(conicalGradient);
     painter.setPen(Qt::NoPen);
@@ -323,7 +343,8 @@ void ColorWheel::drawWheelImage(const QSize &newSize)
     subRe.translate( x_offset - (r-tmp)/2, y_offset - (r-tmp)/2);
     wheelRegion -= subRe;
 
-    CleanWheel = QPixmap().fromImage(wheelImage);
+    CleanWheel = QPixmap::fromImage(wheelImage);
+    CleanWheel.setDevicePixelRatio(devicePixelRatio);
 }
 
 void ColorWheel::drawSquareImage(const int &hue)
@@ -342,13 +363,20 @@ void ColorWheel::drawSquareImage(const int &hue)
     // radius of inner circle
     qreal ir = r-wheelWidth;
 
+    // Leave a small gap between the square and the inner edge of the wheel
+    qreal squareRadius = qMax(0.0, ir - squareGap);
+
     // left corner of square
-    qreal m = w/2.0-ir/qSqrt(2);
+    qreal m = w/2.0-squareRadius/qSqrt(2);
 
     /*-----------------------------------------------------*\
     | Create image canvas                                   |
     \*-----------------------------------------------------*/
-    QImage square(255,255, QImage::Format_ARGB32_Premultiplied);
+    const qreal devicePixelRatio = devicePixelRatioF();
+    const qreal SquareWidth = 2*squareRadius/qSqrt(2);
+    const int squarePixelWidth = qMax(1, qRound(SquareWidth * devicePixelRatio));
+    const int squarePixelCoordinateRange = qMax(1, squarePixelWidth - 1);
+    QImage square(squarePixelWidth, squarePixelWidth, QImage::Format_ARGB32_Premultiplied);
 
     /*-----------------------------------------------------*\
     | Paint the square.  X axis is saturation and Y axis is |
@@ -357,11 +385,13 @@ void ColorWheel::drawSquareImage(const int &hue)
     QColor color;
     QRgb qrgb;
 
-    for(int x = 0; x < 255; x++)
+    for(int x = 0; x < squarePixelWidth; x++)
     {
-        for(int y = 0; y < 255; y++)
+        for(int y = 0; y < squarePixelWidth; y++)
         {
-            color = QColor::fromHsv(hue, x, y);
+            const int saturation = qRound((x * 254.0) / squarePixelCoordinateRange);
+            const int value = qRound((y * 254.0) / squarePixelCoordinateRange);
+            color = QColor::fromHsv(hue, saturation, value);
 
             qrgb = qRgb(color.red(),color.green(),color.blue());
 
@@ -369,17 +399,20 @@ void ColorWheel::drawSquareImage(const int &hue)
         }
     }
 
+    square.setDevicePixelRatio(devicePixelRatio);
+
     /*-----------------------------------------------------*\
-    | Copy the fixed-size square image on to the scaled     |
-    | canvas                                                |
+    | Store the square image at the target device resolution |
     \*-----------------------------------------------------*/
-    qreal SquareWidth = 2*ir/qSqrt(2);
-    squareImage = square.scaled(SquareWidth, SquareWidth);
+    squareImage = square;
 
     /*-----------------------------------------------------*\
     | Calculate square region                               |
     \*-----------------------------------------------------*/
-    squareRegion = QRegion(x_offset + m, y_offset + m, SquareWidth, SquareWidth);
+    const int squareX = qRound(x_offset + m);
+    const int squareY = qRound(y_offset + m);
+    const int squareSize = qMax(1, qRound(SquareWidth));
+    squareRegion = QRegion(squareX, squareY, squareSize, squareSize);
     CleanSquare = squareImage;
 }
 
@@ -400,11 +433,14 @@ void ColorWheel::drawIndicator(const int &hue)
     QPen pen = painter.pen();
     pen.setWidth(3);
     painter.setPen(pen);
-    qreal r = qMin(height(), width()) / 2.0;
-    painter.translate(x_offset + r, y_offset + r);
+    const qreal size = qMin(height(), width());
+    const qreal center = size / 2.0;
+    const qreal outerRadius = center - margin;
+    const qreal innerRadius = outerRadius - wheelWidth;
+    const qreal indicatorRadius = (outerRadius + innerRadius) / 2.0;
+    painter.translate(x_offset + center, y_offset + center);
     painter.rotate( -hue );
-    r = qMin(height(), width()) / 2.0 - margin - wheelWidth/2;
-    painter.drawEllipse(QPointF(r,0.0),5,5);
+    painter.drawEllipse(QPointF(indicatorRadius,0.0),5,5);
 }
 
 void ColorWheel::drawPicker(const QColor &color)
@@ -422,12 +458,15 @@ void ColorWheel::drawPicker(const QColor &color)
     // radius of inner circle
     qreal ir = r-wheelWidth;
 
+    // Keep the picker geometry aligned with the square's reduced bounds
+    qreal squareRadius = qMax(0.0, ir - squareGap);
+
     // left corner of square
-    qreal m = w/2.0-ir/qSqrt(2);
+    qreal m = w/2.0-squareRadius/qSqrt(2);
 
     painter.translate(x_offset + m-5, y_offset + m-5);
 
-    qreal SquareWidth = 2*ir/qSqrt(2);
+    qreal SquareWidth = 2*squareRadius/qSqrt(2);
     qreal S = color.saturationF()*SquareWidth;
     qreal V = color.valueF()*SquareWidth;
 

@@ -13,7 +13,17 @@
 #include <QPainter>
 #include <QResizeEvent>
 #include <QStyleOption>
+#include <QtCore/qmath.h>
 #include "swatches.h"
+
+namespace
+{
+QSize devicePixelSize(const QSize &logicalSize, const qreal devicePixelRatio)
+{
+    return QSize(qMax(1, qRound(logicalSize.width() * devicePixelRatio)),
+                 qMax(1, qRound(logicalSize.height() * devicePixelRatio)));
+}
+}
 
 Swatches::Swatches(QWidget *parent) :
     QWidget(parent),
@@ -96,8 +106,6 @@ void Swatches::addCustomSwatch(const QColor &color)
 
 void Swatches::resizeEvent(QResizeEvent *event)
 {
-    swatch_pixmap   = QPixmap(event->size());
-    swatch_pixmap.fill(Qt::transparent);
     drawSwatches(event->size());
     update();
 }
@@ -142,7 +150,9 @@ void Swatches::drawSwatches(const QSize &newSize)
     /*-----------------------------------------------------*\
     | Create image canvas & paint background transparent    |
     \*-----------------------------------------------------*/
-    swatch_image = QImage(newSize, QImage::Format_ARGB32_Premultiplied);
+    const qreal devicePixelRatio = devicePixelRatioF();
+    swatch_image = QImage(devicePixelSize(newSize, devicePixelRatio), QImage::Format_ARGB32_Premultiplied);
+    swatch_image.setDevicePixelRatio(devicePixelRatio);
     swatch_image.fill(Qt::transparent);
 
     /*-----------------------------------------------------*\
@@ -181,7 +191,8 @@ void Swatches::drawSwatches(const QSize &newSize)
     //painter.drawRect(add_swatch.region);
     //painter.drawText(add_swatch.region, Qt::AlignCenter, QString("+"));
 
-    swatch_pixmap = QPixmap().fromImage(swatch_image);
+    swatch_pixmap = QPixmap::fromImage(swatch_image);
+    swatch_pixmap.setDevicePixelRatio(devicePixelRatio);
 }
 
 

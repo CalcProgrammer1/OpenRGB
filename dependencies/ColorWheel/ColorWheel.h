@@ -34,6 +34,7 @@ private:
     QPoint lastPos;
     int margin;
     int wheelWidth;
+    const qreal squareGap = 2.0;
     QRegion wheelRegion;
     QRegion squareRegion;
     QColor current;
@@ -46,6 +47,7 @@ private:
     QImage CleanSquare;
 
     QColor posColor(const QPoint &point);
+    void rebuildCache(const QSize &newSize);
     void drawWheelImage(const QSize &newSize);
     void drawIndicator(const int &hue);
     void drawPicker(const QColor &color);
