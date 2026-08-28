@@ -769,7 +769,7 @@ The server uses this ID to forward a LogManager log entry to the client.  The fo
 | 4                   | unsigned int               | data_size             | 6                | Size of all data in packet                                     |
 | 4                   | unsigned int               | log_level             | 6                | Log level value                                                |
 | 4                   | unsigned int               | line                  | 6                | Line number of log entry                                       |
-| 8                   | unsigned long long         | timestamp             | 6                | Timestamp of log entry                                         |
+| 4                   | unsigned int               | timestamp             | 6                | Timestamp of log entry                                         |
 | 2                   | unsigned short             | filename_size         | 6                | Length of filename string, including null termination          |
 | filename_size       | char[filename_size]        | filename              | 6                | Filename string value, including null termination              |
 | 2                   | unsigned short             | text_size             | 6                | Length of text string, including null termination              |

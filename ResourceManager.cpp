@@ -1199,17 +1199,6 @@ bool ResourceManager::AttemptLocalConnection()
             }
             std::this_thread::sleep_for(5ms);
         }
-
-        /*-------------------------------------------------*\
-        | If local client, set local log level to server's  |
-        | log level and download log entries                |
-        \*-------------------------------------------------*/
-        if(auto_connection_client->GetLocal() && auto_connection_client->GetSupportsLogManagerAPI())
-        {
-            unsigned int log_level = auto_connection_client->LogManager_GetLogLevel();
-            LogManager::get()->SetLogLevel(log_level, true);
-            auto_connection_client->LogManager_GetLogBuffer();
-        }
     }
 
     return success;
@@ -1247,6 +1236,35 @@ void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool start
             auto_connection_active  = true;
             detection_enabled       = false;
 
+            /*---------------------------------------------*\
+            | If local client, set local log level to       |
+            | server's log level and download log entries   |
+            \*---------------------------------------------*/
+            if(auto_connection_client->GetLocal() && auto_connection_client->GetSupportsLogManagerAPI())
+            {
+                /*-----------------------------------------*\
+                | Reconfigure local log manager using       |
+                | remote settings                           |
+                \*-----------------------------------------*/
+                LogManager::get()->Configure(settings_manager->GetSettings("LogManager"), GetConfigurationDirectory());
+
+                /*-----------------------------------------*\
+                | Update local log manager log level from   |
+                | the server's log level                    |
+                \*-----------------------------------------*/
+                unsigned int log_level = auto_connection_client->LogManager_GetLogLevel();
+                LogManager::get()->SetLogLevel(log_level, true);
+
+                /*-----------------------------------------*\
+                | Download the server's buffered log        |
+                | entries                                   |
+                \*-----------------------------------------*/
+                auto_connection_client->LogManager_GetLogBuffer();
+            }
+
+            /*---------------------------------------------*\
+            | Update the profile list                       |
+            \*---------------------------------------------*/
             profile_manager->UpdateProfileList();
         }
 

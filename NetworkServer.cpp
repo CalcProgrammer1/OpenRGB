@@ -2139,6 +2139,7 @@ NetPacketStatus NetworkServer::ProcessRequest_LogManager_GetLogBuffer(NetworkCli
         data_size                      += sizeof(data_size);
         data_size                      += sizeof(logged_entry->level);
         data_size                      += sizeof(logged_entry->line);
+        data_size                      += sizeof(logged_entry->timestamp);
         data_size                      += sizeof(filename_size);
         data_size                      += filename_size;
         data_size                      += sizeof(text_size);
@@ -2155,6 +2156,9 @@ NetPacketStatus NetworkServer::ProcessRequest_LogManager_GetLogBuffer(NetworkCli
 
         memcpy(data_ptr, &logged_entry->line, sizeof(logged_entry->line));
         data_ptr += sizeof(logged_entry->line);
+
+        memcpy(data_ptr, &logged_entry->timestamp, sizeof(logged_entry->timestamp));
+        data_ptr += sizeof(logged_entry->timestamp);
 
         memcpy(data_ptr, &filename_size, sizeof(filename_size));
         data_ptr += sizeof(filename_size);
