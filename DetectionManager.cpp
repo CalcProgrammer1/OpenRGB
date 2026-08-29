@@ -13,6 +13,7 @@
 #include <chrono>
 #include <cctype>
 #include <cstdio>
+#include <set>
 #include "DetectionManager.h"
 #include "JsonUtils.h"
 #include "LogManager.h"
@@ -1914,6 +1915,78 @@ void DetectionManager::UpdateDetectorSettings()
             detector_settings["detectors"][detection_string] = true;
             save_settings = true;
         }
+    }
+
+    /*-----------------------------------------------------*\
+    | Loop through the existing detector settings and       |
+    | remove any detectors that no longer exist in the      |
+    | registered detector lists.                            |
+    \------------------------------------------------------*/
+    if(detector_settings.contains("detectors") && detector_settings["detectors"].is_object())
+    {
+        std::set<std::string> active_detector_names;
+
+        /*-------------------------------------------------*\
+        | Collect all currently registered detector names   |
+        \--------------------------------------------------*/
+        for(std::size_t i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detector_strings.size(); i2c_detector_idx++)
+        {
+            active_detector_names.insert(i2c_device_detector_strings[i2c_detector_idx]);
+        }
+
+        for(std::size_t i2c_detector_idx = 0; i2c_detector_idx < i2c_dram_device_detectors.size(); i2c_detector_idx++)
+        {
+            active_detector_names.insert(i2c_dram_device_detectors[i2c_detector_idx].name);
+        }
+
+        for(std::size_t i2c_pci_detector_idx = 0; i2c_pci_detector_idx < i2c_pci_device_detectors.size(); i2c_pci_detector_idx++)
+        {
+            active_detector_names.insert(i2c_pci_device_detectors[i2c_pci_detector_idx].name);
+        }
+
+        for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_generic_detectors.size(); hid_detector_idx++)
+        {
+            active_detector_names.insert(hid_generic_detectors[hid_detector_idx].name);
+        }
+
+        for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_specific_detectors.size(); hid_detector_idx++)
+        {
+            active_detector_names.insert(hid_specific_detectors[hid_detector_idx].name);
+        }
+
+        for(std::size_t hid_wrapped_detector_idx = 0; hid_wrapped_detector_idx < hid_wrapped_generic_detectors.size(); hid_wrapped_detector_idx++)
+        {
+            active_detector_names.insert(hid_wrapped_generic_detectors[hid_wrapped_detector_idx].name);
+        }
+
+        for(std::size_t hid_wrapped_detector_idx = 0; hid_wrapped_detector_idx < hid_wrapped_specific_detectors.size(); hid_wrapped_detector_idx++)
+        {
+            active_detector_names.insert(hid_wrapped_specific_detectors[hid_wrapped_detector_idx].name);
+        }
+
+        for(std::size_t detector_idx = 0; detector_idx < device_detector_strings.size(); detector_idx++)
+        {
+            active_detector_names.insert(device_detector_strings[detector_idx]);
+        }
+
+        /*-------------------------------------------------*\
+        | Remove stale detector entries                     |
+        \--------------------------------------------------*/
+        json active_detectors;
+        for(const nlohmann::detail::iteration_proxy_value<nlohmann::json::iterator>& element : detector_settings["detectors"].items())
+        {
+            if(active_detector_names.count(element.key()) > 0)
+            {
+                active_detectors[element.key()] = element.value();
+            }
+            else
+            {
+                LOG_INFO("[%s] Removing stale detector \"%s\" from settings", DETECTIONMANAGER, element.key().c_str());
+                save_settings = true;
+            }
+        }
+
+        detector_settings["detectors"] = active_detectors;
     }
 
     /*-----------------------------------------------------*\
