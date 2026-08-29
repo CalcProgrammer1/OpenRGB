@@ -1508,23 +1508,22 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json&
             if(this_device_enabled)
             {
                 /*-----------------------------------------*\
+                | If this was a specific detector, this     |
+                | device VID/PID has at least one specific  |
+                | detector available, so ignore generic     |
+                | detectors.                                |
+                \*-----------------------------------------*/
+                if(!generic_detector)
+                {
+                    skip_generic_detectors = true;
+                }
+
+                /*-----------------------------------------*\
                 | Now compare the detector to see if it     |
                 | should run.                               |
                 \*-----------------------------------------*/
                 if(detector->compare(current_hid_device))
                 {
-                    /*-------------------------------------*\
-                    | A matching specific detector blocks   |
-                    | generic detectors from also running   |
-                    | on this interface, so other           |
-                    | interfaces of the same VID/PID are    |
-                    | unaffected.                           |
-                    \*-------------------------------------*/
-                    if(!generic_detector)
-                    {
-                        skip_generic_detectors = true;
-                    }
-
                     detection_string = detector->name.c_str();
 
                     SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
@@ -1625,23 +1624,22 @@ void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_
             if(this_device_enabled)
             {
                 /*-----------------------------------------*\
+                | If this was a specific detector, this     |
+                | device VID/PID has at least one specific  |
+                | detector available, so ignore generic     |
+                | detectors.                                |
+                \*-----------------------------------------*/
+                if(!generic_detector)
+                {
+                    skip_generic_detectors = true;
+                }
+
+                /*-----------------------------------------*\
                 | Now compare the detector to see if it     |
                 | should run.                               |
                 \*-----------------------------------------*/
                 if(detector->compare(current_hid_device))
                 {
-                    /*-------------------------------------*\
-                    | A matching specific detector blocks   |
-                    | generic detectors from also running   |
-                    | on this interface, so other           |
-                    | interfaces of the same VID/PID are    |
-                    | unaffected.                           |
-                    \*-------------------------------------*/
-                    if(!generic_detector)
-                    {
-                        skip_generic_detectors = true;
-                    }
-
                     detection_string = detector->name.c_str();
 
                     SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
