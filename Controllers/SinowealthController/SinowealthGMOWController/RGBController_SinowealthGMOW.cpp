@@ -15,7 +15,7 @@
     @save :white_check_mark:
     @direct :x:
     @effects :white_check_mark:
-    @detectors DetectSinowealthMouse
+    @detectors DetectGMOW_Cable, DetectGMOW_Dongle
     @comment
 \*-------------------------------------------------------------------*/
 
