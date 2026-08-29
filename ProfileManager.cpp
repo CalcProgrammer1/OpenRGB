@@ -43,6 +43,13 @@ ProfileManager::ProfileManager(const filesystem::path& config_dir)
     UpdateProfileList();
 
     /*-----------------------------------------------------*\
+    | Initialize active state variables                     |
+    \*-----------------------------------------------------*/
+    active_profile                          = "";
+    active_base_color                       = 0;
+    active_base_color_enabled               = false;
+
+    /*-----------------------------------------------------*\
     | Create ProfileManager settings schema                 |
     \*-----------------------------------------------------*/
     SettingsManager*    settings_manager                                        = ResourceManager::get()->GetSettingsManager();
@@ -429,7 +436,14 @@ bool ProfileManager::LoadAutoProfileSuspend()
 
 bool ProfileManager::LoadControllerActiveProfile(RGBController* load_controller)
 {
-    return(LoadControllerFromListWithOptions(active_rgb_controllers, load_controller, false, true));
+    if(active_profile == "")
+    {
+        return false;
+    }
+    else
+    {
+        return(LoadControllerFromListWithOptions(active_rgb_controllers, load_controller, false, true));
+    }
 }
 
 bool ProfileManager::LoadControllerConfiguration(RGBController* load_controller)
