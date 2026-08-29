@@ -3793,105 +3793,108 @@ void NetworkServer::SendReply_ServerString(NetworkClientInfo* client_info)
 
 void NetworkServer::SendReply_PluginList(NetworkClientInfo* client_info)
 {
-    unsigned int data_size = 0;
-    unsigned int data_ptr = 0;
-
-    /*---------------------------------------------------------*\
-    | Calculate data size                                       |
-    \*---------------------------------------------------------*/
-    unsigned short num_plugins = (unsigned short)plugin_manager->GetPluginCount();
-
-    data_size += sizeof(data_size);
-    data_size += sizeof(num_plugins);
-
-    for(unsigned int i = 0; i < num_plugins; i++)
+    if(plugin_manager)
     {
-        data_size += sizeof(unsigned short) * 3;
-        data_size += (unsigned int)strlen(plugin_manager->GetPluginName(i).c_str()) + 1;
-        data_size += (unsigned int)strlen(plugin_manager->GetPluginDescription(i).c_str()) + 1;
-        data_size += (unsigned int)strlen(plugin_manager->GetPluginVersion(i).c_str()) + 1;
-        data_size += sizeof(unsigned int) * 2;
+        unsigned int data_size = 0;
+        unsigned int data_ptr = 0;
+
+        /*-------------------------------------------------*\
+        | Calculate data size                               |
+        \*-------------------------------------------------*/
+        unsigned short num_plugins = (unsigned short)plugin_manager->GetPluginCount();
+
+        data_size += sizeof(data_size);
+        data_size += sizeof(num_plugins);
+
+        for(unsigned int i = 0; i < num_plugins; i++)
+        {
+            data_size += sizeof(unsigned short) * 3;
+            data_size += (unsigned int)strlen(plugin_manager->GetPluginName(i).c_str()) + 1;
+            data_size += (unsigned int)strlen(plugin_manager->GetPluginDescription(i).c_str()) + 1;
+            data_size += (unsigned int)strlen(plugin_manager->GetPluginVersion(i).c_str()) + 1;
+            data_size += sizeof(unsigned int) * 2;
+        }
+
+        /*-------------------------------------------------*\
+        | Create data buffer                                |
+        \*-------------------------------------------------*/
+        unsigned char* data_buf = new unsigned char[data_size];
+
+        /*-------------------------------------------------*\
+        | Copy in data size                                 |
+        \*-------------------------------------------------*/
+        memcpy(&data_buf[data_ptr], &data_size, sizeof(data_size));
+        data_ptr += sizeof(data_size);
+
+        /*-------------------------------------------------*\
+        | Copy in num_plugins                               |
+        \*-------------------------------------------------*/
+        memcpy(&data_buf[data_ptr], &num_plugins, sizeof(num_plugins));
+        data_ptr += sizeof(num_plugins);
+
+        for(unsigned int i = 0; i < num_plugins; i++)
+        {
+            /*---------------------------------------------*\
+            | Copy in plugin name (size+data)               |
+            \*---------------------------------------------*/
+            unsigned short str_len = (unsigned short)strlen(plugin_manager->GetPluginName(i).c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &str_len, sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            strcpy((char *)&data_buf[data_ptr], plugin_manager->GetPluginName(i).c_str());
+            data_ptr += str_len;
+
+            /*---------------------------------------------*\
+            | Copy in plugin description (size+data)        |
+            \*---------------------------------------------*/
+            str_len = (unsigned short)strlen(plugin_manager->GetPluginDescription(i).c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &str_len, sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            strcpy((char *)&data_buf[data_ptr], plugin_manager->GetPluginDescription(i).c_str());
+            data_ptr += str_len;
+
+            /*---------------------------------------------*\
+            | Copy in plugin version (size+data)            |
+            \*---------------------------------------------*/
+            str_len = (unsigned short)strlen(plugin_manager->GetPluginVersion(i).c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &str_len, sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            strcpy((char *)&data_buf[data_ptr], plugin_manager->GetPluginVersion(i).c_str());
+            data_ptr += str_len;
+
+            /*---------------------------------------------*\
+            | Copy in plugin index (data)                   |
+            \*---------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &i, sizeof(unsigned int));
+            data_ptr += sizeof(unsigned int);
+
+            /*---------------------------------------------*\
+            | Copy in plugin sdk version (data)             |
+            \*---------------------------------------------*/
+            unsigned int protocol_version = plugin_manager->GetPluginProtocolVersion(i);
+            memcpy(&data_buf[data_ptr], &protocol_version, sizeof(unsigned int));
+            data_ptr += sizeof(unsigned int);
+        }
+
+        NetPacketHeader reply_hdr;
+        unsigned int reply_size;
+
+        memcpy(&reply_size, data_buf, sizeof(reply_size));
+
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST, reply_size);
+
+        send_in_progress.lock();
+        send(client_info->client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_info->client_sock, (const char *)data_buf, reply_size, MSG_NOSIGNAL);
+        send_in_progress.unlock();
+
+        delete [] data_buf;
     }
-
-    /*---------------------------------------------------------*\
-    | Create data buffer                                        |
-    \*---------------------------------------------------------*/
-    unsigned char* data_buf = new unsigned char[data_size];
-
-    /*---------------------------------------------------------*\
-    | Copy in data size                                         |
-    \*---------------------------------------------------------*/
-    memcpy(&data_buf[data_ptr], &data_size, sizeof(data_size));
-    data_ptr += sizeof(data_size);
-
-    /*---------------------------------------------------------*\
-    | Copy in num_plugins                                       |
-    \*---------------------------------------------------------*/
-    memcpy(&data_buf[data_ptr], &num_plugins, sizeof(num_plugins));
-    data_ptr += sizeof(num_plugins);
-
-    for(unsigned int i = 0; i < num_plugins; i++)
-    {
-        /*---------------------------------------------------------*\
-        | Copy in plugin name (size+data)                           |
-        \*---------------------------------------------------------*/
-        unsigned short str_len = (unsigned short)strlen(plugin_manager->GetPluginName(i).c_str()) + 1;
-
-        memcpy(&data_buf[data_ptr], &str_len, sizeof(unsigned short));
-        data_ptr += sizeof(unsigned short);
-
-        strcpy((char *)&data_buf[data_ptr], plugin_manager->GetPluginName(i).c_str());
-        data_ptr += str_len;
-
-        /*---------------------------------------------------------*\
-        | Copy in plugin description (size+data)                    |
-        \*---------------------------------------------------------*/
-        str_len = (unsigned short)strlen(plugin_manager->GetPluginDescription(i).c_str()) + 1;
-
-        memcpy(&data_buf[data_ptr], &str_len, sizeof(unsigned short));
-        data_ptr += sizeof(unsigned short);
-
-        strcpy((char *)&data_buf[data_ptr], plugin_manager->GetPluginDescription(i).c_str());
-        data_ptr += str_len;
-
-        /*---------------------------------------------------------*\
-        | Copy in plugin version (size+data)                        |
-        \*---------------------------------------------------------*/
-        str_len = (unsigned short)strlen(plugin_manager->GetPluginVersion(i).c_str()) + 1;
-
-        memcpy(&data_buf[data_ptr], &str_len, sizeof(unsigned short));
-        data_ptr += sizeof(unsigned short);
-
-        strcpy((char *)&data_buf[data_ptr], plugin_manager->GetPluginVersion(i).c_str());
-        data_ptr += str_len;
-
-        /*---------------------------------------------------------*\
-        | Copy in plugin index (data)                               |
-        \*---------------------------------------------------------*/
-        memcpy(&data_buf[data_ptr], &i, sizeof(unsigned int));
-        data_ptr += sizeof(unsigned int);
-
-        /*---------------------------------------------------------*\
-        | Copy in plugin sdk version (data)                         |
-        \*---------------------------------------------------------*/
-        unsigned int protocol_version = plugin_manager->GetPluginProtocolVersion(i);
-        memcpy(&data_buf[data_ptr], &protocol_version, sizeof(unsigned int));
-        data_ptr += sizeof(unsigned int);
-    }
-
-    NetPacketHeader reply_hdr;
-    unsigned int reply_size;
-
-    memcpy(&reply_size, data_buf, sizeof(reply_size));
-
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST, reply_size);
-
-    send_in_progress.lock();
-    send(client_info->client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_info->client_sock, (const char *)data_buf, reply_size, MSG_NOSIGNAL);
-    send_in_progress.unlock();
-
-    delete [] data_buf;
 }
 
 void NetworkServer::SendReply_PluginSpecific(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr, unsigned int pkt_id)
