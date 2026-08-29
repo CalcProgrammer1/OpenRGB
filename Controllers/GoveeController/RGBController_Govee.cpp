@@ -20,22 +20,33 @@ struct GoveeHardwareInfo
 {
     unsigned int led_count;
     unsigned int matrix_row_len;    // 0 = linear
+    bool supports_razer;
 };
 
-const unsigned int GOVEE_FALLBACK_LED_COUNT = 20;
+const unsigned int GOVEE_FALLBACK_LED_COUNT = 1;
 
 static std::map<std::string, GoveeHardwareInfo> govee_hardware_info
 {
-    { "H6022",   { 132, 12 } },    // Govee Smart Table Lamp 2
-    { "H612F",   { 12,  0 } },     // Govee Strip Light S (3m)
-    { "H619A",   { 20,  0 } },     // Govee RGBIC Led Strip Lights
-    { "H70B1",   { 20,  0 } },     // Govee LED Curtain Lights
-    { "H607C",   { 174, 0 } },     // Govee Floor Lamp 2
+    { "H6022",   { 132, 12, true  } },    // Govee Smart Table Lamp 2
+    { "H612F",   { 12,  0,  true  } },    // Govee Strip Light S (3m)
+    { "H619A",   { 20,  0,  true  } },    // Govee RGBIC Led Strip Lights
+    { "H70B1",   { 20,  0,  true  } },    // Govee LED Curtain Lights
+    { "H607C",   { 174, 0,  true  } },    // Govee Floor Lamp 2
+};
+
+enum
+{
+    GOVEE_MODE_STATIC         = 0,
+    GOVEE_MODE_DIRECT         = 1,
 };
 
 RGBController_Govee::RGBController_Govee(GoveeController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
+    last_static_color       = 0;
+    last_static_brightness  = 0;
+    razer_supported         = false;
+    static_initialized      = false;
 
     name        = "Govee " + controller->GetSku();
     vendor      = "Govee";
@@ -45,25 +56,32 @@ RGBController_Govee::RGBController_Govee(GoveeController* controller_ptr)
     version     = controller->GetVersion();
 
     mode Static;
-    Static.name         = "Static";
-    Static.value        = 1;
-    Static.flags        = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.color_mode   = MODE_COLORS_MODE_SPECIFIC;
-    Static.colors_min   = 1;
-    Static.colors_max   = 1;
+    Static.name           = "Static";
+    Static.value          = GOVEE_MODE_STATIC;
+    Static.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.brightness_min = 0;
+    Static.brightness_max = 100;
+    Static.brightness     = 100;
+    Static.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors_min     = 1;
+    Static.colors_max     = 1;
     Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Direct;
-    Direct.name         = "Direct";
-    Direct.value        = 0;
-    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode   = MODE_COLORS_PER_LED;
+    Direct.name           = "Direct";
+    Direct.value          = GOVEE_MODE_DIRECT;
+    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.brightness_min = 0;
+    Direct.brightness_max = 100;
+    Direct.brightness     = 100;
+    Direct.color_mode     = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();
 
     keepalive_thread_run    = 1;
+    last_update_time        = std::chrono::steady_clock::now();
     keepalive_thread        = new std::thread(&RGBController_Govee::KeepaliveThread, this);
 }
 
@@ -80,20 +98,19 @@ RGBController_Govee::~RGBController_Govee()
 
 void RGBController_Govee::SetupZones()
 {
-    GoveeHardwareInfo hw = { GOVEE_FALLBACK_LED_COUNT, 0 };
-    bool resizable = true;
+    GoveeHardwareInfo hw = { GOVEE_FALLBACK_LED_COUNT, 0, false };
 
     std::map<std::string, GoveeHardwareInfo>::iterator it = govee_hardware_info.find(controller->GetSku());
     if(it != govee_hardware_info.end())
     {
         hw = it->second;
-        resizable = false;
+        razer_supported = hw.supports_razer;
     }
 
     zone strip;
     strip.leds_count            = hw.led_count;
-    strip.leds_min              = resizable ? 0   : hw.led_count;
-    strip.leds_max              = resizable ? 255 : hw.led_count;
+    strip.leds_min              = hw.led_count;
+    strip.leds_max              = hw.led_count;
 
     if(hw.matrix_row_len == 0)
     {
@@ -171,14 +188,40 @@ void RGBController_Govee::DeviceConfigureZone(int zone_idx)
 
 void RGBController_Govee::DeviceUpdateLEDs()
 {
-    last_update_time = std::chrono::steady_clock::now();
-
-    if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
+    if(colors.empty())
     {
-        if(!colors.empty())
+        return;
+    }
+
+    const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    last_update_time = now;
+
+    const unsigned int brightness = modes[active_mode].brightness;
+
+    if(razer_supported)
+    {
+        controller->SendRazerData(&colors[0], (unsigned int)colors.size());
+        controller->SetBrightness(brightness);
+    }
+    else
+    {
+        if(!static_initialized)
         {
-            controller->SendRazerData(&colors[0], (unsigned int)colors.size());
+            controller->SetPower(true);
         }
+
+        controller->SetColor
+            (
+            RGBGetRValue(colors[0]),
+            RGBGetGValue(colors[0]),
+            RGBGetBValue(colors[0])
+            );
+
+        controller->SetBrightness(brightness);
+
+        last_static_color       = colors[0];
+        last_static_brightness  = brightness;
+        static_initialized      = true;
     }
 }
 
@@ -194,28 +237,59 @@ void RGBController_Govee::DeviceUpdateSingleLED(int /*led*/)
 
 void RGBController_Govee::DeviceUpdateMode()
 {
-    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+    if(modes[active_mode].value == GOVEE_MODE_STATIC)
     {
-        unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
-        unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
-        unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
-        controller->SetColor(red, grn, blu);
+        UpdateStatic(false);
     }
-    else
+    else if(modes[active_mode].value == GOVEE_MODE_DIRECT)
     {
-        controller->SendRazerEnable();
+        if(razer_supported)
+        {
+            controller->SendRazerEnable();
+        }
+
+        last_update_time = std::chrono::steady_clock::now();
         DeviceUpdateLEDs();
     }
+}
+
+void RGBController_Govee::UpdateStatic(bool force)
+{
+    last_update_time = std::chrono::steady_clock::now();
+
+    const RGBColor color          = modes[active_mode].colors[0];
+    const unsigned int brightness = modes[active_mode].brightness;
+
+    if(force || !static_initialized || (color != last_static_color))
+    {
+        controller->SetPower(true);
+        controller->SetColor(RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color));
+        last_static_color       = color;
+    }
+
+    if(force || !static_initialized || (brightness != last_static_brightness))
+    {
+        controller->SetBrightness(brightness);
+        last_static_brightness = brightness;
+    }
+
+    static_initialized = true;
 }
 
 void RGBController_Govee::KeepaliveThread()
 {
     while(keepalive_thread_run.load())
     {
-        if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::seconds(30))
+        const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+        if((now - last_update_time) > std::chrono::seconds(30))
         {
-            DeviceUpdateLEDs();
+            if(modes[active_mode].value == GOVEE_MODE_STATIC)
+            {
+                UpdateStatic(true);
+            }
         }
+
         std::this_thread::sleep_for(10s);
     }
 }

@@ -32,8 +32,14 @@ public:
     void        KeepaliveThread();
 
 private:
+    void        UpdateStatic(bool force);
+
     GoveeController*                                    controller;
     std::thread*                                        keepalive_thread;
     std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
+    RGBColor                                            last_static_color;
+    unsigned int                                        last_static_brightness;
+    bool                                                razer_supported;
+    bool                                                static_initialized;
 };

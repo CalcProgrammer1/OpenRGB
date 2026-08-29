@@ -270,6 +270,33 @@ void GoveeController::SendRazerEnable()
     port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
 }
 
+void GoveeController::SetBrightness(unsigned int brightness)
+{
+    json command;
+
+    command["msg"]["cmd"]                       = "brightness";
+    command["msg"]["data"]["value"]             = std::min(brightness, 100u);
+
+    /*-----------------------------------------------------*\
+    | Convert the JSON object to a string and write it      |
+    \*-----------------------------------------------------*/
+    std::string command_str                     = command.dump();
+
+    port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
+}
+
+void GoveeController::SetPower(bool enabled)
+{
+    json command;
+
+    command["msg"]["cmd"]                       = "turn";
+    command["msg"]["data"]["value"]             = enabled ? 1 : 0;
+
+    std::string command_str                     = command.dump();
+
+    port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
+}
+
 void GoveeController::SendScan()
 {
     json command;

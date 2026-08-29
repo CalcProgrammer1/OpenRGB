@@ -35,7 +35,9 @@ public:
 
     void SendScan();
 
+    void SetBrightness(unsigned int brightness);
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
+    void SetPower(bool enabled);
 
 private:
     std::string         firmware_version;
