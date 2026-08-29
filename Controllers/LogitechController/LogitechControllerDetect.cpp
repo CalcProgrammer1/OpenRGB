@@ -1701,10 +1701,6 @@ DetectedControllers DetectLogitechHIDPP20(hid_device_info* info, const std::stri
 | Not covered, deliberately: the G600 (page 0xFF80) and the X56 (own VID) are not HID++ 2.0. A matching non-HID++ node costs one failed |
 | probe, ProbeIdentity changes nothing on the device. Receivers are recognized at runtime: the device probe fails and the pairing table |
 | answers; paired slots follow the same enabled/disabled rule (hidpp20_legacy_wireless_pids).                                           |
-|                                                                                                                                       |
-| udev metadata for the rules generator (VID/PID-generic registrations carry no ids of their own):                                      |
-| DUMMY_DEVICE_DETECTOR("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0x046D, 0xC547 )                                                   |
-| DUMMY_DEVICE_DETECTOR("Logitech G560 Lightsync Speaker", DetectLogitechHIDPP20, 0x046D, 0x0A78 )                                      |
 \*-------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_PU_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFF00, 2);
 REGISTER_HID_DETECTOR_P_ONLY  ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFF43);
@@ -1713,8 +1709,6 @@ REGISTER_HID_DETECTOR_PU_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFF
 
 REGISTER_CUSTOM_UDEV_RULE(logitech_hidpp20, "Logitech HID++ 2.0", "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"046d\", TAG+=\"uaccess\", TAG+=\"Logitech_HID_20\"\nSUBSYSTEM==\"usb\", ATTR{idVendor}==\"046d\", TAG+=\"uaccess\", TAG+=\"Logitech_HID_20\"");
 REGISTER_CUSTOM_UDEV_RULE(logitech_g560, "Logitech G560 Lightsync Speaker", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"046d\", ATTRS{idProduct}==\"0a78\", TAG+=\"uaccess\", TAG+=\"Logitech_G560_Lightsync_Speaker\"");
-REGISTER_CUSTOM_UDEV_RULE(logitech_lightspeed, "Logitech G Lightspeed Receiver", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"046d\", ATTRS{idProduct}==\"c539\", TAG+=\"uaccess\", TAG+=\"Logitech_G_Lightspeed_Receiver\"");
-REGISTER_CUSTOM_UDEV_RULE(logitech_powerplay, "Logitech Powerplay Mat Receiver", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"046d\", ATTRS{idProduct}==\"c53a\", TAG+=\"uaccess\", TAG+=\"Logitech_Powerplay_Mat_Receiver\"");
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                         |
@@ -1942,9 +1936,6 @@ DetectedControllers DetectLogitechWireless(hid_device_info* info, const std::str
 
 /*--------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Lightspeed Devices (Linux Wireless)                                                                                                                |
-|                                                                                                                                                    |
-|    DUMMY_DEVICE_DETECTOR("Logitech G Lightspeed Receiver", DetectLogitechWireless, 0x046D, 0xC539 )                                                |
-|    DUMMY_DEVICE_DETECTOR("Logitech Powerplay Mat Receiver", DetectLogitechWireless, 0x046D, 0xC53A )                                               |
 \*--------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Logitech G403 Wireless Gaming Mouse",                DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G403_LIGHTSPEED_VIRTUAL_PID,         2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G502 Wireless Gaming Mouse",                DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G502_LIGHTSPEED_VIRTUAL_PID,         2, 0xFF00, 2);
@@ -1955,6 +1946,9 @@ REGISTER_HID_DETECTOR_IPU("Logitech G903 Wireless Gaming Mouse",                
 REGISTER_HID_DETECTOR_IPU("Logitech G903 HERO Wireless Gaming Mouse",           DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_VIRTUAL_HERO_PID,    2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G Pro Wireless Gaming Mouse",               DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G_PRO_WIRELESS_VIRTUAL_PID,          2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech Powerplay Mat",                             DetectLogitechWireless,     LOGITECH_VID, LOGITECH_POWERPLAY_MAT_VIRTUAL_PID,           2, 0xFF00, 2);
+
+REGISTER_CUSTOM_UDEV_RULE(logitech_lightspeed, "Logitech G Lightspeed Receiver", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"046d\", ATTRS{idProduct}==\"c539\", TAG+=\"uaccess\", TAG+=\"Logitech_G_Lightspeed_Receiver\"");
+REGISTER_CUSTOM_UDEV_RULE(logitech_powerplay, "Logitech Powerplay Mat Receiver", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"046d\", ATTRS{idProduct}==\"c53a\", TAG+=\"uaccess\", TAG+=\"Logitech_Powerplay_Mat_Receiver\"");
 
 #endif
 

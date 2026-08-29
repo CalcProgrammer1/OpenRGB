@@ -324,12 +324,6 @@ DetectedControllers DetectLianLiUniversalScreen()
     return(detected_controllers);
 }
 
-/*---------------------------------------------------------------------------------------------------------*\
-| Entries for dynamic UDEV rules for libusb devices                                                         |
-|                                                                                                           |
-| DUMMY_DEVICE_DETECTOR("Lian Li Uni Hub", DetectLianLiUniHub, 0x0CF2, 0x7750 )                             |
-| DUMMY_DEVICE_DETECTOR("Lian Li Universal Screen", DetectLianLiUniversalScreen, 0x0416, 0x8050 )           |
-\*---------------------------------------------------------------------------------------------------------*/
 REGISTER_DETECTOR("Lian Li Uni Hub",                            DetectLianLiUniHub);
 REGISTER_DETECTOR("Lian Li Universal Screen",                   DetectLianLiUniversalScreen);
 

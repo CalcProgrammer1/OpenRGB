@@ -49,8 +49,3 @@ DetectedControllers DetectSkydimoSerialControllers()
 
 REGISTER_DETECTOR("Skydimo Serial", DetectSkydimoSerialControllers);
 REGISTER_CUSTOM_UDEV_RULE(skydimo_serial, "Skydimo Serial", "SUBSYSTEMS==\"serial|hidraw\", ATTRS{idVendor}==\"1a86\", ATTRS{idProduct}==\"7523\", TAG+=\"uaccess\", TAG+=\"Skydimo_Serial\"");
-/*---------------------------------------------------------------------------------------------------------*\
-| Entries for dynamic UDEV rules                                                                            |
-|                                                                                                           |
-| DUMMY_DEVICE_DETECTOR("Skydimo Serial", DetectSkydimoSerialControllers, 0x1A86, 0x7523 )                  |
-\*---------------------------------------------------------------------------------------------------------*/

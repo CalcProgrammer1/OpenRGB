@@ -58,9 +58,3 @@ DetectedControllers DetectHYTENexusControllers()
 REGISTER_DETECTOR("HYTE Nexus", DetectHYTENexusControllers);
 REGISTER_CUSTOM_UDEV_RULE(hyte_q60, "HYTE THICC Q60", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"3402\", ATTRS{idProduct}==\"0400\", TAG+=\"uaccess\", TAG+=\"HYTE_THICC_Q60\"");
 REGISTER_CUSTOM_UDEV_RULE(hyte_nexus_portal, "HYTE Nexus Portal NP50", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"3402\", ATTRS{idProduct}==\"0901\", TAG+=\"uaccess\", TAG+=\"HYTE_Nexus_Portal_NP50\"");
-/*---------------------------------------------------------------------------------------------------------*\
-| Entries for dynamic UDEV rules                                                                            |
-|                                                                                                           |
-| DUMMY_DEVICE_DETECTOR("HYTE THICC Q60", DetectHYTENexusControllers, 0x3402, 0x0400 )                      |
-| DUMMY_DEVICE_DETECTOR("HYTE Nexus Portal NP50", DetectHYTENexusControllers, 0x3402, 0x0901 )              |
-\*---------------------------------------------------------------------------------------------------------*/

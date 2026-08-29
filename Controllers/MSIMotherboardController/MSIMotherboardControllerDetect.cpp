@@ -229,16 +229,6 @@ REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E20",    DetectMSIMotherboardCont
 // Detector for the set of common boards
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light Common",     DetectMSIMotherboardControllers,   MSI_USB_VID_COMMON,  MSI_USB_PID_COMMON, 0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light X870",       DetectMSIMotherboardControllers,   MSI_USB_VID_COMMON,  MSI_USB_PID_COMMON, 0xFF00, 0x01);
-/*---------------------------------------------------------------------------------------------------------*\
-| Dummy entries for boards using common VID and PID                                                         |
-|                                                                                                           |
-| DUMMY_DEVICE_DETECTOR("MSI Mystic Light MS_7E12", DetectMSIMotherboardControllers, 0x1462, 0x7E12 )       |
-| DUMMY_DEVICE_DETECTOR("MSI Mystic Light MS_7E16", DetectMSIMotherboardControllers, 0x1462, 0x7E16 )       |
-| DUMMY_DEVICE_DETECTOR("MSI Mystic Light MS_7E24", DetectMSIMotherboardControllers, 0x1462, 0x7E24 )       |
-| DUMMY_DEVICE_DETECTOR("MSI Mystic Light MS_7E26", DetectMSIMotherboardControllers, 0x1462, 0x7E26 )       |
-| DUMMY_DEVICE_DETECTOR("MSI Mystic Light MS_7E27", DetectMSIMotherboardControllers, 0x1462, 0x7E27 )       |
-| DUMMY_DEVICE_DETECTOR("MSI Mystic Light MS_7E49", DetectMSIMotherboardControllers, 0x1462, 0x7E49 )       |
-\*---------------------------------------------------------------------------------------------------------*/
 
 REGISTER_CUSTOM_UDEV_RULE(msi_7e12, "MSI Mystic Light MS_7E12", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e12\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E12\"");
 REGISTER_CUSTOM_UDEV_RULE(msi_7e16, "MSI Mystic Light MS_7E16", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e16\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E16\"");

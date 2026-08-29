@@ -77,9 +77,3 @@ DetectedControllers DetectHYTEMousematControllers()
 REGISTER_DETECTOR("HYTE Mousemat", DetectHYTEMousematControllers);
 REGISTER_CUSTOM_UDEV_RULE(hyte_mousemat_1, "HYTE Mousemat", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"3402\", ATTRS{idProduct}==\"0b00\", TAG+=\"uaccess\", TAG+=\"HYTE_Mousemat\"");
 REGISTER_CUSTOM_UDEV_RULE(hyte_mousemat_2, "HYTE Mousemat", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"3402\", ATTRS{idProduct}==\"0b01\", TAG+=\"uaccess\", TAG+=\"HYTE_Mousemat\"");
-/*---------------------------------------------------------------------------------------------------------*\
-| Entries for dynamic UDEV rules                                                                            |
-|                                                                                                           |
-| DUMMY_DEVICE_DETECTOR("HYTE Mousemat", DetectHYTEMousematControllers, 0x3402, 0x0B00 )                    |
-| DUMMY_DEVICE_DETECTOR("HYTE Mousemat", DetectHYTEMousematControllers, 0x3402, 0x0B01 )                    |
-\*---------------------------------------------------------------------------------------------------------*/
