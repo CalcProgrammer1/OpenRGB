@@ -25,6 +25,8 @@
 #define ASUS_ROG_STRIX_XG27UCG_PID                     0x1BB4
 #define ASUS_ROG_SWIFT_PG32UCDM_PID                    0x1B2B
 #define ASUS_ROG_SWIFT_PG32UCDMR_PID                   0x1C9B
+#define ASUS_ROG_SWIFT_PG32UCDP_PID                    0x1BCA
+#define ASUS_ROG_AURA_MONITOR_LIGHT_BAR_PID            0x1AC8
 
 DetectedControllers DetectAsusMonitorControllers(hid_device_info* info, const std::string& name)
 {
@@ -48,4 +50,9 @@ REGISTER_HID_DETECTOR_IPU("Asus ROG STRIX XG27AQDMG",   DetectAsusMonitorControl
 REGISTER_HID_DETECTOR_IPU("Asus ROG STRIX XG27UCG",     DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_STRIX_XG27UCG_PID,     1, 0xFF72, 0x00A1);
 REGISTER_HID_DETECTOR_IPU("Asus ROG SWIFT PG32UCDM",    DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_SWIFT_PG32UCDM_PID,    1, 0xFF72, 0x00A1);
 REGISTER_HID_DETECTOR_IPU("Asus ROG SWIFT PG32UCDMR",   DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_SWIFT_PG32UCDMR_PID,   1, 0xFF72, 0x00A1);
+REGISTER_HID_DETECTOR_IPU("Asus ROG SWIFT PG32UCDP",    DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_SWIFT_PG32UCDP_PID,    1, 0xFF72, 0x00A1);
+/*---------------------------------------------------------*\
+| ALB01 exposes the Aura HID collection on interface 2.     |
+\*---------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("Asus ROG Aura Monitor Light Bar", DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_AURA_MONITOR_LIGHT_BAR_PID, 2, 0xFF72, 0x00A1);
 
