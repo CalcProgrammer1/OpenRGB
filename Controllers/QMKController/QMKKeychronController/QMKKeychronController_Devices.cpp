@@ -5240,6 +5240,29 @@ static const keychron_patch keychron_v8_max_knob_patch =
     keychron_group_179_patch_entries
 };
 
+
+/*---------------------------------------------------------*\
+| Geometry Group 180:                                       |
+| 0x0111 Q2 Knob                                            |
+\*---------------------------------------------------------*/
+static const keychron_patch_entry keychron_group_180_patch_entries[] =
+{
+    { 60,   4,      9 },
+    { 61,   4,     10 },
+    { 62,   4,     11 },
+    { 63,   4,     12 },
+    { 54,   3,     12 },
+    { 55,   3,     13 },
+    { 64,   4,     13 },
+};
+
+static const keychron_patch keychron_q2_knob_patch =
+{
+    KEYCHRON_Q2_KNOB_PID,
+    KEYCHRON_PATCH_ENTRIES_COUNT(keychron_group_180_patch_entries),
+    keychron_group_180_patch_entries
+};
+
 /*---------------------------------------------------------*\
 | List of all Keychron matrix patches                       |
 \*---------------------------------------------------------*/
@@ -5408,6 +5431,7 @@ const keychron_patch* const keychron_patches[] =
     &keychron_q13_max_knob_patch,
     &keychron_q14_max_knob_patch,
     &keychron_q15_max_knob_patch,
+    &keychron_q2_knob_patch,
     &keychron_q2_he_knob_patch,
     &keychron_q2_max_iso_knob_patch,
     &keychron_q2_max_jis_knob_patch,

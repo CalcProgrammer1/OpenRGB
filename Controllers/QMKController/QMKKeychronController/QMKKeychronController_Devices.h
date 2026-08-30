@@ -136,6 +136,7 @@
 #define KEYCHRON_Q16_HE_8K_10F3_PID                 0x10F3
 #define KEYCHRON_Q16_HE_8K_10F6_PID                 0x10F6
 #define KEYCHRON_Q16_HE_8K_ISO_PID                  0x10F4
+#define KEYCHRON_Q2_KNOB_PID                        0x0111
 #define KEYCHRON_Q2_HE_8K_PID                       0x1020
 #define KEYCHRON_Q3_HE_8K_PID                       0x1030
 #define KEYCHRON_Q3_HE_8K_ANSI_PID                  0x1033
