@@ -2324,37 +2324,37 @@ bool DetectionManager::WriteUdevRules(FILE* output_file)
     /*-----------------------------------------------------*\
     | Group detectors by name to avoid duplicate headers    |
     \*-----------------------------------------------------*/
-    std::map<std::string, std::vector<std::pair<uint16_t, uint16_t>>> detector_groups;
+    std::map<std::string, std::vector<std::pair<int, int>>> detector_groups;
 
     for(std::size_t detector_idx = 0; detector_idx < hid_specific_detectors.size(); detector_idx++)
     {
         HIDDeviceDetectorBlock& detector = hid_specific_detectors[detector_idx];
 
-        if(detector.vid == HID_VID_ANY || detector.pid == HID_PID_ANY)
+        if(detector.vid == HID_VID_ANY && detector.pid == HID_PID_ANY)
         {
             continue;
         }
 
-        detector_groups[detector.name].push_back({(uint16_t)detector.vid, (uint16_t)detector.pid});
+        detector_groups[detector.name].push_back({detector.vid, detector.pid});
     }
 
     for(std::size_t detector_idx = 0; detector_idx < hid_wrapped_specific_detectors.size(); detector_idx++)
     {
         HIDWrappedDeviceDetectorBlock& detector = hid_wrapped_specific_detectors[detector_idx];
 
-        if(detector.vid == HID_VID_ANY || detector.pid == HID_PID_ANY)
+        if(detector.vid == HID_VID_ANY && detector.pid == HID_PID_ANY)
         {
             continue;
         }
 
         std::string group_name = detector.name;
-        detector_groups[group_name].push_back({(uint16_t)detector.vid, (uint16_t)detector.pid});
+        detector_groups[group_name].push_back({detector.vid, detector.pid});
     }
 
     /*-----------------------------------------------------*\
     | Write grouped HID device rules                        |
     \*-----------------------------------------------------*/
-    for(const std::pair<const std::string, std::vector<std::pair<uint16_t, uint16_t>>>& group : detector_groups)
+    for(const std::pair<const std::string, std::vector<std::pair<int, int>>>& group : detector_groups)
     {
         fprintf(output_file, "#---------------------------------------------------------------#\n");
         fprintf(output_file, "#  %s\n", group.first.c_str());
@@ -2362,9 +2362,21 @@ bool DetectionManager::WriteUdevRules(FILE* output_file)
 
         std::string device_name_tag = UdevDeviceNameToTag(group.first);
 
-        for(const std::pair<uint16_t, uint16_t>& vid_pid : group.second)
+        for(const std::pair<int, int>& vid_pid : group.second)
         {
-            fprintf(output_file, "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"%04x\", ATTRS{idProduct}==\"%04x\", TAG+=\"uaccess\", TAG+=\"%s\"\n", vid_pid.first, vid_pid.second, device_name_tag.c_str());
+            fprintf(output_file, "SUBSYSTEMS==\"usb|hidraw\", ");
+
+            if(vid_pid.first >= 0)
+            {
+                fprintf(output_file, "ATTRS{idVendor}==\"%04x\", ", vid_pid.first);
+            }
+
+            if(vid_pid.second >= 0)
+            {
+                fprintf(output_file, "ATTRS{idProduct}==\"%04x\", ", vid_pid.second);
+            }
+
+            fprintf(output_file, "TAG+=\"uaccess\", TAG+=\"%s\"\n", device_name_tag.c_str());
         }
         fprintf(output_file, "\n");
     }
