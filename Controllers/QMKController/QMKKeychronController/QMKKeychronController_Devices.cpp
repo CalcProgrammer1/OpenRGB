@@ -3224,11 +3224,10 @@ static const keychron_patch keychron_q6_he_jis_knob_patch =
 \*---------------------------------------------------------*/
 static const keychron_patch_entry keychron_group_108_patch_entries[] =
 {
-    {  20,  0, 20 },
-    {  41,  1, 20 },
-    {  62,  2, 20 },
-    {  95,  4, 20 },
-    { 108,  5, 19 },
+    { 19,  0, 20 },
+    { 40,  1, 20 },
+    { 77,  3, 20 },
+    { 107, 5, 20 },
 };
 
 static const keychron_patch keychron_q6_ultra_8k_ansi_patch =
