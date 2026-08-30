@@ -1507,13 +1507,12 @@ void RGBController::SetCustomMode()
             && ((modes[mode_idx].color_mode == MODE_COLORS_PER_LED)
              || (modes[mode_idx].color_mode == MODE_COLORS_MODE_SPECIFIC)))
             {
-                active_mode = mode_idx;
+                SetActiveMode(mode_idx);
+                UpdateMode();
                 return;
             }
         }
     }
-
-    UpdateMode();
 }
 
 /*---------------------------------------------------------*\
