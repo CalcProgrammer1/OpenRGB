@@ -55,15 +55,12 @@ enum
 
 /*---------------------------------------------------------*\
 | Bounds for the device-list read-until-response loop.      |
-| Neither value comes from a measurement against real       |
-| hardware - it's a reasonable default at the same scale    |
-| hid_read_timeout() is used elsewhere in this codebase     |
-| (10-100ms per read). 1s total worst-case is enough to     |
-| absorb a slow reply without hanging forever if the        |
-| device never answers correctly at all.                    |
+| Tested against Smart Device V2, required between 100-200  |
+| ms to detect attached devices, so 1000ms was chosen to    |
+| provide an ample buffer on top of that.                   |
 \*---------------------------------------------------------*/
-#define NZXT_HUE_2_DEVICE_LIST_READ_TIMEOUT_MS  50
-#define NZXT_HUE_2_DEVICE_LIST_MAX_RETRIES      20
+#define NZXT_HUE_2_DEVICE_LIST_READ_TIMEOUT_MS  1000
+#define NZXT_HUE_2_DEVICE_LIST_MAX_RETRIES      10
 
 enum
 {
