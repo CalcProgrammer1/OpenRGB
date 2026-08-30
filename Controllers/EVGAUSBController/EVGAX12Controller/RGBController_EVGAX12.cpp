@@ -98,8 +98,7 @@ void RGBController_EVGAX12::SetupZones()
 {
     const char* zone_names[EVGA_X12_LED_COUNT] =
     {
-        "Left Head",
-        "Right Head",
+        "Side",
         "Scroll Wheel",
         "Logo",
     };

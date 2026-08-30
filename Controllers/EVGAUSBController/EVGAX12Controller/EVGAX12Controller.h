@@ -20,7 +20,8 @@
 
 #define EVGA_X12_REPORT_ID                  0x07
 #define EVGA_X12_REPORT_SIZE                40
-#define EVGA_X12_LED_COUNT                  4
+#define EVGA_X12_LED_COUNT                  3
+#define EVGA_X12_FIRMWARE_SLOT_COUNT        4
 #define EVGA_X12_BRIGHTNESS_MIN             0
 #define EVGA_X12_BRIGHTNESS_MAX             255
 
@@ -30,12 +31,16 @@ enum
     EVGA_X12_MODE_STATIC                    = 1,
 };
 
+/*---------------------------------------------------------*\
+| HEAD_LEFT drives both physical side lights. HEAD_RIGHT    |
+| is writable and readable, but has no physical emitter.    |
+\*---------------------------------------------------------*/
 enum
 {
-    EVGA_X12_LED_HEAD_LEFT                  = 0,
-    EVGA_X12_LED_HEAD_RIGHT                 = 1,
-    EVGA_X12_LED_WHEEL                      = 2,
-    EVGA_X12_LED_LOGO                       = 3,
+    EVGA_X12_FIRMWARE_SLOT_HEAD_LEFT        = 0,
+    EVGA_X12_FIRMWARE_SLOT_HEAD_RIGHT       = 1,
+    EVGA_X12_FIRMWARE_SLOT_WHEEL            = 2,
+    EVGA_X12_FIRMWARE_SLOT_LOGO             = 3,
 };
 
 struct EVGAX12LightingState

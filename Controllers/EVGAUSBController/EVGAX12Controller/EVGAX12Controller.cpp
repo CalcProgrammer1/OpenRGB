@@ -26,6 +26,13 @@
 #define EVGA_X12_READ_DELAY_MS              5
 #define EVGA_X12_WRITE_ATTEMPTS             3
 
+static const unsigned int EVGA_X12_LED_TO_FIRMWARE_SLOT[EVGA_X12_LED_COUNT] =
+{
+    EVGA_X12_FIRMWARE_SLOT_HEAD_LEFT,
+    EVGA_X12_FIRMWARE_SLOT_WHEEL,
+    EVGA_X12_FIRMWARE_SLOT_LOGO,
+};
+
 EVGAX12Controller::EVGAX12Controller(hid_device* dev_handle, const hid_device_info& info, const std::string& dev_name)
 {
     dev         = dev_handle;
@@ -73,7 +80,8 @@ EVGAX12LightingState EVGAX12Controller::GetLightingState()
     {
         for(unsigned int led_idx = 0; led_idx < EVGA_X12_LED_COUNT; led_idx++)
         {
-            state.modes[led_idx] = packet[4 + led_idx];
+            unsigned int firmware_slot = EVGA_X12_LED_TO_FIRMWARE_SLOT[led_idx];
+            state.modes[led_idx]        = packet[4 + firmware_slot];
         }
     }
 
@@ -83,7 +91,8 @@ EVGAX12LightingState EVGAX12Controller::GetLightingState()
     {
         for(unsigned int led_idx = 0; led_idx < EVGA_X12_LED_COUNT; led_idx++)
         {
-            unsigned int offset         = 4 + (led_idx * 4);
+            unsigned int firmware_slot  = EVGA_X12_LED_TO_FIRMWARE_SLOT[led_idx];
+            unsigned int offset         = 4 + (firmware_slot * 4);
             state.brightness[led_idx]   = packet[offset];
             state.colors[led_idx]       = ToRGBColor(packet[offset + 1], packet[offset + 2], packet[offset + 3]);
         }
@@ -109,7 +118,8 @@ bool EVGAX12Controller::SetModeReport(unsigned char mode)
 
     for(unsigned int led_idx = 0; led_idx < EVGA_X12_LED_COUNT; led_idx++)
     {
-        packet[4 + led_idx] = mode;
+        unsigned int firmware_slot  = EVGA_X12_LED_TO_FIRMWARE_SLOT[led_idx];
+        packet[4 + firmware_slot]   = mode;
     }
 
     return(SendReport(packet));
@@ -155,14 +165,19 @@ bool EVGAX12Controller::SetStaticReport(const std::vector<RGBColor>& colors, uns
     packet[2] = EVGA_X12_DIRECTION_SET;
     packet[3] = EVGA_X12_COMMAND_STATIC;
 
+    for(unsigned int firmware_slot = 0; firmware_slot < EVGA_X12_FIRMWARE_SLOT_COUNT; firmware_slot++)
+    {
+        packet[20 + firmware_slot] = EVGA_X12_START_WITH_PROFILE;
+    }
+
     for(unsigned int led_idx = 0; led_idx < EVGA_X12_LED_COUNT; led_idx++)
     {
-        unsigned int offset         = 4 + (led_idx * 4);
+        unsigned int firmware_slot  = EVGA_X12_LED_TO_FIRMWARE_SLOT[led_idx];
+        unsigned int offset         = 4 + (firmware_slot * 4);
         packet[offset]              = brightness;
         packet[offset + 1]          = RGBGetRValue(colors[led_idx]);
         packet[offset + 2]          = RGBGetGValue(colors[led_idx]);
         packet[offset + 3]          = RGBGetBValue(colors[led_idx]);
-        packet[20 + led_idx]        = EVGA_X12_START_WITH_PROFILE;
     }
 
     for(unsigned int attempt = 0; attempt < EVGA_X12_WRITE_ATTEMPTS; attempt++)
@@ -180,9 +195,9 @@ bool EVGAX12Controller::SetStaticReport(const std::vector<RGBColor>& colors, uns
         {
             bool matches = true;
 
-            for(unsigned int led_idx = 0; led_idx < EVGA_X12_LED_COUNT; led_idx++)
+            for(unsigned int firmware_slot = 0; firmware_slot < EVGA_X12_FIRMWARE_SLOT_COUNT; firmware_slot++)
             {
-                unsigned int offset = 4 + (led_idx * 4);
+                unsigned int offset = 4 + (firmware_slot * 4);
 
                 if(std::memcmp(&packet[offset], &reply[offset], 4) != 0)
                 {
