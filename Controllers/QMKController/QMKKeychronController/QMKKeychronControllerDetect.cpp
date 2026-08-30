@@ -52,4 +52,4 @@ DetectedControllers DetectQMKKeychronControllers(hid_device_info* info, const st
     return(detected_controllers);
 }
 
-REGISTER_HID_DETECTOR_IPU("Keychron RGB", DetectQMKKeychronControllers, KEYCHRON_VID, HID_PID_ANY, 1, KEYCHRON_QMK_USAGE_PAGE, KEYCHRON_QMK_USAGE);
+REGISTER_HID_DETECTOR_PU("Keychron RGB QMK/ZMK Keyboard", DetectQMKKeychronControllers, KEYCHRON_VID, HID_PID_ANY, KEYCHRON_QMK_USAGE_PAGE, KEYCHRON_QMK_USAGE);
