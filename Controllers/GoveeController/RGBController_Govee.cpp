@@ -16,22 +16,45 @@
 
 using namespace std::chrono_literals;
 
-struct GoveeHardwareInfo
+/*---------------------------------------------------------*\
+| A device's zone shape is picked from this fixed set of    |
+| known layouts rather than special-cased by SKU string, so |
+| adding a device that fits an existing shape is a one-line |
+| table entry rather than a new code path.                  |
+|                                                           |
+|   LINEAR      single strip, no matrix                     |
+|   SERPENTINE  matrix wired bottom-to-top, alternating     |
+|               scan direction each row (e.g. H6022)        |
+|   SPLIT_BARS  two disconnected bars either side of a gap, |
+|               e.g. two light bars flanking a monitor      |
+\*---------------------------------------------------------*/
+enum GoveeZoneLayout
 {
-    unsigned int led_count;
-    unsigned int matrix_row_len;    // 0 = linear
-    bool supports_razer;
+    GOVEE_ZONE_LINEAR,
+    GOVEE_ZONE_SERPENTINE,
+    GOVEE_ZONE_SPLIT_BARS,
+};
+
+struct GoveeDeviceInfo
+{
+    unsigned int    led_count;
+    GoveeZoneLayout layout;
+    unsigned int    matrix_row_len;    // SERPENTINE only: LEDs per row
+    unsigned int    gap_columns;       // SPLIT_BARS only: empty columns between the two bars
+    bool            supports_razer;
 };
 
 const unsigned int GOVEE_FALLBACK_LED_COUNT = 1;
+#define GOVEE_MATRIX_LED_NONE                       0xFFFFFFFF
 
-static std::map<std::string, GoveeHardwareInfo> govee_hardware_info
+static std::map<std::string, GoveeDeviceInfo> govee_device_info
 {
-    { "H6022",   { 132, 12, true  } },    // Govee Smart Table Lamp 2
-    { "H612F",   { 12,  0,  true  } },    // Govee Strip Light S (3m)
-    { "H619A",   { 20,  0,  true  } },    // Govee RGBIC Led Strip Lights
-    { "H70B1",   { 20,  0,  true  } },    // Govee LED Curtain Lights
-    { "H607C",   { 174, 0,  true  } },    // Govee Floor Lamp 2
+    { "H6022",   { 132, GOVEE_ZONE_SERPENTINE, 12, 0,  true } },    // Govee Smart Table Lamp 2
+    { "H6046",   { 20,  GOVEE_ZONE_SPLIT_BARS, 0,  10, true } },    // Govee RGBIC Gaming Light Bars - two 10-LED bars, right then left
+    { "H612F",   { 12,  GOVEE_ZONE_LINEAR,     0,  0,  true } },    // Govee Strip Light S (3m)
+    { "H619A",   { 20,  GOVEE_ZONE_LINEAR,     0,  0,  true } },    // Govee RGBIC Led Strip Lights
+    { "H70B1",   { 20,  GOVEE_ZONE_LINEAR,     0,  0,  true } },    // Govee LED Curtain Lights
+    { "H607C",   { 174, GOVEE_ZONE_LINEAR,     0,  0,  true } },    // Govee Floor Lamp 2
 };
 
 enum
@@ -98,10 +121,10 @@ RGBController_Govee::~RGBController_Govee()
 
 void RGBController_Govee::SetupZones()
 {
-    GoveeHardwareInfo hw = { GOVEE_FALLBACK_LED_COUNT, 0, false };
+    GoveeDeviceInfo hw = { GOVEE_FALLBACK_LED_COUNT, GOVEE_ZONE_LINEAR, 0, 0, false };
 
-    std::map<std::string, GoveeHardwareInfo>::iterator it = govee_hardware_info.find(controller->GetSku());
-    if(it != govee_hardware_info.end())
+    std::map<std::string, GoveeDeviceInfo>::iterator it = govee_device_info.find(controller->GetSku());
+    if(it != govee_device_info.end())
     {
         hw = it->second;
         razer_supported = hw.supports_razer;
@@ -112,45 +135,90 @@ void RGBController_Govee::SetupZones()
     strip.leds_min              = hw.led_count;
     strip.leds_max              = hw.led_count;
 
-    if(hw.matrix_row_len == 0)
+    switch(hw.layout)
     {
-        strip.name              = "Govee Strip";
-        strip.type              = ZONE_TYPE_LINEAR;
-    }
-    else
-    {
-        strip.name              = "Govee Matrix";
-        strip.type              = ZONE_TYPE_MATRIX;
-
-        unsigned int width      = hw.matrix_row_len;
-        unsigned int height     = hw.led_count / width;
-
-        strip.matrix_map.height = height;
-        strip.matrix_map.width  = width;
-        strip.matrix_map.map.resize(hw.led_count);
-
-        /*-------------------------------------------------*\
-        | On H6022, LEDs indexed bottom to top, alternating |
-        | clockwise and counterclockwise for each row.      |
-        \*-------------------------------------------------*/
-        for(unsigned int y = 0; y < height; y++)
+        case GOVEE_ZONE_LINEAR:
         {
-            /*---------------------------------------------*\
-            | LEDs numbered bottom to top, opposite of      |
-            | matrix clockwise and counterclockwise for     |
-            | each row.                                     |
-            \*---------------------------------------------*/
-            unsigned int led_y = (height - 1) - y;
+            strip.name              = "Govee Strip";
+            strip.type              = ZONE_TYPE_LINEAR;
+            break;
+        }
 
-            for(unsigned int x = 0; x < width; x++)
+        case GOVEE_ZONE_SPLIT_BARS:
+        {
+            strip.name              = "Light Bars";
+            strip.type              = ZONE_TYPE_MATRIX;
+
+            unsigned int bar_leds   = hw.led_count / 2;
+            unsigned int width      = hw.gap_columns + 2;
+            unsigned int height     = bar_leds;
+
+            strip.matrix_map.Set(height, width, NULL);
+
+            /*-------------------------------------------------*\
+            | The two bars stand either side of a monitor, so   |
+            | the left bar takes the first column and the right |
+            | bar the last one.  The columns between them are   |
+            | empty and represent the gap across the desk,      |
+            | which keeps horizontal effects moving at the same |
+            | rate as they appear to the eye.                   |
+            \*-------------------------------------------------*/
+            for(unsigned int y = 0; y < height; y++)
             {
-                /*-----------------------------------------*\
-                | LED is right-to-left for even rows,       |
-                | including first one                       |
-                \*-----------------------------------------*/
-                unsigned int led_x = led_y & 1 ? x : (width - 1) - x;
-                strip.matrix_map.map[y * width + x] = led_y * width + led_x;
+                for(unsigned int x = 0; x < width; x++)
+                {
+                    strip.matrix_map.map[(y * width) + x] = GOVEE_MATRIX_LED_NONE;
+                }
+
+                strip.matrix_map.map[(y * width)]                 = bar_leds + y;
+                strip.matrix_map.map[(y * width) + (width - 1)]   = y;
             }
+            break;
+        }
+
+        case GOVEE_ZONE_SERPENTINE:
+        default:
+        {
+            strip.name              = "Govee Matrix";
+            strip.type              = ZONE_TYPE_MATRIX;
+
+            /*-------------------------------------------------*\
+            | matrix_row_len is only meaningful for this layout |
+            | - guard a table entry that forgets to set it so a |
+            | bad row degrades to a single column instead of    |
+            | dividing by zero.                                 |
+            \*-------------------------------------------------*/
+            unsigned int width      = (hw.matrix_row_len > 0) ? hw.matrix_row_len : 1;
+            unsigned int height     = hw.led_count / width;
+
+            strip.matrix_map.height = height;
+            strip.matrix_map.width  = width;
+            strip.matrix_map.map.resize(hw.led_count);
+
+            /*-------------------------------------------------*\
+            | LEDs indexed bottom to top, alternating clockwise |
+            | and counterclockwise for each row (e.g. H6022).   |
+            \*-------------------------------------------------*/
+            for(unsigned int y = 0; y < height; y++)
+            {
+                /*---------------------------------------------*\
+                | LEDs numbered bottom to top, opposite of      |
+                | matrix clockwise and counterclockwise for     |
+                | each row.                                     |
+                \*---------------------------------------------*/
+                unsigned int led_y = (height - 1) - y;
+
+                for(unsigned int x = 0; x < width; x++)
+                {
+                    /*-----------------------------------------*\
+                    | LED is right-to-left for even rows,       |
+                    | including first one                       |
+                    \*-----------------------------------------*/
+                    unsigned int led_x = led_y & 1 ? x : (width - 1) - x;
+                    strip.matrix_map.map[y * width + x] = led_y * width + led_x;
+                }
+            }
+            break;
         }
     }
     zones.push_back(strip);
@@ -158,7 +226,25 @@ void RGBController_Govee::SetupZones()
     for(std::size_t led_idx = 0; led_idx < strip.leds_count; led_idx++)
     {
         led strip_led;
-        strip_led.name      = "Govee LED " + std::to_string(led_idx);
+
+        if(hw.layout == GOVEE_ZONE_SPLIT_BARS)
+        {
+            unsigned int bar_leds = hw.led_count / 2;
+
+            if(led_idx < bar_leds)
+            {
+                strip_led.name  = "Right Bar LED " + std::to_string(led_idx + 1);
+            }
+            else
+            {
+                strip_led.name  = "Left Bar LED " + std::to_string(led_idx - (bar_leds - 1));
+            }
+        }
+        else
+        {
+            strip_led.name      = "Govee LED " + std::to_string(led_idx);
+        }
+
         leds.push_back(strip_led);
     }
 
