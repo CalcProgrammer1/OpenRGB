@@ -374,6 +374,23 @@ void RGBController_Govee::KeepaliveThread()
             {
                 UpdateStatic(true);
             }
+            else if(modes[active_mode].value == GOVEE_MODE_DIRECT)
+            {
+                /*-----------------------------------------------------*\
+                | Direct/per-LED mode has no other periodic refresh -   |
+                | SendRazerEnable() only fires once, at mode entry.     |
+                | Re-assert it here so a long gap between real updates  |
+                | (e.g. idle time between plugin-driven alerts) can't   |
+                | let the device's external-control session time out    |
+                | and fall back to its own firmware default.            |
+                \*-----------------------------------------------------*/
+                if(razer_supported)
+                {
+                    controller->SendRazerEnable();
+                }
+
+                DeviceUpdateLEDs();
+            }
         }
 
         std::this_thread::sleep_for(10s);
