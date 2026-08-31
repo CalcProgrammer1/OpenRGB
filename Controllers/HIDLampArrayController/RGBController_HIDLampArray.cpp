@@ -83,6 +83,8 @@ RGBController_HIDLampArray::RGBController_HIDLampArray(HIDLampArrayController* c
 
 RGBController_HIDLampArray::~RGBController_HIDLampArray()
 {
+    Shutdown();
+
     delete controller;
 }
 
