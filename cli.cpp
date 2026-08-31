@@ -421,7 +421,7 @@ void OptionHelp()
     help_text += "--startminimized                         Starts the GUI minimized to tray. Implies --gui, even if not specified\n";
     help_text += "--client [IP]:[Port]                     Starts an SDK client on the given IP:Port (assumes port 6742 if not specified)\n";
     help_text += "--server                                 Starts the SDK's server\n";
-    help_text += "--server-host                            Sets the SDK's server host. Default: 0.0.0.0 (all network interfaces)\n";
+    help_text += "--server-host                            Sets the SDK's server host. Default: 127.0.0.1\n";
     help_text += "--server-port                            Sets the SDK's server port. Default: 6742 (1024-65535)\n";
     help_text += "-l,  --list-devices                      Displays a simple list of active devices\n";
     help_text += "-ld  --list-detailed                     Displays a detailed list of active devices\n";
