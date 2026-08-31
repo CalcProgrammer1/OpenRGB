@@ -33,7 +33,7 @@ class i2c_smbus_pawnio : public i2c_smbus_interface
 {
 public:
     static std::unordered_map<std::string, int> using_handle;
-    i2c_smbus_pawnio(HANDLE handle, std::string name);
+    i2c_smbus_pawnio(HANDLE handle, std::string name, unsigned int index);
     ~i2c_smbus_pawnio();
 
     static HRESULT start_pawnio(std::string filename, PHANDLE phandle);

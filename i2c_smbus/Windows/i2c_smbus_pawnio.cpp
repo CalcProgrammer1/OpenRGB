@@ -70,7 +70,7 @@ s32 set_sleep_mode(HANDLE pawnio_handle, s32 sleep_mode)
     return(status ? -EIO : 0);
 }
 
-i2c_smbus_pawnio::i2c_smbus_pawnio(HANDLE handle, std::string name)
+i2c_smbus_pawnio::i2c_smbus_pawnio(HANDLE handle, std::string name, unsigned int index)
 {
     /*-----------------------------------------------------*\
     | Store bus information                                 |
@@ -115,7 +115,7 @@ i2c_smbus_pawnio::i2c_smbus_pawnio(HANDLE handle, std::string name)
         name_str[7]                 = (char)((out[0] & 0xFF00000000000000) >> 56);
         name_str[8]                 = 0;
 
-        strncpy(this->info.device_name, name_str, 512 );
+        snprintf(this->info.device_name, 512, "PawnIO SMBus %s %d", name_str, index);
     }
 
     /*-----------------------------------------------------*\
@@ -379,7 +379,7 @@ bool i2c_smbus_pawnio_detect()
     {
         bus_detected = true;
 
-        bus = new i2c_smbus_pawnio(pawnio_handle, "i801");
+        bus = new i2c_smbus_pawnio(pawnio_handle, "i801", 0);
         DetectionManager::get()->RegisterI2CBus(bus);
     }
 
@@ -395,7 +395,7 @@ bool i2c_smbus_pawnio_detect()
         \*-------------------------------------------------*/
         piix4_port_sel(pawnio_handle, 0);
 
-        bus = new i2c_smbus_pawnio(pawnio_handle, "piix4");
+        bus = new i2c_smbus_pawnio(pawnio_handle, "piix4_0", 0);
         DetectionManager::get()->RegisterI2CBus(bus);
     }
 
@@ -411,7 +411,7 @@ bool i2c_smbus_pawnio_detect()
         \*-------------------------------------------------*/
         piix4_port_sel(pawnio_handle, 1);
 
-        bus = new i2c_smbus_pawnio(pawnio_handle, "piix4");
+        bus = new i2c_smbus_pawnio(pawnio_handle, "piix4_1", 1);
         DetectionManager::get()->RegisterI2CBus(bus);
     }
 
@@ -422,7 +422,7 @@ bool i2c_smbus_pawnio_detect()
     {
         bus_detected = true;
 
-        bus = new i2c_smbus_pawnio(pawnio_handle, "NCT6793");
+        bus = new i2c_smbus_pawnio(pawnio_handle, "NCT6793", 0);
         DetectionManager::get()->RegisterI2CBus(bus);
     }
 
@@ -435,7 +435,7 @@ bool i2c_smbus_pawnio_detect()
 
         imc_index_sel(pawnio_handle, 0);
 
-        bus = new i2c_smbus_pawnio(pawnio_handle, "Intel Skylake IMC");
+        bus = new i2c_smbus_pawnio(pawnio_handle, "SkylakeIMC_0", 0);
         DetectionManager::get()->RegisterI2CBus(bus);
     }
 
@@ -448,7 +448,7 @@ bool i2c_smbus_pawnio_detect()
 
         imc_index_sel(pawnio_handle, 1);
 
-        bus = new i2c_smbus_pawnio(pawnio_handle, "Intel Skylake IMC");
+        bus = new i2c_smbus_pawnio(pawnio_handle, "SkylakeIMC_1", 1);
         DetectionManager::get()->RegisterI2CBus(bus);
     }
 
