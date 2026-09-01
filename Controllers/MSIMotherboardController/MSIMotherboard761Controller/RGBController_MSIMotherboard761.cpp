@@ -210,7 +210,7 @@ void RGBController_MSIMotherboard761::SetupZones()
             last_resizable_zone                         = zd->zone_type;
         }
 
-        controller->SetCycleCount(zone_description[zone_idx]->zone_type, zones[zone_idx].leds_count);
+        controller->SetZoneLEDCount(zone_description[zone_idx]->zone_type, zones[zone_idx].leds_count);
 
         if((zones[zone_idx].flags & ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE_EFFECTS_ONLY) == 0)
         {

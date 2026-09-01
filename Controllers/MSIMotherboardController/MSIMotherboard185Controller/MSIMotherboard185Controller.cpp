@@ -1131,10 +1131,10 @@ void MSIMotherboard185Controller::GetMode
     color           = ToRGBColor(zone_data->color.R, zone_data->color.G, zone_data->color.B);
 }
 
-void MSIMotherboard185Controller::SetCycleCount
+void MSIMotherboard185Controller::SetZoneLEDCount
     (
     MSI_ZONE        zone,
-    unsigned char   cycle_num
+    unsigned char   led_num
     )
 {
     RainbowZoneData *requested_zone = GetRainbowZoneData(zone);
@@ -1144,7 +1144,7 @@ void MSIMotherboard185Controller::SetCycleCount
         return;
     }
 
-    requested_zone->cycle_or_led_num = cycle_num;
+    requested_zone->cycle_or_led_num = led_num;
     SelectPerLedProtocol();
 }
 

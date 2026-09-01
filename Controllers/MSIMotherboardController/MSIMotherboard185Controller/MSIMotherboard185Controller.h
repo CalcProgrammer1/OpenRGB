@@ -77,10 +77,10 @@ public:
                         unsigned char   blu
                         );
 
-    void            SetCycleCount
+    void            SetZoneLEDCount
                         (
                         MSI_ZONE        zone,
-                        unsigned char   cycle_num
+                        unsigned char   led_num
                         );
 
     bool            Update

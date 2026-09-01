@@ -591,10 +591,10 @@ void MSIMotherboard761Controller::GetMode
     color           = ToRGBColor(zone_data->color.R, zone_data->color.G, zone_data->color.B);
 }
 
-void MSIMotherboard761Controller::SetCycleCount
+void MSIMotherboard761Controller::SetZoneLEDCount
     (
     MSI_ZONE        /*zone*/,
-    unsigned char   /*cycle_num*/
+    unsigned char   /*led_num*/
     )
 {
     return;
