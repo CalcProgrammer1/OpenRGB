@@ -20,9 +20,6 @@
 #include "LogitechG213Controller.h"
 #include "LogitechG600Controller.h"
 #include "LogitechG933Controller.h"
-#include "LogitechG810Controller.h"
-#include "LogitechGProKeyboardController.h"
-#include "LogitechG910Controller.h"
 #include "LogitechG815Controller.h"
 #include "LogitechG915Controller.h"
 #include "LogitechGLightsyncController.h"
@@ -32,9 +29,6 @@
 #include "RGBController_LogitechG213.h"
 #include "RGBController_LogitechG600.h"
 #include "RGBController_LogitechG933.h"
-#include "RGBController_LogitechG810.h"
-#include "RGBController_LogitechGProKeyboard.h"
-#include "RGBController_LogitechG910.h"
 #include "RGBController_LogitechG815.h"
 #include "RGBController_LogitechG915.h"
 #include "RGBController_LogitechGLightsync.h"
@@ -61,12 +55,6 @@ using namespace std::chrono_literals;
 | Keyboard product IDs                                      |
 \*---------------------------------------------------------*/
 #define LOGITECH_G213_PID                           0xC336
-#define LOGITECH_G512_PID                           0xC342
-#define LOGITECH_G512_RGB_PID                       0xC33C
-#define LOGITECH_G610_1_PID                         0xC333
-#define LOGITECH_G610_2_PID                         0xC338
-#define LOGITECH_G810_1_PID                         0xC331
-#define LOGITECH_G810_2_PID                         0xC337
 #define LOGITECH_G813_PID                           0xC232
 #define LOGITECH_G815_PID                           0xC33F
 #define LOGITECH_G915_WIRED_PID                     0xC33E
@@ -74,9 +62,6 @@ using namespace std::chrono_literals;
 #define LOGITECH_G915_RECEIVER_2_PID                0xC547
 #define LOGITECH_G915TKL_WIRED_PID                  0xC343
 #define LOGITECH_G915TKL_RECEIVER_PID               0xC545
-#define LOGITECH_G910_ORION_SPARK_PID               0xC32B
-#define LOGITECH_G910_PID                           0xC335
-#define LOGITECH_GPRO_KEYBOARD_1_PID                0xC339
 
 /*---------------------------------------------------------*\
 | Mouse product IDs                                         |
@@ -167,112 +152,6 @@ DetectedControllers DetectLogitechKeyboardG213(hid_device_info* info, const std:
         RGBController_LogitechG213* rgb_controller = new RGBController_LogitechG213(controller);
 
         detected_controllers.push_back(rgb_controller);
-    }
-
-    return(detected_controllers);
-}
-
-DetectedControllers DetectLogitechKeyboardG810(hid_device_info* info, const std::string& name)
-{
-    /*-----------------------------------------------------*\
-    | Logitech keyboards use two different usages, one for  |
-    | 20-byte packets and one for 64-byte packets.  Usage   |
-    | 0x0602 for 20 byte, usage 0x0604 for 64 byte, both    |
-    | are on usage page 0xFF43                              |
-    \*-----------------------------------------------------*/
-    DetectedControllers detected_controllers;
-
-    hid_device* dev_usage_0x0602 = nullptr;
-    hid_device* dev_usage_0x0604 = nullptr;
-    hid_device_info* info_temp = info;
-
-    while(info_temp)
-    {
-        if(info_temp->vendor_id        == info->vendor_id           // constant LOGITECH_VID
-        && info_temp->product_id       == info->product_id          // NON-constant
-        && info_temp->interface_number == info->interface_number    // constant 1
-        && info_temp->usage_page       == info->usage_page)         // constant 0xFF43
-        {
-            if(info_temp->usage == 0x0602)
-            {
-                dev_usage_0x0602 = hid_open_path(info_temp->path);
-            }
-            else if(info_temp->usage == 0x0604)
-            {
-                dev_usage_0x0604 = hid_open_path(info_temp->path);
-            }
-        }
-        if(dev_usage_0x0602 && dev_usage_0x0604)
-        {
-            break;
-        }
-        info_temp = info_temp->next;
-    }
-    if(dev_usage_0x0602 && dev_usage_0x0604)
-    {
-        LogitechG810Controller*     controller     = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0604, info->path, name);
-        RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
-
-        detected_controllers.push_back(rgb_controller);
-    }
-    else
-    {
-        // Not all of them could be opened, do some cleanup
-        hid_close(dev_usage_0x0602);
-        hid_close(dev_usage_0x0604);
-    }
-
-    return(detected_controllers);
-}
-
-DetectedControllers DetectLogitechKeyboardG910(hid_device_info* info, const std::string& name)
-{
-    /*-----------------------------------------------------*\
-    | Logitech keyboards use two different usages, one for  |
-    | 20-byte packets and one for 64-byte packets.  Usage   |
-    | 0x0602 for 20 byte, usage 0x0604 for 64 byte, both    |
-    | are on usage page 0xFF43                              |
-    \*-----------------------------------------------------*/
-    DetectedControllers detected_controllers;
-
-    hid_device* dev_usage_0x0602 = nullptr;
-    hid_device* dev_usage_0x0604 = nullptr;
-    hid_device_info* info_temp = info;
-
-    while(info_temp)
-    {
-        if(info_temp->vendor_id        == info->vendor_id           // constant LOGITECH_VID
-        && info_temp->product_id       == info->product_id          // NON-constant
-        && info_temp->interface_number == info->interface_number    // constant 1
-        && info_temp->usage_page       == info->usage_page)         // constant 0xFF43
-        {
-            if(info_temp->usage == 0x0602)
-            {
-                dev_usage_0x0602 = hid_open_path(info_temp->path);
-            }
-            else if(info_temp->usage == 0x0604)
-            {
-                dev_usage_0x0604 = hid_open_path(info_temp->path);
-            }
-        }
-        if(dev_usage_0x0602 && dev_usage_0x0604)
-        {
-            break;
-        }
-        info_temp = info_temp->next;
-    }
-    if(dev_usage_0x0602 && dev_usage_0x0604)
-    {
-        LogitechG910Controller*     controller     = new LogitechG910Controller(dev_usage_0x0602, dev_usage_0x0604, info->path, name);
-        RGBController_LogitechG910* rgb_controller = new RGBController_LogitechG910(controller);
-
-        detected_controllers.push_back(rgb_controller);
-    }
-    else
-    {
-        // Not all of them could be opened, do some cleanup
-        hid_close(dev_usage_0x0602);
-        hid_close(dev_usage_0x0604);
     }
 
     return(detected_controllers);
@@ -488,59 +367,6 @@ DetectedControllers DetectLogitechKeyboardG915Wired(hid_device_info* info, const
         RGBController_LogitechG915* rgb_controller = new RGBController_LogitechG915(controller, is_tkl);
 
         detected_controllers.push_back(rgb_controller);
-    }
-
-    return(detected_controllers);
-}
-
-DetectedControllers DetectLogitechKeyboardGPro(hid_device_info* info, const std::string& name)
-{
-    /*-----------------------------------------------------*\
-    | Logitech keyboards use two different usages, one for  |
-    | 20-byte packets and one for 64-byte packets.  Usage   |
-    | 0x0602 for 20 byte, usage 0x0604 for 64 byte, both    |
-    | are on usage page 0xFF43                              |
-    \*-----------------------------------------------------*/
-    DetectedControllers detected_controllers;
-
-    hid_device* dev_usage_0x0602 = nullptr;
-    hid_device* dev_usage_0x0604 = nullptr;
-    hid_device_info* info_temp = info;
-
-    while(info_temp)
-    {
-        if(info_temp->vendor_id        == info->vendor_id           // constant LOGITECH_VID
-        && info_temp->product_id       == info->product_id          // NON-constant
-        && info_temp->interface_number == info->interface_number    // constant 1
-        && info_temp->usage_page       == info->usage_page)         // constant 0xFF43
-        {
-            if(info_temp->usage == 0x0602)
-            {
-                dev_usage_0x0602 = hid_open_path(info_temp->path);
-            }
-            else if(info_temp->usage == 0x0604)
-            {
-                dev_usage_0x0604 = hid_open_path(info_temp->path);
-            }
-        }
-        if(dev_usage_0x0602 && dev_usage_0x0604)
-        {
-            break;
-        }
-        info_temp = info_temp->next;
-    }
-    if(dev_usage_0x0602 && dev_usage_0x0604)
-    {
-        LogitechGProKeyboardController*     controller     = new LogitechGProKeyboardController(dev_usage_0x0602, dev_usage_0x0604, name);
-        RGBController_LogitechGProKeyboard* rgb_controller = new RGBController_LogitechGProKeyboard(controller);
-
-        detected_controllers.push_back(rgb_controller);
-    }
-    else
-    {
-        // Not all of them could be opened, do some cleanup
-        hid_close(dev_usage_0x0602);
-        hid_close(dev_usage_0x0604);
     }
 
     return(detected_controllers);
@@ -1714,17 +1540,8 @@ REGISTER_CUSTOM_UDEV_RULE(logitech_g560, "Logitech G560 Lightsync Speaker", "SUB
 | Keyboards                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Logitech G213",                                  DetectLogitechKeyboardG213, LOGITECH_VID, LOGITECH_G213_PID,                    1, 0xFF43, 0x0602);
-REGISTER_HID_DETECTOR_IP ("Logitech G512",                                  DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G512_PID,                    1, 0xFF43);
-REGISTER_HID_DETECTOR_IP ("Logitech G512 RGB",                              DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G512_RGB_PID,                1, 0xFF43);
-REGISTER_HID_DETECTOR_IP ("Logitech G610 Orion",                            DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G610_1_PID,                  1, 0xFF43);
-REGISTER_HID_DETECTOR_IP ("Logitech G610 Orion",                            DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G610_2_PID,                  1, 0xFF43);
-REGISTER_HID_DETECTOR_IP ("Logitech G810 Orion Spectrum",                   DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G810_1_PID,                  1, 0xFF43);
-REGISTER_HID_DETECTOR_IP ("Logitech G810 Orion Spectrum",                   DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G810_2_PID,                  1, 0xFF43);
 REGISTER_HID_DETECTOR_IP ("Logitech G813 RGB Mechanical Gaming Keyboard",   DetectLogitechKeyboardG815, LOGITECH_VID, LOGITECH_G813_PID,                    1, 0xFF43);
 REGISTER_HID_DETECTOR_IP ("Logitech G815 RGB Mechanical Gaming Keyboard",   DetectLogitechKeyboardG815, LOGITECH_VID, LOGITECH_G815_PID,                    1, 0xFF43);
-REGISTER_HID_DETECTOR_IP ("Logitech G910 Orion Spark",                      DetectLogitechKeyboardG910, LOGITECH_VID, LOGITECH_G910_ORION_SPARK_PID,        1, 0xFF43);
-REGISTER_HID_DETECTOR_IP ("Logitech G910 Orion Spectrum",                   DetectLogitechKeyboardG910, LOGITECH_VID, LOGITECH_G910_PID,                    1, 0xFF43);
-REGISTER_HID_DETECTOR_IP ("Logitech G Pro RGB Mechanical Gaming Keyboard",  DetectLogitechKeyboardGPro, LOGITECH_VID, LOGITECH_GPRO_KEYBOARD_1_PID,         1, 0xFF43);
 
 REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard",              DetectLogitechKeyboardG915,      LOGITECH_VID, LOGITECH_G915_RECEIVER_PID,      2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard (Receiver 2)", DetectLogitechKeyboardG915Receiver2, LOGITECH_VID, LOGITECH_G915_RECEIVER_2_PID, 2, 0xFF00, 2);

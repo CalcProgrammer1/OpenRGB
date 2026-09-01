@@ -804,9 +804,10 @@ static const keyboard_led g512_top_strip[] =
 | legacy map: the media cluster above the numpad (on/off    |
 | backlight, not RGB; the firmware still advertises media   |
 | keyType 0x02, see the C32B quirk) and the four small      |
-| mode keys left of G6, which nothing has identified yet.   |
-| If firmware enumerates any of these they surface in       |
-| Extras (suppression is off for this board).               |
+| mode keys left of G6. Painting the advertised extras      |
+| controls nothing (hardware-observed), so unclaimed ids    |
+| are suppressed as phantoms; the plugin's Show Unmapped    |
+| override surfaces them for auditing.                      |
 \*---------------------------------------------------------*/
 static const keyboard_led g910_side_strip[] =
 {
@@ -831,15 +832,15 @@ static const keyboard_led g910_side_strip[] =
 \*---------------------------------------------------------*/
 static const Kb8080Strip known_kb_8080_strips[] =
 {
-    { 0xC331, true,  g810_top_strip, 11, false },  /* G810             */
-    { 0xC337, true,  g810_top_strip, 11, false },  /* G810             */
-    { 0xC333, true,  g810_top_strip, 11, false },  /* G610             */
-    { 0xC338, true,  g810_top_strip, 11, false },  /* G610             */
+    { 0xC331, true,  g810_top_strip, 11, true  },  /* G810             */
+    { 0xC337, true,  g810_top_strip, 11, true  },  /* G810             */
+    { 0xC333, true,  g810_top_strip, 11, true  },  /* G610             */
+    { 0xC338, true,  g810_top_strip, 11, true  },  /* G610             */
     { 0xC342, true,  g512_top_strip, 2,  true  },  /* G512             */
     { 0xC33C, true,  g512_top_strip, 2,  true  },  /* G512 RGB         */
-    { 0xC32B, true,  g910_side_strip, 11, false }, /* G910 Orion Spark */
-    { 0xC335, true,  g910_side_strip, 11, false }, /* G910             */
-    { 0xC339, false, gpro_top_strip, 5,  false },  /* G Pro            */
+    { 0xC32B, true,  g910_side_strip, 11, true  }, /* G910 Orion Spark */
+    { 0xC335, true,  g910_side_strip, 11, true  }, /* G910             */
+    { 0xC339, false, gpro_top_strip, 5,  true  },  /* G Pro            */
 };
 
 static const Kb8080Strip* FindKb8080Strip(uint16_t pid_wired, uint16_t pid_wireless)
@@ -988,6 +989,27 @@ RGBController_LogitechHIDPP20::RGBController_LogitechHIDPP20(LogitechHIDPP20Cont
     {
         const HIDPP20ZoneCluster& cluster = caps.zone_clusters[0];
 
+        /*-------------------------------------------------*\
+        | Per-LED effect colors: multi-cluster devices      |
+        | whose only paint path is zone effects, one color  |
+        | per cluster. Per-key devices take a single mode   |
+        | color: the UI repaints per-key on any per-LED     |
+        | mode set, which overwrites the zone effect.       |
+        \*-------------------------------------------------*/
+        const bool per_led_colors = (caps.zone_clusters.size() > 1)
+                                 && !caps.has_perkey
+                                 && !PerKey8080Capable();
+
+        /*-------------------------------------------------*\
+        | 0x8070 keyboard firmware ignores the Cycle, Wave  |
+        | and Breathing intensity byte (G810/G910           |
+        | hardware); the same slots drive brightness on     |
+        | the mice. No slider for a dead control; the wire  |
+        | still sends 100 in that slot.                     |
+        \*-------------------------------------------------*/
+        const bool effect_brightness = !(caps.rgb_feature_page == HIDPP20_FEAT_COLOR_LED_EFFECTS
+                                      && caps.device_type == LOGITECH_DEVICE_TYPE_KEYBOARD);
+
         for(size_t i = 0; i < cluster.effects.size(); i++)
         {
             const HIDPP20Effect& fx = cluster.effects[i];
@@ -1000,16 +1022,7 @@ RGBController_LogitechHIDPP20::RGBController_LogitechHIDPP20(LogitechHIDPP20Cont
                     Static.name       = "Static";
                     Static.value      = fx.index;
 
-                    /*-------------------------------------*\
-                    | Multi-cluster devices (mice with      |
-                    | logo/scroll/DPI) get per-LED colors   |
-                    | so each zone can be painted           |
-                    | independently in Static. Single-      |
-                    | cluster devices (keyboards, single-   |
-                    | zone mice) keep the single-color      |
-                    | MODE_COLORS_MODE_SPECIFIC UX.         |
-                    \*-------------------------------------*/
-                    if(caps.zone_clusters.size() > 1)
+                    if(per_led_colors)
                     {
                         Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
                         Static.color_mode = MODE_COLORS_PER_LED;
@@ -1031,8 +1044,11 @@ RGBController_LogitechHIDPP20::RGBController_LogitechHIDPP20(LogitechHIDPP20Cont
                     mode Cycle;
                     Cycle.name           = "Spectrum Cycle";
                     Cycle.value          = fx.index;
-                    Cycle.flags          = MODE_FLAG_HAS_SPEED
-                                         | MODE_FLAG_HAS_BRIGHTNESS;
+                    Cycle.flags          = MODE_FLAG_HAS_SPEED;
+                    if(effect_brightness)
+                    {
+                        Cycle.flags     |= MODE_FLAG_HAS_BRIGHTNESS;
+                    }
                     Cycle.speed_min      = HIDPP20_SPEED_SLIDER_MIN;
                     Cycle.speed_max      = HIDPP20_SPEED_SLIDER_MAX;
                     Cycle.speed          = 80;     /* ~4.9s, lively medium */
@@ -1056,11 +1072,7 @@ RGBController_LogitechHIDPP20::RGBController_LogitechHIDPP20(LogitechHIDPP20Cont
                     Breathing.brightness_max = 100;
                     Breathing.brightness     = 100;
 
-                    /*-------------------------------------*\
-                    | See Static above, multi-              |
-                    | cluster gets per-LED colors.          |
-                    \*-------------------------------------*/
-                    if(caps.zone_clusters.size() > 1)
+                    if(per_led_colors)
                     {
                         Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR
                                              | MODE_FLAG_HAS_SPEED
@@ -1077,6 +1089,12 @@ RGBController_LogitechHIDPP20::RGBController_LogitechHIDPP20(LogitechHIDPP20Cont
                         Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
                         Breathing.colors.resize(1);
                     }
+
+                    if(!effect_brightness)
+                    {
+                        Breathing.flags &= ~MODE_FLAG_HAS_BRIGHTNESS;
+                    }
+
                     modes.push_back(Breathing);
                     break;
                 }
@@ -1096,7 +1114,7 @@ RGBController_LogitechHIDPP20::RGBController_LogitechHIDPP20(LogitechHIDPP20Cont
                     Visualizer.speed_max  = HIDPP20_SPEED_SLIDER_MAX;
                     Visualizer.speed      = 80;     /* ~4.9s, near the 5s firmware default */
 
-                    if(caps.zone_clusters.size() > 1)
+                    if(per_led_colors)
                     {
                         Visualizer.flags      = MODE_FLAG_HAS_PER_LED_COLOR
                                               | MODE_FLAG_HAS_SPEED;
@@ -1120,8 +1138,11 @@ RGBController_LogitechHIDPP20::RGBController_LogitechHIDPP20(LogitechHIDPP20Cont
                     mode Wave;
                     Wave.name           = "Color Wave";
                     Wave.value          = fx.index;
-                    Wave.flags          = MODE_FLAG_HAS_SPEED
-                                        | MODE_FLAG_HAS_BRIGHTNESS;
+                    Wave.flags          = MODE_FLAG_HAS_SPEED;
+                    if(effect_brightness)
+                    {
+                        Wave.flags     |= MODE_FLAG_HAS_BRIGHTNESS;
+                    }
                     Wave.speed_min      = HIDPP20_SPEED_SLIDER_MIN;
                     Wave.speed_max      = HIDPP20_SPEED_SLIDER_MAX;
                     Wave.speed          = 80;     /* ~4.9s, lively medium */
