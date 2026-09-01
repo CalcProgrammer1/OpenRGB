@@ -71,6 +71,8 @@ enum
     CM_SMALL_ARGB_SPEED_FASTEST       = 0x04,   // Fastest speed
 };
 
+#define CM_SMALL_ARGB_FW0012            std::string("A202104052336")
+
 class CMSmallARGBController
 {
 public:
@@ -80,12 +82,14 @@ public:
     std::string         GetDeviceName();
     std::string         GetSerial();
     std::string         GetLocation();
+    std::string         GetVersion();
 
     unsigned char       GetMode();
     unsigned char       GetLedRed();
     unsigned char       GetLedGreen();
     unsigned char       GetLedBlue();
     unsigned char       GetLedSpeed();
+    unsigned char       GetBrightness();
     bool                GetRandomColours();
 
     void                SetLedCount(int zone, int led_count);

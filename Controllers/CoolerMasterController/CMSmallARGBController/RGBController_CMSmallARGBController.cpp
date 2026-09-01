@@ -27,22 +27,68 @@
 RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmallARGBController* controller_ptr)
 {
     controller                  = controller_ptr;
-    unsigned char speed         = controller->GetLedSpeed();
 
     name                        = cm_small_argb_header_data[0].name;
     vendor                      = "Cooler Master";
     type                        = DEVICE_TYPE_LEDSTRIP;
     description                 = controller->GetDeviceName();
-    version                     = "2.0 for FW0012";
+    version                     = controller->GetVersion();
     serial                      = controller->GetSerial();
     location                    = controller->GetLocation();
 
-    if(serial >= CM_SMALL_ARGB_FW0012)
+    SetupModes();
+    SetupZones();
+
+    /*-----------------------------------------------------*\
+    | Initialize the active mode to the device's current    |
+    | mode                                                  |
+    \*-----------------------------------------------------*/
+    int             device_mode         = controller->GetMode();
+
+    for(std::size_t mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+    {
+        if(modes[mode_idx].value == device_mode)
+        {
+            active_mode = (int)mode_idx;
+
+            if((modes[mode_idx].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR) && (modes[mode_idx].colors.size() > 0))
+            {
+                modes[mode_idx].colors[0] = ToRGBColor(controller->GetLedRed(), controller->GetLedGreen(), controller->GetLedBlue());
+            }
+
+            if(modes[mode_idx].flags & MODE_FLAG_HAS_SPEED)
+            {
+                modes[mode_idx].speed = controller->GetLedSpeed();
+            }
+
+            if(modes[mode_idx].flags & MODE_FLAG_HAS_BRIGHTNESS)
+            {
+                modes[mode_idx].brightness = controller->GetBrightness();
+            }
+
+            if(modes[mode_idx].flags & MODE_FLAG_HAS_RANDOM_COLOR)
+            {
+                modes[mode_idx].color_mode = controller->GetRandomColours() ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
+            }
+
+            break;
+        }
+    }
+}
+
+void RGBController_CMSmallARGBController::SetupModes()
+{
+    /*-----------------------------------------------------*\
+    | The Small ARGB only supports Direct mode from FW0012  |
+    | onwards, older firmware does not accept direct mode   |
+    | packets                                               |
+    \*-----------------------------------------------------*/
+    //if(serial >= CM_SMALL_ARGB_FW0012)
     {
         mode Direct;
         Direct.name             = "Direct";
         Direct.value            = CM_SMALL_ARGB_MODE_DIRECT;
-        Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_REQUIRES_ENTIRE_DEVICE;
         Direct.brightness_min   = 0;
         Direct.brightness_max   = CM_SMALL_ARGB_BRIGHTNESS_MAX;
         Direct.brightness       = CM_SMALL_ARGB_BRIGHTNESS_MAX;
@@ -69,7 +115,7 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     Reload.speed_min            = CM_SMALL_ARGB_SPEED_SLOWEST;
     Reload.speed_max            = CM_SMALL_ARGB_SPEED_FASTEST;
     Reload.color_mode           = MODE_COLORS_RANDOM;
-    Reload.speed                = speed;
+    Reload.speed                = CM_SMALL_ARGB_SPEED_NORMAL;
     modes.push_back(Reload);
 
     mode Recoil;
@@ -85,7 +131,7 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     Recoil.speed_min            = CM_SMALL_ARGB_SPEED_SLOWEST;
     Recoil.speed_max            = CM_SMALL_ARGB_SPEED_FASTEST;
     Recoil.color_mode           = MODE_COLORS_RANDOM;
-    Recoil.speed                = speed;
+    Recoil.speed                = CM_SMALL_ARGB_SPEED_NORMAL;
     modes.push_back(Recoil);
 
     mode Breathing;
@@ -101,7 +147,7 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     Breathing.speed_min         = CM_SMALL_ARGB_SPEED_SLOWEST;
     Breathing.speed_max         = CM_SMALL_ARGB_SPEED_FASTEST;
     Breathing.color_mode        = MODE_COLORS_RANDOM;
-    Breathing.speed             = speed;
+    Breathing.speed             = CM_SMALL_ARGB_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     mode Refill;
@@ -117,7 +163,7 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     Refill.speed_min            = CM_SMALL_ARGB_SPEED_SLOWEST;
     Refill.speed_max            = CM_SMALL_ARGB_SPEED_FASTEST;
     Refill.color_mode           = MODE_COLORS_RANDOM;
-    Refill.speed                = speed;
+    Refill.speed                = CM_SMALL_ARGB_SPEED_NORMAL;
     modes.push_back(Refill);
 
     mode Demo;
@@ -130,7 +176,7 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     Demo.speed_min              = CM_SMALL_ARGB_SPEED_SLOWEST;
     Demo.speed_max              = CM_SMALL_ARGB_SPEED_FASTEST;
     Demo.color_mode             = MODE_COLORS_NONE;
-    Demo.speed                  = speed;
+    Demo.speed                  = CM_SMALL_ARGB_SPEED_NORMAL;
     modes.push_back(Demo);
 
     mode Spectrum;
@@ -143,39 +189,19 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     Spectrum.speed_min          = CM_SMALL_ARGB_SPEED_SLOWEST;
     Spectrum.speed_max          = CM_SMALL_ARGB_SPEED_FASTEST;
     Spectrum.color_mode         = MODE_COLORS_NONE;
-    Spectrum.speed              = speed;
+    Spectrum.speed              = CM_SMALL_ARGB_SPEED_NORMAL;
     modes.push_back(Spectrum);
 
+    /*-----------------------------------------------------*\
+    | Define Passthrough mode as requiring the entire       |
+    | device, it hands control over to the motherboard      |
+    \*-----------------------------------------------------*/
     mode PassThru;
     PassThru.name               = "Pass Thru";
     PassThru.value              = CM_SMALL_ARGB_MODE_PASSTHRU;
+    PassThru.flags              = MODE_FLAG_REQUIRES_ENTIRE_DEVICE;
     PassThru.color_mode         = MODE_COLORS_NONE;
     modes.push_back(PassThru);
-
-    SetupZones();
-
-    int temp_mode               = controller->GetMode();
-
-    for(int mode_idx = 0; mode_idx < (int)modes.size() ; mode_idx++)
-    {
-        if(temp_mode == modes[mode_idx].value)
-        {
-            active_mode         = mode_idx;
-            break;
-        }
-    }
-
-    if (modes[active_mode].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
-    {
-        modes[active_mode].colors[0] = ToRGBColor(controller->GetLedRed(), controller->GetLedGreen(), controller->GetLedBlue());
-    }
-
-    modes[active_mode].color_mode = (controller->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
-
-    if (modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
-    {
-        modes[active_mode].speed = controller->GetLedSpeed();
-    }
 }
 
 RGBController_CMSmallARGBController::~RGBController_CMSmallARGBController()
@@ -248,7 +274,9 @@ void RGBController_CMSmallARGBController::SetupZones()
         {
             led new_led;
             new_led.name                            = zones[zone_idx].name;
-            new_led.name.append(", LED " + std::to_string(lp_idx));
+            new_led.name.append(", LED ");
+            new_led.name.append(std::to_string(lp_idx + 1));
+            new_led.value                           = (unsigned int)zone_idx;
 
             leds.push_back(new_led);
         }
@@ -277,37 +305,79 @@ void RGBController_CMSmallARGBController::DeviceUpdateLEDs()
 
 void RGBController_CMSmallARGBController::DeviceUpdateZoneLEDs(int zone)
 {
-    if(serial >= CM_SMALL_ARGB_FW0012)
+    /*-----------------------------------------------------*\
+    | Only send direct packets while Direct mode is active. |
+    | Direct mode is only offered on FW0012 and newer, so   |
+    | older firmware will never send direct packets here    |
+    \*-----------------------------------------------------*/
+    if(modes[active_mode].value != CM_SMALL_ARGB_MODE_DIRECT)
     {
-        controller->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
+        return;
     }
+
+    controller->SetLedsDirect(zones[zone].colors, zones[zone].leds_count);
 }
 
 void RGBController_CMSmallARGBController::DeviceUpdateSingleLED(int led)
 {
-    DeviceUpdateZoneLEDs(led);
+    /*-----------------------------------------------------*\
+    | Map the LED back to its zone and update that zone     |
+    \*-----------------------------------------------------*/
+    unsigned int zone_idx = leds[led].value;
+
+    UpdateZoneLEDs(zone_idx);
 }
 
 void RGBController_CMSmallARGBController::SetCustomMode()
 {
-    /*-------------------------------------------------*\
-    | The small ARGB may not support "Direct" mode      |
-    |   in which case this will select "Pass Thru"      |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Direct mode is only supported on FW0012 and newer     |
+    \*-----------------------------------------------------*/
     if(serial >= CM_SMALL_ARGB_FW0012)
     {
-        active_mode = 0;
+        /*-------------------------------------------------*\
+        | Search the mode list for Direct mode              |
+        \*-------------------------------------------------*/
+        for(std::size_t mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+        {
+            if(modes[mode_idx].name == "Direct")
+            {
+                SetActiveMode((int)mode_idx);
+                break;
+            }
+        }
     }
     else
     {
-        active_mode = 7;
+        /*-------------------------------------------------*\
+        | Direct mode is unsupported by the firmware,       |
+        | fall back to Pass Thru                            |
+        \*-------------------------------------------------*/
+        for(std::size_t mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+        {
+            if(modes[mode_idx].value == CM_SMALL_ARGB_MODE_PASSTHRU)
+            {
+                SetActiveMode((int)mode_idx);
+                break;
+            }
+        }
     }
 }
 
 void RGBController_CMSmallARGBController::DeviceUpdateMode()
 {
-    bool     random_colours = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
-    RGBColor colour         = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC) ? modes[active_mode].colors[0] : 0;
+    /*-----------------------------------------------------*\
+    | Set up mode parameters                                |
+    \*-----------------------------------------------------*/
+    bool            random_colours  = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    RGBColor        colour          = 0;
+    unsigned int    speed           = modes[active_mode].speed;
+    unsigned int    brightness      = modes[active_mode].brightness;
 
-    controller->SetMode( modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, colour, random_colours);
+    if(modes[active_mode].colors.size() > 0)
+    {
+        colour                      = modes[active_mode].colors[0];
+    }
+
+    controller->SetMode(modes[active_mode].value, speed, brightness, colour, random_colours);
 }

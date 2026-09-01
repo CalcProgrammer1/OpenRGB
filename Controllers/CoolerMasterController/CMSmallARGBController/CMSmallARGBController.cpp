@@ -92,6 +92,24 @@ std::string CMSmallARGBController::GetSerial()
     return(StringUtils::wstring_to_string(serial_string));
 }
 
+std::string CMSmallARGBController::GetVersion()
+{
+    /*-----------------------------------------------------*\
+    | This device uses the serial value to determine the    |
+    | version.  It does not report a proper unique serial.  |
+    \*-----------------------------------------------------*/
+    std::string serial_string = GetSerial();
+
+    if(serial_string == CM_SMALL_ARGB_FW0012)
+    {
+        return("0012");
+    }
+    else
+    {
+        return("Unsupported");
+    }
+}
+
 std::string CMSmallARGBController::GetLocation()
 {
     return("HID: " + location);
@@ -120,6 +138,11 @@ unsigned char CMSmallARGBController::GetLedBlue()
 unsigned char CMSmallARGBController::GetLedSpeed()
 {
     return(current_speed);
+}
+
+unsigned char CMSmallARGBController::GetBrightness()
+{
+    return(current_brightness);
 }
 
 bool CMSmallARGBController::GetRandomColours()

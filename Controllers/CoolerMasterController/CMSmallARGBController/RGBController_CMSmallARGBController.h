@@ -18,7 +18,6 @@
 #define CM_SMALL_ARGB_MIN_LEDS          4
 #define CM_SMALL_ARGB_MAX_LEDS          48
 #define CM_SMALL_ARGB_BRIGHTNESS_MAX    0xFF
-#define CM_SMALL_ARGB_FW0012            "A202104052336"
 
 class RGBController_CMSmallARGBController : public RGBController
 {
@@ -26,7 +25,9 @@ public:
     RGBController_CMSmallARGBController(CMSmallARGBController* controller_ptr);
     ~RGBController_CMSmallARGBController();
 
+    void        SetupModes();
     void        SetupZones();
+
     void        DeviceConfigureZone(int zone_idx);
 
     void        DeviceUpdateLEDs();
@@ -35,9 +36,7 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
-private:
-    void        Init_Controller();
-    int         GetDeviceMode();
 
+private:
     CMSmallARGBController*  controller;
 };
