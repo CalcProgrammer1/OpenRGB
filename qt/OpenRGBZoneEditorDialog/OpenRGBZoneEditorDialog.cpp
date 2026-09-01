@@ -771,7 +771,7 @@ void OpenRGBZoneEditorDialog::on_ImportConfigurationButton_clicked()
                     }
                 }
             }
-            catch(const std::exception& e)
+            catch(...)
             {
             }
         }
