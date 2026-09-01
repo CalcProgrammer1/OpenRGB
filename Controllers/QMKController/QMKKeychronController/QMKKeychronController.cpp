@@ -159,18 +159,29 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     /*-----------------------------------------------------*\
     | Apply matrix corrections                              |
     \*-----------------------------------------------------*/
+    const std::vector<qmk_rgb_matrix_led_info> raw_led_info = led_info;
+
     for(unsigned int patch_idx = 0; patch_idx < KEYCHRON_PATCH_COUNT; patch_idx++)
     {
         if(dev_pid == keychron_patches[patch_idx]->pid)
         {
-            for(unsigned int patch_entry_idx = 0; patch_entry_idx < keychron_patches[patch_idx]->num_entries; patch_entry_idx++)
+            for(unsigned int patch_entry_idx = 0;
+                patch_entry_idx < keychron_patches[patch_idx]->num_entries;
+                patch_entry_idx++)
             {
-                const keychron_patch_entry& patch_entry = keychron_patches[patch_idx]->patch[patch_entry_idx];
+                const keychron_patch_entry& patch_entry =
+                    keychron_patches[patch_idx]->patch[patch_entry_idx];
 
-                if(patch_entry.led_idx < led_info.size())
+                for(unsigned int led_idx = 0; led_idx < raw_led_info.size(); led_idx++)
                 {
-                    led_info[patch_entry.led_idx].row = patch_entry.row;
-                    led_info[patch_entry.led_idx].col = patch_entry.col;
+                    if(raw_led_info[led_idx].valid &&
+                    raw_led_info[led_idx].row == patch_entry.source_row &&
+                    raw_led_info[led_idx].col == patch_entry.source_col)
+                    {
+                        led_info[led_idx].row = patch_entry.row;
+                        led_info[led_idx].col = patch_entry.col;
+                        break;
+                    }
                 }
             }
 
