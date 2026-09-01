@@ -160,7 +160,7 @@ void OpenRGBDevicePage::SetCustomMode(unsigned char red, unsigned char green, un
         {
             for(std::size_t i = 0; i < device->GetModeColorsCount(device->GetActiveMode()); i++)
             {
-                device->SetModeColor(device->GetActiveMode(), i, color);
+                device->SetModeColor(device->GetActiveMode(), (unsigned int)i, color);
             }
             break;
         }
@@ -573,7 +573,7 @@ void OpenRGBDevicePage::UpdateLEDList()
                 \*-----------------------------------------*/
                 for(std::size_t led_idx = 0; led_idx < leds_in_zone; led_idx++)
                 {
-                    ui->LEDBox->addItem(device->GetLEDName(device->GetZoneStartIndex(selected_zone) + led_idx).c_str());
+                    ui->LEDBox->addItem(device->GetLEDName(device->GetZoneStartIndex(selected_zone) + (unsigned int)led_idx).c_str());
                 }
 
                 /*-----------------------------------------*\
@@ -627,7 +627,7 @@ void OpenRGBDevicePage::UpdateLEDList()
                 \*-----------------------------------------*/
                 for(std::size_t led_idx = 0; led_idx < device->GetZoneSegmentLEDsCount(selected_zone, selected_segment); led_idx++)
                 {
-                    ui->LEDBox->addItem(device->GetLEDName(device->GetZoneStartIndex(selected_zone) + device->GetZoneSegmentStartIndex(selected_zone, selected_segment) + led_idx).c_str());
+                    ui->LEDBox->addItem(device->GetLEDName(device->GetZoneStartIndex(selected_zone) + device->GetZoneSegmentStartIndex(selected_zone, selected_segment) + (unsigned int)led_idx).c_str());
                 }
 
                 /*-----------------------------------------*\
