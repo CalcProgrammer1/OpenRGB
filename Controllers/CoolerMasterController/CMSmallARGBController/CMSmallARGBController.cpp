@@ -13,11 +13,6 @@
 #include "CMSmallARGBController.h"
 #include "StringUtils.h"
 
-cm_small_argb_headers cm_small_argb_header_data[1] =
-{
-    { "CM Small ARGB",  0x01, true,  12 }
-};
-
 CMSmallARGBController::CMSmallARGBController(hid_device* dev_handle, char *_path)
 {
     dev                     = dev_handle;
@@ -240,9 +235,9 @@ void CMSmallARGBController::SendUpdate()
 
     hid_write(dev, buffer, buffer_size);
 
-    buffer[CM_SMALL_ARGB_COMMAND_BYTE]                  = 0x0b;
-    buffer[CM_SMALL_ARGB_FUNCTION_BYTE]                 = (false) ? 0x01 : 0x02; //This controls custom mode TODO
-    buffer[CM_SMALL_ARGB_ZONE_BYTE]                     = cm_small_argb_header_data[0].header;
+    buffer[CM_SMALL_ARGB_COMMAND_BYTE]                  = 0x0B;
+    buffer[CM_SMALL_ARGB_FUNCTION_BYTE]                 = 0x02;
+    buffer[CM_SMALL_ARGB_ZONE_BYTE]                     = 0x01;
     buffer[CM_SMALL_ARGB_MODE_BYTE]                     = current_mode;
     buffer[CM_SMALL_ARGB_SPEED_BYTE]                    = current_speed;
     buffer[CM_SMALL_ARGB_COLOUR_INDEX_BYTE]             = (bool_random) ? 0x00 : 0x10; //This looks to still be the colour index and controls random colours

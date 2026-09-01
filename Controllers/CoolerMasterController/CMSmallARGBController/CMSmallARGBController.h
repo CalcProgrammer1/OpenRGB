@@ -39,16 +39,6 @@ enum
     CM_SMALL_ARGB_BLUE_BYTE             = 11,
 };
 
-struct cm_small_argb_headers
-{
-    const char*     name;
-    unsigned char   header;
-    bool            digital;
-    unsigned int    count;
-};
-
-extern cm_small_argb_headers cm_small_argb_header_data[1];
-
 enum
 {
     CM_SMALL_ARGB_MODE_SPECTRUM       = 0x01,   //Spectrum Mode
