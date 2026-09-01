@@ -41,14 +41,14 @@ RGBController_EVGAX12::RGBController_EVGAX12(EVGAX12Controller* controller_ptr)
     Direct.brightness_max       = EVGA_X12_BRIGHTNESS_MAX;
     Direct.brightness           = EVGA_X12_BRIGHTNESS_MAX;
     Direct.color_mode           = MODE_COLORS_PER_LED;
-    direct_mode_index           = modes.size();
+    direct_mode_index           = (unsigned int)modes.size();
     modes.push_back(Direct);
 
     mode Off;
     Off.name                    = "Off";
     Off.value                   = EVGA_X12_MODE_OFF;
     Off.color_mode              = MODE_COLORS_NONE;
-    off_mode_index              = modes.size();
+    off_mode_index              = (unsigned int)modes.size();
     modes.push_back(Off);
 
     active_mode                 = direct_mode_index;
