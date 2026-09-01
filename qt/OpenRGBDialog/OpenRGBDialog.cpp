@@ -1370,7 +1370,7 @@ void OpenRGBDialog::UpdateDevicesList()
     }
 
     bool found = true;
-    base_tab   = controllers.size();
+    base_tab   = (unsigned int)controllers.size();
 
     while(found)
     {
