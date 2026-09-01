@@ -285,7 +285,7 @@ void RGBController_RGBFusion2USB::Init_Controller()
             "D_LED4"
         };
 
-        const unsigned int header_count = controller->ExportGen2Strips().size();
+        const unsigned int header_count = (unsigned int)controller->ExportGen2Strips().size();
 
         bool default_enabled = false;
         uint8_t enabled_headers = 0;
