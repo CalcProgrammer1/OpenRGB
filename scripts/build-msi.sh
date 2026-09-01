@@ -122,7 +122,7 @@ XML_FILE+="                <Control Id='Cancel' Type='PushButton' X='304' Y='243
 XML_FILE+="                    <Publish Event='SpawnDialog' Value='CancelDlg' />\r\n"
 XML_FILE+="                </Control>\r\n"
 XML_FILE+="                <Control Id='Description' Type='Text' X='25' Y='23' Width='280' Height='15' Transparent='yes' NoPrefix='yes' Text='WARNING!' />\r\n"
-XML_FILE+="                <Control Id='Title' Type='Text' X='15' Y='6' Width='200' Height='15' Transparent='yes' NoPrefix='yes' Text='' />\r\n"
+XML_FILE+="                <Control Id='Title' Type='Text' X='15' Y='6' Width='200' Height='15' Transparent='yes' NoPrefix='yes' Text='Use at your own risk' />\r\n"
 XML_FILE+="                <Control Id='BannerBitmap' Type='Bitmap' X='0' Y='0' Width='370' Height='44' TabSkip='no' Text='!(loc.InstallDirDlgBannerBitmap)' />\r\n"
 XML_FILE+="                <Control Id='BannerLine' Type='Line' X='0' Y='44' Width='373' Height='0' />\r\n"
 XML_FILE+="                <Control Id='BottomLine' Type='Line' X='0' Y='234' Width='373' Height='0' />\r\n"
