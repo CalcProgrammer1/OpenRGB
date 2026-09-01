@@ -95,7 +95,7 @@ unsigned int ValveSteamMachineController::GetBrightness()
 
     if(out[0] <= 255)
     {
-        return(out[0]);
+        return((unsigned int)out[0]);
     }
     else
     {
@@ -124,7 +124,7 @@ unsigned int ValveSteamMachineController::GetDelay()
 
     if(out[0] <= 20)
     {
-        return(out[0]);
+        return((unsigned int)out[0]);
     }
     else
     {
@@ -203,7 +203,7 @@ unsigned int ValveSteamMachineController::GetBreathOffset()
 
     if(out[0] <= 255)
     {
-        return(out[0]);
+        return((unsigned int)out[0]);
     }
     else
     {
@@ -232,7 +232,7 @@ unsigned int ValveSteamMachineController::GetBreathLevel()
 
     if(out[0] <= 255)
     {
-        return(out[0]);
+        return((unsigned int)out[0]);
     }
     else
     {
@@ -261,7 +261,7 @@ unsigned int ValveSteamMachineController::GetPatrolNum()
 
     if(out[0] <= 255)
     {
-        return(out[0]);
+        return((unsigned int)out[0]);
     }
     else
     {
@@ -290,7 +290,7 @@ unsigned int ValveSteamMachineController::GetColorShift()
 
     if(out[0] <= 255)
     {
-        return(out[0]);
+        return((unsigned int)out[0]);
     }
     else
     {
@@ -361,7 +361,7 @@ unsigned int ValveSteamMachineController::GetBrightnessStartup()
 
     if(out[0] <= 255)
     {
-        return(out[0]);
+        return((unsigned int)out[0]);
     }
     else
     {
@@ -381,7 +381,7 @@ void ValveSteamMachineController::SetLEDColor(unsigned int led_idx, RGBColor col
     /*-----------------------------------------------------*\
     | Reverse order of LEDs                                 |
     \*-----------------------------------------------------*/
-    led_idx = (GetLEDCount() - 1) - led_idx;
+    led_idx = (unsigned int)((GetLEDCount() - 1) - led_idx);
 
     /*-----------------------------------------------------*\
     | Set LED color                                         |
@@ -489,7 +489,7 @@ void ValveSteamMachineController::SetEnabled(bool enabled)
     /*-----------------------------------------------------*\
     | Set enabled                                           |
     \*-----------------------------------------------------*/
-    ULONG64         in[1] = {enabled ? 1 : 0};
+    ULONG64         in[1] = {enabled ? (ULONG64)1 : (ULONG64)0};
     ULONG64         out[1];
     SIZE_T          return_size;
     HRESULT         status;
