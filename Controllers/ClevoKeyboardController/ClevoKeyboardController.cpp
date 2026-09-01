@@ -335,7 +335,7 @@ void ClevoKeyboardController::SetEffect829x(unsigned char mode_value, const std:
     {
         for(size_t i = 0; i < colors.size() && i < 2; i++)
         {
-            SendColorSlot829x(CLEVO_829X_CMD_SCAN_COLOR, CLEVO_829X_COLOR_SLOT_BASE + i, colors[i]);
+            SendColorSlot829x(CLEVO_829X_CMD_SCAN_COLOR, CLEVO_829X_COLOR_SLOT_BASE + (unsigned char)i, colors[i]);
         }
     }
 
