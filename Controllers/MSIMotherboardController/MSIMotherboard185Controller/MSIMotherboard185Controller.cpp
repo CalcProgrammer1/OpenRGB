@@ -560,8 +560,9 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     zone_based_per_led_data.j_rgb_2.colorFlags                      = BITSET(zone_based_per_led_data.j_rgb_2.colorFlags, true, 7u);
     zone_based_per_led_data.save_data                               = 0;
 
-    direct_mode         = false;
-    sync_direct_mode    = true;
+    direct_mode             = false;
+    direct_mode_configured  = false;
+    sync_direct_mode        = true;
 }
 
 MSIMotherboard185Controller::~MSIMotherboard185Controller()
@@ -667,7 +668,7 @@ bool MSIMotherboard185Controller::ReadSettings()
     /*-----------------------------------------------------*\
     | Read packet from hardware, return true if successful  |
     \*-----------------------------------------------------*/
-    return (hid_get_feature_report(dev, (unsigned char*)&data, sizeof(data)) == sizeof data);
+    return(hid_get_feature_report(dev, (unsigned char*)&data, sizeof(data)) == sizeof data);
 }
 
 bool MSIMotherboard185Controller::Update
@@ -682,33 +683,73 @@ bool MSIMotherboard185Controller::Update
     {
         if(per_led_mode == DIRECT_MODE_PER_LED)
         {
+            /*---------------------------------------------*\
+            | Skip sending update if there are no LEDs      |
+            | configured                                    |
+            \*---------------------------------------------*/
+            bool has_active_per_led_data = false;
+
+            if(!no_onboards)
+            {
+                has_active_per_led_data = true;
+            }
+            if(!no_jrainbow1)
+            {
+                has_active_per_led_data = true;
+            }
+            if(!no_jrainbow2)
+            {
+                has_active_per_led_data = true;
+            }
+            if(!no_jcorsair)
+            {
+                has_active_per_led_data = true;
+            }
+
+            if(!has_active_per_led_data)
+            {
+                return false;
+            }
+
+            /*---------------------------------------------*\
+            | Ensure the enable per-LED mode message has    |
+            | been sent before sending the per-LED data     |
+            \*---------------------------------------------*/
+            if(!direct_mode_configured)
+            {
+                if(!SelectPerLedProtocol())
+                {
+                    return false;
+                }
+            }
+
             if(sync_direct_mode)
             {
-                return (hid_send_feature_report(dev, (unsigned char*)&per_led_data_onboard_and_sync, sizeof(per_led_data_onboard_and_sync)) == sizeof(per_led_data_onboard_and_sync));
+                return(hid_send_feature_report(dev, (unsigned char*)&per_led_data_onboard_and_sync, sizeof(per_led_data_onboard_and_sync)) == sizeof(per_led_data_onboard_and_sync));
             }
             else
             {
                 if(!no_jrainbow1)
                 {
-                    (void)hid_send_feature_report(dev, (unsigned char*)&per_led_data_jrainbow1, sizeof(per_led_data_jrainbow1));
+                    hid_send_feature_report(dev, (unsigned char*)&per_led_data_jrainbow1, sizeof(per_led_data_jrainbow1));
                     std::this_thread::sleep_for(13ms);
                 }
                 if(!no_jrainbow2)
                 {
-                    (void)hid_send_feature_report(dev, (unsigned char*)&per_led_data_jrainbow2, sizeof(per_led_data_jrainbow2));
+                    hid_send_feature_report(dev, (unsigned char*)&per_led_data_jrainbow2, sizeof(per_led_data_jrainbow2));
                     std::this_thread::sleep_for(13ms);
                 }
                 if(!no_jcorsair)
                 {
-                    (void)hid_send_feature_report(dev, (unsigned char*)&per_led_data_jcorsair, sizeof(per_led_data_jcorsair));
+                    hid_send_feature_report(dev, (unsigned char*)&per_led_data_jcorsair, sizeof(per_led_data_jcorsair));
                     std::this_thread::sleep_for(13ms);
                 }
-                return (hid_send_feature_report(dev, (unsigned char*)&per_led_data_onboard_and_sync, sizeof(per_led_data_onboard_and_sync)) == sizeof(per_led_data_onboard_and_sync));
+                return(hid_send_feature_report(dev, (unsigned char*)&per_led_data_onboard_and_sync, sizeof(per_led_data_onboard_and_sync)) == sizeof(per_led_data_onboard_and_sync));
             }
         }
         else
         {
-            return (hid_send_feature_report(dev, (unsigned char*)&zone_based_per_led_data, sizeof(zone_based_per_led_data)) == sizeof(zone_based_per_led_data));
+            return(hid_send_feature_report(dev, (unsigned char*)&zone_based_per_led_data, sizeof(zone_based_per_led_data)) == sizeof(zone_based_per_led_data));
         }
     }
     else
@@ -728,7 +769,7 @@ bool MSIMotherboard185Controller::Update
 
         memcpy((unsigned char*)&data, (unsigned char*)&new_data, sizeof(data));
         data.save_data = save;
-        return (hid_send_feature_report(dev, (unsigned char*)&data, sizeof(data)) == sizeof(data));
+        return(hid_send_feature_report(dev, (unsigned char*)&data, sizeof(data)) == sizeof(data));
     }
 }
 
@@ -1153,7 +1194,8 @@ void MSIMotherboard185Controller::SetDirectMode
     bool mode
     )
 {
-    direct_mode = mode;
+    direct_mode             = mode;
+    direct_mode_configured  = false;
     SelectPerLedProtocol();
 }
 
@@ -1212,9 +1254,8 @@ size_t MSIMotherboard185Controller::GetMaxDirectLeds
     }
 }
 
-void MSIMotherboard185Controller::SelectPerLedProtocol()
+bool MSIMotherboard185Controller::SelectPerLedProtocol()
 {
-
     unsigned char jrainbow1_size = 0;
     unsigned char jrainbow2_size = 0;
     unsigned char jrainbow3_size = 0;
@@ -1283,7 +1324,17 @@ void MSIMotherboard185Controller::SelectPerLedProtocol()
     {
         if(per_led_mode == DIRECT_MODE_PER_LED)
         {
-            hid_send_feature_report(dev, (unsigned char*)&enable_per_led_msg, sizeof(enable_per_led_msg));
+            if(hid_send_feature_report(dev, (unsigned char*)&enable_per_led_msg, sizeof(enable_per_led_msg)) != sizeof(enable_per_led_msg))
+            {
+                return false;
+            }
+            direct_mode_configured = true;
         }
+
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }

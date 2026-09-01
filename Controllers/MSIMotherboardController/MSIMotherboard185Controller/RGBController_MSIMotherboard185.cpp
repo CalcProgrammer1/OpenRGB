@@ -267,6 +267,11 @@ void RGBController_MSIMotherboard185::DeviceConfigureZone(int zone_idx)
 
 void RGBController_MSIMotherboard185::DeviceUpdateLEDs()
 {
+    if((modes[active_mode].value == MSI_MODE_DIRECT_DUMMY) && !controller->IsDirectModeActive())
+    {
+        controller->SetDirectMode(true);
+    }
+
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); ++zone_idx)
     {
         for(int led_idx = zones[zone_idx].leds_count - 1; led_idx >= 0; led_idx--)
@@ -279,6 +284,11 @@ void RGBController_MSIMotherboard185::DeviceUpdateLEDs()
 
 void RGBController_MSIMotherboard185::DeviceUpdateZoneLEDs(int zone)
 {
+    if((modes[active_mode].value == MSI_MODE_DIRECT_DUMMY) && !controller->IsDirectModeActive())
+    {
+        controller->SetDirectMode(true);
+    }
+
     for(int led_idx = zones[zone].leds_count - 1; led_idx >= 0; led_idx--)
     {
         UpdateLed(zone, led_idx);
@@ -291,6 +301,11 @@ void RGBController_MSIMotherboard185::DeviceUpdateSingleLED
     int led
     )
 {
+    if((modes[active_mode].value == MSI_MODE_DIRECT_DUMMY) && !controller->IsDirectModeActive())
+    {
+        controller->SetDirectMode(true);
+    }
+
     int zone_index = IndexOfZoneForType((MSI_ZONE)leds[led].value);
 
     if(zone_index == -1)
@@ -319,7 +334,7 @@ void RGBController_MSIMotherboard185::DeviceUpdateMode()
 
 void RGBController_MSIMotherboard185::DeviceSaveMode()
 {
-     controller->Update(true);
+    controller->Update(true);
 }
 
 void RGBController_MSIMotherboard185::SetupModes()

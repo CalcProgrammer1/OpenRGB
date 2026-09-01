@@ -128,6 +128,7 @@ private:
     FeaturePacket_PerLED_185        per_led_data_jcorsair;
     FeaturePacket_185               zone_based_per_led_data;
     bool                            direct_mode;
+    bool                            direct_mode_configured;
     bool                            sync_direct_mode;
     bool                            no_onboards;
     bool                            no_jrainbow1;
@@ -153,5 +154,5 @@ private:
                         (
                         MSI_ZONE zone
                         );
-    void            SelectPerLedProtocol();
+    bool            SelectPerLedProtocol();
 };
