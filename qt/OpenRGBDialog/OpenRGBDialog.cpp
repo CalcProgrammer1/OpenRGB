@@ -149,6 +149,14 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
 {
     ui->setupUi(this);
 
+#ifdef __APPLE__
+    /*-----------------------------------------------------*\
+    | Apply Qt Fusion theme on MacOS, as the MacOS as the   |
+    | default theme does not handle vertical tabs well      |
+    \*-----------------------------------------------------*/
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+#endif
+
     /*-----------------------------------------------------*\
     | Set window icon                                       |
     \*-----------------------------------------------------*/
