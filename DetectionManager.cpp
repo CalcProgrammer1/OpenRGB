@@ -260,10 +260,11 @@ void DetectionManager::RegisterI2CBusDetector(I2CBusDetectorFunction detector)
 /*---------------------------------------------------------*\
 | RGBController Detector Registration Functions             |
 \*---------------------------------------------------------*/
-void DetectionManager::RegisterDeviceDetector(std::string name, DeviceDetectorFunction detector)
+void DetectionManager::RegisterDeviceDetector(std::string name, DeviceDetectorFunction detector, bool enabled_by_default)
 {
     device_detector_strings.push_back(name);
     device_detectors.push_back(detector);
+    device_detector_default_enabled.push_back(enabled_by_default);
 }
 
 void DetectionManager::RegisterDynamicDetector(std::string name, DynamicDetectorFunction detector)
@@ -272,17 +273,18 @@ void DetectionManager::RegisterDynamicDetector(std::string name, DynamicDetector
     dynamic_detectors.push_back(detector);
 }
 
-void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage)
+void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage, bool enabled_by_default)
 {
     HIDDeviceDetectorBlock block;
 
-    block.name          = name;
-    block.vid           = vid;
-    block.pid           = pid;
-    block.function      = detector;
-    block.interface     = interface;
-    block.usage_page    = usage_page;
-    block.usage         = usage;
+    block.name                  = name;
+    block.vid                   = vid;
+    block.pid                   = pid;
+    block.function              = detector;
+    block.interface             = interface;
+    block.usage_page            = usage_page;
+    block.usage                 = usage;
+    block.enabled_by_default    = enabled_by_default;
 
     if(block.vid == HID_VID_ANY && block.pid == HID_PID_ANY)
     {
@@ -294,17 +296,18 @@ void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDete
     }
 }
 
-void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage)
+void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage, bool enabled_by_default)
 {
     HIDWrappedDeviceDetectorBlock block;
 
-    block.name          = name;
-    block.vid           = vid;
-    block.pid           = pid;
-    block.function      = detector;
-    block.interface     = interface;
-    block.usage_page    = usage_page;
-    block.usage         = usage;
+    block.name                  = name;
+    block.vid                   = vid;
+    block.pid                   = pid;
+    block.function              = detector;
+    block.interface             = interface;
+    block.usage_page            = usage_page;
+    block.usage                 = usage;
+    block.enabled_by_default    = enabled_by_default;
 
     if(block.vid == HID_VID_ANY && block.pid == HID_PID_ANY)
     {
@@ -316,35 +319,38 @@ void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWra
     }
 }
 
-void DetectionManager::RegisterI2CDeviceDetector(std::string name, I2CDeviceDetectorFunction detector)
+void DetectionManager::RegisterI2CDeviceDetector(std::string name, I2CDeviceDetectorFunction detector, bool enabled_by_default)
 {
     i2c_device_detector_strings.push_back(name);
     i2c_device_detectors.push_back(detector);
+    i2c_device_detector_default_enabled.push_back(enabled_by_default);
 }
 
-void DetectionManager::RegisterI2CDRAMDeviceDetector(std::string name, I2CDRAMDeviceDetectorFunction detector, uint16_t jedec_id, uint8_t dram_type)
+void DetectionManager::RegisterI2CDRAMDeviceDetector(std::string name, I2CDRAMDeviceDetectorFunction detector, uint16_t jedec_id, uint8_t dram_type, bool enabled_by_default)
 {
     I2CDRAMDeviceDetectorBlock block;
 
-    block.name          = name;
-    block.function      = detector;
-    block.jedec_id      = jedec_id;
-    block.dram_type     = dram_type;
+    block.name                  = name;
+    block.function              = detector;
+    block.jedec_id              = jedec_id;
+    block.dram_type             = dram_type;
+    block.enabled_by_default    = enabled_by_default;
 
     i2c_dram_device_detectors.push_back(block);
 }
 
-void DetectionManager::RegisterI2CPCIDeviceDetector(std::string name, I2CPCIDeviceDetectorFunction detector, uint16_t ven_id, uint16_t dev_id, uint16_t subven_id, uint16_t subdev_id, uint8_t i2c_addr)
+void DetectionManager::RegisterI2CPCIDeviceDetector(std::string name, I2CPCIDeviceDetectorFunction detector, uint16_t ven_id, uint16_t dev_id, uint16_t subven_id, uint16_t subdev_id, uint8_t i2c_addr, bool enabled_by_default)
 {
     I2CPCIDeviceDetectorBlock block;
 
-    block.name          = name;
-    block.function      = detector;
-    block.ven_id        = ven_id;
-    block.dev_id        = dev_id;
-    block.subven_id     = subven_id;
-    block.subdev_id     = subdev_id;
-    block.i2c_addr      = i2c_addr;
+    block.name                  = name;
+    block.function              = detector;
+    block.ven_id                = ven_id;
+    block.dev_id                = dev_id;
+    block.subven_id             = subven_id;
+    block.subdev_id             = subdev_id;
+    block.i2c_addr              = i2c_addr;
+    block.enabled_by_default    = enabled_by_default;
 
     i2c_pci_device_detectors.push_back(block);
 }
@@ -1807,7 +1813,7 @@ void DetectionManager::UpdateDetectorSettings()
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
-            detector_settings["detectors"][detection_string] = true;
+            detector_settings["detectors"][detection_string] = i2c_device_detector_default_enabled[i2c_detector_idx];
             save_settings = true;
         }
     }
@@ -1822,7 +1828,7 @@ void DetectionManager::UpdateDetectorSettings()
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
-            detector_settings["detectors"][detection_string] = true;
+            detector_settings["detectors"][detection_string] = i2c_dram_device_detectors[i2c_detector_idx].enabled_by_default;
             save_settings = true;
         }
     }
@@ -1837,7 +1843,7 @@ void DetectionManager::UpdateDetectorSettings()
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
-            detector_settings["detectors"][detection_string] = true;
+            detector_settings["detectors"][detection_string] = i2c_pci_device_detectors[i2c_pci_detector_idx].enabled_by_default;
             save_settings = true;
         }
     }
@@ -1852,7 +1858,7 @@ void DetectionManager::UpdateDetectorSettings()
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
-            detector_settings["detectors"][detection_string] = true;
+            detector_settings["detectors"][detection_string] = hid_generic_detectors[hid_detector_idx].enabled_by_default;
             save_settings = true;
         }
     }
@@ -1867,7 +1873,7 @@ void DetectionManager::UpdateDetectorSettings()
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
-            detector_settings["detectors"][detection_string] = true;
+            detector_settings["detectors"][detection_string] = hid_specific_detectors[hid_detector_idx].enabled_by_default;
             save_settings = true;
         }
     }
@@ -1882,7 +1888,7 @@ void DetectionManager::UpdateDetectorSettings()
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
-            detector_settings["detectors"][detection_string] = true;
+            detector_settings["detectors"][detection_string] = hid_wrapped_generic_detectors[hid_wrapped_detector_idx].enabled_by_default;
             save_settings = true;
         }
     }
@@ -1897,7 +1903,7 @@ void DetectionManager::UpdateDetectorSettings()
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
-            detector_settings["detectors"][detection_string] = true;
+            detector_settings["detectors"][detection_string] = hid_wrapped_specific_detectors[hid_wrapped_detector_idx].enabled_by_default;
             save_settings = true;
         }
     }
@@ -1912,7 +1918,7 @@ void DetectionManager::UpdateDetectorSettings()
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
-            detector_settings["detectors"][detection_string] = true;
+            detector_settings["detectors"][detection_string] = device_detector_default_enabled[detector_idx];
             save_settings = true;
         }
     }
