@@ -255,14 +255,14 @@ OpenRGBProfileEditorDialog::OpenRGBProfileEditorDialog(std::string name, QWidget
 
             if(profile_json.contains("plugins"))
             {
-                if(profile_json["plugins"].contains(plugin_manager->GetPluginName(plugin_idx)))
+                if(profile_json["plugins"].contains(plugin_manager->GetPluginName((unsigned int)plugin_idx)))
                 {
                     state = Qt::Checked;
                 }
             }
 
             new_item->setIcon(0, QIcon(QPixmap::fromImage(plugin_manager->ActivePlugins[plugin_idx].info.Icon)));
-            new_item->setText(1, QString::fromStdString(plugin_manager->GetPluginName(plugin_idx)));
+            new_item->setText(1, QString::fromStdString(plugin_manager->GetPluginName((unsigned int)plugin_idx)));
             new_item->setCheckState(2, state);
 
             ui->TreeWidgetPlugins->addTopLevelItem(new_item);
