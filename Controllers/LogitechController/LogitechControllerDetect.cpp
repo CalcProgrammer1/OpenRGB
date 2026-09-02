@@ -825,6 +825,16 @@ static bool HIDPP20ClaimDevice(const std::string& device_id)
 }
 
 /*---------------------------------------------------------*\
+| Free the device claim when the device is unplugged        |
+\*---------------------------------------------------------*/
+static bool HIDPP20UnclaimDevice(const std::string& device_id)
+{
+    std::lock_guard<std::mutex> lock(hidpp20_registry_mutex);
+
+    return hidpp20_claimed_devices.erase(device_id);
+}
+
+/*---------------------------------------------------------*\
 | Watchers own threads and a node handle, so they have to   |
 | be stopped before the process exits.                      |
 \*---------------------------------------------------------*/
@@ -1206,7 +1216,7 @@ static bool HIDPP20LookupTarget(const std::string& node_path, uint8_t index, HID
 | lighting; both leave the target on file, so a device      |
 | that was asleep is built when its dongle reports it.      |
 \*---------------------------------------------------------*/
-static RGBController_LogitechHIDPP20* HIDPP20BuildController(const HIDPP20BuildTarget& target)
+static RGBController_LogitechHIDPP20* HIDPP20BuildController(const HIDPP20BuildTarget& target, const std::string& device_id="")
 {
     HIDPP20BuildClaim claim(target.node_path, target.index);
 
@@ -1292,7 +1302,7 @@ static RGBController_LogitechHIDPP20* HIDPP20BuildController(const HIDPP20BuildT
     {
         controller->Initialize();
 
-        RGBController_LogitechHIDPP20* rgb_controller = new RGBController_LogitechHIDPP20(controller);
+        RGBController_LogitechHIDPP20* rgb_controller = new RGBController_LogitechHIDPP20(controller, [device_id](){HIDPP20UnclaimDevice(device_id);});
 
         /*-------------------------------------------------*\
         | Reader and power threads from the start, so we    |
@@ -1395,7 +1405,7 @@ static DetectedControllers HIDPP20Create(hid_device_info* info, const std::strin
 
     HIDPP20RecordTarget(target);
 
-    RGBController_LogitechHIDPP20* rgb_controller = HIDPP20BuildController(target);
+    RGBController_LogitechHIDPP20* rgb_controller = HIDPP20BuildController(target, device_id);
 
     if(rgb_controller != nullptr)
     {

@@ -856,9 +856,10 @@ static const Kb8080Strip* FindKb8080Strip(uint16_t pid_wired, uint16_t pid_wirel
     return(nullptr);
 }
 
-RGBController_LogitechHIDPP20::RGBController_LogitechHIDPP20(LogitechHIDPP20Controller* controller_ptr)
+RGBController_LogitechHIDPP20::RGBController_LogitechHIDPP20(LogitechHIDPP20Controller* controller_ptr, std::function<void ()> callback)
 {
     controller = controller_ptr;
+    shutdown_callback = callback;
 
     const HIDPP20DeviceCapabilities& caps = controller->GetCapabilities();
 
@@ -1366,6 +1367,11 @@ void RGBController_LogitechHIDPP20::OnRepaintRequest()
 RGBController_LogitechHIDPP20::~RGBController_LogitechHIDPP20()
 {
     controller->StopPowerManager();
+
+    if(shutdown_callback)
+    {
+        shutdown_callback();
+    }
 
     Shutdown();
 

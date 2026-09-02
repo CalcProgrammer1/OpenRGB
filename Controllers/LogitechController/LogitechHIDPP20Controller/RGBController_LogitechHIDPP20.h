@@ -15,7 +15,7 @@
 class RGBController_LogitechHIDPP20 : public RGBController
 {
 public:
-    RGBController_LogitechHIDPP20(LogitechHIDPP20Controller* controller_ptr);
+    RGBController_LogitechHIDPP20(LogitechHIDPP20Controller* controller_ptr, std::function<void()> shutdown_callback);
     ~RGBController_LogitechHIDPP20();
 
     void        SetupZones();
@@ -116,4 +116,6 @@ private:
     | Parallel to led_to_zone_id; 0x8080 path only.         |
     \*-----------------------------------------------------*/
     std::vector<std::pair<uint16_t, uint8_t>> led_to_keytype_keyid_8080;
+
+    std::function<void()> shutdown_callback;
 };
