@@ -33,6 +33,8 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     number_leds             = 0;
     supported_features      = 0;
     via_protocol_version    = 0;
+    wireless_device_pid     = 0;
+    wireless_device_vid     = 0;
 
     /*-----------------------------------------------------*\
     | Read product string                                   |
@@ -80,6 +82,22 @@ QMKKeychronController::QMKKeychronController(hid_device* dev_handle, const char 
     else
     {
         serial = StringUtils::wstring_to_string(serial_string);
+    }
+
+    /*-----------------------------------------------------*\
+    | If the device is a Keychron wireless dongle that      |
+    | supports wireless RGB control, probe the attached     |
+    | keyboard's information                                |
+    \*-----------------------------------------------------*/
+    CmdGetWirelessDeviceInfo(&wireless_device_vid, &wireless_device_pid);
+
+    if(wireless_device_vid != 0 && wireless_device_pid != 0)
+    {
+        /*-------------------------------------------------*\
+        | Wireless keyboard detected, update dev_pid to use |
+        | the keyboard's PID instead of the dongle's PID    |
+        \*-------------------------------------------------*/
+        dev_pid = wireless_device_pid;
     }
 
     /*-----------------------------------------------------*\
@@ -438,6 +456,46 @@ void QMKKeychronController::CmdGetViaProtocolVersion
     | The protocol version byte order is reversed           |
     \*-----------------------------------------------------*/
     *via_protocol_version = ((*via_protocol_version & 0x00FF) << 8) | ((*via_protocol_version & 0xFF00) >> 8);
+}
+
+void QMKKeychronController::CmdGetWirelessDeviceInfo
+    (
+    unsigned short*     wireless_vid,
+    unsigned short*     wireless_pid
+    )
+{
+    /*-----------------------------------------------------*\
+    | Query wireless keyboard information via dongle        |
+    | This allows the controller to identify the actual     |
+    | keyboard's USB VID/PID instead of the dongle's        |
+    \*-----------------------------------------------------*/
+    unsigned char response[10] = { 0 };
+
+    *wireless_vid = 0;
+    *wireless_pid = 0;
+
+    if(ViaSendCommand(KC_WIRELESS_DEVICE_INFO, NULL, 0, response, sizeof(response)) <= 0)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Response format:                                      |
+    | Byte 0: Status (0x01 = connected/valid)               |
+    | Bytes 1-2: VID (little-endian)                        |
+    | Bytes 3-4: PID (little-endian)                        |
+    | Bytes 5+: Additional info                             |
+    \*-----------------------------------------------------*/
+    if(response[0] != 0x01)
+    {
+        /*-------------------------------------------------*\
+        | No wireless keyboard connected                    |
+        \*-------------------------------------------------*/
+        return;
+    }
+
+    *wireless_vid = response[1] | (response[2] << 8);
+    *wireless_pid = response[3] | (response[4] << 8);
 }
 
 void QMKKeychronController::CmdSaveMode()

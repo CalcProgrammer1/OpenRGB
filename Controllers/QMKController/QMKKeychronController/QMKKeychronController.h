@@ -47,7 +47,8 @@ enum
     KC_KEYCHRON_RGB                                 = 0xA8,
     KC_ANALOG_MATRIX                                = 0xA9,
     KC_WIRELESS_DFU                                 = 0xAA,
-    KC_FACTORY_TEST                                 = 0xAB
+    KC_FACTORY_TEST                                 = 0xAB,
+    KC_WIRELESS_DEVICE_INFO                         = 0xB2
 };
 
 enum KeychronKCRGBCommand
@@ -163,6 +164,8 @@ private:
     unsigned short                          supported_features;
     std::string                             vendor;
     unsigned short                          via_protocol_version;
+    unsigned short                          wireless_device_pid;
+    unsigned short                          wireless_device_vid;
 
     unsigned short                          CmdGetKeycode(unsigned char layer, unsigned char row, unsigned char col);
     std::string                             CmdGetKeychronFirmwareVersion();
@@ -172,6 +175,7 @@ private:
     void                                    CmdGetNumberLEDs(unsigned short* number_leds);
     void                                    CmdGetSupportFeature(unsigned short* supported_features);
     void                                    CmdGetViaProtocolVersion(unsigned short* via_protocol_version);
+    void                                    CmdGetWirelessDeviceInfo(unsigned short* wireless_vid, unsigned short* wireless_pid);
     void                                    CmdSaveMode();
     void                                    CmdSendLEDs(unsigned char start_index, unsigned char number_leds, RGBColor* color_data);
     void                                    CmdSetBrightness(unsigned char brightness);
