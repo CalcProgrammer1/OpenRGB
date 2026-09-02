@@ -310,8 +310,9 @@ DetectedControllers DetectLogitechKeyboardG915Receiver2(hid_device_info* info, c
             {
                 /*-----------------------------------------*\
                 | G915 X family: the unified HID++ 2.0      |
-                | controller handles it. Skip so the C547   |
-                | detector claims it.                       |
+                | controller handles it. Skip so the        |
+                | unified detector, registered after this   |
+                | one, claims it.                           |
                 \*-----------------------------------------*/
                 LOG_DEBUG("[LogitechControllerDetect] 0xC547 G915 X -> unified controller, skipping legacy");
                 hid_close(dev);
@@ -1520,29 +1521,6 @@ DetectedControllers DetectLogitechHIDPP20(hid_device_info* info, const std::stri
     return(detected);
 }
 
-/*-------------------------------------------------------------------------------------------------------------------------------------*\
-| Unified HID++ 2.0: generic detection. These run only for devices with no *enabled* VID/PID-specific detector, disabling a legacy      |
-| controller in Settings hands its hardware over on the next detection. That is the migration path: no code change, and no risk to a    |
-| device whose legacy controller stays enabled.                                                                                         |
-|                                                                                                                                       |
-| The registrations cover every legacy transport signature:                                                                             |
-|  any interface, 0xFF00 usage 2    standard HID++ long report (modern keyboards/mice, receivers, G915 family, wired Lightspeed mice).  |
-|                                   Usage 2 is the collection we write to, on Windows, the only one that accepts our writes.            |
-|  any interface, 0xFF43 any usage  keyboards (G213/G512/G610/G810/G813/G815/G910/G Pro), the G560 speaker, the                         |
-|                                   G933 headset, and Bluetooth nodes. Not interface-keyed: a Bluetooth node                            |
-|                                   reports interface -1, which is also HID_INTERFACE_ANY, so it can never match.                       |
-|  interface 1, 0xFF00 any usage    older mice whose HID++ collection is not the usage-2 one                                            |
-|  any interface, 0xFFA0 usage 1    Centurion (G522, PRO X 2)                                                                           |
-|                                                                                                                                       |
-| Not covered, deliberately: the G600 (page 0xFF80) and the X56 (own VID) are not HID++ 2.0. A matching non-HID++ node costs one failed |
-| probe, ProbeIdentity changes nothing on the device. Receivers are recognized at runtime: the device probe fails and the pairing table |
-| answers; paired slots follow the same enabled/disabled rule (hidpp20_legacy_wireless_pids).                                           |
-\*-------------------------------------------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_PU_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFF00, 2);
-REGISTER_HID_DETECTOR_P_ONLY  ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFF43);
-REGISTER_HID_DETECTOR_IP_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 1, 0xFF00);
-REGISTER_HID_DETECTOR_PU_ONLY ("Logitech HID++ 2.0", DetectLogitechHIDPP20, 0xFFA0, 1);
-
 REGISTER_CUSTOM_UDEV_RULE(logitech_hidpp20, "Logitech HID++ 2.0", "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"046d\", TAG+=\"uaccess\", TAG+=\"Logitech_HID_20\"\nSUBSYSTEM==\"usb\", ATTR{idVendor}==\"046d\", TAG+=\"uaccess\", TAG+=\"Logitech_HID_20\"");
 REGISTER_CUSTOM_UDEV_RULE(logitech_g560, "Logitech G560 Lightsync Speaker", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"046d\", ATTRS{idProduct}==\"0a78\", TAG+=\"uaccess\", TAG+=\"Logitech_G560_Lightsync_Speaker\"");
 
@@ -1558,18 +1536,6 @@ REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard
 REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard (Wired)",      DetectLogitechKeyboardG915Wired, LOGITECH_VID, LOGITECH_G915_WIRED_PID,         2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G915TKL Wireless RGB Mechanical Gaming Keyboard",           DetectLogitechKeyboardG915,      LOGITECH_VID, LOGITECH_G915TKL_RECEIVER_PID,   2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G915TKL Wireless RGB Mechanical Gaming Keyboard (Wired)",   DetectLogitechKeyboardG915Wired, LOGITECH_VID, LOGITECH_G915TKL_WIRED_PID,      2, 0xFF00, 2);
-/*---------------------------------------------------------*\
-| C547 carve-out: the legacy G915 Receiver 2 registration   |
-| above makes C547 a VID/PID-specific match, which          |
-| suppresses the generic HID++ 2.0 detector for every C547  |
-| node, including receivers with non-G915 devices paired.   |
-| This specific entry runs after the G915 detector          |
-| (registration order); when that returns nothing, the      |
-| unified pairing-table enumeration takes the receiver.     |
-| Literal PID: the macro token-pastes the object name and   |
-| LOGITECH_G915_RECEIVER_2_PID is already used above.       |
-\*---------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IPU("Logitech HID++ 2.0 (C547 receiver)", DetectLogitechHIDPP20, LOGITECH_VID, 0xC547, 2, 0xFF00, 2);
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Mice                                                                                                                                              |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -1800,3 +1766,31 @@ REGISTER_HID_DETECTOR_IPU("Logitech G733 Gaming Headset",                       
 REGISTER_HID_DETECTOR_IPU("Logitech G733 Gaming Headset",                       DetectLogitechWired,        LOGITECH_VID, LOGITECH_G733_2_PID,                          3, 0xFF43, 514);
 REGISTER_HID_DETECTOR_IPU("Logitech G733 Gaming Headset",                       DetectLogitechWired,        LOGITECH_VID, LOGITECH_G733_3_PID,                          3, 0xFF43, 514);
 REGISTER_HID_DETECTOR_IPU("Logitech G935 Gaming Headset",                       DetectLogitechWired,        LOGITECH_VID, LOGITECH_G935_PID,                            3, 0xFF43, 514);
+
+/*-------------------------------------------------------------------------------------------------------------------------------------*\
+| Unified HID++ 2.0. Keyed to the Logitech VID, so these are specific detectors and no generic detector runs on a Logitech node;        |
+| HID LampArray in particular, which the official app publishes as a virtual device for older boards. Registered last on purpose:       |
+| specific detectors run in registration order and the first to return a controller wins, so a legacy controller keeps its device       |
+| while its detector is enabled, and disabling it in Settings hands the device over on the next detection.                              |
+|                                                                                                                                       |
+| USB, every legacy transport signature:                                                                                                |
+|  0xFF00 usage 2                   standard HID++ long report (modern keyboards/mice, receivers, G915 family, wired Lightspeed mice).  |
+|                                   Usage 2 is the collection we write to, on Windows, the only one that accepts our writes.            |
+|  0xFF43 any usage                 keyboards (G213/G512/G610/G810/G813/G815/G910/G Pro), the G560 speaker, the G933 headset            |
+|  interface 1, 0xFF00 any usage    older mice whose HID++ collection is not the usage-2 one. No bus key: an interface number           |
+|                                   only exists on USB.                                                                                 |
+|  0xFFA0 usage 1                   Centurion (G522, PRO X 2)                                                                           |
+| Bluetooth, which reports no interface number:                                                                                         |
+|  0xFF43 any usage                 G-series keyboards (G515)                                                                           |
+|  0xFF00 usage 2                   mice, the collection Solaar drives them on                                                          |
+|                                                                                                                                       |
+| Not covered, deliberately: the G600 (page 0xFF80) and the X56 (own VID) are not HID++ 2.0. A matching non-HID++ node costs one failed |
+| probe, ProbeIdentity changes nothing on the device. Receivers are recognized at runtime: the device probe fails and the pairing table |
+| answers; paired slots follow the same enabled/disabled rule (hidpp20_legacy_wireless_pids).                                           |
+\*-------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_BPU("Logitech HID++ 2.0", DetectLogitechHIDPP20, LOGITECH_VID, HID_PID_ANY, HID_API_BUS_USB,       0xFF00, 2);
+REGISTER_HID_DETECTOR_BP ("Logitech HID++ 2.0", DetectLogitechHIDPP20, LOGITECH_VID, HID_PID_ANY, HID_API_BUS_USB,       0xFF43);
+REGISTER_HID_DETECTOR_IP ("Logitech HID++ 2.0", DetectLogitechHIDPP20, LOGITECH_VID, HID_PID_ANY, 1,                     0xFF00);
+REGISTER_HID_DETECTOR_BPU("Logitech HID++ 2.0", DetectLogitechHIDPP20, LOGITECH_VID, HID_PID_ANY, HID_API_BUS_USB,       0xFFA0, 1);
+REGISTER_HID_DETECTOR_BP ("Logitech HID++ 2.0", DetectLogitechHIDPP20, LOGITECH_VID, HID_PID_ANY, HID_API_BUS_BLUETOOTH, 0xFF43);
+REGISTER_HID_DETECTOR_BPU("Logitech HID++ 2.0", DetectLogitechHIDPP20, LOGITECH_VID, HID_PID_ANY, HID_API_BUS_BLUETOOTH, 0xFF00, 2);

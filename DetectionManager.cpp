@@ -115,6 +115,8 @@ bool BasicHIDBlock::compare(hid_device_info* info)
          || (usage      == info->usage))
         && ((interface  == HID_INTERFACE_ANY)
          || (interface  == info->interface_number))
+        && ((bus        == HID_BUS_ANY)
+         || (bus        == (int)info->bus_type))
         );
 }
 
@@ -273,7 +275,7 @@ void DetectionManager::RegisterDynamicDetector(std::string name, DynamicDetector
     dynamic_detectors.push_back(detector);
 }
 
-void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage, bool enabled_by_default)
+void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage, bool enabled_by_default, int bus)
 {
     HIDDeviceDetectorBlock block;
 
@@ -284,6 +286,7 @@ void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDete
     block.interface             = interface;
     block.usage_page            = usage_page;
     block.usage                 = usage;
+    block.bus                   = bus;
     block.enabled_by_default    = enabled_by_default;
 
     if(block.vid == HID_VID_ANY && block.pid == HID_PID_ANY)
@@ -296,7 +299,7 @@ void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDete
     }
 }
 
-void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage, bool enabled_by_default)
+void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage, bool enabled_by_default, int bus)
 {
     HIDWrappedDeviceDetectorBlock block;
 
@@ -307,6 +310,7 @@ void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWra
     block.interface             = interface;
     block.usage_page            = usage_page;
     block.usage                 = usage;
+    block.bus                   = bus;
     block.enabled_by_default    = enabled_by_default;
 
     if(block.vid == HID_VID_ANY && block.pid == HID_PID_ANY)
@@ -1449,7 +1453,7 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json&
         const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
         const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
 
-        LOG_DEBUG("[%s] %04X:%04X U=%04X P=0x%04X I=%d - %-25s - %s", DETECTIONMANAGER, current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
+        LOG_DEBUG("[%s] %04X:%04X U=%04X P=0x%04X I=%d B=%d - %-25s - %s", DETECTIONMANAGER, current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, (int)current_hid_device->bus_type, manu_name, prod_name);
     }
 
     detection_string = "";
@@ -1565,7 +1569,7 @@ void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_
         const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
         const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
 
-        LOG_DEBUG("[%s] %04X:%04X U=%04X P=0x%04X I=%d - %-25s - %s", DETECTIONMANAGER, current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
+        LOG_DEBUG("[%s] %04X:%04X U=%04X P=0x%04X I=%d B=%d - %-25s - %s", DETECTIONMANAGER, current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, (int)current_hid_device->bus_type, manu_name, prod_name);
     }
 
     detection_string = "";
