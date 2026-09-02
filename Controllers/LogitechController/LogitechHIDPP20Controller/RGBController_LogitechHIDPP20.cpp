@@ -329,6 +329,10 @@ static const std::map<uint16_t, std::string> hidpp20_extras_names =
     { 182, "G3"                },
     { 183, "G4"                },
     { 184, "G5"                },
+    { 185, "G6"                },
+    { 186, "G7"                },
+    { 187, "G8"                },
+    { 188, "G9"                },
     { 210, "Logo"              },
 };
 
@@ -423,9 +427,39 @@ static const keyboard_led proxrapid_top_strip[] =
     { 0, 0, 13, 153, "Media Mute",       KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above F12 */
 };
 
+/*---------------------------------------------------------*\
+| G915 X Wired top strip and G-key column: INSERT_ROW adds  |
+| row 0 above the F-row, the rest INSERT_SHIFT_RIGHT into   |
+| it. G1-G5 insert at column 0 of the main rows; the unused |
+| key at the F-row's column 0 shifts that row right so it   |
+| stays aligned with them. Zone ids hardware-probed on this |
+| board. Game Mode (above F5) is a non-RGB toggle, so none  |
+| is listed.                                                |
+\*---------------------------------------------------------*/
+static const keyboard_led g915x_strip_and_gkeys[] =
+{
+    { 0, 0, 0,  210, "Logo",             KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_ROW         },
+    { 0, 1, 0,  0,   KEY_EN_UNUSED,      KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* shift the F-row  */
+    { 0, 2, 0,  180, "G1",               KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },
+    { 0, 3, 0,  181, "G2",               KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },
+    { 0, 4, 0,  182, "G3",               KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },
+    { 0, 5, 0,  183, "G4",               KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },
+    { 0, 6, 0,  184, "G5",               KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },
+    { 0, 0, 3,  185, "G6",               KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above F1         */
+    { 0, 0, 4,  186, "G7",               KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above F2         */
+    { 0, 0, 5,  187, "G8",               KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above F3         */
+    { 0, 0, 6,  188, "G9",               KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above F4         */
+    { 0, 0, 8,  153, "Brightness",       KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above F6         */
+    { 0, 0, 18, 158, "Media Previous",   KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above Num Lock   */
+    { 0, 0, 19, 155, "Media Play/Pause", KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above Numpad /   */
+    { 0, 0, 20, 157, "Media Next",       KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above Numpad *   */
+    { 0, 0, 21, 156, "Media Mute",       KEY_EN_UNUSED, KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT },   /* above Numpad -   */
+};
+
 static const KbLayoutEdit known_kb_layout_edits[] =
 {
-    { 0xC35B, proxrapid_top_strip, 5 },   /* PRO X RAPID */
+    { 0xC35B, proxrapid_top_strip,      5  },   /* PRO X RAPID */
+    { 0xC359, g915x_strip_and_gkeys,    16 },   /* G915 X Wired */
 };
 
 static key_set FindKbLayoutEdit(uint16_t pid_wired, uint16_t pid_wireless)
