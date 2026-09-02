@@ -132,17 +132,17 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/DebugSettingsEntry/DebugSettingsEntry.ui" line="69"/>
         <source>Single</source>
-        <translation>Однородная область</translation>
+        <translation>Зона с одним светодиодом</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/DebugSettingsEntry/DebugSettingsEntry.ui" line="76"/>
         <source>Resizable</source>
-        <translation>Размер изменяем</translation>
+        <translation>Зона изменяемого размера</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/DebugSettingsEntry/DebugSettingsEntry.ui" line="83"/>
         <source>Underglow</source>
-        <translation>Подсветка</translation>
+        <translation>Нижняя подсветка клавиатуры</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/DebugSettingsEntry/DebugSettingsEntry.ui" line="93"/>
@@ -152,7 +152,7 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/DebugSettingsEntry/DebugSettingsEntry.ui" line="100"/>
         <source>Layout:</source>
-        <translation>Макет:</translation>
+        <translation>Раскладка (для клавиатур):</translation>
     </message>
 </context>
 <context>
@@ -301,7 +301,7 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/LIFXSettingsEntry/LIFXSettingsEntry.ui" line="35"/>
         <source>Multizone</source>
-        <translation>Многоцентровый</translation>
+        <translation>Multizone</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/LIFXSettingsEntry/LIFXSettingsEntry.ui" line="42"/>
@@ -316,7 +316,7 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/LIFXSettingsEntry/LIFXSettingsEntry.ui" line="62"/>
         <source>Extended Multizone</source>
-        <translation>Расширенный многозонный</translation>
+        <translation>Extended Multizone</translation>
     </message>
 </context>
 <context>
@@ -977,7 +977,7 @@
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="686"/>
         <source>Plugins</source>
-        <translation>Подключаемые модули</translation>
+        <translation>Плагины</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="720"/>
@@ -1150,43 +1150,44 @@
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="27"/>
         <source>Install Plugin</source>
-        <translation>Установить подключаемый модуль</translation>
+        <translatorcomment>We do NOT reinterpret &quot;Plugin&quot; as &quot;подключаемый модуль&quot;!!! &quot;Плагин&quot; is short and more widely understood</translatorcomment>
+        <translation>Установить плагин</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="37"/>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="164"/>
         <source>Remove Plugin</source>
-        <translation>Удалить подключаемый модуль</translation>
+        <translation>Удалить плагин</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="44"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Посмотрите список подключаемых модулей на официальном сайте &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Больше плагинов вы можете найти на официальном сайте: &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="89"/>
         <source>Install OpenRGB Plugin</source>
-        <translation>Установить подключаемый модуль OpenRGB</translation>
+        <translation>Установить плагин OpenRGB</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="89"/>
         <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
-        <translation>Файлы подключаемых модулей (*.dll *.dylib *.so; *.so.*)</translation>
+        <translation>Файлы плагинов (*.dll *.dylib *.so; *.so.*)</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="126"/>
         <source>Replace Plugin</source>
-        <translation>Заменить подключаемый модуль</translation>
+        <translation>Заменить плагин</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="126"/>
         <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
-        <translation>Подключаемый модуль с таким названием уже существует. Заменить установленный подключаемый модуль?</translation>
+        <translation>Плагин с таким названием уже существует. Заменить установленный плагин?</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="164"/>
         <source>Are you sure you want to remove this plugin?</source>
-        <translation>Удалить подключаемый модуль?</translation>
+        <translation>Удалить плагин?</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="224"/>
@@ -1692,7 +1693,7 @@
     <message>
         <location filename="../OpenRGBZoneInitializationDialog/OpenRGBZoneInitializationDialog.ui" line="39"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more manually configurable zones have not been configured.  Manually configurable zones are most commonly used for addressable RGB headers where the number of LEDs in the connected device(s) cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Один или несколько вручную настраиваемых зон не настроены. Вручную настраиваемые зоны чаще всего используются для адресуемых RGB заголовков, где количество светодиодов в подключенных устройствах нельзя определить автоматически.&lt;/p&gt;&lt;p&gt;Пожалуйста, введите количество светодиодов в каждой зоне ниже.&lt;/p&gt;&lt;p&gt;Для получения дополнительной информации о расчете правильного размера, пожалуйста, проверьте &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;этот ссылка.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Один или несколько вручную настраиваемых зон не настроены. Вручную настраиваемые зоны это чаще всего адресные разъёмы ARGB, где количество светодиодов в подключенных устройствах нельзя определить автоматически.&lt;/p&gt;&lt;p&gt;Пожалуйста, введите количество светодиодов в каждой зоне ниже.&lt;/p&gt;&lt;p&gt;Подробную информацию можно посмотреть &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;по этой ссылке&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../OpenRGBZoneInitializationDialog/OpenRGBZoneInitializationDialog.ui" line="49"/>
@@ -1821,12 +1822,12 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/QMKORGBSettingsEntry/QMKORGBSettingsEntry.ui" line="48"/>
         <source>USB PID:</source>
-        <translation>Идентификатор PID USB:</translation>
+        <translation>USB PID:</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/QMKORGBSettingsEntry/QMKORGBSettingsEntry.ui" line="55"/>
         <source>USB VID:</source>
-        <translation>USB VID: </translation>
+        <translation>USB VID:</translation>
     </message>
 </context>
 <context>
@@ -1844,7 +1845,7 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/QMKVialRGBSettingsEntry/QMKVialRGBSettingsEntry.ui" line="48"/>
         <source>USB PID:</source>
-        <translation>Идентификатор PID USB:</translation>
+        <translation>USB PID:</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/QMKVialRGBSettingsEntry/QMKVialRGBSettingsEntry.ui" line="55"/>
@@ -1970,27 +1971,27 @@
     <message>
         <location filename="../../ResourceManager.cpp" line="250"/>
         <source>Serve All Controllers</source>
-        <translation>Сервировать все контроллеры</translation>
+        <translation>Показывать все контроллеры</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="252"/>
         <source>Include controllers provided by client connections and plugins</source>
-        <translation>Включать контроллеры, предоставляемые клиентскими соединениями и плагинами</translation>
+        <translation>Показывать в том числе контроллеры с других серверов SDK и из плагинов</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="254"/>
         <source>Default Host</source>
-        <translation>Значение по умолчанию</translation>
+        <translation>Хост по умолчанию</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="258"/>
         <source>Default Port</source>
-        <translation>Рабочий порт по умолчанию</translation>
+        <translation>Порт по умолчанию</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="264"/>
         <source>Legacy Workaround</source>
-        <translation>Устаревший обходной путь</translation>
+        <translation>Костыль для устаревших клиентов</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="266"/>
@@ -2035,12 +2036,12 @@
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="221"/>
         <source>Numerical Labels</source>
-        <translation>Цифровые метки</translation>
+        <translation>Нумерованные подписи</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="222"/>
         <source>Display numerical labels for otherwise non-labeled LEDs in the LED view</source>
-        <translation>Отображать числовые метки для светодиодов, которые иначе не имеют меток, в представлении светодиодов</translation>
+        <translation>Отображать номера для светодиодов, которые иначе не имеют подписей на LED View</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="234"/>
@@ -2070,7 +2071,7 @@
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="195"/>
         <source>Monochrome Tray Icon</source>
-        <translation>Отображение значка в системном лотке в оттенках серого</translation>
+        <translation>Значок в трее в оттенках серого</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="244"/>
@@ -2105,7 +2106,7 @@
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="275"/>
         <source>SMBus Sleep Mode (restart required)</source>
-        <translation>Режим сна SMBus (требуется перезагрузка)</translation>
+        <translation>Режим сна SMBus (потребуется перезапуск)</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="284"/>
