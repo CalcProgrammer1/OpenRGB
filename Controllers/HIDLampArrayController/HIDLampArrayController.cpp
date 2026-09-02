@@ -31,7 +31,7 @@ HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const cha
     unsigned int  pos                   = 0;
     unsigned char report_descriptor[HID_API_MAX_REPORT_DESCRIPTOR_SIZE];
     unsigned char report_id             = 0;
-    unsigned int  size                  = hid_get_report_descriptor(dev, report_descriptor, sizeof(report_descriptor));
+    int           size                  = hid_get_report_descriptor(dev, report_descriptor, sizeof(report_descriptor));
     unsigned int  usage                 = 0;
     unsigned char usage_page            = 0;
 
@@ -40,7 +40,18 @@ HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const cha
     \*-----------------------------------------------------*/
     std::unordered_map<unsigned int, unsigned int> usage_to_report_id;
 
-    while(pos < size)
+    /*-----------------------------------------------------*\
+    | A failed descriptor read returns -1; treated as a     |
+    | length it walks off the end of the buffer.            |
+    \*-----------------------------------------------------*/
+    if(size < 0)
+    {
+        LampArray.LampCount     = 0;
+        LampArray.LampArrayKind = HID_LAMPARRAY_KIND_UNDEFINED;
+        return;
+    }
+
+    while(pos < (unsigned int)size)
     {
         get_hid_item_size(report_descriptor, size, pos, &data_len, &key_size);
 
