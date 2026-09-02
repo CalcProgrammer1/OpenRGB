@@ -608,6 +608,7 @@
 #define GIGABYTE_GTX1070_G1_GAMING_8G_SUB_DEV                   0x3772
 #define GIGABYTE_GTX1070TI_GAMING_SUB_DEV                       0x3794
 #define GIGABYTE_GTX1080_G1_GAMING_SUB_DEV                      0x3702
+#define GIGABYTE_GTX1080_8G_SUB_DEV                             0x377D
 #define GIGABYTE_GTX1080TI_SUB_DEV                              0x3752
 #define GIGABYTE_GTX1080TI_GAMING_OC_SUB_DEV                    0x374C
 #define GIGABYTE_GTX1080TI_GAMING_OC_BLACK_SUB_DEV              0x377A
@@ -759,6 +760,7 @@
 #define GIGABYTE_RX6900XT_GAMING_OC_SUB_DEV                     0x232C
 #define GIGABYTE_RX9060XT_GAMING_16G_SUB_DEV                    0x2434
 #define GIGABYTE_RX9060XT_GAMING_OC_16G_SUB_DEV                 0x2429
+#define GIGABYTE_RX9060XT_GAMING_OC_8G_SUB_DEV                  0x2430
 #define GIGABYTE_AORUS_RX9070XT_ELITE_16G_SUB_DEV               0x2426
 #define GIGABYTE_RX9070XT_GAMING_OC_16G_SUB_DEV                 0x2424
 #define GIGABYTE_RX9070_GAMING_OC_16G_SUB_DEV                   0x2425

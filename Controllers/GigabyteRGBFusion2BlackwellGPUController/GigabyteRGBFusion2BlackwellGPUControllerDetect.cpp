@@ -1,4 +1,4 @@
-﻿/*---------------------------------------------------------*\
+/*---------------------------------------------------------*\
 | GigabyteRGBFusion2BlackwellGPUControllerDetect.cpp        |
 |                                                           |
 |   Detector for Gigabyte RGB Fusion 2 Blackwell GPU        |
@@ -139,6 +139,7 @@ REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 D V2 MASTER ICE",    
 /*---------------------------------------------------------*\
 |  AMD GPUs                                                 |
 \*---------------------------------------------------------*/
+REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 9060 GAMING OC 8G",                   DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                    AMD_GPU_VEN,    AMD_NAVI44_DEV,             GIGABYTE_SUB_VEN, GIGABYTE_RX9060XT_GAMING_OC_8G_SUB_DEV,                   0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 9060 XT GAMING",                      DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                    AMD_GPU_VEN,    AMD_NAVI44_DEV,             GIGABYTE_SUB_VEN, GIGABYTE_RX9060XT_GAMING_16G_SUB_DEV,                     0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 9060 XT GAMING OC",                   DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                    AMD_GPU_VEN,    AMD_NAVI44_DEV,             GIGABYTE_SUB_VEN, GIGABYTE_RX9060XT_GAMING_OC_16G_SUB_DEV,                  0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS Radeon RX 9070 XT Elite",                 DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,                    AMD_GPU_VEN,    AMD_NAVI48_DEV,             GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RX9070XT_ELITE_16G_SUB_DEV,                0x75);
