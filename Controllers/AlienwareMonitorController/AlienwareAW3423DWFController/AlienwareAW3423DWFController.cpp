@@ -40,11 +40,11 @@ std::vector<unsigned char> AlienwareAW3423DWFController::GetReportResponse()
 
 void AlienwareAW3423DWFController::PerformLogin()
 {
-    unsigned char init_packet[64] =
-    {
-        0x40, 0xE1, 0x01
-    };
-    SendControlPacket(init_packet, 4);
+    unsigned char init_packet[192] = {0x00};
+    init_packet[0] = 0x40;
+    init_packet[1] = 0xE1;
+    init_packet[2] = 0x01;
+    SendControlPacket(init_packet, 192);
 
     std::vector<unsigned char> response = GetReportResponse();
 
