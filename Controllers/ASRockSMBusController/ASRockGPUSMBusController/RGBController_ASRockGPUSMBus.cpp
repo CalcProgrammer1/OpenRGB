@@ -11,6 +11,17 @@
 
 #include "RGBController_ASRockGPUSMBus.h"
 
+/**------------------------------------------------------------------*\
+    @name ASRock GPU SMBus
+    @category GPU
+    @type I2C
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectASRockGPUSMBusControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_ASRockGPUSMBus::RGBController_ASRockGPUSMBus(ASRockGPUSMBusController* controller_ptr)
 {
     controller  = controller_ptr;

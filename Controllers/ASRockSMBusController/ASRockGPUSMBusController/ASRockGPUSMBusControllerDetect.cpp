@@ -11,6 +11,7 @@
 #include "ASRockGPUSMBusController.h"
 #include "LogManager.h"
 #include "RGBController_ASRockGPUSMBus.h"
+#include "i2c_amd_gpu.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 
@@ -18,15 +19,12 @@ DetectedControllers DetectASRockGPUSMBusControllers(i2c_smbus_interface* bus, ui
 {
     DetectedControllers detected_controllers;
 
-    LOG_DEBUG("[ASRock GPU] Checking GPU I2C bus for RGB controller at 0x%02X", address);
-
-    if(bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE) < 0)
+    if(bus->info.pci_vendor == AMD_GPU_VEN && !is_amd_gpu_i2c_bus(bus))
     {
-        LOG_DEBUG("[ASRock GPU] No response at address 0x%02X", address);
         return(detected_controllers);
     }
 
-    LOG_DEBUG("[ASRock GPU] Device responded at 0x%02X, creating controller", address);
+    LOG_DEBUG("[ASRock GPU] Checking GPU I2C bus for RGB controller at 0x%02X", address);
 
     ASRockGPUSMBusController* controller = new ASRockGPUSMBusController(bus, address, name);
 
@@ -44,3 +42,4 @@ DetectedControllers DetectASRockGPUSMBusControllers(i2c_smbus_interface* bus, ui
 }
 
 REGISTER_I2C_PCI_DETECTOR("ASRock Radeon RX 9070 XT Steel Legend", DetectASRockGPUSMBusControllers, AMD_GPU_VEN, AMD_NAVI48_DEV, ASROCK_SUB_VEN, 0x5403, ASROCK_GPU_SMBUS_ADDRESS);
+REGISTER_I2C_PCI_DETECTOR("ASRock Radeon RX 9060 XT Steel Legend", DetectASRockGPUSMBusControllers, AMD_GPU_VEN, AMD_NAVI44_DEV, ASROCK_SUB_VEN, 0x5407, ASROCK_GPU_SMBUS_ADDRESS);
