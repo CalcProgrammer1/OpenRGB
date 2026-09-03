@@ -18,6 +18,8 @@
 #include <condition_variable>
 #include <mutex>
 
+#include "fair_mutex.h"
+
 typedef unsigned char   u8;
 typedef unsigned short  u16;
 typedef unsigned int    u32;
@@ -118,7 +120,7 @@ public:
     virtual s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data) = 0;
 
 private:
-    std::mutex              i2c_smbus_xfer_mutex;
+    fair_mutex              i2c_smbus_xfer_mutex;
 
 };
 

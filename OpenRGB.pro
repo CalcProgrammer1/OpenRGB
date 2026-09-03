@@ -166,6 +166,7 @@ HEADERS +=                                                                      
     Colors.h                                                                                    \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/json/nlohmann/json.hpp                                                         \
+    fair_mutex.h                                                                                \
     JsonUtils.h                                                                                 \
     LogManager.h                                                                                \
     NetworkClient.h                                                                             \
