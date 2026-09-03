@@ -27,8 +27,8 @@
 | a sequentially-increasing ticket number and then waits    |
 | until that ticket is at the head of the queue.  An        |
 | internal std::mutex guards the ticket counters; a         |
-| std::condition_variable wakes exactly one waiter when its |
-| ticket reaches the front of the queue.                    |
+| std::condition_variable wakes all waiters when a ticket   |
+| reaches the front of the queue.                           |
 |                                                           |
 | The class satisfies the BasicLockable requirements        |
 | (lock / unlock) so it can be used with std::lock_guard    |
@@ -68,14 +68,14 @@ public:
     |                                                       |
     | Increments the "serving" counter so that the next     |
     | ticket in the queue becomes eligible to proceed, then |
-    | wakes exactly one waiting thread.                     |
+    | wakes all waiting threads.                            |
     \*-----------------------------------------------------*/
     void unlock()
     {
         std::lock_guard<std::mutex> lock(internal_mutex);
 
         serving++;
-        cv.notify_one();
+        cv.notify_all();
     }
 
 private:
@@ -89,9 +89,9 @@ private:
 
     /*-----------------------------------------------------*\
     | Sleeps waiters until their ticket reaches the front   |
-    | of the queue.  notify_one() is used because only the  |
-    | single thread at the head of the queue should be      |
-    | woken.                                                |
+    | of the queue.  notify_all() is used so that the       |
+    | correct waiter always wakes up regardless of the      |
+    | implementation's condition variable scheduling.       |
     \*-----------------------------------------------------*/
     std::condition_variable cv;
 
