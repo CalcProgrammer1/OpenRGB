@@ -52,8 +52,12 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
     //Note that GeForce RTX 4080 Gigabyte AORUS MASTER 16G exposes two i2c bus with writable address 0x71 but one respond
     //0x00 0x00 0x00 0x00 so it should be the one controlling the LCD screen. So we skip this bus
 
-    //All seen responses start with 0xAB, so we check for this.
-    if(res < 0 || data_readpkt[0] != 0xAB)
+    //All seen responses start with 0xAB, so we check for this. A DDC/EDID
+    //style bus can echo the written command byte back for every read, so an
+    //all-0xAB response is a mirror, not a controller; every real controller
+    //seen so far follows 0xAB with version bytes (see table above).
+    if(res < 0 || data_readpkt[0] != 0xAB ||
+       (data_readpkt[1] == 0xAB && data_readpkt[2] == 0xAB && data_readpkt[3] == 0xAB))
     {
         // Assemble C-string with respons for debugging
         std::string text = "";
@@ -162,6 +166,7 @@ REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 4090 GAMING OC",                
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 4090 MASTER",                    DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX4090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX4090_MASTER_24G_SUB_DEV,      0x71);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 D MASTER",                  DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX5090D_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX5090D_MASTER_32G_SUB_DEV,     0x71);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5080 GAMING OC",                       DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX5080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX5080_GAMING_OC_16G_SUB_DEV,         0x71);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5080 MASTER ICE",                DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX5080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX5080_MASTER_ICE_16G_SUB_DEV,  0x71);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 GAMING OC",                       DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX5090D_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX5090_GAMING_OC_32G_SUB_DEV,         0x71);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER",                    DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX5090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX5090_MASTER_32G_SUB_DEV,      0x71);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER ICE",                DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX5090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX5090_MASTER_ICE_32G_SUB_DEV,  0x71);
