@@ -677,6 +677,15 @@ bool ProfileManager::SaveProfile(std::string profile_name)
         }
 
         /*-------------------------------------------------*\
+        | Preserve plugin data when no plugin manager is    |
+        | available to refresh it.                          |
+        \*-------------------------------------------------*/
+        if(existing_profile_json.contains("plugins"))
+        {
+            profile_json["plugins"] = existing_profile_json["plugins"];
+        }
+
+        /*-------------------------------------------------*\
         | Get plugin profile data if the plugin manager is  |
         | available.  If updating existing profile, only    |
         | update the plugins saved in that profile.         |
@@ -696,7 +705,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
 
                 for(unsigned int plugin_idx = 0; plugin_idx < plugin_manager->GetPluginCount(); plugin_idx++)
                 {
-                    if(profile_json["plugins"].contains(plugin_manager->GetPluginName(plugin_idx)))
+                    if(existing_profile_json["plugins"].contains(plugin_manager->GetPluginName(plugin_idx)))
                     {
                         plugins_to_save.push_back(plugin_manager->GetPluginName(plugin_idx));
                     }
