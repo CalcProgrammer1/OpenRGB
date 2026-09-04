@@ -489,11 +489,22 @@ contains(QMAKE_PLATFORM, linux) {
     HEADERS +=                                                                                  \
     dependencies/NVFC/nvapi.h                                                                   \
     i2c_smbus/Linux/i2c_smbus_linux.h                                                           \
-    AutoStart/AutoStart-Linux.h                                                                 \
     SPDAccessor/EE1004Accessor_Linux.h                                                          \
     SPDAccessor/SPD5118Accessor_Linux.h                                                         \
     SuspendResume/SuspendResume_Linux_FreeBSD.h                                                 \
     super_io/super_io.h                                                                         \
+
+    #-------------------------------------------------------------------------------------------#
+    # AutoStart implementation - Flatpak uses portal-based autostart, Linux uses desktop files  #
+    #   Auto-detect Flatpak build environment via /.flatpak-info file                           #
+    #-------------------------------------------------------------------------------------------#
+    exists(/.flatpak-info) {
+        HEADERS += AutoStart/AutoStart-Flatpak.h
+        DEFINES += FLATPAK_BUILD
+        PKGCONFIG += gio-2.0
+    } else {
+        HEADERS += AutoStart/AutoStart-Linux.h
+    }
 
     INCLUDEPATH +=                                                                              \
     dependencies/NVFC                                                                           \
@@ -559,12 +570,21 @@ contains(QMAKE_PLATFORM, linux) {
     i2c_smbus/Linux/i2c_smbus_linux.cpp                                                         \
     scsiapi/scsiapi_linux.c                                                                     \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
-    AutoStart/AutoStart-Linux.cpp                                                               \
     SPDAccessor/EE1004Accessor_Linux.cpp                                                        \
     SPDAccessor/SPD5118Accessor_Linux.cpp                                                       \
     SuspendResume/SuspendResume_Linux_FreeBSD.cpp                                               \
     startup/main_FreeBSD_Linux_MacOS.cpp                                                        \
     super_io/super_io.cpp                                                                       \
+
+    #-------------------------------------------------------------------------------------------#
+    # AutoStart implementation - Flatpak uses portal-based autostart, Linux uses desktop files  #
+    #   Auto-detect Flatpak build environment via /.flatpak-info file                           #
+    #-------------------------------------------------------------------------------------------#
+    exists(/.flatpak-info) {
+        SOURCES += AutoStart/AutoStart-Flatpak.cpp
+    } else {
+        SOURCES += AutoStart/AutoStart-Linux.cpp
+    }
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #

@@ -40,8 +40,14 @@ protected:
 #include "AutoStart-Windows.h"
 #endif
 
+#ifdef FLATPAK_BUILD
+#include "AutoStart-Flatpak.h"
+#endif
+
 #ifdef __linux__
+#ifndef FLATPAK_BUILD
 #include "AutoStart-Linux.h"
+#endif
 #endif
 
 #ifdef __APPLE__
