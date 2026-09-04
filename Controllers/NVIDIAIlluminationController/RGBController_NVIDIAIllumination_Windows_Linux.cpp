@@ -68,8 +68,6 @@ RGBController_NVIDIAIlluminationV1::RGBController_NVIDIAIlluminationV1(NVIDIAIll
     Static.value            = NVIDIA_ILLUMINATION_DIRECT;
     Static.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
     Static.color_mode       = MODE_COLORS_PER_LED;
-    Static.colors_min       = 1;
-    Static.colors_max       = 1;
     Static.brightness_min   = 0;
     Static.brightness       = 100;
     Static.brightness_max   = 100;
