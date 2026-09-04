@@ -510,6 +510,7 @@ static constexpr size_t   HIDPP20_PERKEY_WINDOW_MAX  = 8;
 static constexpr size_t   HIDPP20_PERKEY_WINDOW_MIN  = 2;
 static constexpr uint16_t HIDPP20_PERKEY_ACK_WAIT_MS = 60;
 static constexpr uint16_t HIDPP20_PERKEY_ACK_TAIL_MS = 25;
+static constexpr int      HIDPP20_PERKEY_SUMMARY_S   = 60;
 static constexpr uint8_t  HIDPP20_PERKEY_WINDOW_GROW_AFTER = 16;
 
 /*---------------------------------------------------------*\
@@ -1243,6 +1244,17 @@ private:
     size_t          perkey_window       = HIDPP20_PERKEY_WINDOW_MAX;
     uint8_t         perkey_clean_frames = 0;
 
+    /*-----------------------------------------------------*\
+    | Link quality counters, logged as one summary at most  |
+    | once per HIDPP20_PERKEY_SUMMARY_S.                    |
+    \*-----------------------------------------------------*/
+    size_t          perkey_frames_seen    = 0;
+    size_t          perkey_frames_partial = 0;
+    size_t          perkey_frames_aborted = 0;
+    size_t          perkey_frames_no_end  = 0;
+    size_t          perkey_acks_lost      = 0;
+    std::chrono::steady_clock::time_point perkey_summary_time;
+
     void            ResetPerKeyFrameState();
 
     /*-----------------------------------------------------*\
@@ -1293,7 +1305,6 @@ private:
     std::condition_variable pending_frame_cv;
     std::vector<RGBColor>   pending_frame;
     bool                    pending_frame_valid    = false;
-    uint32_t                pending_frames_skipped = 0;
 
     /*-----------------------------------------------------*\
     | Callbacks                                             |

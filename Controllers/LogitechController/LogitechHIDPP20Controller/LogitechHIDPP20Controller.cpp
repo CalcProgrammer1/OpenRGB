@@ -922,23 +922,6 @@ bool LogitechHIDPP20Controller::PrefersShortFrame(size_t len) const
 #endif
 }
 
-/*---------------------------------------------------------*\
-| Outgoing frame as hex, for trace-level wire comparison.   |
-\*---------------------------------------------------------*/
-static std::string hex_frame(const uint8_t* buf, size_t len)
-{
-    std::string out;
-    char        byte[4];
-
-    for(size_t i = 0; i < len; i++)
-    {
-        snprintf(byte, sizeof(byte), "%02X ", buf[i]);
-        out += byte;
-    }
-
-    return out;
-}
-
 int LogitechHIDPP20Controller::SendStandard
     (
     uint8_t         feat_idx,
@@ -1011,11 +994,6 @@ int LogitechHIDPP20Controller::SendStandard
         result = hid_write(dev, buf, msg_len);
     }
 
-    if(LogManager::get()->GetLogLevel() >= LL_TRACE)
-    {
-        LOG_TRACE("%s TX %s(result=%d)", LOG_TAG, hex_frame(buf, msg_len).c_str(), result);
-    }
-
     /*-----------------------------------------------------*\
     | A collection with no short report rejects the 0x10    |
     | write (G560, G933). Resend as long and stay long.     |
@@ -1041,11 +1019,6 @@ int LogitechHIDPP20Controller::SendStandard
         else
         {
             result = hid_write(dev, buf, LOGITECH_LONG_MESSAGE_LEN);
-        }
-
-        if(LogManager::get()->GetLogLevel() >= LL_TRACE)
-        {
-            LOG_TRACE("%s TX %s(result=%d)", LOG_TAG, hex_frame(buf, LOGITECH_LONG_MESSAGE_LEN).c_str(), result);
         }
 
         if(result >= 0)
@@ -1199,9 +1172,6 @@ int LogitechHIDPP20Controller::ReadStandardDirect
         {
             if(response.device_index != device_index)
             {
-                LOG_TRACE("%s ReadStandardDirect: dropping frame for index 0x%02X (ours 0x%02X)",
-                          LOG_TAG, response.device_index, device_index);
-
                 if(++drained > HIDPP20_READ_DRAIN_BUDGET)
                 {
                     LOG_DEBUG("%s ReadStandardDirect: drain budget (%d) exceeded",
@@ -4829,18 +4799,9 @@ int LogitechHIDPP20Controller::ProcessOnePerKeyResponse(int timeout_ms, uint8_t 
     {
         /*-------------------------------------------------*\
         | Echo format unknown for this function, count      |
-        | it toward the group, and log the payload so a     |
-        | real run teaches us what the firmware echoes.     |
+        | it toward the group.                              |
         \*-------------------------------------------------*/
         frame_unmatched_acks[resp_func & 0xF0]++;
-
-        char hex[16 * 3 + 1];
-        for(int b = 0; b < 16; b++)
-        {
-            snprintf(&hex[b * 3], 4, "%02X ", resp_data[b]);
-        }
-        LOG_TRACE("%s per-key ACK echo unmatched func=0x%02X data=[%s]",
-                  LOG_TAG, resp_func, hex);
     }
 
     return 1;
@@ -4902,11 +4863,6 @@ void LogitechHIDPP20Controller::SubmitPerKeyFrame(const std::vector<RGBColor>& f
     {
         std::lock_guard<std::mutex> lock(pending_frame_mutex);
 
-        if(pending_frame_valid)
-        {
-            pending_frames_skipped++;
-        }
-
         pending_frame       = frame;
         pending_frame_valid = true;
     }
@@ -4919,7 +4875,6 @@ void LogitechHIDPP20Controller::SenderThreadFunc()
     while(sender_running.load())
     {
         std::vector<RGBColor> frame;
-        uint32_t              skipped = 0;
 
         {
             std::unique_lock<std::mutex> lock(pending_frame_mutex);
@@ -4934,15 +4889,8 @@ void LogitechHIDPP20Controller::SenderThreadFunc()
                 return;
             }
 
-            frame                  = std::move(pending_frame);
-            pending_frame_valid    = false;
-            skipped                = pending_frames_skipped;
-            pending_frames_skipped = 0;
-        }
-
-        if(skipped > 0)
-        {
-            LOG_TRACE("%s sender skipped %u stale frame(s)", LOG_TAG, skipped);
+            frame               = std::move(pending_frame);
+            pending_frame_valid = false;
         }
 
         /*-------------------------------------------------*\
@@ -5437,6 +5385,7 @@ PerKeyFrameResult LogitechHIDPP20Controller::PerKeyFrameEnd()
         if(lost > 0)
         {
             perkey_clean_frames = 0;
+            perkey_acks_lost   += lost;
 
             if(perkey_window > HIDPP20_PERKEY_WINDOW_MIN)
             {
@@ -5446,9 +5395,6 @@ PerKeyFrameResult LogitechHIDPP20Controller::PerKeyFrameEnd()
                 {
                     perkey_window = HIDPP20_PERKEY_WINDOW_MIN;
                 }
-
-                LOG_DEBUG("%s %zu write ACK(s) lost, write window now %zu",
-                          LOG_TAG, lost, perkey_window);
             }
         }
         else if(perkey_window < HIDPP20_PERKEY_WINDOW_MAX &&
@@ -5472,34 +5418,55 @@ PerKeyFrameResult LogitechHIDPP20Controller::PerKeyFrameEnd()
         DrainStaleResponses();
     }
 
+    /*-----------------------------------------------------*\
+    | Link quality. A lost ACK or an unfinished frame is    |
+    | the link's normal backpressure and the next frame     |
+    | resends what did not land, so single frames are not   |
+    | logged. Counts are summarized once per interval,      |
+    | and only when something was lost.                     |
+    \*-----------------------------------------------------*/
     if(!result.attempted_zones.empty())
     {
-        std::chrono::steady_clock::time_point frame_done = std::chrono::steady_clock::now();
+        perkey_frames_seen++;
 
-        int send_ms = (int)std::chrono::duration_cast<std::chrono::milliseconds>(
-                            send_done - frame_first_write).count();
-        int ack_ms  = (int)std::chrono::duration_cast<std::chrono::milliseconds>(
-                            acks_done - send_done).count();
-        int fe_ms   = (int)std::chrono::duration_cast<std::chrono::milliseconds>(
-                            frame_done - acks_done).count();
-
-        if(complete)
+        if(frame_aborted)
         {
-            LOG_TRACE("%s frame committed: %zu zones, %zu packets (%zu echo-matched) "
-                      "send=%dms ack=%dms fe=%dms pred=%ums busy=%d win=%zu",
-                      LOG_TAG, result.attempted_zones.size(), frame_packets.size(),
-                      frame_exact_acks, send_ms, ack_ms, fe_ms, predicted_ms, busy_polls,
-                      perkey_window);
+            perkey_frames_aborted++;
         }
-        else
+        else if(!complete)
         {
-            LOG_DEBUG("%s frame %s: %zu/%zu zones acked (%zu packets, %zu echo-matched), "
-                      "frame_end=%d, send=%dms ack=%dms fe=%dms pred=%ums busy=%d win=%zu",
-                      LOG_TAG, frame_aborted ? "aborted" : "partial",
-                      result.acked_zones.size(), result.attempted_zones.size(),
-                      frame_packets.size(), frame_exact_acks,
-                      (int)result.frame_end_acked, send_ms, ack_ms, fe_ms, predicted_ms,
-                      busy_polls, perkey_window);
+            perkey_frames_partial++;
+        }
+
+        if(!result.frame_end_acked)
+        {
+            perkey_frames_no_end++;
+        }
+
+        std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+        if(perkey_summary_time == std::chrono::steady_clock::time_point())
+        {
+            perkey_summary_time = now;
+        }
+        else if(now - perkey_summary_time >= std::chrono::seconds(HIDPP20_PERKEY_SUMMARY_S))
+        {
+            if(perkey_frames_partial > 0 || perkey_frames_aborted > 0 ||
+               perkey_frames_no_end  > 0 || perkey_acks_lost      > 0)
+            {
+                LOG_DEBUG("%s per-key link, last %ds: %zu frames, %zu partial, %zu aborted, "
+                          "%zu without FrameEnd ack, %zu ACKs lost, window %zu",
+                          LOG_TAG, HIDPP20_PERKEY_SUMMARY_S, perkey_frames_seen,
+                          perkey_frames_partial, perkey_frames_aborted,
+                          perkey_frames_no_end, perkey_acks_lost, perkey_window);
+            }
+
+            perkey_frames_seen    = 0;
+            perkey_frames_partial = 0;
+            perkey_frames_aborted = 0;
+            perkey_frames_no_end  = 0;
+            perkey_acks_lost      = 0;
+            perkey_summary_time   = now;
         }
     }
 
@@ -5855,15 +5822,6 @@ void LogitechHIDPP20Controller::SetZoneEffect
     \*-----------------------------------------------------*/
     data[12] = persist ? 0x01 : 0x00;
 
-    LOG_DEBUG("%s SetEffect cluster=%u idx=%u id=0x%04X "
-              "data=[%02X %02X %02X %02X %02X %02X %02X %02X "
-              "%02X %02X %02X %02X %02X %02X %02X %02X]",
-              LOG_TAG, cluster_idx, effect_idx, effect_id,
-              data[0], data[1], data[2], data[3],
-              data[4], data[5], data[6], data[7],
-              data[8], data[9], data[10], data[11],
-              data[12], data[13], data[14], data[15]);
-
     blankFAPmessage response;
     SendAckedIntoFAP(caps.idx_rgb_effects, caps.fn_set_effect,
                      data, 16, response);
@@ -5951,9 +5909,6 @@ void LogitechHIDPP20Controller::SetHeadsetRGBHostmodeColors
     uint8_t frame_end[4] = { 0x01, 0x00, 0x00, 0x00 };
     SendAckedIntoFAP(caps.idx_headset_rgb_hostmode, FN_0620_FRAME_END,
                      frame_end, sizeof(frame_end), response);
-
-    LOG_TRACE("%s 0x0620 wrote %zu zone(s) in %zu color group(s), FrameEnd[0x01]",
-              LOG_TAG, zones.size(), groups.size());
 }
 
 /*---------------------------------------------------------*\
