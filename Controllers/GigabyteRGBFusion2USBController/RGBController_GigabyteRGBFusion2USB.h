@@ -5,7 +5,7 @@
 |   motherboard                                             |
 |                                                           |
 |   jackun                                      08 Jan 2020 |
-|   megadjc                                     31 Jul 2025 |
+|   megadjc                                     03 Sep 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -19,8 +19,6 @@
 #include "GigabyteRGBFusion2USBController.h"
 #include "SettingsManager.h"
 
-#define RGBFUSION2_DIGITAL_LEDS_MIN         0
-#define RGBFUSION2_DIGITAL_LEDS_MAX         1024
 #define RGBFUSION2_BRIGHTNESS_MIN           0
 #define RGBFUSION2_BRIGHTNESS_MAX           255
 #define RGBFUSION2_SPEED_MIN                9
@@ -65,8 +63,11 @@ private:
 
     RGBFusion2USBController*    controller;
     uint8_t                     device_num;
+    uint8_t                     fw_id           = 0;
     RGBColor                    null_color      = 0;
     bool                        supports_gen2   = 0;
+    bool                        entire_device_effect_active = false;
+    bool                        persist_lighting_on_exit    = false;
     /*---------------------------------------------------------*\
     | The intial value of device_index should point to the      |
     |   layout for the generic_device                           |

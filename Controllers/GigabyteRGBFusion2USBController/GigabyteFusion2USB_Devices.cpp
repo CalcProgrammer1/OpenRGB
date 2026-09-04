@@ -4,8 +4,8 @@
 |   Gigabyte Fusion 2 USB Device layouts and                |
 |     and mapping to the device IDs stored on chip          |
 |                                                           |
-|   megadjc                                     31 Jul 2025 |
 |   chrism                                      29 Aug 2025 |
+|   megadjc                                     03 Sep 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -19,16 +19,16 @@
 static const gb_fusion2_zone common_d_led_zone =
 {
     HDR_D_LED1,
-    0,
-    1024,
+    RGBFUSION2_DLED_LEDS_MIN,
+    RGBFUSION2_DLED_LEDS_MAX,
     "D_LED"
 };
 
 static const gb_fusion2_zone common_gc_usb_d_led_zone =
 {
     LED1,
-    0,
-    1024,
+    RGBFUSION2_DLED_LEDS_MIN,
+    RGBFUSION2_DLED_LEDS_MAX,
     "D_LED"
 };
 
@@ -36,48 +36,48 @@ static const gb_fusion2_zone common_gc_usb_d_led_zone =
 static const gb_fusion2_zone common_d_led1_zone =
 {
     HDR_D_LED1,
-    0,
-    1024,
+    RGBFUSION2_DLED_LEDS_MIN,
+    RGBFUSION2_DLED_LEDS_MAX,
     "D_LED1"
 };
 
 static const gb_fusion2_zone common_dled1_dled2_zone =
 {
     HDR_D_LED1,
-    0,
-    1024,
+    RGBFUSION2_DLED_LEDS_MIN,
+    RGBFUSION2_DLED_LEDS_MAX,
     "D_LED1/D_LED2"
 };
 
 static const gb_fusion2_zone common_argb_v2_1_zone =
 {
     HDR_D_LED1,
-    0,
-    1024,
+    RGBFUSION2_57XX_LEDS_MIN,
+    RGBFUSION2_57XX_LEDS_MAX,
     "ARGB_V2_1"
 };
 
 static const gb_fusion2_zone alt_argb_v2_1_zone =
 {
     LED3,
-    0,
-    1024,
+    RGBFUSION2_57XX_LEDS_MIN,
+    RGBFUSION2_57XX_LEDS_MAX,
     "ARGB_V2_1"
 };
 
 static const gb_fusion2_zone common_argb_v2_1_3_zone =
 {
     HDR_D_LED1,
-    0,
-    1024,
+    RGBFUSION2_57XX_LEDS_MIN,
+    RGBFUSION2_57XX_LEDS_MAX,
     "ARGB_V2_1/ARGB_V2_3"
 };
 
 static const gb_fusion2_zone common_d_led2_zone =
 {
     HDR_D_LED2,
-    0,
-    1024,
+    RGBFUSION2_DLED_LEDS_MIN,
+    RGBFUSION2_DLED_LEDS_MAX,
     "D_LED2"
 };
 
@@ -85,47 +85,47 @@ static const gb_fusion2_zone common_d_led2_aux_zone =
 {
     HDR_D_LED2,
     2,
-    1024,
+    RGBFUSION2_DLED_LEDS_MAX,
     "D_LED2 + Aux"
 };
 
 static const gb_fusion2_zone common_argb_v2_2_zone =
 {
     HDR_D_LED2,
-    0,
-    1024,
+    RGBFUSION2_57XX_LEDS_MIN,
+    RGBFUSION2_57XX_LEDS_MAX,
     "ARGB_V2_2"
 };
 
 static const gb_fusion2_zone alt_argb_v2_2_zone =
 {
     LED4,
-    0,
-    1024,
+    RGBFUSION2_57XX_LEDS_MIN,
+    RGBFUSION2_57XX_LEDS_MAX,
     "ARGB_V2_2"
 };
 
 static const gb_fusion2_zone common_argb_v2_3_1_zone =
 {
     HDR_D_LED1,
-    0,
-    1024,
+    RGBFUSION2_57XX_LEDS_MIN,
+    RGBFUSION2_57XX_LEDS_MAX,
     "ARGB_V2_3"
 };
 
 static const gb_fusion2_zone common_argb_v2_3_zone =
 {
     HDR_D_LED3,
-    0,
-    1024,
+    RGBFUSION2_57XX_LEDS_MIN,
+    RGBFUSION2_57XX_LEDS_MAX,
     "ARGB_V2_3"
 };
 
 static const gb_fusion2_zone common_argb_v2_4_zone =
 {
     HDR_D_LED4,
-    0,
-    1024,
+    RGBFUSION2_57XX_LEDS_MIN,
+    RGBFUSION2_57XX_LEDS_MAX,
     "ARGB_V2_4"
 };
 

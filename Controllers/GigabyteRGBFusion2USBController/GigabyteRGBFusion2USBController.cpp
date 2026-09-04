@@ -4,7 +4,7 @@
 |   Driver for Gigabyte Aorus RGB Fusion 2 USB motherboard  |
 |                                                           |
 |   jackun                                      08 Jan 2020 |
-|   megadjc                                     31 Jul 2025 |
+|   megadjc                                     03 Sep 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -55,6 +55,27 @@ static LEDCount LedCountToEnum(unsigned int c)
     }
 }
 
+static LEDCount LedCountFromEnum(uint8_t count){
+    switch(count & 0x0F)
+    {
+        case LEDS_32:
+            return LEDS_32;
+
+        case LEDS_64:
+            return LEDS_64;
+
+        case LEDS_256:
+            return LEDS_256;
+
+        case LEDS_512:
+            return LEDS_512;
+
+        case LEDS_1024:
+        default:
+            return LEDS_1024;
+    }
+}
+
 RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char* path, std::string mb_name, uint16_t pid): dev(handle), product_id(pid)
 {
     name        = mb_name;
@@ -96,9 +117,12 @@ bool RGBFusion2USBController::RefreshHardwareInfo()
     }
 
     std::memcpy(&report, buffer, sizeof(IT8297Report));
-    report_loaded = true;
-    device_num  = report.device_num;
-    description = std::string(report.str_product, 28);
+
+    report_loaded   = true;
+    device_num      = report.device_num;
+    fw_id           = report.fw_ver >> 24;
+    description     = std::string(report.str_product, 28);
+
     if(std::string::iterator nul = std::find(description.begin(), description.end(), '\0');
        nul != description.end())
     {
@@ -122,10 +146,12 @@ bool RGBFusion2USBController::RefreshHardwareInfo()
         chip_id = text;
     }
 
-    D_LED1_count = LedCountToEnum(report.curr_led_count_low  & 0x0F);
-    D_LED2_count = LedCountToEnum((report.curr_led_count_low  >> 4) & 0x0F);
-    D_LED3_count = LedCountToEnum(report.curr_led_count_high & 0x0F);
-    D_LED4_count = LedCountToEnum((report.curr_led_count_high >> 4) & 0x0F);
+    ARGB_count[0] = LedCountFromEnum(report.argb01_count & 0x0F);
+    ARGB_count[1] = LedCountFromEnum((report.argb01_count >> 4) & 0x0F);
+    ARGB_count[2] = LedCountFromEnum(report.argb23_count & 0x0F);
+    ARGB_count[3] = LedCountFromEnum((report.argb23_count >> 4) & 0x0F);
+    ARGB_count[4] = LedCountFromEnum(report.argb45_count & 0x0F);
+    ARGB_count[5] = LedCountFromEnum((report.argb45_count >> 4) & 0x0F);
 
     cal_data.dled[0]   = report.cal_strip0;
     cal_data.dled[1]   = report.cal_strip1;
@@ -148,26 +174,26 @@ bool RGBFusion2USBController::RefreshHardwareInfo()
             std::memcpy(&cali, buffer2, sizeof(IT5711Calibration));
             cali_loaded = true;
 
-            cal_data.dled[2]  = cali.cal_strip2;
-            cal_data.dled[3]  = cali.cal_strip3;
-            cal_data.spare[2] = cali.cal_spare2;
-            cal_data.spare[3] = cali.cal_spare3;
+            cal_data.dled[2] = cali.cal_strip2;
+            cal_data.dled[3] = cali.cal_strip3;
+            cal_data.dled[4] = cali.cal_strip4;
+            cal_data.dled[5] = cali.cal_strip5;
         }
         else
         {
-            cal_data.dled[2]  = 0;
-            cal_data.dled[3]  = 0;
-            cal_data.spare[2] = 0;
-            cal_data.spare[3] = 0;
-            cali_loaded       = false;
+            cal_data.dled[2] = 0;
+            cal_data.dled[3] = 0;
+            cal_data.dled[4] = 0;
+            cal_data.dled[5] = 0;
+            cali_loaded      = false;
         }
     }
     else
     {
-        cal_data.dled[2]  = 0;
-        cal_data.dled[3]  = 0;
-        cal_data.spare[2] = 0;
-        cal_data.spare[3] = 0;
+        cal_data.dled[2] = 0;
+        cal_data.dled[3] = 0;
+        cal_data.dled[4] = 0;
+        cal_data.dled[5] = 0;
     }
 
     return report_loaded;
@@ -248,17 +274,17 @@ EncodedCalibration RGBFusion2USBController::GetCalibration(bool refresh_from_hw)
 
     if(product_id == 0x5711)
     {
-        out.dled[2]  = DecodeCalibrationBuffer(cal_data.dled[2]);
-        out.dled[3]  = DecodeCalibrationBuffer(cal_data.dled[3]);
-        out.spare[2] = DecodeCalibrationBuffer(cal_data.spare[2]);
-        out.spare[3] = DecodeCalibrationBuffer(cal_data.spare[3]);
+        out.dled[2] = DecodeCalibrationBuffer(cal_data.dled[2]);
+        out.dled[3] = DecodeCalibrationBuffer(cal_data.dled[3]);
+        out.dled[4] = DecodeCalibrationBuffer(cal_data.dled[4]);
+        out.dled[5] = DecodeCalibrationBuffer(cal_data.dled[5]);
     }
     else
     {
-        out.dled[2]  = "OFF";
-        out.dled[3]  = "OFF";
-        out.spare[2] = "OFF";
-        out.spare[3] = "OFF";
+        out.dled[2] = "OFF";
+        out.dled[3] = "OFF";
+        out.dled[4] = "OFF";
+        out.dled[5] = "OFF";
     }
 
     return out;
@@ -278,9 +304,9 @@ bool RGBFusion2USBController::SetCalibration(const EncodedCalibration& cal, bool
         && EncodeCalibrationBuffer(cal.spare[1])  == cal_data.spare[1]
         && (product_id != 0x5711
         || (EncodeCalibrationBuffer(cal.dled[2])  == cal_data.dled[2]
-        && EncodeCalibrationBuffer(cal.dled[3])   == cal_data.dled[3]
-        && EncodeCalibrationBuffer(cal.spare[2])  == cal_data.spare[2]
-        && EncodeCalibrationBuffer(cal.spare[3])  == cal_data.spare[3])))
+        && EncodeCalibrationBuffer(cal.dled[3])    == cal_data.dled[3]
+        && EncodeCalibrationBuffer(cal.dled[4])    == cal_data.dled[4]
+        && EncodeCalibrationBuffer(cal.dled[5])    == cal_data.dled[5])))
     {
         return true;
     }
@@ -297,8 +323,8 @@ bool RGBFusion2USBController::SetCalibration(const EncodedCalibration& cal, bool
     {
         desired.c.d_strip_c2    = EncodeCalibrationBuffer(cal.dled[2]);
         desired.c.d_strip_c3    = EncodeCalibrationBuffer(cal.dled[3]);
-        desired.c.c_spare2      = EncodeCalibrationBuffer(cal.spare[2]);
-        desired.c.c_spare3      = EncodeCalibrationBuffer(cal.spare[3]);
+        desired.c.d_strip_c4    = EncodeCalibrationBuffer(cal.dled[4]);
+        desired.c.d_strip_c5    = EncodeCalibrationBuffer(cal.dled[5]);
     }
 
     int rc = SendPacket(desired.buffer);
@@ -309,7 +335,7 @@ bool RGBFusion2USBController::SetCalibration(const EncodedCalibration& cal, bool
 
     ResetController();
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
-    SaveCalState();
+    SaveLightingStateToFlash();
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
 
     cal_data.dled[0]   = desired.c.d_strip_c0;
@@ -320,40 +346,70 @@ bool RGBFusion2USBController::SetCalibration(const EncodedCalibration& cal, bool
 
     if(product_id == 0x5711)
     {
-        cal_data.dled[2]  = desired.c.d_strip_c2;
-        cal_data.dled[3]  = desired.c.d_strip_c3;
-        cal_data.spare[2] = desired.c.c_spare2;
-        cal_data.spare[3] = desired.c.c_spare3;
+        cal_data.dled[2] = desired.c.d_strip_c2;
+        cal_data.dled[3] = desired.c.d_strip_c3;
+        cal_data.dled[4] = desired.c.d_strip_c4;
+        cal_data.dled[5] = desired.c.d_strip_c5;
     }
     else
     {
-        cal_data.dled[2]  = 0u;
-        cal_data.dled[3]  = 0u;
-        cal_data.spare[2] = 0u;
-        cal_data.spare[3] = 0u;
+        cal_data.dled[2] = 0u;
+        cal_data.dled[3] = 0u;
+        cal_data.dled[4] = 0u;
+        cal_data.dled[5] = 0u;
     }
 
     return true;
 }
 
-void RGBFusion2USBController::SetLedCount(unsigned int c0, unsigned int c1, unsigned int c2, unsigned int c3)
+void RGBFusion2USBController::SetLedCount(
+    unsigned int c0,
+    unsigned int c1,
+    unsigned int c2,
+    unsigned int c3,
+    unsigned int c4,
+    unsigned int c5)
 {
-    LEDCount new_d1 = LedCountToEnum(c0);
-    LEDCount new_d2 = LedCountToEnum(c1);
-    LEDCount new_d3 = LedCountToEnum(c2);
-    LEDCount new_d4 = LedCountToEnum(c3);
+    LEDCount new_count[6] =
+    {
+        LedCountToEnum(c0),
+        LedCountToEnum(c1),
+        LedCountToEnum(c2),
+        LedCountToEnum(c3),
+        LedCountToEnum(c4),
+        LedCountToEnum(c5)
+    };
 
-    if(new_d1 == D_LED1_count && new_d2 == D_LED2_count && new_d3 == D_LED3_count && new_d4 == D_LED4_count)
+    bool changed = false;
+
+    for(unsigned int i = 0; i < 6; i++)
+    {
+        if(new_count[i] != ARGB_count[i])
+        {
+            changed = true;
+            break;
+        }
+    }
+
+    if(!changed)
     {
         return;
     }
 
-    D_LED1_count    = new_d1;
-    D_LED2_count    = new_d2;
-    D_LED3_count    = new_d3;
-    D_LED4_count    = new_d4;
+    for(unsigned int i = 0; i < 6; i++)
+    {
+        ARGB_count[i] = new_count[i];
+    }
 
-    SendCCReport(0x34, (new_d2 << 4) | new_d1, (new_d4 << 4) | new_d3);
+    unsigned char buffer[FUSION2_USB_BUFFER_SIZE] = {0};
+
+    buffer[0] = report_id;
+    buffer[1] = 0x34;
+    buffer[2] = (new_count[1] << 4) | new_count[0];
+    buffer[3] = (new_count[3] << 4) | new_count[2];
+    buffer[4] = (new_count[5] << 4) | new_count[4];
+
+    SendPacket(buffer);
 }
 
 /*---------------------------------------------------------*\
@@ -371,7 +427,7 @@ bool RGBFusion2USBController::SetStripBuiltinEffectState(int hdr, bool enable)
                 bitmask = 0x01;
                 break;
             case 0x5711:
-                bitmask = 0x01 | 0x02 | 0x08 | 0x10;
+                bitmask = 0x01 | 0x02 | 0x08 | 0x10 | 0x20 | 0x40;
                 break;
             default:
                 bitmask = 0x01 | 0x02;
@@ -395,6 +451,14 @@ bool RGBFusion2USBController::SetStripBuiltinEffectState(int hdr, bool enable)
             case HDR_D_LED4_ARGB:
                 bitmask = 0x10;
                 break;
+             case LED10:
+            case ONBOARD1_ARGB:
+                bitmask = 0x20;
+                break;
+            case LED11:
+            case ONBOARD2_ARGB:
+                bitmask = 0x40;
+                break;
             default:
                 bitmask = 0x01;
                 break;
@@ -416,17 +480,17 @@ bool RGBFusion2USBController::SetStripBuiltinEffectState(int hdr, bool enable)
 }
 
 /*---------------------------------------------------------*\
-| Persist LED config data                                   |
+| Enable LED Lighting Persistence                           |
 \*---------------------------------------------------------*/
-bool RGBFusion2USBController::SaveLEDState(bool e)
+bool RGBFusion2USBController::SetPersistentLightingEnabled(bool e)
 {
     return SendCCReport(0x47, e ? 1 : 0);
 }
 
 /*---------------------------------------------------------*\
-| Persist calibration                                       |
+| Save lighting state to flash                              |
 \*---------------------------------------------------------*/
-bool RGBFusion2USBController::SaveCalState()
+bool RGBFusion2USBController::SaveLightingStateToFlash()
 {
     return SendCCReport(0x5E, 0);
 }
@@ -440,7 +504,7 @@ bool RGBFusion2USBController::EnableBeat(bool e)
 }
 
 /*---------------------------------------------------------*\
-| Set Lamp Array mode (MSDL)                                |
+| Set Lamp Array mode                                       |
 \*---------------------------------------------------------*/
 bool RGBFusion2USBController::EnableLampArray(bool enable)
 {
@@ -459,6 +523,11 @@ std::string RGBFusion2USBController::GetDeviceName()
 std::string RGBFusion2USBController::GetDeviceDescription()
 {
     return(description);
+}
+
+uint8_t RGBFusion2USBController::GetFWID()
+{
+    return(fw_id);
 }
 
 std::string RGBFusion2USBController::GetFWVersion()
@@ -511,6 +580,12 @@ void RGBFusion2USBController::SetStripColors(unsigned int hdr, RGBColor* colors,
             break;
         case HDR_D_LED4_ARGB:
             byteorder = cal_data.dled[3];
+            break;
+        case ONBOARD1_ARGB:
+            byteorder = cal_data.dled[4];
+            break;
+        case ONBOARD2_ARGB:
+            byteorder = cal_data.dled[5];
             break;
         default:
             byteorder = cal_data.dled[0];
@@ -618,7 +693,7 @@ void RGBFusion2USBController::SetLEDEffect(int led, int mode, unsigned int speed
             pkt.e.effect_param0     = 7;
             break;
         case EFFECT_WAVE:
-            pkt.e.period0           = (((speed + 1)^2) + (speed + 1) + 10) * 5 / 2;
+            pkt.e.period0           = ((speed + 1) * (speed + 1) + (speed + 1) + 10) * 5 / 2;
             pkt.e.effect_param0     = 7;
             pkt.e.effect_param1     = 1;
             break;
@@ -719,7 +794,8 @@ void RGBFusion2USBController::ResetController()
 | Check controller for gen2 ARGB support                    |
 |   Checks for supported device number                      |
 |   Then checks for supported controllers                   |
-|   Then checks for supported feature bit (SaveLEDState)    |
+|   Then checks for supported feature bit                   |
+|       (SetPersistentLighting)                             |
 |   Finally checks for strip detection value.               |
 \*---------------------------------------------------------*/
 bool RGBFusion2USBController::SupportsGen2() const
@@ -829,10 +905,10 @@ bool RGBFusion2USBController::ScanGen2Strips(uint8_t enabled_headers)
 
         dst.totalLeds               = total_leds;
 
-        SetLedCount(0, 0, 0, 0);
+        SetLedCount(0, 0, 0, 0, 0, 0);
         std::this_thread::sleep_for(std::chrono::milliseconds(20));
 
-        SaveLEDState(false);
+        SetPersistentLightingEnabled(false);
         std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
 
@@ -842,7 +918,7 @@ bool RGBFusion2USBController::ScanGen2Strips(uint8_t enabled_headers)
 /*---------------------------------------------------------*\
 | Check controller for persistent state support             |
 \*---------------------------------------------------------*/
-bool RGBFusion2USBController::SupportsSaveLEDState() const
+bool RGBFusion2USBController::SupportsSetPersistentLighting() const
 {
     return(report_loaded && (report.support_cmd_flag & 0x01));
 }

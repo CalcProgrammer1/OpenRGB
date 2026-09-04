@@ -5,7 +5,7 @@
 |   motherboard                                             |
 |                                                           |
 |   jackun                                      08 Jan 2020 |
-|   megadjc                                     31 Jul 2025 |
+|   megadjc                                     03 Sep 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -15,6 +15,112 @@
 #include "LogManager.h"
 #include "RGBController_GigabyteRGBFusion2USB.h"
 #include "ResourceManager.h"
+struct IT5711ZoneCounts
+{
+    uint16_t led10 = 0;
+    uint16_t led11 = 0;
+};
+
+/*---------------------------------------------------------*\
+| Sets LED10/11 counts based on firmware series             |
+\*---------------------------------------------------------*/
+static IT5711ZoneCounts GetIT5711ZoneCounts(uint8_t fw_id, uint32_t lid)
+{
+    switch(fw_id)
+    {
+        case 0x00:
+            return {27, 2};
+
+        case 0x02:
+            switch(lid)
+            {
+                case 0x013001DF:
+                    return {4, 6};
+
+                case 0x015001DF:
+                    return {6, 6};
+
+                default:
+                    return {14, 6};
+            }
+
+        case 0x03:
+        case 0x08:
+            return {13, 0};
+
+        case 0x05:
+        case 0x0C:
+            switch(lid)
+            {
+                case 0x016001DF:
+                    return {8, 4};
+
+                case 0x028001DF:
+                    return {26, 18};
+
+                default:
+                    return {16, 4};
+            }
+
+        case 0x06:
+        case 0x09:
+            return {12, 0};
+
+        default:
+            return {};
+    }
+}
+
+static void ApplyIT5711ZoneCounts(gb_fusion2_device* layout, uint8_t fw_id, std::vector<gb_fusion2_zone*>& allocated_zones)
+{
+    const IT5711ZoneCounts counts = GetIT5711ZoneCounts(fw_id, layout->layout_id);
+
+    for(uint8_t zone_idx = 0; zone_idx < GB_FUSION2_ZONES_MAX; ++zone_idx)
+    {
+        const gb_fusion2_zone* zone = (*layout->zones)[zone_idx];
+
+        if(!zone)
+        {
+            continue;
+        }
+
+        uint16_t led_count = 0;
+
+        switch(zone->idx)
+        {
+            case LED10:
+                led_count = counts.led10;
+                break;
+
+            case LED11:
+                led_count = counts.led11;
+                break;
+
+            default:
+                continue;
+        }
+
+        /*-----------------------------------------------------*\
+        | A zero count means that no firmware mapping is known  |
+        \*-----------------------------------------------------*/
+        if(led_count == 0)
+        {
+            continue;
+        }
+
+        /*-----------------------------------------------------*\
+        | Static layouts contain const zone objects, so create  |
+        | a mutable per-instance copy before changing the count |
+        \*-----------------------------------------------------*/
+        gb_fusion2_zone* new_zone = new gb_fusion2_zone(*zone);
+
+        new_zone->leds_min = led_count;
+        new_zone->leds_max = led_count;
+
+        (*layout->zones)[zone_idx] = new_zone;
+        allocated_zones.push_back(new_zone);
+    }
+}
 
 /**------------------------------------------------------------------*\
     @name Gigabyte RGB Fusion 2 USB
@@ -27,7 +133,6 @@
     @comment The Fusion 2 USB controller applies to most AMD and
         Intel mainboards from the X570 and z390 chipsets onwards.
 \*-------------------------------------------------------------------*/
-
 RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController* controller_ptr, std::string detector)
 {
     controller                  = controller_ptr;
@@ -41,6 +146,7 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     serial                      = controller->GetSerial();
     product_id                  = controller->GetProductID();
     device_num                  = controller->GetDeviceNum();
+    fw_id                       = controller->GetFWID();
 
 
     mode Direct;
@@ -231,7 +337,7 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Wave4.color_mode            = MODE_COLORS_NONE;
     modes.push_back(Wave4);
 
-    if(!controller->SupportsSaveLEDState())
+    if(!controller->SupportsSetPersistentLighting())
     {
         for(unsigned int mode_idx = 0; mode_idx < modes.size(); mode_idx++)
         {
@@ -254,6 +360,13 @@ RGBController_RGBFusion2USB::~RGBController_RGBFusion2USB()
 
     Shutdown();
 
+    if(persist_lighting_on_exit && active_mode >= 0
+                                && active_mode < static_cast<int>(modes.size())
+                                && (modes[active_mode].flags & MODE_FLAG_MANUAL_SAVE))
+    {
+        DeviceSaveMode();
+    }
+
     delete controller;
 }
 
@@ -271,6 +384,17 @@ void RGBController_RGBFusion2USB::Init_Controller()
     RvrseLedHeaders ReverseLedLookup     = reverse_map(LedLookup);
     SettingsManager* settings_manager    = ResourceManager::get()->GetSettingsManager();
     nlohmann::json device_settings       = settings_manager->GetSettings(detector_name);
+
+    /*---------------------------------------------------------*\
+    | Remove obsolete layout settings                           |
+    \*---------------------------------------------------------*/
+    for(const char* section : {"MotherboardLayouts", "CustomLayout"})
+    {
+        if(device_settings.erase(section))
+        {
+            settings_changed = true;
+        }
+    }
 
     /*---------------------------------------------------------*\
     | Checks for Gen2 support and adds flag to json.            |
@@ -300,6 +424,16 @@ void RGBController_RGBFusion2USB::Init_Controller()
             device_settings[SectionGen2].erase("Enabled");
             settings_changed = true;
         }
+        /*-----------------------------------------------------*\
+        | Remove settings for unsupported Gen2 headers          |
+        \*-----------------------------------------------------*/
+        for(unsigned int header = header_count; header < 4; ++header)
+        {
+            if(device_settings[SectionGen2].erase(gen2_header_keys[header]))
+            {
+                settings_changed = true;
+            }
+        }
 
         /*-----------------------------------------------------*\
         | Create and read the per-header settings               |
@@ -325,9 +459,30 @@ void RGBController_RGBFusion2USB::Init_Controller()
             controller->ScanGen2Strips(enabled_headers);
         }
     }
-    else if(device_settings.contains(SectionGen2))
+    else if(device_num == 0 && device_settings.contains(SectionGen2))
     {
         device_settings.erase(SectionGen2);
+        settings_changed = true;
+    }
+
+    /*---------------------------------------------------------*\
+    | Persistent lighting on controller teardown                |
+    \*---------------------------------------------------------*/
+    const bool supports_persistent_save = controller->SupportsSetPersistentLighting();
+
+    if(supports_persistent_save)
+    {
+        if(!device_settings.contains("PersistLightingOnExit"))
+        {
+            device_settings["PersistLightingOnExit"] = false;
+            settings_changed = true;
+        }
+
+        persist_lighting_on_exit = device_settings["PersistLightingOnExit"];
+    }
+    else if(device_num == 0 && device_settings.contains("PersistLightingOnExit"))
+    {
+        device_settings.erase("PersistLightingOnExit");
         settings_changed = true;
     }
 
@@ -405,8 +560,39 @@ void RGBController_RGBFusion2USB::Init_Controller()
             }
             else
             {
-                nlohmann::json& cdata = cal_sec["Data"];
+                nlohmann::json& cdata           = cal_sec["Data"];
+                const nlohmann::json old_cdata  = cdata;
+
+                /*-----------------------------------------------------*\
+                | Migrate legacy ARGB4/5 calibration names              |
+                \*-----------------------------------------------------*/
+                if(cdata.contains("Spare2"))
+                {
+                    if(!cdata.contains("ONBOARD1_ARGB"))
+                    {
+                        cdata["ONBOARD1_ARGB"] = cdata["Spare2"];
+                    }
+
+                    cdata.erase("Spare2");
+                }
+
+                if(cdata.contains("Spare3"))
+                {
+                    if(!cdata.contains("ONBOARD2_ARGB"))
+                    {
+                        cdata["ONBOARD2_ARGB"] = cdata["Spare3"];
+                    }
+
+                    cdata.erase("Spare3");
+                }
+
                 FillMissingWith(cdata, hw_cal);
+
+                if(cdata != old_cdata)
+                {
+                    settings_manager->SetSettings(detector_name, device_settings);
+                    settings_manager->SaveSettings();
+                }
 
                 if(!cal_enable)
                 {
@@ -429,17 +615,17 @@ void RGBController_RGBFusion2USB::Init_Controller()
 
                 if(controller->GetProductID() == 0x5711)
                 {
-                    desired.dled[2]  = GET_JSON_VAL_ELSE_OFF(cdata, "HDR_D_LED3");
-                    desired.dled[3]  = GET_JSON_VAL_ELSE_OFF(cdata, "HDR_D_LED4");
-                    desired.spare[2] = GET_JSON_VAL_ELSE_OFF(cdata, "Spare2");
-                    desired.spare[3] = GET_JSON_VAL_ELSE_OFF(cdata, "Spare3");
+                    desired.dled[2] = GET_JSON_VAL_ELSE_OFF(cdata, "HDR_D_LED3");
+                    desired.dled[3] = GET_JSON_VAL_ELSE_OFF(cdata, "HDR_D_LED4");
+                    desired.dled[4] = GET_JSON_VAL_ELSE_OFF(cdata, "ONBOARD1_ARGB");
+                    desired.dled[5] = GET_JSON_VAL_ELSE_OFF(cdata, "ONBOARD2_ARGB");
                 }
                 else
                 {
-                    desired.dled[2]  = "OFF";
-                    desired.dled[3]  = "OFF";
-                    desired.spare[2] = "OFF";
-                    desired.spare[3] = "OFF";
+                    desired.dled[2] = "OFF";
+                    desired.dled[3] = "OFF";
+                    desired.dled[4] = "OFF";
+                    desired.dled[5] = "OFF";
                 }
                     controller->SetCalibration(desired, false);
             }
@@ -487,6 +673,15 @@ void RGBController_RGBFusion2USB::Init_Controller()
     {
         LoadCustomLayoutFromJson(device_settings[SectionCustom]["Data"], LedLookup, &instance_layout);
     }
+
+    /*---------------------------------------------------------*\
+    | Apply physical onboard ARGB LED counts for IT5711         |
+    \*---------------------------------------------------------*/
+    if(product_id == 0x5711)
+    {
+        ApplyIT5711ZoneCounts(&instance_layout, fw_id, allocated_zones);
+    }
+
     /*---------------------------------------------------------------------*\
     | Culls the mode support based on layout_id.                            |
     \*---------------------------------------------------------------------*/
@@ -551,7 +746,7 @@ void RGBController_RGBFusion2USB::SetupZones()
 
     zones.resize(num_zones);
 
-    unsigned int d1 = 0, d2 = 0, d3 = 0, d4 = 0;
+    unsigned int d1 = 0, d2 = 0, d3 = 0, d4 = 0, d5 = 0, d6 =0;
 
     /*-----------------------------------------------------*\
     | Retrieve the latest Gen2 scan results                 |
@@ -579,10 +774,12 @@ void RGBController_RGBFusion2USB::SetupZones()
 
         const Gen2StripInfo* gen2_info = nullptr;
 
+        bool gen2_zone =  zone_at_idx->idx != LED10
+                       && zone_at_idx->idx != LED11;
         /*-------------------------------------------------*\
         | Locate the Gen2 result corresponding to this zone |
         \*-------------------------------------------------*/
-        if(supports_gen2 && !fixed_zone)
+        if(supports_gen2 && !fixed_zone && gen2_zone)
         {
             unsigned int slot = 0;
 
@@ -888,6 +1085,12 @@ void RGBController_RGBFusion2USB::SetupZones()
                 case HDR_D_LED4:
                     d4 = zones[zone_idx].leds_count;
                     break;
+                case LED10:
+                    d5 = zones[zone_idx].leds_count;
+                    break;
+                case LED11:
+                    d6 = zones[zone_idx].leds_count;
+                    break;
                 default:
                     d1 = zones[zone_idx].leds_count;
                     break;
@@ -895,7 +1098,7 @@ void RGBController_RGBFusion2USB::SetupZones()
         }
     }
 
-    controller->SetLedCount(d1, d2, d3, d4);
+    controller->SetLedCount(d1, d2, d3, d4, d5, d6);
     controller->SetStripBuiltinEffectState(-1, false);
     SetupColors();
 }
@@ -924,8 +1127,21 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
         controller->ApplyEffect();
         controller->SetLEDEffect(2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
         controller->ApplyEffect();
+        entire_device_effect_active = true;
         return;
     }
+
+    /*---------------------------------------------------------*\
+    | Tear down the special wave slot before returning to       |
+    | normal per-zone/direct operation                          |
+    \*---------------------------------------------------------*/
+    if(entire_device_effect_active)
+    {
+        controller->SetLEDEffect(2, EFFECT_STATIC, 0, 0xFF, false, color);
+        controller->ApplyEffect();
+        entire_device_effect_active = false;
+    }
+
 
     for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
@@ -1225,7 +1441,9 @@ int RGBController_RGBFusion2USB::GetLED_Zone(int led_idx)
 
 void RGBController_RGBFusion2USB::DeviceSaveMode()
 {
-    controller->SaveLEDState(true);
+    controller->SetPersistentLightingEnabled(true);
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    controller->SaveLightingStateToFlash();
 }
 
 /*---------------------------------------------------------*\
@@ -1234,15 +1452,16 @@ void RGBController_RGBFusion2USB::DeviceSaveMode()
 nlohmann::json RGBController_RGBFusion2USB::WriteCalJsonFrom(const EncodedCalibration& src)
 {
     nlohmann::json calib_json;
+
     calib_json["HDR_D_LED1"]    = src.dled[0];
     calib_json["HDR_D_LED2"]    = src.dled[1];
     calib_json["HDR_D_LED3"]    = src.dled[2];
     calib_json["HDR_D_LED4"]    = src.dled[3];
+    calib_json["ONBOARD1_ARGB"] = src.dled[4];
+    calib_json["ONBOARD2_ARGB"] = src.dled[5];
     calib_json["Mainboard"]     = src.mainboard;
     calib_json["Spare0"]        = src.spare[0];
     calib_json["Spare1"]        = src.spare[1];
-    calib_json["Spare2"]        = src.spare[2];
-    calib_json["Spare3"]        = src.spare[3];
 
     return calib_json;
 }
@@ -1277,8 +1496,8 @@ void RGBController_RGBFusion2USB::FillMissingWith(nlohmann::json& dst, const Enc
     {
         set_if_missing("HDR_D_LED3", fb.dled[2]);
         set_if_missing("HDR_D_LED4", fb.dled[3]);
-        set_if_missing("Spare2", fb.spare[2]);
-        set_if_missing("Spare3", fb.spare[3]);
+        set_if_missing("ONBOARD1_ARGB", fb.dled[4]);
+        set_if_missing("ONBOARD2_ARGB", fb.dled[5]);
     }
 }
 
@@ -1334,16 +1553,31 @@ void RGBController_RGBFusion2USB::LoadCustomLayoutFromJson(
         new_zone->idx               = forwardLookup.at(header);
         if(    header == "HDR_D_LED1"
             || header == "HDR_D_LED2"
-            || header == "HDR_D_LED3"
-            || header == "HDR_D_LED4")
+            || (product_id == 0x5711
+                && (header == "HDR_D_LED3"
+                ||  header == "HDR_D_LED4"
+                ||  header == "LED10"
+                ||  header == "LED11"))
+            || (product_id == 0x8950
+                && (header == "LED3"
+                ||  header == "LED4")))
         {
-            new_zone->leds_min      = std::max(json_zone["leds_min"].get<int>(), 1);
-            new_zone->leds_max      = std::min(json_zone["leds_max"].get<int>(), 1024);
+            if(product_id == 0x5711)
+            {
+                new_zone->leds_min = std::max(json_zone["leds_min"].get<int>(), RGBFUSION2_57XX_LEDS_MIN);
+                new_zone->leds_max = std::min(json_zone["leds_max"].get<int>(), RGBFUSION2_57XX_LEDS_MAX);
+            }
+            else
+            {
+                new_zone->leds_min = std::max(json_zone["leds_min"].get<int>(), RGBFUSION2_DLED_LEDS_MIN);
+                new_zone->leds_max = std::min(json_zone["leds_max"].get<int>(), RGBFUSION2_DLED_LEDS_MAX);
+            }
+
         }
         else
         {
-            new_zone->leds_min      = 1;
-            new_zone->leds_max      = 1;
+            new_zone->leds_min = 1;
+            new_zone->leds_max = 1;
         }
 
         /*---------------------------------------------------------*\

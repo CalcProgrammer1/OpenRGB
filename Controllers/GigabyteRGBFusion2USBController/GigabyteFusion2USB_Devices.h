@@ -4,8 +4,8 @@
 |   Gigabyte Fusion 2 USB Device layouts and                |
 |     and mapping to the device IDs stored on chip          |
 |                                                           |
-|   megadjc                                     31 Jul 2025 |
 |   chrism                                      29 Aug 2025 |
+|   megadjc                                     03 Sep 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -54,6 +54,8 @@ enum GB_FUSION2_LED_IDX
     HDR_D_LED4          = 8,
     HDR_D_LED3_ARGB     = 0x62,
     HDR_D_LED4_ARGB     = 0x63,
+    ONBOARD1_ARGB       = 0x64,
+    ONBOARD2_ARGB       = 0x65,
 };
 
 /*-------------------------------------------------*\

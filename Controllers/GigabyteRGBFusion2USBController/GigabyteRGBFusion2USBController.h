@@ -4,7 +4,7 @@
 |   Driver for Gigabyte Aorus RGB Fusion 2 USB motherboard  |
 |                                                           |
 |   jackun                                      08 Jan 2020 |
-|   megadjc                                     31 Jul 2025 |
+|   megadjc                                     03 Sep 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -20,6 +20,14 @@
 #include "GigabyteFusion2USB_Devices.h"
 
 #define FUSION2_USB_BUFFER_SIZE   64
+#define RGBFUSION2_DLED_LEDS_MIN  0
+#define RGBFUSION2_DLED_LEDS_MAX  1024
+
+/*--------------------------------------------------------*\
+| IT57xx only supports 256 LED strings                     |
+\*--------------------------------------------------------*/
+#define RGBFUSION2_57XX_LEDS_MIN  0
+#define RGBFUSION2_57XX_LEDS_MAX  256
 
 /*--------------------------------------------------------*\
 | Gen2 scan/info opcode base                               |
@@ -73,8 +81,8 @@ struct LEDs
 \*---------------------------------------------------------*/
 struct CalibrationData
 {
-    uint32_t dled[4]   = {0, 0, 0, 0};
-    uint32_t spare[4]  = {0, 0, 0, 0};
+    uint32_t dled[6]   = {0, 0, 0, 0, 0, 0};
+    uint32_t spare[2]  = {0, 0};
     uint32_t mainboard = 0;
 };
 
@@ -83,8 +91,8 @@ struct CalibrationData
 \*---------------------------------------------------------*/
 struct EncodedCalibration
 {
-    std::string dled[4];
-    std::string spare[4];
+    std::string dled[6];
+    std::string spare[2];
     std::string mainboard;
 };
 
@@ -175,6 +183,12 @@ union PktRGB
                 break;
             case HDR_D_LED4:
                 header = HDR_D_LED4_ARGB;
+                break;
+            case LED10:
+                header = ONBOARD1_ARGB;
+                break;
+            case LED11:
+                header = ONBOARD2_ARGB;
                 break;
             default:
                 header = HDR_D_LED1_ARGB;
@@ -271,9 +285,9 @@ struct IT8297Report
     uint8_t  device_num;
     uint8_t  strip_detect;
     uint32_t fw_ver;
-    uint8_t  curr_led_count_high;
-    uint8_t  curr_led_count_low;
-    uint8_t  strip_ctrl_length1;
+    uint8_t  argb01_count;
+    uint8_t  argb23_count;
+    uint8_t  argb45_count;
     uint8_t  support_cmd_flag;
     char     str_product[28];
     uint32_t cal_spare0;
@@ -293,8 +307,8 @@ struct IT5711Calibration
     uint8_t  reserved[3];
     uint32_t cal_strip2;
     uint32_t cal_strip3;
-    uint32_t cal_spare2;
-    uint32_t cal_spare3;
+    uint32_t cal_strip4;
+    uint32_t cal_strip5;
     uint8_t  padding[44];
 };
 
@@ -315,8 +329,8 @@ union CMD_0x33
         uint32_t c_spare1       = 0;
         uint32_t d_strip_c2     = 0;
         uint32_t d_strip_c3     = 0;
-        uint32_t c_spare2       = 0;
-        uint32_t c_spare3       = 0;
+        uint32_t d_strip_c4     = 0;
+        uint32_t d_strip_c5     = 0;
         uint8_t  reserved[25];
     } c;
 
@@ -336,14 +350,15 @@ public:
 
     bool                    ApplyEffect(bool batch_commit = false);
     bool                    SetCalibration(const EncodedCalibration& cal, bool refresh_from_hw);
-    void                    SetLedCount(unsigned int c0, unsigned int c1, unsigned int c2, unsigned int c3);
+    void                    SetLedCount(unsigned int c0, unsigned int c1, unsigned int c2, unsigned int c3, unsigned int c4, unsigned int c5);
     void                    SetLEDEffect(int led, int mode, unsigned int speed, unsigned char brightness, bool random, uint32_t* color);
     bool                    SetStripBuiltinEffectState(int hdr, bool enable);
     void                    SetStripColors(unsigned int hdr, RGBColor * colors, unsigned int num_colors, int single_led = -1);
     bool                    SupportsGen2() const;
     bool                    ScanGen2Strips(uint8_t hdr_mask);
-    bool                    SaveLEDState(bool enable);
-    bool                    SupportsSaveLEDState() const;
+    bool                    SupportsSetPersistentLighting() const;
+    bool                    SetPersistentLightingEnabled(bool enable);
+    bool                    SaveLightingStateToFlash();
 
     EncodedCalibration      GetCalibration(bool refresh_from_hw = false);
     std::string             GetDeviceName();
@@ -351,6 +366,7 @@ public:
     std::string             GetDeviceDescription();
     std::string             GetDeviceLocation();
     std::string             GetFWVersion();
+    uint8_t                 GetFWID();
     uint16_t                GetProductID();
     std::string             GetSerial();
     std::vector<Gen2StripInfo> ExportGen2Strips() const;
@@ -363,13 +379,13 @@ private:
     uint32_t                EncodeCalibrationBuffer(const std::string& rgb_order);
     bool                    RefreshHardwareInfo();
     void                    ResetController();
-    bool                    SaveCalState();
     bool                    SendCCReport(uint8_t a, uint8_t b, uint8_t c = 0);
     bool                    SendReport(uint8_t id, uint8_t a, uint8_t b, uint8_t c = 0);
     int                     SendPacket(unsigned char* packet);
 
     hid_device*             dev;
     uint8_t                 device_num;
+    uint8_t                 fw_id               = 0;
     uint16_t                product_id;
     uint32_t                effect_zone_mask    = 0;
     int                     mode;
@@ -384,8 +400,5 @@ private:
     int                     report_id           = 0xCC;
     bool                    report_loaded       = false;
     bool                    cali_loaded         = false;
-    LEDCount                D_LED1_count;
-    LEDCount                D_LED2_count;
-    LEDCount                D_LED3_count;
-    LEDCount                D_LED4_count;
+    LEDCount                ARGB_count[6];
 };
