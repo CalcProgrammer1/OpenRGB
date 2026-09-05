@@ -18,7 +18,9 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <cstdio>
 #include "MSIMotherboard185Controller.h"
+#include "LogManager.h"
 #include "StringUtils.h"
 
 using namespace std::chrono_literals;
@@ -668,7 +670,28 @@ bool MSIMotherboard185Controller::ReadSettings()
     /*-----------------------------------------------------*\
     | Read packet from hardware, return true if successful  |
     \*-----------------------------------------------------*/
-    return(hid_get_feature_report(dev, (unsigned char*)&data, sizeof(data)) == sizeof data);
+    int ret = hid_get_feature_report(dev, (unsigned char*)&data, sizeof(data));
+
+    /*-----------------------------------------------------*\
+    | Log the entire packet data in hex at TRACE level      |
+    \*-----------------------------------------------------*/
+    if(LogManager::get()->GetLogLevel() >= LL_TRACE)
+    {
+        LOG_TRACE("[MSI 185] ReadSettings packet (%zu bytes):", sizeof(data));
+        for(size_t i = 0; i < sizeof(data); i += 16)
+        {
+            std::string hex_line = "";
+            for(size_t j = i; j < i + 16 && j < sizeof(data); j++)
+            {
+                char buf[4];
+                snprintf(buf, sizeof(buf), "%02X ", ((unsigned char*)&data)[j]);
+                hex_line += buf;
+            }
+            LOG_TRACE("    %04zX: %s", i, hex_line.c_str());
+        }
+    }
+
+    return(ret == sizeof data);
 }
 
 bool MSIMotherboard185Controller::Update
