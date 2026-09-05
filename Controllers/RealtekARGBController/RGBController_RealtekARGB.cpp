@@ -343,8 +343,45 @@ void RGBController_RealtekARGB::SetupZones()
     for(int grp_num : valid_grp)
     {
         argb_num = controller->get_argb_num(grp_num);
-        zones[idx].name = "strip " + std::to_string(idx + 1);
-        zones[idx].type = ZONE_TYPE_LINEAR;
+
+        /*-------------------------------------------------*\
+        | Set zone flags for manual configurability         |
+        \*-------------------------------------------------*/
+        if(first_run)
+        {
+            zones[idx].flags = ZONE_FLAG_MANUALLY_CONFIGURABLE_SIZE
+                             | ZONE_FLAG_MANUALLY_CONFIGURABLE_NAME
+                             | ZONE_FLAG_MANUALLY_CONFIGURABLE_TYPE
+                             | ZONE_FLAG_MANUALLY_CONFIGURABLE_MATRIX_MAP
+                             | ZONE_FLAG_MANUALLY_CONFIGURABLE_SEGMENTS;
+        }
+
+        /*-------------------------------------------------*\
+        | Set zone name if not manually configured          |
+        \*-------------------------------------------------*/
+        if(!(zones[idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_NAME))
+        {
+            zones[idx].name = "ARGB Strip " + std::to_string(idx + 1);
+        }
+
+        /*-------------------------------------------------*\
+        | Set zone type if not manually configured          |
+        \*-------------------------------------------------*/
+        if(!(zones[idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_TYPE))
+        {
+            zones[idx].type = ZONE_TYPE_LINEAR;
+        }
+
+        /*-------------------------------------------------*\
+        | Set matrix map if not manually configured         |
+        \*-------------------------------------------------*/
+        if(!(zones[idx].flags & ZONE_FLAG_MANUALLY_CONFIGURED_MATRIX_MAP))
+        {
+            zones[idx].matrix_map.width = 0;
+            zones[idx].matrix_map.height = 0;
+            zones[idx].matrix_map.map.resize(0);
+        }
+
         if(fix_grps & (0x1 << grp_num))
         {
             zones[idx].leds_count = argb_num;
@@ -369,13 +406,21 @@ void RGBController_RealtekARGB::SetupZones()
         for(unsigned int led_idx = 0; led_idx < zones[idx].leds_count; led_idx++)
         {
             led myled;
-            myled.name = zones[idx].name + "  led_";
+            myled.name = zones[idx].name + ", LED ";
             myled.name.append(std::to_string(led_idx + 1));
             leds.push_back(myled);
         }
         idx++;
     }
     SetupColors();
+}
+
+void RGBController_RealtekARGB::DeviceConfigureZone(int zone_idx)
+{
+    if((size_t)zone_idx < zones.size())
+    {
+        SetupZones();
+    }
 }
 
 void RGBController_RealtekARGB::ResizeZone(int zone, int new_size)
