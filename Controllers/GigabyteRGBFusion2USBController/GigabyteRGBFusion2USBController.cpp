@@ -207,14 +207,16 @@ std::string RGBFusion2USBController::DecodeCalibrationBuffer(uint32_t value) con
         return out;
     }
 
-    uint8_t bo_b =  value        & 0xFF;
-    uint8_t bo_g = (value >> 8 ) & 0xFF;
-    uint8_t bo_r = (value >> 16) & 0xFF;
+    uint8_t bo_b        =  value        & 0xFF;
+    uint8_t bo_g        = (value >> 8 ) & 0xFF;
+    uint8_t bo_r        = (value >> 16) & 0xFF;
+    uint8_t bo_reserved = (value >> 24) & 0xFF;
 
-    bool in_range = (bo_r < 3 && bo_g < 3 && bo_b < 3);
-    bool distinct = (bo_r != bo_g && bo_r != bo_b && bo_g != bo_b);
+    bool reserved_clear = (bo_reserved == 0);
+    bool in_range       = (bo_r < 3 && bo_g < 3 && bo_b < 3);
+    bool distinct       = (bo_r != bo_g && bo_r != bo_b && bo_g != bo_b);
 
-    if(in_range && distinct)
+    if(reserved_clear && in_range && distinct)
     {
         out[bo_r] = 'R';
         out[bo_g] = 'G';
@@ -222,7 +224,7 @@ std::string RGBFusion2USBController::DecodeCalibrationBuffer(uint32_t value) con
         return out;
     }
 
-    return "BAD";
+    return "INVALID";
 }
 
 uint32_t RGBFusion2USBController::EncodeCalibrationBuffer(const std::string& rgb_order)
@@ -274,10 +276,24 @@ EncodedCalibration RGBFusion2USBController::GetCalibration(bool refresh_from_hw)
 
     if(product_id == 0x5711)
     {
-        out.dled[2] = DecodeCalibrationBuffer(cal_data.dled[2]);
-        out.dled[3] = DecodeCalibrationBuffer(cal_data.dled[3]);
-        out.dled[4] = DecodeCalibrationBuffer(cal_data.dled[4]);
-        out.dled[5] = DecodeCalibrationBuffer(cal_data.dled[5]);
+        if(cali_loaded)
+        {
+            out.dled[2] = DecodeCalibrationBuffer(cal_data.dled[2]);
+            out.dled[3] = DecodeCalibrationBuffer(cal_data.dled[3]);
+            out.dled[4] = DecodeCalibrationBuffer(cal_data.dled[4]);
+            out.dled[5] = DecodeCalibrationBuffer(cal_data.dled[5]);
+        }
+        else
+        {
+            /*-------------------------------------------------*\
+            | CC61 was not available, so these values are       |
+            | unknown rather than OFF.                           |
+            \*-------------------------------------------------*/
+            out.dled[2] = "INVALID";
+            out.dled[3] = "INVALID";
+            out.dled[4] = "INVALID";
+            out.dled[5] = "INVALID";
+        }
     }
     else
     {
@@ -297,34 +313,72 @@ bool RGBFusion2USBController::SetCalibration(const EncodedCalibration& cal, bool
         return false;
     }
 
-    if(EncodeCalibrationBuffer(cal.dled[0])       == cal_data.dled[0]
-        && EncodeCalibrationBuffer(cal.dled[1])   == cal_data.dled[1]
-        && EncodeCalibrationBuffer(cal.mainboard) == cal_data.mainboard
-        && EncodeCalibrationBuffer(cal.spare[0])  == cal_data.spare[0]
-        && EncodeCalibrationBuffer(cal.spare[1])  == cal_data.spare[1]
-        && (product_id != 0x5711
-        || (EncodeCalibrationBuffer(cal.dled[2])  == cal_data.dled[2]
-        && EncodeCalibrationBuffer(cal.dled[3])    == cal_data.dled[3]
-        && EncodeCalibrationBuffer(cal.dled[4])    == cal_data.dled[4]
-        && EncodeCalibrationBuffer(cal.dled[5])    == cal_data.dled[5])))
+    /*---------------------------------------------------------*\
+    | A calibration write contains the complete calibration     |
+    | payload. Do not write from incomplete hardware state.     |
+    \*---------------------------------------------------------*/
+    if(!report_loaded || (product_id == 0x5711 && !cali_loaded))
     {
-        return true;
+        return false;
     }
+
+    /*---------------------------------------------------------*\
+    | Preserve malformed/unavailable values rather than         |
+    | converting them to zero. Unknown strings are treated the  |
+    | same way so stale configuration cannot erase calibration. |
+    \*---------------------------------------------------------*/
+    auto encode_or_preserve = [&](const std::string& rgb_order, uint32_t current) -> uint32_t
+    {
+        std::string key = rgb_order;
+        std::transform(key.begin(), key.end(), key.begin(),
+                       [](unsigned char c){ return char(std::toupper(c)); });
+
+        if(key == "INVALID" || key == "BAD" || key.empty())
+        {
+            return current;
+        }
+
+        if(key == "OFF" || key == "0")
+        {
+            return 0u;
+        }
+
+        if(GigabyteCalibrationsLookup.find(key) == GigabyteCalibrationsLookup.end())
+        {
+            return current;
+        }
+
+        return EncodeCalibrationBuffer(key);
+    };
 
     CMD_0x33 desired;
 
-    desired.c.d_strip_c0        = EncodeCalibrationBuffer(cal.dled[0]);
-    desired.c.d_strip_c1        = EncodeCalibrationBuffer(cal.dled[1]);
-    desired.c.rgb_cali          = EncodeCalibrationBuffer(cal.mainboard);
-    desired.c.c_spare0          = EncodeCalibrationBuffer(cal.spare[0]);
-    desired.c.c_spare1          = EncodeCalibrationBuffer(cal.spare[1]);
+    desired.c.d_strip_c0 = encode_or_preserve(cal.dled[0], cal_data.dled[0]);
+    desired.c.d_strip_c1 = encode_or_preserve(cal.dled[1], cal_data.dled[1]);
+    desired.c.rgb_cali   = encode_or_preserve(cal.mainboard, cal_data.mainboard);
+    desired.c.c_spare0   = encode_or_preserve(cal.spare[0], cal_data.spare[0]);
+    desired.c.c_spare1   = encode_or_preserve(cal.spare[1], cal_data.spare[1]);
 
     if(product_id == 0x5711)
     {
-        desired.c.d_strip_c2    = EncodeCalibrationBuffer(cal.dled[2]);
-        desired.c.d_strip_c3    = EncodeCalibrationBuffer(cal.dled[3]);
-        desired.c.d_strip_c4    = EncodeCalibrationBuffer(cal.dled[4]);
-        desired.c.d_strip_c5    = EncodeCalibrationBuffer(cal.dled[5]);
+        desired.c.d_strip_c2 = encode_or_preserve(cal.dled[2], cal_data.dled[2]);
+        desired.c.d_strip_c3 = encode_or_preserve(cal.dled[3], cal_data.dled[3]);
+        desired.c.d_strip_c4 = encode_or_preserve(cal.dled[4], cal_data.dled[4]);
+        desired.c.d_strip_c5 = encode_or_preserve(cal.dled[5], cal_data.dled[5]);
+    }
+
+    if(desired.c.d_strip_c0 == cal_data.dled[0]
+        && desired.c.d_strip_c1 == cal_data.dled[1]
+        && desired.c.rgb_cali   == cal_data.mainboard
+        && desired.c.c_spare0   == cal_data.spare[0]
+        && desired.c.c_spare1   == cal_data.spare[1]
+        && (product_id != 0x5711
+        || (desired.c.d_strip_c2 == cal_data.dled[2]
+        && desired.c.d_strip_c3  == cal_data.dled[3]
+        && desired.c.d_strip_c4  == cal_data.dled[4]
+        && desired.c.d_strip_c5  == cal_data.dled[5])))
+    {
+        return true;
     }
 
     int rc = SendPacket(desired.buffer);
