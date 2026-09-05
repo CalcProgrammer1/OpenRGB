@@ -1625,6 +1625,15 @@ void RGBController_RGBFusion2USB::DeviceSaveMode()
     controller->SaveLightingStateToFlash();
 }
 
+void RGBController_RGBFusion2USB::DeviceConfigureDevice()
+{
+    if((flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC) == 0)
+    {
+        InitDeviceSpecificConfiguration();
+        ApplyDeviceSpecificConfiguration(true);
+    }
+}
+
 void RGBController_RGBFusion2USB::DeviceUpdateDeviceSpecificConfiguration()
 {
     /*---------------------------------------------------------*\

@@ -40,6 +40,7 @@ public:
     void                        DeviceUpdateMode();
     void                        DeviceUpdateZoneMode(int zone);
     void                        DeviceSaveMode() override;
+    void                        DeviceConfigureDevice() override;
     void                        DeviceUpdateDeviceSpecificConfiguration() override;
 
 private:
