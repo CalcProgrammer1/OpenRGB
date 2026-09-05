@@ -889,6 +889,16 @@ bool ProfileManager::SaveProfileFromPlugin(std::string profile_name, std::string
 bool ProfileManager::SaveConfiguration()
 {
     /*-----------------------------------------------------*\
+    | A local client shares the configuration file with the |
+    | local server, and the server saves it when it handles |
+    | the request, so the client must not write over it     |
+    \*-----------------------------------------------------*/
+    if(ResourceManager::get()->IsLocalClient())
+    {
+        return(true);
+    }
+
+    /*-----------------------------------------------------*\
     | Get the list of controllers from the resource manager |
     \*-----------------------------------------------------*/
     std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
@@ -908,32 +918,40 @@ bool ProfileManager::SaveConfiguration()
     profile_json["profile_name"]    = "Controller Configuration";
 
     /*-----------------------------------------------------*\
+    | Remote and virtual controllers are not saved, and     |
+    | they are not evidence that a saved controller is      |
+    | still present                                         |
+    \*-----------------------------------------------------*/
+    std::vector<RGBController *> local_controllers;
+
+    for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
+    {
+        if(controllers[controller_index]->GetFlags() & CONTROLLER_FLAG_REMOTE
+        || controllers[controller_index]->GetFlags() & CONTROLLER_FLAG_VIRTUAL)
+        {
+            continue;
+        }
+
+        local_controllers.push_back(controllers[controller_index]);
+    }
+
+    /*-----------------------------------------------------*\
     | Write controller data for each controller             |
     \*-----------------------------------------------------*/
     std::size_t new_saved_controller_index = 0;
 
-    for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
+    for(std::size_t controller_index = 0; controller_index < local_controllers.size(); controller_index++)
     {
         bool save_controller = false;
 
-        /*-------------------------------------------------*\
-        | Ignore remote and virtual controllers when saving |
-        | configuration                                     |
-        \*-------------------------------------------------*/
-        if(controllers[controller_index]->GetFlags() & CONTROLLER_FLAG_REMOTE
-        || controllers[controller_index]->GetFlags() & CONTROLLER_FLAG_VIRTUAL)
-        {
-            break;
-        }
-
-        if(controllers[controller_index]->GetFlags() & CONTROLLER_FLAGS_MANUALLY_CONFIGURED)
+        if(local_controllers[controller_index]->GetFlags() & CONTROLLER_FLAGS_MANUALLY_CONFIGURED)
         {
             save_controller = true;
         }
 
-        for(unsigned int zone_index = 0; zone_index < controllers[controller_index]->GetZoneCount(); zone_index++)
+        for(unsigned int zone_index = 0; zone_index < local_controllers[controller_index]->GetZoneCount(); zone_index++)
         {
-            if(controllers[controller_index]->GetZoneFlags(zone_index) & ZONE_FLAGS_MANUALLY_CONFIGURED)
+            if(local_controllers[controller_index]->GetZoneFlags(zone_index) & ZONE_FLAGS_MANUALLY_CONFIGURED)
             {
                 save_controller = true;
                 break;
@@ -946,7 +964,7 @@ bool ProfileManager::SaveConfiguration()
             | Read the controller data for this controller  |
             | into the profile json if manually configured  |
             \*---------------------------------------------*/
-            profile_json["controllers"][new_saved_controller_index] = RGBController::GetDeviceDescriptionJSON(controllers[controller_index]);
+            profile_json["controllers"][new_saved_controller_index] = RGBController::GetDeviceDescriptionJSON(local_controllers[controller_index]);
             new_saved_controller_index++;
         }
     }
@@ -960,9 +978,9 @@ bool ProfileManager::SaveConfiguration()
     {
         bool found = false;
 
-        for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
+        for(std::size_t controller_index = 0; controller_index < local_controllers.size(); controller_index++)
         {
-            if(RGBController::CompareControllers(manually_configured_rgb_controllers[old_saved_controller_index], controllers[controller_index]))
+            if(RGBController::CompareControllers(manually_configured_rgb_controllers[old_saved_controller_index], local_controllers[controller_index]))
             {
                 found = true;
                 break;
