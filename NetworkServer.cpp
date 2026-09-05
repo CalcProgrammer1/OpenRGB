@@ -2662,7 +2662,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_AddSegment(NetworkCl
     \*-----------------------------------------------------*/
     if(data_size_pkt != data_size)
     {
-        LOG_ERROR("[%s] AddSegment packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] AddSegment packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
@@ -2719,7 +2719,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ClearSegments(Networ
     \*-----------------------------------------------------*/
     if(data_size != sizeof(zone_idx))
     {
-        LOG_ERROR("[%s] ClearSegments packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] ClearSegments packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
@@ -2787,7 +2787,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ConfigureZone(Networ
     \*-----------------------------------------------------*/
     if(data_size_pkt != data_size)
     {
-        LOG_ERROR("[%s] ConfigureZone packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] ConfigureZone packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
@@ -2847,7 +2847,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ResizeZone(NetworkCl
     \*-----------------------------------------------------*/
     if(data_size != (sizeof(zone_idx) + sizeof(new_size)))
     {
-        LOG_ERROR("[%s] ResizeZone packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] ResizeZone packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
@@ -2922,7 +2922,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_ConfigureDevice(Netw
     \*-----------------------------------------------------*/
     if(data_size_pkt != data_size)
     {
-        LOG_ERROR("[%s] ConfigureDevice packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] ConfigureDevice packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
@@ -3127,7 +3127,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateLEDs(NetworkCl
     \*-----------------------------------------------------*/
     if(!(legacy_workaround_enabled && (client_info->client_protocol_version <= 4)) && (data_size_pkt != data_size))
     {
-        LOG_ERROR("[%s] UpdateLEDs packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] UpdateLEDs packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
@@ -3198,7 +3198,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(Netwo
     \*-----------------------------------------------------*/
     if(!(legacy_workaround_enabled && (client_info->client_protocol_version <= 4)) && (data_size_pkt != data_size))
     {
-        LOG_ERROR("[%s] UpdateSaveMode packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] UpdateSaveMode packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
@@ -3290,7 +3290,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(Netw
     \*-----------------------------------------------------*/
     if(data_size != (sizeof(led_idx) + sizeof(RGBColor)))
     {
-        LOG_ERROR("[%s] UpdateSingleLED packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] UpdateSingleLED packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
@@ -3385,7 +3385,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(Netwo
     \*-----------------------------------------------------*/
     if(!(legacy_workaround_enabled && (client_info->client_protocol_version <= 4)) && (data_size_pkt != data_size))
     {
-        LOG_ERROR("[%s] UpdateZoneLEDs packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] UpdateZoneLEDs packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
@@ -3486,7 +3486,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(Netwo
     \*-----------------------------------------------------*/
     if(data_size_pkt != data_size)
     {
-        LOG_ERROR("[%s] UpdateZoneMode packet has invalid size. Packet size: %d", data_size, NETWORKSERVER);
+        LOG_ERROR("[%s] UpdateZoneMode packet has invalid size. Packet size: %d", NETWORKSERVER, data_size);
 
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
