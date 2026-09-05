@@ -46,7 +46,7 @@ using namespace std::chrono_literals;
 | while ensuring we don't access out of bounds              |
 \*---------------------------------------------------------*/
 #define COPY_DATA_FIELD(data_ptr, data_start, field)                                \
-    if((unsigned)(data_ptr + sizeof(field) - data_start) <= (unsigned)data_size)    \
+    if((size_t)(data_ptr + sizeof(field) - data_start) <= (size_t)data_size)        \
     {                                                                               \
         memcpy(&field, data_ptr, sizeof(field));                                    \
         data_ptr += sizeof(field);                                                  \
@@ -57,7 +57,7 @@ using namespace std::chrono_literals;
     }                                                                               \
 
 #define COPY_STRING_FIELD(data_ptr, data_start, length, field)                      \
-    if((unsigned)(data_ptr + length - data_start) <= (unsigned)data_size)           \
+    if((size_t)(data_ptr + length - data_start) <= (size_t)data_size)               \
     {                                                                               \
         field.assign((char *)data_ptr, length);                                     \
         field = StringUtils::remove_null_terminating_chars(field);                  \
@@ -2233,6 +2233,8 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, unsigned
     \*-------------------------------------------------*/
     else
     {
+        existing_controller->AccessMutex.lock();
+
         existing_controller->active_mode        = new_controller->active_mode;
         existing_controller->modes.clear();
         existing_controller->modes              = new_controller->modes;
@@ -2243,6 +2245,8 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, unsigned
         existing_controller->zones.clear();
         existing_controller->zones              = new_controller->zones;
         existing_controller->SetupColors();
+
+        existing_controller->AccessMutex.unlock();
 
         delete new_controller;
     }

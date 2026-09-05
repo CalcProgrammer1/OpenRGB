@@ -21,7 +21,7 @@
 | while ensuring we don't access out of bounds              |
 \*---------------------------------------------------------*/
 #define COPY_DATA_FIELD(data_ptr, data_start, field)                                \
-    if((unsigned)(data_ptr + sizeof(field) - data_start) <= (unsigned)data_size)    \
+    if((size_t)(data_ptr + sizeof(field) - data_start) <= (size_t)data_size)        \
     {                                                                               \
         memcpy(&field, data_ptr, sizeof(field));                                    \
         data_ptr += sizeof(field);                                                  \
@@ -32,7 +32,7 @@
     }                                                                               \
 
 #define COPY_DATA_FIELD_UNLOCK(data_ptr, data_start, field, controller)             \
-    if((unsigned)(data_ptr + sizeof(field) - data_start) <= (unsigned)data_size)    \
+    if((size_t)(data_ptr + sizeof(field) - data_start) <= (size_t)data_size)        \
     {                                                                               \
         memcpy(&field, data_ptr, sizeof(field));                                    \
         data_ptr += sizeof(field);                                                  \
@@ -44,7 +44,7 @@
     }                                                                               \
 
 #define COPY_STRING_FIELD(data_ptr, data_start, length, field)                      \
-    if((unsigned)(data_ptr + length - data_start) <= (unsigned)data_size)           \
+    if((size_t)(data_ptr + length - data_start) <= (size_t)data_size)               \
     {                                                                               \
         field.assign((char *)data_ptr, length);                                     \
         field = StringUtils::remove_null_terminating_chars(field);                  \
@@ -56,7 +56,7 @@
     }                                                                               \
 
 #define COPY_STRING_FIELD_UNLOCK(data_ptr, data_start, length, field, controller)   \
-    if((unsigned)(data_ptr + length - data_start) <= (unsigned)data_size)           \
+    if((size_t)(data_ptr + length - data_start) <= (size_t)data_size)               \
     {                                                                               \
         field.assign((char *)data_ptr, length);                                     \
         field = StringUtils::remove_null_terminating_chars(field);                  \
