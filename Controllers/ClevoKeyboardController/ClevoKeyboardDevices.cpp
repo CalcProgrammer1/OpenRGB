@@ -18,71 +18,79 @@
 |                                                           |
 | Based on KEYBOARD_SIZE_TKL with numpad added and          |
 | navigation cluster adjusted to match Clevo's layout.      |
-|                                                           |
-| Hardware LED indices (value field):                       |
-| - Row 5 (F-keys):     105-124                             |
-| - Row 4 (numbers):    84-102                              |
-| - Row 3 (QWERTY):     63-81                               |
-| - Row 2 (home):       42-59                               |
-| - Row 1 (Z row):      22-39                               |
-| - Row 0 (modifiers):  0-18                                |
 \*---------------------------------------------------------*/
 
 /*---------------------------------------------------------*\
-| LED values in TKL order (fn_row + main + extras)          |
+| LED values, in physical (row, then column) order.         |
 |                                                           |
-| Values follow the key order in KeyboardLayoutManager.cpp. |
+| This must match the order KeyboardLayoutManager assigns   |
+| default_values against: the structural keymap sorted by   |
+| (row, col) across main+fn_row+extras combined, NOT the    |
+| fn_row-then-main-then-extras order the zone tables below  |
+| are declared in. Getting this wrong silently misassigns   |
+| almost every key from Print Screen onward, not just a few.|
+|                                                           |
 | For ANSI-only keys (not present on this ISO keyboard),    |
 | use 0 as a placeholder - they won't be displayed.         |
 | Numpad values are added via edit_keys.                    |
 \*---------------------------------------------------------*/
 static const std::vector<unsigned int> clevo_tkl_values =
 {
-    /*---------------------------------------------------------*\
-    | Function row (keyboard_zone_fn_row)                       |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Row 0: fn_row + Print Screen/Scroll Lock/Pause        |
+    \*-----------------------------------------------------*/
     105,                                                        // Escape
     106, 107, 108, 109,                                         // F1-F4
     110, 111, 112, 113,                                         // F5-F8
     114, 115, 116, 117,                                         // F9-F12
+    118,                                                        // Print Screen
+    0,                                                          // Scroll Lock (removed via edit_keys)
+    0,                                                          // Pause (removed via edit_keys)
 
-    /*---------------------------------------------------------*\
-    | Main block - Row 1 (keyboard_zone_main)                   |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Row 1: numbers row + Insert/Home/Page Up              |
+    \*-----------------------------------------------------*/
     84,                                                         // Back tick
     85, 86, 87, 88, 89, 90, 91, 92, 93, 94,                     // 1-0
     95, 96,                                                     // Minus, Equals
     98,                                                         // Backspace
+    119,                                                        // Insert
+    121,                                                        // Home
+    122,                                                        // Page Up
 
-    /*---------------------------------------------------------*\
-    | Main block - Row 2                                        |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Row 2: Tab/QWERTY row + Delete/End/PageDown           |
+    \*-----------------------------------------------------*/
     63,                                                         // Tab
     65, 66, 67, 68, 69, 70, 71, 72, 73, 74,                     // Q-P
     75, 76,                                                     // [ ]
     0,                                                          // ANSI backslash (not on ISO)
+    120,                                                        // Delete
+    124,                                                        // End
+    123,                                                        // Page Down
 
-    /*---------------------------------------------------------*\
-    | Main block - Row 3                                        |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Row 3: Caps Lock/home row/Enter                       |
+    \*-----------------------------------------------------*/
     42,                                                         // Caps Lock
     44, 45, 46, 47, 48, 49, 50, 51, 52,                         // A-L
     53, 54,                                                     // ; '
     55,                                                         // ISO # (POUND)
-    77,                                                         // Enter (ANSI/ISO share same LED)
+    56,                                                         // Enter
 
-    /*---------------------------------------------------------*\
-    | Main block - Row 4                                        |
-    \*---------------------------------------------------------*/
-    22,                                                         // Left Shift
-    23,                                                         // ISO backslash
+    /*-----------------------------------------------------*\
+    | Row 4: Left Shift/ISO backslash/Z row + Up            |
+    \*-----------------------------------------------------*/
+    21,                                                         // Left Shift
+    77,                                                         // ISO backslash
     24, 25, 26, 27, 28, 29, 30, 31, 32,                         // Z-. (9 keys)
     33,                                                         // /
     35,                                                         // Right Shift
+    14,                                                         // Up
 
-    /*---------------------------------------------------------*\
-    | Main block - Row 5                                        |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Row 5: bottom modifier row + Left/Down/Right          |
+    \*-----------------------------------------------------*/
     0,                                                          // Left Ctrl
     3,                                                          // Left Win
     4,                                                          // Left Alt
@@ -91,24 +99,6 @@ static const std::vector<unsigned int> clevo_tkl_values =
     0,                                                          // Right Fn (removed via edit_keys)
     0,                                                          // Menu (removed via edit_keys)
     12,                                                         // Right Ctrl
-
-    /*---------------------------------------------------------*\
-    | Extras - Navigation cluster (keyboard_zone_extras)        |
-    \*---------------------------------------------------------*/
-    118,                                                        // Print Screen
-    0,                                                          // Scroll Lock (removed via edit_keys)
-    0,                                                          // Pause (removed via edit_keys)
-    119,                                                        // Insert
-    121,                                                        // Home
-    123,                                                        // Page Up
-    120,                                                        // Delete
-    122,                                                        // End
-    124,                                                        // Page Down
-
-    /*---------------------------------------------------------*\
-    | Extras - Arrow keys                                       |
-    \*---------------------------------------------------------*/
-    14,                                                         // Up
     13,                                                         // Left
     18,                                                         // Down
     15,                                                         // Right
