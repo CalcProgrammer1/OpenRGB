@@ -538,7 +538,7 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     | Set up per-LED switching message for synchronized     |
     | mode.                                                 |
     \*-----------------------------------------------------*/
-    memcpy(&enable_per_led_msg, &configuration_data, sizeof(configuration_data));
+    memset(&enable_per_led_msg, 0, sizeof(enable_per_led_msg));
     enable_per_led_msg.j_rgb_1.speedAndBrightnessFlags              = 0x08;
     enable_per_led_msg.j_rgb_1.colorFlags                           = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
     enable_per_led_msg.j_pipe_1.speedAndBrightnessFlags             = 0x2A;
