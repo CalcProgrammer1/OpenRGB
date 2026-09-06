@@ -155,4 +155,6 @@ private:
                         MSI_ZONE zone
                         );
     bool            SelectPerLedProtocol();
+    static bool     IsZoneSupported(MSI_ZONE zone, const std::vector<MSI_ZONE>* supported_zones);
 };
+

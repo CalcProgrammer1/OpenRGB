@@ -41,6 +41,7 @@ using namespace std::chrono_literals;
 struct mystic_light_185_config
 {
     unsigned short                           pid;                   // PID of the board
+    const char*                              name;                  // DMI board name for filtering (nullptr = match any name)
     int                                      numof_onboard_leds;    // number of onboard leds
     int                                      numof_pipe1_leds;      // number of pipe 1 leds (used in per LED mode only)
     int                                      numof_pipe2_leds;      // number of pipe 2 leds (used in per LED mode only)
@@ -259,101 +260,102 @@ const std::vector<MSI_ZONE> zones_set21 =
 
 static const mystic_light_185_config board_configs[] =
 {
-    { 0x7B93, 6,  1,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MPG X570 GAMING PRO CARBON WIFI
-    { 0x7C34, 0,  1,  1, 1, &zones_set8,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MEG X570 GODLIKE
-    { 0x7C35, 0,  1,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MEG X570 ACE
-    { 0x7C36, 6,  1,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // PRESTIGE X570 CREATION
-    { 0x7C37, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MPG X570 GAMING PLUS
-    { 0x7C56, 0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B550-A PRO
-    { 0x7C59, 0,  8,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_DISABLED },      // CREATOR TRX40
-    { 0x7C60, 6,  0,  0, 1, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // TRX40-A PRO
-    { 0x7C67, 6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B365M MORTAR
-    { 0x7C71, 6,  6,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z490 ACE
-    { 0x7C73, 6,  4,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING CARBON WIFI
-    { 0x7C75, 6,  0,  0, 1, &zones_set2,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING PLUS
-    { 0x7C76, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_DISABLED },      // MPG Z490M GAMING EDGE
-    { 0x7C77, 0,  0,  0, 0, &zones_set14, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z490I UNIFY
-    { 0x7C79, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING EDGE WIFI
-    { 0x7C80, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG Z490 TOMAHAWK
-    { 0x7C02, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B450 TOMAHAWK MAX
-    { 0x7C81, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B460 TOMAHAWK
-    { 0x7C82, 6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B460M MORTAR WIFI
-    { 0x7C83, 6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_DISABLED },      // B460M PRO-VDH WIFI
-    { 0x7C84, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MAG X570 TOMAHAWK WIFI
-    { 0x7C86, 6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_DISABLED },      // MPG B460I GAMING EDGE
-    { 0x7C87, 6,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B450M BAZOOKA MAX WIFI
-    { 0x7C90, 6,  4,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B550 GAMING CARBON WIFI
-    { 0x7C91, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B550 TOMAHAWK
-    { 0x7C92, 6,  0,  0, 0, &zones_set6,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B550I GAMING EDGE WIFI
-    { 0x7C94, 6,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B550M MORTAR
-    { 0x7C95, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B550M PRO-VDH WIFI
-    { 0x7C98, 6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // Z490 PLUS
-    { 0x7D03, 0, 15, 18, 1, &zones_set8,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z590 GODLIKE
-    { 0x7D06, 4,  4,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z590 GAMING FORCE
-    { 0x7D07, 4,  5,  0, 2, &zones_set7,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z590 GAMING EDGE WIFI
-    { 0x7D08, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG Z590 TOMAHAWK
-    { 0x7D09, 6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // Z590-A PRO WIFI
-    { 0x7D13, 6,  0,  0, 1, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG B550 UNIFY
-    { 0x7D14, 6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // A520M PRO
-    { 0x7D15, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B560 TOMAHAWK WIFI
-    { 0x7D17, 6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B560M MORTAR
-    { 0x7D18, 6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B560M PRO-VDH
-    { 0x7D19, 6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B560I GAMIING EDGE WIFI
-    { 0x7D20, 6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B560M PRO
-    { 0x7D25, 6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z690-A WIFI DDR4
-    { 0x7D27, 6,  0,  0, 2, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z690 ACE
-    { 0x7D28, 6,  0,  0, 1, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z690 UNIFY-X
-    { 0x7D29, 6,  0,  0, 0, &zones_set6,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z690I UNIFY
-    { 0x7D30, 6,  6,  0, 2, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z690 CARBON WIFI
-    { 0x7D31, 4,  8,  0, 2, &zones_set12, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG EDGE WIFI DDR4
-    { 0x7D32, 1,  0,  0, 1, &zones_set10, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG Z690 TOMAHAWK WIFI DDR4
-    { 0x7D33, 6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-VC WIFI
-    { 0x7D36, 6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z690-P DDR4
-    { 0x7D37, 6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B760M-VC WIFI (MS-7D37) - fans on JRAINBOW2
-    { 0x7D38, 0,  0,  0, 1, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z590 UNIFY-X
-    { 0x7D40, 0,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B760i EDGE WIFI DDR4
-    { 0x7D41, 6,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B660M TOMAHAWK WIFI DDR4
-    { 0x7D42, 6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B660 MORTAR WIFI DDR4
-    { 0x7D43, 0,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B660M-A WIFI DDR4
-    { 0x7D46, 0,  1,  1, 0, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO H610M-G DDR4
-    { 0x7D50, 6, 12,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG X570S ACE MAX
-    { 0x7D51, 6,  0,  0, 2, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG X570S UNIFY-X MAX
-    { 0x7D52, 6, 14,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG X570S CARBON EK X
-    { 0x7D53, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG X570S EDGE MAX WIFI
-    { 0x7D54, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG X570S TOMAHAWK MAX WIFI
-    { 0x7D59, 0,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B660-A DDR4
-    { 0x7D67, 0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO X670-P WIFI
-    { 0x7D69, 9,  2,  4, 1, &zones_set15, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG X670E ACE
-    { 0x7D70, 0,  6,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG X670E Carbon WIFI
-    { 0x7D73, 1,  0,  0, 0, &zones_set6,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B650I EDGE WIFI
-    { 0x7D74, 0,  6,  0, 1, &zones_set18, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B650 CARBON WIFI
-    { 0x7D75, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B650 TOMAHAWK WIFI
-    { 0x7D76, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B650M MORTAR WIFI
-    { 0x7D77, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B650M-A WIFI
-    { 0x7D78, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B650-P WIFI
-    { 0x7D86, 0, 18,  4, 1, &zones_set16, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z790 ACE
-    { 0x7D88, 0,  0,  0, 1, &zones_set20, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z790-S WIFI
-    { 0x7D89, 0,  6,  0, 1, &zones_set18, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z790 CARBON WIFI
-    { 0x7D90, 0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B760M BOMBER DDR4
-    { 0x7D91, 1,  0,  0, 1, &zones_set10, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG Z790 TOMAHAWK WIFI
-    { 0x7D93, 6,  0,  0, 1, &zones_set2,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // Z790 GAMING PRO WIFI
-    { 0x7D96, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B760 TOMAHAWK WIFI DDR5
-    { 0x7D97, 6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B660 MORTAR MAX WIFI DDR4
-    { 0x7D98, 0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B760-P WIFI DDR4
-    { 0x7D99, 6,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B760M-A WIFI DDR4
-    { 0x7E01, 0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B760M MORTAR MAX
-    { 0x7E03, 6,  0,  0, 0, &zones_set6,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z790I EDGE WIFI
-    { 0x7E06, 0,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-P WIFI DDR4
-    { 0x7E07, 0,  0,  0, 2, &zones_set10, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-A WIFI DDR4
-    { 0x7E09, 0,  0,  0, 0, &zones_set19, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B650M PROJECT ZERO
-    { 0x7E10, 0,  6,  0, 2, &zones_set17, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B650 EDGE WIFI
-    { 0x7E12, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI
-    { 0x0076, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI (Common PID)
-    { 0x7E16, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // X670E GAMING PLUS WIFI
-    { 0x7E24, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B650M GAMING PLUS WIFI
-    { 0x7E26, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B650 GAMING PLUS WIFI
-    { 0x7E27, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B650M-P
-    { 0x7E28, 6,  0,  0, 2, &zones_set21, MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MSI PRO A620M-B (MS-7E28)
+    { 0x7B93, nullptr,                              6,  1,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MPG X570 GAMING PRO CARBON WIFI
+    { 0x7C34, nullptr,                              0,  1,  1, 1, &zones_set8,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MEG X570 GODLIKE
+    { 0x7C35, nullptr,                              0,  1,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MEG X570 ACE
+    { 0x7C36, nullptr,                              6,  1,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // PRESTIGE X570 CREATION
+    { 0x7C37, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MPG X570 GAMING PLUS
+    { 0x7C56, "MSI B550-A PRO (MS-7C56)",           0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B550-A PRO
+    { 0x7C56, "MSI MPG B550 GAMING PLUS (MS-7C56)", 0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B550 GAMING PLUS
+    { 0x7C59, nullptr,                              0,  8,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_DISABLED },      // CREATOR TRX40
+    { 0x7C60, nullptr,                              6,  0,  0, 1, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // TRX40-A PRO
+    { 0x7C67, nullptr,                              6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B365M MORTAR
+    { 0x7C71, nullptr,                              6,  6,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z490 ACE
+    { 0x7C73, nullptr,                              6,  4,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING CARBON WIFI
+    { 0x7C75, nullptr,                              6,  0,  0, 1, &zones_set2,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING PLUS
+    { 0x7C76, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_DISABLED },      // MPG Z490M GAMING EDGE
+    { 0x7C77, nullptr,                              0,  0,  0, 0, &zones_set14, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z490I UNIFY
+    { 0x7C79, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING EDGE WIFI
+    { 0x7C80, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG Z490 TOMAHAWK
+    { 0x7C02, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B450 TOMAHAWK MAX
+    { 0x7C81, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B460 TOMAHAWK
+    { 0x7C82, nullptr,                              6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B460M MORTAR WIFI
+    { 0x7C83, nullptr,                              6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_DISABLED },      // B460M PRO-VDH WIFI
+    { 0x7C84, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MAG X570 TOMAHAWK WIFI
+    { 0x7C86, nullptr,                              6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_DISABLED },      // MPG B460I GAMING EDGE
+    { 0x7C87, nullptr,                              6,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B450M BAZOOKA MAX WIFI
+    { 0x7C90, nullptr,                              6,  4,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B550 GAMING CARBON WIFI
+    { 0x7C91, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B550 TOMAHAWK
+    { 0x7C92, nullptr,                              6,  0,  0, 0, &zones_set6,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B550I GAMING EDGE WIFI
+    { 0x7C94, nullptr,                              6,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B550M MORTAR
+    { 0x7C95, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B550M PRO-VDH WIFI
+    { 0x7C98, nullptr,                              6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // Z490 PLUS
+    { 0x7D03, nullptr,                              0, 15, 18, 1, &zones_set8,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z590 GODLIKE
+    { 0x7D06, nullptr,                              4,  4,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z590 GAMING FORCE
+    { 0x7D07, nullptr,                              4,  5,  0, 2, &zones_set7,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z590 GAMING EDGE WIFI
+    { 0x7D08, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG Z590 TOMAHAWK
+    { 0x7D09, nullptr,                              6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // Z590-A PRO WIFI
+    { 0x7D13, nullptr,                              6,  0,  0, 1, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG B550 UNIFY
+    { 0x7D14, nullptr,                              6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // A520M PRO
+    { 0x7D15, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B560 TOMAHAWK WIFI
+    { 0x7D17, nullptr,                              6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B560M MORTAR
+    { 0x7D18, nullptr,                              6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B560M PRO-VDH
+    { 0x7D19, nullptr,                              6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B560I GAMIING EDGE WIFI
+    { 0x7D20, nullptr,                              6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B560M PRO
+    { 0x7D25, nullptr,                              6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z690-A WIFI DDR4
+    { 0x7D27, nullptr,                              6,  0,  0, 2, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z690 ACE
+    { 0x7D28, nullptr,                              6,  0,  0, 1, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z690 UNIFY-X
+    { 0x7D29, nullptr,                              6,  0,  0, 0, &zones_set6,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z690I UNIFY
+    { 0x7D30, nullptr,                              6,  6,  0, 2, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z690 CARBON WIFI
+    { 0x7D31, nullptr,                              4,  8,  0, 2, &zones_set12, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG EDGE WIFI DDR4
+    { 0x7D32, nullptr,                              1,  0,  0, 1, &zones_set10, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG Z690 TOMAHAWK WIFI DDR4
+    { 0x7D33, nullptr,                              6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-VC WIFI
+    { 0x7D36, nullptr,                              6,  0,  0, 2, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z690-P DDR4
+    { 0x7D37, nullptr,                              6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B760M-VC WIFI (MS-7D37) - fans on JRAINBOW2
+    { 0x7D38, nullptr,                              0,  0,  0, 1, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z590 UNIFY-X
+    { 0x7D40, nullptr,                              0,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B760i EDGE WIFI DDR4
+    { 0x7D41, nullptr,                              6,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B660M TOMAHAWK WIFI DDR4
+    { 0x7D42, nullptr,                              6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B660 MORTAR WIFI DDR4
+    { 0x7D43, nullptr,                              0,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B660M-A WIFI DDR4
+    { 0x7D46, nullptr,                              0,  1,  1, 0, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO H610M-G DDR4
+    { 0x7D50, nullptr,                              6, 12,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG X570S ACE MAX
+    { 0x7D51, nullptr,                              6,  0,  0, 2, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG X570S UNIFY-X MAX
+    { 0x7D52, nullptr,                              6, 14,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG X570S CARBON EK X
+    { 0x7D53, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG X570S EDGE MAX WIFI
+    { 0x7D54, nullptr,                              6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG X570S TOMAHAWK MAX WIFI
+    { 0x7D59, nullptr,                              0,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B660-A DDR4
+    { 0x7D67, nullptr,                              0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO X670-P WIFI
+    { 0x7D69, nullptr,                              9,  2,  4, 1, &zones_set15, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG X670E ACE
+    { 0x7D70, nullptr,                              0,  6,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG X670E Carbon WIFI
+    { 0x7D73, nullptr,                              1,  0,  0, 0, &zones_set6,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B650I EDGE WIFI
+    { 0x7D74, nullptr,                              0,  6,  0, 1, &zones_set18, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B650 CARBON WIFI
+    { 0x7D75, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B650 TOMAHAWK WIFI
+    { 0x7D76, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B650M MORTAR WIFI
+    { 0x7D77, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B650M-A WIFI
+    { 0x7D78, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B650-P WIFI
+    { 0x7D86, nullptr,                              0, 18,  4, 1, &zones_set16, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MEG Z790 ACE
+    { 0x7D88, nullptr,                              0,  0,  0, 1, &zones_set20, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z790-S WIFI
+    { 0x7D89, nullptr,                              0,  6,  0, 1, &zones_set18, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z790 CARBON WIFI
+    { 0x7D90, nullptr,                              0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B760M BOMBER DDR4
+    { 0x7D91, nullptr,                              1,  0,  0, 1, &zones_set10, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG Z790 TOMAHAWK WIFI
+    { 0x7D93, nullptr,                              6,  0,  0, 1, &zones_set2,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // Z790 GAMING PRO WIFI
+    { 0x7D96, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B760 TOMAHAWK WIFI DDR5
+    { 0x7D97, nullptr,                              6,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B660 MORTAR MAX WIFI DDR4
+    { 0x7D98, nullptr,                              0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B760-P WIFI DDR4
+    { 0x7D99, nullptr,                              6,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B760M-A WIFI DDR4
+    { 0x7E01, nullptr,                              0,  0,  0, 1, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG B760M MORTAR MAX
+    { 0x7E03, nullptr,                              6,  0,  0, 0, &zones_set6,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG Z790I EDGE WIFI
+    { 0x7E06, nullptr,                              0,  0,  0, 2, &zones_set11, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-P WIFI DDR4
+    { 0x7E07, nullptr,                              0,  0,  0, 2, &zones_set10, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-A WIFI DDR4
+    { 0x7E09, nullptr,                              0,  0,  0, 0, &zones_set19, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B650M PROJECT ZERO
+    { 0x7E10, nullptr,                              0,  6,  0, 2, &zones_set17, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MPG B650 EDGE WIFI
+    { 0x7E12, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI
+    { 0x0076, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI (Common PID)
+    { 0x7E16, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // X670E GAMING PLUS WIFI
+    { 0x7E24, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B650M GAMING PLUS WIFI
+    { 0x7E26, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // B650 GAMING PLUS WIFI
+    { 0x7E27, nullptr,                              0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED },       // PRO B650M-P
+    { 0x7E28, nullptr,                              6,  0,  0, 2, &zones_set21, MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MSI PRO A620M-B (MS-7E28)
 };
 
 
@@ -366,6 +368,19 @@ Color* per_led_jrgb;
 Color* per_led_jrainbow1_sync;
 Color* per_led_jrainbow2_sync;
 Color* per_led_jcorsair_sync;
+
+/*-----------------------------------------------------*\
+| Static helper to check if a zone is supported by the  |
+| given supported_zones vector                          |
+\*-----------------------------------------------------*/
+bool MSIMotherboard185Controller::IsZoneSupported(MSI_ZONE zone, const std::vector<MSI_ZONE>* supported_zones)
+{
+    if(supported_zones == nullptr)
+    {
+        return false;
+    }
+    return std::find(supported_zones->begin(), supported_zones->end(), zone) != supported_zones->end();
+}
 
 MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, const char* path, unsigned short pid, std::string dev_name)
 {
@@ -400,12 +415,35 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
 
     const mystic_light_185_config* board_config = nullptr;
 
+    /*-----------------------------------------------------*\
+    | First pass: look for a config that matches both PID   |
+    | and board name (when name is specified in the config) |
+    \*-----------------------------------------------------*/
     for(std::size_t i = 0; i < NUMOF_CONFIGS; ++i)
     {
-        if(board_configs[i].pid == pid)
+        if(board_configs[i].pid == pid && board_configs[i].name != nullptr)
         {
-            board_config = &board_configs[i];
-            break;
+            if(name.find(board_configs[i].name) != std::string::npos)
+            {
+                board_config = &board_configs[i];
+                break;
+            }
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Second pass: fall back to PID-only match for entries  |
+    | without a name filter (backward compatible)           |
+    \*-----------------------------------------------------*/
+    if(board_config == nullptr)
+    {
+        for(std::size_t i = 0; i < NUMOF_CONFIGS; ++i)
+        {
+            if(board_configs[i].pid == pid && board_configs[i].name == nullptr)
+            {
+                board_config = &board_configs[i];
+                break;
+            }
         }
     }
 
@@ -483,83 +521,92 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     | Set up per-LED switching message for synchronized     |
     | mode.                                                 |
     \*-----------------------------------------------------*/
-    enable_per_led_msg.j_rgb_1.speedAndBrightnessFlags              = 0x08;
-    enable_per_led_msg.j_rgb_1.colorFlags                           = 0x80;
-    enable_per_led_msg.j_pipe_1.speedAndBrightnessFlags             = 0x2A;
-    enable_per_led_msg.j_pipe_1.colorFlags                          = 0x80;
-    enable_per_led_msg.j_pipe_2.speedAndBrightnessFlags             = 0x2A;
-    enable_per_led_msg.j_pipe_2.colorFlags                          = 0x80;
-    enable_per_led_msg.j_rainbow_1.speedAndBrightnessFlags          = 0x29;
-    enable_per_led_msg.j_rainbow_1.colorFlags                       = 0x80;
-    enable_per_led_msg.j_rainbow_1.cycle_or_led_num                 = 0x28;
-    enable_per_led_msg.j_rainbow_2.speedAndBrightnessFlags          = 0x29;
-    enable_per_led_msg.j_rainbow_2.colorFlags                       = 0x80;
-    enable_per_led_msg.j_rainbow_2.cycle_or_led_num                 = 0x28;
-    enable_per_led_msg.j_corsair.fan_flags                          = 0x29;
-    enable_per_led_msg.j_corsair.corsair_quantity                   = 0x00;
-    enable_per_led_msg.j_corsair.padding[2]                         = 0x82;
-    enable_per_led_msg.j_corsair.is_individual                      = 0x78;
-    enable_per_led_msg.j_corsair_outerll120.speedAndBrightnessFlags = 0x28;
-    enable_per_led_msg.j_corsair_outerll120.colorFlags              = 0x80;
-    enable_per_led_msg.on_board_led.effect                          = MSI_DIRECT_MODE;
-    enable_per_led_msg.on_board_led.speedAndBrightnessFlags         = 0x29 | SYNC_SETTING_JRGB;
-    enable_per_led_msg.on_board_led.colorFlags                      = PER_LED_FULL_SYNC_MODE;
-    enable_per_led_msg.on_board_led_1.speedAndBrightnessFlags       = 0x28;
-    enable_per_led_msg.on_board_led_1.colorFlags                    = 0x80;
-    enable_per_led_msg.on_board_led_2.speedAndBrightnessFlags       = 0x28;
-    enable_per_led_msg.on_board_led_2.colorFlags                    = 0x80;
-    enable_per_led_msg.on_board_led_3.speedAndBrightnessFlags       = 0x28;
-    enable_per_led_msg.on_board_led_3.colorFlags                    = 0x80;
-    enable_per_led_msg.on_board_led_4.speedAndBrightnessFlags       = 0x28;
-    enable_per_led_msg.on_board_led_4.colorFlags                    = 0x80;
-    enable_per_led_msg.on_board_led_5.speedAndBrightnessFlags       = 0x28;
-    enable_per_led_msg.on_board_led_5.colorFlags                    = 0x80;
-    enable_per_led_msg.on_board_led_6.speedAndBrightnessFlags       = 0x28;
-    enable_per_led_msg.on_board_led_6.colorFlags                    = 0x80;
-    enable_per_led_msg.on_board_led_7.speedAndBrightnessFlags       = 0x28;
-    enable_per_led_msg.on_board_led_7.colorFlags                    = 0x80;
-    enable_per_led_msg.on_board_led_8.speedAndBrightnessFlags       = 0x28;
-    enable_per_led_msg.on_board_led_8.colorFlags                    = 0x80;
-    enable_per_led_msg.on_board_led_9.speedAndBrightnessFlags       = 0x28;
-    enable_per_led_msg.on_board_led_9.colorFlags                    = 0x80;
-    enable_per_led_msg.j_rgb_2.speedAndBrightnessFlags              = 0x2A;
-    enable_per_led_msg.j_rgb_2.colorFlags                           = 0x80;
+    if(IsZoneSupported(MSI_ZONE_J_RGB_1, supported_zones))
+    {
+        enable_per_led_msg.j_rgb_1.speedAndBrightnessFlags              = 0x08;
+        enable_per_led_msg.j_rgb_1.colorFlags                           = 0x80;
+    }
+    if(IsZoneSupported(MSI_ZONE_J_PIPE_1, supported_zones))
+    {
+        enable_per_led_msg.j_pipe_1.speedAndBrightnessFlags             = 0x2A;
+        enable_per_led_msg.j_pipe_1.colorFlags                          = 0x80;
+    }
+    if(IsZoneSupported(MSI_ZONE_J_PIPE_2, supported_zones))
+    {
+        enable_per_led_msg.j_pipe_2.speedAndBrightnessFlags             = 0x2A;
+        enable_per_led_msg.j_pipe_2.colorFlags                          = 0x80;
+    }
+    if(IsZoneSupported(MSI_ZONE_J_RAINBOW_1, supported_zones))
+    {
+        enable_per_led_msg.j_rainbow_1.speedAndBrightnessFlags          = 0x29;
+        enable_per_led_msg.j_rainbow_1.colorFlags                       = 0x80;
+        enable_per_led_msg.j_rainbow_1.cycle_or_led_num                 = 0x28;
+    }
+    if(IsZoneSupported(MSI_ZONE_J_RAINBOW_2, supported_zones))
+    {
+        enable_per_led_msg.j_rainbow_2.speedAndBrightnessFlags          = 0x29;
+        enable_per_led_msg.j_rainbow_2.colorFlags                       = 0x80;
+        enable_per_led_msg.j_rainbow_2.cycle_or_led_num                 = 0x28;
+    }
+    if(IsZoneSupported(MSI_ZONE_J_CORSAIR, supported_zones))
+    {
+        enable_per_led_msg.j_corsair.fan_flags                          = 0x29;
+        enable_per_led_msg.j_corsair.corsair_quantity                   = 0x00;
+        enable_per_led_msg.j_corsair.padding[2]                         = 0x82;
+        enable_per_led_msg.j_corsair.is_individual                      = 0x78;
+        enable_per_led_msg.j_corsair_outerll120.speedAndBrightnessFlags = 0x28;
+        enable_per_led_msg.j_corsair_outerll120.colorFlags              = 0x80;
+    }
+    if(IsZoneSupported(MSI_ZONE_ON_BOARD_LED_0, supported_zones))
+    {
+        enable_per_led_msg.on_board_led.effect                          = MSI_DIRECT_MODE;
+        enable_per_led_msg.on_board_led.speedAndBrightnessFlags         = 0x29 | SYNC_SETTING_JRGB;
+        enable_per_led_msg.on_board_led.colorFlags                      = PER_LED_FULL_SYNC_MODE;
+    }
+    if(IsZoneSupported(MSI_ZONE_J_RGB_2, supported_zones))
+    {
+        enable_per_led_msg.j_rgb_2.speedAndBrightnessFlags              = 0x2A;
+        enable_per_led_msg.j_rgb_2.colorFlags                           = 0x80;
+    }
 
     /*-----------------------------------------------------*\
     | Initialize zone based per LED data                    |
     \*-----------------------------------------------------*/
-    zone_based_per_led_data.j_rgb_1.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_rgb_1.colorFlags                      = BITSET(zone_based_per_led_data.j_rgb_1.colorFlags, true, 7u);
-    zone_based_per_led_data.j_pipe_1.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_pipe_1.colorFlags                     = BITSET(zone_based_per_led_data.j_pipe_1.colorFlags, true, 7u);
-    zone_based_per_led_data.j_pipe_2.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_pipe_2.colorFlags                     = BITSET(zone_based_per_led_data.j_pipe_2.colorFlags, true, 7u);
-    zone_based_per_led_data.j_rainbow_1.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_rainbow_1.colorFlags                  = BITSET(zone_based_per_led_data.j_rainbow_1.colorFlags, true, 7u);
-    zone_based_per_led_data.j_rainbow_2.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_rainbow_2.colorFlags                  = BITSET(zone_based_per_led_data.j_rainbow_2.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led.speedAndBrightnessFlags    = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led.colorFlags                 = BITSET(zone_based_per_led_data.on_board_led.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_1.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_1.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_1.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_2.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_2.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_2.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_3.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_3.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_3.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_4.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_4.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_4.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_5.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_5.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_5.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_6.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2 << 2;
-    zone_based_per_led_data.on_board_led_6.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_6.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_7.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100;
-    zone_based_per_led_data.on_board_led_7.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_7.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_8.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_8.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_8.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_9.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_9.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_9.colorFlags, true, 7u);
-    zone_based_per_led_data.j_rgb_2.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_rgb_2.colorFlags                      = BITSET(zone_based_per_led_data.j_rgb_2.colorFlags, true, 7u);
+    if(IsZoneSupported(MSI_ZONE_J_RGB_1, supported_zones))
+    {
+        zone_based_per_led_data.j_rgb_1.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << 2;
+        zone_based_per_led_data.j_rgb_1.colorFlags                      = BITSET(zone_based_per_led_data.j_rgb_1.colorFlags, true, 7u);
+    }
+    if(IsZoneSupported(MSI_ZONE_J_PIPE_1, supported_zones))
+    {
+        zone_based_per_led_data.j_pipe_1.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << 2;
+        zone_based_per_led_data.j_pipe_1.colorFlags                     = BITSET(zone_based_per_led_data.j_pipe_1.colorFlags, true, 7u);
+    }
+    if(IsZoneSupported(MSI_ZONE_J_PIPE_2, supported_zones))
+    {
+        zone_based_per_led_data.j_pipe_2.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << 2;
+        zone_based_per_led_data.j_pipe_2.colorFlags                     = BITSET(zone_based_per_led_data.j_pipe_2.colorFlags, true, 7u);
+    }
+    if(IsZoneSupported(MSI_ZONE_J_RAINBOW_1, supported_zones))
+    {
+        zone_based_per_led_data.j_rainbow_1.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << 2;
+        zone_based_per_led_data.j_rainbow_1.colorFlags                  = BITSET(zone_based_per_led_data.j_rainbow_1.colorFlags, true, 7u);
+    }
+    if(IsZoneSupported(MSI_ZONE_J_RAINBOW_2, supported_zones))
+    {
+        zone_based_per_led_data.j_rainbow_2.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << 2;
+        zone_based_per_led_data.j_rainbow_2.colorFlags                  = BITSET(zone_based_per_led_data.j_rainbow_2.colorFlags, true, 7u);
+    }
+    if(IsZoneSupported(MSI_ZONE_ON_BOARD_LED_0, supported_zones))
+    {
+        zone_based_per_led_data.on_board_led.speedAndBrightnessFlags    = MSI_BRIGHTNESS_LEVEL_100 << 2;
+        zone_based_per_led_data.on_board_led.colorFlags                 = BITSET(zone_based_per_led_data.on_board_led.colorFlags, true, 7u);
+    }
+    if(IsZoneSupported(MSI_ZONE_J_RGB_2, supported_zones))
+    {
+        zone_based_per_led_data.j_rgb_2.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << 2;
+        zone_based_per_led_data.j_rgb_2.colorFlags                      = BITSET(zone_based_per_led_data.j_rgb_2.colorFlags, true, 7u);
+    }
     zone_based_per_led_data.save_data                               = 0;
 
     direct_mode             = false;
@@ -581,6 +628,11 @@ void MSIMotherboard185Controller::SetMode
     bool            rainbow_color
     )
 {
+    if(!IsZoneSupported(zone, supported_zones))
+    {
+        return;
+    }
+
     if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0))
     {
         return;
@@ -807,6 +859,11 @@ void MSIMotherboard185Controller::SetZoneColor
     unsigned char   blu2
     )
 {
+    if(!IsZoneSupported(zone, supported_zones))
+    {
+        return;
+    }
+
     if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0))
     {
         return;
@@ -866,6 +923,11 @@ void MSIMotherboard185Controller::SetLedColor
     unsigned char   blu
     )
 {
+    if(!IsZoneSupported(zone, supported_zones))
+    {
+        return;
+    }
+
     if(per_led_mode == DIRECT_MODE_PER_LED)
     {
         Color* zone_data = GetPerLedZoneData(zone);
