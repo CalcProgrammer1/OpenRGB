@@ -869,20 +869,21 @@ bool MSIMotherboard185Controller::Update
     else
     {
         /*-------------------------------------------------*\
+        | Set the save flag                                 |
+        \*-------------------------------------------------*/
+        configuration_data.save_data = save;
+
+        /*-------------------------------------------------*\
         | Save a copy of the new configuration data         |
         \*-------------------------------------------------*/
-        FeaturePacket_185 new_configuration = configuration_data;
+        FeaturePacket_185 new_configuration;
+
         memcpy((unsigned char*)&new_configuration, (unsigned char*)&configuration_data, sizeof(configuration_data));
 
         /*-------------------------------------------------*\
         | Read the existing configuration data              |
         \*-------------------------------------------------*/
         ReadConfigurationData();
-
-        /*-------------------------------------------------*\
-        | Set the save flag on the old data                 |
-        \*-------------------------------------------------*/
-        configuration_data.save_data = save;
 
         /*-------------------------------------------------*\
         | First, send a copy of the existing configuration  |
@@ -896,12 +897,7 @@ bool MSIMotherboard185Controller::Update
         | Windows sends the old data followed by new data   |
         | so this mimics that flow.                         |
         \*-------------------------------------------------*/
-        memcpy((unsigned char*)&new_configuration, (unsigned char*)&new_configuration, sizeof(new_configuration));
-
-        /*-------------------------------------------------*\
-        | Set the save flag on the new data                 |
-        \*-------------------------------------------------*/
-        configuration_data.save_data = save;
+        memcpy((unsigned char*)&configuration_data, (unsigned char*)&new_configuration, sizeof(new_configuration));
 
         return(hid_send_feature_report(dev, (unsigned char*)&configuration_data, sizeof(configuration_data)) == sizeof(configuration_data));
     }
