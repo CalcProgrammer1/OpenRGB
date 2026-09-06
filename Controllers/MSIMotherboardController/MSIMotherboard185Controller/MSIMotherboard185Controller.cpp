@@ -619,6 +619,7 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     zone_based_per_led_data.on_board_led_9.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_9.colorFlags, true, 7u);
     zone_based_per_led_data.j_rgb_2.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << 2;
     zone_based_per_led_data.j_rgb_2.colorFlags                      = BITSET(zone_based_per_led_data.j_rgb_2.colorFlags, true, 7u);
+    zone_based_per_led_data.save_data                               = 0;
 
     direct_mode             = false;
     direct_mode_configured  = false;
@@ -673,7 +674,7 @@ void MSIMotherboard185Controller::SetMode
     zone_data->effect                    = mode;
     zone_data->speedAndBrightnessFlags   = ((brightness << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK)
                                          | ((speed << MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)           & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
-    zone_data->colorFlags                = (rainbow_color ? MSI_COLOR_FLAG_RAINBOW : 0);
+    zone_data->colorFlags                = (!rainbow_color ? MSI_COLOR_FLAG_RAINBOW : 0);
 
     /*-----------------------------------------------------*\
     | J_RAINBOW_3 zone needs padding of 4                   |
@@ -729,7 +730,7 @@ void MSIMotherboard185Controller::SetMode
                 zone_data->effect                    = mode;
                 zone_data->speedAndBrightnessFlags   = ((brightness << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK)
                                                      | ((speed << MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)           & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
-                zone_data->colorFlags                = (rainbow_color ? MSI_COLOR_FLAG_RAINBOW : 0);
+                zone_data->colorFlags                = (!rainbow_color ? MSI_COLOR_FLAG_RAINBOW : 0);
                 zone_data->padding                   = 0x00;
             }
         }
@@ -1365,7 +1366,7 @@ void MSIMotherboard185Controller::GetMode
     mode            = (MSI_MODE)        zone_data->effect;
     speed           = (MSI_SPEED)     ((zone_data->speedAndBrightnessFlags >> MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)      & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
     brightness      = (MSI_BRIGHTNESS)((zone_data->speedAndBrightnessFlags >> MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK);
-    rainbow_color   = (zone_data->colorFlags & MSI_COLOR_FLAG_RAINBOW) == 0 ? true : false;
+    rainbow_color   = !((zone_data->colorFlags & MSI_COLOR_FLAG_RAINBOW) == 0 ? true : false);
     color           = ToRGBColor(zone_data->color.R, zone_data->color.G, zone_data->color.B);
 }
 
