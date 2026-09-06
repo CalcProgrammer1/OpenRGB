@@ -122,13 +122,22 @@ enum MSI_BRIGHTNESS
 #define NUMOF_PER_LED_MODE_LEDS                     240
 #define NUM_LEDS_761                                720
 
-#define SYNC_SETTING_ONBOARD                        0x01
-#define SYNC_SETTING_JRAINBOW1                      0x02
-#define SYNC_SETTING_JRAINBOW2                      0x04
-#define SYNC_SETTING_JCORSAIR                       0x08
-#define SYNC_SETTING_JPIPE1                         0x10
-#define SYNC_SETTING_JPIPE2                         0x20
-#define SYNC_SETTING_JRGB                           0x80
+/*---------------------------------------------------------*\
+| Flag bitfield bit definitions                             |
+| Note that the sync flags split across the two fields      |
+\*---------------------------------------------------------*/
+#define MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT       0
+#define MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK        (0x03 << MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)
+#define MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT  2
+#define MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK   (0x1F << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT)
+#define MSI_SPEED_BRIGHTNESS_FLAG_SYNC_SETTING_JRGB (1 << 7)
+#define MSI_COLOR_FLAG_SYNC_SETTING_ONBOARD         (1 << 0)
+#define MSI_COLOR_FLAG_SYNC_SETTING_JRAINBOW1       (1 << 1)
+#define MSI_COLOR_FLAG_SYNC_SETTING_JRAINBOW2       (1 << 2)
+#define MSI_COLOR_FLAG_SYNC_SETTING_JCORSAIR        (1 << 3)
+#define MSI_COLOR_FLAG_SYNC_SETTING_JPIPE1          (1 << 4)
+#define MSI_COLOR_FLAG_SYNC_SETTING_JPIPE2          (1 << 5)
+#define MSI_COLOR_FLAG_RAINBOW                      (1 << 7)
 
 struct Color
 {

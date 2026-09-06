@@ -109,13 +109,13 @@ void MSIMotherboard112Controller::SetMode
 
         if(mode > MSI_MODE_DOUBLE_FLASHING)
         {
-            zone_data->speedAndBrightnessFlags |= SYNC_SETTING_JRGB;
-            zone_data->colorFlags              |= SYNC_SETTING_ONBOARD;
+            zone_data->speedAndBrightnessFlags |= MSI_SPEED_BRIGHTNESS_FLAG_SYNC_SETTING_JRGB;
+            zone_data->colorFlags              |= MSI_COLOR_FLAG_SYNC_SETTING_ONBOARD;
         }
         else
         {
-            zone_data->speedAndBrightnessFlags &= ~SYNC_SETTING_JRGB;
-            zone_data->colorFlags              &= ~SYNC_SETTING_ONBOARD;
+            zone_data->speedAndBrightnessFlags &= ~MSI_SPEED_BRIGHTNESS_FLAG_SYNC_SETTING_JRGB;
+            zone_data->colorFlags              &= ~MSI_COLOR_FLAG_SYNC_SETTING_ONBOARD;
         }
     }
 

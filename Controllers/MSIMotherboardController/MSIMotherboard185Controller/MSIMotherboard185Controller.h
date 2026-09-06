@@ -121,12 +121,21 @@ private:
     std::string                     version_APROM;
     std::string                     version_LDROM;
 
-    FeaturePacket_185               data;
+    /*-----------------------------------------------------*\
+    | Configuration Data, mirrors the configuration block   |
+    | stored in the microcontroller's data flash            |
+    \*-----------------------------------------------------*/
+    FeaturePacket_185               configuration_data;
+
+    /*-----------------------------------------------------*\
+    | Per-LED Direct Mode packet buffers for each zone      |
+    \*-----------------------------------------------------*/
     FeaturePacket_PerLED_185        per_led_data_onboard_and_sync;
     FeaturePacket_PerLED_185        per_led_data_jrainbow1;
     FeaturePacket_PerLED_185        per_led_data_jrainbow2;
     FeaturePacket_PerLED_185        per_led_data_jcorsair;
     FeaturePacket_185               zone_based_per_led_data;
+
     bool                            direct_mode;
     bool                            direct_mode_configured;
     bool                            sync_direct_mode;
@@ -142,7 +151,7 @@ private:
     const std::vector<MSI_ZONE>*    supported_zones;
     DIRECT_MODE                     per_led_mode;
 
-    bool            ReadSettings();
+    bool            ReadConfigurationData();
     bool            ReadFwVersion();
     ZoneData*       GetZoneData
                         (
