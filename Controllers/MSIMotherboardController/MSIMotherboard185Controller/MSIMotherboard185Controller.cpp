@@ -256,7 +256,7 @@ const std::vector<MSI_ZONE> zones_set21 =
 
 static const mystic_light_185_config board_configs[] =
 {
-    { 0x7B93, nullptr,                              6,  1,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MPG X570 GAMING PRO CARBON WIFI
+    { 0x7B93, nullptr,                              6,  1,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED },    // MPG X570 GAMING PRO CARBON WIFI
     { 0x7C34, nullptr,                              0,  1,  1, 1, &zones_set8,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MEG X570 GODLIKE
     { 0x7C35, nullptr,                              0,  1,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // MEG X570 ACE
     { 0x7C36, nullptr,                              6,  1,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED },    // PRESTIGE X570 CREATION
