@@ -640,15 +640,6 @@ void MSIMotherboard185Controller::SetMode
     bool            rainbow_color
     )
 {
-    /*-----------------------------------------------------*\
-    | If the target zone is not supported by this board,    |
-    | return without modifying the zone's data              |
-    \*-----------------------------------------------------*/
-    if(!IsZoneSupported(zone, supported_zones))
-    {
-        return;
-    }
-
     if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0))
     {
         return;
@@ -927,15 +918,6 @@ void MSIMotherboard185Controller::SetZoneColor
     unsigned char   blu2
     )
 {
-    /*-----------------------------------------------------*\
-    | If the target zone is not supported by this board,    |
-    | return without modifying the zone's data              |
-    \*-----------------------------------------------------*/
-    if(!IsZoneSupported(zone, supported_zones))
-    {
-        return;
-    }
-
     if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0))
     {
         return;
@@ -1014,15 +996,6 @@ void MSIMotherboard185Controller::SetLedColor
     unsigned char   blu
     )
 {
-    /*-----------------------------------------------------*\
-    | If the target zone is not supported by this board,    |
-    | return without modifying the zone's data              |
-    \*-----------------------------------------------------*/
-    if(!IsZoneSupported(zone, supported_zones))
-    {
-        return;
-    }
-
     /*-----------------------------------------------------*\
     | If this board supports Per-LED direct mode, update    |
     | the per-LED packet buffers                            |
