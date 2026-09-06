@@ -104,7 +104,7 @@ void MSIMotherboard112Controller::SetMode
     {
         zone_data->effect                    = mode;
         zone_data->speedAndBrightnessFlags   = (brightness << 2) | (speed & 0x03);
-        zone_data->colorFlags                = BITSET(zone_data->colorFlags, !rainbow_color, 7u);
+        zone_data->colorFlags                = (rainbow_color ? 0 : MSI_COLOR_FLAG_USE_CUSTOM_COLOR);
         zone_data->padding                   = 0x00;
 
         if(mode > MSI_MODE_DOUBLE_FLASHING)
@@ -127,7 +127,7 @@ void MSIMotherboard112Controller::SetMode
         {
             zone_data->effect                    = mode;
             zone_data->speedAndBrightnessFlags   = (brightness << 2) | (speed & 0x03);
-            zone_data->colorFlags                = BITSET(zone_data->colorFlags, !rainbow_color, 7u);
+            zone_data->colorFlags                = (rainbow_color ? 0 : MSI_COLOR_FLAG_USE_CUSTOM_COLOR);
             zone_data->padding                   = 0x00;
         }
     }
@@ -410,10 +410,10 @@ void MSIMotherboard112Controller::GetMode
     /*-----------------------------------------------------*\
     | Update pointers with data                             |
     \*-----------------------------------------------------*/
-    mode            = (MSI_MODE)zone_data->effect;
-    speed           = (MSI_SPEED)(zone_data->speedAndBrightnessFlags & 0x03);
-    brightness      = (MSI_BRIGHTNESS)((zone_data->speedAndBrightnessFlags >> 2) & 0x1F);
-    rainbow_color   = (zone_data->colorFlags & 0x80) == 0 ? true : false;
+    mode            = (MSI_MODE)        zone_data->effect;
+    speed           = (MSI_SPEED)     ((zone_data->speedAndBrightnessFlags >> MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)      & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
+    brightness      = (MSI_BRIGHTNESS)((zone_data->speedAndBrightnessFlags >> MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK);
+    rainbow_color   = ((zone_data->colorFlags & MSI_COLOR_FLAG_USE_CUSTOM_COLOR) == 0 ? false : true);
     color           = ToRGBColor(zone_data->color.R, zone_data->color.G, zone_data->color.B);
 }
 

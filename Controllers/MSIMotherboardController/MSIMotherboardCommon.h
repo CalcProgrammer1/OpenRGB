@@ -137,7 +137,7 @@ enum MSI_BRIGHTNESS
 #define MSI_COLOR_FLAG_SYNC_SETTING_JCORSAIR        (1 << 3)
 #define MSI_COLOR_FLAG_SYNC_SETTING_JPIPE1          (1 << 4)
 #define MSI_COLOR_FLAG_SYNC_SETTING_JPIPE2          (1 << 5)
-#define MSI_COLOR_FLAG_RAINBOW                      (1 << 7)
+#define MSI_COLOR_FLAG_USE_CUSTOM_COLOR             (1 << 7)
 
 struct Color
 {
