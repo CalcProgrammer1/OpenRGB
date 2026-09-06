@@ -3141,6 +3141,45 @@ static const razer_device huntsman_v3_pro_tkl_device =
     &razer_huntsman_v3_pro_tkl_layout
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Huntsman V3 HE Magnetic Mini 1532:02E4                 |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns (matrix dims borrowed from Huntsman  |
+|       V3 Pro pending confirmation on real hardware -- extra   |
+|       columns beyond the physical 65% board are simply inert. |
+|       No layout overlay yet: key names fall back to raw       |
+|       matrix positions until the mapping is verified.)        |
+\*-------------------------------------------------------------*/
+static const razer_zone huntsman_v3_he_magnetic_mini_keyboard_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device huntsman_v3_he_magnetic_mini_device =
+{
+    "Razer Huntsman V3 HE Magnetic Mini",
+    RAZER_HUNTSMAN_V3_HE_MAGNETIC_MINI_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
+    6,
+    22,
+    {
+        &huntsman_v3_he_magnetic_mini_keyboard_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
 /*-------------------------------------------------------------------------*\
 |  LAPTOPS                                                                  |
 \*-------------------------------------------------------------------------*/
@@ -9446,6 +9485,7 @@ const razer_device* razer_device_list[] =
     &huntsman_v2_tkl_device,
     &huntsman_v3_pro_device,
     &huntsman_v3_pro_tkl_device,
+    &huntsman_v3_he_magnetic_mini_device,
     &ornata_chroma_device,
     &ornata_chroma_v2_device,
     &ornata_v3_device,

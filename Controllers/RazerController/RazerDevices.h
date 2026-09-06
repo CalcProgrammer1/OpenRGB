@@ -124,6 +124,7 @@
 #define RAZER_HUNTSMAN_V2_PID                           0x026C
 #define RAZER_HUNTSMAN_V3_PRO_PID                       0x02A6
 #define RAZER_HUNTSMAN_V3_PRO_TKL_WHITE_PID             0x02A7
+#define RAZER_HUNTSMAN_V3_HE_MAGNETIC_MINI_PID          0x02E4
 #define RAZER_ORBWEAVER_CHROMA_PID                      0x0207
 #define RAZER_ORNATA_CHROMA_PID                         0x021E
 #define RAZER_ORNATA_CHROMA_V2_PID                      0x025D
