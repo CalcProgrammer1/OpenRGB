@@ -1428,7 +1428,7 @@ void DetectionManager::BackgroundHIDInit()
             .hid_enumerate                      = (hidapi_wrapper_enumerate)                    dlsym(hidapi_libusb_handle,"hid_enumerate"),
             .hid_free_enumeration               = (hidapi_wrapper_free_enumeration)             dlsym(hidapi_libusb_handle,"hid_free_enumeration"),
             .hid_close                          = (hidapi_wrapper_close)                        dlsym(hidapi_libusb_handle,"hid_close"),
-            .hid_error                          = (hidapi_wrapper_error)                        dlsym(hidapi_libusb_handle,"hid_free_enumeration"),
+            .hid_error                          = (hidapi_wrapper_error)                        dlsym(hidapi_libusb_handle,"hid_error"),
 #if(HID_HOTPLUG_ENABLED)
             .hid_hotplug_register_callback      = (hidapi_wrapper_hotplug_register_callback)    dlsym(hidapi_libusb_handle,"hid_hotplug_register_callback"),
             .hid_hotplug_deregister_callback    = (hidapi_wrapper_hotplug_deregister_callback)  dlsym(hidapi_libusb_handle,"hid_hotplug_deregister_callback"),
