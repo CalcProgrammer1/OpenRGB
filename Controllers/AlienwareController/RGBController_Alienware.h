@@ -28,6 +28,7 @@ public:
     void        DeviceUpdateSingleLED(int led);
 
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
 
 private:
     AlienwareController*                    controller;

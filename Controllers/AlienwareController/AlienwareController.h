@@ -123,11 +123,13 @@ public:
     void                        SetPeriod(uint8_t zone, uint16_t period);
     void                        SetTempo(uint8_t zone, uint16_t tempo);
     void                        SetDim(uint8_t zone, uint8_t dim);
+    void                        SetDirection(uint8_t zone, uint8_t direction);
     AlienwareReport             GetStatus(uint8_t subcommand);
 
     void                        UpdateDim();
     void                        UpdateMode();
     void                        UpdateController();
+    void                        SaveController();
 
 protected:
     hid_device* dev;
@@ -140,6 +142,7 @@ private:
         uint16_t                period;
         uint16_t                tempo;
         uint8_t                 dim;
+        uint8_t                 direction;
     } alienware_zone;
 
     typedef struct
@@ -153,6 +156,7 @@ private:
     std::string                 serial_number;
     std::string                 version;
     std::vector<const char*>    zone_names;
+    std::vector<uint8_t>        zone_ids;
     bool                        dirty;
     bool                        dirty_dim;
 
