@@ -85,24 +85,32 @@ MSIMotherboard162Controller::MSIMotherboard162Controller(hid_device* handle, con
     location    = path;
     name        = dev_name;
 
-    if(dev)
-    {
-        ReadFwVersion();
-        ReadSettings();
-    }
-
     /*-----------------------------------------------------*\
-    | Initialize save flag                                  |
+    | Perform initial reads - get the controller's firmware |
+    | version and then read the controller's active         |
+    | configuration data                                    |
     \*-----------------------------------------------------*/
-    data.save_data = 0;
-    data.on_board_led.colorFlags = 0x81;    // force MS bit of color flags to 1 to have expectd zone control
+    ReadFwVersion();
+    ReadSettings();
 
     /*-----------------------------------------------------*\
-    | Initialize zone based per LED data                    |
+    | The last byte of the packet is the save flag.  This   |
+    | byte is stored as a zero in the data flash, but is    |
+    | set to 1 at the protocol level to tell the firmware   |
+    | to save the active configuration to flash.            |
+    | Also set onboard zone to act as sync master for all   |
+    | of the onboard LEDs.                                  |
+    \*-----------------------------------------------------*/
+    data.save_data                  = 0;
+    data.on_board_led.colorFlags    = MSI_COLOR_FLAG_USE_CUSTOM_COLOR | MSI_COLOR_FLAG_SYNC_SETTING_ONBOARD;
+
+    /*-----------------------------------------------------*\
+    | Search for the board configuration matching this      |
+    | board.                                                |
     \*-----------------------------------------------------*/
     const mystic_light_162_config* board_config = nullptr;
 
-    for(std::size_t i = 0; i < NUMOF_CONFIGS; ++i)
+    for(std::size_t i = 0; i < NUMOF_CONFIGS; i++)
     {
         if (board_configs[i].pid == pid)
         {
@@ -111,6 +119,10 @@ MSIMotherboard162Controller::MSIMotherboard162Controller(hid_device* handle, con
         }
     }
 
+    /*-----------------------------------------------------*\
+    | Fill in the number of each zone type based on the     |
+    | board configuration                                   |
+    \*-----------------------------------------------------*/
     if(board_config != nullptr)
     {
         numof_onboard_leds = board_config->numof_onboard_leds;
@@ -137,29 +149,38 @@ void MSIMotherboard162Controller::SetMode
     bool            rainbow_color
     )
 {
+    /*-----------------------------------------------------*\
+    | Get the zone data pointer within the configuration    |
+    | data buffer                                           |
+    \*-----------------------------------------------------*/
     ZoneData* zone_data = GetZoneData(data, zone);
 
+    /*-----------------------------------------------------*\
+    | Return if zone is invalid                             |
+    \*-----------------------------------------------------*/
     if(zone_data == nullptr)
     {
         return;
     }
 
-    if (zone <= MSI_ZONE_ON_BOARD_LED_0)
+    if(zone <= MSI_ZONE_ON_BOARD_LED_0)
     {
         zone_data->effect                    = mode;
-        zone_data->speedAndBrightnessFlags   = (brightness << 2) | (speed & 0x03);
-        zone_data->colorFlags                = BITSET(zone_data->colorFlags, !rainbow_color, 7u);
+        zone_data->speedAndBrightnessFlags   = ((brightness << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK)
+                                             | ((speed << MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)           & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
+        zone_data->colorFlags                = (rainbow_color ? (zone_data->colorFlags & ~MSI_COLOR_FLAG_USE_CUSTOM_COLOR)
+                                                              : (zone_data->colorFlags | MSI_COLOR_FLAG_USE_CUSTOM_COLOR));
         zone_data->padding                   = 0x00;
 
         if(mode > MSI_MODE_DOUBLE_FLASHING)
         {
-            zone_data->speedAndBrightnessFlags |= SYNC_SETTING_JRGB;
-            zone_data->colorFlags              |= SYNC_SETTING_ONBOARD;
+            zone_data->speedAndBrightnessFlags |= MSI_SPEED_BRIGHTNESS_FLAG_SYNC_SETTING_JRGB;
+            zone_data->colorFlags              |= MSI_COLOR_FLAG_SYNC_SETTING_ONBOARD;
         }
         else
         {
-            zone_data->speedAndBrightnessFlags &= ~SYNC_SETTING_JRGB;
-            zone_data->colorFlags              &= ~SYNC_SETTING_ONBOARD;
+            zone_data->speedAndBrightnessFlags &= ~MSI_SPEED_BRIGHTNESS_FLAG_SYNC_SETTING_JRGB;
+            zone_data->colorFlags              &= ~MSI_COLOR_FLAG_SYNC_SETTING_ONBOARD;
         }
     }
 
@@ -170,8 +191,10 @@ void MSIMotherboard162Controller::SetMode
         if(zone_data != nullptr)
         {
             zone_data->effect                    = mode;
-            zone_data->speedAndBrightnessFlags   = (brightness << 2) | (speed & 0x03);
-            zone_data->colorFlags                = BITSET(zone_data->colorFlags, !rainbow_color, 7u);
+            zone_data->speedAndBrightnessFlags   = ((brightness << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK)
+                                                 | ((speed << MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)           & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
+            zone_data->colorFlags                = (rainbow_color ? (zone_data->colorFlags & ~MSI_COLOR_FLAG_USE_CUSTOM_COLOR)
+                                                                  : (zone_data->colorFlags | MSI_COLOR_FLAG_USE_CUSTOM_COLOR));
             zone_data->padding                   = 0x00;
         }
     }
@@ -238,14 +261,21 @@ void MSIMotherboard162Controller::SetZoneColor
     unsigned char   blu2
     )
 {
+    /*-----------------------------------------------------*\
+    | Get the zone data pointer within the configuration    |
+    | data buffer                                           |
+    \*-----------------------------------------------------*/
     ZoneData* zone_data = GetZoneData(data, zone);
 
+    /*-----------------------------------------------------*\
+    | Return if zone is invalid                             |
+    \*-----------------------------------------------------*/
     if(zone_data == nullptr)
     {
         return;
     }
 
-    if (zone <= MSI_ZONE_ON_BOARD_LED_0)
+    if(zone <= MSI_ZONE_ON_BOARD_LED_0)
     {
         zone_data->color.R  = red1;
         zone_data->color.G  = grn1;
@@ -431,10 +461,10 @@ void MSIMotherboard162Controller::GetMode
     /*-----------------------------------------------------*\
     | Update pointers with data                             |
     \*-----------------------------------------------------*/
-    mode            = (MSI_MODE)zone_data->effect;
-    speed           = (MSI_SPEED)(zone_data->speedAndBrightnessFlags & 0x03);
-    brightness      = (MSI_BRIGHTNESS)((zone_data->speedAndBrightnessFlags >> 2) & 0x1F);
-    rainbow_color   = (zone_data->colorFlags & 0x80) == 0 ? true : false;
+    mode            = (MSI_MODE)        zone_data->effect;
+    speed           = (MSI_SPEED)     ((zone_data->speedAndBrightnessFlags >> MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)      & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
+    brightness      = (MSI_BRIGHTNESS)((zone_data->speedAndBrightnessFlags >> MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK);
+    rainbow_color   = ((zone_data->colorFlags & MSI_COLOR_FLAG_USE_CUSTOM_COLOR) == 0 ? false : true);
     color           = ToRGBColor(zone_data->color.R, zone_data->color.G, zone_data->color.B);
 }
 

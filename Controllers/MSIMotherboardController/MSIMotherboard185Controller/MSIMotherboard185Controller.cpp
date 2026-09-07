@@ -33,8 +33,8 @@ using namespace std::chrono_literals;
 #define JCORSAIR_MAX_LED_COUNT                  240
 
 #define MSI_DIRECT_MODE                         0x25
-#define PER_LED_BASIC_SYNC_MODE                 (0x80 | SYNC_SETTING_ONBOARD | SYNC_SETTING_JPIPE1 | SYNC_SETTING_JPIPE2)
-#define PER_LED_FULL_SYNC_MODE                  (PER_LED_BASIC_SYNC_MODE | SYNC_SETTING_JRAINBOW1 | SYNC_SETTING_JRAINBOW2 | SYNC_SETTING_JCORSAIR)
+#define PER_LED_BASIC_SYNC_MODE                 (MSI_COLOR_FLAG_USE_CUSTOM_COLOR | MSI_COLOR_FLAG_SYNC_SETTING_ONBOARD | MSI_COLOR_FLAG_SYNC_SETTING_JPIPE1 | MSI_COLOR_FLAG_SYNC_SETTING_JPIPE2)
+#define PER_LED_FULL_SYNC_MODE                  (PER_LED_BASIC_SYNC_MODE | MSI_COLOR_FLAG_SYNC_SETTING_JRAINBOW1 | MSI_COLOR_FLAG_SYNC_SETTING_JRAINBOW2 | MSI_COLOR_FLAG_SYNC_SETTING_JCORSAIR)
 
 struct mystic_light_185_config
 {
@@ -371,18 +371,27 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     location    = path;
     name        = dev_name;
 
-    if(dev)
-    {
-        ReadFwVersion();
-        ReadSettings();
-    }
+    /*-----------------------------------------------------*\
+    | Perform initial reads - get the controller's firmware |
+    | version and then read the controller's active         |
+    | configuration data                                    |
+    \*-----------------------------------------------------*/
+    ReadFwVersion();
+    ReadSettings();
 
+    /*-----------------------------------------------------*\
+    | Common PID boards embed their virtual PID in the      |
+    | serial number, extract it                             |
+    \*-----------------------------------------------------*/
     if(pid == MSI_USB_PID_COMMON)
     {
         std::string pidStr(GetSerial().substr(0, 4));
         pid = std::stoi(pidStr, nullptr, 16);
     }
 
+    /*-----------------------------------------------------*\
+    | Determine if this board has mixed-mode support        |
+    \*-----------------------------------------------------*/
     mixed_mode_support = false;
 
     if(pid >= 0x7D03)
@@ -391,14 +400,23 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     }
 
     /*-----------------------------------------------------*\
-    | Initialize save flag and some static settings         |
+    | The last byte of the packet is the save flag.  This   |
+    | byte is stored as a zero in the data flash, but is    |
+    | set to 1 at the protocol level to tell the firmware   |
+    | to save the active configuration to flash.            |
+    | Also set onboard zone to act as sync master for all   |
+    | of the onboard LEDs.                                  |
     \*-----------------------------------------------------*/
-    data.save_data = 0;
-    data.on_board_led.colorFlags = 0x80 | SYNC_SETTING_ONBOARD; // always enable onboard sync flag to have expected zone control
+    data.save_data                  = 0;
+    data.on_board_led.colorFlags    = MSI_COLOR_FLAG_USE_CUSTOM_COLOR | MSI_COLOR_FLAG_SYNC_SETTING_ONBOARD;
 
+    /*-----------------------------------------------------*\
+    | Search for the board configuration matching this      |
+    | board.                                                |
+    \*-----------------------------------------------------*/
     const mystic_light_185_config* board_config = nullptr;
 
-    for(std::size_t i = 0; i < NUMOF_CONFIGS; ++i)
+    for(std::size_t i = 0; i < NUMOF_CONFIGS; i++)
     {
         if(board_configs[i].pid == pid)
         {
@@ -407,6 +425,10 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
         }
     }
 
+    /*-----------------------------------------------------*\
+    | Fill in the number of each zone type based on the     |
+    | board configuration                                   |
+    \*-----------------------------------------------------*/
     if(board_config != nullptr)
     {
         numof_onboard_leds = board_config->numof_onboard_leds;
@@ -500,7 +522,7 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     enable_per_led_msg.j_corsair_outerll120.speedAndBrightnessFlags = 0x28;
     enable_per_led_msg.j_corsair_outerll120.colorFlags              = 0x80;
     enable_per_led_msg.on_board_led.effect                          = MSI_DIRECT_MODE;
-    enable_per_led_msg.on_board_led.speedAndBrightnessFlags         = 0x29 | SYNC_SETTING_JRGB;
+    enable_per_led_msg.on_board_led.speedAndBrightnessFlags         = 0x29 | MSI_SPEED_BRIGHTNESS_FLAG_SYNC_SETTING_JRGB;
     enable_per_led_msg.on_board_led.colorFlags                      = PER_LED_FULL_SYNC_MODE;
     enable_per_led_msg.on_board_led_1.speedAndBrightnessFlags       = 0x28;
     enable_per_led_msg.on_board_led_1.colorFlags                    = 0x80;
@@ -526,38 +548,38 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     /*-----------------------------------------------------*\
     | Initialize zone based per LED data                    |
     \*-----------------------------------------------------*/
-    zone_based_per_led_data.j_rgb_1.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_rgb_1.colorFlags                      = BITSET(zone_based_per_led_data.j_rgb_1.colorFlags, true, 7u);
-    zone_based_per_led_data.j_pipe_1.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_pipe_1.colorFlags                     = BITSET(zone_based_per_led_data.j_pipe_1.colorFlags, true, 7u);
-    zone_based_per_led_data.j_pipe_2.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_pipe_2.colorFlags                     = BITSET(zone_based_per_led_data.j_pipe_2.colorFlags, true, 7u);
-    zone_based_per_led_data.j_rainbow_1.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_rainbow_1.colorFlags                  = BITSET(zone_based_per_led_data.j_rainbow_1.colorFlags, true, 7u);
-    zone_based_per_led_data.j_rainbow_2.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_rainbow_2.colorFlags                  = BITSET(zone_based_per_led_data.j_rainbow_2.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led.speedAndBrightnessFlags    = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led.colorFlags                 = BITSET(zone_based_per_led_data.on_board_led.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_1.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_1.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_1.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_2.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_2.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_2.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_3.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_3.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_3.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_4.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_4.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_4.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_5.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_5.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_5.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_6.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2 << 2;
-    zone_based_per_led_data.on_board_led_6.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_6.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_7.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100;
-    zone_based_per_led_data.on_board_led_7.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_7.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_8.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_8.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_8.colorFlags, true, 7u);
-    zone_based_per_led_data.on_board_led_9.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.on_board_led_9.colorFlags               = BITSET(zone_based_per_led_data.on_board_led_9.colorFlags, true, 7u);
-    zone_based_per_led_data.j_rgb_2.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << 2;
-    zone_based_per_led_data.j_rgb_2.colorFlags                      = BITSET(zone_based_per_led_data.j_rgb_2.colorFlags, true, 7u);
+    zone_based_per_led_data.j_rgb_1.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.j_rgb_1.colorFlags                     |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.j_pipe_1.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.j_pipe_1.colorFlags                    |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.j_pipe_2.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.j_pipe_2.colorFlags                    |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.j_rainbow_1.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.j_rainbow_1.colorFlags                 |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.j_rainbow_2.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.j_rainbow_2.colorFlags                 |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led.speedAndBrightnessFlags    = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led.colorFlags                |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led_1.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led_1.colorFlags              |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led_2.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led_2.colorFlags              |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led_3.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led_3.colorFlags              |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led_4.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led_4.colorFlags              |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led_5.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led_5.colorFlags              |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led_6.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led_6.colorFlags              |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led_7.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led_7.colorFlags              |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led_8.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led_8.colorFlags              |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.on_board_led_9.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.on_board_led_9.colorFlags              |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+    zone_based_per_led_data.j_rgb_2.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+    zone_based_per_led_data.j_rgb_2.colorFlags                     |= MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
     zone_based_per_led_data.save_data                               = 0;
 
     direct_mode             = false;
@@ -584,40 +606,74 @@ void MSIMotherboard185Controller::SetMode
         return;
     }
 
+    /*-----------------------------------------------------*\
+    | Get the zone data pointer within the configuration    |
+    | data buffer                                           |
+    \*-----------------------------------------------------*/
     ZoneData* zone_data = GetZoneData(data, zone);
 
+    /*-----------------------------------------------------*\
+    | Return if zone is invalid                             |
+    \*-----------------------------------------------------*/
     if(zone_data == nullptr)
     {
         return;
     }
 
+    /*-----------------------------------------------------*\
+    | Update the zone's mode and mode parameters            |
+    \*-----------------------------------------------------*/
     zone_data->effect                    = mode;
-    zone_data->speedAndBrightnessFlags   = (brightness << 2) | (speed & 0x03);
-    zone_data->colorFlags                = BITSET(zone_data->colorFlags, !rainbow_color, 7u);
+    zone_data->speedAndBrightnessFlags   = ((brightness << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK)
+                                         | ((speed << MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)           & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
+    zone_data->colorFlags                = (rainbow_color ? (zone_data->colorFlags & ~MSI_COLOR_FLAG_USE_CUSTOM_COLOR)
+                                                          : (zone_data->colorFlags | MSI_COLOR_FLAG_USE_CUSTOM_COLOR));
+
+    /*-----------------------------------------------------*\
+    | J_RAINBOW_3 zone needs padding of 4                   |
+    \*-----------------------------------------------------*/
     zone == MSI_ZONE_J_RAINBOW_3 ? zone_data->padding = 4 : zone_data->padding = 0;
 
+    /*-----------------------------------------------------*\
+    | Get the zone data pointer to the on-board LED 0 zone  |
+    \*-----------------------------------------------------*/
     ZoneData* on_board_zone = GetZoneData(data, MSI_ZONE_ON_BOARD_LED_0);
 
+    /*-----------------------------------------------------*\
+    | If the zone is JRGB or JPIPE and the board has no     |
+    | onboard LEDs, set the onboard zone to this zone's     |
+    | settings                                              |
+    \*-----------------------------------------------------*/
     if(no_onboards && ((zone == MSI_ZONE_J_RGB_1) || (zone == MSI_ZONE_J_RGB_2) || (zone == MSI_ZONE_J_PIPE_1) || (zone == MSI_ZONE_J_PIPE_2)))
     {
-        on_board_zone->effect                  =  zone_data->effect;
-        on_board_zone->speedAndBrightnessFlags =  zone_data->speedAndBrightnessFlags;
-        on_board_zone->colorFlags              =  zone_data->colorFlags;
-        on_board_zone->colorFlags              |= SYNC_SETTING_ONBOARD;
-        on_board_zone->padding                 =  0x00;
+        on_board_zone->effect                   =  zone_data->effect;
+        zone_data->speedAndBrightnessFlags      = ((brightness << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK)
+                                                | ((speed << MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)           & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
+        zone_data->colorFlags                   = (rainbow_color ? (zone_data->colorFlags & ~MSI_COLOR_FLAG_USE_CUSTOM_COLOR)
+                                                                 : (zone_data->colorFlags | MSI_COLOR_FLAG_USE_CUSTOM_COLOR));
+        on_board_zone->colorFlags              |= MSI_COLOR_FLAG_SYNC_SETTING_ONBOARD;
+        on_board_zone->padding                  = 0x00;
     }
 
+    /*-----------------------------------------------------*\
+    | For modes above MSI_MODE_LIGHTNING, set the onboard   |
+    | zone to sync with JRGB, JPIPE1, and JPIPE2            |
+    \*-----------------------------------------------------*/
     if(mode > MSI_MODE_LIGHTNING)
     {
-        on_board_zone->speedAndBrightnessFlags |= SYNC_SETTING_JRGB;
-        on_board_zone->colorFlags              |= (SYNC_SETTING_JPIPE1 | SYNC_SETTING_JPIPE2);
+        on_board_zone->speedAndBrightnessFlags |= MSI_SPEED_BRIGHTNESS_FLAG_SYNC_SETTING_JRGB;
+        on_board_zone->colorFlags              |= (MSI_COLOR_FLAG_SYNC_SETTING_JPIPE1 | MSI_COLOR_FLAG_SYNC_SETTING_JPIPE2);
     }
     else
     {
-        on_board_zone->speedAndBrightnessFlags &= ~SYNC_SETTING_JRGB;
-        on_board_zone->colorFlags              &= ~(SYNC_SETTING_JPIPE1 | SYNC_SETTING_JPIPE2);
+        on_board_zone->speedAndBrightnessFlags &= ~MSI_SPEED_BRIGHTNESS_FLAG_SYNC_SETTING_JRGB;
+        on_board_zone->colorFlags              &= ~(MSI_COLOR_FLAG_SYNC_SETTING_JPIPE1 | MSI_COLOR_FLAG_SYNC_SETTING_JPIPE2);
     }
 
+    /*-----------------------------------------------------*\
+    | For modes at or below MSI_MODE_LIGHTNING, set all     |
+    | onboard LED zones to match onboard LED zone 0         |
+    \*-----------------------------------------------------*/
     if((zone == MSI_ZONE_ON_BOARD_LED_0) && (mode <= MSI_MODE_LIGHTNING))
     {
         for(int i = 0; i < numof_onboard_leds; ++i)
@@ -627,8 +683,10 @@ void MSIMotherboard185Controller::SetMode
             if(zone_data != nullptr)
             {
                 zone_data->effect                    = mode;
-                zone_data->speedAndBrightnessFlags   = (brightness << 2) | (speed & 0x03);
-                zone_data->colorFlags                = BITSET(zone_data->colorFlags, !rainbow_color, 7u);
+                zone_data->speedAndBrightnessFlags   = ((brightness << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK)
+                                                     | ((speed << MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)           & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
+                zone_data->colorFlags                = (rainbow_color ? (zone_data->colorFlags & ~MSI_COLOR_FLAG_USE_CUSTOM_COLOR)
+                                                                      : (zone_data->colorFlags | MSI_COLOR_FLAG_USE_CUSTOM_COLOR));
                 zone_data->padding                   = 0x00;
             }
         }
@@ -789,13 +847,23 @@ void MSIMotherboard185Controller::SetZoneColor
         return;
     }
 
+    /*-----------------------------------------------------*\
+    | Get the zone data pointer within the configuration    |
+    | data buffer                                           |
+    \*-----------------------------------------------------*/
     ZoneData* zone_data = GetZoneData(data, zone);
 
+    /*-----------------------------------------------------*\
+    | Return if zone is invalid                             |
+    \*-----------------------------------------------------*/
     if(zone_data == nullptr)
     {
         return;
     }
 
+    /*-----------------------------------------------------*\
+    | Set the colors in the zone data                       |
+    \*-----------------------------------------------------*/
     zone_data->color.R  = red1;
     zone_data->color.G  = grn1;
     zone_data->color.B  = blu1;
@@ -803,6 +871,11 @@ void MSIMotherboard185Controller::SetZoneColor
     zone_data->color2.G = grn2;
     zone_data->color2.B = blu2;
 
+    /*-----------------------------------------------------*\
+    | If the zone is JRGB or JPIPE and the board has no     |
+    | onboard LEDs, set the onboard zone's colors to this   |
+    | zone's colors                                         |
+    \*-----------------------------------------------------*/
     if(no_onboards && ((zone == MSI_ZONE_J_RGB_1) || (zone == MSI_ZONE_J_RGB_2) || (zone == MSI_ZONE_J_PIPE_1) || (zone == MSI_ZONE_J_PIPE_2)))
     {
         ZoneData* on_board_zone = GetZoneData(data, MSI_ZONE_ON_BOARD_LED_0);
@@ -815,6 +888,10 @@ void MSIMotherboard185Controller::SetZoneColor
         on_board_zone->color2.B = blu2;
     }
 
+    /*-----------------------------------------------------*\
+    | Set all onboard LED zones' colors to match onboard    |
+    | LED 0                                                 |
+    \*-----------------------------------------------------*/
     if(zone == MSI_ZONE_ON_BOARD_LED_0)
     {
         for(int i = 0; i < numof_onboard_leds; ++i)
@@ -843,6 +920,10 @@ void MSIMotherboard185Controller::SetLedColor
     unsigned char   blu
     )
 {
+    /*-----------------------------------------------------*\
+    | If this board supports Per-LED direct mode, update    |
+    | the per-LED packet buffers                            |
+    \*-----------------------------------------------------*/
     if(per_led_mode == DIRECT_MODE_PER_LED)
     {
         Color* zone_data = GetPerLedZoneData(zone);
@@ -878,6 +959,9 @@ void MSIMotherboard185Controller::SetLedColor
             }
         }
     }
+    /*-----------------------------------------------------*\
+    | Otherwise, colors are set per zone.                   |
+    \*-----------------------------------------------------*/
     else
     {
         if(((zone == MSI_ZONE_J_RAINBOW_1) || (zone == MSI_ZONE_J_RAINBOW_2) || (zone == MSI_ZONE_J_PIPE_1) || (zone == MSI_ZONE_J_PIPE_2)) && (index != 0))
@@ -1165,10 +1249,10 @@ void MSIMotherboard185Controller::GetMode
     /*-----------------------------------------------------*\
     | Update pointers with data                             |
     \*-----------------------------------------------------*/
-    mode            = (MSI_MODE)zone_data->effect;
-    speed           = (MSI_SPEED)(zone_data->speedAndBrightnessFlags & 0x03);
-    brightness      = (MSI_BRIGHTNESS)((zone_data->speedAndBrightnessFlags >> 2) & 0x1F);
-    rainbow_color   = (zone_data->colorFlags & 0x80) == 0 ? true : false;
+    mode            = (MSI_MODE)        zone_data->effect;
+    speed           = (MSI_SPEED)     ((zone_data->speedAndBrightnessFlags >> MSI_SPEED_BRIGHTNESS_FLAG_SPEED_SHIFT)      & MSI_SPEED_BRIGHTNESS_FLAG_SPEED_MASK);
+    brightness      = (MSI_BRIGHTNESS)((zone_data->speedAndBrightnessFlags >> MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT) & MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_MASK);
+    rainbow_color   = ((zone_data->colorFlags & MSI_COLOR_FLAG_USE_CUSTOM_COLOR) == 0 ? false : true);
     color           = ToRGBColor(zone_data->color.R, zone_data->color.G, zone_data->color.B);
 }
 
