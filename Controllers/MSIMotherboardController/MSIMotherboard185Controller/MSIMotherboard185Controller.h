@@ -134,8 +134,6 @@ private:
     FeaturePacket_PerLED_185        per_led_data_jrainbow1;
     FeaturePacket_PerLED_185        per_led_data_jrainbow2;
     FeaturePacket_PerLED_185        per_led_data_jcorsair;
-    FeaturePacket_185               zone_based_per_led_data;
-
     bool                            direct_mode;
     bool                            direct_mode_configured;
     bool                            sync_direct_mode;

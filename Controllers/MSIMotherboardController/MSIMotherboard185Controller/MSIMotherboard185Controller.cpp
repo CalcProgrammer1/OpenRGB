@@ -582,44 +582,6 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     enable_per_led_msg.j_rgb_2.colorFlags                           = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
     enable_per_led_msg.save_data                                    = 0;
 
-    /*-----------------------------------------------------*\
-    | Initialize zone based per LED data                    |
-    \*-----------------------------------------------------*/
-    memcpy(&zone_based_per_led_data, &configuration_data, sizeof(configuration_data));
-    zone_based_per_led_data.j_rgb_1.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.j_rgb_1.colorFlags                      = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.j_pipe_1.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.j_pipe_1.colorFlags                     = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.j_pipe_2.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.j_pipe_2.colorFlags                     = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.j_rainbow_1.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.j_rainbow_1.colorFlags                  = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.j_rainbow_2.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.j_rainbow_2.colorFlags                  = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led.speedAndBrightnessFlags    = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led.colorFlags                 = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led_1.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led_1.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led_2.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led_2.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led_3.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led_3.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led_4.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led_4.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led_5.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led_5.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led_6.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led_6.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led_7.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led_7.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led_8.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led_8.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.on_board_led_9.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.on_board_led_9.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.j_rgb_2.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
-    zone_based_per_led_data.j_rgb_2.colorFlags                      = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
-    zone_based_per_led_data.save_data                               = 0;
-
     direct_mode             = false;
     direct_mode_configured  = false;
     sync_direct_mode        = true;
@@ -862,7 +824,7 @@ bool MSIMotherboard185Controller::Update
         }
         else
         {
-            return(hid_send_feature_report(dev, (unsigned char*)&zone_based_per_led_data, sizeof(zone_based_per_led_data)) == sizeof(zone_based_per_led_data));
+            return(hid_send_feature_report(dev, (unsigned char*)&configuration_data, sizeof(configuration_data)) == sizeof(configuration_data));
         }
     }
     else
@@ -1055,7 +1017,7 @@ void MSIMotherboard185Controller::SetLedColor
             zone = (MSI_ZONE)((int)zone + index + 1);
         }
 
-        ZoneData *zone_data = GetZoneData(zone_based_per_led_data, zone);
+        ZoneData *zone_data = GetZoneData(configuration_data, zone);
 
         if(zone_data == nullptr)
         {
@@ -1488,6 +1450,48 @@ bool MSIMotherboard185Controller::SelectPerLedProtocol()
 
     if(direct_mode)
     {
+        /*-------------------------------------------------*\
+        | Initialize configuration data for direct mode.    |
+        | This sets up brightness and color flags for all   |
+        | zones, which is only done when actually entering  |
+        | direct mode to preserve the state read from the   |
+        | controller for normal (non-direct) mode           |
+        | operation.                                        |
+        \*-------------------------------------------------*/
+        configuration_data.j_rgb_1.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.j_rgb_1.colorFlags                      = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.j_pipe_1.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.j_pipe_1.colorFlags                     = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.j_pipe_2.speedAndBrightnessFlags        = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.j_pipe_2.colorFlags                     = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.j_rainbow_1.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.j_rainbow_1.colorFlags                  = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.j_rainbow_2.speedAndBrightnessFlags     = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.j_rainbow_2.colorFlags                  = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led.speedAndBrightnessFlags    = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led.colorFlags                 = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led_1.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led_1.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led_2.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led_2.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led_3.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led_3.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led_4.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led_4.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led_5.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led_5.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led_6.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led_6.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led_7.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led_7.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led_8.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led_8.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.on_board_led_9.speedAndBrightnessFlags  = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.on_board_led_9.colorFlags               = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.j_rgb_2.speedAndBrightnessFlags         = MSI_BRIGHTNESS_LEVEL_100 << MSI_SPEED_BRIGHTNESS_FLAG_BRIGHTNESS_SHIFT;
+        configuration_data.j_rgb_2.colorFlags                      = MSI_COLOR_FLAG_USE_CUSTOM_COLOR;
+        configuration_data.save_data                               = 0;
+
         if(per_led_mode == DIRECT_MODE_PER_LED)
         {
             if(hid_send_feature_report(dev, (unsigned char*)&enable_per_led_msg, sizeof(enable_per_led_msg)) != sizeof(enable_per_led_msg))
