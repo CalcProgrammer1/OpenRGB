@@ -119,6 +119,59 @@ int RGBController_MSIMotherboard185::GetDeviceMode()
     return 0;
 }
 
+void RGBController_MSIMotherboard185::SetupModes()
+{
+    constexpr unsigned int COMMON       = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
+    constexpr unsigned int MODE_SPECIFIC_ONLY = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE;
+    constexpr unsigned int RANDOM_ONLY  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
+
+    if(controller->GetSupportedDirectMode() != MSIMotherboard185Controller::DIRECT_MODE_DISABLED)
+    {
+        SetupMode("Direct",                 MSI_MODE_DIRECT_DUMMY,                  MODE_FLAG_HAS_PER_LED_COLOR);
+    }
+
+    SetupMode("Static",                     MSI_MODE_STATIC,                        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE);
+    // SetupMode("Off",                        MSI_MODE_DISABLE,                       0);
+    SetupMode("Breathing",                  MSI_MODE_BREATHING,                     MODE_SPECIFIC_ONLY);
+    SetupMode("Flashing",                   MSI_MODE_FLASHING,                      COMMON);
+    SetupMode("Double flashing",            MSI_MODE_DOUBLE_FLASHING,               COMMON);
+    SetupMode("Lightning",                  MSI_MODE_LIGHTNING,                     MODE_SPECIFIC_ONLY);
+    // SetupMode("MSI Marquee",                MSI_MODE_MSI_MARQUEE,                   COMMON);
+    SetupMode("Meteor",                     MSI_MODE_METEOR,                        COMMON);
+    // SetupMode("Water drop",                 MSI_MODE_WATER_DROP,                    COMMON);
+    // SetupMode("MSI Rainbow",                MSI_MODE_MSI_RAINBOW,                   RANDOM_ONLY);
+    // SetupMode("Pop",                        MSI_MODE_POP,                           COMMON);
+    // SetupMode("Rap",                        MSI_MODE_RAP,                           COMMON);
+    // SetupMode("Jazz",                       MSI_MODE_JAZZ,                          COMMON);
+    // SetupMode("Play",                       MSI_MODE_PLAY,                          COMMON);
+    // SetupMode("Movie",                      MSI_MODE_MOVIE,                         COMMON);
+    SetupMode("Color ring",                 MSI_MODE_COLOR_RING,                    RANDOM_ONLY);
+    SetupMode("Planetary",                  MSI_MODE_PLANETARY,                     RANDOM_ONLY);
+    SetupMode("Double meteor",              MSI_MODE_DOUBLE_METEOR,                 RANDOM_ONLY);
+    SetupMode("Energy",                     MSI_MODE_ENERGY,                        RANDOM_ONLY);
+    SetupMode("Blink",                      MSI_MODE_BLINK,                         COMMON);
+    SetupMode("Clock",                      MSI_MODE_CLOCK,                         RANDOM_ONLY);
+    SetupMode("Color pulse",                MSI_MODE_COLOR_PULSE,                   COMMON);
+    SetupMode("Color shift",                MSI_MODE_COLOR_SHIFT,                   RANDOM_ONLY);
+    SetupMode("Color wave",                 MSI_MODE_COLOR_WAVE,                    COMMON);
+    SetupMode("Marquee",                    MSI_MODE_MARQUEE,                       MODE_SPECIFIC_ONLY);
+    // SetupMode("Rainbow",                    MSI_MODE_RAINBOW,                       COMMON);
+    SetupMode("Rainbow wave",               MSI_MODE_RAINBOW_WAVE,                  RANDOM_ONLY);
+    SetupMode("Visor",                      MSI_MODE_VISOR,                         COMMON);
+    // SetupMode("JRainbow",                   MSI_MODE_JRAINBOW,                      COMMON);
+    SetupMode("Rainbow flashing",           MSI_MODE_RAINBOW_FLASHING,              RANDOM_ONLY);
+    // SetupMode("Rainbow double flashing",    MSI_MODE_RAINBOW_DOUBLE_FLASHING,       COMMON);
+    // SetupMode("Random",                     MSI_MODE_RANDOM,                        COMMON);
+    // SetupMode("Fan control",                MSI_MODE_FAN_CONTROL,                   COMMON);
+    // SetupMode("Off 2",                      MSI_MODE_DISABLE_2,                     COMMON);
+    // SetupMode("Color ring flashing",        MSI_MODE_COLOR_RING_FLASHING,           COMMON);
+    SetupMode("Color ring double flashing", MSI_MODE_COLOR_RING_DOUBLE_FLASHING,    RANDOM_ONLY);
+    SetupMode("Stack",                      MSI_MODE_STACK,                         COMMON);
+    // SetupMode("Corsair Que",                MSI_MODE_CORSAIR_QUE,                   COMMON);
+    SetupMode("Fire",                       MSI_MODE_FIRE,                          RANDOM_ONLY);
+    // SetupMode("Lava",                       MSI_MODE_LAVA,                          COMMON);
+}
+
 void RGBController_MSIMotherboard185::SetupZones()
 {
     /*-----------------------------------------------------*\
@@ -279,7 +332,8 @@ void RGBController_MSIMotherboard185::DeviceUpdateLEDs()
             UpdateLed((int)zone_idx, led_idx);
         }
     }
-    controller->Update((modes[active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE) != 0);
+
+    controller->Update(false);
 }
 
 void RGBController_MSIMotherboard185::DeviceUpdateZoneLEDs(int zone)
@@ -293,7 +347,8 @@ void RGBController_MSIMotherboard185::DeviceUpdateZoneLEDs(int zone)
     {
         UpdateLed(zone, led_idx);
     }
-    controller->Update((modes[active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE) != 0);
+
+    controller->Update(false);
 }
 
 void RGBController_MSIMotherboard185::DeviceUpdateSingleLED
@@ -316,7 +371,8 @@ void RGBController_MSIMotherboard185::DeviceUpdateSingleLED
 
     int led_index = led - zones[zone_index].start_idx;
     UpdateLed(zone_index, led_index);
-    controller->Update((modes[active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE) != 0);
+
+    controller->Update(false);
 }
 
 void RGBController_MSIMotherboard185::DeviceUpdateMode()
@@ -360,64 +416,13 @@ void RGBController_MSIMotherboard185::DeviceUpdateMode()
             }
         }
     }
+
+    controller->Update(false);
 }
 
 void RGBController_MSIMotherboard185::DeviceSaveMode()
 {
     controller->Update(true);
-}
-
-void RGBController_MSIMotherboard185::SetupModes()
-{
-    constexpr unsigned int COMMON       = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
-    constexpr unsigned int MODE_SPECIFIC_ONLY = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE;
-    constexpr unsigned int RANDOM_ONLY  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
-
-    if(controller->GetSupportedDirectMode() != MSIMotherboard185Controller::DIRECT_MODE_DISABLED)
-    {
-        SetupMode("Direct",                 MSI_MODE_DIRECT_DUMMY,                  MODE_FLAG_HAS_PER_LED_COLOR);
-    }
-
-    SetupMode("Static",                     MSI_MODE_STATIC,                        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE);
-    // SetupMode("Off",                        MSI_MODE_DISABLE,                       0);
-    SetupMode("Breathing",                  MSI_MODE_BREATHING,                     MODE_SPECIFIC_ONLY);
-    SetupMode("Flashing",                   MSI_MODE_FLASHING,                      COMMON);
-    SetupMode("Double flashing",            MSI_MODE_DOUBLE_FLASHING,               COMMON);
-    SetupMode("Lightning",                  MSI_MODE_LIGHTNING,                     MODE_SPECIFIC_ONLY);
-    // SetupMode("MSI Marquee",                MSI_MODE_MSI_MARQUEE,                   COMMON);
-    SetupMode("Meteor",                     MSI_MODE_METEOR,                        COMMON);
-    // SetupMode("Water drop",                 MSI_MODE_WATER_DROP,                    COMMON);
-    // SetupMode("MSI Rainbow",                MSI_MODE_MSI_RAINBOW,                   RANDOM_ONLY);
-    // SetupMode("Pop",                        MSI_MODE_POP,                           COMMON);
-    // SetupMode("Rap",                        MSI_MODE_RAP,                           COMMON);
-    // SetupMode("Jazz",                       MSI_MODE_JAZZ,                          COMMON);
-    // SetupMode("Play",                       MSI_MODE_PLAY,                          COMMON);
-    // SetupMode("Movie",                      MSI_MODE_MOVIE,                         COMMON);
-    SetupMode("Color ring",                 MSI_MODE_COLOR_RING,                    RANDOM_ONLY);
-    SetupMode("Planetary",                  MSI_MODE_PLANETARY,                     RANDOM_ONLY);
-    SetupMode("Double meteor",              MSI_MODE_DOUBLE_METEOR,                 RANDOM_ONLY);
-    SetupMode("Energy",                     MSI_MODE_ENERGY,                        RANDOM_ONLY);
-    SetupMode("Blink",                      MSI_MODE_BLINK,                         COMMON);
-    SetupMode("Clock",                      MSI_MODE_CLOCK,                         RANDOM_ONLY);
-    SetupMode("Color pulse",                MSI_MODE_COLOR_PULSE,                   COMMON);
-    SetupMode("Color shift",                MSI_MODE_COLOR_SHIFT,                   RANDOM_ONLY);
-    SetupMode("Color wave",                 MSI_MODE_COLOR_WAVE,                    COMMON);
-    SetupMode("Marquee",                    MSI_MODE_MARQUEE,                       MODE_SPECIFIC_ONLY);
-    // SetupMode("Rainbow",                    MSI_MODE_RAINBOW,                       COMMON);
-    SetupMode("Rainbow wave",               MSI_MODE_RAINBOW_WAVE,                  RANDOM_ONLY);
-    SetupMode("Visor",                      MSI_MODE_VISOR,                         COMMON);
-    // SetupMode("JRainbow",                   MSI_MODE_JRAINBOW,                      COMMON);
-    SetupMode("Rainbow flashing",           MSI_MODE_RAINBOW_FLASHING,              RANDOM_ONLY);
-    // SetupMode("Rainbow double flashing",    MSI_MODE_RAINBOW_DOUBLE_FLASHING,       COMMON);
-    // SetupMode("Random",                     MSI_MODE_RANDOM,                        COMMON);
-    // SetupMode("Fan control",                MSI_MODE_FAN_CONTROL,                   COMMON);
-    // SetupMode("Off 2",                      MSI_MODE_DISABLE_2,                     COMMON);
-    // SetupMode("Color ring flashing",        MSI_MODE_COLOR_RING_FLASHING,           COMMON);
-    SetupMode("Color ring double flashing", MSI_MODE_COLOR_RING_DOUBLE_FLASHING,    RANDOM_ONLY);
-    SetupMode("Stack",                      MSI_MODE_STACK,                         COMMON);
-    // SetupMode("Corsair Que",                MSI_MODE_CORSAIR_QUE,                   COMMON);
-    SetupMode("Fire",                       MSI_MODE_FIRE,                          RANDOM_ONLY);
-    // SetupMode("Lava",                       MSI_MODE_LAVA,                          COMMON);
 }
 
 void RGBController_MSIMotherboard185::UpdateLed
