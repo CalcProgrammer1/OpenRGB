@@ -506,9 +506,9 @@ s32 i2c_smbus_i801::i2c_xfer(u8 /*addr*/, char /*read_write*/, int* /*size*/, u8
 
 bool i2c_smbus_i801_detect()
 {
-    if(!GetMacUSPCIODriverStatus())
+    if(!InitMacUSPCIODriver())
     {
-        LOG_INFO("macUSPCIO is not loaded, i801 I2C bus detection aborted");
+        LOG_INFO("macUSPCIO initialization failed, i801 I2C bus detection aborted");
         return(false);
     }
 

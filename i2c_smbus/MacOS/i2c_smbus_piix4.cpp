@@ -245,9 +245,9 @@ s32 i2c_smbus_piix4::i2c_xfer(u8 /*addr*/, char /*read_write*/, int* /*size*/, u
 
 bool i2c_smbus_piix4_detect()
 {
-    if(!GetMacUSPCIODriverStatus())
+    if(!InitMacUSPCIODriver())
     {
-        LOG_INFO("macUSPCIO is not loaded, piix4 I2C bus detection aborted");
+        LOG_INFO("macUSPCIO initialization failed, piix4 I2C bus detection aborted");
         return(false);
     }
 

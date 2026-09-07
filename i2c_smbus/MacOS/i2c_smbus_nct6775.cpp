@@ -213,9 +213,9 @@ s32 i2c_smbus_nct6775::i2c_xfer(u8 /*addr*/, char /*read_write*/, int* /*size*/,
 
 bool i2c_smbus_nct6775_detect()
 {
-    if(!GetMacUSPCIODriverStatus())
+    if(!InitMacUSPCIODriver())
     {
-        LOG_INFO("macUSPCIO is not loaded, nct6775 I2C bus detection aborted");
+        LOG_INFO("macUSPCIO initialization failed, nct6775 I2C bus detection aborted");
         return(false);
     }
 
