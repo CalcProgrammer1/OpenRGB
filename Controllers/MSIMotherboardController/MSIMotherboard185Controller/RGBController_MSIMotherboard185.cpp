@@ -328,7 +328,37 @@ void RGBController_MSIMotherboard185::DeviceUpdateMode()
     else
     {
         controller->SetDirectMode(false);
-        DeviceUpdateLEDs();
+
+        /*-------------------------------------------------*\
+        | Set mode configuration for all zones              |
+        \*-------------------------------------------------*/
+        for(std::size_t zone_idx = 0; zone_idx < zones.size(); ++zone_idx)
+        {
+            if(zones[zone_idx].leds_count > 0)
+            {
+                bool           random     = modes[active_mode].color_mode == MODE_COLORS_RANDOM;
+                MSI_MODE       mode       = (MSI_MODE)modes[active_mode].value;
+                MSI_SPEED      speed      = (MSI_SPEED)modes[active_mode].speed;
+                MSI_BRIGHTNESS brightness = (MSI_BRIGHTNESS)modes[active_mode].brightness;
+
+                controller->SetMode((MSI_ZONE)zones[zone_idx].leds[0].value, mode, speed, brightness, random);
+
+                /*-----------------------------------------*\
+                | Set mode-specific colors if available     |
+                \*-----------------------------------------*/
+                if(modes[active_mode].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
+                {
+                    unsigned char red = 0, grn = 0, blu = 0;
+                    if(modes[active_mode].colors.size() > 0)
+                    {
+                        red = RGBGetRValue(modes[active_mode].colors[0]);
+                        grn = RGBGetGValue(modes[active_mode].colors[0]);
+                        blu = RGBGetBValue(modes[active_mode].colors[0]);
+                    }
+                    controller->SetZoneColor((MSI_ZONE)zones[zone_idx].leds[0].value, red, grn, blu, red, grn, blu);
+                }
+            }
+        }
     }
 }
 
@@ -339,21 +369,21 @@ void RGBController_MSIMotherboard185::DeviceSaveMode()
 
 void RGBController_MSIMotherboard185::SetupModes()
 {
-    constexpr unsigned int PER_LED_ONLY = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    constexpr unsigned int COMMON       = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
+    constexpr unsigned int MODE_SPECIFIC_ONLY = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE;
     constexpr unsigned int RANDOM_ONLY  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
-    constexpr unsigned int COMMON       = RANDOM_ONLY | MODE_FLAG_HAS_PER_LED_COLOR;
 
     if(controller->GetSupportedDirectMode() != MSIMotherboard185Controller::DIRECT_MODE_DISABLED)
     {
         SetupMode("Direct",                 MSI_MODE_DIRECT_DUMMY,                  MODE_FLAG_HAS_PER_LED_COLOR);
     }
 
-    SetupMode("Static",                     MSI_MODE_STATIC,                        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE);
+    SetupMode("Static",                     MSI_MODE_STATIC,                        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE);
     // SetupMode("Off",                        MSI_MODE_DISABLE,                       0);
-    SetupMode("Breathing",                  MSI_MODE_BREATHING,                     PER_LED_ONLY);
+    SetupMode("Breathing",                  MSI_MODE_BREATHING,                     MODE_SPECIFIC_ONLY);
     SetupMode("Flashing",                   MSI_MODE_FLASHING,                      COMMON);
     SetupMode("Double flashing",            MSI_MODE_DOUBLE_FLASHING,               COMMON);
-    SetupMode("Lightning",                  MSI_MODE_LIGHTNING,                     PER_LED_ONLY);
+    SetupMode("Lightning",                  MSI_MODE_LIGHTNING,                     MODE_SPECIFIC_ONLY);
     // SetupMode("MSI Marquee",                MSI_MODE_MSI_MARQUEE,                   COMMON);
     SetupMode("Meteor",                     MSI_MODE_METEOR,                        COMMON);
     // SetupMode("Water drop",                 MSI_MODE_WATER_DROP,                    COMMON);
@@ -372,7 +402,7 @@ void RGBController_MSIMotherboard185::SetupModes()
     SetupMode("Color pulse",                MSI_MODE_COLOR_PULSE,                   COMMON);
     SetupMode("Color shift",                MSI_MODE_COLOR_SHIFT,                   RANDOM_ONLY);
     SetupMode("Color wave",                 MSI_MODE_COLOR_WAVE,                    COMMON);
-    SetupMode("Marquee",                    MSI_MODE_MARQUEE,                       PER_LED_ONLY);
+    SetupMode("Marquee",                    MSI_MODE_MARQUEE,                       MODE_SPECIFIC_ONLY);
     // SetupMode("Rainbow",                    MSI_MODE_RAINBOW,                       COMMON);
     SetupMode("Rainbow wave",               MSI_MODE_RAINBOW_WAVE,                  RANDOM_ONLY);
     SetupMode("Visor",                      MSI_MODE_VISOR,                         COMMON);
@@ -404,19 +434,6 @@ void RGBController_MSIMotherboard185::UpdateLed
     {
         controller->SetLedColor((MSI_ZONE)(zones[zone].leds[led].value), led, red, grn, blu);
     }
-    else
-    {
-        if(led == 0)
-        {
-            bool           random     = modes[active_mode].color_mode == MODE_COLORS_RANDOM;
-            MSI_MODE       mode       = (MSI_MODE)modes[active_mode].value;
-            MSI_SPEED      speed      = (MSI_SPEED)modes[active_mode].speed;
-            MSI_BRIGHTNESS brightness = (MSI_BRIGHTNESS)modes[active_mode].brightness;
-
-            controller->SetMode((MSI_ZONE)zones[zone].leds[led].value, mode, speed, brightness, random);
-            controller->SetZoneColor((MSI_ZONE)zones[zone].leds[led].value, red, grn, blu, red, grn, blu);
-        }
-    }
 }
 
 void RGBController_MSIMotherboard185::SetupMode
@@ -434,6 +451,14 @@ void RGBController_MSIMotherboard185::SetupMode
     if(flags & MODE_FLAG_HAS_PER_LED_COLOR)
     {
         Mode.color_mode = MODE_COLORS_PER_LED;
+    }
+    else if(flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
+    {
+        Mode.color_mode = MODE_COLORS_MODE_SPECIFIC;
+        Mode.colors_min = 1;
+        Mode.colors_max = 1;
+        Mode.colors.resize(1);
+        Mode.colors[0]  = ToRGBColor(255, 255, 255);
     }
     else
     {
@@ -512,18 +537,23 @@ void RGBController_MSIMotherboard185::GetDeviceConfig()
                 {
                    modes[i].brightness = brightness;
                 }
-                if(rainbow)
+                if(modes[i].flags & (MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR))
                 {
-                    if(modes[i].flags & (MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR))
+                    if(rainbow && (modes[i].flags & MODE_FLAG_HAS_RANDOM_COLOR))
                     {
-                        if(rainbow)
+                        modes[i].color_mode = MODE_COLORS_RANDOM;
+                    }
+                    else if(modes[i].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
+                    {
+                        modes[i].color_mode = MODE_COLORS_MODE_SPECIFIC;
+                        if(modes[i].colors.size() > 0)
                         {
-                            modes[i].color_mode = MODE_COLORS_RANDOM;
+                            modes[i].colors[0] = color;
                         }
-                        else
-                        {
-                            modes[i].color_mode = MODE_COLORS_PER_LED;
-                        }
+                    }
+                    else
+                    {
+                        modes[i].color_mode = MODE_COLORS_PER_LED;
                     }
                 }
                 break;
