@@ -196,7 +196,7 @@ static const char *HIDUsageIDsToKeyNames[HID_KEYBOARD_USAGE_IDS_COUNT] =
     KEY_EN_NUMPAD_0,            // Keypad 0 and Insert
     KEY_EN_NUMPAD_PERIOD,       // Keypad . and Delete
     KEY_EN_BACK_SLASH,          // Keyboard Non-US \ and |
-    KEY_EN_UNUSED,              // Keyboard Application
+    KEY_EN_MENU,                // Keyboard Application
     KEY_EN_POWER,               // Keyboard Power
     KEY_EN_NUMPAD_EQUAL,        // Keypad =
     KEY_EN_F13,                 // Keyboard F13
@@ -260,6 +260,16 @@ static const char *HIDUsageIDsToKeyNames[HID_KEYBOARD_USAGE_IDS_COUNT] =
     KEY_EN_UNUSED,              // Keyboard Clear/Again
     KEY_EN_UNUSED,              // Keyboard CrSel/Props
     KEY_EN_UNUSED,              // Keyboard ExSel
+    KEY_EN_UNUSED,              // A5 Reserved
+    KEY_EN_UNUSED,              // A6 Reserved
+    KEY_EN_UNUSED,              // A7 Reserved
+    KEY_EN_UNUSED,              // A8 Reserved
+    KEY_EN_UNUSED,              // A9 Reserved
+    KEY_EN_UNUSED,              // AA Reserved
+    KEY_EN_UNUSED,              // AB Reserved
+    KEY_EN_UNUSED,              // AC Reserved
+    KEY_EN_UNUSED,              // AD Reserved
+    KEY_EN_UNUSED,              // AE Reserved
     KEY_EN_UNUSED,              // AF Reserved
     KEY_EN_UNUSED,              // Keypad 00
     KEY_EN_UNUSED,              // Keypad 000
@@ -307,6 +317,7 @@ static const char *HIDUsageIDsToKeyNames[HID_KEYBOARD_USAGE_IDS_COUNT] =
     KEY_EN_UNUSED,              // Keypad Octal
     KEY_EN_UNUSED,              // Keypad Decimal
     KEY_EN_UNUSED,              // Keypad Hexadecimal
+    KEY_EN_UNUSED,              // DE Reserved
     KEY_EN_UNUSED,              // DF Reserved
     KEY_EN_LEFT_CONTROL,        // Keyboard LeftControl
     KEY_EN_LEFT_SHIFT,          // Keyboard LeftShift
@@ -357,9 +368,11 @@ void RGBController_HIDLampArray::SetupZones()
     {
         led new_led;
 
-        if(controller->GetLamps()[lamp_idx].LampKey < HID_KEYBOARD_USAGE_IDS_COUNT)
+        unsigned char lamp_key = controller->GetLamps()[lamp_idx].LampKey;
+
+        if(lamp_key < HID_KEYBOARD_USAGE_IDS_COUNT && HIDUsageIDsToKeyNames[lamp_key] != nullptr)
         {
-            new_led.name = HIDUsageIDsToKeyNames[controller->GetLamps()[lamp_idx].LampKey];
+            new_led.name = HIDUsageIDsToKeyNames[lamp_key];
         }
         else
         {
