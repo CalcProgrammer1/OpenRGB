@@ -1,8 +1,9 @@
 /*---------------------------------------------------------*\
-| RGBController_PalitGPU.h                                  |
+| RGBController_PalitGPUv1.h                                |
 |                                                           |
-|   RGBController for Palit GPU                             |
+|   RGBController for Palit v1 GPU                          |
 |                                                           |
+|   TheRogueZeta                                05 Nov 2020 |
 |   Manatsawin Hanmongkolchai                   11 Apr 2023 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
@@ -12,13 +13,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "PalitGPUController.h"
+#include "PalitGPUv1Controller.h"
 
-class RGBController_PalitGPU : public RGBController
+class RGBController_PalitGPUv1 : public RGBController
 {
 public:
-    RGBController_PalitGPU(PalitGPUController* controller_ptr);
-    ~RGBController_PalitGPU();
+    RGBController_PalitGPUv1(PalitGPUv1Controller* controller_ptr);
+    ~RGBController_PalitGPUv1();
 
     void        SetupZones();
 
@@ -29,5 +30,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    PalitGPUController* controller;
+    PalitGPUv1Controller* controller;
+
+    int        GetDeviceMode();
 };
