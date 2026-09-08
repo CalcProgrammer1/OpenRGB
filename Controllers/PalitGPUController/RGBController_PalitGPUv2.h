@@ -1,8 +1,9 @@
 /*---------------------------------------------------------*\
-| RGBController_PNYGPU.h                                    |
+| RGBController_PalitGPUv2.h                                |
 |                                                           |
-|   RGBController for PNY Turing GPU                        |
+|   RGBController for Palit v2 GPU                          |
 |                                                           |
+|   KundaPanda                                  04 Jan 2021 |
 |   KendallMorgan                               17 Oct 2021 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
@@ -12,13 +13,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "PNYGPUController.h"
+#include "PalitGPUv2Controller.h"
 
-class RGBController_PNYGPU : public RGBController
+class RGBController_PalitGPUv2 : public RGBController
 {
 public:
-    RGBController_PNYGPU(PNYGPUController* controller_ptr);
-    ~RGBController_PNYGPU();
+    RGBController_PalitGPUv2(PalitGPUv2Controller* controller_ptr);
+    ~RGBController_PalitGPUv2();
 
     void        SetupZones();
 
@@ -29,5 +30,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    PNYGPUController* controller;
+    PalitGPUv2Controller* controller;
 };
