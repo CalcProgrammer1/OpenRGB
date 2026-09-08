@@ -46,6 +46,7 @@ public:
                         );
 
     MSI_MODE        GetMode();
+    bool            GetFirmwareVersionInvalid();
 
     void            GetMode
                         (
@@ -119,6 +120,8 @@ private:
     std::string                     name;
     std::string                     location;
     std::string                     version_APROM;
+    unsigned char                   version_APROM_val;
+    bool                            version_invalid;
     std::string                     version_LDROM;
 
     FeaturePacket_185               data;
