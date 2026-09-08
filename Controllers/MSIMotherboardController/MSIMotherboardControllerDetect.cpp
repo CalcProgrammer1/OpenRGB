@@ -54,9 +54,17 @@ DetectedControllers DetectMSIMotherboardControllers(hid_device_info* info, const
         if((packet_length >= sizeof(FeaturePacket_185)) && (packet_length <= (sizeof(FeaturePacket_185) + 1)))  //WHY r we doing this ? why not ==
         {
             MSIMotherboard185Controller*     controller     = new MSIMotherboard185Controller(dev, info->path, info->product_id, dmi_name);
-            RGBController_MSIMotherboard185* rgb_controller = new RGBController_MSIMotherboard185(controller);
 
-            detected_controllers.push_back(rgb_controller);
+            if(controller->GetFirmwareVersionInvalid())
+            {
+                LOG_WARNING("[MSIMotherboard185] Controller firmware below minimum supported version, skipping");
+            }
+            else
+            {
+                RGBController_MSIMotherboard185* rgb_controller = new RGBController_MSIMotherboard185(controller);
+
+                detected_controllers.push_back(rgb_controller);
+            }
         }
         else if((packet_length >= sizeof(FeaturePacket_162)) && (packet_length <= (sizeof(FeaturePacket_162) + 1)))
         {
