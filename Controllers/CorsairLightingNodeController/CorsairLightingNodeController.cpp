@@ -232,7 +232,7 @@ void CorsairLightingNodeController::SendFirmwareRequest()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    actual = WriteAndRead(usb_buf);
+    actual = WriteAndRead(usb_buf, CORSAIR_LIGHTING_NODE_READ_TIMEOUT);
 
     if(actual > 0)
     {
