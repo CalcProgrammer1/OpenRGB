@@ -1146,7 +1146,9 @@ void DeviceView::InitDeviceView()
         /*-------------------------------------------------*\
         | For matrix zones, use matrix height from the map  |
         \*-------------------------------------------------*/
-        if(controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX)
+        if((controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX)
+        || (controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX_LOOP_X)
+        || (controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX_LOOP_Y))
         {
             total_height                   += controller->GetZoneMatrixMapHeight(zone_idx);
             zone_pos[zone_idx].matrix_w     = controller->GetZoneMatrixMapWidth(zone_idx);
@@ -1159,7 +1161,9 @@ void DeviceView::InitDeviceView()
         {
             for(unsigned int segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
             {
-                if(controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX)
+                if((controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX)
+                || (controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX_LOOP_X)
+                || (controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX_LOOP_Y))
                 {
                     total_height               += controller->GetZoneSegmentMatrixMapHeight(zone_idx, segment_idx);
                     zone_pos[zone_idx].matrix_w = controller->GetZoneSegmentMatrixMapWidth(zone_idx, segment_idx);
@@ -1218,7 +1222,9 @@ void DeviceView::InitDeviceView()
         /*-------------------------------------------------*\
         | Calculate LEDs position and size for zone         |
         \*-------------------------------------------------*/
-        if(controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX)
+        if((controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX)
+        || (controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX_LOOP_X)
+        || (controller->GetZoneType(zone_idx) == ZONE_TYPE_MATRIX_LOOP_Y))
         {
             for(unsigned int led_x = 0; led_x < controller->GetZoneMatrixMapWidth(zone_idx); led_x++)
             {
@@ -1323,7 +1329,9 @@ void DeviceView::InitDeviceView()
 
                 segment_count++;
 
-                if(controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX)
+                if((controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX)
+                || (controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX_LOOP_X)
+                || (controller->GetZoneSegmentType(zone_idx, segment_idx) == ZONE_TYPE_MATRIX_LOOP_Y))
                 {
                     for(unsigned int led_x = 0; led_x < controller->GetZoneSegmentMatrixMapWidth(zone_idx, segment_idx); led_x++)
                     {

@@ -3094,9 +3094,31 @@ unsigned char * RGBController::GetZoneDescriptionData(unsigned char* data_ptr, z
 
     /*-----------------------------------------------------*\
     | Copy in zone type                                     |
+    | For protocols below 6, convert the new zone types     |
     \*-----------------------------------------------------*/
-    memcpy(data_ptr, &zone.type, sizeof(zone.type));
-    data_ptr += sizeof(zone.type);
+    zone_type type = zone.type;
+
+    if(protocol_version < 6)
+    {
+        switch(type)
+        {
+            case ZONE_TYPE_LINEAR_LOOP:
+                type = ZONE_TYPE_LINEAR;
+                break;
+
+            case ZONE_TYPE_MATRIX_LOOP_X:
+            case ZONE_TYPE_MATRIX_LOOP_Y:
+                type = ZONE_TYPE_MATRIX;
+                break;
+
+            case ZONE_TYPE_SEGMENTED:
+                type = ZONE_TYPE_LINEAR;
+                break;
+        }
+    }
+
+    memcpy(data_ptr, &type, sizeof(type));
+    data_ptr += sizeof(type);
 
     /*-----------------------------------------------------*\
     | Check for resizable effects-only zone.  For protocol  |

@@ -267,14 +267,34 @@ void OpenRGBClientInfoPage::UpdateInfo()
                 {
                     case ZONE_TYPE_SINGLE:
                         zone_str.append("Single");
-                    break;
+                        break;
 
                     case ZONE_TYPE_LINEAR:
                         zone_str.append("Linear");
                         break;
 
+                    case ZONE_TYPE_LINEAR_LOOP:
+                        zone_str.append("Linear Loop");
+                        break;
+
                     case ZONE_TYPE_MATRIX:
                         zone_str.append("Matrix");
+                        break;
+
+                    case ZONE_TYPE_MATRIX_LOOP_X:
+                        zone_str.append("Matrix Loop X");
+                        break;
+
+                    case ZONE_TYPE_MATRIX_LOOP_Y:
+                        zone_str.append("Matrix Loop Y");
+                        break;
+
+                    case ZONE_TYPE_SEGMENTED:
+                        zone_str.append("Segmented");
+                        break;
+
+                    default:
+                        zone_str.append("Unknown");
                         break;
                 }
 
