@@ -263,7 +263,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7C35, 0,  1,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED,  0 },    // MEG X570 ACE
     { 0x7C36, 6,  1,  0, 1, &zones_set3,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED,  0 },    // PRESTIGE X570 CREATION
     { 0x7C37, 6,  0,  0, 2, &zones_set0,  MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED,  0 },    // MPG X570 GAMING PLUS
-    { 0x7C56, 6,  0,  0, 1, &zones_set2,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     6 },    // MPG B550 GAMING PLUS
+    { 0x7C56, 6,  0,  0, 1, &zones_set2,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     7 },    // MPG B550 GAMING PLUS
     { 0x7C59, 0,  8,  0, 1, &zones_set9,  MSIMotherboard185Controller::DIRECT_MODE_DISABLED,    0 },    // CREATOR TRX40
     { 0x7C60, 6,  0,  0, 1, &zones_set1,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // TRX40-A PRO
     { 0x7C67, 6,  0,  0, 1, &zones_set5,  MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // MAG B365M MORTAR
