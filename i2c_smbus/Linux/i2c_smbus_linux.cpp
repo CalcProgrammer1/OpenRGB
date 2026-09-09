@@ -148,6 +148,18 @@ bool i2c_smbus_linux_detect()
                     // Get the Linux Bus ID
                     sscanf(ent->d_name, "i2c-%hu", &bus_id);
 
+                    /*-----------------------------------------------------*\
+                    | DPMST adapters are created by AMD GPUs for DisplayPort|
+                    | MST (Multi-Stream Transport).  These are removable    |
+                    | devices and we don't have hotplug detection for i2c   |
+                    | interfaces, so we should ignore them.                 |
+                    \*-----------------------------------------------------*/
+                    if(strcmp(device_string, "DPMST") == 0)
+                    {
+                        LOG_INFO("[%s] Skipping DPMST i2c device", ent->d_name);
+                        continue;
+                    }
+
                     // Get device path
                     strncpy(path, driver_path, sizeof(path) - 1);
                     path[sizeof(path) - 1] = '\0';
@@ -165,11 +177,11 @@ bool i2c_smbus_linux_detect()
 
                         /*-------------------------------------------------------------*\
                         | Truncate at last '/' to get the parent PCI device directory.  |
-                        | For AMDGPU i2c buses the realpath resolves to something like:  |
+                        | For AMDGPU i2c buses the realpath resolves to something like: |
                         |   /sys/devices/pci.../0000:03:00.0/i2c-4                      |
                         | The parent (0000:03:00.0) contains vendor/device/subsystem    |
                         | files. Using /..' traversal is unreliable in sysfs; directly  |
-                        | truncating the path is correct and portable.                   |
+                        | truncating the path is correct and portable.                  |
                         \*-------------------------------------------------------------*/
                         char* last_slash = strrchr(path, '/');
                         if(last_slash == NULL || last_slash == path)
