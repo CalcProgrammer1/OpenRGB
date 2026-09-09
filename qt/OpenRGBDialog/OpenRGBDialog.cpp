@@ -880,7 +880,7 @@ void OpenRGBDialog::RemovePlugin(OpenRGBPluginEntry* plugin)
             plugin_parent_widget = ui->InformationTabBar;
             break;
         case OPENRGB_PLUGIN_LOCATION_SETTINGS:
-            plugin_parent_widget = ui->InformationTabBar;
+            plugin_parent_widget = ui->SettingsTabBar;
             break;
         default:
             break;
