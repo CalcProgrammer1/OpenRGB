@@ -36,19 +36,27 @@ artifacts = [
     [ "Windows%2064%20MSI",                         "OpenRGB_" + version + "_Windows_64_"     + commit, ".msi"      ],
     [ "Windows%2064",                               "OpenRGB_" + version + "_Windows_64_"     + commit, ".zip"      ],
     [ "Windows%2032",                               "OpenRGB_" + version + "_Windows_32_"     + commit, ".zip"      ],
-    [ "Linux+amd64+.deb+%28Debian+Bookworm%29",     "openrgb_" + version + "_amd64_bookworm_" + commit, ".deb"      ],
-    [ "Linux+i386+.deb+%28Debian+Bookworm%29",      "openrgb_" + version + "_i386_bookworm_"  + commit, ".deb"      ],
-    [ "Linux+amd64+.deb+%28Debian+Trixie%29",       "openrgb_" + version + "_amd64_trixie_"   + commit, ".deb"      ],
-    [ "Linux+i386+.deb+%28Debian+Trixie%29",        "openrgb_" + version + "_i386_trixie_"    + commit, ".deb"      ],
+
     [ "Linux%20amd64%20AppImage",                   "OpenRGB_" + version + "_x86_64_"         + commit, ".AppImage" ],
-    [ "Linux%20i386%20AppImage",                    "OpenRGB_" + version + "_i386_"           + commit, ".AppImage" ],
-    [ "Linux+64+F43+rpm",                           "openrgb_" + version + "_x86_64_f43_"     + commit, ".rpm"      ],
-    [ "Linux+arm64+.deb+%28Debian%20Bookworm%29",   "openrgb_" + version + "_arm64_bookworm_" + commit, ".deb"      ],
-    [ "Linux+armhf+.deb+%28Debian%20Bookworm%29",   "openrgb_" + version + "_armhf_bookworm_" + commit, ".deb"      ],
-    [ "Linux+arm64+.deb+%28Debian%20Trixie%29",     "openrgb_" + version + "_arm64_trixie_"   + commit, ".deb"      ],
-    [ "Linux+armhf+.deb+%28Debian%20Trixie%29",     "openrgb_" + version + "_armhf_trixie_"   + commit, ".deb"      ],
     [ "Linux%20arm64%20AppImage",                   "OpenRGB_" + version + "_arm64_"          + commit, ".AppImage" ],
+    [ "Linux%20i386%20AppImage",                    "OpenRGB_" + version + "_i386_"           + commit, ".AppImage" ],
     [ "Linux%20armhf%20AppImage",                   "OpenRGB_" + version + "_armhf_"          + commit, ".AppImage" ],
+
+    [ "Linux%20amd64%20Flatpak",                    "openrgb_" + version + "_x86_64_"         + commit, ".flatpak"  ],
+    [ "Linux%20arm64%20Flatpak",                    "openrgb_" + version + "_arm64_"          + commit, ".flatpak"  ],
+
+    [ "Linux+amd64+.deb+%28Debian+Bookworm%29",     "openrgb_" + version + "_amd64_bookworm_" + commit, ".deb"      ],
+    [ "Linux+arm64+.deb+%28Debian%20Bookworm%29",   "openrgb_" + version + "_arm64_bookworm_" + commit, ".deb"      ],
+    [ "Linux+i386+.deb+%28Debian+Bookworm%29",      "openrgb_" + version + "_i386_bookworm_"  + commit, ".deb"      ],
+    [ "Linux+armhf+.deb+%28Debian%20Bookworm%29",   "openrgb_" + version + "_armhf_bookworm_" + commit, ".deb"      ],
+
+    [ "Linux+amd64+.deb+%28Debian+Trixie%29",       "openrgb_" + version + "_amd64_trixie_"   + commit, ".deb"      ],
+    [ "Linux+arm64+.deb+%28Debian%20Trixie%29",     "openrgb_" + version + "_arm64_trixie_"   + commit, ".deb"      ],
+    [ "Linux+i386+.deb+%28Debian+Trixie%29",        "openrgb_" + version + "_i386_trixie_"    + commit, ".deb"      ],
+    [ "Linux+armhf+.deb+%28Debian%20Trixie%29",     "openrgb_" + version + "_armhf_trixie_"   + commit, ".deb"      ],
+
+    [ "Linux+amd64+.rpm+%28Fedora+44%29",           "openrgb_" + version + "_x86_64_f44_"     + commit, ".rpm"      ],
+
     [ "MacOS%20Intel",                              "OpenRGB_" + version + "_MacOS_Intel_"    + commit, ".zip"      ],
     [ "MacOS%20ARM64",                              "OpenRGB_" + version + "_MacOS_ARM64_"    + commit, ".zip"      ]
 ]
