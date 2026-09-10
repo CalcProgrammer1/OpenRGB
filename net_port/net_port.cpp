@@ -171,7 +171,7 @@ bool net_port::tcp_client(const char * client_name, const char * port)
     return(true);
 }
 
-bool net_port::tcp_client_connect()
+bool net_port::tcp_client_connect(unsigned int timeout_ms)
 {
     struct addrinfo *res;
     connected = false;
@@ -201,8 +201,11 @@ bool net_port::tcp_client_connect()
         FD_ZERO(&fdset);
         FD_SET(sock, &fdset);
 
-        tv.tv_sec =  4;
-        tv.tv_usec = 0;
+        /*-------------------------------------------------*\
+        | Convert millisecond timeout to timeval sec/usec   |
+        \*-------------------------------------------------*/
+        tv.tv_sec   = (timeout_ms / 1000);
+        tv.tv_usec  = (timeout_ms % 1000) * 1000;
 
         /*-------------------------------------------------*\
         | Set socket options - no delay                     |

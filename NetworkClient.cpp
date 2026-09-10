@@ -86,6 +86,7 @@ NetworkClient::NetworkClient()
     client_is_local_client              = false;
     client_string_sent                  = false;
     client_sock                         = -1;
+    connect_timeout                     = 4000;
     detection_percent                   = 100;
     detection_string                    = "";
     protocol_initialized                = false;
@@ -401,6 +402,11 @@ void NetworkClient::RequestLocalClient(bool request_local)
     {
         SendData_ClientFlags();
     }
+}
+
+void NetworkClient::SetConnectTimeout(unsigned int timeout_ms)
+{
+    connect_timeout = timeout_ms;
 }
 
 void NetworkClient::SetIP(std::string new_ip)
@@ -1718,7 +1724,7 @@ void NetworkClient::ConnectionThreadFunction()
             /*---------------------------------------------*\
             | Try to connect to server                      |
             \*---------------------------------------------*/
-            if(port.tcp_client_connect() == true)
+            if(port.tcp_client_connect(connect_timeout) == true)
             {
                 client_sock = port.sock;
                 LOG_INFO("[%s] Connected to server", NETWORKCLIENT);

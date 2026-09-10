@@ -97,6 +97,7 @@ public:
     | Client Control functions                              |
     \*-----------------------------------------------------*/
     void                                RequestLocalClient(bool request_local);
+    void                                SetConnectTimeout(unsigned int timeout_ms);
     void                                SetIP(std::string new_ip);
     void                                SetName(std::string new_name);
     void                                SetPort(unsigned short new_port);
@@ -198,6 +199,7 @@ private:
     bool                                client_flags_sent;
     bool                                client_is_local_client;
     bool                                client_string_sent;
+    unsigned int                        connect_timeout;
     bool                                controller_data_received;
     bool                                controller_data_requested;
     bool                                protocol_initialized;

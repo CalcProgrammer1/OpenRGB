@@ -1158,6 +1158,7 @@ bool ResourceManager::AttemptLocalConnection()
     titleString.append(VERSION_STRING);
 
     auto_connection_client->RequestLocalClient(true);
+    auto_connection_client->SetConnectTimeout(1000);
     auto_connection_client->SetName(titleString.c_str());
     auto_connection_client->StartClient();
 

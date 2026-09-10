@@ -61,7 +61,7 @@ public:
     bool udp_client(const char* client_name, const char * port);
     bool udp_client(const char * client_name, const char * send_port, const char * recv_port);
     bool tcp_client(const char* client_name, const char * port);
-    bool tcp_client_connect();
+    bool tcp_client_connect(unsigned int timeout_ms = 4000);
 
     //Function to open a server
     bool        tcp_server(const char * port);
