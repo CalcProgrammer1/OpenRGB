@@ -251,7 +251,7 @@ void RGBController_Alienware::DeviceUpdateMode()
                         RGBColor c1 = (current_mode.colors.size() >= 1) ? current_mode.colors[0] : 0x0000FF;
                         RGBColor c2 = (current_mode.colors.size() >= 2) ? current_mode.colors[1] : 0xFF0000;
 
-                        if(current_mode.colors.size() >= (zone_idx + 1) * 2)
+                        if(current_mode.colors.size() >= (std::size_t)((zone_idx + 1) * 2))
                         {
                             c1 = current_mode.colors[zone_idx * 2];
                             c2 = current_mode.colors[(zone_idx * 2) + 1];
