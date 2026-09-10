@@ -576,6 +576,7 @@
 #define GAINWARD_RTX_3090TI_PHANTOM                             0xF295
 #define GAINWARD_RTX_4070_GHOST_SUB_DEV                         0xF303
 #define GAINWARD_RTX_4080_PHANTOM_GS_SUB_DEV                    0xF297
+#define GAINWARD_RTX_4090_PHANTOM_SUB_DEV                       0xF297
 #define GAINWARD_RTX_5080_PHOENIX_SUB_DEV                       0xF323
 
 /*-----------------------------------------------------*\
