@@ -59,7 +59,7 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/DMXSettingsEntry/DMXSettingsEntry.ui" line="32"/>
         <source>Brightness Channel:</source>
-        <translation>Helligkeits Kanal:</translation>
+        <translation>Helligkeitskanal:</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/DMXSettingsEntry/DMXSettingsEntry.ui" line="42"/>
@@ -160,12 +160,12 @@
     <message>
         <location filename="../../DetectionManager.cpp" line="48"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;One or more I2C/SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.&lt;/p&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the PawnIO driver.&lt;/p&gt;&lt;p&gt;For OpenRGB to access these devices, you must install PawnIO from &lt;a href=&apos;https://pawnio.eu/&apos;&gt;https://pawnio.eu&lt;/a&gt; and run OpenRGB as administrator or as a system service.&lt;/p&gt;&lt;p&gt;If you are not using any of the devices listed above, you can safely ignore this message.&lt;/p&gt;</source>
-        <translation>&lt;h2&gt;Warnung:&lt;/h2&gt;&lt;p&gt;Eine oder mehrere I2C/SMBus-Schnittstellen konnten nicht initialisiert werden.&lt;/p&gt;&lt;p&gt;Je nachdem, welche Schnittstellen nicht initialisiert wurden, können einige RGB-DRAM-Module, einige RGB-Beleuchtung auf der Hauptplatine und RGB-Grafikkarten in OpenRGB nicht verfügbar sein.&lt;/p&gt;&lt;p&gt;Unter Windows ist dies in der Regel auf einen Fehler beim Laden des PawnIO-Treibers zurückzuführen.&lt;/p&gt;&lt;p&gt;Um OpenRGB auf diese Geräte zugreifen zu lassen, müssen Sie PawnIO von &lt;a href=&apos;https://pawnio.eu/&apos;&gt;https://pawnio.eu&lt;/a&gt; installieren und OpenRGB als Administrator oder als Systemdienst ausführen.&lt;/p&gt;&lt;p&gt;Wenn Sie keines der oben genannten Geräte verwenden, können Sie diese Meldung sicher ignorieren.&lt;/p&gt;</translation>
+        <translation>&lt;h2&gt;Warnung:&lt;/h2&gt;&lt;p&gt;Eine oder mehrere I2C/SMBus-Schnittstellen konnten nicht initialisiert werden.&lt;/p&gt;&lt;p&gt;Abhänging davon, welche Schnittstellen nicht initialisiert wurden, können einige RGB-DRAM-Module, RGB-Beleuchtung auf der Hauptplatine und RGB-Grafikkarten in OpenRGB nicht verfügbar sein.&lt;/p&gt;&lt;p&gt;Unter Windows ist dies in der Regel auf einen Fehler beim Laden des PawnIO-Treibers zurückzuführen.&lt;/p&gt;&lt;p&gt;Um OpenRGB auf diese Geräte zugreifen zu lassen, müssen Sie PawnIO von &lt;a href=&apos;https://pawnio.eu/&apos;&gt;https://pawnio.eu&lt;/a&gt; installieren und OpenRGB als Administrator oder als Systemdienst ausführen.&lt;/p&gt;&lt;p&gt;Wenn Sie keines der oben genannten Geräte verwenden, können Sie diese Meldung sicher ignorieren.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../../DetectionManager.cpp" line="55"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;One or more I2C/SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;Depending on which interfaces failed to initialize, some RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB graphics cards may not be available in OpenRGB.&lt;/p&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;For OpenRGB to access these devices, you must load the i2c-dev module along with the correct I2C driver module for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;If you are not using any of the devices listed above, you can safely ignore this message.&lt;/p&gt;</source>
-        <translation>&lt;h2&gt;Warnung:&lt;/h2&gt;&lt;p&gt;Eine oder mehrere I2C/SMBus-Schnittstellen konnten nicht initialisiert werden.&lt;/p&gt;&lt;p&gt;Je nachdem, welche Schnittstellen nicht initialisiert wurden, können einige RGB-DRAM-Module, einige RGB-Beleuchtungseinheiten auf der Hauptplatine und RGB-Grafikkarten in OpenRGB nicht verfügbar sein.&lt;/p&gt;&lt;p&gt;Unter Linux liegt dies in der Regel daran, dass das Modul i2c-dev nicht geladen ist.&lt;/p&gt;&lt;p&gt;Um diese Geräte mit OpenRGB zugreifen zu können, müssen Sie das Modul i2c-dev sowie das richtige I2C-Treibermodul für Ihre Hauptplatine laden. Dies ist in der Regel i2c-piix4 für AMD-Systeme und i2c-i801 für Intel-Systeme.&lt;/p&gt;&lt;p&gt;Wenn Sie keines der oben genannten Geräte verwenden, können Sie diese Meldung sicher ignorieren.&lt;/p&gt;</translation>
+        <translation>&lt;h2&gt;Warnung:&lt;/h2&gt;&lt;p&gt;Eine oder mehrere I2C/SMBus-Schnittstellen konnten nicht initialisiert werden.&lt;/p&gt;&lt;p&gt;Abhänging davon, welche Schnittstellen nicht initialisiert wurden, können einige RGB-DRAM-Module, RGB-Beleuchtungseinheiten auf der Hauptplatine und RGB-Grafikkarten in OpenRGB nicht verfügbar sein.&lt;/p&gt;&lt;p&gt;Unter Linux liegt dies in der Regel daran, dass das Modul i2c-dev nicht geladen ist.&lt;/p&gt;&lt;p&gt;Um diese Geräte mit OpenRGB zugreifen zu können, müssen Sie das Modul i2c-dev sowie das richtige I2C-Treibermodul für Ihre Hauptplatine laden. Dies ist in der Regel i2c-piix4 für AMD-Systeme und i2c-i801 für Intel-Systeme.&lt;/p&gt;&lt;p&gt;Wenn Sie keines der oben genannten Geräte verwenden, können Sie diese Meldung sicher ignorieren.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../../DetectionManager.cpp" line="64"/>
@@ -175,7 +175,7 @@
     <message>
         <location filename="../../DetectionManager.cpp" line="70"/>
         <source>&lt;h2&gt;Warning:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
-        <translation>&lt;h2&gt;Warnung:&lt;/h2&gt;&lt;p&gt;Mehrere OpenRGB udev-Regeldateien sind installiert.&lt;/p&gt;&lt;p&gt;Die udev-Regeldatei 60-openrgb.rules ist in beiden /etc/udev/rules.d und /usr/lib/udev/rules.d installiert.&lt;/p&gt;&lt;p&gt;Mehrere udev-Regeldateien können sich gegenseitig beeinflussen. Es wird empfohlen, eine von ihnen zu entfernen.&lt;/p&gt;</translation>
+        <translation>&lt;h2&gt;Warnung:&lt;/h2&gt;&lt;p&gt;Mehrere OpenRGB udev-Regeldateien sind installiert.&lt;/p&gt;&lt;p&gt;Die udev-Regeldatei 60-openrgb.rules ist in /etc/udev/rules.d und /usr/lib/udev/rules.d installiert.&lt;/p&gt;&lt;p&gt;Mehrere udev-Regeldateien können sich gegenseitig beeinflussen. Es wird empfohlen, eine von ihnen zu entfernen.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -221,17 +221,17 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/E131SettingsEntry/E131SettingsEntry.ui" line="72"/>
         <source>Universe Size:</source>
-        <translation>Univerumsgröße:</translation>
+        <translation>Universe Größe:</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/E131SettingsEntry/E131SettingsEntry.ui" line="79"/>
         <source>Number of LEDs:</source>
-        <translation>LED Anzahl:</translation>
+        <translation>LED-Anzahl:</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/E131SettingsEntry/E131SettingsEntry.ui" line="92"/>
         <source>Start Universe:</source>
-        <translation>Anfangsuniversum:</translation>
+        <translation>Starte Universe:</translation>
     </message>
 </context>
 <context>
@@ -324,7 +324,7 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/DDPSettingsEntry/DDPSettingsEntry.cpp" line="98"/>
         <source>DDP (Distributed Display Protocol)</source>
-        <translation>DDP (verteiltes Anzeigeprotokoll)</translation>
+        <translation>DDP (Distributed Display Protocol)</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/DebugSettingsEntry/DebugSettingsEntry.cpp" line="143"/>
@@ -373,7 +373,7 @@
     <message>
         <location filename="../ManualDevicesSettingsPage/ManualDevicesSettingsPage.ui" line="66"/>
         <source>Save without Rescan</source>
-        <translation>Speichern ohne Neuerfassen</translation>
+        <translation>Speichern ohne erneute scannung</translation>
     </message>
 </context>
 <context>
@@ -811,7 +811,7 @@
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1667"/>
         <source>Saving Not Supported</source>
-        <translation>Speichern wird nicht unterstützt</translation>
+        <translation>Speichern nicht unterstützt</translation>
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.cpp" line="1727"/>
@@ -899,7 +899,7 @@
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="203"/>
         <source>Save Profile with custom name</source>
-        <translation>Profil mit eigenem Namen speichern</translation>
+        <translation>Profil mit benutzerdefinierten Namen speichern</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="342"/>
@@ -917,7 +917,7 @@
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="350"/>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="559"/>
         <source>Quick Colors</source>
-        <translation>Schnelle Farben</translation>
+        <translation>Schnelle Farbenauswahl</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="352"/>
@@ -997,7 +997,7 @@
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="737"/>
         <source>General Settings</source>
         <translatorcomment>Using &quot;Allg.&quot; as shorthand for &quot;Allgemeine&quot;. &quot;Allgemeine&quot; would be too long for the UI. So until text size is handled differently this should do it.</translatorcomment>
-        <translation>Allg. Einstellungen</translation>
+        <translation>Allgemeine Einstellungen</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="917"/>
@@ -1071,7 +1071,7 @@
     <message>
         <location filename="../OpenRGBLogConsolePage/OpenRGBLogConsolePage.ui" line="39"/>
         <source>Log Level:</source>
-        <translation>Log Level</translation>
+        <translation>Log Level:</translation>
     </message>
     <message>
         <location filename="../OpenRGBLogConsolePage/OpenRGBLogConsolePage.ui" line="32"/>
@@ -1099,9 +1099,7 @@
     <message>
         <location filename="../OpenRGBMatrixMapEditorDialog/OpenRGBMatrixMapEditorDialog.ui" line="72"/>
         <source>Width:</source>
-        <translation>
-
-Breite:</translation>
+        <translation>Breite:</translation>
     </message>
 </context>
 <context>
@@ -1193,7 +1191,7 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="224"/>
         <source>Restart Needed</source>
-        <translation>Programmneustart Erforderlich</translation>
+        <translation>Neustart Erforderlich</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="224"/>
@@ -1231,7 +1229,7 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBProfileEditorDialog/OpenRGBProfileEditorDialog.ui" line="72"/>
         <source>Device States</source>
-        <translation>Gerätezustände</translation>
+        <translation>Gerätzustände</translation>
     </message>
     <message>
         <location filename="../OpenRGBProfileEditorDialog/OpenRGBProfileEditorDialog.ui" line="78"/>
@@ -1363,7 +1361,7 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBServerInfoPage/OpenRGBServerInfoPage.cpp" line="65"/>
         <source>Stopping...</source>
-        <translation>Beenden...</translation>
+        <translation>Beendet...</translation>
     </message>
     <message>
         <location filename="../OpenRGBServerInfoPage/OpenRGBServerInfoPage.cpp" line="73"/>
@@ -1694,7 +1692,7 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBZoneInitializationDialog/OpenRGBZoneInitializationDialog.ui" line="39"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more manually configurable zones have not been configured.  Manually configurable zones are most commonly used for addressable RGB headers where the number of LEDs in the connected device(s) cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eine oder mehrere manuell konfigurierbare Zonen wurden nicht konfiguriert. Manuell konfigurierbare Zonen werden am häufigsten für adressierbare RGB-Header verwendet, bei denen die Anzahl der LEDs in den angeschlossenen Geräten nicht automatisch erkannt werden kann.&lt;/p&gt;&lt;p&gt;Bitte geben Sie die Anzahl der LEDs in jeder Zone unten ein.&lt;/p&gt;&lt;p&gt;Weitere Informationen zur Berechnung der richtigen Größe finden Sie &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;hier.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eine oder mehrere manuell konfigurierbare Zonen wurden nicht konfiguriert. Manuell konfigurierbare Zonen werden normalerweise für adressierbare RGB-Header verwendet, bei denen die Anzahl der LEDs in den angeschlossenen Geräten nicht automatisch erkannt werden kann.&lt;/p&gt;&lt;p&gt;Bitte gebe die Anzahl der LEDs in jeder Zone unten ein.&lt;/p&gt;&lt;p&gt;Weitere Informationen zur Berechnung der richtigen Größe finden Sie &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;hier.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../OpenRGBZoneInitializationDialog/OpenRGBZoneInitializationDialog.ui" line="49"/>
@@ -1795,7 +1793,7 @@ Breite:</translation>
     <message>
         <location filename="../ManualDevicesSettingsPage/PhilipsWizSettingsEntry/PhilipsWizSettingsEntry.ui" line="59"/>
         <source>White Strategy:</source>
-        <translation>Weiß Strategie:</translation>
+        <translation>Weiß-Strategie:</translation>
     </message>
     <message>
         <location filename="../ManualDevicesSettingsPage/PhilipsWizSettingsEntry/PhilipsWizSettingsEntry.cpp" line="19"/>
@@ -1897,7 +1895,7 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="238"/>
         <source>Load Window Geometry</source>
-        <translation>Fenster Geometrie laden</translation>
+        <translation>Fenstergeometrie laden</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="230"/>
@@ -1907,12 +1905,12 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="226"/>
         <source>Disable Key Expansion</source>
-        <translation>Deaktiviere Schlüsselerweiterung in der Geräteansicht</translation>
+        <translation>Deaktiviere Key-Erweiterung in der Geräteansicht</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="217"/>
         <source>Show LED View by Default</source>
-        <translation>LED anzeige standardmäßig zeigen</translation>
+        <translation>LED Anzeige standardmäßig zeigen</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="163"/>
@@ -1952,7 +1950,7 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="195"/>
         <source>Monochrome Tray Icon</source>
-        <translation>Graues Icon</translation>
+        <translation>Monochromes Tray Icon</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="178"/>
@@ -1972,7 +1970,7 @@ Breite:</translation>
     <message>
         <location filename="../../ResourceManager.cpp" line="201"/>
         <source>Initial Detection Delay (ms)</source>
-        <translation>Anfangserkennungsverzögerung (ms)</translation>
+        <translation>Initiale Erkennungsverzögerung (ms)</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="203"/>
@@ -1987,27 +1985,27 @@ Breite:</translation>
     <message>
         <location filename="../../ResourceManager.cpp" line="215"/>
         <source>Enable Log File</source>
-        <translation>Log Datei aktivieren</translation>
+        <translation>Logdatei aktivieren</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="219"/>
         <source>Log Level</source>
-        <translation>Protokollierungsstufe</translation>
+        <translation>Log Level</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="237"/>
         <source>Log File Count Limit</source>
-        <translation>Logdateien Anzahl Limit</translation>
+        <translation>Logdatei-Anzahl-Limit</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="239"/>
         <source>Maximum number of log files to keep, 0 for no limit</source>
-        <translation>Maximale Anzahl der zu behaltenden Protokolldateien, 0 für keine Begrenzung</translation>
+        <translation>Maximale Anzahl der zu behaltenden Logdateien, 0 für keine Begrenzung</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="243"/>
         <source>Log Manager</source>
-        <translation>Protokoll-Manager</translation>
+        <translation>Log-Manager</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="250"/>
@@ -2037,7 +2035,7 @@ Breite:</translation>
     <message>
         <location filename="../../ResourceManager.cpp" line="266"/>
         <source>Workaround for some older SDK implementations that sent incorrect packet size for certain packets</source>
-        <translation>Umgehungsmethode für einige ältere SDK-Implementierungen, die falsche Paketgrößen für bestimmte Pakete gesendet haben</translation>
+        <translation>Workaround für einige ältere SDK-Implementierungen, die falsche Paketgrößen für bestimmte Pakete gesendet haben</translation>
     </message>
     <message>
         <location filename="../../ResourceManager.cpp" line="268"/>
@@ -2062,22 +2060,22 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="207"/>
         <source>Compact Tabs</source>
-        <translation>Kompakte Registerkarten</translation>
+        <translation>Kompakte Tabs</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="209"/>
         <source>Display sidebar tabs as icons only</source>
-        <translation>Seitenleisten-Registerkarten nur als Icons anzeigen</translation>
+        <translation>Seitenleisten-Tabs nur als Icons anzeigen</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="212"/>
         <source>Tabs on Top</source>
-        <translation>Registerkarten oben</translation>
+        <translation>Tabs oben</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="214"/>
         <source>Display tabs on top instead of on the left</source>
-        <translation>Registerkarten oben anstelle von links anzeigen</translation>
+        <translation>Tabs oben anstelle von Links anzeigen</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="221"/>
@@ -2097,7 +2095,7 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="242"/>
         <source>Save on Exit</source>
-        <translation>Geometrie beim Schließen beibehalten</translation>
+        <translation>Beim Schließen speichern</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="244"/>
@@ -2147,17 +2145,17 @@ Breite:</translation>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="284"/>
         <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
-        <translation>AMD SMBus: CPU-Auslastung reduzieren (Programmneustart erfoderlich)</translation>
+        <translation>AMD SMBus: CPU-Auslastung reduzieren (Neustart erfoderlich)</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="173"/>
         <source>Custom Arguments</source>
-        <translation>Eigene Argumente</translation>
+        <translation>Benutzerdefinierte Argumente</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="272"/>
         <source>Shared SMBus Access (restart required)</source>
-        <translation>Gemeinsamer SMBus-Zugriff (Programmneustart erforderlich)</translation>
+        <translation>Gemeinsamer SMBus-Zugriff (Neustart erforderlich)</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="185"/>
