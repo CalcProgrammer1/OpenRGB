@@ -235,6 +235,7 @@ REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E86",    DetectMSIMotherboardCont
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E34",    DetectMSIMotherboardControllers,   MSI_USB_VID,    0x7E34,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E32",    DetectMSIMotherboardControllers,   MSI_USB_VID,    0x7E32,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E20",    DetectMSIMotherboardControllers,   MSI_USB_VID,    0x7E20,   0x0001, 0x00);
+REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E76",    DetectMSIMotherboardControllers,   MSI_USB_VID,    0x7E76,   0x0001, 0x00);
 // Detector for the set of common boards
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light Common",     DetectMSIMotherboardControllers,   MSI_USB_VID_COMMON,  MSI_USB_PID_COMMON, 0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light X870",       DetectMSIMotherboardControllers,   MSI_USB_VID_COMMON,  MSI_USB_PID_COMMON, 0xFF00, 0x01);
@@ -245,6 +246,7 @@ REGISTER_CUSTOM_UDEV_RULE(msi_7e24, "MSI Mystic Light MS_7E24", "SUBSYSTEMS==\"u
 REGISTER_CUSTOM_UDEV_RULE(msi_7e26, "MSI Mystic Light MS_7E26", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e26\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E26\"");
 REGISTER_CUSTOM_UDEV_RULE(msi_7e27, "MSI Mystic Light MS_7E27", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e27\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E27\"");
 REGISTER_CUSTOM_UDEV_RULE(msi_7e49, "MSI Mystic Light MS_7E49", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e49\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E49\"");
+REGISTER_CUSTOM_UDEV_RULE(msi_7e76, "MSI Mystic Light MS_7E76", "SUBSYSTEMS==\"usb|hidraw\", ATTRS{idVendor}==\"1462\", ATTRS{idProduct}==\"7e76\", TAG+=\"uaccess\", TAG+=\"MSI_Mystic_Light_MS_7E76\"");
 
 #ifdef ENABLE_UNTESTED_MYSTIC_LIGHT
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_3EA4",    DetectMSIMotherboardControllers,   MSI_USB_VID,    0x3EA4,   0x0001, 0x00);
