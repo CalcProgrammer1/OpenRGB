@@ -24,9 +24,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #-----------------------------------------------------------------------------------------------#
 # Application Configuration                                                                     #
 #-----------------------------------------------------------------------------------------------#
-MAJOR       = 0
-MINOR       = 9
-SUFFIX      = git
+MAJOR       = 1
+MINOR       = 0
+SUFFIX      =
 
 SHORTHASH   = $$system("git rev-parse --short=7 HEAD")
 LASTTAG     = "release_"$$MAJOR"."$$MINOR
