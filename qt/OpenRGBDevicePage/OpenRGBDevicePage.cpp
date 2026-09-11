@@ -7,6 +7,8 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <QTimer>
+
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceEditorDialog.h"
 #include "OpenRGBZoneEditorDialog.h"
@@ -1804,7 +1806,19 @@ void OpenRGBDevicePage::ColorChanged()
 
     if(AutoUpdateEnabled())
     {
-        UpdateColor();
+        /*-----------------------------------------------------*\
+        | Coalesce rapid signals into one deferred update        |
+        \*-----------------------------------------------------*/
+        if(!color_update_pending)
+        {
+            color_update_pending = true;
+
+            QTimer::singleShot(0, this, [this]()
+            {
+                UpdateColor();
+                color_update_pending = false;
+            });
+        }
     }
 }
 

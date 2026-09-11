@@ -65,6 +65,11 @@ private:
     bool UpdateHex          = true;
 
     /*-----------------------------------------------------*\
+    | Coalesces rapid ColorChanged() calls into one update   |
+    \*-----------------------------------------------------*/
+    bool color_update_pending = false;
+
+    /*-----------------------------------------------------*\
     | UI Update Functions                                   |
     \*-----------------------------------------------------*/
     void UpdateColor();
