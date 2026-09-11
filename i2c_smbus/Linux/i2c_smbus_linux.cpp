@@ -101,7 +101,7 @@ bool i2c_smbus_linux_detect()
     {
         if(ent->d_type == DT_DIR || ent->d_type == DT_LNK)
         {
-            if(strncmp(ent->d_name, "i2c-", 4) == 0)
+            if((strncmp(ent->d_name, "i2c-", 4) == 0) && (ent->d_name[4] != '\0') && (strspn(ent->d_name + 4, "0123456789") == strlen(ent->d_name + 4)))
             {
                 strncpy(device_string, driver_path, sizeof(device_string) - 1);
                 device_string[sizeof(device_string) - 1] = '\0';
@@ -258,7 +258,7 @@ bool i2c_smbus_linux_detect()
                     // Get PCI Subsystem Device
                     strcpy(ptr, "/subsystem_device");
                     test_fd = open(path, O_RDONLY);
-                    if (test_fd >= 0)
+                    if(test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
 
@@ -281,9 +281,11 @@ bool i2c_smbus_linux_detect()
                     device_path[sizeof(device_path) - 1] = '\0';
                     test_fd = open(device_path, O_RDWR);
 
-                    if (test_fd < 0)
+                    if(test_fd < 0)
                     {
+                        LOG_INFO("[i2c_smbus_linux] Failed to open %s", device_path);
                         ret = false;
+                        continue;
                     }
 
                     bus = new i2c_smbus_linux();
@@ -299,6 +301,7 @@ bool i2c_smbus_linux_detect()
                 }
                 else
                 {
+                    LOG_INFO("[i2c_smbus_linux] Failed to open %s", device_string);
                     ret = false;
                 }
             }
