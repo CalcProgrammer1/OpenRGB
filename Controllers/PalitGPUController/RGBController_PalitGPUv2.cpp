@@ -161,10 +161,9 @@ void RGBController_PalitGPUv2::DeviceUpdateSingleLED(int /*led*/)
 void RGBController_PalitGPUv2::DeviceUpdateMode()
 {
     RGBColor      color = colors[0];
-    unsigned char r   = RGBGetRValue(color);
-    unsigned char g   = RGBGetGValue(color);
-    unsigned char b   = RGBGetBValue(color);
-    unsigned char speed, brightness;
+    unsigned char r     = RGBGetRValue(color);
+    unsigned char g     = RGBGetGValue(color);
+    unsigned char b     = RGBGetBValue(color);
 
     switch(modes[active_mode].value)
     {
@@ -173,8 +172,7 @@ void RGBController_PalitGPUv2::DeviceUpdateMode()
             break;
 
         case PALIT_V2_MODE_ID_DIRECT:
-            brightness = modes[active_mode].brightness;
-            controller->SetDirect(r, g, b, brightness);
+            controller->SetDirect(r, g, b, modes[active_mode].brightness);
             break;
 
         case PALIT_V2_MODE_ID_BREATHING:
