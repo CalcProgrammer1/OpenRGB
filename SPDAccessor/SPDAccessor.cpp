@@ -66,7 +66,8 @@ const char *spd_memory_type_name[] =
     "LPDDR4",
     "LPDDR4X",
     "DDR5",
-    "LPDDR5"
+    "LPDDR5",
+    "Unknown"
 };
 
 SPDAccessor::SPDAccessor(i2c_smbus_interface *bus, uint8_t spd_addr)
@@ -161,7 +162,16 @@ DDR4Accessor::~DDR4Accessor()
 
 SPDMemoryType DDR4Accessor::memory_type()
 {
-    return((SPDMemoryType)(this->at(BASIC_MEMORY_TYPE_ADDR)));
+    SPDMemoryType type = (SPDMemoryType)(this->at(BASIC_MEMORY_TYPE_ADDR));
+
+    if(type <= SPD_UNKNOWN)
+    {
+        return(type);
+    }
+    else
+    {
+        return(SPD_UNKNOWN);
+    }
 }
 
 uint16_t DDR4Accessor::jedec_id()
@@ -195,7 +205,16 @@ DDR5Accessor::~DDR5Accessor()
 
 SPDMemoryType DDR5Accessor::memory_type()
 {
-    return((SPDMemoryType)(this->at(BASIC_MEMORY_TYPE_ADDR)));
+    SPDMemoryType type = (SPDMemoryType)(this->at(BASIC_MEMORY_TYPE_ADDR));
+
+    if(type <= SPD_UNKNOWN)
+    {
+        return(type);
+    }
+    else
+    {
+        return(SPD_UNKNOWN);
+    }
 }
 
 uint16_t DDR5Accessor::jedec_id()

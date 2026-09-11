@@ -65,7 +65,14 @@ SPDWrapper::~SPDWrapper()
 
 SPDMemoryType SPDWrapper::memory_type()
 {
-    return mem_type;
+    if(mem_type <= SPD_UNKNOWN)
+    {
+        return(mem_type);
+    }
+    else
+    {
+        return(SPD_UNKNOWN);
+    }
 }
 
 uint8_t SPDWrapper::address()

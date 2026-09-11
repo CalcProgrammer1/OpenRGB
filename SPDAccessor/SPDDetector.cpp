@@ -30,7 +30,14 @@ bool SPDDetector::is_valid() const
 
 SPDMemoryType SPDDetector::memory_type() const
 {
-    return(mem_type);
+    if(mem_type <= SPD_UNKNOWN)
+    {
+        return(mem_type);
+    }
+    else
+    {
+        return(SPD_UNKNOWN);
+    }
 }
 
 void SPDDetector::detect_memory_type()

@@ -48,7 +48,8 @@ typedef enum
     SPD_LPDDR4_SDRAM  = 16,
     SPD_LPDDR4X_SDRAM = 17,
     SPD_DDR5_SDRAM    = 18,
-    SPD_LPDDR5_SDRAM  = 19
+    SPD_LPDDR5_SDRAM  = 19,
+    SPD_UNKNOWN       = 20,
 } SPDMemoryType;
 
 #define SPD_IO_DELAY   1ms
