@@ -1472,8 +1472,12 @@ void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
             | Apply the mode and color to the zone                      |
             \*---------------------------------------------------------*/
             controller->SetLEDEffect(zones[zone].leds[led_idx].value, led_mode_value, selected_mode->speed, selected_mode->brightness, random, led_color);
-            controller->ApplyEffect();
         }
+
+        /*---------------------------------------------------------*\
+        | Apply once for the whole zone, not once per LED           |
+        \*---------------------------------------------------------*/
+        controller->ApplyEffect();
     }
 
     /*---------------------------------------------------------*\
