@@ -175,18 +175,38 @@ bool i2c_smbus_linux_detect()
                         path[sizeof(path) - 1] = '\0';
                         free(ptr);
 
-                        /*-------------------------------------------------------------*\
-                        | Truncate at last '/' to get the parent PCI device directory.  |
-                        | For AMDGPU i2c buses the realpath resolves to something like: |
-                        |   /sys/devices/pci.../0000:03:00.0/i2c-4                      |
-                        | The parent (0000:03:00.0) contains vendor/device/subsystem    |
-                        | files. Using /..' traversal is unreliable in sysfs; directly  |
-                        | truncating the path is correct and portable.                  |
-                        \*-------------------------------------------------------------*/
-                        char* last_slash = strrchr(path, '/');
-                        if(last_slash == NULL || last_slash == path)
+                        /*-----------------------------------------------------*\
+                        | Walk up sysfs to the nearest PCI device.              |
+                        | Some I2C adapters sit below an intermediate device.    |
+                        \*-----------------------------------------------------*/
+                        while(true)
+                        {
+                            char pci_vendor_path[PATH_MAX];
+                            char pci_device_path[PATH_MAX];
+
+                            snprintf(pci_vendor_path, sizeof(pci_vendor_path), "%s/vendor", path);
+                            snprintf(pci_device_path, sizeof(pci_device_path), "%s/device", path);
+
+                            if(access(pci_vendor_path, R_OK) == 0 && access(pci_device_path, R_OK) == 0)
+                            {
+                                break;
+                            }
+
+                            char* last_slash = strrchr(path, '/');
+
+                            if(last_slash == NULL || last_slash == path)
+                            {
+                                path[0] = '\0';
+                                break;
+                            }
+
+                            *last_slash = '\0';
+                        }
+
+                        if(path[0] == '\0')
+                        {
                             continue;
-                        *last_slash = '\0';
+                        }
                     }
                     else
                     {
