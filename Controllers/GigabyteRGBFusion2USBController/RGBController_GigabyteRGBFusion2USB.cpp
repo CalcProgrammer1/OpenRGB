@@ -25,7 +25,7 @@ struct IT5711ZoneCounts
 /*---------------------------------------------------------*\
 | Sets LED10/11 counts based on firmware series             |
 \*---------------------------------------------------------*/
-static IT5711ZoneCounts GetIT5711ZoneCounts(uint8_t fw_id, uint32_t lid)
+static IT5711ZoneCounts GetIT5711ZoneCounts(uint8_t fw_id, uint8_t fw_revision, uint32_t lid)
 {
     switch(fw_id)
     {
@@ -50,31 +50,63 @@ static IT5711ZoneCounts GetIT5711ZoneCounts(uint8_t fw_id, uint32_t lid)
             return {13, 0};
 
         case 0x05:
-        case 0x0C:
             switch(lid)
             {
-                case 0x016001DF:
-                    return {8, 4};
+                case 0x017001DF:
+                    return {16, 4};
 
                 case 0x028001DF:
                     return {26, 18};
 
                 default:
-                    return {16, 4};
+                    return {8, 4};
             }
 
         case 0x06:
         case 0x09:
             return {12, 0};
 
+        case 0x0C:
+            switch(fw_revision)
+            {
+                case 0x06:
+                    switch(lid)
+                    {
+                        case 0x017001DF:
+                            return {16, 4};
+
+                        case 0x028001DF:
+                            return {26, 18};
+
+                        default:
+                            return {8, 4};
+                    }
+
+                case 0x08:
+                    switch(lid)
+                    {
+                        case 0x017001DF:
+                            return {16, 4};
+
+                        case 0x028001DF:
+                            return {26, 18};
+
+                        default:
+                            return {10, 4};
+                    }
+
+                default:
+                    return {};
+            }
+
         default:
             return {};
     }
 }
 
-static void ApplyIT5711ZoneCounts(gb_fusion2_device* layout, uint8_t fw_id, std::vector<gb_fusion2_zone*>& allocated_zones)
+static void ApplyIT5711ZoneCounts(gb_fusion2_device* layout, uint8_t fw_id, uint8_t fw_revision, std::vector<gb_fusion2_zone*>& allocated_zones)
 {
-    IT5711ZoneCounts counts = GetIT5711ZoneCounts(fw_id, layout->layout_id);
+    IT5711ZoneCounts counts = GetIT5711ZoneCounts(fw_id, fw_revision, layout->layout_id);
 
     for(uint8_t zone_idx = 0; zone_idx < GB_FUSION2_ZONES_MAX; ++zone_idx)
     {
@@ -293,7 +325,6 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     serial                      = controller->GetSerial();
     product_id                  = controller->GetProductID();
     device_num                  = controller->GetDeviceNum();
-    fw_id                       = controller->GetFWID();
 
 
     mode Direct;
@@ -598,7 +629,10 @@ void RGBController_RGBFusion2USB::Init_Controller()
     \*---------------------------------------------------------*/
     if(product_id == 0x5711)
     {
-        ApplyIT5711ZoneCounts(&instance_layout, fw_id, allocated_zones);
+        ApplyIT5711ZoneCounts(&instance_layout,
+                                 controller->GetFWID(),
+                                 controller->GetFWRevision(),
+                                 allocated_zones);
     }
 
     /*---------------------------------------------------------*\

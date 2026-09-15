@@ -367,6 +367,7 @@ public:
     std::string             GetDeviceLocation();
     std::string             GetFWVersion();
     uint8_t                 GetFWID();
+    uint8_t                 GetFWRevision();
     uint16_t                GetProductID();
     std::string             GetSerial();
     std::vector<Gen2StripInfo> ExportGen2Strips() const;

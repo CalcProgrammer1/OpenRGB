@@ -584,6 +584,11 @@ uint8_t RGBFusion2USBController::GetFWID()
     return(fw_id);
 }
 
+uint8_t RGBFusion2USBController::GetFWRevision()
+{
+    return((report.fw_ver >> 16) & 0xFF);
+}
+
 std::string RGBFusion2USBController::GetFWVersion()
 {
     return(version);

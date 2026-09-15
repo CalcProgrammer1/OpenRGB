@@ -48,7 +48,6 @@ private:
 
     RGBFusion2USBController*    controller;
     uint8_t                     device_num;
-    uint8_t                     fw_id           = 0;
     RGBColor                    null_color      = 0;
     bool                        supports_gen2   = 0;
     uint8_t                     gen2_enabled_headers = 0;
