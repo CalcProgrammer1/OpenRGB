@@ -1002,6 +1002,7 @@
 #define SAPPHIRE_NAVI44_PURE_XT_SUB_DEV                         0x493E
 #define SAPPHIRE_NAVI48_NITRO_PLUS_SUB_DEV                      0xE489
 #define SAPPHIRE_NAVI48_NITRO_PLUS_SUB_DEV1                     0xE493
+#define SAPPHIRE_NAVI48_NITRO_PLUS_SUB_DEV2                     0x4892
 #define SAPPHIRE_NAVI48_PURE_SUB_DEV                            0x4499
 #define SAPPHIRE_NAVI48_PURE_XT_SUB_DEV                         0x3490
 #define SAPPHIRE_NAVI31_GRE_NITRO_PLUS_SUB_DEV                  0xE475
