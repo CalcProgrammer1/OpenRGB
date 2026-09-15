@@ -81,6 +81,7 @@
 #define CORSAIR_SCIMITAR_PRO_RGB_PID    0x1B3E
 #define CORSAIR_SCIMITAR_ELITE_RGB_PID  0x1B8B
 #define CORSAIR_SABRE_RGB_PID           0x1B2F
+#define CORSAIR_SABRE_RGB_OPTICAL_PID   0x1B32
 
 /*---------------------------------------------------------*\
 | Mousepad product IDs                                      |
@@ -215,6 +216,7 @@ REGISTER_HID_DETECTOR_IP("Corsair Scimitar RGB",            DetectCorsairPeriphe
 REGISTER_HID_DETECTOR_IP("Corsair Scimitar PRO RGB",        DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SCIMITAR_PRO_RGB_PID,   1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Scimitar Elite RGB",      DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SCIMITAR_ELITE_RGB_PID, 1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Sabre RGB",               DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SABRE_RGB_PID,          1, 0xFFC2);
+REGISTER_HID_DETECTOR_IP("Corsair Sabre RGB Optical",       DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SABRE_RGB_OPTICAL_PID,  1, 0xFFC2);
 
 /*---------------------------------------------------------*\
 | Mousemats                                                 |
