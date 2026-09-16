@@ -280,6 +280,8 @@ ResourceManager::ResourceManager()
     logmanager_settings_schema["file_count_limit"]["default"]               = 10;
     logmanager_settings_schema["file_count_limit"]["minimum"]               = 0;
 
+    logmanager_settings_schema["dialog_no_show_hashes"]["ignore"]           = true;
+
     settings_manager->RegisterSettingsSchema("LogManager", QT_TRANSLATE_NOOP("Settings", "Log Manager"), logmanager_settings_schema);
 
     /*-----------------------------------------------------*\

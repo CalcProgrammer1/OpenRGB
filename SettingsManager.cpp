@@ -555,18 +555,25 @@ json SettingsManager::FilterSettingsAgainstSchema(std::string& settings_key, jso
             continue;
         }
 
-        /*-------------------------------------------------*\
-        | Check if the value type matches the schema's      |
-        | declared type                                     |
-        \*-------------------------------------------------*/
-        if(schema_properties[key].contains("type"))
+        if(!schema_properties[key].contains("ignore"))
         {
-            std::string schema_type = schema_properties[key]["type"];
-
-            if(!SettingsValueMatchesType(value, schema_type))
+            /*-------------------------------------------------*\
+            | Check if the value type matches the schema's      |
+            | declared type                                     |
+            \*-------------------------------------------------*/
+            if(schema_properties[key].contains("type"))
             {
-                LOG_WARNING("[%s] Settings key \"%s\" has incorrect type (expected %s), skipping", SETTINGSMANAGER, key.c_str(), schema_type.c_str());
-                continue;
+                std::string schema_type = schema_properties[key]["type"];
+
+                if(!SettingsValueMatchesType(value, schema_type))
+                {
+                    LOG_WARNING("[%s] Settings key \"%s\" has incorrect type (expected %s), skipping", SETTINGSMANAGER, key.c_str(), schema_type.c_str());
+                    continue;
+                }
+            }
+            else
+            {
+                LOG_WARNING("[%s] Settings key \"%s\" is missing type field, skipping", SETTINGSMANAGER, key.c_str());
             }
         }
 

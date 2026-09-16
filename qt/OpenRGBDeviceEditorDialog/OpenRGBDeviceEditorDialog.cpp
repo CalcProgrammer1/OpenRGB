@@ -125,6 +125,11 @@ OpenRGBDeviceEditorDialog::OpenRGBDeviceEditorDialog(RGBController *dev, QWidget
         \*-----------------------------------------------------*/
         for(std::size_t configuration_idx = 0; configuration_idx < configuration_entries.size(); configuration_idx++)
         {
+            if(configuration_entries[configuration_idx].value[configuration_entries[configuration_idxsetting_idx].key].contains("ignore"))
+            {
+                continue;
+            }
+
             OpenRGBDynamicSettingsWidget*   item_widget     = new OpenRGBDynamicSettingsWidget(configuration_entries[configuration_idx].key, configuration_entries[configuration_idx].value, configuration_value);
 
             item_widget->SetCallback(Callback, this);

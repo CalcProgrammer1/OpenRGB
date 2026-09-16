@@ -139,6 +139,11 @@ void OpenRGBSettingsPage::UpdateInterface()
     \*-----------------------------------------------------*/
     for(std::size_t setting_idx = 0; setting_idx < setting_entries.size(); setting_idx++)
     {
+        if(setting_entries[setting_idx].value[setting_entries[setting_idx].key].contains("ignore"))
+        {
+            continue;
+        }
+
         nlohmann::json                  setting_value;
         setting_value[setting_entries[setting_idx].key] = ResourceManager::get()->GetSettingsManager()->GetSettings(setting_entries[setting_idx].key);
         OpenRGBDynamicSettingsWidget*   item_widget     = new OpenRGBDynamicSettingsWidget(setting_entries[setting_idx].key, setting_entries[setting_idx].value, setting_value);
