@@ -85,7 +85,7 @@ void RGBController_HyperXMicrophoneV2::SetupZones()
     Mic.leds_min                = HYPERX_QUADCAST_2S_TOTAL_LEDS;
     Mic.leds_max                = HYPERX_QUADCAST_2S_TOTAL_LEDS;
     Mic.leds_count              = HYPERX_QUADCAST_2S_TOTAL_LEDS;
-    Mic.matrix_map.Set(HYPERX_QUADCAST_2S_MATRIX_WIDTH, HYPERX_QUADCAST_2S_MATRIX_HEIGHT, led_mapping);
+    Mic.matrix_map.Set(HYPERX_QUADCAST_2S_MATRIX_HEIGHT, HYPERX_QUADCAST_2S_MATRIX_WIDTH, led_mapping);
 
     for(unsigned int i = 0; i < HYPERX_QUADCAST_2S_TOTAL_LEDS; i ++)
     {
