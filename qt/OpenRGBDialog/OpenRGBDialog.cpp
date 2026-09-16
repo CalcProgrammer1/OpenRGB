@@ -279,6 +279,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
 #if defined(_WIN32)
     drivers_settings_schema["shared_smbus_acces"]["title"]                          = QT_TRANSLATE_NOOP("Settings", "Shared SMBus Access (restart required)");
     drivers_settings_schema["shared_smbus_acces"]["type"]                           = "bool";
+    drivers_settings_schema["shared_smbus_access"]["default"]                       = true;
 
     drivers_settings_schema["smbus_sleep_mode"]["title"]                            = QT_TRANSLATE_NOOP("Settings", "SMBus Sleep Mode (restart required)");
     drivers_settings_schema["smbus_sleep_mode"]["type"]                             = "integer";
@@ -288,6 +289,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     drivers_settings_schema["smbus_sleep_mode"]["enumNames"][1]                     = "Short Busy";
     drivers_settings_schema["smbus_sleep_mode"]["enum"][2]                          = 2;
     drivers_settings_schema["smbus_sleep_mode"]["enumNames"][2]                     = "Always Sleep";
+    drivers_settings_schema["smbus_sleep_mode"]["default"]                          = 2;
 #else
     drivers_settings_schema["amd_smbus_reduce_cpu"]["title"]                        = QT_TRANSLATE_NOOP("Settings", "AMD SMBus: Reduce CPU Usage (restart required)");
     drivers_settings_schema["amd_smbus_reduce_cpu"]["type"]                         = "bool";
