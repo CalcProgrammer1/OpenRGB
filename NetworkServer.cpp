@@ -3793,19 +3793,20 @@ void NetworkServer::SendReply_ServerString(NetworkClientInfo* client_info)
 
 void NetworkServer::SendReply_PluginList(NetworkClientInfo* client_info)
 {
-    unsigned int data_size = 0;
-    unsigned int data_ptr = 0;
+    unsigned int    data_ptr    = 0;
+    unsigned int    data_size   = 0;
+    unsigned short  num_plugins = 0;
 
     /*-----------------------------------------------------*\
     | Calculate data size                                   |
     \*-----------------------------------------------------*/
-    unsigned short num_plugins = (unsigned short)plugin_manager->GetPluginCount();
-
     data_size += sizeof(data_size);
     data_size += sizeof(num_plugins);
 
     if(plugin_manager)
     {
+        num_plugins = (unsigned short)plugin_manager->GetPluginCount();
+
         for(unsigned int i = 0; i < num_plugins; i++)
         {
             data_size += sizeof(unsigned short) * 3;
