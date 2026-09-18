@@ -151,6 +151,7 @@ private:
     void ShowHideDevicesList();
     void closeEvent(QCloseEvent *event) override;
     bool SelectConfigProfile(const std::string name);
+    void MigrateLegacySettings();
 
     void SetDetectionViewState(bool detection_showing);
     void SaveProfile();

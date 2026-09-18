@@ -133,6 +133,11 @@ static void DeletePluginCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
     this_obj->RemovePlugin(plugin);
 }
 
+static bool AutoProfileIsSet(json& profilemanager_settings, std::string key)
+{
+    return(profilemanager_settings.contains(key) && (JsonUtils::JsonGetString(profilemanager_settings[key], "name") != ""));
+}
+
 bool OpenRGBDialog::IsMinimizeOnClose()
 {
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
@@ -297,6 +302,11 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
 
     ResourceManager::get()->GetSettingsManager()->RegisterSettingsSchema("Drivers", QT_TRANSLATE_NOOP("Settings", "Drivers"), drivers_settings_schema);
 #endif
+
+    /*-----------------------------------------------------*\
+    | Migrate settings from pre-1.0 versions                |
+    \*-----------------------------------------------------*/
+    MigrateLegacySettings();
 
     /*-----------------------------------------------------*\
     | Register resource manager callbacks                   |
@@ -1645,6 +1655,163 @@ void OpenRGBDialog::onDetectionEnded()
     | Load the on open automatic profile                    |
     \*-----------------------------------------------------*/
     ResourceManager::get()->GetProfileManager()->LoadAutoProfileOpen();
+}
+
+void OpenRGBDialog::MigrateLegacySettings()
+{
+    /*-----------------------------------------------------*\
+    | Legacy AutoStart argument flags and value keys        |
+    \*-----------------------------------------------------*/
+    static const char* legacy_arguments[][3] =
+    {
+        { "setserver",      "--server",         ""          },
+        { "setserverhost",  "--server-host",    "host"      },
+        { "setserverport",  "--server-port",    "port"      },
+        { "setclient",      "--client",         "client"    },
+        { "setcustom",      "",                 "custom"    },
+    };
+
+    static const char* legacy_profiles[] =
+    {
+        "exit_profile",
+        "resume_profile",
+        "suspend_profile",
+    };
+
+    SettingsManager*    settings_manager        = ResourceManager::get()->GetSettingsManager();
+    json                autostart_settings      = settings_manager->GetSettings("AutoStart");
+    json                ui_settings             = settings_manager->GetSettings("UserInterface");
+    json                profilemanager_settings = settings_manager->GetSettings("ProfileManager");
+    bool                settings_migrated       = false;
+    bool                ui_migrated             = false;
+    bool                profiles_migrated       = false;
+
+    /*-----------------------------------------------------*\
+    | Migrate pre-1.0 AutoStart keys                        |
+    \*-----------------------------------------------------*/
+    if(autostart_settings.contains("setminimized"))
+    {
+        std::string     arguments;
+        std::string     profile_name            = JsonUtils::JsonGetString(autostart_settings, "profile");
+
+        for(unsigned int arg_idx = 0; arg_idx < (sizeof(legacy_arguments) / sizeof(legacy_arguments[0])); arg_idx++)
+        {
+            if(JsonUtils::JsonGetBool(autostart_settings, legacy_arguments[arg_idx][0]))
+            {
+                std::string argument    = legacy_arguments[arg_idx][1];
+                std::string value       = JsonUtils::JsonGetString(autostart_settings, legacy_arguments[arg_idx][2]);
+
+                if(value != "")
+                {
+                    if(argument != "")
+                    {
+                        argument += " ";
+                    }
+
+                    argument += value;
+                }
+
+                if(argument != "")
+                {
+                    if(arguments != "")
+                    {
+                        arguments += " ";
+                    }
+
+                    arguments += argument;
+                }
+            }
+
+            autostart_settings.erase(legacy_arguments[arg_idx][0]);
+            autostart_settings.erase(legacy_arguments[arg_idx][2]);
+        }
+
+        if(!autostart_settings.contains("start_minimized"))
+        {
+            autostart_settings["start_minimized"]   = JsonUtils::JsonGetBool(autostart_settings, "setminimized");
+        }
+
+        if(!autostart_settings.contains("custom_arguments"))
+        {
+            autostart_settings["custom_arguments"]  = arguments;
+        }
+
+        if(JsonUtils::JsonGetBool(autostart_settings, "setprofile") && (profile_name != ""))
+        {
+            if(!AutoProfileIsSet(profilemanager_settings, "open_profile"))
+            {
+                profilemanager_settings["open_profile"]["enabled"]              = true;
+                profilemanager_settings["open_profile"]["name"]                 = profile_name;
+                profiles_migrated                                               = true;
+            }
+
+            if(!AutoProfileIsSet(profilemanager_settings, "service_startup_profile"))
+            {
+                profilemanager_settings["service_startup_profile"]["enabled"]   = true;
+                profilemanager_settings["service_startup_profile"]["name"]      = profile_name;
+                profiles_migrated                                               = true;
+            }
+        }
+
+        autostart_settings.erase("setminimized");
+        autostart_settings.erase("setprofile");
+        autostart_settings.erase("profile");
+
+        settings_manager->SetSettings("AutoStart", autostart_settings);
+        settings_migrated                           = true;
+    }
+
+    /*-----------------------------------------------------*\
+    | Migrate pre-1.0 tray icon and autoload profile keys   |
+    \*-----------------------------------------------------*/
+    if(ui_settings.contains("greyscale_tray_icon"))
+    {
+        if(!ui_settings.contains("monochrome_tray_icon"))
+        {
+            ui_settings["monochrome_tray_icon"]     = JsonUtils::JsonGetBool(ui_settings, "greyscale_tray_icon");
+        }
+
+        ui_settings.erase("greyscale_tray_icon");
+        ui_migrated                                 = true;
+    }
+
+    if(ui_settings.contains("autoload_profiles"))
+    {
+        for(unsigned int profile_idx = 0; profile_idx < (sizeof(legacy_profiles) / sizeof(legacy_profiles[0])); profile_idx++)
+        {
+            std::string key = legacy_profiles[profile_idx];
+
+            if(ui_settings["autoload_profiles"].contains(key) && !AutoProfileIsSet(profilemanager_settings, key))
+            {
+                json legacy_profile = ui_settings["autoload_profiles"][key];
+
+                profilemanager_settings[key]["enabled"] = JsonUtils::JsonGetBool(legacy_profile, "enabled");
+                profilemanager_settings[key]["name"]    = JsonUtils::JsonGetString(legacy_profile, "name");
+                profiles_migrated                       = true;
+            }
+        }
+
+        ui_settings.erase("autoload_profiles");
+        ui_migrated                                 = true;
+    }
+
+    if(ui_migrated)
+    {
+        settings_manager->SetSettings("UserInterface", ui_settings);
+        settings_migrated                           = true;
+    }
+
+    if(settings_migrated)
+    {
+        if(profiles_migrated)
+        {
+            settings_manager->SetSettings("ProfileManager", profilemanager_settings);
+        }
+
+        settings_manager->SaveSettings();
+
+        LOG_INFO("[OpenRGBDialog] Migrated legacy AutoStart and profile settings");
+    }
 }
 
 void OpenRGBDialog::onSettingsUpdated()
