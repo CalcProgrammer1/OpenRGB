@@ -424,36 +424,36 @@ MSIMotherboard185Controller::MSIMotherboard185Controller(hid_device* handle, con
     }
 
     /*-----------------------------------------------------*\
-    | If the firmware version is below the minimum, set     |
-    | invalid version flag and return                       |
-    \*-----------------------------------------------------*/
-    if(version_APROM_val < board_config->minimum_firmware_version)
-    {
-        version_invalid = true;
-        return;
-    }
-
-    /*-----------------------------------------------------*\
     | Fill in the number of each zone type based on the     |
     | board configuration                                   |
     \*-----------------------------------------------------*/
     if(board_config != nullptr)
     {
-        numof_onboard_leds = board_config->numof_onboard_leds;
-        numof_pipe1_leds   = board_config->numof_pipe1_leds;
-        numof_pipe2_leds   = board_config->numof_pipe2_leds;
-        numof_JRGBs        = board_config->numof_JRGBs;
-        supported_zones    = board_config->supported_zones;
-        per_led_mode       = board_config->per_led_mode;
+        /*-------------------------------------------------*\
+        | If the firmware version is below the minimum, set |
+        | invalid version flag and return                   |
+        \*-------------------------------------------------*/
+        if(version_APROM_val < board_config->minimum_firmware_version)
+        {
+            version_invalid = true;
+            return;
+        }
+
+        numof_onboard_leds  = board_config->numof_onboard_leds;
+        numof_pipe1_leds    = board_config->numof_pipe1_leds;
+        numof_pipe2_leds    = board_config->numof_pipe2_leds;
+        numof_JRGBs         = board_config->numof_JRGBs;
+        supported_zones     = board_config->supported_zones;
+        per_led_mode        = board_config->per_led_mode;
     }
     else
     {
-        numof_onboard_leds = 6;
-        numof_pipe1_leds   = 1;
-        numof_pipe2_leds   = 1;
-        numof_JRGBs        = 2;
-        supported_zones    = &all_zones;
-        per_led_mode       = DIRECT_MODE_DISABLED;
+        numof_onboard_leds  = 6;
+        numof_pipe1_leds    = 1;
+        numof_pipe2_leds    = 1;
+        numof_JRGBs         = 2;
+        supported_zones     = &all_zones;
+        per_led_mode        = DIRECT_MODE_DISABLED;
     }
 
     /*-----------------------------------------------------*\
