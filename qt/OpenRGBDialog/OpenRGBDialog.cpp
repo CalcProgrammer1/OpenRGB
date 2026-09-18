@@ -1633,10 +1633,13 @@ void OpenRGBDialog::onDetectionEnded()
     | Load plugins after the first detection (ONLY the      |
     | first)                                                |
     \*-----------------------------------------------------*/
+    bool plugins_just_loaded = false;
+
     if(!plugins_loaded)
     {
         plugin_manager->ScanAndLoadPlugins();
         plugins_loaded = true;
+        plugins_just_loaded = true;
         PluginsPage->RefreshList();
     }
 
@@ -1648,7 +1651,16 @@ void OpenRGBDialog::onDetectionEnded()
     /*-----------------------------------------------------*\
     | Load the on open automatic profile                    |
     \*-----------------------------------------------------*/
-    ResourceManager::get()->GetProfileManager()->LoadAutoProfileOpen();
+    bool open_profile_loaded = ResourceManager::get()->GetProfileManager()->LoadAutoProfileOpen();
+
+    /*-----------------------------------------------------*\
+    | With no profile to open, the plugins that were just   |
+    | loaded still need the active profile's plugin data    |
+    \*-----------------------------------------------------*/
+    if(plugins_just_loaded && !open_profile_loaded)
+    {
+        ResourceManager::get()->GetProfileManager()->ApplyActiveProfilePluginData();
+    }
 }
 
 void OpenRGBDialog::MigrateLegacySettings()

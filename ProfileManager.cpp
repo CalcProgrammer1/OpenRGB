@@ -163,6 +163,21 @@ ProfileManager::~ProfileManager()
 
 }
 
+void ProfileManager::ApplyActiveProfilePluginData()
+{
+    /*-----------------------------------------------------*\
+    | The server only sends profile data to the clients     |
+    | connected at the time it loads, and plugins only      |
+    | exist in the GUI, so read it back here                |
+    \*-----------------------------------------------------*/
+    if(!active_profile.empty() && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
+    {
+        LOG_DEBUG("[%s] Reading active profile for plugin data: %s", PROFILEMANAGER, active_profile.c_str());
+
+        OnProfileLoaded(ResourceManager::get()->GetLocalClient()->ProfileManager_DownloadProfile(active_profile));
+    }
+}
+
 void ProfileManager::ClearActiveProfile()
 {
     /*-------------------------------------------------*\

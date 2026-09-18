@@ -78,6 +78,8 @@ public:
     ProfileManager(const filesystem::path& config_dir);
     ~ProfileManager();
 
+    void                        ApplyActiveProfilePluginData();
+
     void                        ClearActiveProfile();
 
     void                        DeleteProfile(std::string profile_name);
