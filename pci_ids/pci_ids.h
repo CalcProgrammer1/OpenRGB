@@ -912,6 +912,7 @@
 #define PNY_RTX_5070_ARGB_EPIC_X_OC_SUB_DEV                     0x1439
 #define PNY_RTX_5070TI_ARGB_EPIC_X_SUB_DEV                      0x143B
 #define PNY_RTX_5070TI_ARGB_EPIC_X_OC_SUB_DEV                   0x143A
+#define PNY_RTX_5070TI_ARGB_EPIC_X_OC_SUB_DEV2                  0x144A
 #define PNY_RTX_5060TI_ARGB_EPIC_X_OC_SUB_DEV                   0x143E
 #define PNY_RTX_5080_ARGB_EPIC_X_OC_SUB_DEV                     0x1435
 #define PNY_RTX_5090_ARGB_EPIC_X_OC_SUB_DEV                     0x1446
