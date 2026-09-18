@@ -26,11 +26,43 @@ bool TestForPalitGPUv1Controller(i2c_smbus_interface* bus, uint8_t i2c_addr)
 {
     bool pass = false;
 
-    switch(i2c_addr)
+    if(bus->info.port_id == 1)
     {
-        case 0x08:
-            pass = bus->i2c_smbus_write_quick(i2c_addr, I2C_SMBUS_WRITE);
-            break;
+        /*-------------------------------------------------*\
+        | Check for PALIT string, which is known to work    |
+        | for Palit variants                                |
+        \*-------------------------------------------------*/
+        const uint8_t   palit[] = {'P', 'A', 'L', 'I', 'T'};
+        bool            match   = true;
+
+        for(size_t i = 0; i < sizeof(palit); i++)
+        {
+            int32_t letter = bus->i2c_smbus_read_byte_data(i2c_addr, 0x07 + (u8)i);
+
+            if(palit[i] != letter)
+            {
+                match = false;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | If PALIT string fails, try a quick write to the   |
+        | target address, which is known to work for        |
+        | Gainward variants                                 |
+        \*-------------------------------------------------*/
+        if(match)
+        {
+            pass = true;
+        }
+        else
+        {
+            switch(i2c_addr)
+            {
+                case 0x08:
+                    pass = bus->i2c_smbus_write_quick(i2c_addr, I2C_SMBUS_WRITE);
+                    break;
+            }
+        }
     }
 
     return(pass);
@@ -40,13 +72,16 @@ bool TestForPalitGPUv2Controller(i2c_smbus_interface* bus, uint8_t i2c_addr)
 {
     bool pass = false;
 
-    switch(i2c_addr)
+    if(bus->info.port_id == 1)
     {
-        case 0x49:
-            s32 data        = bus->i2c_smbus_read_byte_data(i2c_addr, 0x0);
-            s32 mode_data   = bus->i2c_smbus_read_byte_data(i2c_addr, 0xe0);
-            pass            = (data == 0x0) && (mode_data < 0x5);
-            break;
+        switch(i2c_addr)
+        {
+            case 0x49:
+                s32 data        = bus->i2c_smbus_read_byte_data(i2c_addr, 0x0);
+                s32 mode_data   = bus->i2c_smbus_read_byte_data(i2c_addr, 0xe0);
+                pass            = (data == 0x0) && (mode_data < 0x5);
+                break;
+        }
     }
 
     return(pass);
