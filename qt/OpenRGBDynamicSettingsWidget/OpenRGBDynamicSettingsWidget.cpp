@@ -146,6 +146,11 @@ OpenRGBDynamicSettingsWidget::OpenRGBDynamicSettingsWidget(std::string key, nloh
             \*---------------------------------------------*/
             for(std::size_t setting_idx = 0; setting_idx < setting_entries.size(); setting_idx++)
             {
+                if(JsonUtils::JsonGetBool(setting_entries[setting_idx].value, "visible", true) == false)
+                {
+                    continue;
+                }
+
                 OpenRGBDynamicSettingsWidget*   item_widget = new OpenRGBDynamicSettingsWidget(setting_entries[setting_idx].key, setting_entries[setting_idx].value, settings_json);
 
                 item_widget->SetCallback(&OpenRGBDynamicSettingsWidget::NestedCallback, this);

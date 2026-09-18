@@ -9,6 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include "JsonUtils.h"
 #include "OpenRGBDynamicSettingsWidget.h"
 #include "OpenRGBDeviceEditorDialog.h"
 #include "ProfileManager.h"
@@ -125,6 +126,11 @@ OpenRGBDeviceEditorDialog::OpenRGBDeviceEditorDialog(RGBController *dev, QWidget
         \*-----------------------------------------------------*/
         for(std::size_t configuration_idx = 0; configuration_idx < configuration_entries.size(); configuration_idx++)
         {
+            if(JsonUtils::JsonGetBool(configuration_entries[configuration_idx].value, "visible", true) == false)
+            {
+                continue;
+            }
+
             OpenRGBDynamicSettingsWidget*   item_widget     = new OpenRGBDynamicSettingsWidget(configuration_entries[configuration_idx].key, configuration_entries[configuration_idx].value, configuration_value);
 
             item_widget->SetCallback(Callback, this);
