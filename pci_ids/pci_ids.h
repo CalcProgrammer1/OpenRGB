@@ -707,6 +707,7 @@
 #define GIGABYTE_RTX4070_AERO_OC_12G_SUB_DEV                    0x40E6
 #define GIGABYTE_RTX4070S_GAMING_OC_12G                         0x4138
 #define GIGABYTE_RTX4070S_AERO_OC_12G                           0x4139
+#define GIGABYTE_RTX4070S_EAGLE_OC_12G                          0x413A
 #define GIGABYTE_RTX4070S_EAGLE_OC_ICE_12G                      0x4148
 #define GIGABYTE_RTX4070TI_GAMING_12G                           0x40DF
 #define GIGABYTE_RTX4070TI_GAMING_OC_12G                        0x40C6
