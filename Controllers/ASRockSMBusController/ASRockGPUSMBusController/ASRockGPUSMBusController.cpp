@@ -186,8 +186,8 @@ void ASRockGPUSMBusController::SetChannelColor(uint8_t channel_idx, uint8_t red,
         red,
         green,
         blue,
-        0x80,  // Brightness
-        0xFF,  // Effect speed
+        0x80,  // Effect speed
+        0xFF,  // Brightness
         0x00,  // Effect direction
         0x1A   // Unknown constant
     };
