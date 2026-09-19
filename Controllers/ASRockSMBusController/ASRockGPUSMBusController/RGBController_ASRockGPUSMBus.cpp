@@ -44,6 +44,8 @@ RGBController_ASRockGPUSMBus::RGBController_ASRockGPUSMBus(ASRockGPUSMBusControl
 
 RGBController_ASRockGPUSMBus::~RGBController_ASRockGPUSMBus()
 {
+    Shutdown();
+
     delete controller;
 }
 
