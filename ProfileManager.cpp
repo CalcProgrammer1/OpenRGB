@@ -903,6 +903,8 @@ bool ProfileManager::SaveConfiguration()
     \*-----------------------------------------------------*/
     std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
 
+    configuration_save_mutex.lock();
+    
     /*-----------------------------------------------------*\
     | Open an output file in the profile directory          |
     \*-----------------------------------------------------*/
@@ -1004,6 +1006,8 @@ bool ProfileManager::SaveConfiguration()
     | Close the file when done                              |
     \*-----------------------------------------------------*/
     controller_file.close();
+
+    configuration_save_mutex.unlock();
 
     /*-----------------------------------------------------*\
     | Reinitialize manually configured controllers list     |

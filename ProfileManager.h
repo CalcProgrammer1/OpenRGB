@@ -156,6 +156,8 @@ private:
     filesystem::path            configuration_directory;
     filesystem::path            profile_directory;
 
+    std::mutex                  configuration_save_mutex;
+    
     /*-----------------------------------------------------*\
     | ProfileManager Callbacks                              |
     \*-----------------------------------------------------*/
