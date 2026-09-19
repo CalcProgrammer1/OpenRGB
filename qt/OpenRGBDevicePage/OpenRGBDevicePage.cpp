@@ -1629,11 +1629,6 @@ void OpenRGBDevicePage::UpdateModeUi()
         ui->PerLEDCheck->setEnabled(enable_controls);
         ui->PerLEDCheck->setChecked(per_led);
         ui->PerLEDCheck->blockSignals(false);
-
-        if(DeviceViewShowing)
-        {
-            ui->DeviceViewBoxFrame->show();
-        }
     }
     else
     {
@@ -1645,6 +1640,22 @@ void OpenRGBDevicePage::UpdateModeUi()
         ui->PerLEDCheck->blockSignals(false);
 
         ui->DeviceViewBoxFrame->hide();
+    }
+
+    /*-----------------------------------------------------*\
+    | Show the device view if the selected mode is a per-   |
+    | LED mode or if the selected zone mode is following    |
+    | entire device and the device mode is per-LED.         |
+    \*-----------------------------------------------------*/
+    if((per_led)
+    || ((selected_zone_mode)
+     && (selected_mode == -1)
+     && (device->GetModeColorMode(device->GetActiveMode()) == MODE_COLORS_PER_LED)))
+    {
+        if(DeviceViewShowing)
+        {
+            ui->DeviceViewBoxFrame->show();
+        }
     }
 
     if(supports_mode_specific)
