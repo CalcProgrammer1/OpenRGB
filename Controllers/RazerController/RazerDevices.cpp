@@ -7222,6 +7222,82 @@ static const razer_device naga_pro_v2_wireless_device =
     NULL
 };
 
+
+/*-------------------------------------------------------------*\
+|  Razer Naga Pro V3   1532:00E7 (wired)   1532:00E8 (wireless) |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Numpad"                                                |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone naga_pro_v3_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_pro_v3_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_pro_v3_numpad_zone =
+{
+    "Numpad",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device naga_pro_v3_wired_device =
+{
+    "Razer Naga Pro V3 (Wired)",
+    RAZER_NAGA_PRO_V3_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    3,
+    {
+        &naga_pro_v3_logo_zone,
+        &naga_pro_v3_scroll_wheel_zone,
+        &naga_pro_v3_numpad_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+static const razer_device naga_pro_v3_wireless_device =
+{
+    "Razer Naga Pro V3 (Wireless)",
+    RAZER_NAGA_PRO_V3_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    3,
+    {
+        &naga_pro_v3_logo_zone,
+        &naga_pro_v3_scroll_wheel_zone,
+        &naga_pro_v3_numpad_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
 /*-------------------------------------------------------------*\
 |  Razer Viper 8kHz 1532:0091                                   |
 |                                                               |
@@ -9590,6 +9666,8 @@ const razer_device* razer_device_list[] =
     &naga_pro_wireless_device,
     &naga_pro_v2_wired_device,
     &naga_pro_v2_wireless_device,
+    &naga_pro_v3_wired_device,
+    &naga_pro_v3_wireless_device,
     &viper_8khz_device,
     &viper_mini_device,
     &viper_ultimate_wired_device,

@@ -127,6 +127,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_NAGA_PRO_V2_WIRED_PID:
         case RAZER_NAGA_PRO_V2_WIRELESS_PID:
+        case RAZER_NAGA_PRO_V3_WIRED_PID:
+        case RAZER_NAGA_PRO_V3_WIRELESS_PID:
         case RAZER_O11_DYNAMIC_PID:
         case RAZER_STRIDER_CHROMA_PID:
         case RAZER_TARTARUS_PRO_PID:

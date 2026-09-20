@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include <hidapi.h>
 #include "DetectionManager.h"
+#include "LogManager.h"
 #include "RazerController.h"
 #include "RazerDevices.h"
 #include "RazerKrakenController.h"
@@ -32,6 +33,10 @@ DetectedControllers DetectRazerControllers(hid_device_info* info, const std::str
     hid_device*         dev;
 
     dev = hid_open_path(info->path);
+
+    LOG_INFO("[Razer] %s if=%d up=%04x u=%04x %s", name.c_str(),
+             info->interface_number, info->usage_page, info->usage, info->path);
+    if(!dev) LOG_WARNING("[Razer] hid_open_path failed");
 
     if(dev)
     {
@@ -366,6 +371,8 @@ REGISTER_HID_DETECTOR_IPU("Razer Naga Pro (Wired)",                          Det
 REGISTER_HID_DETECTOR_IPU("Razer Naga Pro (Wireless)",                       DetectRazerControllers,        RAZER_VID,  RAZER_NAGA_PRO_WIRELESS_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Naga Pro V2 (Wired)",                       DetectRazerControllers,        RAZER_VID,  RAZER_NAGA_PRO_V2_WIRED_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Naga Pro V2 (Wireless)",                    DetectRazerControllers,        RAZER_VID,  RAZER_NAGA_PRO_V2_WIRELESS_PID,                 0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_PU("Razer Naga Pro V3 (Wired)",                        DetectRazerControllers,        RAZER_VID,  RAZER_NAGA_PRO_V3_WIRED_PID,                            0x01,   0x03);
+REGISTER_HID_DETECTOR_PU("Razer Naga Pro V3 (Wireless)",                     DetectRazerControllers,        RAZER_VID,  RAZER_NAGA_PRO_V3_WIRELESS_PID,                         0x01,   0x03);
 REGISTER_HID_DETECTOR_IPU("Razer Viper",                                     DetectRazerControllers,        RAZER_VID,  RAZER_VIPER_PID,                                0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Viper 8kHz",                                DetectRazerControllers,        RAZER_VID,  RAZER_VIPER_8KHZ_PID,                           0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Viper Mini",                                DetectRazerControllers,        RAZER_VID,  RAZER_VIPER_MINI_PID,                           0x00,   0x01,   0x02);
