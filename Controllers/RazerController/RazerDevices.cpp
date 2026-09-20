@@ -7222,7 +7222,6 @@ static const razer_device naga_pro_v2_wireless_device =
     NULL
 };
 
-
 /*-------------------------------------------------------------*\
 |  Razer Naga Pro V3   1532:00E7 (wired)   1532:00E8 (wireless) |
 |                                                               |

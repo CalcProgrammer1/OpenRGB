@@ -12,7 +12,6 @@
 #include <unordered_set>
 #include <hidapi.h>
 #include "DetectionManager.h"
-#include "LogManager.h"
 #include "RazerController.h"
 #include "RazerDevices.h"
 #include "RazerKrakenController.h"
@@ -33,10 +32,6 @@ DetectedControllers DetectRazerControllers(hid_device_info* info, const std::str
     hid_device*         dev;
 
     dev = hid_open_path(info->path);
-
-    LOG_INFO("[Razer] %s if=%d up=%04x u=%04x %s", name.c_str(),
-             info->interface_number, info->usage_page, info->usage, info->path);
-    if(!dev) LOG_WARNING("[Razer] hid_open_path failed");
 
     if(dev)
     {
