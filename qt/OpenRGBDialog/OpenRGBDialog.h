@@ -59,10 +59,7 @@ public:
 
     static bool IsMinimizeOnClose();
 
-    void SetDialogMessage(PLogMessage msg);
     void SetLanguage(std::string locale);
-
-    bool DontShowAgain;
 
 signals:
     void ProfileListChanged();
@@ -126,8 +123,6 @@ private:
     QAction *                       trayActionRescan;
     QAction *                       trayActionExit;
 
-    QString                         dialog_message;
-
     /*-----------------------------------------------------*\
     | User interface                                        |
     \*-----------------------------------------------------*/
@@ -186,7 +181,7 @@ private slots:
     void onSettingsUpdated();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void on_ShowHide();
-    void onShowDialogMessage();
+    void onShowDialogMessage(QString message);
     void on_ReShow(QSystemTrayIcon::ActivationReason reason);
     void on_ProfileSelected();
     void on_ProfileBox_currentIndexChanged(int index);

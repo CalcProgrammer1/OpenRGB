@@ -54,8 +54,7 @@ static void OpenRGBDialogLogManagerCallback(void * this_ptr, unsigned int update
     switch(update_reason)
     {
         case LOGMANAGER_UPDATE_REASON_SHOW_DIALOG:
-            this_obj->SetDialogMessage(message);
-            QMetaObject::invokeMethod(this_obj, "onShowDialogMessage", Qt::QueuedConnection);
+            QMetaObject::invokeMethod(this_obj, "onShowDialogMessage", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(message->text)));
             break;
     }
 }
@@ -1415,11 +1414,6 @@ void OpenRGBDialog::UpdateDevicesList()
     }
 }
 
-void OpenRGBDialog::SetDialogMessage(PLogMessage msg)
-{
-    dialog_message = QString::fromStdString(msg->text);
-}
-
 void OpenRGBDialog::SetLanguage(std::string locale)
 {
     QApplication*           app             = static_cast<QApplication *>(QApplication::instance());
@@ -1988,9 +1982,9 @@ void OpenRGBDialog::on_ShowHide()
     }
 }
 
-void OpenRGBDialog::onShowDialogMessage()
+void OpenRGBDialog::onShowDialogMessage(QString message)
 {
-    std::size_t hash = std::hash<std::string>{}(dialog_message.toStdString());
+    std::size_t hash = std::hash<std::string>{}(message.toStdString());
 
     /*-----------------------------------------------------*\
     | Load the LogManager settings and check if the hash of |
@@ -2012,7 +2006,6 @@ void OpenRGBDialog::onShowDialogMessage()
         {
             if(log_manager_settings["dialog_no_show_hashes"][list_idx] == hash)
             {
-                dialog_message.clear();
                 return;
             }
         }
@@ -2020,21 +2013,21 @@ void OpenRGBDialog::onShowDialogMessage()
 
     QMessageBox box;
 
-    box.setInformativeText(QCoreApplication::translate("ResourceManager", dialog_message.toUtf8()));
+    box.setInformativeText(QCoreApplication::translate("ResourceManager", message.toUtf8()));
 
     QCheckBox* CheckBox_DontShowAgain = new QCheckBox("Don't show this message again");
 
-    DontShowAgain = false;
+    bool DontShowAgain = false;
 
     #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        QObject::connect(CheckBox_DontShowAgain, &QCheckBox::checkStateChanged, [this](Qt::CheckState state)
+        QObject::connect(CheckBox_DontShowAgain, &QCheckBox::checkStateChanged, [&DontShowAgain](Qt::CheckState state)
     #else
-        QObject::connect(CheckBox_DontShowAgain, &QCheckBox::stateChanged, [this](int state)
+        QObject::connect(CheckBox_DontShowAgain, &QCheckBox::stateChanged, [&DontShowAgain](int state)
     #endif
     {
         if(static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked)
         {
-            this->DontShowAgain = true;
+            DontShowAgain = true;
         }
     });
 
@@ -2057,8 +2050,6 @@ void OpenRGBDialog::onShowDialogMessage()
     }
 
     DontShowAgain = false;
-
-    dialog_message.clear();
 }
 
 void OpenRGBDialog::on_ReShow(QSystemTrayIcon::ActivationReason reason)
