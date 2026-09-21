@@ -72,6 +72,7 @@ typedef struct
 #define CORSAIR_K57_RGB_WIRED_PID                   0x1B6E
 #define CORSAIR_K57_RGB_WIRELESS_PID                0x1B62
 #define CORSAIR_K60_RGB_PRO_PID                     0x1BA0
+#define CORSAIR_K60_RGB_PRO_SE_PID                  0x1B8D
 #define CORSAIR_K60_RGB_PRO_LP_PID                  0x1BAD
 #define CORSAIR_K60_RGB_PRO_TKL_B_PID               0x1BC7
 #define CORSAIR_K60_RGB_PRO_TKL_W_PID               0x1BED

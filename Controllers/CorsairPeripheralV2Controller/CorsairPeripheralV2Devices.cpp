@@ -929,6 +929,28 @@ static const corsair_v2_device k60_rgb_pro_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair K60 RGB Pro SE 1B1C:1B8D                             |
+|                                                               |
+|  Initial implementation reuses K60 RGB Pro zone/layout        |
+\*-------------------------------------------------------------*/
+static const corsair_v2_device k60_rgb_pro_se_device =
+{
+    CORSAIR_K60_RGB_PRO_SE_PID,
+    DEVICE_TYPE_KEYBOARD,
+    6,
+    21,
+    {
+        &k60_rgb_pro_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_K60_layout
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair K60 RGB Pro Low Profile 1B1C:1BAD                    |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -1625,6 +1647,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k55_rgb_pro_device,
     &k57_rgb_wired_device,
     &k60_rgb_pro_device,
+    &k60_rgb_pro_se_device,
     &k60_rgb_pro_lp_device,
     &k60_rgb_pro_tkl_device_b,
     &k60_rgb_pro_tkl_device_w,
