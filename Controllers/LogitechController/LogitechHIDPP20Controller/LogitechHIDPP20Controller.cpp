@@ -7559,7 +7559,8 @@ void LogitechHIDPP20Controller::ReadActiveProfileSector()
     }
 
     constexpr uint16_t SECTOR_SIZE = 0x63;  // 99 bytes
-    constexpr uint16_t PAGE_SIZE   = 16;
+    constexpr uint16_t SIZE_OF_PAGE   = 16; 
+
 
     /*-----------------------------------------------------*\
     | Step 1: load the sector into the device's read buffer |
@@ -7585,7 +7586,7 @@ void LogitechHIDPP20Controller::ReadActiveProfileSector()
     \*-----------------------------------------------------*/
     uint8_t sector_buf[SECTOR_SIZE] = {};
 
-    for(uint16_t offset = 0; offset < SECTOR_SIZE; offset += PAGE_SIZE)
+    for(uint16_t offset = 0; offset < SECTOR_SIZE; offset += SIZE_OF_PAGE)
     {
         uint8_t read_req[3] = {
             (uint8_t)((offset >> 8) & 0xFF),
@@ -7605,9 +7606,9 @@ void LogitechHIDPP20Controller::ReadActiveProfileSector()
             return;
         }
 
-        size_t copy_len = (offset + PAGE_SIZE > SECTOR_SIZE)
+        size_t copy_len = (offset + SIZE_OF_PAGE > SECTOR_SIZE)
                         ? (size_t)(SECTOR_SIZE - offset)
-                        : PAGE_SIZE;
+                        : SIZE_OF_PAGE;
         memcpy(sector_buf + offset, page_resp, copy_len);
     }
 
@@ -7617,11 +7618,11 @@ void LogitechHIDPP20Controller::ReadActiveProfileSector()
     LOG_DEBUG("%s ProfileSector partition=NVS sector=1 size=%u bytes:",
               LOG_TAG, (unsigned)SECTOR_SIZE);
 
-    for(uint16_t row = 0; row < SECTOR_SIZE; row += PAGE_SIZE)
+    for(uint16_t row = 0; row < SECTOR_SIZE; row += SIZE_OF_PAGE)
     {
-        size_t row_len = (row + PAGE_SIZE > SECTOR_SIZE)
+        size_t row_len = (row + SIZE_OF_PAGE > SECTOR_SIZE)
                        ? (size_t)(SECTOR_SIZE - row)
-                       : PAGE_SIZE;
+                       : SIZE_OF_PAGE;
 
         char hex[64] = {};
         char* p = hex;
