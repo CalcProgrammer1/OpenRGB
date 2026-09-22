@@ -22,6 +22,7 @@
 #include <thread>
 #include <vector>
 #include <nlohmann/json.hpp>
+#include "find_usb_serial_port.h"
 #include "hidapi_wrapper.h"
 #include "i2c_smbus.h"
 #include "RGBController.h"
@@ -56,6 +57,7 @@ typedef std::function<DetectedControllers(i2c_smbus_interface*, std::vector<SPDW
 typedef std::function<DetectedControllers(i2c_smbus_interface*, uint8_t, const std::string&)>                       I2CPCIDeviceDetectorFunction;
 typedef std::function<DetectedControllers(hid_device_info*, const std::string&)>                                    HIDDeviceDetectorFunction;
 typedef std::function<DetectedControllers(hidapi_wrapper wrapper, hid_device_info*, const std::string&)>            HIDWrappedDeviceDetectorFunction;
+typedef std::function<DetectedControllers(SerialDeviceInfo*, const std::string&)>                             USBSerialDeviceDetectorFunction;
 typedef std::function<void()>                                                                                       DynamicDetectorFunction;
 typedef std::function<void()>                                                                                       PreDetectionHookFunction;
 
@@ -110,6 +112,15 @@ typedef struct
     uint8_t                             dram_type;
     bool                                enabled_by_default;
 } I2CDRAMDeviceDetectorBlock;
+
+typedef struct
+{
+    std::string                         name;
+    USBSerialDeviceDetectorFunction     function;
+    uint16_t                            vid;
+    uint16_t                            pid;
+    bool                                enabled_by_default;
+} USBSerialDeviceDetectorBlock;
 
 typedef struct
 {
@@ -183,6 +194,7 @@ public:
     void                                RegisterI2CDeviceDetector(std::string name, I2CDeviceDetectorFunction  detector, bool enabled_by_default = true);
     void                                RegisterI2CDRAMDeviceDetector(std::string name, I2CDRAMDeviceDetectorFunction detector, uint16_t jedec_id, uint8_t dram_type, bool enabled_by_default = true);
     void                                RegisterI2CPCIDeviceDetector(std::string name, I2CPCIDeviceDetectorFunction detector, uint16_t ven_id, uint16_t dev_id, uint16_t subven_id, uint16_t subdev_id, uint8_t i2c_addr, bool enabled_by_default = true);
+    void                                RegisterUSBSerialDeviceDetector(std::string name, USBSerialDeviceDetectorFunction detector, int vid, int pid, bool enabled_by_default = true);
 
     /*-----------------------------------------------------*\
     | Pre-Detection Hook Function Registration Function     |
@@ -266,6 +278,7 @@ private:
     std::vector<HIDDeviceDetectorBlock>         hid_specific_detectors;
     std::vector<HIDWrappedDeviceDetectorBlock>  hid_wrapped_generic_detectors;
     std::vector<HIDWrappedDeviceDetectorBlock>  hid_wrapped_specific_detectors;
+    std::vector<USBSerialDeviceDetectorBlock>   usb_serial_detectors;
     std::vector<DynamicDetectorFunction>        dynamic_detectors;
     std::vector<std::string>                    dynamic_detector_strings;
     std::vector<PreDetectionHookFunction>       pre_detection_hooks;
@@ -316,6 +329,7 @@ private:
     unsigned int                                detection_percent_i2c_count;
     unsigned int                                detection_percent_i2c_dram_count;
     unsigned int                                detection_percent_i2c_pci_count;
+    unsigned int                                detection_percent_usb_serial_count;
     unsigned int                                detection_percent_other_count;
     unsigned int                                detection_percent_denominator;
     std::string                                 detection_string;
@@ -355,6 +369,7 @@ private:
     void BackgroundDetectI2CDevices(json& detector_settings);
     void BackgroundDetectI2CDRAMDevices(json& detector_settings);
     void BackgroundDetectI2CPCIDevices(json& detector_settings);
+    void BackgroundDetectUSBSerialDevices(json& detector_settings);
     void BackgroundDetectOtherDevices(json& detector_settings);
     void BackgroundHIDExit();
     void BackgroundHIDInit();
@@ -469,6 +484,15 @@ public:
     }
 };
 
+class USBSerialDeviceDetector
+{
+public:
+    USBSerialDeviceDetector(std::string name, USBSerialDeviceDetectorFunction detector, int vid, int pid, bool enabled_by_default = true)
+    {
+        DetectionManager::get()->RegisterUSBSerialDeviceDetector(name, detector, vid, pid, enabled_by_default);
+    }
+};
+
 class DynamicDetector
 {
 public:
@@ -565,6 +589,8 @@ public:
 #define REGISTER_HID_WRAPPED_DETECTOR_P_ONLY_DISABLED(name, func, page)                             static HIDWrappedDeviceDetector device_detector_obj__##page(name, func, HID_VID_ANY, HID_PID_ANY, HID_INTERFACE_ANY, page, HID_USAGE_ANY, false)
 #define REGISTER_HID_WRAPPED_DETECTOR_PU_ONLY(name, func, page, usage)                              static HIDWrappedDeviceDetector device_detector_obj__##page##_##usage(name, func, HID_VID_ANY, HID_PID_ANY, HID_INTERFACE_ANY, page, usage)
 #define REGISTER_HID_WRAPPED_DETECTOR_PU_ONLY_DISABLED(name, func, page, usage)                     static HIDWrappedDeviceDetector device_detector_obj__##page##_##usage(name, func, HID_VID_ANY, HID_PID_ANY, HID_INTERFACE_ANY, page, usage, false)
+#define REGISTER_USB_SERIAL_DETECTOR(name, func, vid, pid)                                          static USBSerialDeviceDetector  device_detector_obj_##vid##pid(name, func, vid, pid)
+#define REGISTER_USB_SERIAL_DETECTOR_DISABLED(name, func, vid, pid)                                 static USBSerialDeviceDetector  device_detector_obj_##vid##pid(name, func, vid, pid, false)
 #define REGISTER_DYNAMIC_DETECTOR(name, func)                                                       static DynamicDetector          device_detector_obj_##func(name, func)
 #define REGISTER_PRE_DETECTION_HOOK(func)                                                           static PreDetectionHook         device_detector_obj_##func(func)
 
