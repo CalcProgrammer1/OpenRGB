@@ -76,6 +76,7 @@
 | Coolermaster Monitors                                     |
 \*---------------------------------------------------------*/
 #define COOLERMASTER_GM27_FQS_PID                   0x01BB
+#define COOLERMASTER_GM34_CWQ_ARGB_PID              0x01BF
 
 /*---------------------------------------------------------*\
 | Coolermaster Desks                                        |
@@ -442,6 +443,7 @@ REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon RX 6900 GPU",        DetectCoole
 | Coolermaster Monitors                                     |
 \*---------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Cooler Master GM27-FQS ARGB Monitor",    DetectCoolerMasterMonitor,      COOLERMASTER_VID,   COOLERMASTER_GM27_FQS_PID,                   0,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master GM34-CWQ ARGB Monitor",    DetectCoolerMasterMonitor,      COOLERMASTER_VID,   COOLERMASTER_GM34_CWQ_ARGB_PID,              0,      0xFF00, 1);
 
 /*---------------------------------------------------------*\
 | Coolermaster Desks                                        |
