@@ -11,37 +11,27 @@
 
 #include <vector>
 #include "DetectionManager.h"
-#include "find_usb_serial_port.h"
 #include "NZXTHuePlusController.h"
 #include "RGBController_NZXTHuePlus.h"
 
 /*---------------------------------------------------------*\
 | NZXT USB IDs                                              |
 \*---------------------------------------------------------*/
-#define NZXT_HUE_PLUS_VID 0x04D8
-#define NZXT_HUE_PLUS_PID 0x00DF
+#define NZXT_HUE_PLUS_VID                           0x04D8
+#define NZXT_HUE_PLUS_PID                           0x00DF
 
-DetectedControllers DetectNZXTHuePlusControllers()
+DetectedControllers DetectNZXTHuePlusControllers(SerialDeviceInfo* port_info, const std::string& name)
 {
     DetectedControllers         detected_controllers;
-    std::vector<std::string>    ports;
 
-    ports = find_usb_serial_port(NZXT_HUE_PLUS_VID, NZXT_HUE_PLUS_PID);
+    HuePlusController*     controller     = new HuePlusController();
+    controller->Initialize(port_info->port_path);
 
-    for(std::size_t i = 0; i < ports.size(); i++)
-    {
-        if(ports[i] != "")
-        {
-            HuePlusController*     controller     = new HuePlusController();
-            controller->Initialize((char *)ports[i].c_str());
-            RGBController_HuePlus* rgb_controller = new RGBController_HuePlus(controller);
+    RGBController_HuePlus* rgb_controller = new RGBController_HuePlus(controller);
 
-            detected_controllers.push_back(rgb_controller);
-        }
-    }
+    detected_controllers.push_back(rgb_controller);
 
     return(detected_controllers);
 }
 
-REGISTER_DETECTOR("NZXT Hue+", DetectNZXTHuePlusControllers);
-REGISTER_CUSTOM_UDEV_RULE(nzxt_hue_plus, "NZXT Hue+", "SUBSYSTEMS==\"serial|hidraw\", ATTRS{idVendor}==\"04d8\", ATTRS{idProduct}==\"00df\", TAG+=\"uaccess\", TAG+=\"NZXT_Hue\"");
+REGISTER_USB_SERIAL_DETECTOR("NZXT Hue+", DetectNZXTHuePlusControllers, NZXT_HUE_PLUS_VID, NZXT_HUE_PLUS_PID);

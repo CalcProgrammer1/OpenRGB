@@ -27,7 +27,7 @@ HuePlusController::~HuePlusController()
     delete serialport;
 }
 
-void HuePlusController::Initialize(char* port)
+void HuePlusController::Initialize(std::string port)
 {
     port_name = port;
 
