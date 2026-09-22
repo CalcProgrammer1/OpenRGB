@@ -60,6 +60,21 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
                 pass = true;
             }
             break;
+
+        /*-------------------------------------------------*\
+        | V2 Controller - RTX 4080 SG                       |
+        \*-------------------------------------------------*/
+        case 0x50:
+            res = bus->i2c_smbus_read_byte_data(address, 0x00);
+            if(res == 0x01)
+            {
+                res = bus->i2c_smbus_read_byte_data(address, 0x01);
+                if(res == 0x08)
+                {
+                    pass = true;
+                }
+            }
+            break;
     }
 
     return(pass);
@@ -89,6 +104,7 @@ DetectedControllers DetectGalaxGPUControllers(i2c_smbus_interface* bus, uint8_t 
             /*---------------------------------------------*\
             | V2 Controller                                 |
             \*---------------------------------------------*/
+            case 0x50:
             case 0x51:
                 {
                     GalaxGPUv2Controller*     controller     = new GalaxGPUv2Controller(bus, i2c_addr, name);
@@ -111,4 +127,5 @@ REGISTER_I2C_PCI_DETECTOR("KFA2 GeForce RTX 2080 SUPER EX OC",              Dete
 REGISTER_I2C_PCI_DETECTOR("KFA2 GeForce RTX 2080 Ti EX OC",                 DetectGalaxGPUControllers,  NVIDIA_VEN, NVIDIA_RTX2080TI_DEV,   NVIDIA_SUB_VEN, KFA2_RTX_2080TI_EX_OC_SUB_DEV,          0x23);
 REGISTER_I2C_PCI_DETECTOR("GALAX GeForce RTX 3070 1-Click OC",              DetectGalaxGPUControllers,  NVIDIA_VEN, NVIDIA_RTX3070_DEV,     NVIDIA_SUB_VEN, GALAX_RTX_3070_1_CLICK_OC_SUB_DEV,      0x23);
 REGISTER_I2C_PCI_DETECTOR("GALAX GeForce RTX 3080 SG",                      DetectGalaxGPUControllers,  NVIDIA_VEN, NVIDIA_RTX3080_DEV,     NVIDIA_SUB_VEN, GALAX_RTX_3080_SG_SUB_DEV,              0x23);
+REGISTER_I2C_PCI_DETECTOR("KFA2 GeForce RTX 4080 SG 1-Click OC",            DetectGalaxGPUControllers,  NVIDIA_VEN, NVIDIA_RTX4080_DEV,     NVIDIA_SUB_VEN, KFA2_RTX_4080_SG_OC_SUB_DEV,            0x50);
 REGISTER_I2C_PCI_DETECTOR("GALAX GeForce RTX 5070 Ti EX Gamer 1-Click OC",  DetectGalaxGPUControllers,  NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   NVIDIA_SUB_VEN, GALAX_RTX_5070TI_EX_OC_SUB_DEV,         0x51);
