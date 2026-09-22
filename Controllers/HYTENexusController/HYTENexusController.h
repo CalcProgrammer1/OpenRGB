@@ -19,6 +19,8 @@
 #include "RGBController.h"
 #include "serial_port.h"
 
+#define HYTE_VID                                    0x3402
+
 #define HYTE_THICC_Q60_PID                          0x0400
 #define HYTE_NEXUS_PORTAL_NP50_PID                  0x0901
 
