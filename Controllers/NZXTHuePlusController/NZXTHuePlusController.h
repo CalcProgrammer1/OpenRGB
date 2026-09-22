@@ -74,7 +74,7 @@ public:
     HuePlusController();
     ~HuePlusController();
 
-    void            Initialize(char* port);
+    void            Initialize(std::string port);
     std::string     GetLocation();
     unsigned int    GetLEDsOnChannel(unsigned int channel);
 
