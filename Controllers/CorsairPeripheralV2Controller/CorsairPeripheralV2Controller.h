@@ -33,6 +33,7 @@
 #define CORSAIR_V2_LIGHT_CTRL2          34          /* 0x22                             */
 #define CORSAIR_V2_UPDATE_PERIOD        30000
 #define CORSAIR_V2_SLEEP_PERIOD         12500ms
+#define CORSAIR_V2_WRITE_PACE           2
 
 #define CORSAIR_V2_BRIGHTNESS_MIN       0
 #define CORSAIR_V2_BRIGHTNESS_MAX       0xFF
@@ -123,7 +124,6 @@ private:
     hid_device*                     dev;
 
     uint8_t                         write_cmd           = CORSAIR_V2_WRITE_WIRED_ID;
-    uint16_t                        pkt_sze             = CORSAIR_V2_WRITE_SIZE;
     bool                            skip_reads          = false;
     std::string                     firmware_version;
     std::string                     location;

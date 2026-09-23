@@ -68,10 +68,7 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
     buffer[2] = CORSAIR_V2_CMD_GET;
     buffer[3] = 0x11;
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    uint16_t result = hid_read_timeout(dev, buffer, CORSAIR_V2_PACKET_SIZE, CORSAIR_V2_TIMEOUT);
-    result++;
-    pkt_sze = std::max(result, (uint16_t)CORSAIR_V2_WRITE_SIZE);
-    LOG_DEBUG("[%s] Packet length set to %d", device_name.c_str(), pkt_sze);
+    hid_read_timeout(dev, buffer, CORSAIR_V2_PACKET_SIZE, CORSAIR_V2_TIMEOUT);
 
     /*---------------------------------------------------------*\
     | NB: If the device is not found in the device list         |
@@ -112,17 +109,31 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
     | Check lighting control endpoints                          |
     |   If lighting control endpoint 2 is unavailable           |
     |   then use endpoint 1.                                    |
+    |   NB: the K100 answers both endpoints, but its software   |
+    |   direct lighting only renders through endpoint 2, so     |
+    |   it must stay on CORSAIR_V2_LIGHT_CTRL2.                 |
     \*---------------------------------------------------------*/
     if(light_ctrl == CORSAIR_V2_LIGHT_CTRL2)
     {
-        result = StartTransaction(0);
-        if(result > 0)
+        switch(pid)
         {
-            light_ctrl = CORSAIR_V2_LIGHT_CTRL1;
-            StartTransaction(0);
+            case CORSAIR_K100_OPTICAL_V1_PID:
+            case CORSAIR_K100_OPTICAL_V2_PID:
+            case CORSAIR_K100_MXRED_PID:
+                LOG_DEBUG("[%s] Lighting Endpoint pinned to %02X for K100", device_name.c_str(), light_ctrl);
+                break;
+
+            default:
+                uint8_t result  = StartTransaction(0);
+                if(result > 0)
+                {
+                    light_ctrl = CORSAIR_V2_LIGHT_CTRL1;
+                    StartTransaction(0);
+                }
+                StopTransaction(0);
+                LOG_DEBUG("[%s] Lighting Endpoint set to %02X", device_name.c_str(), light_ctrl);
+                break;
         }
-        StopTransaction(0);
-        LOG_DEBUG("[%s] Lighting Endpoint set to %02X", device_name.c_str(), light_ctrl);
     }
 }
 
@@ -349,7 +360,7 @@ void CorsairPeripheralV2Controller::ClearPacketBuffer()
 
     do
     {
-        result = hid_read_timeout(dev, buffer, pkt_sze, CORSAIR_V2_TIMEOUT_SHORT);
+        result = hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT_SHORT);
     }
     while(result > 0);
 }
@@ -361,7 +372,9 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
     uint16_t remaining      = data_size;
 
     uint8_t buffer[CORSAIR_V2_PACKET_SIZE];
+    uint8_t response[CORSAIR_V2_PACKET_SIZE];
     memset(buffer, 0, CORSAIR_V2_PACKET_SIZE);
+    memset(response, 0, CORSAIR_V2_PACKET_SIZE);
 
     ClearPacketBuffer();
     StartTransaction(0);
@@ -377,7 +390,7 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
     /*---------------------------------------------------------*\
     | Check if the data needs more than 1 packet                |
     \*---------------------------------------------------------*/
-    uint16_t copy_bytes     = pkt_sze - offset1;
+    uint16_t copy_bytes     = CORSAIR_V2_WRITE_SIZE - offset1;
     if(remaining < copy_bytes)
     {
         copy_bytes          = remaining;
@@ -385,16 +398,24 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
 
     memcpy(&buffer[offset1], &data[0], copy_bytes);
 
-    hid_write(dev, buffer, pkt_sze);
+    hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
 
     if(!skip_reads)
     {
-        hid_read_timeout(dev, buffer, pkt_sze, CORSAIR_V2_TIMEOUT_SHORT);
+        /*-----------------------------------------------------*\
+        | Some devices (e.g. K100) drop packets that arrive     |
+        | back to back.  Wait for the transaction response      |
+        | before sending the next packet.                       |
+        \*-----------------------------------------------------*/
+        if(hid_read_timeout(dev, response, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT_SHORT) <= 0)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(CORSAIR_V2_WRITE_PACE));
+        }
     }
 
     remaining              -= copy_bytes;
     buffer[2]               = CORSAIR_V2_CMD_BLK_WN;
-    copy_bytes              = pkt_sze - offset2;
+    copy_bytes              = CORSAIR_V2_WRITE_SIZE - offset2;
 
     /*---------------------------------------------------------*\
     | Send the remaining packets                                |
@@ -410,12 +431,14 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
 
         memcpy(&buffer[offset2], &data[index], copy_bytes);
 
-        hid_write(dev, buffer, pkt_sze);
+        hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
 
-        if(!skip_reads)
-        {
-            hid_read_timeout(dev, buffer, pkt_sze, CORSAIR_V2_TIMEOUT_SHORT);
-        }
+        /*-----------------------------------------------------*\
+        | Pace the transfer: the device does not acknowledge    |
+        |   continuation packets, so a short sleep keeps the    |
+        |   MCU from being flooded.                             |
+        \*-----------------------------------------------------*/
+        std::this_thread::sleep_for(std::chrono::milliseconds(CORSAIR_V2_WRITE_PACE));
 
         remaining          -= copy_bytes;
     }
