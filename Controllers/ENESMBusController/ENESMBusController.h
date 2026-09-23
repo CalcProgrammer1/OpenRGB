@@ -117,6 +117,7 @@ public:
     device_type   GetType();
 
     const char*   GetChannelName(unsigned int cfg_zone);
+    unsigned int  GetLEDCount();
     unsigned int  GetLEDCount(unsigned int cfg_zone);
     unsigned char GetLEDRed(unsigned int led);
     unsigned char GetLEDGreen(unsigned int led);

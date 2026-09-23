@@ -198,11 +198,19 @@ DetectedControllers DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interfac
             {
                 if(TestForENESMBusController(buses[bus], ene_ram_addresses[address_list_idx]))
                 {
-                    ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(buses[bus]);
-                    ENESMBusController*          controller     = new ENESMBusController(interface, ene_ram_addresses[address_list_idx], "ENE DRAM", DEVICE_TYPE_DRAM);
-                    RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
+                    ENESMBusInterface_i2c_smbus*    interface      = new ENESMBusInterface_i2c_smbus(buses[bus]);
+                    ENESMBusController*             controller     = new ENESMBusController(interface, ene_ram_addresses[address_list_idx], "ENE DRAM", DEVICE_TYPE_DRAM);
 
-                    detected_controllers.push_back(rgb_controller);
+                    if(controller->GetLEDCount() > 0)
+                    {
+                        RGBController_ENESMBus*     rgb_controller = new RGBController_ENESMBus(controller);
+                        
+                        detected_controllers.push_back(rgb_controller);
+                    }
+                    else
+                    {
+                        delete controller;
+                    }
                 }
 
                 std::this_thread::sleep_for(1ms);

@@ -55,7 +55,7 @@ ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id 
         \*-------------------------------------------------*/
         if(LogManager::get()->GetLogLevel() >= LL_TRACE)
         {
-            LOG_TRACE("[ENE SMBus] ENE config table for 0x%02X:", dev);
+            LOG_TRACE("[ENE SMBus] ENE config table for 0x%02X (%s):", dev, device_version);
             LOG_TRACE("    %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X", config_table[0],  config_table[1],  config_table[2],  config_table[3],
                                                                                                              config_table[4],  config_table[5],  config_table[6],  config_table[7],
                                                                                                              config_table[8],  config_table[9],  config_table[10], config_table[11],
@@ -293,14 +293,18 @@ ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id 
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
     }
     /*-----------------------------------------------------*\
-    | Assume first generation controller if string does not |
-    | match                                                 |
+    | If string does not match any known variants, set LED  |
+    | count to 0 so that controller is not registered.      |
+    | This protects the device against invalid operations   |
+    | if reading the config table or device string were to  |
+    | fail.                                                 |
     \*-----------------------------------------------------*/
     else
     {
         direct_reg  = ENE_REG_COLORS_DIRECT;
         effect_reg  = ENE_REG_COLORS_EFFECT;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
+        led_count   = 0;
     }
 }
 
@@ -395,6 +399,11 @@ const char * ENESMBusController::GetChannelName(unsigned int cfg_zone)
                 break;
         }
     }
+}
+
+unsigned int ENESMBusController::GetLEDCount()
+{
+    return(led_count);
 }
 
 unsigned int ENESMBusController::GetLEDCount(unsigned int cfg_zone)
@@ -536,10 +545,12 @@ bool ENESMBusController::SupportsMode14()
 
 void ENESMBusController::UpdateDeviceName()
 {
-    for (int i = 0; i < 16; i++)
+    for(int i = 0; i < 16; i++)
     {
         device_version[i] = ENERegisterRead(ENE_REG_DEVICE_NAME + i);
     }
+
+    device_version[15] = '\0';
 }
 
 unsigned char ENESMBusController::ENERegisterRead(ene_register reg)
