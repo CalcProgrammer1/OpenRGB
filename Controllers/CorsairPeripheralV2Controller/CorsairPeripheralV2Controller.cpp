@@ -139,6 +139,16 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
 
 CorsairPeripheralV2Controller::~CorsairPeripheralV2Controller()
 {
+    /*---------------------------------------------------------*\
+    | Hand rendering back to the device's onboard firmware      |
+    |   before releasing it.  Some devices (e.g. K70 Core RGB)  |
+    |   stop generating onboard input events (e.g. the volume   |
+    |   knob) while left in software render mode, and the mode  |
+    |   persists until the next USB enumeration if it is never  |
+    |   reverted.                                               |
+    \*---------------------------------------------------------*/
+    SetRenderMode(CORSAIR_V2_MODE_HW);
+
     hid_close(dev);
 }
 
