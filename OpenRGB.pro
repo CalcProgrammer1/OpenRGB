@@ -165,7 +165,6 @@ HEADERS +=                                                                      
     $$CONTROLLER_H                                                                              \
     Colors.h                                                                                    \
     dependencies/ColorWheel/ColorWheel.h                                                        \
-    dependencies/json/nlohmann/json.hpp                                                         \
     fair_mutex.h                                                                                \
     JsonUtils.h                                                                                 \
     LogManager.h                                                                                \
@@ -272,6 +271,9 @@ SOURCES +=                                                                      
     RGBController/RGBControllerKeyNames.cpp                                                     \
     RGBController/RGBController_Network.cpp                                                     \
     RGBController/RGBController_Virtual.cpp                                                     \
+
+PRECOMPILED_HEADERS +=                                                                          \
+    dependencies/json/nlohmann/json.hpp                                                         \
 
 RESOURCES +=                                                                                    \
     qt/resources.qrc                                                                            \
