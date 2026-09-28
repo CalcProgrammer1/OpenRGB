@@ -18,6 +18,7 @@ typedef enum
 {
     MSI_LAPTOP_KLC,
     MSI_LAPTOP_ALC,
+    MSI_LAPTOP_KLC_LIGHTBAR,
 
 } msi_laptop_device;
 

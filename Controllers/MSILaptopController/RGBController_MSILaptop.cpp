@@ -73,6 +73,34 @@ void RGBController_MSILaptop::SetupZones()
             leds.push_back(new_led);
         }
     }
+    else if(controller->GetDeviceType() == MSI_LAPTOP_KLC_LIGHTBAR)
+    {
+        zone logo_zone;
+        logo_zone.name           = "Logo";
+        logo_zone.type           = ZONE_TYPE_SINGLE;
+        logo_zone.start_idx      = 0;
+        logo_zone.leds_min       = 1;
+        logo_zone.leds_max       = 1;
+        logo_zone.leds_count     = 1;
+        zones.push_back(logo_zone);
+
+        zone lightbar_zone;
+        lightbar_zone.name       = "Lightbar";
+        lightbar_zone.type       = ZONE_TYPE_LINEAR;
+        lightbar_zone.start_idx  = 1;
+        lightbar_zone.leds_min   = model->alc_lightbar_leds;
+        lightbar_zone.leds_max   = model->alc_lightbar_leds;
+        lightbar_zone.leds_count = model->alc_lightbar_leds;
+        zones.push_back(lightbar_zone);
+
+        for(unsigned int led_idx = 0; led_idx < model->alc_leds_count; led_idx++)
+        {
+            led new_led;
+            new_led.name  = model->alc_leds[led_idx].name;
+            new_led.value = model->alc_leds[led_idx].id;
+            leds.push_back(new_led);
+        }
+    }
     else
     {
         zone lightbar_zone;

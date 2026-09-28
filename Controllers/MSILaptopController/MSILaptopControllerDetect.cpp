@@ -18,6 +18,8 @@
 #define STEELSERIES_VID                             0x1038
 #define STEELSERIES_MSI_RAIDER_A18_KLC_PID          0x1122
 #define STEELSERIES_MSI_RAIDER_A18_ALC_PID          0x1161
+#define STEELSERIES_GE68HX_KEYBOARD_PID             0x113a
+#define STEELSERIES_GE68HX_LIGHTBAR_PID             0x114b
 
 #define NA                                      0xFFFFFFFF
 #define MSI_LAPTOP_KLC_MATRIX_HEIGHT  6
@@ -160,6 +162,63 @@ static const msi_laptop_led msi_raider_a18_alc_leds[] =
     { "Logo",       0x03 },
 };
 
+static const msi_laptop_led msi_ge68hx_alc_leds[] =
+{
+    { "Logo",          0x00 },
+    { "Lightbar 1",    0x01 },
+    { "Lightbar 2",    0x02 },
+    { "Lightbar 3",    0x03 },
+    { "Lightbar 4",    0x04 },
+    { "Lightbar 5",    0x05 },
+    { "Lightbar 6",    0x06 },
+    { "Lightbar 7",    0x07 },
+    { "Lightbar 8",    0x08 },
+    { "Lightbar 9",    0x09 },
+    { "Lightbar 10",   0x0a },
+    { "Lightbar 11",   0x0b },
+    { "Lightbar 12",   0x0c },
+    { "Lightbar 13",   0x0d },
+    { "Lightbar 14",   0x0e },
+    { "Lightbar 15",   0x0f },
+    { "Lightbar 16",   0x10 },
+    { "Lightbar 17",   0x11 },
+    { "Lightbar 18",   0x12 },
+    { "Lightbar 19",   0x13 },
+    { "Lightbar 20",   0x14 },
+    { "Lightbar 21",   0x15 },
+    { "Lightbar 22",   0x16 },
+    { "Lightbar 23",   0x17 },
+    { "Lightbar 24",   0x18 },
+    { "Lightbar 25",   0x19 },
+    { "Lightbar 26",   0x1a },
+    { "Lightbar 27",   0x1b },
+    { "Lightbar 28",   0x1c },
+    { "Lightbar 29",   0x1d },
+    { "Lightbar 30",   0x1e },
+    { "Lightbar 31",   0x1f },
+    { "Lightbar 32",   0x20 },
+    { "Lightbar 33",   0x21 },
+    { "Lightbar 34",   0x22 },
+    { "Lightbar 35",   0x23 },
+    { "Lightbar 36",   0x24 },
+    { "Lightbar 37",   0x25 },
+    { "Lightbar 38",   0x26 },
+    { "Lightbar 39",   0x27 },
+    { "Lightbar 40",   0x28 },
+    { "Lightbar 41",   0x29 },
+    { "Lightbar 42",   0x2a },
+    { "Lightbar 43",   0x2b },
+    { "Lightbar 44",   0x2c },
+    { "Lightbar 45",   0x2d },
+    { "Lightbar 46",   0x2e },
+    { "Lightbar 47",   0x2f },
+    { "Lightbar 48",   0x30 },
+    { "Lightbar 49",   0x31 },
+    { "Lightbar 50",   0x32 },
+    { "Lightbar 51",   0x33 },
+    { "Lightbar 52",   0x34 },
+};
+
 static const MSILaptopModel msi_laptop_models[] =
 {
     {
@@ -194,6 +253,22 @@ static const MSILaptopModel msi_laptop_models[] =
         MSI_LAPTOP_ARRAY_SIZE(msi_raider_a18_alc_leds),
         MSI_LAPTOP_ALC_LIGHTBAR_LEDS,
     },
+    {
+        "Micro-Star International Co., Ltd.",
+        "Raider GE68HX 13VF",
+
+        /* Keyboard layout */
+        msi_raider_a18_klc_leds,
+        MSI_LAPTOP_ARRAY_SIZE(msi_raider_a18_klc_leds),
+        MSI_LAPTOP_KLC_MATRIX_HEIGHT,
+        MSI_LAPTOP_KLC_MATRIX_WIDTH,
+        (const unsigned int*)msi_raider_a18_klc_matrix_map,
+
+        /* Lightbar layout */
+        msi_ge68hx_alc_leds,
+        MSI_LAPTOP_ARRAY_SIZE(msi_ge68hx_alc_leds),
+        52,
+    },
 };
 
 static const MSILaptopModel* GetMSILaptopModelDMI()
@@ -221,13 +296,17 @@ DetectedControllers DetectMSILaptop(hid_device_info* info, const std::string& na
     {
         msi_laptop_device device_type;
 
-        if(info->product_id == STEELSERIES_MSI_RAIDER_A18_KLC_PID)
+        if(info->product_id == STEELSERIES_MSI_RAIDER_A18_KLC_PID || info->product_id == STEELSERIES_GE68HX_KEYBOARD_PID)
         {
             device_type = MSI_LAPTOP_KLC;
         }
         else if(info->product_id == STEELSERIES_MSI_RAIDER_A18_ALC_PID)
         {
             device_type = MSI_LAPTOP_ALC;
+        }
+        else if(info->product_id == STEELSERIES_GE68HX_LIGHTBAR_PID)
+        {
+            device_type = MSI_LAPTOP_KLC_LIGHTBAR;
         }
         else
         {
@@ -250,4 +329,6 @@ DetectedControllers DetectMSILaptop(hid_device_info* info, const std::string& na
 
 REGISTER_HID_DETECTOR("MSI Laptop Keyboard", DetectMSILaptop, STEELSERIES_VID, STEELSERIES_MSI_RAIDER_A18_KLC_PID);
 REGISTER_HID_DETECTOR_I("MSI Laptop Lightbar", DetectMSILaptop, STEELSERIES_VID, STEELSERIES_MSI_RAIDER_A18_ALC_PID, 0);
+REGISTER_HID_DETECTOR_I("MSI GE68HX Keyboard", DetectMSILaptop, STEELSERIES_VID, STEELSERIES_GE68HX_KEYBOARD_PID, 0);
+REGISTER_HID_DETECTOR_I("MSI GE68HX Lightbar", DetectMSILaptop, STEELSERIES_VID, STEELSERIES_GE68HX_LIGHTBAR_PID, 0);
 
