@@ -20,6 +20,13 @@
 
 using namespace std::chrono_literals;
 
+/*---------------------------------------------------------*\
+| DDR5 manufacturer data starts at SPD offset 0x22B.        |
+| Kingston identifies the RGB family at 0x243 and 0x244.    |
+\*---------------------------------------------------------*/
+#define FURY_DDR5_SPD_VARIANT_OFFSET  0x18
+#define FURY_DDR5_SPD_MODEL_OFFSET    0x19
+
 typedef enum
 {
     RESULT_PASS  = 0,
@@ -41,11 +48,35 @@ bool TestDDR5Models(char code)
             code == FURY_MODEL_BEAST_RGB_WHITE_DDR5);
 }
 
-// Checking Fury signature in the RGB address space
-TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr, bool (*modelChecker)(char))
+bool TestDDR5SPD(unsigned char variant, unsigned char model)
 {
-    bool passed = true;
-    bool signature_ok = true;
+    /*-----------------------------------------------------*\
+    | Identify supported Beast/Renegade RGB families.       |
+    | Variants: 0 = Renegade, 1 = Beast,                    |
+    | 2 = Renegade White, 3 = Beast White.                  |
+    | Limited Edition (0x14) and v2 (0x20)                  |
+    | use different effect APIs and are not enabled here.   |
+    \*-----------------------------------------------------*/
+    switch(variant)
+    {
+        case 0x00:
+            return(model == 0x11 || model == 0x13 || model == 0x15);
+
+        case 0x01:
+            return(model == 0x10 || model == 0x13 || model == 0x15);
+
+        case 0x02:
+        case 0x03:
+            return(model == 0x12 || model == 0x13 || model == 0x15);
+    }
+
+    return false;
+}
+
+// Checking Fury signature in the RGB address space
+TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr, bool (*modelChecker)(char), bool spd_identified)
+{
+    TestResult result = RESULT_PASS;
     char test_str[] = "FURY";
     int res;
 
@@ -66,7 +97,7 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
               FURY_CONTROLLER_NAME, slot_addr, res);
 
     // Read and check the signature
-    for(int i = 1; i <= 4; i++)
+    for(int i = 1; !spd_identified && i <= 4; i++)
     {
         for(int retry = 3; retry > 0; retry--)
         {
@@ -80,38 +111,21 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
                 break;
             }
         }
-        if(res < 0)
+        if(res < 0 || res == 0xFFFF)
         {
-            return RESULT_ERROR;
+            result = RESULT_ERROR;
+            break;
         }
 
         char shifted = (res >> 8) & 0xFF;
         if(shifted != test_str[i-1])
         {
-            passed = false;
+            result = RESULT_FAIL;
             break;
         }
     }
 
-    /*-----------------------------------------------------------------*\
-    | Some Kingston Fury DDR5 modules return garbage for the signature  |
-    | and model registers (e.g. res=0708 at register 01) while every    |
-    | other register and the apply command work normally. This happens  |
-    | per slot on some boards (seen on ASUS B650 with DIMMs swapped:    |
-    | the bad readings stay on the slot, not on the module). The SPD    |
-    | already told us this slot holds a Kingston DDR5 module and the    |
-    | RGB controller ACKed the transaction, so accept it with a warning.|
-    | See https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/4981     |
-    \*-----------------------------------------------------------------*/
-    if(!passed)
-    {
-        LOG_WARNING("[%s] 0x%02X: unreadable FURY signature, accepting anyway (SPD says Kingston DDR5, controller ACKs). See issue #4981",
-                    FURY_CONTROLLER_NAME, slot_addr);
-        passed = true;
-        signature_ok = false;
-    }
-
-    if(passed)
+    if(!spd_identified && result == RESULT_PASS)
     {
         // Get the model code
         res = bus->i2c_smbus_read_word_data(slot_addr, FURY_REG_MODEL);
@@ -120,18 +134,14 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
         LOG_DEBUG("[%s] Reading model code at address %02X register %02X, res=%02X",
                   FURY_CONTROLLER_NAME, slot_addr, FURY_REG_MODEL, res);
 
-        if(!modelChecker(model_code))
+        if(res < 0 || res == 0xFFFF)
         {
-            if(signature_ok)
-            {
-                LOG_INFO("[%s] Unknown model code 0x%02X", FURY_CONTROLLER_NAME, model_code);
-                passed = false;
-            }
-            else
-            {
-                LOG_WARNING("[%s] 0x%02X: model code 0x%02X unreadable too, assuming Fury Beast DDR5",
-                            FURY_CONTROLLER_NAME, slot_addr, model_code);
-            }
+            result = RESULT_ERROR;
+        }
+        else if(!modelChecker(model_code))
+        {
+            LOG_INFO("[%s] Unknown model code 0x%02X", FURY_CONTROLLER_NAME, model_code);
+            result = RESULT_FAIL;
         }
     }
 
@@ -145,7 +155,7 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
     LOG_DEBUG("[%s] %02X ending transaction; res=%02X",
               FURY_CONTROLLER_NAME, slot_addr, res);
 
-    return passed ? RESULT_PASS : RESULT_FAIL;
+    return result;
 }
 
 void DetectKingstonFuryDRAMControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots,
@@ -156,11 +166,22 @@ void DetectKingstonFuryDRAMControllers(i2c_smbus_interface* bus, std::vector<SPD
     {
         TestResult result;
         int retries = 0;
+        bool spd_identified = false;
+
+        if(fury_base_addr == FURY_BASE_ADDR_DDR5)
+        {
+            unsigned char variant = slot->manufacturer_data(FURY_DDR5_SPD_VARIANT_OFFSET);
+            unsigned char model   = slot->manufacturer_data(FURY_DDR5_SPD_MODEL_OFFSET);
+            spd_identified = TestDDR5SPD(variant, model);
+
+            LOG_DEBUG("[%s] Slot %d DDR5 SPD variant=%02X model=%02X, supported=%d",
+                      FURY_CONTROLLER_NAME, slot->index(), variant, model, spd_identified);
+        }
 
         result = RESULT_ERROR;
         while(retries < 3 && result == RESULT_ERROR)
         {
-            result = TestForFurySignature(bus, fury_base_addr + slot->index(), modelChecker);
+            result = TestForFurySignature(bus, fury_base_addr + slot->index(), modelChecker, spd_identified);
             if(result == RESULT_PASS)
             {
                 break;
