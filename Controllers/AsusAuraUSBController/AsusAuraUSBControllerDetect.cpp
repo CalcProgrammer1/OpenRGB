@@ -51,6 +51,7 @@
 #define AURA_MOTHERBOARD_3_PID                              0x19AF
 #define AURA_MOTHERBOARD_4_PID                              0x1AA6
 #define AURA_MOTHERBOARD_5_PID                              0x1BED
+#define AURA_LIQUID_COOLER_1_PID                            0x1B29
 
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |
@@ -194,6 +195,36 @@ DetectedControllers DetectAsusAuraUSBMotherboards(hid_device_info* info, const s
         {
             DMIInfo                      dmi;
             AuraMainboardController*     controller         = new AuraMainboardController(dev, info->path, "ASUS " + dmi.getMainboard());
+            RGBController_AuraMainboard* rgb_controller     = new RGBController_AuraMainboard(controller);
+
+            detected_controllers.push_back(rgb_controller);
+        }
+        catch(const std::runtime_error& ex)
+        {
+            // reading the config table failed
+            LOG_ERROR("[AsusAuraUSB] An error occured while reading the config table: %s", ex.what());
+        }
+    }
+
+    return(detected_controllers);
+}
+
+DetectedControllers DetectAsusAuraUSBLiquidCoolers(hid_device_info* info, const std::string& name)
+{
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        try
+        {
+            /*-----------------------------------------------------*\
+            | The ROG Strix LC III pump uses the same protocol as   |
+            | the Aura USB mainboard controllers                    |
+            \*-----------------------------------------------------*/
+            AuraMainboardController*     controller         = new AuraMainboardController(dev, info->path, name);
             RGBController_AuraMainboard* rgb_controller     = new RGBController_AuraMainboard(controller);
 
             detected_controllers.push_back(rgb_controller);
@@ -415,6 +446,7 @@ REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",                       DetectAs
 REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",                       DetectAsusAuraUSBAddressable,   AURA_USB_VID, AURA_ADDRESSABLE_2_PID);
 REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",                       DetectAsusAuraUSBAddressable,   AURA_USB_VID, AURA_ADDRESSABLE_3_PID);
 REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",                       DetectAsusAuraUSBAddressable,   AURA_USB_VID, AURA_ADDRESSABLE_4_PID);
+REGISTER_HID_DETECTOR   ("ASUS ROG Strix LC III",                       DetectAsusAuraUSBLiquidCoolers, AURA_USB_VID, AURA_LIQUID_COOLER_1_PID);
 REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAsusAuraUSBMotherboards,  AURA_USB_VID, AURA_MOTHERBOARD_1_PID);
 REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAsusAuraUSBMotherboards,  AURA_USB_VID, AURA_MOTHERBOARD_2_PID);
 REGISTER_HID_DETECTOR_PU("ASUS Aura Motherboard",                       DetectAsusAuraUSBMotherboards,  AURA_USB_VID, AURA_MOTHERBOARD_3_PID,                           0xFF72, 0x00A1);
