@@ -19,6 +19,7 @@
 #define NANOLEAF_CANVAS_MODEL               "NL29"
 #define NANOLEAF_SHAPES_MODEL               "NL42"
 #define NANOLEAF_LINES_MODEL                "NL59"
+#define NANOLEAF_4D_SCREEN_MIRROR_MODEL     "NL69"
 
 class NanoleafController
 {
