@@ -3514,7 +3514,7 @@ NetPacketStatus NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(Netwo
         /*-------------------------------------------------*\
         | Unlock access mutex                               |
         \*-------------------------------------------------*/
-        controllers[controller_idx]->AccessMutex.unlock_shared();
+        controllers[controller_idx]->AccessMutex.unlock();
         return(NET_PACKET_STATUS_ERROR_INVALID_DATA);
     }
 
