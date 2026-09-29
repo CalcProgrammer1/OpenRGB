@@ -18,6 +18,7 @@ CONFIG +=   c++17                                                               
             lrelease                                                                            \
             embed_translations                                                                  \
             silent                                                                              \
+            precompile_header                                                                   \
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -165,6 +166,7 @@ HEADERS +=                                                                      
     $$CONTROLLER_H                                                                              \
     Colors.h                                                                                    \
     dependencies/ColorWheel/ColorWheel.h                                                        \
+    dependencies/json/nlohmann/json.hpp                                                         \
     fair_mutex.h                                                                                \
     JsonUtils.h                                                                                 \
     LogManager.h                                                                                \
@@ -273,7 +275,7 @@ SOURCES +=                                                                      
     RGBController/RGBController_Virtual.cpp                                                     \
 
 PRECOMPILED_HEADER +=                                                                           \
-    dependencies/json/nlohmann/json.hpp                                                         \
+    precompiled_header.h                                                                        \
 
 RESOURCES +=                                                                                    \
     qt/resources.qrc                                                                            \
