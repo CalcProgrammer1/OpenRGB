@@ -353,6 +353,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7E26, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // B650 GAMING PLUS WIFI
     { 0x7E27, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // PRO B650M-P
     { 0x7E28, 6,  0,  0, 2, &zones_set21, MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED,  0 },    // MSI PRO A620M-B (MS-7E28)
+    { 0x7E30, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // B650M GAMING WIFI (MS-7E30)
 };
 
 FeaturePacket_185 enable_per_led_msg;
