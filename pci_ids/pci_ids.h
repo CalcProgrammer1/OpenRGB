@@ -721,6 +721,7 @@
 #define GIGABYTE_RTX4070TI_MASTER_12G                           0x40BB
 #define GIGABYTE_RTX4070TI_ELITE_12G                            0x40C9
 #define GIGABYTE_RTX4070TIS_EAGLE_OC_16G_SUB_DEV                0x413E
+#define GIGABYTE_RTX4070TIS_AERO_OC_16G_SUB_DEV                 0x413F
 #define GIGABYTE_RTX4070TIS_GAMING_OC_16G_SUB_DEV               0x413C
 #define GIGABYTE_RTX4080_AERO_OC_SUB_DEV                        0x40C5
 #define GIGABYTE_RTX4080_EAGLE_OC_SUB_DEV                       0x40BE
