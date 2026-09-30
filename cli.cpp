@@ -1360,7 +1360,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
     \*-----------------------------------------------------*/
     if(device->GetModeColorMode(mode) == MODE_COLORS_PER_LED)
     {
-        device->DeviceUpdateLEDs();
+        device->UpdateLEDs();
     }
 }
 

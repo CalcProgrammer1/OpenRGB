@@ -197,23 +197,6 @@ public:
     void                    ConfigureDevice(controller_flags new_flags, std::string new_name);
 
     /*-----------------------------------------------------*\
-    | Functions to be implemented in device implementation  |
-    \*-----------------------------------------------------*/
-    virtual void            DeviceConfigureDevice();
-    virtual void            DeviceConfigureZone(int zone_idx);
-
-    virtual void            DeviceUpdateLEDs();
-    virtual void            DeviceUpdateZoneLEDs(int zone);
-    virtual void            DeviceUpdateSingleLED(int led);
-
-    virtual void            DeviceUpdateMode();
-    virtual void            DeviceUpdateZoneMode(int zone);
-    virtual void            DeviceSaveMode();
-
-    virtual void            DeviceUpdateDeviceSpecificConfiguration();
-    virtual void            DeviceUpdateDeviceSpecificZoneConfiguration(int zone);
-
-    /*-----------------------------------------------------*\
     | Static Serialized Description Functions               |
     \*-----------------------------------------------------*/
     static unsigned char *  GetColorDescriptionData(unsigned char* data_ptr, RGBController* controller, unsigned int protocol_version);
@@ -314,6 +297,23 @@ protected:
     unsigned int            LEDsInZone(unsigned int zone);
     void                    SetupColors();
     void                    UpdateLEDsInternal();
+
+    /*-----------------------------------------------------*\
+    | Functions to be implemented in device implementation  |
+    \*-----------------------------------------------------*/
+    virtual void            DeviceConfigureDevice();
+    virtual void            DeviceConfigureZone(int zone_idx);
+
+    virtual void            DeviceUpdateLEDs();
+    virtual void            DeviceUpdateZoneLEDs(int zone);
+    virtual void            DeviceUpdateSingleLED(int led);
+
+    virtual void            DeviceUpdateMode();
+    virtual void            DeviceUpdateZoneMode(int zone);
+    virtual void            DeviceSaveMode();
+
+    virtual void            DeviceUpdateDeviceSpecificConfiguration();
+    virtual void            DeviceUpdateDeviceSpecificZoneConfiguration(int zone);
 
 private:
     /*-----------------------------------------------------*\
