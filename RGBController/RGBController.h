@@ -294,8 +294,19 @@ protected:
 
     /*-----------------------------------------------------*\
     | Access mutex variables                                |
+    | This mutex protects the RGBController state variables |
+    | (modes, colors, zones) from being written to while    |
+    | readers are accessing the data.                       |
     \*-----------------------------------------------------*/
     std::shared_mutex       AccessMutex;
+
+    /*-----------------------------------------------------*\
+    | Device mutex variables                                |
+    | This mutex protects internal RGBController device     |
+    | functionality from being called from more than one    |
+    | place simultaneously.                                 |
+    \*-----------------------------------------------------*/
+    std::mutex              DeviceMutex;
 
     /*-----------------------------------------------------*\
     | Functions not part of interface for internal use only |

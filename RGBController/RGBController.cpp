@@ -1706,7 +1706,9 @@ void RGBController::SetDeviceSpecificConfiguration(nlohmann::json configuration_
 
     configuration = configuration_string_json.dump();
 
+    DeviceMutex.lock();
     DeviceUpdateDeviceSpecificConfiguration();
+    DeviceMutex.unlock();
 
     AccessMutex.unlock();
 
@@ -1808,7 +1810,9 @@ void RGBController::SetDeviceSpecificZoneConfiguration(int zone, nlohmann::json 
 
     configuration = configuration_string_json.dump();
 
+    DeviceMutex.lock();
     DeviceUpdateDeviceSpecificZoneConfiguration(zone);
+    DeviceMutex.unlock();
 
     AccessMutex.unlock();
 
@@ -2000,7 +2004,9 @@ void RGBController::UpdateLEDs()
 void RGBController::UpdateZoneLEDs(int zone)
 {
     AccessMutex.lock_shared();
+    DeviceMutex.lock();
     DeviceUpdateZoneLEDs(zone);
+    DeviceMutex.unlock();
     AccessMutex.unlock_shared();
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATELEDS);
@@ -2009,7 +2015,9 @@ void RGBController::UpdateZoneLEDs(int zone)
 void RGBController::UpdateSingleLED(int led)
 {
     AccessMutex.lock_shared();
+    DeviceMutex.lock();
     DeviceUpdateSingleLED(led);
+    DeviceMutex.unlock();
     AccessMutex.unlock_shared();
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATELEDS);
@@ -2025,7 +2033,9 @@ void RGBController::UpdateMode()
 void RGBController::UpdateZoneMode(int zone)
 {
     AccessMutex.lock_shared();
+    DeviceMutex.lock();
     DeviceUpdateZoneMode(zone);
+    DeviceMutex.unlock();
     AccessMutex.unlock_shared();
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATEMODE);
@@ -2034,7 +2044,9 @@ void RGBController::UpdateZoneMode(int zone)
 void RGBController::SaveMode()
 {
     AccessMutex.lock_shared();
+    DeviceMutex.lock();
     DeviceSaveMode();
+    DeviceMutex.unlock();
     AccessMutex.unlock_shared();
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_SAVEMODE);
@@ -2053,13 +2065,17 @@ void RGBController::DeviceCallThreadFunction()
             {
                 AccessMutex.lock_shared();
                 CallFlag_UpdateMode = false;
+                DeviceMutex.lock();
                 DeviceUpdateMode();
+                DeviceMutex.unlock();
                 AccessMutex.unlock_shared();
             }
             else
             {
                 AccessMutex.lock_shared();
+                DeviceMutex.lock();
                 DeviceUpdateMode();
+                DeviceMutex.unlock();
                 CallFlag_UpdateMode = false;
                 AccessMutex.unlock_shared();
             }
@@ -2070,13 +2086,17 @@ void RGBController::DeviceCallThreadFunction()
             {
                 AccessMutex.lock_shared();
                 CallFlag_UpdateLEDs = false;
+                DeviceMutex.lock();
                 DeviceUpdateLEDs();
+                DeviceMutex.unlock();
                 AccessMutex.unlock_shared();
             }
             else
             {
                 AccessMutex.lock_shared();
+                DeviceMutex.lock();
                 DeviceUpdateLEDs();
+                DeviceMutex.unlock();
                 CallFlag_UpdateLEDs = false;
                 AccessMutex.unlock_shared();
             }
@@ -2181,7 +2201,9 @@ void RGBController::ConfigureZone(int zone_idx, zone new_zone)
         zones[zone_idx].flags          &= ~ZONE_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC;
     }
 
+    DeviceMutex.lock();
     DeviceConfigureZone(zone_idx);
+    DeviceMutex.unlock();
 
     AccessMutex.unlock();
 
@@ -2228,7 +2250,9 @@ void RGBController::ConfigureDevice(controller_flags new_flags, std::string new_
         flags |= (new_flags & CONTROLLER_FLAG_MANUALLY_CONFIGURED_DEVICE_SPECIFIC);
     }
 
+    DeviceMutex.lock();
     DeviceConfigureDevice();
+    DeviceMutex.unlock();
 
     AccessMutex.unlock();
 
