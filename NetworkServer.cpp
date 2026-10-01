@@ -1103,23 +1103,23 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread* this_t
                 switch(queue_entry.header.pkt_id)
                 {
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
-                        status = ProcessRequest_RGBController_UpdateLEDs(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, this_thread->id);
+                        status = ProcessRequest_RGBController_UpdateLEDs(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, queue_entry.header.pkt_dev_id);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
-                        status = ProcessRequest_RGBController_UpdateZoneLEDs(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, this_thread->id);
+                        status = ProcessRequest_RGBController_UpdateZoneLEDs(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, queue_entry.header.pkt_dev_id);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
-                        status = ProcessRequest_RGBController_UpdateSaveMode(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, this_thread->id, false);
+                        status = ProcessRequest_RGBController_UpdateSaveMode(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, queue_entry.header.pkt_dev_id, false);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_SAVEMODE:
-                        status = ProcessRequest_RGBController_UpdateSaveMode(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, this_thread->id, true);
+                        status = ProcessRequest_RGBController_UpdateSaveMode(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, queue_entry.header.pkt_dev_id, true);
                         break;
 
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE:
-                        status = ProcessRequest_RGBController_UpdateZoneMode(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, this_thread->id);
+                        status = ProcessRequest_RGBController_UpdateZoneMode(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, queue_entry.header.pkt_dev_id);
                         break;
 
                     default:
