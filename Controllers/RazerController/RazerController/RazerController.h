@@ -169,6 +169,46 @@ struct razer_rgb
     unsigned char r,g,b;
 };
 
+/*---------------------------------------------------------*\
+| Razer Extended Matrix Effect IDs                          |
+\*---------------------------------------------------------*/
+enum
+{
+    RAZER_EFFECT_ID_OFF                             = 0x00,
+    RAZER_EFFECT_ID_STATIC                          = 0x01,
+    RAZER_EFFECT_ID_BREATHING                       = 0x02,
+    RAZER_EFFECT_ID_SPECTRUM_CYCLE                  = 0x03,
+    RAZER_EFFECT_ID_WAVE                            = 0x04,
+    RAZER_EFFECT_ID_REACTIVE                        = 0x05,
+    RAZER_EFFECT_ID_RIPPLE                          = 0x06,
+    RAZER_EFFECT_ID_STARLIGHT                       = 0x07,
+    RAZER_EFFECT_ID_CUSTOM_FRAME                    = 0x08,
+    RAZER_EFFECT_ID_FIRE                            = 0x09,
+};
+
+/*---------------------------------------------------------*\
+| Razer Reactive/Starlight Durations                        |
+\*---------------------------------------------------------*/
+enum
+{
+    RAZER_EFFECT_DURATION_SHORT                     = 0x01,
+    RAZER_EFFECT_DURATION_MEDIUM                    = 0x02,
+    RAZER_EFFECT_DURATION_LONG                      = 0x03,
+};
+
+/*---------------------------------------------------------*\
+| Razer Report Status                                       |
+\*---------------------------------------------------------*/
+enum
+{
+    RAZER_STATUS_NEW                                = 0x00,
+    RAZER_STATUS_BUSY                               = 0x01,
+    RAZER_STATUS_SUCCESS                            = 0x02,
+    RAZER_STATUS_FAILURE                            = 0x03,
+    RAZER_STATUS_TIMEOUT                            = 0x04,
+    RAZER_STATUS_NOT_SUPPORTED                      = 0x05,
+};
+
 union transaction_id_union
 {
     unsigned char id;
@@ -248,10 +288,19 @@ public:
     void                    SetModeSpectrumCycle();
     void                    SetModeStatic(unsigned char red, unsigned char grn, unsigned char blu);
     void                    SetModeWave(unsigned char direction);
+    void                    SetModeReactive(unsigned char speed, unsigned char red, unsigned char grn, unsigned char blu);
+    void                    SetModeStarlightRandom(unsigned char speed);
+    void                    SetModeStarlightOneColor(unsigned char speed, unsigned char red, unsigned char grn, unsigned char blu);
+    void                    SetModeStarlightTwoColors(unsigned char speed, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
+    void                    SetModeRipple(unsigned char red, unsigned char grn, unsigned char blu);
+    void                    SetModeFire();
 
     bool                    SupportsBreathing();
     bool                    SupportsReactive();
     bool                    SupportsWave();
+    bool                    SupportsStarlight();
+    bool                    SupportsRipple();
+    bool                    SupportsFire();
 
 private:
     hid_device*             dev;
@@ -263,6 +312,8 @@ private:
     \*---------------------------------------------------------*/
     unsigned char           dev_transaction_id;
     unsigned char           dev_led_id;
+    bool                    effect_list_valid;
+    bool                    supported_effects[256];
 
     /*---------------------------------------------------------*\
     | Device information strings                                |
@@ -298,6 +349,9 @@ private:
     unsigned char           razer_calculate_crc(razer_report* report);
     razer_report            razer_create_report(unsigned char command_class, unsigned char command_id, unsigned char data_size);
     razer_report            razer_create_response();
+    bool                    razer_usb_query(razer_report* report, razer_report* response_report);
+    void                    razer_get_supported_effects();
+    bool                    razer_device_has_input();
 
     razer_report            razer_create_addressable_size_report(unsigned char zone_1_size, unsigned char zone_2_size, unsigned char zone_3_size, unsigned char zone_4_size, unsigned char zone_5_size, unsigned char zone_6_size);
     razer_report            razer_create_addressable_startup_detect_report(bool enable);
@@ -323,6 +377,7 @@ private:
     razer_report            razer_create_mode_static_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char red, unsigned char grn, unsigned char blu);
     razer_report            razer_create_mode_static_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char red, unsigned char grn, unsigned char blu);
     razer_report            razer_create_mode_wave_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char direction);
+    razer_report            razer_create_mode_effect_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char effect_id, unsigned char flags, unsigned char rate, unsigned char color_count, unsigned char* colors);
     razer_report            razer_create_mode_wave_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char direction);
     razer_report            razer_create_set_led_effect_report(unsigned char variable_storage, unsigned char led_id, unsigned char effect);
     razer_report            razer_create_set_led_rgb_report(unsigned char variable_storage, unsigned char led_id, unsigned char* rgb_data);

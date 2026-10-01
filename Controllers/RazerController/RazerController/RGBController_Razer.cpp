@@ -129,15 +129,66 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
         mode Reactive;
         Reactive.name           = "Reactive";
         Reactive.value          = RAZER_MODE_REACTIVE;
-        Reactive.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Reactive.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
         Reactive.color_mode     = MODE_COLORS_MODE_SPECIFIC;
         Reactive.colors_min     = 1;
         Reactive.colors_max     = 1;
         Reactive.colors.resize(1);
+        Reactive.speed_min      = RAZER_EFFECT_DURATION_LONG;
+        Reactive.speed_max      = RAZER_EFFECT_DURATION_SHORT;
+        Reactive.speed          = RAZER_EFFECT_DURATION_MEDIUM;
         Reactive.brightness_min = 0;
         Reactive.brightness_max = max_brightness;
         Reactive.brightness     = max_brightness;
         modes.push_back(Reactive);
+    }
+
+    if(controller->SupportsStarlight())
+    {
+        mode Starlight;
+        Starlight.name           = "Starlight";
+        Starlight.value          = RAZER_MODE_STARLIGHT;
+        Starlight.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+        Starlight.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+        Starlight.colors_min     = 1;
+        Starlight.colors_max     = 2;
+        Starlight.colors.resize(1);
+        Starlight.speed_min      = RAZER_EFFECT_DURATION_LONG;
+        Starlight.speed_max      = RAZER_EFFECT_DURATION_SHORT;
+        Starlight.speed          = RAZER_EFFECT_DURATION_MEDIUM;
+        Starlight.brightness_min = 0;
+        Starlight.brightness_max = max_brightness;
+        Starlight.brightness     = max_brightness;
+        modes.push_back(Starlight);
+    }
+
+    if(controller->SupportsRipple())
+    {
+        mode Ripple;
+        Ripple.name              = "Ripple";
+        Ripple.value             = RAZER_MODE_RIPPLE;
+        Ripple.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Ripple.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+        Ripple.colors_min        = 1;
+        Ripple.colors_max        = 1;
+        Ripple.colors.resize(1);
+        Ripple.brightness_min    = 0;
+        Ripple.brightness_max    = max_brightness;
+        Ripple.brightness        = max_brightness;
+        modes.push_back(Ripple);
+    }
+
+    if(controller->SupportsFire())
+    {
+        mode Fire;
+        Fire.name                = "Fire";
+        Fire.value               = RAZER_MODE_FIRE;
+        Fire.flags               = MODE_FLAG_HAS_BRIGHTNESS;
+        Fire.color_mode          = MODE_COLORS_NONE;
+        Fire.brightness_min      = 0;
+        Fire.brightness_max      = max_brightness;
+        Fire.brightness          = max_brightness;
+        modes.push_back(Fire);
     }
 
     SetupZones();
@@ -373,6 +424,58 @@ void RGBController_Razer::DeviceUpdateMode()
                     controller->SetModeWave(1);
                     break;
             }
+            break;
+
+        case RAZER_MODE_REACTIVE:
+            if(modes[active_mode].colors.size() == 1)
+            {
+                unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
+                unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
+                unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
+
+                controller->SetModeReactive(modes[active_mode].speed, red, grn, blu);
+            }
+            break;
+
+        case RAZER_MODE_STARLIGHT:
+            if(modes[active_mode].color_mode == MODE_COLORS_RANDOM)
+            {
+                controller->SetModeStarlightRandom(modes[active_mode].speed);
+            }
+            else if(modes[active_mode].colors.size() == 1)
+            {
+                unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
+                unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
+                unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
+
+                controller->SetModeStarlightOneColor(modes[active_mode].speed, red, grn, blu);
+            }
+            else if(modes[active_mode].colors.size() == 2)
+            {
+                unsigned char red1 = RGBGetRValue(modes[active_mode].colors[0]);
+                unsigned char grn1 = RGBGetGValue(modes[active_mode].colors[0]);
+                unsigned char blu1 = RGBGetBValue(modes[active_mode].colors[0]);
+                unsigned char red2 = RGBGetRValue(modes[active_mode].colors[1]);
+                unsigned char grn2 = RGBGetGValue(modes[active_mode].colors[1]);
+                unsigned char blu2 = RGBGetBValue(modes[active_mode].colors[1]);
+
+                controller->SetModeStarlightTwoColors(modes[active_mode].speed, red1, grn1, blu1, red2, grn2, blu2);
+            }
+            break;
+
+        case RAZER_MODE_RIPPLE:
+            if(modes[active_mode].colors.size() == 1)
+            {
+                unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
+                unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
+                unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
+
+                controller->SetModeRipple(red, grn, blu);
+            }
+            break;
+
+        case RAZER_MODE_FIRE:
+            controller->SetModeFire();
             break;
     }
 

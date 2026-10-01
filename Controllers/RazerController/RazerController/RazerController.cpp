@@ -25,6 +25,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     location          = path;
     name              = dev_name;
     device_index      = 0;
+    effect_list_valid = false;
+    memset(supported_effects, 0, sizeof(supported_effects));
     guard_manager_ptr = new DeviceGuardManager(new RazerDeviceGuard());
 
     /*-----------------------------------------------------------------*\
@@ -178,6 +180,11 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     | Determine matrix type for device                                  |
     \*-----------------------------------------------------------------*/
     matrix_type = device_list[device_index]->matrix_type;
+
+    /*-----------------------------------------------------------------*\
+    | Ask the firmware which lighting effects it supports               |
+    \*-----------------------------------------------------------------*/
+    razer_get_supported_effects();
 
     /*-----------------------------------------------------------------*\
     | Start keepalive thread for devices that need it to prevent RGB    |
@@ -380,6 +387,62 @@ void RazerController::SetModeWave(unsigned char direction)
     razer_set_mode_wave(direction);
 }
 
+/*---------------------------------------------------------------------------------*\
+| The following effects are only offered when the firmware reports them in its      |
+| supported effect list, which is only queried on extended matrix devices           |
+\*---------------------------------------------------------------------------------*/
+
+void RazerController::SetModeReactive(unsigned char speed, unsigned char red, unsigned char grn, unsigned char blu)
+{
+    unsigned char       colors[3]           = { red, grn, blu };
+    struct razer_report report              = razer_create_mode_effect_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, RAZER_EFFECT_ID_REACTIVE, 0x00, speed, 1, colors);
+
+    razer_usb_send(&report);
+}
+
+void RazerController::SetModeStarlightRandom(unsigned char speed)
+{
+    struct razer_report report              = razer_create_mode_effect_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, RAZER_EFFECT_ID_STARLIGHT, 0x00, speed, 0, NULL);
+
+    razer_usb_send(&report);
+}
+
+void RazerController::SetModeStarlightOneColor(unsigned char speed, unsigned char red, unsigned char grn, unsigned char blu)
+{
+    unsigned char       colors[3]           = { red, grn, blu };
+    struct razer_report report              = razer_create_mode_effect_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, RAZER_EFFECT_ID_STARLIGHT, 0x01, speed, 1, colors);
+
+    razer_usb_send(&report);
+}
+
+void RazerController::SetModeStarlightTwoColors(unsigned char speed, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
+{
+    unsigned char       colors[6]           = { r1, g1, b1, r2, g2, b2 };
+    struct razer_report report              = razer_create_mode_effect_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, RAZER_EFFECT_ID_STARLIGHT, 0x02, speed, 2, colors);
+
+    razer_usb_send(&report);
+}
+
+void RazerController::SetModeRipple(unsigned char red, unsigned char grn, unsigned char blu)
+{
+    unsigned char       colors[3]           = { red, grn, blu };
+    struct razer_report report              = razer_create_mode_effect_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, RAZER_EFFECT_ID_RIPPLE, 0x00, 0x1E, 1, colors);
+
+    razer_usb_send(&report);
+}
+
+void RazerController::SetModeFire()
+{
+    /*-----------------------------------------------------*\
+    | Firmware rejects fire without a color; Synapse always |
+    | sends red                                             |
+    \*-----------------------------------------------------*/
+    unsigned char       colors[3]           = { 0xFF, 0x00, 0x00 };
+    struct razer_report report              = razer_create_mode_effect_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, RAZER_EFFECT_ID_FIRE, 0x00, 0x00, 1, colors);
+
+    razer_usb_send(&report);
+}
+
 bool RazerController::SupportsBreathing()
 {
     /*-----------------------------------------------------*\
@@ -389,6 +452,16 @@ bool RazerController::SupportsBreathing()
     |   software driving the basic `Breathing` mode         |
     \*-----------------------------------------------------*/
     bool supports_breathing = true;
+
+    /*-----------------------------------------------------*\
+    | The firmware effect list is not exhaustive (the       |
+    | Basilisk V3 Pro 35K and Mouse Dock Pro run wave but   |
+    | don't list it), so it can only add modes              |
+    \*-----------------------------------------------------*/
+    if(effect_list_valid && supported_effects[RAZER_EFFECT_ID_BREATHING])
+    {
+        return(true);
+    }
 
     switch(dev_pid)
     {
@@ -415,12 +488,52 @@ bool RazerController::SupportsBreathing()
 
 bool RazerController::SupportsReactive()
 {
-    return(false);
+    /*-----------------------------------------------------*\
+    | Reactive and ripple respond to the device's own input |
+    | (key presses, clicks).  Devices without input, like   |
+    | the Mouse Dock Pro, may list them but only show them  |
+    | when Synapse links them to another device in software |
+    \*-----------------------------------------------------*/
+    return(effect_list_valid && supported_effects[RAZER_EFFECT_ID_REACTIVE] && razer_device_has_input());
+}
+
+bool RazerController::SupportsStarlight()
+{
+    return(effect_list_valid && supported_effects[RAZER_EFFECT_ID_STARLIGHT]);
+}
+
+bool RazerController::SupportsRipple()
+{
+    return(effect_list_valid && supported_effects[RAZER_EFFECT_ID_RIPPLE] && razer_device_has_input());
+}
+
+bool RazerController::razer_device_has_input()
+{
+    switch(device_list[device_index]->type)
+    {
+        case DEVICE_TYPE_KEYBOARD:
+        case DEVICE_TYPE_MOUSE:
+        case DEVICE_TYPE_KEYPAD:
+            return(true);
+
+        default:
+            return(false);
+    }
+}
+
+bool RazerController::SupportsFire()
+{
+    return(effect_list_valid && supported_effects[RAZER_EFFECT_ID_FIRE]);
 }
 
 bool RazerController::SupportsWave()
 {
     bool supports_wave = false;
+
+    if(effect_list_valid && supported_effects[RAZER_EFFECT_ID_WAVE])
+    {
+        return(true);
+    }
 
     switch(dev_pid)
     {
@@ -1010,6 +1123,30 @@ razer_report RazerController::razer_create_mode_wave_extended_matrix_report(unsi
     return report;
 }
 
+razer_report RazerController::razer_create_mode_effect_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char effect_id, unsigned char flags, unsigned char rate, unsigned char color_count, unsigned char* colors)
+{
+    /*---------------------------------------------------------*\
+    | Arguments are storage, LED, effect, flags (sub-mode or    |
+    | direction), rate (speed or duration), color count, and    |
+    | the RGB triplets                                          |
+    \*---------------------------------------------------------*/
+    razer_report report         = razer_create_report(0x0F, 0x02, (unsigned char)(0x06 + (color_count * 3)));
+
+    report.arguments[0]         = variable_storage;
+    report.arguments[1]         = led_id;
+    report.arguments[2]         = effect_id;
+    report.arguments[3]         = flags;
+    report.arguments[4]         = rate;
+    report.arguments[5]         = color_count;
+
+    if(color_count > 0)
+    {
+        memcpy(&report.arguments[6], colors, color_count * 3);
+    }
+
+    return report;
+}
+
 razer_report RazerController::razer_create_mode_wave_standard_matrix_report(unsigned char /*variable_storage*/, unsigned char /*led_id*/, unsigned char direction)
 {
     razer_report report         = razer_create_report(0x03, 0x0A, 0x02);
@@ -1110,6 +1247,114 @@ std::string RazerController::razer_get_serial()
 
     std::string ret_string = serial_string;
     return ret_string;
+}
+
+bool RazerController::razer_usb_query(razer_report* report, razer_report* response_report)
+{
+    /*-----------------------------------------------------------------*\
+    | Other software may be talking to the same device, so only accept  |
+    | a final response to this command and resend if it gets lost       |
+    \*-----------------------------------------------------------------*/
+    for(unsigned int send_attempt = 0; send_attempt < 3; send_attempt++)
+    {
+        std::this_thread::sleep_for(2ms);
+        razer_usb_send(report);
+
+        for(unsigned int read_attempt = 0; read_attempt < 25; read_attempt++)
+        {
+            *response_report = razer_create_response();
+
+            std::this_thread::sleep_for(2ms);
+            razer_usb_receive(response_report);
+
+            if((response_report->transaction_id.id == report->transaction_id.id)
+            && (response_report->command_class     == report->command_class)
+            && (response_report->command_id.id     == report->command_id.id)
+            && (response_report->status            != RAZER_STATUS_NEW)
+            && (response_report->status            != RAZER_STATUS_BUSY))
+            {
+                return(true);
+            }
+        }
+    }
+
+    return(false);
+}
+
+void RazerController::razer_get_supported_effects()
+{
+    /*-----------------------------------------------------------------*\
+    | Extended matrix devices list their lighting regions (0x0F:0x80,   |
+    | 5 byte records starting with the region/LED ID) and the effects   |
+    | each region supports (0x0F:0x81).  Devices that address a single  |
+    | LED ID only need that one; devices driven through LED ID 0 get    |
+    | the effects every region supports.  If anything fails, the PID    |
+    | based support checks are used instead.                            |
+    \*-----------------------------------------------------------------*/
+    if((matrix_type != RAZER_MATRIX_TYPE_EXTENDED) && (matrix_type != RAZER_MATRIX_TYPE_EXTENDED_ARGB))
+    {
+        return;
+    }
+
+    unsigned char regions[16];
+    unsigned int  region_count = 0;
+
+    if(dev_led_id != RAZER_LED_ID_ZERO)
+    {
+        regions[region_count++] = dev_led_id;
+    }
+    else
+    {
+        struct razer_report report          = razer_create_report(0x0F, 0x80, 0x50);
+        struct razer_report response_report = razer_create_response();
+
+        if(!razer_usb_query(&report, &response_report) || (response_report.status != RAZER_STATUS_SUCCESS))
+        {
+            return;
+        }
+
+        for(unsigned int offset = 0; ((offset + 4) < sizeof(response_report.arguments)) && (region_count < 16); offset += 5)
+        {
+            if(response_report.arguments[offset] == 0x00)
+            {
+                break;
+            }
+
+            regions[region_count++] = response_report.arguments[offset];
+        }
+    }
+
+    bool first_region = true;
+
+    for(unsigned int region_idx = 0; region_idx < region_count; region_idx++)
+    {
+        struct razer_report report          = razer_create_report(0x0F, 0x81, 0x50);
+        struct razer_report response_report = razer_create_response();
+        bool                region_effects[256];
+
+        report.arguments[0]                 = regions[region_idx];
+
+        if(!razer_usb_query(&report, &response_report) || (response_report.status != RAZER_STATUS_SUCCESS))
+        {
+            return;
+        }
+
+        memset(region_effects, 0, sizeof(region_effects));
+
+        for(unsigned int arg_idx = 1; (arg_idx < response_report.data_size) && (arg_idx < sizeof(response_report.arguments)); arg_idx++)
+        {
+            region_effects[response_report.arguments[arg_idx]] = true;
+        }
+
+        for(unsigned int effect_idx = 0; effect_idx < 256; effect_idx++)
+        {
+            supported_effects[effect_idx] = first_region ? region_effects[effect_idx] : (supported_effects[effect_idx] && region_effects[effect_idx]);
+        }
+
+        first_region = false;
+    }
+
+    effect_list_valid = !first_region;
 }
 
 void RazerController::razer_get_keyboard_info(unsigned char* layout, unsigned char* variant)

@@ -25,6 +25,9 @@ enum
     RAZER_MODE_SPECTRUM_CYCLE,
     RAZER_MODE_WAVE,
     RAZER_MODE_REACTIVE,
+    RAZER_MODE_STARLIGHT,
+    RAZER_MODE_RIPPLE,
+    RAZER_MODE_FIRE,
 };
 
 class RGBController_Razer : public RGBController
