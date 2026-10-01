@@ -862,6 +862,7 @@
 #define MSI_RTX4090_SUPRIM_LIQUID_X_SUB_DEV                     0x5104
 #define MSI_RTX4090_SUPRIM_X_SUB_DEV                            0x5102
 #define MSI_RTX4090_SUPRIM_X_CLASSIC_SUB_DEV                    0x5105
+#define MSI_RTX5060TI_GAMING_OC_SUB_DEV                         0x5354
 #define MSI_RTX5070_GAMING_TRIO_SUB_DEV                         0x5322
 #define MSI_RTX5070TI_GAMING_TRIO_SUB_DEV                       0x5315
 #define MSI_RTX5070TI_VANGUARD_SOC_SUB_DEV                      0X5314
