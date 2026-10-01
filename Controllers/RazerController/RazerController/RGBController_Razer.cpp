@@ -290,7 +290,14 @@ void RGBController_Razer::SetupZones()
 
 void RGBController_Razer::DeviceUpdateLEDs()
 {
-    controller->SetLEDs(&colors[0]);
+    /*---------------------------------------------------------*\
+    | Writing LED colors switches the device to its custom      |
+    | frame effect, so only do it in Direct mode.               |
+    \*---------------------------------------------------------*/
+    if(modes[active_mode].value == RAZER_MODE_DIRECT)
+    {
+        controller->SetLEDs(&colors[0]);
+    }
 }
 
 void RGBController_Razer::DeviceUpdateZoneLEDs(int /*zone*/)
