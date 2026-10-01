@@ -2040,9 +2040,23 @@ void OpenRGBDevicePage::UpdateInterface(unsigned int update_reason)
     case RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT:
     case RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS:
     case RGBCONTROLLER_UPDATE_REASON_CONFIGUREZONE:
-    case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICCONFIGURATION:
     case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICZONECONFIGURATION:
         UpdateModeUi();
+        ui->DeviceViewBox->SetChanged();
+        ui->DeviceViewBox->repaint();
+        break;
+
+    case RGBCONTROLLER_UPDATE_REASON_SETDEVICESPECIFICCONFIGURATION:
+        /*-------------------------------------------------*\
+        | Device-specific configuration may change the      |
+        | number and identity of zones. Rebuild all lists   |
+        | that depend on the controller's zone topology.    |
+        \*-------------------------------------------------*/
+        UpdateZoneList();
+        UpdateModeList();
+        UpdateModeUi();
+        UpdateLEDList();
+        UpdateLEDUi();
         ui->DeviceViewBox->SetChanged();
         ui->DeviceViewBox->repaint();
         break;
