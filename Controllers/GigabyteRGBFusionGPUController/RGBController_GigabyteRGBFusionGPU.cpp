@@ -83,12 +83,15 @@ RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* c
 
     mode ColorCycle;
     ColorCycle.name                 = "Color Cycle";
-    ColorCycle.value                = RGB_FUSION_GPU_MODE_COLOR_CYCLE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
-    ColorCycle.flags                = MODE_FLAG_HAS_SPEED;
+    ColorCycle.value                = RGB_FUSION_GPU_MODE_COLOR_CYCLE;
+    ColorCycle.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     ColorCycle.speed_min            = RGB_FUSION_GPU_SPEED_SLOWEST;
     ColorCycle.speed_max            = RGB_FUSION_GPU_SPEED_FASTEST;
     ColorCycle.speed                = RGB_FUSION_GPU_SPEED_NORMAL;
     ColorCycle.color_mode           = MODE_COLORS_NONE;
+    ColorCycle.brightness_min       = RGB_FUSION_GPU_BRIGHTNESS_MIN;
+    ColorCycle.brightness_max       = RGB_FUSION_GPU_BRIGHTNESS_MAX;
+    ColorCycle.brightness           = RGB_FUSION_GPU_BRIGHTNESS_MAX;
     modes.push_back(ColorCycle);
 
     mode SpectrumCycle;
@@ -145,6 +148,15 @@ void RGBController_RGBFusionGPU::SetupZones()
 
 void RGBController_RGBFusionGPU::DeviceUpdateLEDs()
 {
+    /*-----------------------------------------------------*\
+    | Modes without colors do not use the color register.   |
+    | Writing it can interrupt a hardware color cycle.      |
+    \*-----------------------------------------------------*/
+    if(modes[active_mode].color_mode == MODE_COLORS_NONE)
+    {
+        return;
+    }
+
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
     unsigned char grn   = RGBGetGValue(color);
