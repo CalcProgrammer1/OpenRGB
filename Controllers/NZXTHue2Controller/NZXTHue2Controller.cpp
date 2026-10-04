@@ -254,6 +254,10 @@ void NZXTHue2Controller::UpdateDeviceList()
                 num_leds_in_device = 8;
                 break;
 
+            case 0x1C: //F280 RGB Core Fan Case Version (280mm)
+            num_leds_in_device = 16;
+            break;
+
             case 0x1D: //F360 RGB Core Fan Case Version (360mm)
                 num_leds_in_device = 24;
                 break;
