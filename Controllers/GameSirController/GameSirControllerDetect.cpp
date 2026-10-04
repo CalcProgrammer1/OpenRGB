@@ -14,6 +14,7 @@
 
 #define GAMESIR_VID 0x3537
 #define GAMESIR_NOVA_LITE_2_PID 0x100F
+#define GAMESIR_NOVA_LITE_2_WIRELESS_PID 0x1098
 
 DetectedControllers DetectGameSirControllers(hid_device_info* info, const std::string& /*name*/)
 {
@@ -32,3 +33,4 @@ DetectedControllers DetectGameSirControllers(hid_device_info* info, const std::s
 }
 
 REGISTER_HID_DETECTOR_IPU("GameSir Nova 2 Lite", DetectGameSirControllers, GAMESIR_VID, GAMESIR_NOVA_LITE_2_PID, 2, 0xFF7A, 0x0001);
+REGISTER_HID_DETECTOR_IPU("GameSir Nova 2 Lite (Wireless)", DetectGameSirControllers, GAMESIR_VID, GAMESIR_NOVA_LITE_2_WIRELESS_PID, 2, 0xFF7A, 0x0001);

@@ -45,26 +45,27 @@ std::string GameSirController::GetSerialString()
 
 void GameSirController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char buf[64];
+    unsigned char buf[65];
     memset(buf, 0x00, sizeof(buf));
 
-    buf[0] = 0x05;
-    buf[1] = 0x08;
-    buf[2] = 0x0A;
-    buf[3] = 0x01;
-    buf[4] = 0x03;
-    buf[5] = red;
-    buf[6] = green;
-    buf[7] = blue;
-    buf[8] = 0x00;
+    buf[0] = 0x00;
+    buf[1] = 0x05;
+    buf[2] = 0x08;
+    buf[3] = 0x0A;
+    buf[4] = 0x01;
+    buf[5] = 0x03;
+    buf[6] = red;
+    buf[7] = green;
+    buf[8] = blue;
+    buf[9] = 0x00;
 
     unsigned int checksum = 0;
-    for(int i = 0; i < 9; i++)
+    for(int i = 1; i < 10; i++)
     {
         checksum += buf[i];
     }
-    
-    buf[9] = checksum & 0xFF;
+
+    buf[10] = checksum & 0xFF;
 
     hid_write(dev, buf, sizeof(buf));
 }
