@@ -461,6 +461,7 @@
 #define COLORFUL_IGAME_RTX_5070_ULTRAW_OCV                      0x1500
 #define COLORFUL_IGAME_RTX_5070_ULTRAW_OCV2                     0x1501
 #define COLORFUL_IGAME_RTX_5070TI_ULTRAW_OC                     0x1500
+#define COLORFUL_IGAME_RTX_5080_ULTRAW_OC                       0x1501
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
