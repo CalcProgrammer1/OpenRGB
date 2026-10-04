@@ -136,6 +136,7 @@ private:
     std::string                                             version_aprom;
     std::string                                             version_ldrom;
     FeaturePacket_761* data;
+    int                                                     numof_pipe1_leds;
 
     bool            ReadSettings();
     bool            ReadFwVersion();

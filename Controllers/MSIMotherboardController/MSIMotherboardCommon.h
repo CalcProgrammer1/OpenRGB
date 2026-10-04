@@ -260,6 +260,7 @@ struct FeaturePacket_Zone_761
 {
     MSI_ZONE zone;
     FeaturePacket_PerLED_761 packet;
+    bool dirty;
 };
 
 struct FeaturePacket_761
@@ -268,6 +269,7 @@ struct FeaturePacket_761
     FeaturePacket_Zone_761 jargb2;
     FeaturePacket_Zone_761 jargb3;
     FeaturePacket_Zone_761 jaf;
+    FeaturePacket_Zone_761 jpipe1;
 };
 
 #define MSI_USB_PID_COMMON                          0x0076  // Common PID for a certain set of 185-byte boards

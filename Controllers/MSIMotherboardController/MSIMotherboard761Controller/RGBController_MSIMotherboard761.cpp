@@ -27,6 +27,7 @@ const ZoneDescription led_zones[] =
     ZoneDescription{ "JARGB 1",     MSI_ZONE_JARGB_1 },
     ZoneDescription{ "JARGB 2",     MSI_ZONE_JARGB_2 },
     ZoneDescription{ "JARGB 3",     MSI_ZONE_JARGB_3 },
+    ZoneDescription{ "IO Shield",   MSI_ZONE_J_PIPE_1 },
 };
 
 static std::vector<const ZoneDescription*> zone_description;
