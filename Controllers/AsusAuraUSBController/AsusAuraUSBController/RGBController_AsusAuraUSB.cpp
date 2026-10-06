@@ -114,6 +114,76 @@ RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* controller_ptr) 
     Chase.colors.resize(1);
     modes.push_back(Chase);
 
+    mode SpectrumCycleBreathing;
+    SpectrumCycleBreathing.name       = "Spectrum Cycle Breathing";
+    SpectrumCycleBreathing.value      = AURA_MODE_SPECTRUM_CYCLE_BREATHING;
+    SpectrumCycleBreathing.flags      = 0;
+    SpectrumCycleBreathing.color_mode = MODE_COLORS_NONE;
+    modes.push_back(SpectrumCycleBreathing);
+
+    mode SpectrumCycleChaseFade;
+    SpectrumCycleChaseFade.name       = "Spectrum Cycle Chase Fade";
+    SpectrumCycleChaseFade.value      = AURA_MODE_SPECTRUM_CYCLE_CHASE_FADE;
+    SpectrumCycleChaseFade.flags      = 0;
+    SpectrumCycleChaseFade.color_mode = MODE_COLORS_NONE;
+    modes.push_back(SpectrumCycleChaseFade);
+
+    mode SpectrumCycleChase;
+    SpectrumCycleChase.name           = "Spectrum Cycle Chase";
+    SpectrumCycleChase.value          = AURA_MODE_SPECTRUM_CYCLE_CHASE;
+    SpectrumCycleChase.flags          = 0;
+    SpectrumCycleChase.color_mode     = MODE_COLORS_NONE;
+    modes.push_back(SpectrumCycleChase);
+
+    mode SpectrumCycleWave;
+    SpectrumCycleWave.name            = "Spectrum Cycle Wave";
+    SpectrumCycleWave.value           = AURA_MODE_SPECTRUM_CYCLE_WAVE;
+    SpectrumCycleWave.flags           = 0;
+    SpectrumCycleWave.color_mode      = MODE_COLORS_NONE;
+    modes.push_back(SpectrumCycleWave);
+
+    mode ChaseRainbowPulse;
+    ChaseRainbowPulse.name            = "Chase Rainbow Pulse";
+    ChaseRainbowPulse.value           = AURA_MODE_CHASE_RAINBOW_PULSE;
+    ChaseRainbowPulse.flags           = 0;
+    ChaseRainbowPulse.color_mode      = MODE_COLORS_NONE;
+    modes.push_back(ChaseRainbowPulse);
+
+    mode RandomFlicker;
+    RandomFlicker.name                = "Random Flicker";
+    RandomFlicker.value               = AURA_MODE_RANDOM_FLICKER;
+    RandomFlicker.flags               = 0;
+    RandomFlicker.color_mode          = MODE_COLORS_NONE;
+    modes.push_back(RandomFlicker);
+
+    mode GentleTransition;
+    GentleTransition.name             = "Gentle Transition";
+    GentleTransition.value            = AURA_MODE_GENTLE_TRANSITION;
+    GentleTransition.flags            = 0;
+    GentleTransition.color_mode       = MODE_COLORS_NONE;
+    modes.push_back(GentleTransition);
+
+    mode WavePropagation;
+    WavePropagation.name              = "Wave Propagation";
+    WavePropagation.value             = AURA_MODE_WAVE_PROPAGATION;
+    WavePropagation.flags             = 0;
+    WavePropagation.color_mode        = MODE_COLORS_NONE;
+    modes.push_back(WavePropagation);
+
+    mode WavePropagationPause;
+    WavePropagationPause.name         = "Wave Propagation Pause";
+    WavePropagationPause.value        = AURA_MODE_WAVE_PROPAGATION_PAUSE;
+    WavePropagationPause.flags        = 0;
+    WavePropagationPause.color_mode   = MODE_COLORS_NONE;
+    modes.push_back(WavePropagationPause);
+
+    mode RedPulse;
+    RedPulse.name                     = "Red Pulse";
+    RedPulse.value                    = AURA_MODE_RED_PULSE;
+    RedPulse.flags                    = 0;
+    RedPulse.color_mode               = MODE_COLORS_NONE;
+    modes.push_back(RedPulse);
+
     SetupZones();
 }
 

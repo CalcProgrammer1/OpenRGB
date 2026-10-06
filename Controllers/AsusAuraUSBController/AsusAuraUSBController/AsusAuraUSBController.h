@@ -34,6 +34,10 @@ enum
     AURA_MODE_CHASE_RAINBOW_PULSE       = 12,       /* Chase with  Rainbow Pulse effect mode*/
     AURA_MODE_RANDOM_FLICKER            = 13,       /* Random flicker effect mode           */
     AURA_MODE_MUSIC                     = 14,       /* Music effect mode                    */
+    AURA_MODE_GENTLE_TRANSITION         = 16,       /* Gentle transition effect mode        */
+    AURA_MODE_WAVE_PROPAGATION          = 17,       /* Wave propagation effect mode         */
+    AURA_MODE_WAVE_PROPAGATION_PAUSE    = 18,       /* Wave propagation with pause mode     */
+    AURA_MODE_RED_PULSE                 = 19,       /* Red pulse effect mode                */
     AURA_MODE_DIRECT                    = 0xFF,     /* Direct control mode                  */
 };
 
