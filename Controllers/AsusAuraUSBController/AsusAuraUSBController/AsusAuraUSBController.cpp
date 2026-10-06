@@ -148,26 +148,29 @@ void AuraUSBController::GetFirmwareVersion()
 void AuraUSBController::SendDirect
     (
     unsigned char   device,
-    unsigned char   led_count,
+    unsigned short  led_count,
     RGBColor*  colors
     )
 {
     unsigned char usb_buf[65];
-    unsigned char offset         =      0x00;
-    unsigned char sent_led_count =      LEDS_PER_PACKET;
-    bool apply                   =      false;
-    while(!apply)
+    unsigned char command           =      device;
+    unsigned char leds_offset       =      0x00;
+    unsigned char leds_in_packet    =      LEDS_PER_PACKET;
+    unsigned short leds_configured  =      0;
+
+    while(leds_configured < led_count)
     {
-        if(offset + sent_led_count > led_count)
+        if(leds_configured + leds_in_packet < led_count)
         {
-            sent_led_count = led_count - offset;
+            leds_configured += leds_in_packet;
+        }
+        else
+        {
+            command |= AURA_DIRECT_CMD_APPLY;
+            leds_in_packet = led_count - leds_configured;
+            leds_configured = led_count;
         }
 
-
-        if(offset + sent_led_count == led_count)
-        {
-            apply = true;
-        }
         /*-----------------------------------------------------*\
         | Zero out buffer                                       |
         \*-----------------------------------------------------*/
@@ -178,19 +181,19 @@ void AuraUSBController::SendDirect
         \*-----------------------------------------------------*/
         usb_buf[0x00]   = 0xEC;
         usb_buf[0x01]   = AURA_CONTROL_MODE_DIRECT;
-        usb_buf[0x02]   = (apply ? 0x80 : 0x00) | device;
-        usb_buf[0x03]   = offset;
-        usb_buf[0x04]   = sent_led_count;
+        usb_buf[0x02]   = command;
+        usb_buf[0x03]   = leds_offset;
+        usb_buf[0x04]   = leds_in_packet;
 
         /*-----------------------------------------------------*\
         | Copy in color data bytes                              |
         \*-----------------------------------------------------*/
-        for(unsigned char led_idx = 0; led_idx < sent_led_count; led_idx++)
+        for(unsigned char led_idx = 0; led_idx < leds_in_packet; led_idx++)
         {
 
-            usb_buf[0x05 + (led_idx * 3)] = RGBGetRValue(colors[offset + led_idx]);
-            usb_buf[0x06 + (led_idx * 3)] = RGBGetGValue(colors[offset + led_idx]);
-            usb_buf[0x07 + (led_idx * 3)] = RGBGetBValue(colors[offset + led_idx]);
+            usb_buf[0x05 + (led_idx * 3)] = RGBGetRValue(colors[leds_configured - leds_in_packet + led_idx]);
+            usb_buf[0x06 + (led_idx * 3)] = RGBGetGValue(colors[leds_configured - leds_in_packet + led_idx]);
+            usb_buf[0x07 + (led_idx * 3)] = RGBGetBValue(colors[leds_configured - leds_in_packet + led_idx]);
         }
 
         /*-----------------------------------------------------*\
@@ -198,6 +201,12 @@ void AuraUSBController::SendDirect
         \*-----------------------------------------------------*/
         hid_write(dev, usb_buf, 65);
 
-        offset += sent_led_count;
+        leds_offset += leds_in_packet;
+
+        if(leds_configured > 255)
+        {
+            command |= AURA_DIRECT_CMD_8BIT_OVERFLOW;
+            leds_offset = leds_configured - 256;
+        }
     }
 }

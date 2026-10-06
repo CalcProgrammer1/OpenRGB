@@ -14,7 +14,7 @@
 #include "RGBController.h"
 #include "AsusAuraUSBController.h"
 
-#define AURA_ADDRESSABLE_MAX_LEDS       120
+#define AURA_ADDRESSABLE_MAX_LEDS       500
 
 class RGBController_AuraUSB : public RGBController
 {
