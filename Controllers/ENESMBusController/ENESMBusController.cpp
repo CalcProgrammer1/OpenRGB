@@ -111,6 +111,16 @@ ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id 
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
     /*-----------------------------------------------------*\
+    | DIMM_LED-0103 - First generation DRAM controller      |
+    | (T-Force Delta RGB)                                   |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "DIMM_LED-0103") == 0)
+    {
+        direct_reg  = ENE_REG_COLORS_DIRECT;
+        effect_reg  = ENE_REG_COLORS_EFFECT;
+        channel_cfg = ENE_CONFIG_CHANNEL_V1;
+    }
+    /*-----------------------------------------------------*\
     | AUDA0-E6K5-0101 - Second generation DRAM controller   |
     | (Geil Super Luce)                                     |
     \*-----------------------------------------------------*/
