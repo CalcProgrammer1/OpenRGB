@@ -29,11 +29,11 @@ using namespace std::chrono_literals;
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SinowealthKeyboard10c::RGBController_SinowealthKeyboard10c(
-    SinowealthKeyboard10cController* controller_ptr, unsigned char model_id)
+RGBController_SinowealthKeyboard10c::RGBController_SinowealthKeyboard10c(SinowealthKeyboard10cController* controller_ptr, unsigned char model_id, std::function<void ()> callback)
     : model_id(model_id)
 {
-    controller = controller_ptr;
+    controller        = controller_ptr;
+    shutdown_callback = callback;
 
     name        = controller->GetName();
     type        = DEVICE_TYPE_KEYBOARD;
@@ -77,6 +77,11 @@ RGBController_SinowealthKeyboard10c::~RGBController_SinowealthKeyboard10c()
     keepalive_thread->join();
     delete keepalive_thread;
     delete controller;
+
+    if(shutdown_callback)
+    {
+        shutdown_callback();
+    }
 }
 
 void RGBController_SinowealthKeyboard10c::SetupZones()

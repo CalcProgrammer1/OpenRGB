@@ -27,6 +27,7 @@
 #include "RGBController_SinowealthGMOW.h"
 #include "RGBController_GenesisXenon200.h"
 #include <hidapi.h>
+#include <set>
 #include "LogManager.h"
 
 #define SINOWEALTH_VID                      0x258A
@@ -55,6 +56,8 @@ struct expected_report
     unsigned int   cmd_size;
     hid_device*    cmd_device = nullptr;
     hid_device*    device     = nullptr;
+    std::string    cmd_path;
+    std::string    dev_path;
     unsigned char* response   = nullptr;
 
     expected_report(unsigned int id, unsigned size) : id(id), size(size) {}
@@ -63,153 +66,170 @@ struct expected_report
 
 typedef std::vector<expected_report> expected_reports;
 
-static int GetDeviceCount(hid_device_info* info, unsigned int &device_count_total, unsigned int device_count_expected)
+
+static std::set<std::string> sinowealth_claimed_devices;
+static std::recursive_mutex sinowealth_registry_mutex;
+/*---------------------------------------------------------*\
+| Has this device already been built this pass?             |
+\*---------------------------------------------------------*/
+static bool SinowealthClaimDevice(const std::string& device_id)
 {
-    hid_device_info* info_temp = info;
+    std::lock_guard<std::recursive_mutex> lock(sinowealth_registry_mutex);
 
-    while(info_temp)
-    {
-        if(info_temp->vendor_id  == info->vendor_id        // constant SINOWEALTH_VID
-        && info_temp->product_id == info->product_id       // NON-constant
-        && info_temp->usage_page == info->usage_page)      // constant 0xFF00
-        {
-            device_count_total++;
-        }
-        info_temp = info_temp->next;
-    }
+    bool succ = sinowealth_claimed_devices.insert(device_id).second;
+    return succ;
+}
 
-    /*----------------------------------------------------------------------*\
-    | If we have an expected number and what's left is a multiple of it      |
-    \*----------------------------------------------------------------------*/
-    if(device_count_expected == 0 || device_count_total % device_count_expected == 0)
-    {
-        return true;
-    }
+/*---------------------------------------------------------*\
+| Free the device claim when the device is unplugged        |
+\*---------------------------------------------------------*/
+static bool SinowealthUnclaimDevice(const std::string& device_id)
+{
+    std::lock_guard<std::recursive_mutex> lock(sinowealth_registry_mutex);
 
-    return false;
+    return sinowealth_claimed_devices.erase(device_id);
 }
 
 static bool DetectUsages(hid_device_info* info, std::string name, unsigned int device_count_expected, expected_reports& reports)
 {
-    hid_device_info* info_temp = info;
-    hid_device* device         = nullptr;
+    std::lock_guard<std::recursive_mutex> lock(sinowealth_registry_mutex);
 
-    bool          restart_flag       = false;
     unsigned int  device_count       = 0;
-    unsigned int  device_count_total = 0;
     unsigned char tmp_buf[MAX_EXPECTED_REPORT_SIZE];
 
     /*-----------------------------------------------------------------------------------------------*\
-    | Yeah, it might seem suboptimal to go over this list twice, but read this first:                 |
     | Sinowealth controllers report many collections on the same interface, usage page and usage id   |
+    | And the detector WILL be called for each one                                                    |
     | We can't know if detector was called for the 1st time (first collection), or 2nd, 3rd, etc...   |
-    | Relying on pure luck in this question is... not the best approach IMO, so here's how it works:  |
-    | 1. Count remaining devices with our expected VID + PID + Usage Page                             |
-    | 2. We know in advance how many collections currently expected device reports, so we compare     |
-    |    remaining amount with expected amount                                                        |
-    | 3. If remaining amount is a multiple of expected amount - we're on the first collection of one  |
-    |    of connected devices, and proceed with finding expected reports                              |
+    | To not rely on luck in this question, instead we use a "Claims" system, where each HID path is  |
+    | recorded and prohibited from re-use. Any subsequent detector calls on the same device will not  |
+    | find the expected number of unclaimed devices to work with, and will thus fail.                 |
     \*-----------------------------------------------------------------------------------------------*/
-    if(!GetDeviceCount(info, device_count_total, device_count_expected))
+
+    if(sinowealth_claimed_devices.count(info->path) != 0)
     {
-        LOG_DEBUG("[%s] Detection stage skipped - devices left %d (expected %d) ", name.c_str(), device_count_total, device_count_expected);
-        reports.clear();
+        /*-------------------------------------------------------------------------*\
+        | Avoid double-enumerating if the arrived device is already in use          |
+        \*-------------------------------------------------------------------------*/
         return false;
     }
 
+    hid_device_info* info_enum = hid_enumerate(info->vendor_id, info->product_id);
+    hid_device_info* info_temp = info_enum;
+    std::vector<std::string> matching_paths;
+    std::vector<hid_device*> matching_devs;
+    std::vector<bool> path_in_use_flag;
+
     /*---------------------------------------------------------------*\
-    | Check all devices provided in hid_device_info                   |
+    | Run a preliminary check                                         |
+    | We do not claim devices during this stage, but all other        |
+    | threads are prevented from climing any by a mutex               |
     \*---------------------------------------------------------------*/
     while(info_temp)
     {
-        /*----------------------------------------------------------------*\
-        | If it's still our device                                         |
-        \*----------------------------------------------------------------*/
-        if(info_temp->vendor_id  == info->vendor_id        // constant SINOWEALTH_VID
-        && info_temp->product_id == info->product_id       // NON-constant
-        && info_temp->usage_page == info->usage_page)      // constant 0xFF00
-        {
-            /*----------------------------------------------------------*\
-            | Open current device to check if it has expected report IDs |
-            \*----------------------------------------------------------*/
-            bool report_found = false;
-            device = hid_open_path(info_temp->path);
-
-            if(!device)
-            {
-                LOG_ERROR("[%s] Couldn't open path \"HID: %s\", do we have enough permissions?", name.c_str(), info_temp->path);
-                reports.clear();
-                return false;
-            }
-
-            for(expected_report& report: reports)
-            {
-                /*-----------------------------------------------------------*\
-                | We shouldn't do any checks if device is already found       |
-                \*-----------------------------------------------------------*/
-                if(report.device != nullptr)
-                {
-                    continue;
-                }
-
-                memset(tmp_buf, 0x00, sizeof(tmp_buf));
-                tmp_buf[0] = report.id;
-
-                /*--------------------------------------------------------------------------------------*\
-                | If we need to send a command before requesting data, send it and flag the report       |
-                | (DON'T TRY TO CREATE MORE THAN 1 EXPECTED REPORT SENDING COMMANDS)                     |
-                \*--------------------------------------------------------------------------------------*/
-                if(report.cmd_buf != nullptr && report.cmd_device == nullptr)
-                {
-                    if(hid_send_feature_report(device, report.cmd_buf, report.cmd_size) > -1)
-                    {
-                        restart_flag       = true; // Because Windows
-                        report.cmd_device = device;
-                        LOG_TRACE("[%s] Successfully sent command for ReportId 0x%02X to device at location \"HID: %s\", handle: %08X", name.c_str(), report.id, info_temp->path, device);
-                    }
-                }
-
-                /*------------------------------------------------------*\
-                | Now we try to request data for expected feature report |
-                \*------------------------------------------------------*/
-                if(report.cmd_buf == nullptr || report.cmd_device != nullptr)
-                {
-                    /*---------------------------------------------------------------------------*\
-                    | If device actually responds to expected report ID, set a flag               |
-                    \*---------------------------------------------------------------------------*/
-                    if(hid_get_feature_report(device, tmp_buf, report.size) > -1)
-                    {
-                        device_count++;
-                        report_found   = true;
-                        report.device = device;
-
-                        report.response = new unsigned char[report.size];
-                        std::memcpy(report.response, tmp_buf, report.size);
-
-                        LOG_TRACE("[%s] Successfully requested feature ReportId 0x%02X from device at location \"HID: %s\", handle: %08X", name.c_str(), report.id, info_temp->path, device);
-                    }
-                }
-            }
-
-            /*-----------------------------------------------------------*\
-            | If it doesn't - make sure to close it!                      |
-            | Don't close if restart flag is set because we found cmd_dev |
-            \*-----------------------------------------------------------*/
-            if(!report_found && !restart_flag) hid_close(device);
-        }
-
-        info_temp    = restart_flag ? info : info_temp->next;
-        restart_flag = false;
-
         /*-------------------------------------------------------------------------*\
-        | If we found everything we expected, stop going through devices list       |
-        | We don't want to go too far in case there are multiple Sinowealth devices |
-        | with the same VID & PID                                                   |
-        | (I don't care how unlikely it is, we must be prepared for everything)     |
+        | NOTE: VID and PID are already fultered for by hid_enumerate()             |
         \*-------------------------------------------------------------------------*/
-        if(device_count == reports.size()) info_temp = nullptr;
+        if(info_temp->usage_page == info->usage_page       // constant 0xFF00
+        && sinowealth_claimed_devices.count(info_temp->path) == 0)
+        {
+            matching_paths.push_back(info_temp->path);
+        }
+        info_temp = info_temp->next;
     }
 
+    hid_free_enumeration(info_enum);
+
+    LOG_TRACE("[%s] Found %d unclaimed matching HID devices", name.c_str(), int(matching_paths.size()));
+
+    if(matching_paths.size() < device_count_expected)
+    {
+        return false;
+    }
+
+    matching_devs.resize(matching_paths.size());
+    path_in_use_flag.resize(matching_paths.size());
+
+    for(size_t i = 0; i < matching_paths.size(); ++i)
+    {
+        hid_device* dev = hid_open_path(matching_paths[i].c_str());
+        if(dev)
+        {
+            matching_devs[i] = dev;
+        }
+        else
+        {
+            LOG_ERROR("[%s] Couldn't open path \"HID: %s\", do we have enough permissions?", name.c_str(), matching_paths[i].c_str());
+        }
+    }
+
+    /*---------------------------------------------------------------*\
+    | Find the correct devices for each expected report               |
+    \*---------------------------------------------------------------*/
+    for(expected_report& report: reports)
+    {
+        memset(tmp_buf, 0x00, sizeof(tmp_buf));
+        tmp_buf[0] = report.id;
+
+        if(report.cmd_buf != nullptr)
+        {
+            for(size_t i = 0; i < matching_paths.size(); ++i)
+            {
+                /*--------------------------------------------------------------------------------------*\
+                | If we need to send a command before requesting data, send it and flag the report       |
+                | NOTE: Never probe more than one report at a time! Responces may get mixed up           |
+                \*--------------------------------------------------------------------------------------*/
+                if(hid_send_feature_report(matching_devs[i], report.cmd_buf, report.cmd_size) > -1)
+                {
+                    report.cmd_device = matching_devs[i];
+                    report.cmd_path   = matching_paths[i];
+                    SinowealthClaimDevice(matching_paths[i]);
+                    path_in_use_flag[i] = true;
+
+                    LOG_TRACE("[%s] Successfully sent command for ReportId 0x%02X to device at location \"HID: %s\", handle: 0x%08X", name.c_str(), report.id, matching_paths[i].c_str(), matching_devs[i]);
+                }
+            }
+        }
+
+        /*------------------------------------------------------*\
+        | Now we try to receive an answer for the command probe  |
+        \*------------------------------------------------------*/
+        if(report.cmd_buf == nullptr || report.cmd_device != nullptr)
+        {
+            for(size_t i = 0; i < matching_paths.size(); ++i)
+            {
+                /*---------------------------------------------------------------------------*\
+                | If device actually responds to expected report ID, set a flag               |
+                \*---------------------------------------------------------------------------*/
+                if(hid_get_feature_report(matching_devs[i], tmp_buf, report.size) > -1)
+                {
+                    device_count++;
+                    report.device   = matching_devs[i];
+                    report.dev_path = matching_paths[i];
+                    SinowealthClaimDevice(matching_paths[i]);
+                    path_in_use_flag[i] = true;
+
+                    report.response = new unsigned char[report.size];
+                    std::memcpy(report.response, tmp_buf, report.size);
+
+                    LOG_TRACE("[%s] Successfully received feature ReportId 0x%02X from device at location \"HID: %s\", handle: 0x%08X", name.c_str(), report.id, matching_paths[i].c_str(), matching_devs[i]);
+                }
+            }
+        }
+    }
+
+    bool failed = device_count < reports.size();
+    /*-----------------------------------------------------------*\
+    | Clean up                                                    |
+    \*-----------------------------------------------------------*/
+    for(size_t i = 0; i < matching_paths.size(); ++i)
+    {
+        if(failed || !path_in_use_flag[i])
+        {
+            hid_close(matching_devs[i]);
+            matching_devs[i] = nullptr;
+        }
+    }
     /*-----------------------------------------------------------*\
     | If we found less devices than expected - sad, lets clean up |
     \*-----------------------------------------------------------*/
@@ -222,13 +242,12 @@ static bool DetectUsages(hid_device_info* info, std::string name, unsigned int d
                 delete[] report.response;
                 report.response = nullptr;
             }
-            if(report.device != nullptr)
-            {
-                hid_close(report.device);
-            }
+            SinowealthUnclaimDevice(report.cmd_path);
+            SinowealthUnclaimDevice(report.dev_path);
         }
 
         reports.clear();
+
         return false;
     }
 
@@ -245,8 +264,8 @@ DetectedControllers DetectGenesisXenon200(hid_device_info* info, const std::stri
         hid_device* dev     = reports.at(0).device;
         hid_device* cmd_dev = reports.at(1).device;
 
-        GenesisXenon200Controller* controller     = new GenesisXenon200Controller(dev, cmd_dev, info->path, name);
-        RGBController*             rgb_controller = new RGBController_GenesisXenon200(controller);
+        GenesisXenon200Controller* controller         = new GenesisXenon200Controller(dev, cmd_dev, info->path, name);
+        RGBController_GenesisXenon200* rgb_controller = new RGBController_GenesisXenon200(controller, [dev_path = reports.at(0).dev_path, cmd_path = reports.at(1).dev_path](){ SinowealthUnclaimDevice(dev_path); SinowealthUnclaimDevice(cmd_path); });
 
         detected_controllers.push_back(rgb_controller);
     }
@@ -266,7 +285,7 @@ DetectedControllers DetectZetFuryPro(hid_device_info* info, const std::string& n
         if(dev)
         {
             SinowealthController1007*     controller     = new SinowealthController1007(dev, info->path, name);
-            RGBController_Sinowealth1007* rgb_controller = new RGBController_Sinowealth1007(controller);
+            RGBController_Sinowealth1007* rgb_controller = new RGBController_Sinowealth1007(controller, [dev_path = reports.at(0).dev_path](){ SinowealthUnclaimDevice(dev_path); });
 
             detected_controllers.push_back(rgb_controller);
         }
@@ -289,7 +308,7 @@ DetectedControllers DetectSinowealthMouse(hid_device_info* info, const std::stri
         if(dev && dev_cmd)
         {
             SinowealthController*     controller     = new SinowealthController(dev, dev_cmd, info->path, name);
-            RGBController_Sinowealth* rgb_controller = new RGBController_Sinowealth(controller);
+            RGBController_Sinowealth* rgb_controller = new RGBController_Sinowealth(controller, [dev_path = reports.at(0).dev_path, cmd_path = reports.at(0).cmd_path](){ SinowealthUnclaimDevice(dev_path); SinowealthUnclaimDevice(cmd_path); });
 
             detected_controllers.push_back(rgb_controller);
         }
@@ -347,7 +366,7 @@ DetectedControllers DetectGMOW_Dongle(hid_device_info* info, const std::string& 
 //     if(dev && dev_cmd)
 //     {
 //         SinowealthKeyboard16Controller*     controller     = new SinowealthKeyboard16Controller(dev_cmd, dev, info->path, name);
-//         RGBController_SinowealthKeyboard16* rgb_controller = new RGBController_SinowealthKeyboard16(controller);
+//         RGBController_SinowealthKeyboard16* rgb_controller = new RGBController_SinowealthKeyboard16(controller, [dev_path = reports.at(0).dev_path, cmd_path = reports.at(0).cmd_path](){ SinowealthUnclaimDevice(dev_path); SinowealthUnclaimDevice(cmd_path); });
 //
 //         DetectionManager::get()->RegisterRGBController(rgb_controller);
 //     }
@@ -368,7 +387,7 @@ DetectedControllers DetectGMOW_Dongle(hid_device_info* info, const std::string& 
 //     if(dev && dev_cmd)
 //     {
 //         SinowealthKeyboardController*     controller     = new SinowealthKeyboardController(dev_cmd, dev, info->path, name);
-//         RGBController_SinowealthKeyboard* rgb_controller = new RGBController_SinowealthKeyboard(controller);
+//         RGBController_SinowealthKeyboard* rgb_controller = new RGBController_SinowealthKeyboard(controller, [dev_path = reports.at(0).dev_path, cmd_path = reports.at(0).cmd_path](){ SinowealthUnclaimDevice(dev_path); SinowealthUnclaimDevice(cmd_path); });
 //
 //         DetectionManager::get()->RegisterRGBController(rgb_controller);
 //     }
@@ -404,12 +423,19 @@ DetectedControllers DetectSinowealthKeyboard10c(hid_device_info* info, const std
         hid_device *dev        = reports.at(0).device;
         unsigned char model_id = reports.at(0).response[13];
 
-        if(dev && sinowealth_10c_keyboards.find(model_id) != sinowealth_10c_keyboards.end())
+        if(dev)
         {
-            SinowealthKeyboard10cController*     controller     = new SinowealthKeyboard10cController(dev, info->path, sinowealth_10c_keyboards.at(model_id).device_name);
-            RGBController_SinowealthKeyboard10c* rgb_controller = new RGBController_SinowealthKeyboard10c(controller, model_id);
+            if(sinowealth_10c_keyboards.find(model_id) != sinowealth_10c_keyboards.end())
+            {
+                SinowealthKeyboard10cController*     controller     = new SinowealthKeyboard10cController(dev, info->path, sinowealth_10c_keyboards.at(model_id).device_name);
+                RGBController_SinowealthKeyboard10c* rgb_controller = new RGBController_SinowealthKeyboard10c(controller, model_id, [dev_path = reports.at(0).dev_path](){ SinowealthUnclaimDevice(dev_path); });
 
-            detected_controllers.push_back(rgb_controller);
+                detected_controllers.push_back(rgb_controller);
+            }
+            else
+            {
+                hid_close(dev);
+            }
         }
     }
 

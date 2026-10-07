@@ -129,9 +129,10 @@ static const char *led_names_tkl[] =
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SinowealthKeyboard::RGBController_SinowealthKeyboard(SinowealthKeyboardController* controller_ptr)
+RGBController_SinowealthKeyboard::RGBController_SinowealthKeyboard(SinowealthKeyboardController* controller_ptr, std::function<void ()> callback)
 {
     controller                      = controller_ptr;
+    shutdown_callback               = callback;
 
     name                            = controller->GetName();
     type                            = DEVICE_TYPE_KEYBOARD;
@@ -409,6 +410,11 @@ RGBController_SinowealthKeyboard::~RGBController_SinowealthKeyboard()
     Shutdown();
 
     delete controller;
+
+    if(shutdown_callback)
+    {
+        shutdown_callback();
+    }
 }
 
 void RGBController_SinowealthKeyboard::SetupZones()

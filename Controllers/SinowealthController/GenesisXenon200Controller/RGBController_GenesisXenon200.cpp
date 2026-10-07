@@ -21,9 +21,10 @@
 
 #include "RGBController_GenesisXenon200.h"
 
-RGBController_GenesisXenon200::RGBController_GenesisXenon200(GenesisXenon200Controller* controller_ptr)
+RGBController_GenesisXenon200::RGBController_GenesisXenon200(GenesisXenon200Controller* controller_ptr, std::function<void()> callback)
 {
     controller                  = controller_ptr;
+    shutdown_callback           = callback;
 
     name                        = controller->GetNameString();
     vendor                      = "Genesis";
@@ -82,6 +83,11 @@ RGBController_GenesisXenon200::~RGBController_GenesisXenon200()
     Shutdown();
 
     delete controller;
+
+    if(shutdown_callback)
+    {
+        shutdown_callback();
+    }
 }
 
 void RGBController_GenesisXenon200::DeviceUpdateMode()

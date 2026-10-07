@@ -17,7 +17,7 @@
 class RGBController_SinowealthKeyboard10c : public RGBController
 {
 public:
-    RGBController_SinowealthKeyboard10c(SinowealthKeyboard10cController* controller_ptr, unsigned char model_id);
+    RGBController_SinowealthKeyboard10c(SinowealthKeyboard10cController* controller_ptr, unsigned char model_id, std::function<void()> shutdown_callback);
     ~RGBController_SinowealthKeyboard10c();
 
     void SetupZones();
@@ -36,4 +36,5 @@ private:
     SinowealthKeyboard10cController*                   controller;
     std::atomic<bool>                                  keepalive_thread_run;
     std::thread*                                       keepalive_thread;
+    std::function<void()>                              shutdown_callback;
 };

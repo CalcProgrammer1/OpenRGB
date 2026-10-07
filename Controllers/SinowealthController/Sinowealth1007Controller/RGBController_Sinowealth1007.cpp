@@ -33,9 +33,10 @@ static const char *led_names[] =
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_Sinowealth1007::RGBController_Sinowealth1007(SinowealthController1007* controller_ptr)
+RGBController_Sinowealth1007::RGBController_Sinowealth1007(SinowealthController1007* controller_ptr, std::function<void ()> callback)
 {
     controller                  = controller_ptr;
+    shutdown_callback           = callback;
 
     name                        = controller->GetName();
     vendor                      = "ZET";
@@ -180,6 +181,11 @@ RGBController_Sinowealth1007::~RGBController_Sinowealth1007()
     Shutdown();
 
     delete controller;
+
+    if(shutdown_callback)
+    {
+        shutdown_callback();
+    }
 }
 
 void RGBController_Sinowealth1007::SetupZones()

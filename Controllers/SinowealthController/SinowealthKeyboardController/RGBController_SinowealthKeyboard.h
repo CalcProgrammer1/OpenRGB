@@ -16,7 +16,7 @@
 class RGBController_SinowealthKeyboard : public RGBController
 {
 public:
-    RGBController_SinowealthKeyboard(SinowealthKeyboardController* controller_ptr);
+    RGBController_SinowealthKeyboard(SinowealthKeyboardController* controller_ptr, std::function<void()> shutdown_callback);
     ~RGBController_SinowealthKeyboard();
 
     void        SetupZones();
@@ -29,4 +29,5 @@ public:
 
 private:
     SinowealthKeyboardController* controller;
+    std::function<void()>         shutdown_callback;
 };

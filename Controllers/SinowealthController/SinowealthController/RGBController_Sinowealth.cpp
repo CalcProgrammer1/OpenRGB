@@ -22,9 +22,10 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* controller_ptr)
+RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* controller_ptr, std::function<void ()> callback)
 {
     controller                      = controller_ptr;
+    shutdown_callback               = callback;
 
     name                            = controller->GetName();
     type                            = DEVICE_TYPE_MOUSE;
@@ -154,6 +155,11 @@ RGBController_Sinowealth::~RGBController_Sinowealth()
     Shutdown();
 
     delete controller;
+
+    if(shutdown_callback)
+    {
+        shutdown_callback();
+    }
 }
 
 void RGBController_Sinowealth::SetupZones()

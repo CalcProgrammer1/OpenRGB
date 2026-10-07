@@ -17,7 +17,7 @@
 class RGBController_Sinowealth : public RGBController
 {
 public:
-    RGBController_Sinowealth(SinowealthController* controller_ptr);
+    RGBController_Sinowealth(SinowealthController* controller_ptr, std::function<void()> shutdown_callback);
     ~RGBController_Sinowealth();
 
     void        SetupZones();
@@ -30,4 +30,5 @@ public:
 
 private:
     SinowealthController* controller;
+    std::function<void()> shutdown_callback;
 };

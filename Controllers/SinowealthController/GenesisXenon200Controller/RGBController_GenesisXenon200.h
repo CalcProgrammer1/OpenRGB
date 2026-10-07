@@ -26,7 +26,7 @@ const unsigned char GENESIS_XENON_200_SPECTRUM_CYCLE_SPEED_VALUES[]   {0xC1, 0x8
 class RGBController_GenesisXenon200 : public RGBController
 {
 public:
-    RGBController_GenesisXenon200(GenesisXenon200Controller* controller_ptr);
+    RGBController_GenesisXenon200(GenesisXenon200Controller* controller_ptr, std::function<void()> shutdown_callback);
     ~RGBController_GenesisXenon200();
 
     void            SetupZones();
@@ -40,4 +40,5 @@ public:
 
 private:
     GenesisXenon200Controller* controller;
+    std::function<void()> shutdown_callback;
 };
