@@ -29,6 +29,7 @@
 #define STEELSERIES_AEROX5_DIABLO_WIRELESS_WIRED_NAME       "SteelSeries Aerox 5 Wireless Diablo IV Edition (wired mode)"
 #define STEELSERIES_AEROX9_WIRELESS_NAME                    "SteelSeries Aerox 9 Wireless (2.4 GHz wireless mode)"
 #define STEELSERIES_AEROX9_WIRELESS_WIRED_NAME              "SteelSeries Aerox 9 Wireless (wired mode)"
+#define STEELSERIES_RIVAL_3_WIRELESS_NAME                   "SteelSeries Rival 3 Wireless (2.4 GHz wireless mode)"
 #define STEELSERIES_AEROX_WIRELESS_PACKET_SIZE              64
 #define STEELSERIES_AEROX_WIRELESS_TIMEOUT                  250
 #define STEELSERIES_AEROX_WIRELESS_FLAG                     0b01000000
@@ -52,6 +53,14 @@ static const steelseries_mouse aerox_9 =
         {"Rear",            2 },
         {"Reactive",        3 },
      }
+};
+
+static const steelseries_mouse rival_3_wireless =
+{
+    {   0x04  },
+    {
+        {"Scroll Wheel",  1 },
+    }
 };
 
 class SteelSeriesAeroxWirelessController: public SteelSeriesMouseController

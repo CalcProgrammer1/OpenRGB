@@ -1,9 +1,11 @@
 /*---------------------------------------------------------*\
-| SteelSeriesAeroxWirelessController.cpp                   |
+| SteelSeriesAeroxWirelessController.cpp                    |
 |                                                           |
 |   Driver for SteelSeries Aerox 3, 5 and 9 Wireless        |
+|   Updated Driver for SteelSeries Rival 3 Wireless         |
 |                                                           |
 |   Ensar S (esensar)                           09 Sep 2024 |
+|   Clari (clari7744) & JAO1988 (JAO1988)       02 Oct 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -49,6 +51,9 @@ SteelSeriesAeroxWirelessController::SteelSeriesAeroxWirelessController(hid_devic
         case AEROX_9_WIRELESS_WIRED:
             name = STEELSERIES_AEROX9_WIRELESS_WIRED_NAME;
             break;
+        case RIVAL_3_WIRELESS:
+            name = STEELSERIES_RIVAL_3_WIRELESS_NAME;
+            break;
         default:
             name = STEELSERIES_AEROX3_WIRELESS_NAME;
             break;
@@ -85,6 +90,7 @@ bool SteelSeriesAeroxWirelessController::IsWireless()
         case AEROX_9_WIRELESS:
             return true;
             break;
+        case RIVAL_3_WIRELESS:
         case AEROX_3_WIRELESS_WIRED:
         case AEROX_5_WIRELESS_WIRED:
         case AEROX_5_DESTINY_WIRELESS_WIRED:
@@ -140,6 +146,9 @@ steelseries_mouse SteelSeriesAeroxWirelessController::GetMouse()
         case AEROX_9_WIRELESS_WIRED:
             return aerox_9;
             break;
+        case RIVAL_3_WIRELESS:
+            return rival_3_wireless;
+            break;
         default:
             return aerox_3_wireless;
             break;
@@ -148,6 +157,14 @@ steelseries_mouse SteelSeriesAeroxWirelessController::GetMouse()
 
 void SteelSeriesAeroxWirelessController::SetLightEffectAll(uint8_t effect)
 {
+    /*-----------------------------------------------------------------*\
+    | Ignore built-in hardware effect triggers for Rival 3 Wireless     |
+    \*-----------------------------------------------------------------*/
+    if(proto == RIVAL_3_WIRELESS)
+    {
+        return;
+    }
+
     if(effect == 0x05)
     {
         uint8_t buffer[STEELSERIES_AEROX_WIRELESS_PACKET_SIZE]  = { 0x00, 0x22, 0xFF };
@@ -165,21 +182,36 @@ void SteelSeriesAeroxWirelessController::SetColor
     unsigned char       brightness
     )
 {
-    uint8_t buffer[STEELSERIES_AEROX_WIRELESS_PACKET_SIZE] = { 0x00, 0x21, 0x01 };
-    uint8_t offset      = 0x04;
+    uint8_t buffer[STEELSERIES_AEROX_WIRELESS_PACKET_SIZE] = { 0x00 };
 
-    if (zone_id == 3 && (proto == AEROX_9_WIRELESS_WIRED || proto == AEROX_9_WIRELESS))
+    if(proto == RIVAL_3_WIRELESS)
     {
-        buffer[0x03]    = 0x00;
-        buffer[0x01]    = 0x26;
+        buffer[1] = 0x13;
+        buffer[2] = zone_id;
+        buffer[3] = red;
+        buffer[4] = green;
+        buffer[5] = blue;
     }
     else
     {
-        buffer[0x03]    = zone_id;
+        buffer[1] = 0x21;
+        buffer[2] = 0x01;
+
+        if (zone_id == 3 && (proto == AEROX_9_WIRELESS_WIRED || proto == AEROX_9_WIRELESS))
+        {
+            buffer[0x03]    = 0x00;
+            buffer[0x01]    = 0x26;
+        }
+        else
+        {
+            buffer[0x03]    = zone_id;
+        }
+
+        uint8_t offset      = 0x04;
+        buffer[offset]      = red;
+        buffer[offset + 1]  = green;
+        buffer[offset + 2]  = blue;
     }
-    buffer[offset]      = red;
-    buffer[offset + 1]  = green;
-    buffer[offset + 2]  = blue;
 
     WriteBuffer(buffer);
 
@@ -202,6 +234,14 @@ void SteelSeriesAeroxWirelessController::SetBrightness(uint8_t brightness)
 
 void SteelSeriesAeroxWirelessController::Save()
 {
+    /*-----------------------------------------------------------------*\
+    | Disable EEPROM save operations for Rival 3 Wireless              |
+    \*-----------------------------------------------------------------*/
+    if(proto == RIVAL_3_WIRELESS)
+    {
+        return;
+    }
+
     /*---------------------------------------------------------------------------------*\
     | Save packet was not confirmed as working but packet is verified as correct.       |
     |   https://github.com/flozz/rivalcfg/blob/master/rivalcfg/devices/aerox3.py#L141   |

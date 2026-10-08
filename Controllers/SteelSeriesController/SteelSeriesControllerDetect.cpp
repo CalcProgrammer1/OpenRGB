@@ -148,6 +148,11 @@ DetectedControllers DetectSteelSeriesAerox9WirelessWired(hid_device_info* info, 
     return(DetectSteelSeriesAeroxWireless(info, name, AEROX_9_WIRELESS_WIRED));
 }
 
+DetectedControllers DetectSteelSeriesRival3Wireless(hid_device_info* info, const std::string& name)
+{
+    return(DetectSteelSeriesAeroxWireless(info, name, RIVAL_3_WIRELESS));
+}
+
 DetectedControllers DetectSteelSeriesApex3Full(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
@@ -505,6 +510,7 @@ REGISTER_HID_DETECTOR_I("SteelSeries Rival 700",                                
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 710",                                         DetectSteelSeriesRival700,                    STEELSERIES_VID, STEELSERIES_RIVAL_710_PID,                       0);
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 3 (Old Firmware)",                            DetectSteelSeriesRival3,                      STEELSERIES_VID, STEELSERIES_RIVAL_3_OLD_PID,                     3);
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 3",                                           DetectSteelSeriesRival3,                      STEELSERIES_VID, STEELSERIES_RIVAL_3_PID,                         3);
+REGISTER_HID_DETECTOR_IPU("SteelSeries Rival 3 Wireless",                                DetectSteelSeriesRival3Wireless,              STEELSERIES_VID, STEELSERIES_RIVAL_3_WIRELESS_PID,                3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Rival 5",                                         DetectSteelSeriesRival5,                      STEELSERIES_VID, STEELSERIES_RIVAL_5_PID,                         0, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN",                                        DetectSteelSeriesSensei,                      STEELSERIES_VID, STEELSERIES_SENSEI_TEN_PID,                      0);
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN CS:GO Neon Rider Edition",               DetectSteelSeriesSensei,                      STEELSERIES_VID, STEELSERIES_SENSEI_TEN_CSGO_NEON_RIDER_PID,      0);
