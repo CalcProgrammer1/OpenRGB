@@ -114,6 +114,7 @@ DetectedControllers DetectGigabyteRGBFusion2BlackwellAorusMaster5090DV2IceLayout
 /*---------------------------------------------------------*\
 |  Nvidia GPUs                                              |
 \*---------------------------------------------------------*/
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5060 Ti Aero OC",                   DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                      NVIDIA_VEN,     NVIDIA_RTX5060TI_DEV,       GIGABYTE_SUB_VEN, GIGABYTE_RTX5060TI_AERO_OC_16G_SUB_DEV,                   0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5060 Ti Gaming OC",                 DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                      NVIDIA_VEN,     NVIDIA_RTX5060TI_DEV,       GIGABYTE_SUB_VEN, GIGABYTE_RTX5060TI_GAMING_OC_16G_SUB_DEV,                 0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Aero OC",                      DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                      NVIDIA_VEN,     NVIDIA_RTX5070_DEV,         GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_AERO_OC_12G_SUB_DEV,                     0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Eagle OC",                     DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,                      NVIDIA_VEN,     NVIDIA_RTX5070_DEV,         GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_EAGLE_OC_12G_SUB_DEV,                    0x75);
