@@ -337,7 +337,11 @@ MSIMotherboard761Controller::MSIMotherboard761Controller(hid_device* handle, con
             data->jpipe1.packet.hdr2 = numof_pipe1_leds;
         }
 
-        free(conf_arr);
+        /*-------------------------------------------------*\
+        | Sent again when a zone is resized                 |
+        \*-------------------------------------------------*/
+        setup_data  = conf_arr;
+        setup_dirty = false;
     }
     else
     {
@@ -354,6 +358,12 @@ MSIMotherboard761Controller::~MSIMotherboard761Controller()
     {
         delete data;
         data = nullptr;
+    }
+
+    if(setup_data)
+    {
+        free(setup_data);
+        setup_data = nullptr;
     }
 
     for(ZoneConfig& zone : zone_configs)
@@ -424,6 +434,8 @@ bool MSIMotherboard761Controller::Update
 {
     bool flag = true;
     FeaturePacket_Zone_761* packets[] = { &data->jaf, &data->jargb1, &data->jargb2, &data->jargb3, &data->jpipe1 };
+
+    SendConfiguration();
 
     /*-----------------------------------------------------*\
     | Only send changed zones on boards with JPIPE1 so     |
@@ -635,11 +647,64 @@ void MSIMotherboard761Controller::GetMode
 
 void MSIMotherboard761Controller::SetZoneLEDCount
     (
-    MSI_ZONE        /*zone*/,
-    unsigned char   /*led_num*/
+    MSI_ZONE        zone,
+    unsigned char   led_num
     )
 {
-    return;
+    FeaturePacket_Zone_761* packet = nullptr;
+
+    if(!dev)
+    {
+        return;
+    }
+
+    switch(zone)
+    {
+        case MSI_ZONE_JAF:
+            packet = &data->jaf;
+            break;
+        case MSI_ZONE_JARGB_1:
+            packet = &data->jargb1;
+            break;
+        case MSI_ZONE_JARGB_2:
+            packet = &data->jargb2;
+            break;
+        case MSI_ZONE_JARGB_3:
+            packet = &data->jargb3;
+            break;
+        default:
+            return;
+    }
+
+    /*-----------------------------------------------------*\
+    | LED count is the last byte of the zone's config row   |
+    \*-----------------------------------------------------*/
+    if(setup_data[ARRAY_ROW(zone, 16)] != led_num)
+    {
+        setup_data[ARRAY_ROW(zone, 16)] = led_num;
+        setup_dirty                     = true;
+    }
+
+    packet->packet.hdr2 = led_num;
+}
+
+void MSIMotherboard761Controller::SendConfiguration()
+{
+    if(!dev || !setup_dirty)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Stays dirty on failure so the next update tries again |
+    \*-----------------------------------------------------*/
+    if(hid_send_feature_report(dev, setup_data, SETUP_ARRAY_SIZE) < 0)
+    {
+        LOG_ERROR("[%s]: failed to send configuration", name.c_str());
+        return;
+    }
+
+    setup_dirty = false;
 }
 
 void MSIMotherboard761Controller::SetDirectMode

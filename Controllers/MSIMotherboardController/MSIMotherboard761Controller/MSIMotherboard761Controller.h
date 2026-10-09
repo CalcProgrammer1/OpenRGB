@@ -81,6 +81,8 @@ public:
                     unsigned char   led_num
                     );
 
+    void        SendConfiguration();
+
     bool        Update
                     (
                     bool save
@@ -136,6 +138,8 @@ private:
     std::string                                             version_aprom;
     std::string                                             version_ldrom;
     FeaturePacket_761* data;
+    unsigned char*                                          setup_data;
+    bool                                                    setup_dirty;
     int                                                     numof_pipe1_leds;
 
     bool            ReadSettings();

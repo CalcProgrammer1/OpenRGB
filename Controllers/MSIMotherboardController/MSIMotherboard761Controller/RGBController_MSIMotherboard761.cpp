@@ -232,6 +232,8 @@ void RGBController_MSIMotherboard761::SetupZones()
         }
     }
 
+    controller->SendConfiguration();
+
     SetupColors();
 }
 
