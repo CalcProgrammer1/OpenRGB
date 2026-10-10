@@ -1,7 +1,7 @@
 id: org.openrgb.OpenRGB
 sdk: org.kde.Sdk
 runtime: org.kde.Platform
-runtime-version: 6.10
+runtime-version: '6.10'
 command: openrgb
 finish-args:
   - --device=all
@@ -29,7 +29,7 @@ add-extensions:
     add-ld-path: lib
     subdirectories: true
     no-autodownload: false
-    
+
 modules:
   - name: libhidapi-hotplug
     buildsystem: cmake-ninja
