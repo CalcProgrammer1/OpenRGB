@@ -17,6 +17,7 @@
 #   automatically run all jobs on the default branch or     #
 #   tag builds, otherwise run them if the source is part    #
 #   of a merge request                                      #
+# * Qt5 builds are always manually triggered, not automatic #
 #-----------------------------------------------------------#
 .downstream_rules:
   rules:
@@ -28,6 +29,13 @@
   rules:
   - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB" && ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_TAG || $CI_PIPELINE_SOURCE == "merge_request_event")'
     when: on_success
+  - !reference [.downstream_rules, rules]
+
+.qt5_rules:
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB" && ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_TAG || $CI_PIPELINE_SOURCE == "merge_request_event")'
+    when: manual
+    allow_failure: true
   - !reference [.downstream_rules, rules]
 
 .shared_windows_runners:
@@ -113,6 +121,8 @@ before_script:
     TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
+  rules:
+  - !reference [.qt5_rules, rules]
 
 #-----------------------------------------------------------#
 # Linux (AppImage) amd64 Build Target                       #
@@ -144,6 +154,8 @@ before_script:
     TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "x86_64"
   <<: *appimage_script_steps
+  rules:
+  - !reference [.qt5_rules, rules]
 
 #-----------------------------------------------------------#
 # Linux (AppImage) armhf Build Target                       #
@@ -166,6 +178,8 @@ before_script:
     TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
+  rules:
+  - !reference [.qt5_rules, rules]
 
 #-----------------------------------------------------------#
 # Linux (AppImage) arm64 Build Target                       #
@@ -188,6 +202,8 @@ before_script:
     TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
+  rules:
+  - !reference [.qt5_rules, rules]
 
 #-----------------------------------------------------------#
 # OpenRGB Common Debian Build Steps                         #
@@ -483,7 +499,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-    - !reference [.upstream_rules, rules]
+    - !reference [.qt5_rules, rules]
 
 #-----------------------------------------------------------#
 # Windows (64-bit) Build Target                             #
@@ -550,7 +566,7 @@ before_script:
 "Windows 64 Qt5":
   extends: "Windows 64 Qt5 Base"
   rules:
-  - !reference [.upstream_rules, rules]
+  - !reference [.qt5_rules, rules]
 
 "Windows 64 Qt5 (Downstream)":
   extends: "Windows 64 Qt5 Base"
@@ -597,7 +613,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - !reference [.upstream_rules, rules]
+  - !reference [.qt5_rules, rules]
 
 "MacOS Intel":
   tags:
@@ -629,7 +645,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - !reference [.upstream_rules, rules]
+  - !reference [.qt5_rules, rules]
 
 #-----------------------------------------------------------#
 # Windows (64-bit) MSI Target                               #
