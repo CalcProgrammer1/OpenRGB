@@ -18,6 +18,21 @@
 #include "RoccatVulcanKeyboardController.h"
 #include "StringUtils.h"
 
+/*---------------------------------------------------------*\
+| Vulcan II Mini: 69 of the 107 report slots have a wired   |
+| LED. Maps compacted LED index to report slot.             |
+\*---------------------------------------------------------*/
+#define ROCCAT_VULCAN_II_MINI_LED_COUNT 69
+
+static const uint8_t roccat_vulcan_ii_mini_slot_map[ROCCAT_VULCAN_II_MINI_LED_COUNT] =
+{
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+    18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+    34, 35, 36, 37, 38, 39, 40, 42, 43, 45, 46, 48, 49, 50, 51,
+    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65, 66, 68,
+    70, 71, 72, 73, 74, 75, 76
+};
+
 RoccatVulcanKeyboardController::RoccatVulcanKeyboardController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path, uint16_t pid, std::string dev_name)
 {
     dev_ctrl    = dev_ctrl_handle;
@@ -139,6 +154,16 @@ device_info RoccatVulcanKeyboardController::GetDeviceInfo()
 
 bool RoccatVulcanKeyboardController::IsBigEndianDirectMode()
 {
+    /*-------------------------------------------------------------*\
+    | The Vulcan II Mini always uses a little-endian length field   |
+    | in the direct colour frame, regardless of firmware version    |
+    | (verified against USB captures).                              |
+    \*-------------------------------------------------------------*/
+    if(device_pid == ROCCAT_VULCAN_II_MINI_PID)
+    {
+        return false;
+    }
+
     return (dev_info.version_major >= 1 && dev_info.version_minor >= 16);
 }
 
@@ -319,8 +344,20 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
 
         else
         {
-            int column  = (int)(floor(colors[i].value / column_length));
-            int row     = colors[i].value % column_length;
+            unsigned int led_index = colors[i].value;
+
+            if(device_pid == ROCCAT_VULCAN_II_MINI_PID)
+            {
+                if(led_index >= ROCCAT_VULCAN_II_MINI_LED_COUNT)
+                {
+                    continue;
+                }
+
+                led_index = roccat_vulcan_ii_mini_slot_map[led_index];
+            }
+
+            int column  = (int)(floor(led_index / column_length));
+            int row     = led_index % column_length;
 
             if(protocol_version == 1)
             {
@@ -450,7 +487,7 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
     if(device_pid == ROCCAT_VULCAN_II_MINI_PID)
     {
         buf[0 + offset] = 0x02;
-        buf[4 + offset] = 0x0B;
+        buf[4 + offset] = 0xFB;
     }
 
     if(device_pid == TURTLE_BEACH_VULCAN_II_TKL_PRO_PID)
@@ -496,8 +533,20 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
         }
         else
         {
-            int column  = (int)(floor(colors[i].value / column_length));
-            int row     = colors[i].value % column_length;
+            unsigned int led_index = colors[i].value;
+
+            if(device_pid == ROCCAT_VULCAN_II_MINI_PID)
+            {
+                if(led_index >= ROCCAT_VULCAN_II_MINI_LED_COUNT)
+                {
+                    continue;
+                }
+
+                led_index = roccat_vulcan_ii_mini_slot_map[led_index];
+            }
+
+            int column  = (int)(floor(led_index / column_length));
+            int row     = led_index % column_length;
             int pos = column * 3 * column_length + row + 9;
 
             if(pos + (2 * column_length) < packet_length - 2)
@@ -518,6 +567,31 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
     buf[packet_length - 1] = total >> 8;
 
     hid_send_feature_report(dev_ctrl, buf, packet_length);
+
+    /*---------------------------------------------------------*\
+    | The Vulcan II Mini only commits a static 0x11 report      |
+    | while the 0x13 keepalive is being sent.                   |
+    \*---------------------------------------------------------*/
+    if(device_pid == ROCCAT_VULCAN_II_MINI_PID && mode == ROCCAT_VULCAN_MODE_STATIC)
+    {
+        uint8_t keepalive[123];
+        memset(keepalive, 0x00, sizeof(keepalive));
+        keepalive[0]          = 0x13;
+        keepalive[1]          = 0x7B;   /* 123 bytes */
+        keepalive[2]          = 0x1E;   /* 30 four-byte entries */
+        keepalive[3 + 4 * 4]  = 0xA4;
+        keepalive[3 + 4 * 5]  = 0xA5;
+        keepalive[3 + 4 * 16] = 0xB0;
+        keepalive[3 + 4 * 22] = 0xB6;
+
+        WaitUntilReady();
+
+        for(int i = 0; i < 3; i++)
+        {
+            hid_send_feature_report(dev_ctrl, keepalive, sizeof(keepalive));
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+        }
+    }
 
     delete[] buf;
 }
