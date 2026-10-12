@@ -614,6 +614,7 @@ void RoccatVulcanKeyboardController::WaitUntilReady()
     }
 
     uint8_t* buf = new uint8_t[packet_length];
+    memset(buf, 0x00, packet_length);
 
     buf[0] = 0x04;
 
