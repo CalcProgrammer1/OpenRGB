@@ -76,6 +76,8 @@ public:
 
     //Function to write data to the serial port
     int udp_write(char * buffer, int length);
+    //Write to a one-off destination without changing the port's own destination
+    int udp_write_to(const char * address, const char * port, char * buffer, int length);
     int tcp_write(char * buffer, int length);
     int tcp_client_write(char * buffer, int length);
 

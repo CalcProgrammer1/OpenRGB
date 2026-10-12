@@ -141,6 +141,27 @@ int net_port::udp_write(char * buffer, int length)
     return(sendto(sock, buffer, length, 0, (sockaddr *)&addrDest, sizeof(addrDest)));
 }
 
+int net_port::udp_write_to(const char * address, const char * port, char * buffer, int length)
+{
+    addrinfo    hints       = {};
+    addrinfo *  destination = NULL;
+    int         ret;
+
+    hints.ai_family     = AF_INET;
+    hints.ai_socktype   = SOCK_DGRAM;
+
+    if(getaddrinfo(address, port, &hints, &destination) != 0)
+    {
+        return(-1);
+    }
+
+    ret = sendto(sock, buffer, length, 0, destination->ai_addr, (int)destination->ai_addrlen);
+
+    freeaddrinfo(destination);
+
+    return(ret);
+}
+
 bool net_port::tcp_client(const char * client_name, const char * port)
 {
     addrinfo    hints = {};

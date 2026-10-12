@@ -39,12 +39,10 @@ DetectedControllers DetectGoveeControllers()
         if(govee_settings["devices"].size() > 0)
         {
             /*---------------------------------------------*\
-            | Open a UDP client sending to and receiving    |
-            | from the Govee Multicast IP, send port 4001   |
-            | and receive port 4002                         |
+            | Open a UDP client bound to receive port 4002. |
+            | Scan replies from all devices arrive here.    |
             \*---------------------------------------------*/
             GoveeController::broadcast_port.udp_client("239.255.255.250", "4001", "4002");
-            GoveeController::broadcast_port.udp_join_multicast_group("239.255.255.250");
 
             /*---------------------------------------------*\
             | Start a thread to handle responses received   |

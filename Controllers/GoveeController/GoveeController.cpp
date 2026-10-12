@@ -18,6 +18,11 @@
 using json = nlohmann::json;
 using namespace std::chrono_literals;
 
+/*---------------------------------------------------------*\
+| Port the Govee LAN API listens on for scan requests       |
+\*---------------------------------------------------------*/
+#define GOVEE_SCAN_PORT                             "4001"
+
 base64::byte CalculateXorChecksum(std::vector<base64::byte> packet)
 {
     base64::byte checksum = 0;
@@ -309,11 +314,13 @@ void GoveeController::SendScan()
     command["msg"]["data"]["account_topic"]     = "reserve";
 
     /*-----------------------------------------------------*\
-    | Convert the JSON object to a string and write it      |
+    | Convert the JSON object to a string and send it to    |
+    | the subnet broadcast address (assumes a /24)          |
     \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
+    std::string broadcast_address                = ip_address.substr(0, ip_address.find_last_of('.')) + ".255";
 
-    broadcast_port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
+    broadcast_port.udp_write_to(broadcast_address.c_str(), GOVEE_SCAN_PORT, (char *)command_str.c_str(), (int)command_str.length() + 1);
 }
 
 /*---------------------------------------------------------*\
