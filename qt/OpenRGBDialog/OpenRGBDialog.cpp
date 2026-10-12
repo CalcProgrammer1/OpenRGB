@@ -2408,7 +2408,18 @@ void OpenRGBDialog::TogglePluginsVisibility(int tab_idx, QTabWidget* tabBar)
     if(dynamic_cast<OpenRGBPluginContainer*>(tab) != nullptr)
     {
         ((OpenRGBPluginContainer*) tab)->Show();
-        ui->MainButtonsFrame->setVisible(false);
+
+        /*-------------------------------------------------*\
+        | Only plugins that occupy their own top-level tab  |
+        | (located in the main tab bar) should hide the     |
+        | main buttons frame. Plugins placed in the         |
+        | Devices, Information, or Settings tabs leave the  |
+        | main buttons frame visible.                       |
+        \*-------------------------------------------------*/
+        if(tabBar == ui->MainTabBar)
+        {
+            ui->MainButtonsFrame->setVisible(false);
+        }
     }
 }
 
