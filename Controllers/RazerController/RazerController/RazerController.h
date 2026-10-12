@@ -13,6 +13,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <hidapi.h>
@@ -58,6 +59,7 @@ enum
     RAZER_COMMAND_ID_GET_SERIAL_STRING              = 0x82,
     RAZER_COMMAND_ID_GET_DEVICE_MODE                = 0x84,
     RAZER_COMMAND_ID_GET_KEYBOARD_INFO              = 0x86,
+    RAZER_COMMAND_ID_GET_WIRELESS_CONNECTIONS       = 0xBF,
 };
 
 /*---------------------------------------------------------*\
@@ -169,6 +171,8 @@ struct razer_rgb
     unsigned char r,g,b;
 };
 
+#define RAZER_MAX_PAIRED_DEVICES                     8
+
 /*---------------------------------------------------------*\
 | Razer Extended Matrix Effect IDs                          |
 \*---------------------------------------------------------*/
@@ -271,6 +275,8 @@ public:
     std::string             GetName();
     std::string             GetSerialString();
     unsigned char           GetMaxBrightness();
+    unsigned int            GetPairedDevicePIDs(unsigned short* pids, unsigned int max_pids);
+    void                    SetWaitForResponse(bool wait);
 
     unsigned char           GetKeyboardLayoutType();
     std::string             GetKeyboardLayoutString();
@@ -311,6 +317,8 @@ private:
     | Device-specific protocol settings                         |
     \*---------------------------------------------------------*/
     unsigned char           dev_transaction_id;
+    bool                    wait_for_response;
+    std::mutex              send_mutex;
     unsigned char           dev_led_id;
     bool                    effect_list_valid;
     bool                    supported_effects[256];

@@ -5072,8 +5072,8 @@ static const razer_device basilisk_v3_pro_35k_wired_device =
     1,
     13,
     {
-        &basilisk_v3_pro_35k_wired_scroll_wheel_zone,
         &basilisk_v3_pro_35k_wired_logo_zone,
+        &basilisk_v3_pro_35k_wired_scroll_wheel_zone,
         &basilisk_v3_pro_35k_wired_ledstrip_zone,
         NULL,
         NULL,
@@ -5131,8 +5131,8 @@ static const razer_device basilisk_v3_pro_35k_wireless_device =
     1,
     13,
     {
-        &basilisk_v3_pro_35k_wireless_scroll_wheel_zone,
         &basilisk_v3_pro_35k_wireless_logo_zone,
+        &basilisk_v3_pro_35k_wireless_scroll_wheel_zone,
         &basilisk_v3_pro_35k_wireless_ledstrip_zone,
         NULL,
         NULL,

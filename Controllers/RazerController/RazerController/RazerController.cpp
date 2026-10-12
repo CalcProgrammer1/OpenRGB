@@ -27,6 +27,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     device_index      = 0;
     effect_list_valid = false;
     memset(supported_effects, 0, sizeof(supported_effects));
+    wait_for_response = false;
     guard_manager_ptr = new DeviceGuardManager(new RazerDeviceGuard());
 
     /*-----------------------------------------------------------------*\
@@ -1223,6 +1224,11 @@ std::string RazerController::razer_get_firmware()
     return firmware_string;
 }
 
+void RazerController::SetWaitForResponse(bool wait)
+{
+    wait_for_response = wait;
+}
+
 std::string RazerController::razer_get_serial()
 {
     char                serial_string[64]   = "";
@@ -1355,6 +1361,41 @@ void RazerController::razer_get_supported_effects()
     }
 
     effect_list_valid = !first_region;
+}
+
+unsigned int RazerController::GetPairedDevicePIDs(unsigned short* pids, unsigned int max_pids)
+{
+    /*-----------------------------------------------------------------*\
+    | Wireless receivers (the Mouse Dock Pro, HyperSpeed dongles) list  |
+    | their pairing slots: a slot count followed by a connection status |
+    | (1 = connected) and a big endian PID (0xFFFF = empty) per slot.   |
+    | Paired devices are reported whether or not they are connected, as |
+    | a sleeping mouse only reconnects once it is used.  Devices that   |
+    | are not receivers reject the command.                             |
+    \*-----------------------------------------------------------------*/
+    struct razer_report report                  = razer_create_report(0x00, RAZER_COMMAND_ID_GET_WIRELESS_CONNECTIONS, 0x50);
+    struct razer_report response_report         = razer_create_response();
+    unsigned int        pid_count               = 0;
+
+    if(!razer_usb_query(&report, &response_report) || (response_report.status != RAZER_STATUS_SUCCESS))
+    {
+        return(0);
+    }
+
+    unsigned int slot_count = response_report.arguments[0];
+
+    for(unsigned int slot = 0; (slot < slot_count) && (((slot * 3) + 3) < sizeof(response_report.arguments)); slot++)
+    {
+        unsigned short slot_pid = (response_report.arguments[(slot * 3) + 2] << 8) | response_report.arguments[(slot * 3) + 3];
+
+        if((slot_pid != 0x0000) && (slot_pid != 0xFFFF) && (pid_count < max_pids))
+        {
+            pids[pid_count] = slot_pid;
+            pid_count++;
+        }
+    }
+
+    return(pid_count);
 }
 
 void RazerController::razer_get_keyboard_info(unsigned char* layout, unsigned char* variant)
@@ -2144,8 +2185,40 @@ int RazerController::razer_usb_send(razer_report* report)
 {
     report->crc = razer_calculate_crc(report);
 
+    std::lock_guard<std::mutex> send_lock(send_mutex);
     DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
-    return hid_send_feature_report(dev, (unsigned char*)report, sizeof(*report));
+    int ret = hid_send_feature_report(dev, (unsigned char*)report, sizeof(*report));
+
+    /*-----------------------------------------------------------------*\
+    | Devices behind a receiver (e.g. a mouse on the Mouse Dock Pro)    |
+    | report busy while the command is relayed and drop any command     |
+    | sent in the meantime, so poll until this command completes        |
+    \*-----------------------------------------------------------------*/
+    if(wait_for_response && ret >= 0)
+    {
+        for(unsigned int attempt = 0; attempt < 50; attempt++)
+        {
+            razer_report response = razer_create_response();
+
+            std::this_thread::sleep_for(2ms);
+
+            if(hid_get_feature_report(dev, (unsigned char*)&response, sizeof(response)) < 0)
+            {
+                break;
+            }
+
+            if((response.transaction_id.id == report->transaction_id.id)
+            && (response.command_class == report->command_class)
+            && (response.command_id.id == report->command_id.id)
+            && (response.status != RAZER_STATUS_NEW)
+            && (response.status != RAZER_STATUS_BUSY))
+            {
+                break;
+            }
+        }
+    }
+
+    return(ret);
 }
 
 int RazerController::razer_usb_send_argb(razer_argb_report* report)
