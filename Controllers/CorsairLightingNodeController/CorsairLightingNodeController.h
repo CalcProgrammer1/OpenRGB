@@ -198,7 +198,6 @@ private:
 
     int             WriteAndRead
                         (
-                        unsigned char *buf,
-                        int read_timeout_ms = -1
+                        unsigned char *buf
                         );
 };

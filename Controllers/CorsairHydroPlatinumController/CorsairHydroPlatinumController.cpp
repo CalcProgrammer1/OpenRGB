@@ -228,18 +228,23 @@ void CorsairHydroPlatinumController::SendMagic(const uint8_t* magic, unsigned in
     \*-----------------------------------------------------*/
     /*---------------------------------------------------------*\
     | HID I/O start                                             |
+    |                                                           |
+    | The read is bounded because the guard is a system-wide    |
+    | mutex shared by every Corsair device.                     |
     \*---------------------------------------------------------*/
+    int bytes_read;
+
     {
         DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
 
         hid_write(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE);
-        hid_read(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE);
+        bytes_read = hid_read_timeout(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE, CORSAIR_HYDRO_PLATINUM_READ_TIMEOUT);
     }
     /*---------------------------------------------------------*\
     | HID I/O end (lock released)                               |
     \*---------------------------------------------------------*/
 
-    if(firmware_version.empty())
+    if(firmware_version.empty() && bytes_read > 3)
     {
         firmware_version =
             std::to_string(usb_buf[2] >> 4) + "."

@@ -232,7 +232,7 @@ void CorsairLightingNodeController::SendFirmwareRequest()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    actual = WriteAndRead(usb_buf, CORSAIR_LIGHTING_NODE_READ_TIMEOUT);
+    actual = WriteAndRead(usb_buf);
 
     if(actual > 0)
     {
@@ -274,7 +274,7 @@ void CorsairLightingNodeController::SendDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    WriteAndRead(usb_buf, CORSAIR_LIGHTING_NODE_READ_TIMEOUT);
+    WriteAndRead(usb_buf);
 }
 
 void CorsairLightingNodeController::SendCommit()
@@ -301,7 +301,7 @@ void CorsairLightingNodeController::SendCommit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    WriteAndRead(usb_buf, CORSAIR_LIGHTING_NODE_READ_TIMEOUT);
+    WriteAndRead(usb_buf);
 }
 
 void CorsairLightingNodeController::SendBegin
@@ -460,7 +460,7 @@ void CorsairLightingNodeController::SendPortState
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    WriteAndRead(usb_buf, CORSAIR_LIGHTING_NODE_READ_TIMEOUT);
+    WriteAndRead(usb_buf);
 }
 
 void CorsairLightingNodeController::SendBrightness
@@ -510,27 +510,23 @@ void CorsairLightingNodeController::SendProtocol()
 
 int CorsairLightingNodeController::WriteAndRead
     (
-    unsigned char *buf,
-    int read_timeout_ms
+    unsigned char *buf
     )
 {
     int hid_read_ret;
 
     /*---------------------------------------------------------*\
     | HID I/O start                                             |
+    |                                                           |
+    | The read is always bounded.  The guard is a system-wide   |
+    | mutex shared by every Corsair device, so a reply that     |
+    | never arrives would otherwise block all of them forever.  |
     \*---------------------------------------------------------*/
     {
         DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
 
         hid_write(dev, buf, CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE);
-        if(read_timeout_ms > 0)
-        {
-            hid_read_ret = hid_read_timeout(dev, buf, CORSAIR_LIGHTING_NODE_READ_PACKET_SIZE, read_timeout_ms);
-        }
-        else
-        {
-            hid_read_ret = hid_read(dev, buf, CORSAIR_LIGHTING_NODE_READ_PACKET_SIZE);
-        }
+        hid_read_ret = hid_read_timeout(dev, buf, CORSAIR_LIGHTING_NODE_READ_PACKET_SIZE, CORSAIR_LIGHTING_NODE_READ_TIMEOUT);
     }
     /*---------------------------------------------------------*\
     | HID I/O end (lock released)                               |
