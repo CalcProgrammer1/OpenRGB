@@ -741,7 +741,7 @@ void DetectionManager::BackgroundDetectDevices()
     \*-----------------------------------------------------*/
     if(initial_detection)
     {
-        if(initial_detection_delay_ms != 0)
+        if(initial_detection_delay_ms > 0)
         {
             detection_string = "Waiting for detection delay";
             SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
