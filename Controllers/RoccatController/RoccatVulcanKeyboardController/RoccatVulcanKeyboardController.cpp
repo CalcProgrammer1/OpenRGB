@@ -18,10 +18,6 @@
 #include "RoccatVulcanKeyboardController.h"
 #include "StringUtils.h"
 
-/*---------------------------------------------------------*\
-| Vulcan II Mini: 69 of the 107 report slots have a wired   |
-| LED. Maps compacted LED index to report slot.             |
-\*---------------------------------------------------------*/
 #define ROCCAT_VULCAN_II_MINI_LED_COUNT 69
 
 static const uint8_t roccat_vulcan_ii_mini_slot_map[ROCCAT_VULCAN_II_MINI_LED_COUNT] =
@@ -156,11 +152,6 @@ device_info RoccatVulcanKeyboardController::GetDeviceInfo()
 
 bool RoccatVulcanKeyboardController::IsBigEndianDirectMode()
 {
-    /*-------------------------------------------------------------*\
-    | The Vulcan II Mini always uses a little-endian length field   |
-    | in the direct colour frame, regardless of firmware version    |
-    | (verified against USB captures).                              |
-    \*-------------------------------------------------------------*/
     if(device_pid == ROCCAT_VULCAN_II_MINI_PID)
     {
         return false;
