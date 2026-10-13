@@ -285,6 +285,108 @@ RGBController_MSIGPUv2::RGBController_MSIGPUv2(MSIGPUv2Controller * controller_p
     doubleflashing.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(doubleflashing);
 
+    /*---------------------------------------------------------*\
+    | RTX 50 series cards have more effects, and a rainbow      |
+    | variant of the single color ones at the next mode value   |
+    \*---------------------------------------------------------*/
+    switch(msi_gpu_id >> 16)
+    {
+        case NVIDIA_RTX5060_DEV:
+        case NVIDIA_RTX5060TI_DEV:
+        case NVIDIA_RTX5070_DEV:
+        case NVIDIA_RTX5070TI_DEV:
+        case NVIDIA_RTX5080_DEV:
+        case NVIDIA_RTX5090_DEV:
+        case NVIDIA_RTX5090D_DEV:
+        case NVIDIA_RTX5090D_V2_DEV:
+            rainbow_variants = true;
+            break;
+
+        default:
+            rainbow_variants = false;
+            break;
+    }
+
+    if(rainbow_variants)
+    {
+        for(std::size_t mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+        {
+            switch(modes[mode_idx].value)
+            {
+                case MSI_GPU_V2_MODE_RHYTHM:
+                    /*-----------------------------------------*\
+                    | The value used so far is the rainbow one  |
+                    \*-----------------------------------------*/
+                    modes[mode_idx].value       = MSI_GPU_V2_MODE_RHYTHM_COLOR;
+                    modes[mode_idx].flags      |= MODE_FLAG_HAS_RANDOM_COLOR;
+                    modes[mode_idx].color_mode  = MODE_COLORS_RANDOM;
+                    break;
+
+                case MSI_GPU_V2_MODE_FLOWING:
+                case MSI_GPU_V2_MODE_WHIRLING:
+                case MSI_GPU_V2_MODE_STACK:
+                case MSI_GPU_V2_MODE_METEOR:
+                    modes[mode_idx].flags      |= MODE_FLAG_HAS_RANDOM_COLOR;
+                    break;
+            }
+        }
+
+        mode Twisting;
+        Twisting.name                   = "Twisting";
+        Twisting.value                  = MSI_GPU_V2_MODE_TWISTING;
+        Twisting.flags                  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
+        Twisting.speed_min              = MSI_GPU_V2_SPEED_MIN;
+        Twisting.speed                  = MSI_GPU_V2_SPEED_MID;
+        Twisting.speed_max              = MSI_GPU_V2_SPEED_MAX;
+        Twisting.brightness_min         = MSI_GPU_V2_BRIGHTNESS_MIN;
+        Twisting.brightness             = MSI_GPU_V2_BRIGHTNESS_MAX;
+        Twisting.brightness_max         = MSI_GPU_V2_BRIGHTNESS_MAX;
+        Twisting.color_mode             = MODE_COLORS_PER_LED;
+        modes.push_back(Twisting);
+
+        mode Laminating;
+        Laminating.name                 = "Laminating";
+        Laminating.value                = MSI_GPU_V2_MODE_LAMINATING;
+        Laminating.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
+        Laminating.speed_min            = MSI_GPU_V2_SPEED_MIN;
+        Laminating.speed                = MSI_GPU_V2_SPEED_MID;
+        Laminating.speed_max            = MSI_GPU_V2_SPEED_MAX;
+        Laminating.brightness_min       = MSI_GPU_V2_BRIGHTNESS_MIN;
+        Laminating.brightness           = MSI_GPU_V2_BRIGHTNESS_MAX;
+        Laminating.brightness_max       = MSI_GPU_V2_BRIGHTNESS_MAX;
+        Laminating.color_mode           = MODE_COLORS_PER_LED;
+        modes.push_back(Laminating);
+
+        mode Marquee;
+        Marquee.name                    = "Marquee";
+        Marquee.value                   = MSI_GPU_V2_MODE_MARQUEE;
+        Marquee.flags                   = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
+        Marquee.speed_min               = MSI_GPU_V2_SPEED_MIN;
+        Marquee.speed                   = MSI_GPU_V2_SPEED_MID;
+        Marquee.speed_max               = MSI_GPU_V2_SPEED_MAX;
+        Marquee.brightness_min          = MSI_GPU_V2_BRIGHTNESS_MIN;
+        Marquee.brightness              = MSI_GPU_V2_BRIGHTNESS_MAX;
+        Marquee.brightness_max          = MSI_GPU_V2_BRIGHTNESS_MAX;
+        Marquee.color_mode              = MODE_COLORS_PER_LED;
+        modes.push_back(Marquee);
+
+        mode Arrow;
+        Arrow.name                      = "Arrow";
+        Arrow.value                     = MSI_GPU_V2_MODE_ARROW;
+        Arrow.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE;
+        Arrow.speed_min                 = MSI_GPU_V2_SPEED_MIN;
+        Arrow.speed                     = MSI_GPU_V2_SPEED_MID;
+        Arrow.speed_max                 = MSI_GPU_V2_SPEED_MAX;
+        Arrow.brightness_min            = MSI_GPU_V2_BRIGHTNESS_MIN;
+        Arrow.brightness                = MSI_GPU_V2_BRIGHTNESS_MAX;
+        Arrow.brightness_max            = MSI_GPU_V2_BRIGHTNESS_MAX;
+        Arrow.colors_min                = 1;
+        Arrow.colors_max                = 2;
+        Arrow.colors.resize(2);
+        Arrow.color_mode                = MODE_COLORS_MODE_SPECIFIC;
+        modes.push_back(Arrow);
+    }
+
     SetupZones();
 
     modes[active_mode].speed        = MSI_GPU_V2_SPEED_MID;
@@ -404,6 +506,7 @@ void RGBController_MSIGPUv2::DeviceUpdateAll(const mode& current_mode)
 
         case MSI_GPU_V2_MODE_BREATHING:
         case MSI_GPU_V2_MODE_FADEIN:
+        case MSI_GPU_V2_MODE_ARROW:
             controller->MSIGPURegisterWrite(MSI_GPU_V2_REG_UNKNOWN, 0x00);
             controller->MSIGPURegisterWrite(MSI_GPU_V2_REG_MODE, MSI_GPU_V2_MODE_IDLE);
 
@@ -423,6 +526,15 @@ void RGBController_MSIGPUv2::DeviceUpdateAll(const mode& current_mode)
             controller->MSIGPURegisterWrite(MSI_GPU_V2_REG_UNKNOWN, 0x00);
             controller->MSIGPURegisterWrite(MSI_GPU_V2_REG_MODE, MSI_GPU_V2_MODE_IDLE);
             controller->SetRGB1(RGBGetRValue(colors[0]), RGBGetGValue(colors[0]), RGBGetBValue(colors[0]));
+            break;
+
+        case MSI_GPU_V2_MODE_TWISTING:
+        case MSI_GPU_V2_MODE_LAMINATING:
+        case MSI_GPU_V2_MODE_MARQUEE:
+        case MSI_GPU_V2_MODE_RHYTHM_COLOR:
+            controller->MSIGPURegisterWrite(MSI_GPU_V2_REG_UNKNOWN, 0x00);
+            controller->MSIGPURegisterWrite(MSI_GPU_V2_REG_MODE, MSI_GPU_V2_MODE_IDLE);
+            controller->SetRGB1V2(RGBGetRValue(colors[0]), RGBGetGValue(colors[0]), RGBGetBValue(colors[0]));
             break;
 
         case MSI_GPU_V2_MODE_STREAMING:
@@ -449,7 +561,21 @@ void RGBController_MSIGPUv2::DeviceUpdateAll(const mode& current_mode)
 
     }
 
-    controller->SetMode(current_mode.value);
+    /*---------------------------------------------------------*\
+    | The rainbow variant of a single color effect is the next  |
+    | mode value                                                |
+    \*---------------------------------------------------------*/
+    if(rainbow_variants
+    && (current_mode.flags & MODE_FLAG_HAS_PER_LED_COLOR)
+    && (current_mode.flags & MODE_FLAG_HAS_RANDOM_COLOR)
+    && (current_mode.color_mode == MODE_COLORS_RANDOM))
+    {
+        controller->SetMode(current_mode.value + 1);
+    }
+    else
+    {
+        controller->SetMode(current_mode.value);
+    }
 }
 
 

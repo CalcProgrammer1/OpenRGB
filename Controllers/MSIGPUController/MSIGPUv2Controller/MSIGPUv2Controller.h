@@ -70,6 +70,9 @@ enum
     MSI_GPU_V2_MODE_BREATHING               = 0x04,     /* Breathing effect mode                               */
     MSI_GPU_V2_MODE_FLASHING                = 0x02,     /* Flashing effect mode                                */
     MSI_GPU_V2_MODE_DOUBLEFLASHING          = 0x03,     /* Doubleflashing effect mode                          */
+    MSI_GPU_V2_MODE_RHYTHM_COLOR            = 0x0B,     /* Rhythm effect mode with a user color                */
+    MSI_GPU_V2_MODE_MARQUEE                 = 0x18,     /* Marquee effect mode                                 */
+    MSI_GPU_V2_MODE_ARROW                   = 0x21,     /* Arrow effect mode                                   */
 };
 
 class MSIGPUv2Controller
