@@ -49,7 +49,22 @@ s32 piix4_port_sel(HANDLE pawnio_handle, s32 port)
     /*-----------------------------------------------------*\
     | Execute PIIX4 port_sel ioctl                          |
     \*-----------------------------------------------------*/
+    HANDLE access_handle = CreateMutexA(NULL, FALSE, GLOBAL_SMBUS_MUTEX_NAME);
+    if(access_handle == NULL)
+    {
+        return -EIO;
+    }
+    DWORD wait_status = WaitForSingleObject(access_handle, INFINITE);
+    if(wait_status != WAIT_OBJECT_0 && wait_status != WAIT_ABANDONED)
+    {
+        CloseHandle(access_handle);
+        return -EIO;
+    }
+
     status = pawnio_execute(pawnio_handle, "ioctl_piix4_port_sel", in, in_size, out, 1, &return_size);
+
+    ReleaseMutex(access_handle);
+    CloseHandle(access_handle);
 
     return(status ? -EIO : 0);
 }
@@ -388,15 +403,20 @@ bool i2c_smbus_pawnio_detect()
     \*-----------------------------------------------------*/
     if(i2c_smbus_pawnio::start_pawnio("SmbusPIIX4.bin", &pawnio_handle) == S_OK)
     {
-        bus_detected = true;
-
         /*-------------------------------------------------*\
-        | Select port 0                                     |
+        | Select port 0 before registering this interface   |
         \*-------------------------------------------------*/
-        piix4_port_sel(pawnio_handle, 0);
-
-        bus = new i2c_smbus_pawnio(pawnio_handle, "piix4_0", 0);
-        DetectionManager::get()->RegisterI2CBus(bus);
+        if(piix4_port_sel(pawnio_handle, 0) == 0)
+        {
+            bus_detected = true;
+            bus = new i2c_smbus_pawnio(pawnio_handle, "piix4_0", 0);
+            DetectionManager::get()->RegisterI2CBus(bus);
+        }
+        else
+        {
+            LOG_WARNING("[PawnIO] Failed to select PIIX4 port 0; interface not registered");
+            pawnio_close(pawnio_handle);
+        }
     }
 
     /*-----------------------------------------------------*\
@@ -404,15 +424,20 @@ bool i2c_smbus_pawnio_detect()
     \*-----------------------------------------------------*/
     if(i2c_smbus_pawnio::start_pawnio("SmbusPIIX4.bin", &pawnio_handle) == S_OK)
     {
-        bus_detected = true;
-
         /*-------------------------------------------------*\
-        | Select port 1                                     |
+        | Select port 1 before registering this interface   |
         \*-------------------------------------------------*/
-        piix4_port_sel(pawnio_handle, 1);
-
-        bus = new i2c_smbus_pawnio(pawnio_handle, "piix4_1", 1);
-        DetectionManager::get()->RegisterI2CBus(bus);
+        if(piix4_port_sel(pawnio_handle, 1) == 0)
+        {
+            bus_detected = true;
+            bus = new i2c_smbus_pawnio(pawnio_handle, "piix4_1", 1);
+            DetectionManager::get()->RegisterI2CBus(bus);
+        }
+        else
+        {
+            LOG_WARNING("[PawnIO] Failed to select PIIX4 port 1; interface not registered");
+            pawnio_close(pawnio_handle);
+        }
     }
 
     /*-----------------------------------------------------*\
