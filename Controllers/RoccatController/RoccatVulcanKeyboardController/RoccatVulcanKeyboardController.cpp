@@ -18,6 +18,8 @@
 #include "RoccatVulcanKeyboardController.h"
 #include "StringUtils.h"
 
+static const char* ROCCATVULCANKEYBOARD = "Roccat Vulcan Keyboard";
+
 #define ROCCAT_VULCAN_II_MINI_LED_COUNT 69
 
 static const uint8_t roccat_vulcan_ii_mini_slot_map[ROCCAT_VULCAN_II_MINI_LED_COUNT] =
@@ -131,15 +133,15 @@ device_info RoccatVulcanKeyboardController::InitDeviceInfo()
         if(res >= 7)
         {
             dev_info.layout_type = buf[6];
-            LOG_DEBUG("[Roccat Vulcan Keyboard]: Detected layout '0x%02X'", buf[6]);
+            LOG_DEBUG("[%s]: Detected layout '0x%02X'", ROCCATVULCANKEYBOARD, buf[6]);
         }
         else
         {
             dev_info.layout_type = ROCCAT_VULCAN_LAYOUT_US;
-            LOG_DEBUG("[Roccat Vulcan Keyboard]: Failed to detect layout, falling back to US");
+            LOG_DEBUG("[%s]: Failed to detect layout, falling back to US", ROCCATVULCANKEYBOARD);
         }
     }
-    LOG_INFO("[Roccat Vulcan Keyboard]: %s: firmware %s, layout 0x%02X", name.c_str(), dev_info.version.c_str(), dev_info.layout_type);
+    LOG_INFO("[%s]: %s: firmware %s, layout 0x%02X", ROCCATVULCANKEYBOARD, name.c_str(), dev_info.version.c_str(), dev_info.layout_type);
 
     delete[] buf;
     return dev_info;
@@ -152,12 +154,13 @@ device_info RoccatVulcanKeyboardController::GetDeviceInfo()
 
 bool RoccatVulcanKeyboardController::IsBigEndianDirectMode()
 {
-    if(device_pid == ROCCAT_VULCAN_II_MINI_PID)
+    switch(device_pid)
     {
-        return false;
+        case ROCCAT_VULCAN_II_MINI_PID:
+            return false;
+        default:
+            return (dev_info.version_major >= 1 && dev_info.version_minor >= 16);
     }
-
-    return (dev_info.version_major >= 1 && dev_info.version_minor >= 16);
 }
 
 void RoccatVulcanKeyboardController::EnableDirect(bool on_off_switch)
@@ -187,11 +190,7 @@ void RoccatVulcanKeyboardController::EnableDirect(bool on_off_switch)
 
     if(res < 0)
     {
-        LOG_ERROR("[Roccat Vulcan Keyboard]: %s: failed to send direct mode %s report", name.c_str(), on_off_switch ? "enable" : "disable");
-    }
-    else
-    {
-        LOG_INFO("[Roccat Vulcan Keyboard]: %s: direct mode %s", name.c_str(), on_off_switch ? "enabled" : "disabled");
+        LOG_ERROR("[%s]: %s: failed to send direct mode %s report", ROCCATVULCANKEYBOARD, name.c_str(), on_off_switch ? "enable" : "disable");
     }
 }
 
@@ -390,7 +389,7 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
     {
         if(hid_write(dev_led, &bufs[p][0], 65) < 0)
         {
-            LOG_ERROR("[Roccat Vulcan Keyboard]: %s: failed to send color frame packet %d", name.c_str(), p);
+            LOG_ERROR("[%s]: %s: failed to send color frame packet %d", ROCCATVULCANKEYBOARD, name.c_str(), p);
         }
     }
 
@@ -402,8 +401,6 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
 {
     if(speed      == 0) speed      = ROCCAT_VULCAN_SPEED_DEFAULT;
     if(brightness == 0) brightness = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
-
-    LOG_INFO("[Roccat Vulcan Keyboard]: %s: setting mode 0x%02X, speed %u, brightness %u", name.c_str(), mode, speed, brightness);
 
     unsigned short packet_length;
     unsigned char  protocol_version;
@@ -576,7 +573,7 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
 
     if(hid_send_feature_report(dev_ctrl, buf, packet_length) < 0)
     {
-        LOG_ERROR("[Roccat Vulcan Keyboard]: %s: failed to send mode report", name.c_str());
+        LOG_ERROR("[%s]: %s: failed to send mode report", ROCCATVULCANKEYBOARD, name.c_str());
     }
 
     /*---------------------------------------------------------*\
@@ -601,7 +598,7 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
         {
             if(hid_send_feature_report(dev_ctrl, keepalive, sizeof(keepalive)) < 0)
             {
-                LOG_ERROR("[Roccat Vulcan Keyboard]: %s: failed to send keepalive report", name.c_str());
+                LOG_ERROR("[%s]: %s: failed to send keepalive report", ROCCATVULCANKEYBOARD, name.c_str());
             }
 
             std::this_thread::sleep_for(std::chrono::milliseconds(25));
@@ -645,7 +642,7 @@ void RoccatVulcanKeyboardController::WaitUntilReady()
 
     if(buf[1] != 1)
     {
-        LOG_WARNING("[Roccat Vulcan Keyboard]: %s: device did not report ready", name.c_str());
+        LOG_WARNING("[%s]: %s: device did not report ready", ROCCATVULCANKEYBOARD, name.c_str());
     }
 
     delete[] buf;
