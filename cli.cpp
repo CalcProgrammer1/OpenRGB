@@ -892,11 +892,35 @@ bool OptionBrightness(std::vector<DeviceOptions>* current_devices, std::string a
     return found;
 }
 
-bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/, std::vector<RGBController *>& rgb_controllers)
+bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options, std::vector<RGBController *>& rgb_controllers)
 {
-    const unsigned int new_size = std::stoi(argument);
+    int new_size_int = 0;
+
+    try
+    {
+        new_size_int = std::stoi(argument);
+    }
+    catch(...)
+    {
+        std::cout << "Error: Invalid size \"" << argument << "\"" << std::endl;
+        return false;
+    }
+
+    if(new_size_int < 0)
+    {
+        std::cout << "Error: New size is out of range" << std::endl;
+        return false;
+    }
+
+    const unsigned int new_size = static_cast<unsigned int>(new_size_int);
 
     ResourceManager::get()->WaitForDetection();
+
+    if(current_devices->empty())
+    {
+        std::cout << "Error: No devices for size \"" << argument << "\" (specify --device and --zone first)" << std::endl;
+        return false;
+    }
 
     for(size_t i = 0; i < current_devices->size(); i++)
     {
@@ -914,18 +938,40 @@ bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argumen
         }
         else if((current_zone >= static_cast<int>(rgb_controllers[current_device]->GetZoneCount())) || (current_zone < 0))
         {
-            std::cout << "Error: Zone is out of range" << std::endl;
+            std::cout << "Error: Zone is out of range (specify --zone before --size)" << std::endl;
             return false;
         }
         else if((new_size < rgb_controllers[current_device]->GetZoneLEDsMin(current_zone)) || (new_size > rgb_controllers[current_device]->GetZoneLEDsMax(current_zone)))
         {
             std::cout << "Error: New size is out of range" << std::endl;
+            return false;
         }
 
         /*-------------------------------------------------*\
         | Resize the zone                                   |
         \*-------------------------------------------------*/
         rgb_controllers[current_device]->ResizeZone(current_zone, new_size);
+
+        /*-------------------------------------------------*\
+        | Mark this device as having a valid CLI option     |
+        \*-------------------------------------------------*/
+        current_devices->at(i).hasOption       = true;
+        current_devices->at(i).hasSize         = true;
+        current_devices->at(i).size            = new_size;
+
+        if(options != nullptr)
+        {
+            for(size_t j = 0; j < options->devices.size(); j++)
+            {
+                if(options->devices[j].device == current_device
+                && options->devices[j].zone   == current_zone)
+                {
+                    options->devices[j].hasOption   = true;
+                    options->devices[j].hasSize     = true;
+                    options->devices[j].size        = new_size;
+                }
+            }
+        }
 
         /*-------------------------------------------------*\
         | Save configuration                                |
