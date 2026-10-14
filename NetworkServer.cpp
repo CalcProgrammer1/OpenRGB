@@ -1102,6 +1102,31 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread* this_t
 
                 switch(queue_entry.header.pkt_id)
                 {
+                    case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+                        {
+                            /*---------------------------------*\
+                            | Protocol versions < 6 sent the    |
+                            | client protocol version with this |
+                            | request, versions 6+ use the      |
+                            | stored negotiated protocol        |
+                            | version instead.                  |
+                            \*---------------------------------*/
+                            unsigned int protocol_version = queue_entry.client_info->client_protocol_version;
+
+                            if(queue_entry.client_info->client_protocol_version < 6)
+                            {
+                                protocol_version = 0;
+
+                                if(queue_entry.header.pkt_size == sizeof(unsigned int))
+                                {
+                                    memcpy(&protocol_version, queue_entry.data, sizeof(unsigned int));
+                                }
+                            }
+
+                            SendReply_ControllerData(queue_entry.client_info, queue_entry.header.pkt_dev_id, protocol_version);
+                        }
+                        break;
+
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
                         status = ProcessRequest_RGBController_UpdateLEDs(queue_entry.client_info, queue_entry.header.pkt_size, queue_entry.data, queue_entry.header.pkt_dev_id);
                         break;
@@ -1307,32 +1332,6 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo* client_info)
                 SendReply_ControllerCount(client_info);
                 break;
 
-            case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
-                {
-                    /*-------------------------------------*\
-                    | Protocol versions < 6 sent the client |
-                    | protocol version with this request,   |
-                    | versions 6+ use the stored negotiated |
-                    | protocol version instead.             |
-                    \*-------------------------------------*/
-                    if(client_info->client_protocol_version < 6)
-                    {
-                        unsigned int protocol_version = 0;
-
-                        if(header.pkt_size == sizeof(unsigned int))
-                        {
-                            memcpy(&protocol_version, data, sizeof(unsigned int));
-                        }
-
-                        SendReply_ControllerData(client_info, header.pkt_dev_id, protocol_version);
-                    }
-                    else
-                    {
-                        SendReply_ControllerData(client_info, header.pkt_dev_id, client_info->client_protocol_version);
-                    }
-                }
-                break;
-
             case NET_PACKET_ID_REQUEST_PROTOCOL_VERSION:
                 status = ProcessRequest_ClientProtocolVersion(client_info, header.pkt_size, data);
                 SendReply_ProtocolVersion(client_info);
@@ -1485,6 +1484,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo* client_info)
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
             case NET_PACKET_ID_RGBCONTROLLER_SAVEMODE:
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE:
+            case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
                 {
                     /*-------------------------------------*\
                     | Find the controller thread matching   |
