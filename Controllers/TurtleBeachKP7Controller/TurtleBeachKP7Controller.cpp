@@ -32,6 +32,10 @@ TurtleBeachKP7Controller::TurtleBeachKP7Controller(hid_device* dev_handle, const
 
 TurtleBeachKP7Controller::~TurtleBeachKP7Controller()
 {
+    /*-----------------------------------------------------*\
+    | Stop and join the keep alive thread before taking     |
+    | led_data_mutex, which the thread also locks           |
+    \*-----------------------------------------------------*/
     keepalive_running = false;
 
     if(keepalive_thread.joinable())
@@ -39,7 +43,19 @@ TurtleBeachKP7Controller::~TurtleBeachKP7Controller()
         keepalive_thread.join();
     }
 
-    hid_close(dev);
+    /*-----------------------------------------------------*\
+    | Null out dev under led_data_mutex so a write in       |
+    | flight on another thread finishes before hid_close    |
+    \*-----------------------------------------------------*/
+    std::lock_guard<std::mutex> lock(led_data_mutex);
+
+    hid_device* dev_to_close = dev;
+    dev = nullptr;
+
+    if(dev_to_close != nullptr)
+    {
+        hid_close(dev_to_close);
+    }
 }
 
 std::string TurtleBeachKP7Controller::GetLocation()
@@ -49,6 +65,13 @@ std::string TurtleBeachKP7Controller::GetLocation()
 
 std::string TurtleBeachKP7Controller::GetSerialString()
 {
+    std::lock_guard<std::mutex> lock(led_data_mutex);
+
+    if(dev == nullptr)
+    {
+        return("");
+    }
+
     wchar_t serial_string[128];
     int     ret = hid_get_serial_number_string(dev, serial_string, 128);
 
@@ -75,6 +98,13 @@ void TurtleBeachKP7Controller::EnterDirectMode()
     buf[3] = 0x00;
     buf[4] = 0x00;
 
+    std::lock_guard<std::mutex> lock(led_data_mutex);
+
+    if(dev == nullptr)
+    {
+        return;
+    }
+
     hid_send_feature_report(dev, buf, sizeof(buf));
 }
 
@@ -88,21 +118,29 @@ void TurtleBeachKP7Controller::SendDirect(unsigned char* led_data, unsigned int 
     }
 
     /*-----------------------------------------------------*\
-    | Cache the frame so the keep alive thread has          |
-    | something to re-send while the host is idle           |
+    | Cache the frame for the keep alive thread.  The lock  |
+    | is held across the write so only one thread writes    |
+    | to the device handle at a time                        |
     \*-----------------------------------------------------*/
-    {
-        std::lock_guard<std::mutex> lock(led_data_mutex);
+    std::lock_guard<std::mutex> lock(led_data_mutex);
 
-        memcpy(last_led_data, led_data, copy_size);
-        last_led_data_size = copy_size;
-    }
+    memcpy(last_led_data, led_data, copy_size);
+    last_led_data_size = copy_size;
 
     SendFrame(led_data, led_data_size);
 }
 
 void TurtleBeachKP7Controller::SendFrame(unsigned char* led_data, unsigned int led_data_size)
 {
+    /*-----------------------------------------------------*\
+    | Caller holds led_data_mutex.  dev is null once the    |
+    | destructor has closed the handle                      |
+    \*-----------------------------------------------------*/
+    if(dev == nullptr)
+    {
+        return;
+    }
+
     unsigned char   buf[TURTLE_BEACH_KP7_REPORT_SIZE];
     unsigned int    page0_bytes = led_data_size;
     unsigned int    page1_bytes = 0;
@@ -159,23 +197,14 @@ void TurtleBeachKP7Controller::KeepAliveThreadFunction()
             break;
         }
 
-        unsigned char   frame[TURTLE_BEACH_KP7_LED_COUNT * 3];
-        unsigned int    frame_size;
+        /*-------------------------------------------------*\
+        | Hold the lock across the write, as in SendDirect  |
+        \*-------------------------------------------------*/
+        std::lock_guard<std::mutex> lock(led_data_mutex);
 
+        if(last_led_data_size > 0)
         {
-            std::lock_guard<std::mutex> lock(led_data_mutex);
-
-            frame_size = last_led_data_size;
-
-            if(frame_size > 0)
-            {
-                memcpy(frame, last_led_data, frame_size);
-            }
-        }
-
-        if(frame_size > 0)
-        {
-            SendFrame(frame, frame_size);
+            SendFrame(last_led_data, last_led_data_size);
         }
     }
 }
