@@ -17,6 +17,11 @@
 #include "StringUtils.h"
 
 /*---------------------------------------------------------*\
+| Upper bound for WaitForDeviceUpdate(), in milliseconds    |
+\*---------------------------------------------------------*/
+#define DEVICE_UPDATE_WAIT_TIMEOUT_MS   60000
+
+/*---------------------------------------------------------*\
 | Macros for copying data fields from set descriptor buffer |
 | while ensuring we don't access out of bounds              |
 \*---------------------------------------------------------*/
@@ -91,6 +96,7 @@ RGBController::RGBController()
     /*-----------------------------------------------------*\
     | Initialize device thread                              |
     \*-----------------------------------------------------*/
+    DeviceCallActive    = false;
     DeviceThreadRunning = true;
     DeviceCallThread    = new std::thread(&RGBController::DeviceCallThreadFunction, this);
 }
@@ -1994,6 +2000,27 @@ void RGBController::Shutdown()
     SignalCallsDone.wait(wait_lock, [this]{ return SignalCalls == 0; });
 }
 
+void RGBController::WaitForDeviceUpdate()
+{
+    /*-----------------------------------------------------*\
+    | Wait until the device thread has no queued updates    |
+    | left to write and is not writing to the device.       |
+    | Bounded so that an update which can never complete    |
+    | cannot hang shutdown forever.                         |
+    \*-----------------------------------------------------*/
+    std::unique_lock<std::mutex> wait_lock(DeviceCallMutex);
+
+    bool update_complete = DeviceCallDone.wait_for(wait_lock, std::chrono::milliseconds(DEVICE_UPDATE_WAIT_TIMEOUT_MS), [this]
+    {
+        return(!CallFlag_UpdateLEDs.load() && !CallFlag_UpdateMode.load() && !DeviceCallActive);
+    });
+
+    if(!update_complete)
+    {
+        LOG_WARNING("[RGBController] %s: Timed out waiting for pending device updates", name.c_str());
+    }
+}
+
 void RGBController::UpdateLEDs()
 {
     CallFlag_UpdateLEDs = true;
@@ -2068,6 +2095,18 @@ void RGBController::DeviceCallThreadFunction()
         bool update_mode = CallFlag_UpdateMode.load();
         bool update_leds = CallFlag_UpdateLEDs.load();
 
+        /*-------------------------------------------------*\
+        | Mark the device thread busy before starting the   |
+        | queued updates so that WaitForDeviceUpdate()      |
+        | cannot return while a write is in progress.       |
+        \*-------------------------------------------------*/
+        if(update_mode || update_leds)
+        {
+            DeviceCallMutex.lock();
+            DeviceCallActive = true;
+            DeviceCallMutex.unlock();
+        }
+
         if(update_mode == true)
         {
             if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
@@ -2113,6 +2152,19 @@ void RGBController::DeviceCallThreadFunction()
         else
         {
            std::this_thread::sleep_for(1ms);
+        }
+
+        /*-------------------------------------------------*\
+        | Mark the device thread idle once the queued       |
+        | updates are written and wake any waiter           |
+        \*-------------------------------------------------*/
+        if(update_mode || update_leds)
+        {
+            DeviceCallMutex.lock();
+            DeviceCallActive = false;
+            DeviceCallMutex.unlock();
+
+            DeviceCallDone.notify_all();
         }
     }
 }

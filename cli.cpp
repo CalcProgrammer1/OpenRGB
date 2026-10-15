@@ -1968,7 +1968,16 @@ unsigned int cli_post_detection()
         }
     }
 
-    std::this_thread::sleep_for(1s);
+    /*-----------------------------------------------------*\
+    | Wait for each controller's device thread to finish    |
+    | applying queued updates to hardware before returning  |
+    | so that the updates are not dropped when the          |
+    | controllers shut down                                 |
+    \*-----------------------------------------------------*/
+    for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+    {
+        rgb_controllers[controller_idx]->WaitForDeviceUpdate();
+    }
 
     return 0;
 }
