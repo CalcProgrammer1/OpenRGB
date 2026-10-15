@@ -145,7 +145,6 @@ void RGBController_EdifierHaloPixelbarScreen::DeviceUpdateMode()
         return;
     }
 
-    int active_idx = GetActiveMode();
     unsigned char r = 255;
     unsigned char g = 255;
     unsigned char b = 255;
@@ -158,9 +157,9 @@ void RGBController_EdifierHaloPixelbarScreen::DeviceUpdateMode()
         b = RGBGetBValue(color);
     }
 
-    unsigned int mode_val = modes[active_idx].value;
-    unsigned char category = (mode_val >> 8) & 0xFF;
-    unsigned char index    = mode_val & 0xFF;
+    unsigned int    mode_val = modes[active_mode].value;
+    unsigned char   category = (mode_val >> 8) & 0xFF;
+    unsigned char   index    = mode_val & 0xFF;
 
     if(category == 0) // Clock category (11 built-in styles)
     {

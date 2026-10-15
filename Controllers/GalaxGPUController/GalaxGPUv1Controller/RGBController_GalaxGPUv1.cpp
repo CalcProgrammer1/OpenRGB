@@ -144,7 +144,7 @@ void RGBController_GalaxGPUv1::DeviceUpdateLEDs()
         unsigned char grn = RGBGetGValue(colors[led]);
         unsigned char blu = RGBGetBValue(colors[led]);
 
-        if(GetActiveMode() == 1)
+        if(modes[active_mode].value == 1)
         {
             controller->SetLEDColorsDirect(red, grn, blu);
         }
@@ -167,7 +167,5 @@ void RGBController_GalaxGPUv1::DeviceUpdateSingleLED(int /*led*/)
 
 void RGBController_GalaxGPUv1::DeviceUpdateMode()
 {
-    int new_mode = modes[active_mode].value;
-
-    controller->SetMode(new_mode);
+    controller->SetMode(modes[active_mode].value);
 }

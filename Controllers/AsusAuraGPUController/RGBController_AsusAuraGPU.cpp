@@ -171,7 +171,8 @@ void RGBController_AuraGPU::DeviceUpdateLEDs()
 
         controller->SetLEDColors(red, grn, blu);
     }
-    if (controller->SaveOnlyApplies() && GetActiveMode() != 0)
+
+    if(controller->SaveOnlyApplies() && active_mode != 0)
     {
         controller->Save();
     }

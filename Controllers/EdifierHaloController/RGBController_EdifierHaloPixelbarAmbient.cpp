@@ -146,16 +146,15 @@ void RGBController_EdifierHaloPixelbarAmbient::DeviceUpdateLEDs()
         return;
     }
 
-    int active_idx = GetActiveMode();
     RGBColor color = colors[0];
     unsigned char r = RGBGetRValue(color);
     unsigned char g = RGBGetGValue(color);
     unsigned char b = RGBGetBValue(color);
 
-    unsigned char effect = modes[active_idx].value;
-    unsigned char brightness = modes[active_idx].brightness;
-    unsigned char speed = modes[active_idx].speed;
-    
+    unsigned char effect = modes[active_mode].value;
+    unsigned char brightness = modes[active_mode].brightness;
+    unsigned char speed = modes[active_mode].speed;
+
     controller->SetAmbientLightPower(true);
     controller->SetAmbientLight(effect, r, g, b, brightness, speed);
 }
