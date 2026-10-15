@@ -2059,7 +2059,16 @@ void RGBController::DeviceCallThreadFunction()
 
     while(DeviceThreadRunning.load() == true)
     {
-        if(CallFlag_UpdateMode.load() == true)
+        /*-------------------------------------------------*\
+        | Snapshot both flags at the same time to prevent   |
+        | scenario where an UpdateMode->UpdateLEDs sequence |
+        | is inadvertently executed out of order, which can |
+        | lead to the LED color being dropped.              |
+        \*-------------------------------------------------*/
+        bool update_mode = CallFlag_UpdateMode.load();
+        bool update_leds = CallFlag_UpdateLEDs.load();
+
+        if(update_mode == true)
         {
             if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
             {
@@ -2080,7 +2089,7 @@ void RGBController::DeviceCallThreadFunction()
                 AccessMutex.unlock_shared();
             }
         }
-        if(CallFlag_UpdateLEDs.load() == true)
+        if(update_leds == true)
         {
             if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
             {
