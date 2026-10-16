@@ -415,8 +415,8 @@ DetectedControllers DetectSinowealthGenesisKeyboard(hid_device_info* info, const
 DetectedControllers DetectSinowealthKeyboard10c(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
-    unsigned char       command[7] = {0x06, 0x82, 0x01, 0x00, 0x01, 0x00, 0x06};
-    expected_reports    reports{expected_report(0x06, 520, command, 520)};
+    unsigned char       command[520] = {0x06, 0x82, 0x01, 0x00, 0x01, 0x00, 0x06};
+    expected_reports    reports{expected_report(0x06, sizeof(command), command, sizeof(command))};
 
     if(DetectUsages(info, name, 3, reports))
     {
