@@ -12,12 +12,12 @@ import os
 #############################################
 # OpenRGB version                           #
 #############################################
-version = "1.0"
+version = "1.1"
 
 #############################################
 # Git version (tag, branch, or commit)      #
 #############################################
-git_id = "release_1.0"
+git_id = "release_1.1"
 
 command = "git rev-list -n 1 " + git_id
 print(command)

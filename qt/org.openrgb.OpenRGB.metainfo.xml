@@ -48,6 +48,7 @@
   </description>
 
   <releases>
+    <release version="1.1" date="2026-10-16"></release>
     <release version="1.0" date="2026-09-11"></release>
     <release version="1.0~rc3.1" date="2026-08-23" type="development"></release>
     <release version="1.0~rc3" date="2026-06-28" type="development"></release>
