@@ -69,7 +69,7 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* controller
     Morph.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     Morph.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Morph.colors_min           = 2;
-    Morph.colors_max           = 2 * controller->GetZoneCount();
+    Morph.colors_max           = 2 * controller->GetLedCount();
     Morph.colors.resize(2);
     Morph.colors[0]            = 0x0000FF;
     Morph.colors[1]            = 0xFF0000;
@@ -123,6 +123,18 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* controller
     Breathing.brightness       = 0;
     modes.push_back(Breathing);
 
+    mode Direct;
+    Direct.name               = "Direct";
+    Direct.value              = ALIENWARE_MODE_DIRECT;
+    Direct.flags              = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode         = MODE_COLORS_PER_LED;
+    Direct.colors_min         = 1;
+    Direct.colors_max         = 1;
+    Direct.brightness_min     = 100;
+    Direct.brightness_max     = 0;
+    Direct.brightness         = 0;
+    modes.push_back(Direct);
+
     SetupZones();
 
     controller->UpdateDim();
@@ -140,28 +152,45 @@ void RGBController_Alienware::SetupZones()
     /*-------------------------------------------------*\
     | Set zones and leds                                |
     \*-------------------------------------------------*/
-    std::vector<const char*> zone_names = controller->GetZoneNames();
+    std::vector<const char*>    zone_names      = controller->GetZoneNames();
+    std::vector<unsigned int>   zone_led_counts = controller->GetZoneLedCounts();
+
+    /*-------------------------------------------------*\
+    | Pad short name tables                             |
+    \*-------------------------------------------------*/
+    if(zone_names.size() < controller->GetZoneCount())
+    {
+        zone_names.resize(controller->GetZoneCount(), "Unknown");
+    }
+
+    if(zone_led_counts.size() < controller->GetZoneCount())
+    {
+        zone_led_counts.resize(controller->GetZoneCount(), 1);
+    }
 
     for(unsigned int zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
     {
         zone new_zone;
 
         new_zone.name       = zone_names[zone_idx];
-        new_zone.type       = ZONE_TYPE_SINGLE;
-        new_zone.leds_min   = 1;
-        new_zone.leds_max   = 1;
-        new_zone.leds_count = 1;
+        new_zone.type       = (zone_led_counts[zone_idx] > 1) ? ZONE_TYPE_LINEAR : ZONE_TYPE_SINGLE;
+        new_zone.leds_min   = zone_led_counts[zone_idx];
+        new_zone.leds_max   = zone_led_counts[zone_idx];
+        new_zone.leds_count = zone_led_counts[zone_idx];
 
         zones.emplace_back(new_zone);
     }
 
-    for(unsigned int led_idx = 0; led_idx < zones.size(); led_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        led new_led;
+        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        {
+            led new_led;
 
-        new_led.name        = zones[led_idx].name + std::string(" LED");
+            new_led.name = zones[zone_idx].name + std::string(" LED ") + std::to_string(led_idx + 1);
 
-        leds.emplace_back(new_led);
+            leds.emplace_back(new_led);
+        }
     }
 
     SetupColors();
@@ -214,9 +243,16 @@ void RGBController_Alienware::DeviceUpdateMode()
     while(!done)
     {
         /*-----------------------------------------------------*\
-        | Setup state per zone                                  |
+        | Direct skips animation programming                    |
         \*-----------------------------------------------------*/
-        for(uint8_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+        bool direct_update = (current_mode.value == ALIENWARE_MODE_DIRECT);
+
+        /*-----------------------------------------------------*\
+        | Setup state per LED                                   |
+        \*-----------------------------------------------------*/
+        unsigned int led_global_idx = 0;
+
+        for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
         {
             zone current_zone = zones[zone_idx];
 
@@ -226,59 +262,71 @@ void RGBController_Alienware::DeviceUpdateMode()
             \*-------------------------------------------------*/
             uint16_t period = 0x07d0;
 
-            controller->SetMode(zone_idx, current_mode.value);
-            controller->SetDirection(zone_idx, current_mode.direction);
+            uint8_t hw_idx = (uint8_t)zone_idx;
 
-            switch(current_mode_idx)
+            controller->SetMode(     hw_idx, direct_update ? (uint8_t)ALIENWARE_MODE_DIRECT : current_mode.value);
+            controller->SetDirection(hw_idx, current_mode.direction);
+
+            for(unsigned int led_in_zone = 0; led_in_zone < current_zone.leds_count; led_in_zone++, led_global_idx++)
             {
-                case ALIENWARE_MODE_COLOR:
-                    controller->SetPeriod(zone_idx, period);
-                    controller->SetColor( zone_idx, colors[current_zone.start_idx]);
-                    controller->SetTempo( zone_idx, ALIENWARE_TEMPO_MAX);
-                    controller->SetDim(   zone_idx, modes[current_mode_idx].brightness);
-                    break;
+                RGBColor led_color = (led_global_idx < colors.size()) ? colors[led_global_idx] : 0x000000;
 
-                case ALIENWARE_MODE_PULSE:
-                    period = std::max<uint16_t>(500, (uint16_t)(current_mode.speed * 10));
-                    controller->SetPeriod(zone_idx, period);
-                    controller->SetColor( zone_idx, colors[current_zone.start_idx]);
-                    controller->SetTempo( zone_idx, current_mode.speed);
-                    controller->SetDim(   zone_idx, modes[current_mode_idx].brightness);
-                    break;
+                switch(current_mode_idx)
+                {
+                    case ALIENWARE_MODE_COLOR:
+                        controller->SetPeriod(  hw_idx, period);
+                        controller->SetLedColor(led_global_idx, led_color);
+                        controller->SetTempo(   hw_idx, ALIENWARE_TEMPO_MAX);
+                        controller->SetDim(     hw_idx, modes[current_mode_idx].brightness);
+                        break;
 
-                case ALIENWARE_MODE_MORPH:
-                    {
-                        RGBColor c1 = (current_mode.colors.size() >= 1) ? current_mode.colors[0] : 0x0000FF;
-                        RGBColor c2 = (current_mode.colors.size() >= 2) ? current_mode.colors[1] : 0xFF0000;
+                    case ALIENWARE_MODE_PULSE:
+                        period = std::max<uint16_t>(500, (uint16_t)(current_mode.speed * 10));
+                        controller->SetPeriod(  hw_idx, period);
+                        controller->SetLedColor(led_global_idx, led_color);
+                        controller->SetTempo(   hw_idx, current_mode.speed);
+                        controller->SetDim(     hw_idx, modes[current_mode_idx].brightness);
+                        break;
 
-                        if(current_mode.colors.size() >= (std::size_t)((zone_idx + 1) * 2))
+                    case ALIENWARE_MODE_MORPH:
                         {
-                            c1 = current_mode.colors[zone_idx * 2];
-                            c2 = current_mode.colors[(zone_idx * 2) + 1];
+                            RGBColor c1 = (current_mode.colors.size() >= 1) ? current_mode.colors[0] : 0x0000FF;
+                            RGBColor c2 = (current_mode.colors.size() >= 2) ? current_mode.colors[1] : 0xFF0000;
+
+                            if(current_mode.colors.size() >= (std::size_t)((led_global_idx + 1) * 2))
+                            {
+                                c1 = current_mode.colors[led_global_idx * 2];
+                                c2 = current_mode.colors[(led_global_idx * 2) + 1];
+                            }
+
+                            period = std::max<uint16_t>(400, (uint16_t)(current_mode.speed * 10));
+                            controller->SetPeriod(  hw_idx, period);
+                            controller->SetLedColor(led_global_idx, c1, c2);
+                            controller->SetTempo(   hw_idx, current_mode.speed);
+                            controller->SetDim(     hw_idx, modes[current_mode_idx].brightness);
                         }
+                        break;
 
-                        period = std::max<uint16_t>(400, (uint16_t)(current_mode.speed * 10));
-                        controller->SetPeriod(zone_idx, period);
-                        controller->SetColor( zone_idx, c1, c2);
-                        controller->SetTempo( zone_idx, current_mode.speed);
-                        controller->SetDim(   zone_idx, modes[current_mode_idx].brightness);
-                    }
-                    break;
+                    case ALIENWARE_MODE_SPECTRUM:
+                    case ALIENWARE_MODE_RAINBOW:
+                        controller->SetPeriod(hw_idx, ALIENWARE_DURATION_SPECTRUM);
+                        controller->SetTempo( hw_idx, current_mode.speed);
+                        controller->SetDim(   hw_idx, modes[current_mode_idx].brightness);
+                        break;
 
-                case ALIENWARE_MODE_SPECTRUM:
-                case ALIENWARE_MODE_RAINBOW:
-                    controller->SetPeriod(zone_idx, ALIENWARE_DURATION_SPECTRUM);
-                    controller->SetTempo( zone_idx, current_mode.speed);
-                    controller->SetDim(   zone_idx, modes[current_mode_idx].brightness);
-                    break;
+                    case ALIENWARE_MODE_BREATHING:
+                        period = std::max<uint16_t>(500, (uint16_t)(current_mode.speed * 10));
+                        controller->SetPeriod(  hw_idx, period);
+                        controller->SetLedColor(led_global_idx, led_color, 0x0);
+                        controller->SetTempo(   hw_idx, current_mode.speed);
+                        controller->SetDim(     hw_idx, modes[current_mode_idx].brightness);
+                        break;
 
-                case ALIENWARE_MODE_BREATHING:
-                    period = std::max<uint16_t>(500, (uint16_t)(current_mode.speed * 10));
-                    controller->SetPeriod(zone_idx, period);
-                    controller->SetColor( zone_idx, colors[current_zone.start_idx], 0x0);
-                    controller->SetTempo( zone_idx, current_mode.speed);
-                    controller->SetDim(   zone_idx, modes[current_mode_idx].brightness);
-                    break;
+                    case ALIENWARE_MODE_DIRECT:
+                        controller->SetLedColor(led_global_idx, led_color);
+                        controller->SetDim(     hw_idx, modes[current_mode_idx].brightness);
+                        break;
+                }
             }
         }
 

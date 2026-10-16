@@ -12,6 +12,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <hidapi.h>
 #include "RGBController.h"
 
@@ -24,12 +25,17 @@
 #define ALIENWARE_CONTROLLER_NAME           "AlienWare Controller"
 
 /*---------------------------------------------------------*\
-| Max zone IDs that fit in one report after the command     |
-| header.  Selections larger than this must be split across |
-| multiple packets; writing them into a single report       |
-| overflows usb_buf (e.g. desktops with ~100 zones).        |
+| Max zone IDs per report.  DIM/SET_COLOR may split across  |
+| packets, but SELECT_ZONES for animation programming must  |
+| fit in one packet.                                        |
 \*---------------------------------------------------------*/
 #define ALIENWARE_MAX_ZONES_PER_PACKET      25
+
+/*---------------------------------------------------------*\
+| Max select+action pairs per animation program (13 on      |
+| AW-ELC Area-51 firmware).                                 |
+\*---------------------------------------------------------*/
+#define ALIENWARE_MAX_ANIM_PAIRS            13
 enum
 {
     ALIENWARE_COMMAND_REPORT                = 0x20,     /* Set report type to get               */
@@ -82,6 +88,7 @@ enum
     ALIENWARE_MODE_SPECTRUM,                            /* Abitrary code for spectrum mode      */
     ALIENWARE_MODE_RAINBOW,                             /* Arbitrary code for rainbow wave mode */
     ALIENWARE_MODE_BREATHING,                           /* Arbitrary code for rainbow wave mode */
+    ALIENWARE_MODE_DIRECT                   = 0xFF,     /* OpenRGB direct: empty anim + 0x27    */
 };
 
 enum
@@ -104,6 +111,22 @@ typedef struct
     unsigned char           data[ALIENWARE_REPORT_SIZE];
 } AlienwareReport;
 
+/*---------------------------------------------------------*\
+| One select+action pair shared by identical zones          |
+\*---------------------------------------------------------*/
+typedef struct
+{
+    uint8_t                 action_mode;    /* resolved action (morph for spectrum/rainbow)  */
+    uint8_t                 zone_mode;      /* requested mode (keeps rainbow direction split)*/
+    uint16_t                period;
+    uint16_t                tempo;
+    uint8_t                 direction;
+    unsigned int            rainbow_idx;    /* rainbow_colors row, valid for RAINBOW only    */
+    RGBColor                colors[7];
+    unsigned int            color_count;
+    std::vector<uint8_t>    hw_zones;
+} AlienwareAnimGroup;
+
 class AlienwareController
 {
 public:
@@ -115,10 +138,21 @@ public:
     std::string                 GetDeviceName();
     std::string                 GetFirmwareVersion();
     unsigned                    GetZoneCount();
+    unsigned                    GetLedCount();
     std::vector<const char*>    GetZoneNames();
+    std::vector<unsigned int>   GetZoneLedCounts();
+    unsigned int                GetZoneLedOffset(size_t zone_idx) const;
+    unsigned int                GetLedZone(size_t led_idx) const;
+
+    uint8_t                     GetHardwareZone(size_t zone_idx) const;
+    void                        BuildAnimGroups(std::vector<AlienwareAnimGroup>& groups);
+    size_t                      CountAnimPairs(const std::vector<AlienwareAnimGroup>& groups);
+    bool                        ProgramAnimGroups(const std::vector<AlienwareAnimGroup>& groups);
 
     void                        SetColor(uint8_t zone, RGBColor color);
     void                        SetColor(uint8_t zone, RGBColor color1, RGBColor color2);
+    void                        SetLedColor(unsigned int led, RGBColor color);
+    void                        SetLedColor(unsigned int led, RGBColor color1, RGBColor color2);
     void                        SetMode(uint8_t zone, uint8_t mode);
     void                        SetPeriod(uint8_t zone, uint16_t period);
     void                        SetTempo(uint8_t zone, uint16_t tempo);
@@ -130,6 +164,8 @@ public:
     void                        UpdateMode();
     void                        UpdateController();
     void                        SaveController();
+    void                        UpdateDirectController();
+    bool                        ParkEmptyAnimation();
 
 protected:
     hid_device* dev;
@@ -144,7 +180,6 @@ private:
         uint8_t                 dim;
         uint8_t                 direction;
     } alienware_zone;
-
     typedef struct
     {
         unsigned char           data[HIDAPI_ALIENWARE_REPORT_SIZE];
@@ -153,10 +188,12 @@ private:
     std::string                 device_name;
     std::string                 location;
     std::vector<alienware_zone> zones;
+    std::vector<RGBColor>       led_colors[2];
     std::string                 serial_number;
     std::string                 version;
     std::vector<const char*>    zone_names;
     std::vector<uint8_t>        zone_ids;
+    std::vector<unsigned int>   zone_led_counts;
     bool                        dirty;
     bool                        dirty_dim;
 
@@ -165,6 +202,7 @@ private:
 
     bool                        Dim(std::vector<uint8_t> zones, double percent);
     bool                        UserAnimation(uint16_t subcommand, uint16_t animation, uint16_t duration);
+    bool                        SelectZonesSingle(const std::vector<uint8_t>& zones);
     bool                        SelectZones(const std::vector<uint8_t>& zones);
     bool                        ModeAction(uint8_t mode, uint16_t duration, uint16_t tempo, RGBColor color);
     bool                        ModeAction(const uint8_t *mode, const uint16_t *duration, const uint16_t *tempo, const RGBColor *color, unsigned amount);

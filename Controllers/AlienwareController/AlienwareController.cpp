@@ -43,6 +43,7 @@ static const std::map<alienware_platform_id, uint8_t> zone_quirks_table =
 \*---------------------------------------------------------*/
 static const std::map<alienware_platform_id, std::vector<const char*>> zone_names_table =
 {
+    { 0x0812,   { "Infinity Loop", "Intake Fan Ring", "Bottom Fan Ring", "AIO Pump Head", "Alienware Logo" } },
     { 0x0C01,   { "Left",           "Middle",       "Right",        "Numpad"    } },
     { 0x0A01,   { "Left",           "Center Left",  "Center Right", "Right",
                   "Light Bar 1",    "Light Bar 2",  "Light Bar 3",
@@ -51,7 +52,7 @@ static const std::map<alienware_platform_id, std::vector<const char*>> zone_name
                   "Light Bar 10",   "Light Bar 11", "Light Bar 12"              } },
     { 0x0E03,   { "Left",           "Middle",       "Right",        "Numpad"    } },
     { 0x0E07,   { "Left",           "Middle",       "Right",        "Numpad"    } },
-    { 0x0E0A,   { "Left",           "Middle",       "Right",        "Numpad"    } }
+    { 0x0E0A,   { "Left",           "Middle",       "Right",        "Numpad"    } },
 };
 
 /*---------------------------------------------------------*\
@@ -62,7 +63,27 @@ static const std::map<alienware_platform_id, std::vector<uint8_t>> zone_ids_tabl
     { 0x0C01,   { 0x00, 0x01, 0x02, 0x03 } }, // Dell G5 SE 5505
     { 0x0E03,   { 0x00, 0x01, 0x02, 0x03 } }, // Dell G15   5511
     { 0x0E07,   { 0x10, 0x11, 0x12, 0x13 } }, // Dell G15   5520
-    { 0x0E0A,   { 0x10, 0x11, 0x12, 0x13 } }  // Dell G15   5530
+    { 0x0E0A,   { 0x10, 0x11, 0x12, 0x13 } }, // Dell G15   5530
+    // 0x0812 (Area-51) intentionally absent: its OpenRGB
+    // zones group many hardware IDs (see zone_layout_table)
+};
+
+/*---------------------------------------------------------*\
+| Per-platform LED layout: hardware IDs per OpenRGB zone,   |
+| in LED order.  Platforms absent here use one zone with    |
+| one LED per hardware ID (see zone_ids_table).             |
+\*---------------------------------------------------------*/
+static const std::map<alienware_platform_id, std::vector<std::vector<uint8_t>>> zone_leds_table =
+{
+    { 0x0812,
+      {
+        { 0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,82,84,86,88,90,92,94,
+          95,93,91,89,87,85,83,81,79,77,75,73,71,69,67,65,63,61,59,57,55,53,51,49,47,45,43,41,39,37,35,33,31,29,27,25,23,21,19,17,15,13,11,9,7,5,3,1 },
+        { 96  },
+        { 97  },
+        { 98  },
+        { 99, 100 },
+      } },
 };
 
 static void SendHIDReport(hid_device *dev, const unsigned char* usb_buf, size_t usb_buf_size)
@@ -115,7 +136,21 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
     /*-----------------------------------------------------*\
     | Check if the device reports the wrong number of zones |
     \*-----------------------------------------------------*/
-    unsigned number_of_zones = zone_quirks_table.count(platform_id) ? zone_quirks_table.at(platform_id) : report.data[6];
+    unsigned number_of_zones = 0;
+
+    if(report.data[1] == 0x03)
+    {
+        number_of_zones = zone_quirks_table.count(platform_id) ? zone_quirks_table.at(platform_id) : report.data[6];
+
+        if(number_of_zones == 0)
+        {
+            LOG_WARNING("[%s] Config report claimed zero zones, skipping zone init", ALIENWARE_CONTROLLER_NAME);
+        }
+    }
+    else
+    {
+        LOG_WARNING("[%s] Config report failed, claiming zero zones", ALIENWARE_CONTROLLER_NAME);
+    }
 
     /*-----------------------------------------------------*\
     | Get firmware version                                  |
@@ -136,6 +171,41 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
     {
         LOG_INFO("[%s] Known platform: %8X, Number of zones: %d", ALIENWARE_CONTROLLER_NAME, platform_id, number_of_zones);
         zone_names = zone_names_table.at(platform_id);
+
+        /*-------------------------------------------------*\
+        | Grouped zones: one OpenRGB zone per fixture, with |
+        | zone_leds_table giving the hardware IDs per zone  |
+        \*-------------------------------------------------*/
+        if(zone_leds_table.count(platform_id))
+        {
+            const std::vector<std::vector<uint8_t>>& layout = zone_leds_table.at(platform_id);
+
+            zone_names = zone_names_table.at(platform_id);
+            zones.resize(layout.size());
+            zone_ids.clear();
+            zone_led_counts.clear();
+
+            for(const std::vector<uint8_t>& hw_ids : layout)
+            {
+                zone_led_counts.push_back((unsigned int)hw_ids.size());
+                for(uint8_t hw_id : hw_ids)
+                {
+                    zone_ids.push_back(hw_id);
+                }
+            }
+
+            number_of_zones = (unsigned)zones.size();
+        }
+
+        if(zone_names.size() != number_of_zones)
+        {
+            LOG_WARNING("[%s] Zone name table has %d entries for %d zones; padding with Unknown",
+                        ALIENWARE_CONTROLLER_NAME, (int)zone_names.size(), number_of_zones);
+            while(zone_names.size() < number_of_zones)
+            {
+                zone_names.emplace_back("Unknown");
+            }
+        }
     }
     else
     {
@@ -154,9 +224,14 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
     /*-----------------------------------------------------*\
     | Initialize hardware zone IDs                          |
     \*-----------------------------------------------------*/
-    if(zone_ids_table.count(platform_id))
+    if(zone_leds_table.count(platform_id))
+    {
+        /* Already filled from the grouped layout above */
+    }
+    else if(zone_ids_table.count(platform_id))
     {
         zone_ids = zone_ids_table.at(platform_id);
+        zone_led_counts.assign(zones.size(), 1);
     }
     else
     {
@@ -164,6 +239,7 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
         {
             zone_ids.push_back(static_cast<uint8_t>(i));
         }
+        zone_led_counts.assign(zones.size(), 1);
     }
 
     /*-----------------------------------------------------*\
@@ -187,6 +263,12 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
     }
 
     /*-----------------------------------------------------*\
+    | Per-LED colors, parallel to zone_ids                  |
+    \*-----------------------------------------------------*/
+    led_colors[0].assign(zone_ids.size(), 0x000000);
+    led_colors[1].assign(zone_ids.size(), 0x000000);
+
+    /*-----------------------------------------------------*\
     | Initialize dirty flags                                |
     \*-----------------------------------------------------*/
     dirty               = true;
@@ -206,6 +288,45 @@ unsigned int AlienwareController::GetZoneCount()
 std::vector<const char*> AlienwareController::GetZoneNames()
 {
     return(zone_names);
+}
+
+unsigned int AlienwareController::GetLedCount()
+{
+    unsigned int total = 0;
+    for(unsigned int count : zone_led_counts)
+    {
+        total += count;
+    }
+    return(total);
+}
+
+std::vector<unsigned int> AlienwareController::GetZoneLedCounts()
+{
+    return(zone_led_counts);
+}
+
+unsigned int AlienwareController::GetZoneLedOffset(size_t zone_idx) const
+{
+    unsigned int offset = 0;
+    for(size_t i = 0; i < zone_idx && i < zone_led_counts.size(); i++)
+    {
+        offset += zone_led_counts[i];
+    }
+    return(offset);
+}
+
+unsigned int AlienwareController::GetLedZone(size_t led_idx) const
+{
+    unsigned int offset = 0;
+    for(size_t zone_idx = 0; zone_idx < zone_led_counts.size(); zone_idx++)
+    {
+        offset += zone_led_counts[zone_idx];
+        if(led_idx < offset)
+        {
+            return((unsigned int)zone_idx);
+        }
+    }
+    return((unsigned int)zones.size());
 }
 
 std::string AlienwareController::GetDeviceLocation()
@@ -391,12 +512,79 @@ bool AlienwareController::UserAnimation(uint16_t subcommand, uint16_t animation,
         case ALIENWARE_COMMAND_USER_ANIM_FINISH_SAVE:
             return(!response.data[7]);
         case ALIENWARE_COMMAND_USER_ANIM_FINISH_PLAY:
-            return(!response.data[5]);
+            /*---------------------------------------------*\
+            | Payload byte 7: 0x00 accepted, 0xFF rejected  |
+            \*---------------------------------------------*/
+            if(response.data[8] == 0xFF || response.data[6] == 0xFF || response.data[5] == 0xFF)
+            {
+                LOG_WARNING("[%s] Animation rejected by device (FINISH_PLAY status 0xFF)", ALIENWARE_CONTROLLER_NAME);
+                return(false);
+            }
+            return(response.data[8] == 0x00 || response.data[6] == 0x00 || response.data[5] == 0x00);
         case ALIENWARE_COMMAND_USER_ANIM_PLAY:
             return(!response.data[7]);
         default:
             return(true);
     }
+}
+
+bool AlienwareController::SelectZonesSingle(const std::vector<uint8_t>& zones)
+{
+    /*-----------------------------------------------------*\
+    | Bail if zones is empty, and return false to indicate  |
+    | nothing has changed                                   |
+    \*-----------------------------------------------------*/
+    if(zones.empty())
+    {
+        return(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | Animation SELECT must fit in one packet               |
+    \*-----------------------------------------------------*/
+    if(zones.size() > ALIENWARE_MAX_ZONES_PER_PACKET)
+    {
+        LOG_WARNING("[%s] SelectZonesSingle: %d zones exceeds single-packet limit %d",
+                    ALIENWARE_CONTROLLER_NAME, (int)zones.size(), ALIENWARE_MAX_ZONES_PER_PACKET);
+        return(false);
+    }
+
+    unsigned char usb_buf[HIDAPI_ALIENWARE_REPORT_SIZE];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up message packet with leading 00, per hidapi     |
+    \*-----------------------------------------------------*/
+    uint16_t num_zones  = (uint16_t)zones.size();
+
+    usb_buf[0x00]       = 0x00;
+    usb_buf[0x01]       = 0x03;
+    usb_buf[0x02]       = ALIENWARE_COMMAND_SELECT_ZONES;
+    usb_buf[0x03]       = 1; // loop?
+    usb_buf[0x04]       = num_zones >> 8;
+    usb_buf[0x05]       = num_zones & 0xFF;
+
+    for(size_t i = 0; i < num_zones; i++)
+    {
+        usb_buf[0x06+i] = zones[i];
+    }
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    SendHIDReport(dev, usb_buf, sizeof(usb_buf));
+
+    HidapiAlienwareReport response = GetResponse();
+
+    /*-----------------------------------------------------*\
+    | For this command, error is if the output equals the   |
+    | input                                                 |
+    \*-----------------------------------------------------*/
+    return((response.data[1] == 0x03) && memcmp(usb_buf, response.data, HIDAPI_ALIENWARE_REPORT_SIZE));
 }
 
 bool AlienwareController::SelectZones(const std::vector<uint8_t>& zones)
@@ -651,6 +839,10 @@ bool AlienwareController::Reset()
 
 void AlienwareController::SetMode(uint8_t zone, uint8_t mode)
 {
+    if(zone >= zones.size())
+    {
+        return;
+    }
     if(mode != zones[zone].mode)
     {
         zones[zone].mode        = mode;
@@ -660,11 +852,19 @@ void AlienwareController::SetMode(uint8_t zone, uint8_t mode)
 
 void AlienwareController::SetColor(uint8_t zone, RGBColor color)
 {
+    if(zone >= zones.size())
+    {
+        return;
+    }
     SetColor(zone, color, zones[zone].color[1]);
 }
 
 void AlienwareController::SetColor(uint8_t zone, RGBColor color1, RGBColor color2)
 {
+    if(zone >= zones.size())
+    {
+        return;
+    }
     if ((color1 == zones[zone].color[0]) && (color2 == zones[zone].color[1]))
     {
         return;
@@ -675,8 +875,37 @@ void AlienwareController::SetColor(uint8_t zone, RGBColor color1, RGBColor color
     dirty = true;
 }
 
+void AlienwareController::SetLedColor(unsigned int led, RGBColor color)
+{
+    if(led >= led_colors[0].size())
+    {
+        return;
+    }
+    SetLedColor(led, color, led_colors[1][led]);
+}
+
+void AlienwareController::SetLedColor(unsigned int led, RGBColor color1, RGBColor color2)
+{
+    if(led >= led_colors[0].size())
+    {
+        return;
+    }
+    if((color1 == led_colors[0][led]) && (color2 == led_colors[1][led]))
+    {
+        return;
+    }
+
+    led_colors[0][led] = color1;
+    led_colors[1][led] = color2;
+    dirty = true;
+}
+
 void AlienwareController::SetPeriod(uint8_t zone, uint16_t period)
 {
+    if(zone >= zones.size())
+    {
+        return;
+    }
     if(period != zones[zone].period)
     {
         zones[zone].period      = period;
@@ -686,6 +915,10 @@ void AlienwareController::SetPeriod(uint8_t zone, uint16_t period)
 
 void AlienwareController::SetTempo(uint8_t zone, uint16_t tempo)
 {
+    if(zone >= zones.size())
+    {
+        return;
+    }
     if(tempo != zones[zone].tempo)
     {
         zones[zone].tempo       = tempo;
@@ -695,6 +928,10 @@ void AlienwareController::SetTempo(uint8_t zone, uint16_t tempo)
 
 void AlienwareController::SetDim(uint8_t zone, uint8_t dim)
 {
+    if(zone >= zones.size())
+    {
+        return;
+    }
     if(dim != zones[zone].dim)
     {
         zones[zone].dim         = dim;
@@ -724,10 +961,14 @@ void AlienwareController::UpdateDim()
     \*-----------------------------------------------------*/
     std::map<uint8_t, std::vector<uint8_t>> dim_zone_map;
 
-    for(size_t i = 0; i < zones.size(); i++)
+    for(size_t led = 0; led < zone_ids.size(); led++)
     {
-        uint8_t hw_zone = (i < zone_ids.size()) ? zone_ids[i] : static_cast<uint8_t>(i);
-        dim_zone_map[zones[i].dim].emplace_back(hw_zone);
+        unsigned int zone_idx = GetLedZone(led);
+        if(zone_idx >= zones.size())
+        {
+            continue;
+        }
+        dim_zone_map[zones[zone_idx].dim].emplace_back(zone_ids[led]);
     }
 
     for(std::pair<const uint8_t, std::vector<uint8_t>> &pair : dim_zone_map)
@@ -752,10 +993,9 @@ bool AlienwareController::UpdateDirect()
     \*-----------------------------------------------------*/
     std::map<RGBColor, std::vector<uint8_t>> color_zone_map;
 
-    for(size_t i = 0; i < zones.size(); i++)
+    for(size_t led = 0; led < zone_ids.size() && led < led_colors[0].size(); led++)
     {
-        uint8_t hw_zone = (i < zone_ids.size()) ? zone_ids[i] : static_cast<uint8_t>(i);
-        color_zone_map[zones[i].color[0]].emplace_back(hw_zone);
+        color_zone_map[led_colors[0][led]].emplace_back(zone_ids[led]);
     }
 
     for(std::pair<const RGBColor, std::vector<uint8_t>> &pair : color_zone_map)
@@ -771,6 +1011,31 @@ bool AlienwareController::UpdateDirect()
     return true;
 }
 
+bool AlienwareController::ParkEmptyAnimation()
+{
+    /*-----------------------------------------------------*\
+    | Empty animation lets 0x27 colors persist              |
+    \*-----------------------------------------------------*/
+    if(!UserAnimation(ALIENWARE_COMMAND_USER_ANIM_NEW, ALIENWARE_COMMAND_USER_ANIM_KEYBOARD, 0))
+    {
+        return(false);
+    }
+    return(UserAnimation(ALIENWARE_COMMAND_USER_ANIM_FINISH_PLAY, ALIENWARE_COMMAND_USER_ANIM_KEYBOARD, 0));
+}
+
+void AlienwareController::UpdateDirectController()
+{
+    /*-----------------------------------------------------*\
+    | Park empty animation, then stream colors              |
+    \*-----------------------------------------------------*/
+    ParkEmptyAnimation();
+    if(UpdateDirect())
+    {
+        dirty = false;
+    }
+    UpdateDim();
+}
+
 static const RGBColor rainbow_colors[4][7] =
 {
     { 0xFF0000, 0xFFA500, 0xFFFF00, 0x008000, 0x00BFFF, 0x0000FF, 0x800080 },
@@ -778,6 +1043,165 @@ static const RGBColor rainbow_colors[4][7] =
     { 0x0000FF, 0x800080, 0xFF0000, 0xFFA500, 0xFFFF00, 0x008000, 0x00BFFF },
     { 0x00BFFF, 0x0000FF, 0x800080, 0xFF0000, 0xFFA500, 0xFFFF00, 0x008000 }
 };
+
+uint8_t AlienwareController::GetHardwareZone(size_t zone_idx) const
+{
+    if(zone_idx < zone_ids.size())
+    {
+        return(zone_ids[zone_idx]);
+    }
+    return(static_cast<uint8_t>(zone_idx));
+}
+
+void AlienwareController::BuildAnimGroups(std::vector<AlienwareAnimGroup>& groups)
+{
+    groups.clear();
+
+    for(size_t led = 0; led < zone_ids.size(); led++)
+    {
+        unsigned int zone_idx = GetLedZone(led);
+        if(zone_idx >= zones.size())
+        {
+            continue;
+        }
+
+        const alienware_zone&   zone    = zones[zone_idx];
+        RGBColor                color0  = (led < led_colors[0].size()) ? led_colors[0][led] : zone.color[0];
+        RGBColor                color1  = (led < led_colors[1].size()) ? led_colors[1][led] : zone.color[1];
+        uint8_t                 hw_zone = zone_ids[led];
+        AlienwareAnimGroup      key;
+
+        memset(&key, 0x00, sizeof(key));
+        key.zone_mode   = zone.mode;
+        key.period      = zone.period;
+        key.tempo       = zone.tempo;
+        key.direction   = zone.direction;
+
+        switch(zone.mode)
+        {
+            case ALIENWARE_MODE_COLOR:
+                key.action_mode = ALIENWARE_MODE_COLOR;
+                key.period      = 2000; /* per AWCC traces */
+                key.tempo       = ALIENWARE_TEMPO_MAX;
+                key.colors[0]   = color0;
+                key.color_count = 1;
+                break;
+
+            case ALIENWARE_MODE_PULSE:
+                key.action_mode = ALIENWARE_MODE_PULSE;
+                key.colors[0]   = color0;
+                key.color_count = 1;
+                break;
+
+            case ALIENWARE_MODE_MORPH:
+                key.action_mode = ALIENWARE_MODE_MORPH;
+                key.colors[0]   = color0;
+                key.colors[1]   = color1;
+                key.color_count = 2;
+                break;
+
+            case ALIENWARE_MODE_SPECTRUM:
+                key.action_mode = ALIENWARE_MODE_MORPH;
+                key.color_count = 7;
+                memcpy(key.colors, rainbow_colors[0], sizeof(key.colors));
+                break;
+
+            case ALIENWARE_MODE_RAINBOW:
+                key.action_mode = ALIENWARE_MODE_MORPH;
+                key.color_count = 7;
+                key.rainbow_idx = (zone.direction == MODE_DIRECTION_LEFT) ? (4 - 1 - (led % 4)) : (led % 4);
+                memcpy(key.colors, rainbow_colors[key.rainbow_idx], sizeof(key.colors));
+                break;
+
+            case ALIENWARE_MODE_BREATHING:
+                key.action_mode = ALIENWARE_MODE_MORPH;
+                key.colors[0]   = color0;
+                key.colors[1]   = 0x0;
+                key.color_count = 2;
+                break;
+
+            case ALIENWARE_MODE_DIRECT:
+            default:
+                /*-----------------------------------------*\
+                | Direct has no animation action            |
+                \*-----------------------------------------*/
+                if(zone.mode != ALIENWARE_MODE_DIRECT)
+                {
+                    groups.clear();
+                    return;
+                }
+                continue;
+        }
+
+        bool merged = false;
+        for(AlienwareAnimGroup& group : groups)
+        {
+            if(group.zone_mode   == key.zone_mode
+            && group.action_mode == key.action_mode
+            && group.period      == key.period
+            && group.tempo       == key.tempo
+            && group.direction   == key.direction
+            && group.rainbow_idx == key.rainbow_idx
+            && group.color_count == key.color_count
+            && memcmp(group.colors, key.colors, sizeof(key.colors)) == 0)
+            {
+                group.hw_zones.emplace_back(hw_zone);
+                merged = true;
+                break;
+            }
+        }
+
+        if(!merged)
+        {
+            key.hw_zones.emplace_back(hw_zone);
+            groups.emplace_back(key);
+        }
+    }
+}
+
+size_t AlienwareController::CountAnimPairs(const std::vector<AlienwareAnimGroup>& groups)
+{
+    size_t pairs = 0;
+    for(const AlienwareAnimGroup& group : groups)
+    {
+        pairs += (group.hw_zones.size() + ALIENWARE_MAX_ZONES_PER_PACKET - 1) / ALIENWARE_MAX_ZONES_PER_PACKET;
+    }
+    return(pairs);
+}
+
+bool AlienwareController::ProgramAnimGroups(const std::vector<AlienwareAnimGroup>& groups)
+{
+    for(const AlienwareAnimGroup& group : groups)
+    {
+        for(size_t offset = 0; offset < group.hw_zones.size(); offset += ALIENWARE_MAX_ZONES_PER_PACKET)
+        {
+            size_t chunk = std::min<size_t>(ALIENWARE_MAX_ZONES_PER_PACKET, group.hw_zones.size() - offset);
+            std::vector<uint8_t> hw_chunk(group.hw_zones.begin() + offset, group.hw_zones.begin() + offset + chunk);
+
+            if(!SelectZonesSingle(hw_chunk))
+            {
+                return(false);
+            }
+
+            uint8_t  modes[7];
+            uint16_t periods[7];
+            uint16_t tempos[7];
+
+            for(unsigned int i = 0; i < group.color_count; i++)
+            {
+                modes[i]   = group.action_mode;
+                periods[i] = group.period;
+                tempos[i]  = group.tempo;
+            }
+
+            if(!MultiModeAction(modes, periods, tempos, group.colors, group.color_count))
+            {
+                return(false);
+            }
+        }
+    }
+    return(true);
+}
 
 void AlienwareController::UpdateMode()
 {
@@ -789,6 +1213,34 @@ void AlienwareController::UpdateMode()
         return;
     }
 
+    /*-----------------------------------------------------*\
+    | Batch identical zones into shared pairs               |
+    \*-----------------------------------------------------*/
+    std::vector<AlienwareAnimGroup> groups;
+    BuildAnimGroups(groups);
+
+    /*-----------------------------------------------------*\
+    | Direct-only update: park empty animation, stream 0x27 |
+    \*-----------------------------------------------------*/
+    if(groups.empty())
+    {
+        UpdateDirectController();
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Groups over 25 zones need one pair per chunk          |
+    \*-----------------------------------------------------*/
+    size_t pairs = CountAnimPairs(groups);
+
+    if(pairs > ALIENWARE_MAX_ANIM_PAIRS)
+    {
+        LOG_WARNING("[%s] Animation needs %d pairs (max %d); parking empty animation and using direct colors",
+                    ALIENWARE_CONTROLLER_NAME, (int)pairs, ALIENWARE_MAX_ANIM_PAIRS);
+        UpdateDirectController();
+        return;
+    }
+
     bool result = UserAnimation(ALIENWARE_COMMAND_USER_ANIM_NEW, ALIENWARE_COMMAND_USER_ANIM_KEYBOARD, 0);
 
     if(!result)
@@ -796,108 +1248,18 @@ void AlienwareController::UpdateMode()
         return;
     }
 
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    result = ProgramAnimGroups(groups);
+
+    if(!result)
     {
-        alienware_zone zone = zones[zone_idx];
-        uint8_t hw_zone = (zone_idx < zone_ids.size()) ? zone_ids[zone_idx] : static_cast<uint8_t>(zone_idx);
-
-        result = SelectZones({hw_zone});
-
-        if(!result)
-        {
-            return;
-        }
-
-        /*-------------------------------------------------*\
-        | Some modes use 0x07D0 for their duration as sent  |
-        | by AWCC traces, maybe 2000ms?                     |
-        \*-------------------------------------------------*/
-        switch (zone.mode)
-        {
-            case ALIENWARE_MODE_COLOR:
-                result = ModeAction(zone.mode, 2000, ALIENWARE_TEMPO_MAX, zone.color[0]);
-                break;
-
-            case ALIENWARE_MODE_PULSE:
-                result = ModeAction(zone.mode, zone.period, zone.tempo, zone.color[0]);
-                break;
-
-            case ALIENWARE_MODE_MORPH:
-                {
-                    uint8_t  modes[2]   = { zone.mode,              zone.mode     };
-                    uint16_t periods[2] = { zone.period,            zone.period   };
-                    uint16_t tempos[2]  = { zone.tempo,             zone.tempo    };
-                    RGBColor colors[2]  = { zone.color[0],          zone.color[1] };
-
-                    result = MultiModeAction(modes, periods, tempos, colors, 2);
-                }
-                break;
-
-            case ALIENWARE_MODE_SPECTRUM:
-                {
-                    uint8_t  modes[7]   = { ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH };
-                    uint16_t periods[7] = { zone.period,            zone.period,
-                                            zone.period,            zone.period,
-                                            zone.period,            zone.period,
-                                            zone.period };
-                    uint16_t tempos[7] = {  zone.tempo,             zone.tempo,
-                                            zone.tempo,             zone.tempo,
-                                            zone.tempo,             zone.tempo,
-                                            zone.tempo };
-
-                    result = MultiModeAction(modes, periods, tempos, rainbow_colors[0], 7);
-                }
-                break;
-
-            case ALIENWARE_MODE_RAINBOW:
-                {
-                    uint8_t  modes[7]   = { ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH };
-                    uint16_t periods[7] = { zone.period,            zone.period,
-                                            zone.period,            zone.period,
-                                            zone.period,            zone.period,
-                                            zone.period };
-                    uint16_t tempos[7]  = { zone.tempo,             zone.tempo,
-                                            zone.tempo,             zone.tempo,
-                                            zone.tempo,             zone.tempo,
-                                            zone.tempo };
-
-                    unsigned int color_idx = (zone.direction == MODE_DIRECTION_LEFT) ? (4 - 1 - (zone_idx % 4)) : (zone_idx % 4);
-                    result = MultiModeAction(modes, periods, tempos, rainbow_colors[color_idx], 7);
-                }
-                break;
-
-            case ALIENWARE_MODE_BREATHING:
-                {
-                    uint8_t  modes[2]   = { ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH };
-                    uint16_t periods[2] = { zone.period,            zone.period          };
-                    uint16_t tempos[2]  = { zone.tempo,             zone.tempo           };
-                    RGBColor colors[2]  = { zone.color[0],          0x0                  };
-
-                    result = MultiModeAction(modes, periods, tempos, colors, 2);
-                }
-                break;
-
-            default:
-                result = false;
-        }
-
-        if(!result)
-        {
-            return;
-        }
+        return;
     }
 
     result = UserAnimation(ALIENWARE_COMMAND_USER_ANIM_FINISH_PLAY, ALIENWARE_COMMAND_USER_ANIM_KEYBOARD, 0);
 
-    /*-------------------------------------------------*\
-    | Don't update dirty flag if there's an error       |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Don't update dirty flag if there's an error           |
+    \*-----------------------------------------------------*/
     if(!result)
     {
         return;
@@ -919,97 +1281,24 @@ void AlienwareController::SaveController()
         return;
     }
 
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    /*-----------------------------------------------------*\
+    | Reuse the UpdateMode batching                         |
+    \*-----------------------------------------------------*/
+    std::vector<AlienwareAnimGroup> groups;
+    BuildAnimGroups(groups);
+
+    if(groups.empty() || CountAnimPairs(groups) > ALIENWARE_MAX_ANIM_PAIRS)
     {
-        alienware_zone zone = zones[zone_idx];
-        uint8_t hw_zone = (zone_idx < zone_ids.size()) ? zone_ids[zone_idx] : static_cast<uint8_t>(zone_idx);
+        LOG_WARNING("[%s] Save needs %d pairs (max %d); skipping EEPROM save",
+                    ALIENWARE_CONTROLLER_NAME, (int)CountAnimPairs(groups), ALIENWARE_MAX_ANIM_PAIRS);
+        return;
+    }
 
-        result = SelectZones({hw_zone});
+    result = ProgramAnimGroups(groups);
 
-        if(!result)
-        {
-            return;
-        }
-
-        switch (zone.mode)
-        {
-            case ALIENWARE_MODE_COLOR:
-                result = ModeAction(zone.mode, 2000, ALIENWARE_TEMPO_MAX, zone.color[0]);
-                break;
-
-            case ALIENWARE_MODE_PULSE:
-                result = ModeAction(zone.mode, zone.period, zone.tempo, zone.color[0]);
-                break;
-
-            case ALIENWARE_MODE_MORPH:
-                {
-                    uint8_t  modes[2]   = { zone.mode,              zone.mode     };
-                    uint16_t periods[2] = { zone.period,            zone.period   };
-                    uint16_t tempos[2]  = { zone.tempo,             zone.tempo    };
-                    RGBColor colors[2]  = { zone.color[0],          zone.color[1] };
-
-                    result = MultiModeAction(modes, periods, tempos, colors, 2);
-                }
-                break;
-
-            case ALIENWARE_MODE_SPECTRUM:
-                {
-                    uint8_t  modes[7]   = { ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH };
-                    uint16_t periods[7] = { zone.period,            zone.period,
-                                            zone.period,            zone.period,
-                                            zone.period,            zone.period,
-                                            zone.period };
-                    uint16_t tempos[7] = {  zone.tempo,             zone.tempo,
-                                            zone.tempo,             zone.tempo,
-                                            zone.tempo,             zone.tempo,
-                                            zone.tempo };
-
-                    result = MultiModeAction(modes, periods, tempos, rainbow_colors[0], 7);
-                }
-                break;
-
-            case ALIENWARE_MODE_RAINBOW:
-                {
-                    uint8_t  modes[7]   = { ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH,
-                                            ALIENWARE_MODE_MORPH };
-                    uint16_t periods[7] = { zone.period,            zone.period,
-                                            zone.period,            zone.period,
-                                            zone.period,            zone.period,
-                                            zone.period };
-                    uint16_t tempos[7]  = { zone.tempo,             zone.tempo,
-                                            zone.tempo,             zone.tempo,
-                                            zone.tempo,             zone.tempo,
-                                            zone.tempo };
-
-                    unsigned int color_idx = (zone.direction == MODE_DIRECTION_LEFT) ? (4 - 1 - (zone_idx % 4)) : (zone_idx % 4);
-                    result = MultiModeAction(modes, periods, tempos, rainbow_colors[color_idx], 7);
-                }
-                break;
-
-            case ALIENWARE_MODE_BREATHING:
-                {
-                    uint8_t  modes[2]   = { ALIENWARE_MODE_MORPH,   ALIENWARE_MODE_MORPH };
-                    uint16_t periods[2] = { zone.period,            zone.period          };
-                    uint16_t tempos[2]  = { zone.tempo,             zone.tempo           };
-                    RGBColor colors[2]  = { zone.color[0],          0x0                  };
-
-                    result = MultiModeAction(modes, periods, tempos, colors, 2);
-                }
-                break;
-
-            default:
-                result = false;
-        }
-
-        if(!result)
-        {
-            return;
-        }
+    if(!result)
+    {
+        return;
     }
 
     UserAnimation(ALIENWARE_COMMAND_USER_ANIM_FINISH_SAVE, ALIENWARE_ANIM_DEFAULT, 0);
