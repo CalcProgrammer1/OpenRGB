@@ -9,10 +9,14 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <chrono>
 #include <cstring>
+#include <thread>
 #include "LogManager.h"
 #include "SinowealthController.h"
 #include "StringUtils.h"
+
+using namespace std::chrono_literals;
 
 SinowealthController::SinowealthController(hid_device* dev_data_handle, hid_device* dev_cmd_handle, char *_path, std::string dev_name)
 {
@@ -165,14 +169,22 @@ void SinowealthController::SetMode
         usb_buf[0x7E] = RGBGetRValue(color_buf[0]); //mode 0a red
         usb_buf[0x7F] = RGBGetBValue(color_buf[0]); //mode 0a blue
         usb_buf[0x80] = RGBGetGValue(color_buf[0]); //mode 0a green
+        break;
     case GLORIOUS_MODE_OFF:
-        usb_buf[0x81] = 0x00; //mode 0 either 0x00 or 0x03
         break;
     default:
         break;
     }
 
     hid_send_feature_report(dev_data, usb_buf, SINOWEALTH_CONFIG_REPORT_SIZE);
+
+    /*-----------------------------------------------------*\
+    | Reading the config back right after a write returns   |
+    | zeros from offset 0x2C onward.  Wait before the next  |
+    | read so a following SetMode does not write those      |
+    | zeros back to the device.                             |
+    \*-----------------------------------------------------*/
+    std::this_thread::sleep_for(50ms);
 }
 
 int SinowealthController::GetProfile()
