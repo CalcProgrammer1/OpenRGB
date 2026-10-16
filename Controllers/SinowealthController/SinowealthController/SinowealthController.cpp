@@ -32,7 +32,7 @@ SinowealthController::~SinowealthController()
     | If the dev_cmd handle was passed in as the same device as dev_data    |
     |   then attempting to close it a second time will segfault             |
     \*---------------------------------------------------------------------*/
-    if(dev_cmd)
+    if(dev_cmd && dev_cmd != dev_data)
     {
         hid_close(dev_cmd);
     }
