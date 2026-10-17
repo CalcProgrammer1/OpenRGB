@@ -1185,6 +1185,7 @@ keyboard_keymap_overlay_values razer_laptop_with_spacebar_layout
         \*-------------------------------------------------------------------------------------------------------------------------------------*/
         {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Escape @ 0,0
         {   0,      0,      1,          0,          KEY_EN_ESCAPE,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Escape @ 0,1
+        {   0,      0,      14,         0,          KEY_EN_DELETE,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Delete key
         {   0,      0,      15,         0,          KEY_EN_POWER,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Power key
         {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backtick 1 right (Shifts row)
         {   0,      1,      14,         0,          KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backspace 1 right
@@ -1206,8 +1207,8 @@ keyboard_keymap_overlay_values razer_laptop_with_spacebar_layout
         {   0,      5,      11,         0,          KEY_EN_RIGHT_CONTROL,       KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap RGT_FNC for RGT_CTL
         {   0,      5,      12,         0,          KEY_EN_LEFT_ARROW,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWLFT for RGT_MNU
         {   0,      5,      13,         0,          KEY_EN_UP_ARROW,            KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWUP for RGT_CTL
-        {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert ARWRGT
-        {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert ARWDWN
+        {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert ARWRGT
+        {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert ARWDWN
     }
 };
 
