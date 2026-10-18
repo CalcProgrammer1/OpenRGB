@@ -68,6 +68,7 @@
 #define AURA_ROG_STRIX_FLARE_II_PID                         0x19FE
 #define AURA_ROG_STRIX_SCOPE_PID                            0x18F8
 #define AURA_ROG_STRIX_SCOPE_TKL_PID                        0x190C
+#define AURA_ROG_STRIX_SCOPE_NX_TKL_MOONLIGHT_WHITE_PID     0x19D0
 #define AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID                0x1954
 #define AURA_ROG_STRIX_SCOPE_RX_PID                         0x1951
 #define AURA_ROG_STRIX_SCOPE_RX_EVA_02_PID                  0x1B12
@@ -138,6 +139,7 @@ AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
         case AURA_ROG_STRIX_SCOPE_TKL_PID:
         case AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID:
         case AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID:
+        case AURA_ROG_STRIX_SCOPE_NX_TKL_MOONLIGHT_WHITE_PID:
             return SCOPE_TKL_LAYOUT;
 
         default:
@@ -459,6 +461,7 @@ REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAs
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",                        DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PID,                     1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX TKL Wireless Deluxe",     DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID,           1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL PNK LTD",                DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID,             1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope NX TKL Moonlight White",     DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_NX_TKL_MOONLIGHT_WHITE_PID,  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Azoth USB",                              DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_AZOTH_USB_PID,                           1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Azoth 2.4GHz",                           DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_AZOTH_2_4_PID,                           1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Claymore",                               DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_CLAYMORE_PID,                            1,  0xFF00);
