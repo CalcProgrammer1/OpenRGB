@@ -14,6 +14,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "KeyboardLayoutManager.h"
 
 /*---------------------------------------------------------*\
@@ -21,3 +22,21 @@
 \*---------------------------------------------------------*/
 extern keyboard_keymap_overlay_values clevo_keyboard_layout;
 extern keyboard_keymap_overlay_values clevo_829x_keyboard_layout;
+
+/*---------------------------------------------------------*\
+| ITE 8291 LED maps                                         |
+|   Keyboards with the same PID (0x600B) ship with at least |
+|   two PCB revisions that wire a few keys to different     |
+|   LEDs. The USB descriptors are identical, so the map is  |
+|   chosen in the device's Edit Device dialog.              |
+\*---------------------------------------------------------*/
+#define CLEVO_ITE8291_LED_MAP_DEFAULT   "Default (TongFang X6AR5xxY)"
+#define CLEVO_ITE8291_LED_MAP_ALTERNATE "Alternate (Game Garaj SLAYER R9T)"
+
+typedef struct
+{
+    const char*     name;
+    unsigned int    value;
+} clevo_led_override;
+
+extern const std::vector<clevo_led_override> clevo_ite8291_alternate_led_map;

@@ -195,3 +195,17 @@ keyboard_keymap_overlay_values clevo_keyboard_layout
         {   0,      5,      16,          17,        KEY_EN_NUMPAD_PERIOD,       KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     }
 };
+
+/*---------------------------------------------------------*\
+| Alternate ITE 8291 LED map                                |
+|   Only these keys differ from clevo_tkl_values. LED index |
+|   is row * 21 + col: 22 and 23 are row 1, columns 1-2     |
+|   (before Z at 24), 77 is the top half of the ISO Enter.  |
+|   The layout manager names the ISO Enter "Key: Enter".    |
+\*---------------------------------------------------------*/
+const std::vector<clevo_led_override> clevo_ite8291_alternate_led_map =
+{
+    { KEY_EN_ANSI_ENTER,        77  },
+    { KEY_EN_LEFT_SHIFT,        22  },
+    { KEY_EN_ISO_BACK_SLASH,    23  },
+};

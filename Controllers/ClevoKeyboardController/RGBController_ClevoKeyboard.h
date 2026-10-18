@@ -32,8 +32,16 @@ public:
     void        DeviceUpdateMode();
     void        DeviceSaveMode();
 
+    void        DeviceConfigureDevice() override;
+    void        DeviceUpdateDeviceSpecificConfiguration() override;
+
 private:
     ClevoKeyboardController*        controller;
     std::vector<RGBColor*>          buffer_map;
+    std::vector<unsigned int>       default_led_values;
     RGBColor                        null_color;
+
+    void        InitDeviceSpecificConfiguration();
+    void        ApplyLEDMap();
+    void        BuildBufferMap();
 };
