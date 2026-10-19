@@ -106,6 +106,11 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
     }
 
     /*---------------------------------------------------------*\
+    | Load this device's lighting control register              |
+    \*---------------------------------------------------------*/
+    light_ctrl_reg = corsair_v2_device_list[device_index]->light_ctrl_reg;
+
+    /*---------------------------------------------------------*\
     | Check lighting control endpoints                          |
     |   If lighting control endpoint 2 is unavailable           |
     |   then use endpoint 1.                                    |
