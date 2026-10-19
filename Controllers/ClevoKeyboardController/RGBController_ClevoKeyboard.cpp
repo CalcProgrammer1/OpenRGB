@@ -14,6 +14,7 @@
 #include <vector>
 #include "RGBController_ClevoKeyboard.h"
 #include "KeyboardLayoutManager.h"
+#include "dmiinfo.h"
 
 /**------------------------------------------------------------------*\
     @name CLEVO Keyboard
@@ -378,9 +379,19 @@ void RGBController_ClevoKeyboard::SetupZones()
     \*---------------------------------------------------------*/
     bool is_829x = (controller->GetType() == CLEVO_KB_ITE829X);
 
-    keyboard_keymap_overlay_values& layout = is_829x
-        ? clevo_829x_keyboard_layout
-        : clevo_keyboard_layout;
+    /* Only the measured TUXEDO Stellaris 16 Gen7 AMD layout uses this map.
+       Keep all other ITE/Clevo models on their original layout. */
+    bool is_stellaris16a07 = false;
+    if(!is_829x)
+    {
+        DMIInfo dmi;
+        is_stellaris16a07 = (dmi.getProductSKU() == "STELLARIS16A07");
+    }
+
+
+    keyboard_keymap_overlay_values& layout = is_stellaris16a07
+        ? clevo_stellaris16a07_keyboard_layout
+        : (is_829x ? clevo_829x_keyboard_layout : clevo_keyboard_layout);
 
     KeyboardLayoutManager new_kb(KEYBOARD_LAYOUT_ISO_QWERTY,
                                  layout.base_size,
@@ -620,4 +631,3 @@ void RGBController_ClevoKeyboard::DeviceUpdateDeviceSpecificConfiguration()
         ApplyLEDMap();
     }
 }
-

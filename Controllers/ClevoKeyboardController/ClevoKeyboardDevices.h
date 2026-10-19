@@ -21,6 +21,7 @@
 | Clevo keyboard layout definitions                         |
 \*---------------------------------------------------------*/
 extern keyboard_keymap_overlay_values clevo_keyboard_layout;
+extern keyboard_keymap_overlay_values clevo_stellaris16a07_keyboard_layout;
 extern keyboard_keymap_overlay_values clevo_829x_keyboard_layout;
 
 /*---------------------------------------------------------*\

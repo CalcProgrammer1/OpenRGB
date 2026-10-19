@@ -29,6 +29,7 @@ DMIInfo::DMIInfo()
     mainboard       = readWMIQuery("SELECT * FROM Win32_BaseBoard", "Product");
     manufacturer    = readWMIQuery("SELECT * FROM Win32_BaseBoard", "Manufacturer");
     product_name    = readWMIQuery("SELECT * FROM Win32_ComputerSystem", "Model");
+    product_sku      = readWMIQuery("SELECT * FROM Win32_ComputerSystem", "SystemSKUNumber");
 }
 
 std::string DMIInfo::readWMIQuery(std::string query, std::string key)
@@ -71,6 +72,7 @@ DMIInfo::DMIInfo()
     mainboard       = readFilePath(SYSFS_MB_DMI "/board_name");
     manufacturer    = readFilePath(SYSFS_MB_DMI "/board_vendor");
     product_name    = readFilePath(SYSFS_PC_DMI "/product_name");
+    product_sku      = readFilePath(SYSFS_PC_DMI "/product_sku");
 }
 
 std::string DMIInfo::readFilePath(std::string path)
@@ -107,4 +109,9 @@ std::string DMIInfo::getManufacturer()
 std::string DMIInfo::getProductName()
 {
     return product_name;
+}
+
+std::string DMIInfo::getProductSKU()
+{
+    return product_sku;
 }

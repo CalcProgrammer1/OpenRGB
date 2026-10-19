@@ -43,8 +43,10 @@ public:
     std::string             getMainboard();
     std::string             getManufacturer();
     std::string             getProductName();
+    std::string             getProductSKU();
 private:
     std::string             mainboard;
     std::string             manufacturer;
     std::string             product_name;
+    std::string             product_sku;
 };
