@@ -113,6 +113,7 @@ protected:
     uint16_t                        device_index;
     std::string                     device_name;
     uint8_t                         light_ctrl          = CORSAIR_V2_LIGHT_CTRL2;
+    uint8_t                         light_ctrl_reg      = 0x5F;
 
 private:
     void                            ClearPacketBuffer();

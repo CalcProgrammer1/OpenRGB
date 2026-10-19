@@ -15,7 +15,7 @@
 CorsairPeripheralV2SWController::CorsairPeripheralV2SWController(hid_device* dev_handle, const char* path, std::string name) : CorsairPeripheralV2Controller(dev_handle, path, name)
 {
     SetRenderMode(CORSAIR_V2_MODE_SW);
-    LightingControl(0x5F);
+    LightingControl(light_ctrl_reg);
 }
 
 CorsairPeripheralV2SWController::~CorsairPeripheralV2SWController()

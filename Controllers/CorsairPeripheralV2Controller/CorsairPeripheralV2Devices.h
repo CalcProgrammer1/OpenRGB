@@ -63,6 +63,8 @@ typedef struct
     uint8_t                             cols;
     const corsair_v2_zone*              zones[CORSAIR_ZONES_MAX];
     keyboard_keymap_overlay_values*     layout_new;
+    uint8_t                             light_ctrl_reg;
+    uint16_t                            pkt_size;
 }   corsair_v2_device;
 
 /*-----------------------------------------------------*\
@@ -76,6 +78,7 @@ typedef struct
 #define CORSAIR_K60_RGB_PRO_LP_PID                  0x1BAD
 #define CORSAIR_K60_RGB_PRO_TKL_B_PID               0x1BC7
 #define CORSAIR_K60_RGB_PRO_TKL_W_PID               0x1BED
+#define CORSAIR_K65_MINI_PID                        0x1BAF
 #define CORSAIR_K70_CORE_RGB_PID                    0x1BFD
 #define CORSAIR_K70_CORE_RGB_TKL_PID                0x2B01
 #define CORSAIR_K70_RGB_PRO_PID                     0x1BC4
