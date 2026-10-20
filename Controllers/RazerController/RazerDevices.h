@@ -300,6 +300,7 @@ typedef struct
     device_type                         type;
     unsigned char                       matrix_type;
     unsigned char                       transaction_id;
+    unsigned char                       led_id;
     unsigned int                        rows;
     unsigned int                        cols;
     const razer_zone*                   zones[RAZER_MAX_ZONES];
