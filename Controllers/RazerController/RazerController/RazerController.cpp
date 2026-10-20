@@ -94,6 +94,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASILISK_V3_PRO_35K_PG_WIRED_PID:
         case RAZER_BASILISK_V3_PRO_35K_PG_WIRELESS_PID:
         case RAZER_BASILISK_V3_PRO_35K_PG_BLUETOOTH_PID:
+        case RAZER_BASILISK_V4_PRO_WIRED_PID:
+        case RAZER_BASILISK_V4_PRO_WIRELESS_PID:
         case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_BLADE_14_2022_PID:
@@ -479,7 +481,8 @@ bool RazerController::SupportsBreathing()
         case RAZER_BASILISK_V3_PRO_35K_PG_WIRELESS_PID:
         case RAZER_BASILISK_V3_PRO_35K_PG_BLUETOOTH_PID:
         case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
-
+        case RAZER_BASILISK_V4_PRO_WIRED_PID:
+        case RAZER_BASILISK_V4_PRO_WIRELESS_PID:
             supports_breathing = false;
             break;
     }
@@ -638,6 +641,8 @@ bool RazerController::SupportsWave()
         case RAZER_BASILISK_V3_PRO_35K_PG_WIRELESS_PID:
         case RAZER_BASILISK_V3_PRO_35K_PG_BLUETOOTH_PID:
         case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
+        case RAZER_BASILISK_V4_PRO_WIRED_PID:
+        case RAZER_BASILISK_V4_PRO_WIRELESS_PID:
         case RAZER_COBRA_PRO_WIRED_PID:
         case RAZER_COBRA_PRO_WIRELESS_PID:
         case RAZER_DIAMONDBACK_CHROMA_PID:
