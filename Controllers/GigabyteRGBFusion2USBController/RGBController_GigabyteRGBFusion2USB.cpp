@@ -33,6 +33,24 @@ static IT5711ZoneCounts GetIT5711ZoneCounts(uint8_t fw_id, uint8_t fw_revision, 
             return {27, 2};
 
         case 0x02:
+            if(fw_revision == 0x20)
+            {
+                switch(lid)
+                {
+                    case 0x013001DF:
+                        return {13, 6};
+
+                    case 0x015001DF:
+                        return {6, 6};
+
+                    case 0x026001DF:
+                        return {14, 6};
+
+                    default:
+                        return {};
+                }
+            }
+
             switch(lid)
             {
                 case 0x013001DF:
@@ -63,8 +81,25 @@ static IT5711ZoneCounts GetIT5711ZoneCounts(uint8_t fw_id, uint8_t fw_revision, 
             }
 
         case 0x06:
-        case 0x09:
+        if((fw_revision == 0x19 || fw_revision == 0x1D || fw_revision == 0x24) && (lid == 0x013001DF || lid == 0x311001DF))
+            {
+                return {12, 9};
+            }
             return {12, 0};
+
+        case 0x09:
+        if((fw_revision == 0x19 || fw_revision == 0x1A) && (lid == 0x013001DF || lid == 0x311001DF))
+            {
+                return {12, 9};
+            }
+            return {12, 0};
+
+        case 0x0B:
+            if(fw_revision == 0x05)
+            {
+                return {26, 18};
+            }
+            return {};
 
         case 0x0C:
             switch(fw_revision)
@@ -95,9 +130,52 @@ static IT5711ZoneCounts GetIT5711ZoneCounts(uint8_t fw_id, uint8_t fw_revision, 
                             return {10, 4};
                     }
 
+                case 0x09:
+                    switch(lid)
+                    {
+                        case 0x016001DF:
+                            return {10, 4};
+
+                        case 0x017001DF:
+                            return {16, 4};
+
+                        case 0x028001DF:
+                            return {26, 18};
+
+                        default:
+                            return {};
+                    }
+
                 default:
                     return {};
             }
+
+        case 0x0D:
+            if(fw_revision == 0x05)
+            {
+                switch(lid)
+                {
+                    case 0x016001DF:
+                        return {8, 4};
+
+                    case 0x017001DF:
+                        return {16, 4};
+
+                    case 0x028001DF:
+                        return {26, 18};
+
+                    default:
+                        return {};
+                }
+            }
+            return {};
+
+        case 0x17:
+            if(fw_revision == 0x01 && lid == 0x016001DF)
+            {
+                return {9, 5};
+            }
+            return {};
 
         default:
             return {};
