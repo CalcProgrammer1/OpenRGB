@@ -518,7 +518,7 @@
     <message>
         <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="39"/>
         <source>Device-Specific Configuration</source>
-        <translation></translation>
+        <translation>裝置專屬設定</translation>
     </message>
     <message>
         <location filename="../OpenRGBDeviceEditorDialog/OpenRGBDeviceEditorDialog.ui" line="47"/>
@@ -639,7 +639,7 @@
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="232"/>
         <source>Edit</source>
-        <translation></translation>
+        <translation>編輯</translation>
     </message>
     <message>
         <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="281"/>
@@ -1652,7 +1652,7 @@
     <message>
         <location filename="../OpenRGBZoneEditorDialog/OpenRGBZoneEditorDialog.ui" line="124"/>
         <source>Device-Specific Zone Configuration</source>
-        <translation></translation>
+        <translation>裝置專屬區域設定</translation>
     </message>
     <message>
         <location filename="../OpenRGBZoneEditorDialog/OpenRGBZoneEditorDialog.ui" line="151"/>
