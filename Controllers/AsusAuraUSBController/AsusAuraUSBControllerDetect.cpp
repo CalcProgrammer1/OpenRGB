@@ -12,7 +12,6 @@
 #include "DetectionManager.h"
 #include "AsusAuraAddressableController.h"
 #include "AsusAuraHeadsetStandController.h"
-#include "AsusAuraKeyboardController.h"
 #include "AsusAuraTUFKeyboardController.h"
 #include "AsusAuraMainboardController.h"
 #include "AsusAuraMouseController.h"
@@ -24,7 +23,6 @@
 #include "AsusAuraRyuoAIOController.h"
 #include "RGBController_AsusAuraUSB.h"
 #include "RGBController_AsusAuraHeadsetStand.h"
-#include "RGBController_AsusAuraKeyboard.h"
 #include "RGBController_AsusAuraTUFKeyboard.h"
 #include "RGBController_AsusAuraMainboard.h"
 #include "RGBController_AsusAuraMouse.h"
@@ -126,27 +124,6 @@
 #define ASUS_ROG_ALLY_PID                                   0x1ABE
 #define ASUS_ROG_ALLY_X_PID                                 0x1B4C
 
-AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
-{
-    switch(pid)
-    {
-        case AURA_ROG_STRIX_SCOPE_PID:
-            return SCOPE_LAYOUT;
-
-        case AURA_ROG_STRIX_SCOPE_RX_PID:
-            return SCOPE_RX_LAYOUT;
-
-        case AURA_ROG_STRIX_SCOPE_TKL_PID:
-        case AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID:
-        case AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID:
-        case AURA_ROG_STRIX_SCOPE_NX_TKL_MOONLIGHT_WHITE_PID:
-            return SCOPE_TKL_LAYOUT;
-
-        default:
-            return FLARE_LAYOUT;
-    }
-}
-
 DetectedControllers DetectAsusAuraUSBTerminal(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
@@ -236,25 +213,6 @@ DetectedControllers DetectAsusAuraUSBLiquidCoolers(hid_device_info* info, const 
             // reading the config table failed
             LOG_ERROR("[AsusAuraUSB] An error occured while reading the config table: %s", ex.what());
         }
-    }
-
-    return(detected_controllers);
-}
-
-DetectedControllers DetectAsusAuraUSBKeyboards(hid_device_info* info, const std::string& name)
-{
-    DetectedControllers detected_controllers;
-    hid_device*         dev;
-
-    dev = hid_open_path(info->path);
-
-    if(dev)
-    {
-        AuraKeyboardController*       controller            = new AuraKeyboardController(dev, info->path, name);
-        AuraKeyboardMappingLayoutType layout                = GetKeyboardMappingLayoutType(info->product_id);
-        RGBController_AuraKeyboard*   rgb_controller        = new RGBController_AuraKeyboard(controller, layout);
-
-        detected_controllers.push_back(rgb_controller);
     }
 
     return(detected_controllers);
@@ -458,10 +416,10 @@ REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAs
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |
 \*-----------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",                        DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PID,                     1,  0xFF00);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX TKL Wireless Deluxe",     DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID,           1,  0xFF00);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL PNK LTD",                DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID,             1,  0xFF00);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope NX TKL Moonlight White",     DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_NX_TKL_MOONLIGHT_WHITE_PID,  1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",                        DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PID,                     1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL PNK LTD",                DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID,             1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX TKL Wireless Deluxe",     DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID,           1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope NX TKL Moonlight White",     DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_NX_TKL_MOONLIGHT_WHITE_PID,  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Azoth USB",                              DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_AZOTH_USB_PID,                           1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Azoth 2.4GHz",                           DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_AZOTH_2_4_PID,                           1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Claymore",                               DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_CLAYMORE_PID,                            1,  0xFF00);
