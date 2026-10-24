@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| RGBController_AsusAuraTUFKeyboard.cpp                     |
+| RGBController_AsusAuraKeyboard.cpp                        |
 |                                                           |
-|   RGBController for ASUS Aura TUF keyboard                |
+|   RGBController for ASUS Aura keyboard                    |
 |                                                           |
 |   Mola19                                      03 Mar 2021 |
 |                                                           |
@@ -11,7 +11,7 @@
 
 #include <cmath>
 #include <vector>
-#include "RGBController_AsusAuraTUFKeyboard.h"
+#include "RGBController_AsusAuraKeyboard.h"
 
 /**------------------------------------------------------------------*\
     @name Asus Aura TUF Keyboard
@@ -20,11 +20,11 @@
     @save :white_check_mark:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectAsusAuraTUFUSBKeyboard
+    @detectors DetectAsusAuraUSBKeyboard
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardController* controller_ptr)
+RGBController_AuraKeyboard::RGBController_AuraKeyboard(AuraKeyboardController* controller_ptr)
 {
     controller                          = controller_ptr;
 
@@ -411,14 +411,14 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
     SetupZones();
 }
 
-RGBController_AuraTUFKeyboard::~RGBController_AuraTUFKeyboard()
+RGBController_AuraKeyboard::~RGBController_AuraKeyboard()
 {
     Shutdown();
 
     delete controller;
 }
 
-void RGBController_AuraTUFKeyboard::SetupZones()
+void RGBController_AuraKeyboard::SetupZones()
 {
     std::map<int,layout_info> * keyboard_ptr;
 
@@ -541,7 +541,7 @@ void RGBController_AuraTUFKeyboard::SetupZones()
     DeviceUpdateMode();
 }
 
-void RGBController_AuraTUFKeyboard::DeviceUpdateLEDs()
+void RGBController_AuraKeyboard::DeviceUpdateLEDs()
 {
     std::vector<led_color> led_color_list = {};
 
@@ -553,12 +553,12 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateLEDs()
     controller->UpdateLeds(led_color_list);
 }
 
-void RGBController_AuraTUFKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
+void RGBController_AuraKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraTUFKeyboard::DeviceUpdateSingleLED(int led)
+void RGBController_AuraKeyboard::DeviceUpdateSingleLED(int led)
 {
     if(!controller->is_per_led_keyboard)
     {
@@ -578,7 +578,7 @@ static const uint8_t direction_map[2][6] =
     { 0,  4,  6,  2,  0xFF,  0xFF },    // AURA_ROG_CLAYMORE directions Left, Right, Up, Down
 };
 
-void RGBController_AuraTUFKeyboard::DeviceUpdateMode()
+void RGBController_AuraKeyboard::DeviceUpdateMode()
 {
     if(pid == AURA_ROG_CLAYMORE_PID)
     {
@@ -662,7 +662,7 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateMode()
     }
 }
 
-void RGBController_AuraTUFKeyboard::DeviceSaveMode()
+void RGBController_AuraKeyboard::DeviceSaveMode()
 {
     /*----------------------------------------------------------*\
     | not available for Claymore                                 |

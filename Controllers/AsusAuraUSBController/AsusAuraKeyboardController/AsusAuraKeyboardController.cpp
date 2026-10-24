@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| AsusAuraTUFKeyboardController.cpp                         |
+| AsusAuraKeyboardController.cpp                            |
 |                                                           |
-|   Driver for ASUS Aura TUF keyboard                       |
+|   Driver for ASUS Aura keyboard                           |
 |                                                           |
 |   Mola19                                      03 Mar 2021 |
 |                                                           |
@@ -16,12 +16,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <vector>
-#include "AsusAuraTUFKeyboardController.h"
+#include "AsusAuraKeyboardController.h"
 #include "StringUtils.h"
 
 #define HID_MAX_STR 128
 
-AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version, std::string dev_name)
+AuraKeyboardController::AuraKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
@@ -32,22 +32,22 @@ AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, con
     is_per_led_keyboard = (pid != AURA_TUF_K1_GAMING_PID && pid != AURA_TUF_K5_GAMING_PID);
 }
 
-AuraTUFKeyboardController::~AuraTUFKeyboardController()
+AuraKeyboardController::~AuraKeyboardController()
 {
     hid_close(dev);
 }
 
-std::string AuraTUFKeyboardController::GetDeviceLocation()
+std::string AuraKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
 }
 
-std::string AuraTUFKeyboardController::GetName()
+std::string AuraKeyboardController::GetName()
 {
     return(name);
 }
 
-std::string AuraTUFKeyboardController::GetSerialString()
+std::string AuraKeyboardController::GetSerialString()
 {
     wchar_t serial_string[HID_MAX_STR];
     memset(serial_string, 0, sizeof(serial_string));
@@ -75,7 +75,7 @@ std::string AuraTUFKeyboardController::GetSerialString()
     return(StringUtils::wstring_to_string(serial_string));
 }
 
-std::string AuraTUFKeyboardController::GetVersion()
+std::string AuraKeyboardController::GetVersion()
 {
     if(device_pid != AURA_ROG_CLAYMORE_PID)
     {
@@ -152,7 +152,7 @@ std::string AuraTUFKeyboardController::GetVersion()
     }
 }
 
-int AuraTUFKeyboardController::GetLayout()
+int AuraKeyboardController::GetLayout()
 {
     if(device_pid != AURA_ROG_CLAYMORE_PID)
     {
@@ -192,7 +192,7 @@ int AuraTUFKeyboardController::GetLayout()
 /*---------------------------------------------------------*\
 | only needed for Claymore                                  |
 \*---------------------------------------------------------*/
-int AuraTUFKeyboardController::GetNumpadLocation()
+int AuraKeyboardController::GetNumpadLocation()
 {
     unsigned char usb_buf[65];
     memset(usb_buf, 0x00, sizeof(usb_buf));
@@ -210,7 +210,7 @@ int AuraTUFKeyboardController::GetNumpadLocation()
     return(usb_buf_out[5] * 2 + usb_buf_out[4]);
 }
 
-void AuraTUFKeyboardController::SaveMode()
+void AuraKeyboardController::SaveMode()
 {
     unsigned char usb_save_buf[65];
     memset(usb_save_buf, 0x00, sizeof(usb_save_buf));
@@ -227,7 +227,7 @@ void AuraTUFKeyboardController::SaveMode()
 /*---------------------------------------------------------*\
 | only needed for Claymore                                  |
 \*---------------------------------------------------------*/
-void AuraTUFKeyboardController::AllowRemoteControl(unsigned char type)
+void AuraKeyboardController::AllowRemoteControl(unsigned char type)
 {
     unsigned char usb_buf[65];
     memset(usb_buf, 0x00, sizeof(usb_buf));
@@ -241,7 +241,7 @@ void AuraTUFKeyboardController::AllowRemoteControl(unsigned char type)
     AwaitResponse(20);
 }
 
-void AuraTUFKeyboardController::UpdateSingleLed
+void AuraKeyboardController::UpdateSingleLed
     (
     int             led,
     unsigned char   red,
@@ -274,7 +274,7 @@ void AuraTUFKeyboardController::UpdateSingleLed
     AwaitResponse(20);
 }
 
-void AuraTUFKeyboardController::UpdateLeds
+void AuraKeyboardController::UpdateLeds
     (
     std::vector<led_color>    colors
     )
@@ -310,7 +310,7 @@ void AuraTUFKeyboardController::UpdateLeds
     }
 }
 
-void AuraTUFKeyboardController::UpdateK1Wave
+void AuraKeyboardController::UpdateK1Wave
     (
     std::vector<RGBColor>   colors,
     unsigned char           direction,
@@ -355,7 +355,7 @@ void AuraTUFKeyboardController::UpdateK1Wave
     AwaitResponse(20);
 }
 
-void AuraTUFKeyboardController::UpdateScopeIIRainbowRipple
+void AuraKeyboardController::UpdateScopeIIRainbowRipple
     (
     unsigned char           mode,
     std::vector<RGBColor>   colors,
@@ -440,7 +440,7 @@ void AuraTUFKeyboardController::UpdateScopeIIRainbowRipple
     AwaitResponse(20);
 }
 
-void AuraTUFKeyboardController::UpdateScopeIIQuicksand
+void AuraKeyboardController::UpdateScopeIIQuicksand
     (
     std::vector<RGBColor>   colors,
     unsigned char           direction,
@@ -491,7 +491,7 @@ void AuraTUFKeyboardController::UpdateScopeIIQuicksand
     AwaitResponse(20);
 }
 
-void AuraTUFKeyboardController::UpdateDevice
+void AuraKeyboardController::UpdateDevice
     (
     unsigned char           mode,
     std::vector<RGBColor>   colors,
@@ -668,7 +668,7 @@ void AuraTUFKeyboardController::UpdateDevice
 /*---------------------------------------------------------*\
 | only needed for Claymore                                  |
 \*---------------------------------------------------------*/
-void AuraTUFKeyboardController::UpdateQuicksandColors
+void AuraKeyboardController::UpdateQuicksandColors
     (
     std::vector<RGBColor>   colors
     )
@@ -698,7 +698,7 @@ void AuraTUFKeyboardController::UpdateQuicksandColors
 /*---------------------------------------------------------*\
 | only needed for Claymore                                  |
 \*---------------------------------------------------------*/
-void AuraTUFKeyboardController::UpdateMode(unsigned char mode)
+void AuraKeyboardController::UpdateMode(unsigned char mode)
 {
     unsigned char usb_buf[65];
     memset(usb_buf, 0x00, sizeof(usb_buf));
@@ -715,13 +715,13 @@ void AuraTUFKeyboardController::UpdateMode(unsigned char mode)
     AwaitResponse(20);
 }
 
-void AuraTUFKeyboardController::AwaitResponse(int ms)
+void AuraKeyboardController::AwaitResponse(int ms)
 {
     unsigned char usb_buf_out[65];
     hid_read_timeout(dev, usb_buf_out, 65, ms);
 }
 
-void AuraTUFKeyboardController::ClearResponses()
+void AuraKeyboardController::ClearResponses()
 {
     int result = 1;
     unsigned char usb_buf_flush[65];

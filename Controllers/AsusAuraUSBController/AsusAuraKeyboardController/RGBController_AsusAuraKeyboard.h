@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| RGBController_AsusAuraTUFKeyboard.h                       |
+| RGBController_AsusAuraKeyboard.h                          |
 |                                                           |
-|   RGBController for ASUS Aura TUF keyboard                |
+|   RGBController for ASUS Aura keyboard                    |
 |                                                           |
 |   Mola19                                      03 Mar 2021 |
 |                                                           |
@@ -12,7 +12,7 @@
 #pragma once
 
 #include "RGBController.h"
-#include "AsusAuraTUFKeyboardController.h"
+#include "AsusAuraKeyboardController.h"
 
 enum
 {
@@ -35,11 +35,11 @@ enum
     AURA_CLAYMORE_SPEED_DEFAULT_QUICKSAND       = 103
 };
 
-class RGBController_AuraTUFKeyboard : public RGBController
+class RGBController_AuraKeyboard : public RGBController
 {
 public:
-    RGBController_AuraTUFKeyboard(AuraTUFKeyboardController* controller_ptr);
-    ~RGBController_AuraTUFKeyboard();
+    RGBController_AuraKeyboard(AuraKeyboardController* controller_ptr);
+    ~RGBController_AuraKeyboard();
 
     void        SetupZones();
 
@@ -51,6 +51,6 @@ public:
     void        DeviceSaveMode();
 
 private:
-    AuraTUFKeyboardController*  controller;
+    AuraKeyboardController*  controller;
     uint16_t                    pid;
 };

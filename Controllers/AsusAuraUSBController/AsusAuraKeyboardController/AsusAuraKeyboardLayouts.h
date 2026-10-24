@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| AsusAuraTUFKeyboardLayouts.h                              |
+| AsusAuraKeyboardLayouts.h                                 |
 |                                                           |
-|   Layouts for ASUS Aura TUF keyboard                      |
+|   Layouts for ASUS Aura keyboard                          |
 |                                                           |
 |   Mola19                                      02 Nov 2021 |
 |                                                           |

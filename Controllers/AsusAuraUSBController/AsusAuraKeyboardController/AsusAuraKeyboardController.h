@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| AsusAuraTUFKeyboardController.h                           |
+| AsusAuraKeyboardController.h                              |
 |                                                           |
-|   Driver for ASUS Aura TUF keyboard                       |
+|   Driver for ASUS Aura keyboard                           |
 |                                                           |
 |   Mola19                                      03 Mar 2021 |
 |                                                           |
@@ -15,7 +15,7 @@
 #include <vector>
 #include <hidapi.h>
 #include "RGBController.h"
-#include "AsusAuraTUFKeyboardLayouts.h"
+#include "AsusAuraKeyboardLayouts.h"
 
 enum
 {
@@ -71,11 +71,11 @@ struct led_color
     RGBColor        color;
 };
 
-class AuraTUFKeyboardController
+class AuraKeyboardController
 {
 public:
-    AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version, std::string dev_name);
-    ~AuraTUFKeyboardController();
+    AuraKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version, std::string dev_name);
+    ~AuraKeyboardController();
 
     std::string GetDeviceLocation();
     std::string GetName();
