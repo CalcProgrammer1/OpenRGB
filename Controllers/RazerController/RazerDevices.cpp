@@ -7623,7 +7623,7 @@ static const razer_device viper_mini_device =
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
     0x3F,
-    RAZER_LED_ID_BACKLIGHT,
+    RAZER_LED_ID_LOGO,
     1,
     1,
     {
@@ -7731,7 +7731,7 @@ static const razer_device viper_device =
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
     0x3F,
-    RAZER_LED_ID_BACKLIGHT,
+    RAZER_LED_ID_LOGO,
     1,
     1,
     {
