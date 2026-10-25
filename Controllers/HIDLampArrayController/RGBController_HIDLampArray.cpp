@@ -62,6 +62,18 @@ RGBController_HIDLampArray::RGBController_HIDLampArray(HIDLampArrayController* c
         case HID_LAMPARRAY_KIND_ART:
             type        = DEVICE_TYPE_ACCESSORY;
             break;
+
+        case HID_LAMPARRAY_KIND_HEADSET:
+            type        = DEVICE_TYPE_HEADSET;
+            break;
+
+        case HID_LAMPARRAY_KIND_MICROPHONE:
+            type        = DEVICE_TYPE_MICROPHONE;
+            break;
+
+        case HID_LAMPARRAY_KIND_SPEAKER:
+            type        = DEVICE_TYPE_SPEAKER;
+            break;
     }
 
     mode Direct;
@@ -374,9 +386,10 @@ void RGBController_HIDLampArray::SetupZones()
         {
             new_led.name = HIDUsageIDsToKeyNames[lamp_key];
         }
-        else
+
+        if(new_led.name.empty())
         {
-            new_led.name = KEY_EN_UNUSED;
+            new_led.name = "Lamp " + std::to_string(lamp_idx);
         }
         leds.push_back(new_led);
     }

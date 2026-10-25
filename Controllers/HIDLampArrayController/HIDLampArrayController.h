@@ -104,6 +104,9 @@ enum
     HID_LAMPARRAY_KIND_WEARABLE         = 0x08,     /* LampArrayKindWearable        */
     HID_LAMPARRAY_KIND_FURNITURE        = 0x09,     /* LampArrayKindFurniture       */
     HID_LAMPARRAY_KIND_ART              = 0x0A,     /* LampArrayKindArt             */
+    HID_LAMPARRAY_KIND_HEADSET          = 0x0B,     /* LampArrayKindHeadset         */
+    HID_LAMPARRAY_KIND_MICROPHONE       = 0x0C,     /* LampArrayKindMicrophone      */
+    HID_LAMPARRAY_KIND_SPEAKER          = 0x0D,     /* LampArrayKindSpeaker         */
 };
 
 class HIDLampArrayController
