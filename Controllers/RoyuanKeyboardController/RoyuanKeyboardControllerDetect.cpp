@@ -89,7 +89,7 @@ DetectedControllers DetectRoyuanLegacyKeyboardControllers(hid_device_info* info,
     return(detected_controllers);
 }
 
-REGISTER_HID_DETECTOR_I("Akko 3068B Plus",                  DetectRoyuanAkkoKeyboardControllers,    ROYUAN_KEYBOARD_VID, ROYUAN_AKKO_B_SERIES_PID,              0);
+REGISTER_HID_DETECTOR_I("Akko 3068B Plus / PC75B Plus",    DetectRoyuanAkkoKeyboardControllers,    ROYUAN_KEYBOARD_VID, ROYUAN_AKKO_B_SERIES_PID,              0);
 REGISTER_HID_DETECTOR_I("Skyloong GK68HE Pro",              DetectRoyuanGK68HEProKeyboardControllers, ROYUAN_KEYBOARD_VID, ROYUAN_SKYLOONG_GK68HE_PRO_PID,      2);
 REGISTER_HID_DETECTOR_I("Epomaker TH80 Pro (USB Cable)",    DetectRoyuanLegacyKeyboardControllers,  ROYUAN_KEYBOARD_VID, ROYUAN_EPOMAKER_TH80_PRO_USB_PID,      2);
 REGISTER_HID_DETECTOR_I("Epomaker TH80 Pro (USB Dongle)",   DetectRoyuanLegacyKeyboardControllers,  ROYUAN_KEYBOARD_VID, ROYUAN_EPOMAKER_TH80_PRO_DONGLE_PID,   2);

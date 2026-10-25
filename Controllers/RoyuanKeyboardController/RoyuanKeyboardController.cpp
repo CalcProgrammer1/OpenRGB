@@ -16,6 +16,13 @@
 #include <cstring>
 #include <thread>
 
+/*---------------------------------------------------------*\
+| Akko B series boards lock up their control endpoint when  |
+| a SET is followed too quickly by another transfer         |
+\*---------------------------------------------------------*/
+#define ROYUAN_PRE_SET_DELAY_MS                                   500
+#define ROYUAN_POST_SET_DELAY_MS                                  1500
+
 RoyuanKeyboardProfile RoyuanKeyboardProfile::EpomakerLegacy()
 {
     RoyuanKeyboardProfile profile;
@@ -32,7 +39,7 @@ RoyuanKeyboardProfile RoyuanKeyboardProfile::EpomakerLegacy()
     profile.reverse_speed                      = false;
     profile.supports_readback                  = false;
     profile.supports_direct_mode               = false;
-    profile.force_option_default               = false;
+    profile.paced_writes                       = false;
     profile.solid_option_default               = 0x00;
     profile.solid_option_overrides_static      = false;
     profile.fallback_name                      = "ROYUAN Keyboard";
@@ -56,10 +63,10 @@ RoyuanKeyboardProfile RoyuanKeyboardProfile::AkkoBSeries()
     profile.reverse_speed                      = true;
     profile.supports_readback                  = true;
     profile.supports_direct_mode               = false;
-    profile.force_option_default               = true;
+    profile.paced_writes                       = true;
     profile.solid_option_default               = 0x00;
     profile.solid_option_overrides_static      = false;
-    profile.fallback_name                      = "Akko 3068B Plus";
+    profile.fallback_name                      = "Akko 3068B Plus / PC75B Plus";
 
     return(profile);
 }
@@ -80,7 +87,7 @@ RoyuanKeyboardProfile RoyuanKeyboardProfile::GK68HEPro()
     profile.reverse_speed                      = true;
     profile.supports_readback                  = true;
     profile.supports_direct_mode               = true;
-    profile.force_option_default               = false;
+    profile.paced_writes                       = false;
     profile.solid_option_default               = 0x07;
     profile.solid_option_overrides_static      = true;
     profile.fallback_name                      = "Skyloong GK68HE Pro";
@@ -103,6 +110,9 @@ RoyuanKeyboardController::RoyuanKeyboardController(hid_device* dev_handle, char*
     current_red         = 0x00;
     current_green       = 0x00;
     current_blue        = 0x00;
+    write_running       = true;
+    write_pending       = false;
+    next_transfer       = std::chrono::steady_clock::now();
 
     wchar_t name_string[ROYUAN_HID_MAX_STR] = { 0 };
 
@@ -134,10 +144,33 @@ RoyuanKeyboardController::RoyuanKeyboardController(hid_device* dev_handle, char*
     }
 
     valid = !profile.supports_readback || ReadState();
+
+    if(valid && profile.paced_writes)
+    {
+        next_transfer   = std::chrono::steady_clock::now() + std::chrono::milliseconds(ROYUAN_PRE_SET_DELAY_MS);
+        write_thread    = std::thread(&RoyuanKeyboardController::WriteThread, this);
+    }
 }
 
 RoyuanKeyboardController::~RoyuanKeyboardController()
 {
+    if(write_thread.joinable())
+    {
+        write_mutex.lock();
+        write_running = false;
+        write_mutex.unlock();
+
+        write_cv.notify_all();
+        write_thread.join();
+
+        /*-------------------------------------------------*\
+        | A rescan reopens the keyboard and reads its state |
+        | right away, which must not happen within 1.5 s of |
+        | the last SET                                      |
+        \*-------------------------------------------------*/
+        std::this_thread::sleep_until(next_transfer);
+    }
+
     hid_close(dev);
 }
 
@@ -186,6 +219,11 @@ unsigned char RoyuanKeyboardController::GetSpeed() const
 unsigned char RoyuanKeyboardController::GetBrightness() const
 {
     return(current_brightness);
+}
+
+unsigned char RoyuanKeyboardController::GetOption() const
+{
+    return(current_option);
 }
 
 unsigned char RoyuanKeyboardController::GetDirectModeID() const
@@ -303,6 +341,17 @@ bool RoyuanKeyboardController::SendUpdate()
     buffer[8] = current_blue;
     buffer[9] = CalculateChecksum(&buffer[1], 8);
 
+    if(profile.paced_writes)
+    {
+        write_mutex.lock();
+        std::memcpy(write_report, buffer, sizeof(write_report));
+        write_pending = true;
+        write_mutex.unlock();
+
+        write_cv.notify_all();
+        return(true);
+    }
+
     int result = hid_send_feature_report(dev, buffer, sizeof(buffer));
 
     if(result < 0)
@@ -333,11 +382,6 @@ void RoyuanKeyboardController::SetMode(unsigned char mode, unsigned char speed, 
     current_speed       = std::min<unsigned char>(speed, profile.speed_max);
     current_brightness  = std::min<unsigned char>(brightness, profile.brightness_max);
 
-    if(profile.protocol == RoyuanKeyboardProtocol::AkkoBSeries && profile.force_option_default)
-    {
-        current_option = (profile.supports_direct_mode && mode == profile.direct_mode_id) ? 0x00 : profile.option_default;
-    }
-
     SendUpdate();
 
     if(profile.supports_direct_mode && mode == profile.direct_mode_id)
@@ -356,11 +400,6 @@ void RoyuanKeyboardController::SetColor(unsigned char red, unsigned char green, 
     {
         SendDirectColor();
         return;
-    }
-
-    if(profile.protocol == RoyuanKeyboardProtocol::AkkoBSeries && profile.force_option_default)
-    {
-        current_option = profile.option_default;
     }
 
     SendUpdate();
@@ -433,4 +472,45 @@ bool RoyuanKeyboardController::SetUserPic(const unsigned char* slot_colors, unsi
     }
 
     return(true);
+}
+
+/*---------------------------------------------------------*\
+| Paced profiles: sends the latest update 500 ms after it   |
+| was asked for and 1.5 s after the previous one at the     |
+| earliest. Updates asked for meanwhile are merged.         |
+\*---------------------------------------------------------*/
+void RoyuanKeyboardController::WriteThread()
+{
+    std::unique_lock<std::mutex> lock(write_mutex);
+
+    while(true)
+    {
+        write_cv.wait(lock, [this]{ return(write_pending || !write_running); });
+
+        if(!write_pending)
+        {
+            break;
+        }
+
+        lock.unlock();
+        std::this_thread::sleep_until(std::max(next_transfer, std::chrono::steady_clock::now() + std::chrono::milliseconds(ROYUAN_PRE_SET_DELAY_MS)));
+        lock.lock();
+
+        unsigned char buffer[ROYUAN_REPORT_LENGTH + 1];
+
+        std::memcpy(buffer, write_report, sizeof(buffer));
+        write_pending = false;
+
+        lock.unlock();
+
+        int result      = hid_send_feature_report(dev, buffer, sizeof(buffer));
+        next_transfer   = std::chrono::steady_clock::now() + std::chrono::milliseconds(ROYUAN_POST_SET_DELAY_MS);
+
+        if(result < 0)
+        {
+            LOG_ERROR("[ROYUAN]: SET_LEDPARAM failed: %ls", hid_error(dev));
+        }
+
+        lock.lock();
+    }
 }

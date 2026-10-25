@@ -9,9 +9,13 @@
 
 #pragma once
 
+#include <chrono>
+#include <condition_variable>
 #include <cstddef>
 #include <cstdint>
+#include <mutex>
 #include <string>
+#include <thread>
 #include <hidapi.h>
 
 #define ROYUAN_REPORT_LENGTH                                      64
@@ -28,9 +32,31 @@
 #define ROYUAN_AKKO_EFFECT_OFF                                    0x00
 #define ROYUAN_AKKO_EFFECT_STATIC                                 0x01
 #define ROYUAN_AKKO_EFFECT_BREATHING                              0x02
+#define ROYUAN_AKKO_EFFECT_NEON                                   0x03
 #define ROYUAN_AKKO_EFFECT_WAVE                                   0x04
 #define ROYUAN_AKKO_EFFECT_RIPPLE                                 0x05
+#define ROYUAN_AKKO_EFFECT_RAINDROP                               0x06
+#define ROYUAN_AKKO_EFFECT_SNAKE                                  0x07
 #define ROYUAN_AKKO_EFFECT_REACTIVE                               0x08
+#define ROYUAN_AKKO_EFFECT_CONVERGE                               0x09
+#define ROYUAN_AKKO_EFFECT_SINE_WAVE                              0x0A
+#define ROYUAN_AKKO_EFFECT_KALEIDOSCOPE                           0x0B
+#define ROYUAN_AKKO_EFFECT_LINE_WAVE                              0x0C
+#define ROYUAN_AKKO_EFFECT_LASER                                  0x0E
+#define ROYUAN_AKKO_EFFECT_CIRCLE_WAVE                            0x0F
+#define ROYUAN_AKKO_EFFECT_DAZZLE                                 0x10
+#define ROYUAN_AKKO_EFFECT_RAIN_DOWN                              0x11
+#define ROYUAN_AKKO_EFFECT_METEOR                                 0x12
+#define ROYUAN_AKKO_EFFECT_REACTIVE_OFF                           0x13
+#define ROYUAN_AKKO_EFFECT_TRAIN                                  0x17
+#define ROYUAN_AKKO_EFFECT_FIREWORKS                              0x18
+
+#define ROYUAN_AKKO_COLOR_RANDOM                                  0x07
+#define ROYUAN_AKKO_COLOR_SINGLE                                  0x08
+
+#define ROYUAN_AKKO_DIRECTION_LEFT                                0x01
+#define ROYUAN_AKKO_DIRECTION_DOWN                                0x02
+#define ROYUAN_AKKO_DIRECTION_UP                                  0x03
 
 #define ROYUAN_SKYLOONG_GK68HE_PRO_EFFECT_ALWAYS_ON               0x01
 #define ROYUAN_SKYLOONG_GK68HE_PRO_EFFECT_DYNAMIC_BREATHING       0x02
@@ -105,7 +131,7 @@ struct RoyuanKeyboardProfile
     bool                   supports_readback;
     bool                   supports_direct_mode;
     bool                   solid_option_overrides_static;
-    bool                   force_option_default;
+    bool                   paced_writes;
     std::string            fallback_name;
 
     static RoyuanKeyboardProfile EpomakerLegacy();
@@ -129,6 +155,7 @@ public:
     unsigned char           GetMode() const;
     unsigned char           GetSpeed() const;
     unsigned char           GetBrightness() const;
+    unsigned char           GetOption() const;
     unsigned char           GetDirectModeID() const;
     unsigned char           GetRed() const;
     unsigned char           GetGreen() const;
@@ -156,8 +183,17 @@ private:
     unsigned char           current_green;
     unsigned char           current_blue;
 
+    std::thread             write_thread;
+    std::mutex              write_mutex;
+    std::condition_variable write_cv;
+    bool                    write_running;
+    bool                    write_pending;
+    unsigned char           write_report[ROYUAN_REPORT_LENGTH + 1];
+    std::chrono::steady_clock::time_point next_transfer;
+
     unsigned char           CalculateChecksum(const unsigned char* data, std::size_t length) const;
     bool                    ReadState();
     bool                    SendUpdate();
     bool                    SendDirectColor();
+    void                    WriteThread();
 };
