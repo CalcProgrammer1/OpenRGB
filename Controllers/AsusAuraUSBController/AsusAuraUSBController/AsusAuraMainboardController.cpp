@@ -29,8 +29,20 @@ AuraMainboardController::AuraMainboardController(hid_device* dev_handle, const c
     \*-----------------------------------------------------*/
     if(num_total_mainboard_leds > 0)
     {
-        device_info.push_back({effect_channel, 0x04, num_total_mainboard_leds, num_rgb_headers, AuraDeviceType::FIXED});
-        effect_channel++;
+        /*-----------------------------------------------------*\
+        | AULA3-AR32 ARGB effect channels start at 0, other     |
+        | firmwares start at 1.                                 |
+        \*-----------------------------------------------------*/
+        bool argb_effect_channels_from_zero    = (strncmp(version, "AULA3-AR32", 10) == 0);
+
+        unsigned char mainboard_effect_channel = argb_effect_channels_from_zero ? num_addressable_headers : effect_channel;
+
+        device_info.push_back({mainboard_effect_channel, 0x04, num_total_mainboard_leds, num_rgb_headers, AuraDeviceType::FIXED});
+
+        if(!argb_effect_channels_from_zero)
+        {
+            effect_channel++;
+        }
     }
 
     /*-----------------------------------------------------*\
