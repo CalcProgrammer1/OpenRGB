@@ -2271,10 +2271,11 @@ void RGBController_LogitechHIDPP20::DeviceUpdateLEDs()
     }
 
     /*-----------------------------------------------------*\
-    | Feature 0x8080 (Per Key Lighting). Full repaint       |
-    | grouped by keyType, then one FlushLEDS.               |
-    | led_to_keytype_keyid_8080 (built in SetupZones8080)   |
-    | maps each LED to its wire (keyType, keyId).           |
+    | Feature 0x8080 (Per Key Lighting). Keys that changed  |
+    | since the last committed frame, grouped by keyType,   |
+    | then one FlushLEDS. led_to_keytype_keyid_8080 (built  |
+    | in SetupZones8080) maps each LED to its wire          |
+    | (keyType, keyId).                                     |
     \*-----------------------------------------------------*/
     if(PerKey8080Capable() && (unsigned int)active_mode < modes.size() &&
        modes[active_mode].color_mode == MODE_COLORS_PER_LED)
@@ -2283,34 +2284,101 @@ void RGBController_LogitechHIDPP20::DeviceUpdateLEDs()
 
         int brightness = controller->GetDimBrightness();
 
-        /*-------------------------------------------------*\
-        | Group painted LEDs by keyType, preserving         |
-        | keyType order of first appearance. Skip           |
-        | unaddressable LEDs (keyType 0 + keyId 0, present  |
-        | in the matrix but not enumerated on the device).  |
-        \*-------------------------------------------------*/
-        std::vector<std::pair<uint16_t, std::vector<std::pair<uint8_t, RGBColor>>>> by_type;
-        std::map<uint16_t, size_t> type_slot;
-
-        for(size_t i = 0; i < snapshot.size() && i < led_to_keytype_keyid_8080.size(); i++)
+        if(brightness < 100)
         {
-            uint16_t key_type = led_to_keytype_keyid_8080[i].first;
-            uint8_t  key_id   = led_to_keytype_keyid_8080[i].second;
+            for(size_t i = 0; i < snapshot.size(); i++)
+            {
+                uint8_t r = RGBGetRValue(snapshot[i]) * brightness / 100;
+                uint8_t g = RGBGetGValue(snapshot[i]) * brightness / 100;
+                uint8_t b = RGBGetBValue(snapshot[i]) * brightness / 100;
+                snapshot[i] = ToRGBColor(r, g, b);
+            }
+        }
 
-            if(key_type == 0 && key_id == 0)
+        /*-------------------------------------------------*\
+        | Device state is unknown after a reconnect or      |
+        | wake, send everything.                            |
+        \*-------------------------------------------------*/
+        uint32_t gen = controller->GetInitGeneration();
+
+        if(gen != last_init_gen)
+        {
+            sent_colors.clear();
+            resync_cursor = 0;
+            last_init_gen = gen;
+        }
+
+        bool full_update = (sent_colors.size() != snapshot.size());
+
+        if(full_update)
+        {
+            sent_colors.assign(snapshot.size(), HIDPP20_UNCOMMITTED);
+        }
+
+        size_t led_count = std::min(snapshot.size(), led_to_keytype_keyid_8080.size());
+
+        std::vector<size_t> frame_leds;
+        std::vector<bool>   in_frame(led_count, false);
+
+        for(size_t i = 0; i < led_count; i++)
+        {
+            if(led_to_keytype_keyid_8080[i].first == 0 && led_to_keytype_keyid_8080[i].second == 0)
             {
                 continue;
             }
 
-            RGBColor color = snapshot[i];
-
-            if(brightness < 100)
+            if(snapshot[i] != sent_colors[i])
             {
-                uint8_t r = RGBGetRValue(color) * brightness / 100;
-                uint8_t g = RGBGetGValue(color) * brightness / 100;
-                uint8_t b = RGBGetBValue(color) * brightness / 100;
-                color = ToRGBColor(r, g, b);
+                frame_leds.push_back(i);
+                in_frame[i] = true;
             }
+        }
+
+        /*-------------------------------------------------*\
+        | Rolling resync (see HIDPP20_RESYNC_KEYS_MIN): an  |
+        | ACK proves the write arrived, not that the key    |
+        | took it, so the least recently visited keys go    |
+        | out again whether or not they look clean.         |
+        \*-------------------------------------------------*/
+        if(!full_update && led_count > 0)
+        {
+            unsigned int budget = (frame_leds.size() <= HIDPP20_RESYNC_QUIET_ZONES)
+                                ? HIDPP20_RESYNC_KEYS_MAX
+                                : HIDPP20_RESYNC_KEYS_MIN;
+            unsigned int added  = 0;
+
+            for(size_t scanned = 0; scanned < led_count && added < budget; scanned++)
+            {
+                size_t idx = resync_cursor % led_count;
+
+                resync_cursor++;
+
+                if(in_frame[idx] ||
+                   (led_to_keytype_keyid_8080[idx].first == 0 && led_to_keytype_keyid_8080[idx].second == 0))
+                {
+                    continue;
+                }
+
+                frame_leds.push_back(idx);
+                in_frame[idx] = true;
+                added++;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Group the frame's LEDs by keyType, preserving     |
+        | keyType order of first appearance. Unaddressable  |
+        | LEDs (keyType 0 + keyId 0, present in the matrix  |
+        | but not enumerated on the device) never get here. |
+        \*-------------------------------------------------*/
+        std::vector<std::pair<uint16_t, std::vector<std::pair<uint8_t, RGBColor>>>> by_type;
+        std::map<uint16_t, size_t> type_slot;
+
+        for(size_t i : frame_leds)
+        {
+            uint16_t key_type = led_to_keytype_keyid_8080[i].first;
+            uint8_t  key_id   = led_to_keytype_keyid_8080[i].second;
+            RGBColor color    = snapshot[i];
 
             std::map<uint16_t, size_t>::iterator slot = type_slot.find(key_type);
 
@@ -2326,8 +2394,32 @@ void RGBController_LogitechHIDPP20::DeviceUpdateLEDs()
 
         if(!by_type.empty())
         {
-            controller->SetPerKey8080(by_type);
-            controller->PerKeyCommit8080();
+            /*---------------------------------------------*\
+            | The ACKs carry no key identity: a frame that  |
+            | did not fully land leaves all of its keys     |
+            | uncommitted for the next delta, and the retry |
+            | paint sends them when no next frame comes (a  |
+            | static color is painted once).                |
+            \*---------------------------------------------*/
+            bool landed = controller->SetPerKey8080(by_type);
+
+            for(size_t i : frame_leds)
+            {
+                sent_colors[i] = landed ? snapshot[i] : HIDPP20_UNCOMMITTED;
+            }
+
+            if(landed)
+            {
+                controller->CancelRetryPaint();
+            }
+            else
+            {
+                controller->ScheduleRetryPaint();
+            }
+        }
+        else
+        {
+            controller->CancelRetryPaint();
         }
 
         return;
@@ -3013,7 +3105,6 @@ void RGBController_LogitechHIDPP20::DeviceUpdateMode()
             if(!by_type.empty())
             {
                 controller->SetPerKey8080(by_type);
-                controller->PerKeyCommit8080();
             }
 
             return;

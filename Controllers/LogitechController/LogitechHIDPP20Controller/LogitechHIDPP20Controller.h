@@ -514,6 +514,21 @@ static constexpr int      HIDPP20_PERKEY_SUMMARY_S   = 60;
 static constexpr uint8_t  HIDPP20_PERKEY_WINDOW_GROW_AFTER = 16;
 
 /*---------------------------------------------------------*\
+| 0x8080 SetKeyColors write window. Same rules as 0x8081,   |
+| sized for the 0x12 report: a full board is about 8        |
+| writes, so MAX stays below a whole frame. MIN is stop-    |
+| and-wait, how the G810/G910 family was always driven.     |
+\*---------------------------------------------------------*/
+static constexpr size_t   HIDPP20_8080_WINDOW_MAX    = 4;
+static constexpr size_t   HIDPP20_8080_WINDOW_MIN    = 1;
+
+/*---------------------------------------------------------*\
+| 0x8080 end-of-frame quiet guard. The G810 answers the     |
+| last write of a frame later than the 0x8081 tail allows.  |
+\*---------------------------------------------------------*/
+static constexpr uint16_t HIDPP20_8080_ACK_TAIL_MS   = 60;
+
+/*---------------------------------------------------------*\
 | Deep-sleep detection threshold. After StartSleep()        |
 | commands the firmware fade, the device eventually         |
 | enters deep sleep and returns BUSY to every FrameEnd.     |
@@ -714,9 +729,10 @@ public:
     | keyId); fn3 rides the 0x12 report on dev_perkey_vl,   |
     | fn5 FlushLEDS commits on dev. The key set comes       |
     | from DiscoverPerKey8080: never hardcoded.             |
+    | SetPerKey8080 writes and commits, returns true only   |
+    | when every write and the commit were acked.           |
     \*-----------------------------------------------------*/
-    void              SetPerKey8080(const std::vector<std::pair<uint16_t, std::vector<std::pair<uint8_t, RGBColor>>>>& by_type);
-    void              PerKeyCommit8080();
+    bool              SetPerKey8080(const std::vector<std::pair<uint16_t, std::vector<std::pair<uint8_t, RGBColor>>>>& by_type);
 
     /*-----------------------------------------------------*\
     | Zone effects (0x8071 / 0x8070)                        |
@@ -946,9 +962,9 @@ private:
     /*-----------------------------------------------------*\
     | Feature 0x8080 very-long (0x12) frame transport.      |
     | Writes a 64-byte report to dev_perkey_vl; the ACK     |
-    | lands on dev and is drained by the reader thread.     |
-    | Fire-and-forget, do NOT route through SendStandard    |
-    | (which caps at the 0x11 long report).                 |
+    | lands on dev, the caller reads it. Do NOT route       |
+    | through SendStandard (which caps at the 0x11 long     |
+    | report).                                              |
     \*-----------------------------------------------------*/
     int             SendVeryLongFrame(uint8_t feat_idx, uint8_t function,
                                       const uint8_t* data, size_t len);
@@ -1282,6 +1298,34 @@ private:
     int             MatchPerKeyAck(uint8_t resp_func_hi,
                                    const uint8_t* resp_data,
                                    std::vector<uint8_t>& acked_zones_out);
+
+    /*-----------------------------------------------------*\
+    | 0x8080 SetKeyColors flow control. The ACK carries no  |
+    | key identity, so writes are counted, not attributed.  |
+    \*-----------------------------------------------------*/
+    size_t          perkey8080_window          = HIDPP20_8080_WINDOW_MIN;
+    uint8_t         perkey8080_clean_frames    = 0;
+    size_t          perkey8080_frames_seen     = 0;
+    size_t          perkey8080_frames_aborted  = 0;
+    size_t          perkey8080_acks_lost       = 0;
+    size_t          perkey8080_writes_rejected = 0;
+    size_t          perkey8080_commits_failed  = 0;
+    uint8_t         perkey8080_last_error      = 0;
+    std::chrono::steady_clock::time_point perkey8080_summary_time;
+
+    /*-----------------------------------------------------*\
+    | Read one message within timeout_ms. Counts a          |
+    | SetKeyColors ACK or error into answered (errors also  |
+    | into rejected), ignores anything else. Returns 1 when |
+    | a message was consumed, 0 on timeout, -1 on error.    |
+    \*-----------------------------------------------------*/
+    int             ProcessOne8080Response(int timeout_ms, size_t& answered, size_t& rejected);
+
+    /*-----------------------------------------------------*\
+    | FlushLEDS, polling through BUSY. SetKeyColors ACKs    |
+    | still arriving are counted into answered/rejected.    |
+    \*-----------------------------------------------------*/
+    bool            PerKeyCommit8080(size_t& answered, size_t& rejected);
 
     /*-----------------------------------------------------*\
     | Per-key frame sender thread state. pending_frame      |

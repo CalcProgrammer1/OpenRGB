@@ -1037,7 +1037,7 @@ int LogitechHIDPP20Controller::SendStandard
 | splits onto a second Top-Level-Collection (usage 0x0604); |
 | that handle is dev_perkey_vl; everything else stays on    |
 | dev. Layout matches the long report, just wider.          |
-| Fire-and-forget: the ACK lands on dev.                    |
+| Send only: the ACK lands on dev, the caller reads it.     |
 \*---------------------------------------------------------*/
 int LogitechHIDPP20Controller::SendVeryLongFrame
     (
@@ -4527,9 +4527,6 @@ bool LogitechHIDPP20Controller::ScheduleRetryPaint()
 
     retry_paint_deadline_.store(deadline);
 
-    LOG_DEBUG("%s retry paint scheduled attempt=%u delay=%ums",
-              LOG_TAG, attempt, delay_ms);
-
     return true;
 }
 
@@ -5505,20 +5502,39 @@ PerKeyFrameResult LogitechHIDPP20Controller::PerKeyFrameEnd()
 | [keyType u16 BE, count u16 BE, (keyId,R,G,B) x            |
 | count], <=14 tuples per packet (larger groups             |
 | split). Colors appear only after fn5 FlushLEDS.           |
+|                                                           |
+| Each write is ACKed on dev. At most perkey8080_window     |
+| writes are in flight unacked, so the ACK stream paces     |
+| the sends; unpaced, the firmware drops writes and only    |
+| some keys change. A stalled stream aborts the frame and   |
+| skips the commit.                                         |
 \*---------------------------------------------------------*/
-void LogitechHIDPP20Controller::SetPerKey8080
+bool LogitechHIDPP20Controller::SetPerKey8080
     (
     const std::vector<std::pair<uint16_t, std::vector<std::pair<uint8_t, RGBColor>>>>& by_type
     )
 {
     if(caps.idx_perkey_8080 == 0 || dev_perkey_vl == nullptr)
     {
-        return;
+        return false;
     }
 
-    bool kt40_id12_only = (caps.quirks & HIDPP20_QUIRK_8080_KEYTYPE40_ID12_ONLY) != 0;
+    std::lock_guard<std::recursive_mutex> transaction_guard(transaction_mutex);
 
-    for(size_t t = 0; t < by_type.size(); t++)
+    /*-----------------------------------------------------*\
+    | ACKs are counted, not matched, so a late one left in  |
+    | the queue would be taken for this frame's.            |
+    \*-----------------------------------------------------*/
+    FlushResponseQueue();
+
+    bool   kt40_id12_only = (caps.quirks & HIDPP20_QUIRK_8080_KEYTYPE40_ID12_ONLY) != 0;
+    size_t sent           = 0;
+    size_t answered       = 0;
+    size_t rejected       = 0;
+    bool   send_failed    = false;
+    bool   aborted        = false;
+
+    for(size_t t = 0; t < by_type.size() && !aborted; t++)
     {
         uint16_t key_type = by_type[t].first;
         const std::vector<std::pair<uint8_t, RGBColor>>& src_keys = by_type[t].second;
@@ -5542,7 +5558,7 @@ void LogitechHIDPP20Controller::SetPerKey8080
             keys = &filtered;
         }
 
-        for(size_t off = 0; off < keys->size(); off += HIDPP20_8080_KEYS_PER_FRAME)
+        for(size_t off = 0; off < keys->size() && !aborted; off += HIDPP20_8080_KEYS_PER_FRAME)
         {
             size_t count = keys->size() - off;
             if(count > HIDPP20_8080_KEYS_PER_FRAME)
@@ -5573,32 +5589,307 @@ void LogitechHIDPP20Controller::SetPerKey8080
                 payload[pos++] = RGBGetBValue(color);
             }
 
-            SendVeryLongFrame(caps.idx_perkey_8080, FN_8080_SET_KEY_COLORS,
-                              payload, pos);
+            while(answered < sent && sent - answered >= perkey8080_window)
+            {
+                if(ProcessOne8080Response(HIDPP20_PERKEY_ACK_WAIT_MS, answered, rejected) <= 0)
+                {
+                    aborted = true;
+                    break;
+                }
+            }
+
+            if(aborted)
+            {
+                break;
+            }
+
+            if(SendVeryLongFrame(caps.idx_perkey_8080, FN_8080_SET_KEY_COLORS,
+                                 payload, pos) < 0)
+            {
+                /*-----------------------------------------*\
+                | Never left the host, no ACK will come.    |
+                \*-----------------------------------------*/
+                send_failed = true;
+                continue;
+            }
+
+            sent++;
         }
     }
+
+    /*-----------------------------------------------------*\
+    | Collect the remaining ACKs, a short tail. The per-    |
+    | read timeout is a quiet guard: a dropped ACK is never |
+    | coming.                                               |
+    \*-----------------------------------------------------*/
+    if(!aborted)
+    {
+        std::chrono::steady_clock::time_point ack_deadline =
+            std::chrono::steady_clock::now() + std::chrono::milliseconds(250);
+
+        while(answered < sent)
+        {
+            int remaining = (int)std::chrono::duration_cast<std::chrono::milliseconds>(
+                                  ack_deadline - std::chrono::steady_clock::now()).count();
+
+            if(remaining <= 0)
+            {
+                break;
+            }
+
+            if(remaining > (int)HIDPP20_8080_ACK_TAIL_MS)
+            {
+                remaining = (int)HIDPP20_8080_ACK_TAIL_MS;
+            }
+
+            if(ProcessOne8080Response(remaining, answered, rejected) <= 0)
+            {
+                break;
+            }
+        }
+    }
+
+    bool committed = false;
+
+    if(!aborted && sent > 0)
+    {
+        /*-------------------------------------------------*\
+        | Partial frames still commit: what landed shows    |
+        | now, the caller resends the rest.                 |
+        \*-------------------------------------------------*/
+        committed = PerKeyCommit8080(answered, rejected);
+    }
+
+    /*-----------------------------------------------------*\
+    | Counted after the commit, which also collects late    |
+    | ACKs. An ACK later than that is dropped by the next   |
+    | frame's queue flush.                                  |
+    \*-----------------------------------------------------*/
+    size_t lost = (answered < sent) ? (sent - answered) : 0;
+
+    /*-----------------------------------------------------*\
+    | Adaptive window: a lost ACK means this link outran    |
+    | the device, halve the window. A run of loss-free      |
+    | frames earns it back one step at a time.              |
+    \*-----------------------------------------------------*/
+    if(lost > 0)
+    {
+        perkey8080_clean_frames = 0;
+        perkey8080_window      /= 2;
+
+        if(perkey8080_window < HIDPP20_8080_WINDOW_MIN)
+        {
+            perkey8080_window = HIDPP20_8080_WINDOW_MIN;
+        }
+    }
+    else if(sent > 0 && perkey8080_window < HIDPP20_8080_WINDOW_MAX &&
+            ++perkey8080_clean_frames >= HIDPP20_PERKEY_WINDOW_GROW_AFTER)
+    {
+        perkey8080_clean_frames = 0;
+        perkey8080_window++;
+    }
+
+    /*-----------------------------------------------------*\
+    | Link quality. Lost ACKs, rejected writes and failed   |
+    | commits repeat every frame while streaming, so single |
+    | frames are not logged. Counts are summarized once per |
+    | interval, and only when something went wrong.         |
+    \*-----------------------------------------------------*/
+    if(sent > 0)
+    {
+        perkey8080_frames_seen++;
+        perkey8080_acks_lost       += lost;
+        perkey8080_writes_rejected += rejected;
+
+        if(aborted)
+        {
+            perkey8080_frames_aborted++;
+        }
+        else if(!committed)
+        {
+            perkey8080_commits_failed++;
+        }
+
+        std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+        if(perkey8080_summary_time == std::chrono::steady_clock::time_point())
+        {
+            perkey8080_summary_time = now;
+        }
+        else if(now - perkey8080_summary_time >= std::chrono::seconds(HIDPP20_PERKEY_SUMMARY_S))
+        {
+            if(perkey8080_frames_aborted  > 0 || perkey8080_acks_lost      > 0 ||
+               perkey8080_writes_rejected > 0 || perkey8080_commits_failed > 0)
+            {
+                LOG_DEBUG("%s 0x8080 link, last %ds: %zu frames, %zu aborted, "
+                          "%zu ACKs lost, %zu writes rejected, %zu commits failed, "
+                          "last error 0x%02X, window %zu",
+                          LOG_TAG, HIDPP20_PERKEY_SUMMARY_S, perkey8080_frames_seen,
+                          perkey8080_frames_aborted, perkey8080_acks_lost,
+                          perkey8080_writes_rejected, perkey8080_commits_failed,
+                          perkey8080_last_error, perkey8080_window);
+            }
+
+            perkey8080_frames_seen     = 0;
+            perkey8080_frames_aborted  = 0;
+            perkey8080_acks_lost       = 0;
+            perkey8080_writes_rejected = 0;
+            perkey8080_commits_failed  = 0;
+            perkey8080_last_error      = 0;
+            perkey8080_summary_time    = now;
+        }
+    }
+
+    return committed && !send_failed && lost == 0 && rejected == 0;
+}
+
+int LogitechHIDPP20Controller::ProcessOne8080Response
+    (
+    int     timeout_ms,
+    size_t& answered,
+    size_t& rejected
+    )
+{
+    uint8_t resp_feat     = 0;
+    uint8_t resp_func     = 0;
+    uint8_t resp_data[60] = {};
+
+    int rd = ReadMessage(&resp_feat, &resp_func, resp_data, sizeof(resp_data), timeout_ms);
+
+    if(rd <= 0)
+    {
+        return rd;
+    }
+
+    /*-----------------------------------------------------*\
+    | HID++ error frame: feat=0xFF, func=err_feat,          |
+    | data[0]=err_func, data[1]=err_code.                   |
+    \*-----------------------------------------------------*/
+    if(resp_feat == 0xFF)
+    {
+        if(resp_func == caps.idx_perkey_8080 &&
+           (resp_data[0] & 0xF0) == FN_8080_SET_KEY_COLORS &&
+           (resp_data[0] & 0x0F) == HIDPP20_SW_ID)
+        {
+            perkey8080_last_error = resp_data[1];
+            answered++;
+            rejected++;
+        }
+
+        return 1;
+    }
+
+    if(resp_feat == caps.idx_perkey_8080 &&
+       (resp_func & 0xF0) == FN_8080_SET_KEY_COLORS &&
+       (resp_func & 0x0F) == HIDPP20_SW_ID)
+    {
+        answered++;
+    }
+
+    return 1;
 }
 
 /*---------------------------------------------------------*\
 | fn5 FlushLEDS: commit. Empty body (persist = default),    |
-| sent on the 0x11 long report via dev.                     |
+| sent on dev. BUSY is backpressure, not failure: the       |
+| device is still applying the writes, so poll it at the    |
+| FrameEnd cadence.                                         |
 \*---------------------------------------------------------*/
-void LogitechHIDPP20Controller::PerKeyCommit8080()
+bool LogitechHIDPP20Controller::PerKeyCommit8080(size_t& answered, size_t& rejected)
 {
     if(caps.idx_perkey_8080 == 0)
     {
-        return;
+        return false;
     }
 
-    uint8_t recv[20] = {};
-    int     result   = SendAcked(caps.idx_perkey_8080, FN_8080_FLUSH_LEDS, nullptr, 0,
-                                 recv, sizeof(recv), HIDPP20_POLICY_RELIABLE);
-
-    if(result <= 0)
+    if(SendMessage(caps.idx_perkey_8080, FN_8080_FLUSH_LEDS, nullptr, 0) < 0)
     {
-        LOG_DEBUG("%s 0x8080 FlushLEDS commit not acked (result=%d), "
-                  "colors may not have latched", LOG_TAG, result);
+        return false;
     }
+
+    std::chrono::steady_clock::time_point deadline =
+        std::chrono::steady_clock::now() + std::chrono::milliseconds(250);
+
+    while(true)
+    {
+        int remaining = (int)std::chrono::duration_cast<std::chrono::milliseconds>(
+                              deadline - std::chrono::steady_clock::now()).count();
+
+        if(remaining <= 0)
+        {
+            break;
+        }
+
+        uint8_t resp_feat     = 0;
+        uint8_t resp_func     = 0;
+        uint8_t resp_data[60] = {};
+
+        int rd = ReadMessage(&resp_feat, &resp_func, resp_data, sizeof(resp_data), remaining);
+
+        if(rd <= 0)
+        {
+            break;
+        }
+
+        uint8_t idx = caps.idx_perkey_8080;
+
+        if(resp_feat == 0xFF && resp_func == idx && (resp_data[0] & 0x0F) == HIDPP20_SW_ID)
+        {
+            if((resp_data[0] & 0xF0) == FN_8080_SET_KEY_COLORS)
+            {
+                perkey8080_last_error = resp_data[1];
+                answered++;
+                rejected++;
+                continue;
+            }
+
+            if((resp_data[0] & 0xF0) != FN_8080_FLUSH_LEDS)
+            {
+                continue;
+            }
+
+            if(resp_data[1] == 0x08)
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(HIDPP20_FRAME_END_BUSY_POLL_MS));
+                SendMessage(idx, FN_8080_FLUSH_LEDS, nullptr, 0);
+                continue;
+            }
+
+            perkey8080_last_error = resp_data[1];
+            return false;
+        }
+
+        if(resp_feat != idx || (resp_func & 0x0F) != HIDPP20_SW_ID)
+        {
+            continue;
+        }
+
+        if((resp_func & 0xF0) == FN_8080_FLUSH_LEDS)
+        {
+            consecutive_timeouts.store(0);
+            return true;
+        }
+
+        if((resp_func & 0xF0) == FN_8080_SET_KEY_COLORS)
+        {
+            answered++;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Offline detection, as SendAcked counts it: one tick   |
+    | per commit that drew no answer.                       |
+    \*-----------------------------------------------------*/
+    int timeouts = ++consecutive_timeouts;
+
+    if(timeouts >= 10 && device_online.load())
+    {
+        LOG_DEBUG("%s Device appears offline (%d consecutive failed calls)",
+                  LOG_TAG, timeouts);
+        device_online.store(false);
+    }
+
+    return false;
 }
 
 /*---------------------------------------------------------*\
