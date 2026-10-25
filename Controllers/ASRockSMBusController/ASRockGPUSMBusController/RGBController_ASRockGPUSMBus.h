@@ -28,6 +28,7 @@ public:
     void        UpdateSingleLED(int led);
 
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
 
 private:
     ASRockGPUSMBusController* controller;

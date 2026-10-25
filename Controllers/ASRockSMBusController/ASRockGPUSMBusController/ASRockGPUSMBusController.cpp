@@ -176,24 +176,39 @@ bool ASRockGPUSMBusController::DetectChannels()
 
 void ASRockGPUSMBusController::SetChannelColor(uint8_t channel_idx, uint8_t red, uint8_t green, uint8_t blue)
 {
+    SetChannelMode(channel_idx, ASROCK_GPU_MODE_DIRECT, ASROCK_GPU_SPEED_DEFAULT, ASROCK_GPU_BRIGHTNESS_DEFAULT, red, green, blue);
+}
+
+void ASRockGPUSMBusController::SetChannelMode(uint8_t channel_idx, uint8_t mode, uint8_t speed, uint8_t brightness, uint8_t red, uint8_t green, uint8_t blue)
+{
     /*-----------------------------------------------------*\
-    | SignalRGB color packet                               |
-    | Command 0x10, subcommand is the channel index        |
+    | Command 0x10 sets configuration for specified channel |
     \*-----------------------------------------------------*/
     uint8_t data[8] =
     {
-        0x01,  // Mode: direct/static
+        mode,
         red,
         green,
         blue,
-        0x80,  // Effect speed
-        0xFF,  // Brightness
-        0x00,  // Effect direction
-        0x1A   // Unknown constant
+        speed,
+        brightness,
+        0x00,
+        0x1A
     };
 
     if(!WriteBlock(0x10, channel_idx, data, sizeof(data)))
     {
-        LOG_WARNING("[ASRock GPU] Failed to set color for channel %d", channel_idx);
+        LOG_WARNING("[ASRock GPU] Failed to set mode for channel %d", channel_idx);
+    }
+}
+
+void ASRockGPUSMBusController::SaveConfig()
+{
+    /*-----------------------------------------------------*\
+    | Command 0x12 commits configuration to flash           |
+    \*-----------------------------------------------------*/
+    if(!WriteBlock(0x12, 0x00, nullptr, 0))
+    {
+        LOG_WARNING("[ASRock GPU] Failed to save configuration to flash");
     }
 }
