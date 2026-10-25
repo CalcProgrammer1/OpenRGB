@@ -17,6 +17,7 @@
 #include "RoccatSenseAimoController.h"
 #include "RoccatVulcanKeyboardController.h"
 #include "RoccatKovaController.h"
+#include "RoccatKoneXTDController.h"
 #include "RoccatEloController.h"
 #include "RGBController_RoccatBurst.h"
 #include "RGBController_RoccatBurstProAir.h"
@@ -28,6 +29,7 @@
 #include "RGBController_RoccatSenseAimo.h"
 #include "RGBController_RoccatVulcanKeyboard.h"
 #include "RGBController_RoccatKova.h"
+#include "RGBController_RoccatKoneXTD.h"
 #include "RGBController_RoccatElo.h"
 #include <hidapi.h>
 #include <unordered_set>
@@ -53,6 +55,7 @@
 #define ROCCAT_KONE_PRO_AIR_PID         0x2C8E
 #define ROCCAT_KONE_PRO_AIR_WIRED_PID   0x2C92
 #define ROCCAT_KONE_XP_PID              0x2C8B
+#define ROCCAT_KONE_XTD_PID             0x2E22
 #define ROCCAT_KOVA_PID                 0x2CEE
 
 /*-----------------------------------------------------------------*\
@@ -346,6 +349,24 @@ DetectedControllers DetectRoccatKovaControllers(hid_device_info* info, const std
     return(detected_controllers);
 }
 
+DetectedControllers DetectRoccatKoneXTDControllers(hid_device_info* info, const std::string& name)
+{
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        RoccatKoneXTDController *       controller      = new RoccatKoneXTDController(dev, info->path, name);
+        RGBController_RoccatKoneXTD *   rgb_controller  = new RGBController_RoccatKoneXTD(controller);
+
+        detected_controllers.push_back(rgb_controller);
+    }
+
+    return(detected_controllers);
+}
+
 DetectedControllers DetectRoccatEloControllers(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
@@ -419,6 +440,7 @@ REGISTER_HID_DETECTOR_IPU("Roccat Kone Pro Air",            DetectRoccatKoneProA
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Pro Air (Wired)",    DetectRoccatKoneProAirControllers,          ROCCAT_VID, ROCCAT_KONE_PRO_AIR_WIRED_PID, 1, 0xFF13,  1 );
 
 REGISTER_HID_DETECTOR_IPU("Roccat Kone XP",                 DetectRoccatKoneXPControllers,              ROCCAT_VID, ROCCAT_KONE_XP_PID,            3, 0xFF01,  1 );
+REGISTER_HID_DETECTOR_IPU("Roccat Kone XTD",                DetectRoccatKoneXTDControllers,             ROCCAT_VID, ROCCAT_KONE_XTD_PID,           0, 0x0B,    0 );
 
 REGISTER_HID_DETECTOR_IPU("Roccat Kova",                    DetectRoccatKovaControllers,                ROCCAT_VID, ROCCAT_KOVA_PID,               0, 0x0B,    0 );
 
