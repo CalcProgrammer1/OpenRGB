@@ -64,6 +64,7 @@ static const std::string board_names[] =
     "MSI B850M GAMING PLUS WIFI6E (MS-7E81)",
     "MSI MPG X870E CARBON WIFI (MS-7E49)",
     "MSI Z890 GAMING PLUS WIFI (MS-7E34)",
+    "MSI Z890 GAMING PLUS WIFI6E (MS-7E34)",
     "MSI X870E GAMING PLUS WIFI (MS-7E70)",
     "MSI MAG X870E TOMAHAWK WIFI (MS-7E59)",
     "MSI PRO B850-P WIFI (MS-7E56)",
@@ -103,33 +104,34 @@ static const mystic_light_761_config board_configs[] =
     { &(board_names[5]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },      // MSI B850M GAMING PLUS WIFI6E
     { &(board_names[6]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },      // MSI MPG X870E CARBON WIFI
     { &(board_names[7]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },      // MSI Z890 GAMING PLUS WIFI
-    { &(board_names[8]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },      // MSI X870E GAMING PLUS WIFI
-    { &(board_names[9]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },      // MSI MAG X870E TOMAHAWK WIFI
-    { &(board_names[10]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850-P WIFI (MS-7E56)
-    { &(board_names[11]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850M GAMING PLUS WIFI
-    { &(board_names[12]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO X870E-P WIFI
-    { &(board_names[13]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MPG X870I EDGE TI EVO WIFI (MS-7E50)
-    { &(board_names[14]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850 GAMING PLUS WIFI (MS-7E56)
-    { &(board_names[15]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO X870-P WIFI
-    { &(board_names[16]), 0,  10, 0, 1, &zone_set2,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MPG X870E EDGE TI WIFI
-    { &(board_names[17]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG B850 TOMAHAWK MAX WIFI
-    { &(board_names[18]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-P WIFI (MS-7E71)
-    { &(board_names[19]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG Z890 TOMAHAWK WIFI (MS-7E32)
-    { &(board_names[20]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MPG B850 EDGE TI WIFI (MS-7E62)
-    { &(board_names[21]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-VC WIFI6E (MS-7E71)
-    { &(board_names[22]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG B850 TOMAHAWK WIFI (MS-7E53)
-    { &(board_names[23]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MEG Z890 UNIFY-X (MS-7E20)
-    { &(board_names[24]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO X870E-S EVO WIFI (MS-7E86)
-    { &(board_names[25]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG X870E GAMING MAX WIFI (MS-7E86)
-    { &(board_names[26]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO Z890-P WIFI (MS-7E34)
-    { &(board_names[27]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850 GAMING PLUS WIFI PZ (MS-7E75)
-    { &(board_names[28]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG X870E TOMAHAWK MAX WIFI PZ (MS-7E84)
-    { &(board_names[29]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-A WIFI PZ (MS-7E78)
-    { &(board_names[30]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850MPOWER (MS-7E83)
-    { &(board_names[31]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B840M GAMING WIFI6E (MS-7E76)
-    { &(board_names[32]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-A WIFI (MS-7E66)
-    { &(board_names[33]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850-S WIFI6E (MS-7E80)
-    { &(board_names[34]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850M GAMING WIFI (MS-7E82)
+    { &(board_names[8]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },      // MSI Z890 GAMING PLUS WIFI 6E
+    { &(board_names[9]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },      // MSI X870E GAMING PLUS WIFI
+    { &(board_names[10]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },      // MSI MAG X870E TOMAHAWK WIFI
+    { &(board_names[11]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850-P WIFI (MS-7E56)
+    { &(board_names[12]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850M GAMING PLUS WIFI
+    { &(board_names[13]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO X870E-P WIFI
+    { &(board_names[14]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MPG X870I EDGE TI EVO WIFI (MS-7E50)
+    { &(board_names[15]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850 GAMING PLUS WIFI (MS-7E56)
+    { &(board_names[16]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO X870-P WIFI
+    { &(board_names[17]), 0,  10, 0, 1, &zone_set2,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MPG X870E EDGE TI WIFI
+    { &(board_names[18]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG B850 TOMAHAWK MAX WIFI
+    { &(board_names[19]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-P WIFI (MS-7E71)
+    { &(board_names[20]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG Z890 TOMAHAWK WIFI (MS-7E32)
+    { &(board_names[21]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MPG B850 EDGE TI WIFI (MS-7E62)
+    { &(board_names[22]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-VC WIFI6E (MS-7E71)
+    { &(board_names[23]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG B850 TOMAHAWK WIFI (MS-7E53)
+    { &(board_names[24]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MEG Z890 UNIFY-X (MS-7E20)
+    { &(board_names[25]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO X870E-S EVO WIFI (MS-7E86)
+    { &(board_names[26]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG X870E GAMING MAX WIFI (MS-7E86)
+    { &(board_names[27]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO Z890-P WIFI (MS-7E34)
+    { &(board_names[28]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850 GAMING PLUS WIFI PZ (MS-7E75)
+    { &(board_names[29]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG X870E TOMAHAWK MAX WIFI PZ (MS-7E84)
+    { &(board_names[30]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-A WIFI PZ (MS-7E78)
+    { &(board_names[31]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850MPOWER (MS-7E83)
+    { &(board_names[32]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B840M GAMING WIFI6E (MS-7E76)
+    { &(board_names[33]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-A WIFI (MS-7E66)
+    { &(board_names[34]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850-S WIFI6E (MS-7E80)
+    { &(board_names[35]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850M GAMING WIFI (MS-7E82)
 };
 
 enum MSI_ZONE setup_map [] =
