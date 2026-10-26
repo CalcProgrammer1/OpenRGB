@@ -24,6 +24,8 @@
 \*---------------------------------------------------------*/
 typedef int                 (*hidapi_wrapper_send_feature_report)           (hid_device*, const unsigned char*, size_t);
 typedef int                 (*hidapi_wrapper_get_feature_report)            (hid_device*, unsigned char*, size_t);
+typedef int                 (*hidapi_wrapper_write)                         (hid_device*, const unsigned char*, size_t);
+typedef int                 (*hidapi_wrapper_get_input_report)              (hid_device*, unsigned char*, size_t);
 typedef int                 (*hidapi_wrapper_get_serial_number_string)      (hid_device*, wchar_t*, size_t);
 typedef hid_device*         (*hidapi_wrapper_open_path)                     (const char*);
 typedef hid_device_info*    (*hidapi_wrapper_enumerate)                     (unsigned short, unsigned short);
@@ -45,6 +47,8 @@ struct hidapi_wrapper
     void*                                       dyn_handle;
     hidapi_wrapper_send_feature_report          hid_send_feature_report;
     hidapi_wrapper_get_feature_report           hid_get_feature_report;
+    hidapi_wrapper_write                        hid_write;
+    hidapi_wrapper_get_input_report             hid_get_input_report;
     hidapi_wrapper_get_serial_number_string     hid_get_serial_number_string;
     hidapi_wrapper_open_path                    hid_open_path;
     hidapi_wrapper_enumerate                    hid_enumerate;
