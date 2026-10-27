@@ -1,9 +1,9 @@
 /*---------------------------------------------------------*\
-| RGBController_AlienwareAW510K.h                           |
+| RGBController_AlienwareKeyboard.h                         |
 |                                                           |
-|   RGBController for Alienware AW510K keyboard             |
+|   RGBController for Alienware keyboards                   |
 |                                                           |
-|   Mohamad Sallal (msallal)                    22 May 2021 |
+|   Shared controller for AW410K and AW510K                 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -12,13 +12,14 @@
 #pragma once
 
 #include "RGBController.h"
-#include "AlienwareAW510KController.h"
+#include "AlienwareKeyboardController.h"
+#include "AlienwareDevices.h"
 
-class RGBController_AlienwareAW510K : public RGBController
+class RGBController_AlienwareKeyboard : public RGBController
 {
 public:
-    RGBController_AlienwareAW510K(AlienwareAW510KController* controller_ptr);
-    ~RGBController_AlienwareAW510K();
+    RGBController_AlienwareKeyboard(AlienwareKeyboardController* controller_ptr, const alienware_device* device_ptr);
+    ~RGBController_AlienwareKeyboard();
 
     void        SetupZones();
 
@@ -29,6 +30,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AlienwareAW510KController*  controller;
-    std::vector<RGBColor>       current_colors;
+    AlienwareKeyboardController*    controller;
+    const alienware_device*         device;
+    std::vector<RGBColor>           current_colors;
 };

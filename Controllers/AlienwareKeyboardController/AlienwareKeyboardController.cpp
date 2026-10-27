@@ -1,20 +1,19 @@
 /*---------------------------------------------------------*\
-| AlienwareAW410KController.cpp                             |
+| AlienwareKeyboardController.cpp                           |
 |                                                           |
-|   Driver for Alienware AW410K keyboard                    |
+|   Driver for Alienware AW510K keyboard                    |
 |                                                           |
-|   based on AW510K controller by Mohamad Sallal (msallal)  |
-|   Dominik Mikolajczyk (dmiko)                 23 Oct 2023 |
+|   Mohamad Sallal (msallal)                    22 May 2021 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include <cstring>
-#include "AlienwareAW410KController.h"
+#include "AlienwareKeyboardController.h"
 #include "StringUtils.h"
 
-AlienwareAW410KController::AlienwareAW410KController(hid_device* dev_handle, const char* path, std::string dev_name)
+AlienwareKeyboardController::AlienwareKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
@@ -23,22 +22,22 @@ AlienwareAW410KController::AlienwareAW410KController(hid_device* dev_handle, con
     SendCommit();
 }
 
-AlienwareAW410KController::~AlienwareAW410KController()
+AlienwareKeyboardController::~AlienwareKeyboardController()
 {
     hid_close(dev);
 }
 
-std::string AlienwareAW410KController::GetDeviceLocation()
+std::string AlienwareKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
 }
 
-std::string AlienwareAW410KController::GetDeviceName()
+std::string AlienwareKeyboardController::GetDeviceName()
 {
     return(name);
 }
 
-std::string AlienwareAW410KController::GetSerialString()
+std::string AlienwareKeyboardController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
@@ -51,7 +50,7 @@ std::string AlienwareAW410KController::GetSerialString()
     return(StringUtils::wstring_to_string(serial_string));
 }
 
-void AlienwareAW410KController::SendCommit()
+void AlienwareKeyboardController::SendCommit()
 {
     unsigned char usb_buf[65];
 
@@ -83,7 +82,7 @@ void AlienwareAW410KController::SendCommit()
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
 }
 
-void AlienwareAW410KController::SendfeatureReport
+void AlienwareKeyboardController::SendfeatureReport
     (
     unsigned char   first_byte,
     unsigned char   second_byte,
@@ -118,7 +117,7 @@ void AlienwareAW410KController::SendfeatureReport
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
 }
 
-void AlienwareAW410KController::SendEdit()
+void AlienwareKeyboardController::SendEdit()
 {
     unsigned char usb_buf[65];
 
@@ -146,7 +145,7 @@ void AlienwareAW410KController::SendEdit()
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }
 
-void AlienwareAW410KController::SendInitialize()
+void AlienwareKeyboardController::SendInitialize()
 {
     unsigned char usb_buf[65];
 
@@ -181,7 +180,7 @@ void AlienwareAW410KController::SendInitialize()
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }
 
-void AlienwareAW410KController::SetDirect
+void AlienwareKeyboardController::SetDirect
     (
     unsigned char   /*zone*/,
     unsigned char   r,
@@ -222,20 +221,20 @@ void AlienwareAW410KController::SetDirect
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }
 
-void AlienwareAW410KController::SendDirectOn
+void AlienwareKeyboardController::SendDirectOn
     (
-    std::vector<SelectedButtons>     &frame_data
+    std::vector<SelectedKeys>     &frame_data
     )
 {
     SendfeatureReport(0x0E, (unsigned char)frame_data.size(), 0x00, 0x01);
 
-    /*-----------------------------------------------*\
-    | To Guarantee the data are always %4 =0 append   |
-    | zeros at end of last packet                     |
-    \*-----------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | To Guarantee the data are always %4 =0 append zeros   |
+    | at end of last packet                                 |
+    \*-----------------------------------------------------*/
     for(unsigned int i = 0; i < (frame_data.size() % 4); i++)
     {
-        SelectedButtons key;
+        SelectedKeys key;
         key.idx     = 0x00;
         key.red     = 0x00;
         key.green   = 0x00;
@@ -304,7 +303,7 @@ void AlienwareAW410KController::SendDirectOn
 }
 
 
-void AlienwareAW410KController::SetMode
+void AlienwareKeyboardController::SetMode
     (
     unsigned char   mode,
     unsigned char   speed,
@@ -315,11 +314,11 @@ void AlienwareAW410KController::SetMode
     unsigned char   blue
     )
 {
-    SendMode(ALIENWARE_AW410K_ZONE_MODE_KEYBOARD, mode, speed, direction, colorMode, red, green, blue);
+    SendMode(ALIENWARE_ZONE_MODE_KEYBOARD, mode, speed, direction, colorMode, red, green, blue);
     SendCommit();
 }
 
-void AlienwareAW410KController::DeviceUpdateSingleLED
+void AlienwareKeyboardController::DeviceUpdateSingleLED
     (
     unsigned char   led,
     unsigned char   red,
@@ -367,7 +366,7 @@ void AlienwareAW410KController::DeviceUpdateSingleLED
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
 
 }
-void AlienwareAW410KController::SendMode
+void AlienwareKeyboardController::SendMode
     (
     unsigned char   /*zone*/,
     unsigned char   mode,
@@ -408,7 +407,7 @@ void AlienwareAW410KController::SendMode
     hid_write(dev, usb_buf, 65);
 }
 
-void AlienwareAW410KController::SetMorphMode
+void AlienwareKeyboardController::SetMorphMode
     (
     unsigned char   mode,
     unsigned char   speed,
@@ -444,7 +443,7 @@ void AlienwareAW410KController::SetMorphMode
     usb_buf[0x0A]           = speed;
     usb_buf[0x0B]           = 0x0A;
     usb_buf[0x0D]           = 0x01;
-    usb_buf[0x0E]           = ALIENWARE_AW410K_TWO_USER_DEFINED_COLOR_MODE;
+    usb_buf[0x0E]           = ALIENWARE_TWO_USER_DEFINED_COLOR_MODE;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
