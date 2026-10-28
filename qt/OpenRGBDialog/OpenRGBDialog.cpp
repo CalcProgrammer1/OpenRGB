@@ -243,9 +243,14 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     ui_settings_schema["run_zone_checks"]["type"]                                   = "bool";
     ui_settings_schema["run_zone_checks"]["order"]                                  = 9;
 
+    ui_settings_schema["hide_empty_zones"]["title"]                                 = QT_TRANSLATE_NOOP("Settings", "Hide Empty Zones");
+    ui_settings_schema["hide_empty_zones"]["type"]                                  = "bool";
+    ui_settings_schema["hide_empty_zones"]["description"]                           = QT_TRANSLATE_NOOP("Settings", "Hides empty zones from the device view");
+    ui_settings_schema["hide_empty_zones"]["order"]                                 = 10;
+
     ui_settings_schema["geometry"]["title"]                                         = QT_TRANSLATE_NOOP("Settings", "Window Geometry");
     ui_settings_schema["geometry"]["type"]                                          = "object";
-    ui_settings_schema["geometry"]["order"]                                         = 10;
+    ui_settings_schema["geometry"]["order"]                                         = 11;
 
     ui_settings_schema["geometry"]["properties"]["load_geometry"]["title"]          = QT_TRANSLATE_NOOP("Settings", "Load Window Geometry");
     ui_settings_schema["geometry"]["properties"]["load_geometry"]["type"]           = "bool";

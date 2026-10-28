@@ -537,6 +537,16 @@ void DeviceView::SetDisableKeyExpansion(bool disable_key_expansion)
     InitDeviceView();
 }
 
+void DeviceView::SetHideEmptyZones(bool hide)
+{
+    /*-----------------------------------------------------*\
+    | Store the hide empty zones flag                       |
+    \*-----------------------------------------------------*/
+    hide_empty_zones = hide;
+
+    InitDeviceView();
+}
+
 void DeviceView::SetNumericalLabels(bool enable)
 {
     /*-----------------------------------------------------*\
@@ -1016,23 +1026,31 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         QRect rect              = {posx, posy, posw, posh};
 
         /*-------------------------------------------------*\
-        | If the mouse is hovering inside of this rect,     |
-        | draw the name in the highlight color instead of   |
-        | the window text color                             |
+        | Skip drawing zone name if empty zone is hidden    |
         \*-------------------------------------------------*/
-        if(rect.contains(last_mouse_point) && (!mouse_down || !mouse_moved))
-        {
-            painter.setPen(palette().highlight().color());
-        }
-        else
-        {
-            painter.setPen(palette().windowText().color());
-        }
+        bool draw_zone_name = !(hide_empty_zones && empty_zones[zone_idx]);
 
-        /*-------------------------------------------------*\
-        | Draw zone name                                    |
-        \*-------------------------------------------------*/
-        painter.drawText(posx, posy + posh, QString(controller->GetZoneDisplayName((unsigned int)zone_idx).c_str()));
+        if(draw_zone_name)
+        {
+            /*---------------------------------------------*\
+            | If the mouse is hovering inside of this rect, |
+            | draw the name in the highlight color instead  |
+            | of the window text color                      |
+            \*---------------------------------------------*/
+            if(rect.contains(last_mouse_point) && (!mouse_down || !mouse_moved))
+            {
+                painter.setPen(palette().highlight().color());
+            }
+            else
+            {
+                painter.setPen(palette().windowText().color());
+            }
+
+            /*---------------------------------------------*\
+            | Draw zone name                                |
+            \*---------------------------------------------*/
+            painter.drawText(posx, posy + posh, QString(controller->GetZoneDisplayName((unsigned int)zone_idx).c_str()));
+        }
 
         for(unsigned int segment_idx = 0; segment_idx < controller->GetZoneSegmentCount(zone_idx); segment_idx++)
         {
@@ -1052,23 +1070,32 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
             rect                = {posx, posy, posw, posh};
 
             /*---------------------------------------------*\
-            | If the mouse is hovering inside of this rect, |
-            | draw the name in the highlight color instead  |
-            | of the window text color                      |
+            | Skip drawing segment name if zone is empty    |
+            | and hide_empty_zones is enabled               |
             \*---------------------------------------------*/
-            if(rect.contains(last_mouse_point) && (!mouse_down || !mouse_moved))
-            {
-                painter.setPen(palette().highlight().color());
-            }
-            else
-            {
-                painter.setPen(palette().windowText().color());
-            }
+            bool draw_segment_name = !(hide_empty_zones && empty_zones[zone_idx]);
 
-            /*---------------------------------------------*\
-            | Draw segment name                             |
-            \*---------------------------------------------*/
-            painter.drawText(posx, posy + posh, QString(controller->GetZoneSegmentName(zone_idx, segment_idx).c_str()));
+            if(draw_segment_name)
+            {
+                /*-----------------------------------------*\
+                | If the mouse is hovering inside of this   |
+                | rect, draw the name in the highlight      |
+                | color instead of the window text color    |
+                \*-----------------------------------------*/
+                if(rect.contains(last_mouse_point) && (!mouse_down || !mouse_moved))
+                {
+                    painter.setPen(palette().highlight().color());
+                }
+                else
+                {
+                    painter.setPen(palette().windowText().color());
+                }
+
+                /*-----------------------------------------*\
+                | Draw segment name                         |
+                \*-----------------------------------------*/
+                painter.drawText(posx, posy + posh, QString(controller->GetZoneSegmentName(zone_idx, segment_idx).c_str()));
+            }
         }
     }
 
@@ -1130,6 +1157,15 @@ void DeviceView::InitDeviceView()
     zone_pos.resize(controller->GetZoneCount());
     led_pos.resize(controller->GetLEDCount());
     led_labels.resize(controller->GetLEDCount());
+
+    /*-----------------------------------------------------*\
+    | Set the size of the empty zones vector                |
+    \*-----------------------------------------------------*/
+    empty_zones.resize(controller->GetZoneCount());
+    for(unsigned int zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
+    {
+        empty_zones[zone_idx] = (controller->GetLEDsInZone(zone_idx) == 0);
+    }
 
     /*-----------------------------------------------------*\
     | Process position and size for zones                   |

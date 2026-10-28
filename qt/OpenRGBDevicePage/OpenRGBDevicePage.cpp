@@ -2583,6 +2583,13 @@ void OpenRGBDevicePage::on_SettingsUpdated()
         ui->DeviceViewBox->SetDisableKeyExpansion(disable_expansion);
     }
 
+    if(ui_settings.contains("hide_empty_zones"))
+    {
+        bool            hide_empty_zones    = ui_settings["hide_empty_zones"];
+
+        ui->DeviceViewBox->SetHideEmptyZones(hide_empty_zones);
+    }
+
     if(ui_settings.contains("hex_format"))
     {
         if(ui_settings["hex_format"] == "RGB")
