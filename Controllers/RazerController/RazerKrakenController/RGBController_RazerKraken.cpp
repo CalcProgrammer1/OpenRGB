@@ -159,7 +159,7 @@ void RGBController_RazerKraken::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerKraken::DeviceUpdateLEDs()
+void RGBController_RazerKraken::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -170,12 +170,12 @@ void RGBController_RazerKraken::DeviceUpdateLEDs()
 
 void RGBController_RazerKraken::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RazerKraken::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RazerKraken::DeviceUpdateMode()

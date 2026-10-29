@@ -95,7 +95,7 @@ void RGBController_AlienwareAW3423DWF::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs()
+void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*-----------------------------------------------------*\
     | If all three colors are the same value, speed up the  |
@@ -120,7 +120,7 @@ void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs()
 
 void RGBController_AlienwareAW3423DWF::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AlienwareAW3423DWF::DeviceUpdateSingleLED(int led)

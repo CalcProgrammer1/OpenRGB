@@ -22,7 +22,7 @@ public:
     void        SetupZones8080();
     bool        PerKey8080Capable() const;
 
-    void        DeviceUpdateLEDs();
+    void        DeviceUpdateLEDs(std::vector<RGBColor>& update_colors);
     void        DeviceUpdateZoneLEDs(int zone);
     void        DeviceUpdateSingleLED(int led);
 

@@ -96,7 +96,7 @@ void RGBController_BlinkController::SetupZones()
     SetupColors();
 }
 
-void RGBController_BlinkController::DeviceUpdateLEDs()
+void RGBController_BlinkController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t led = 0; led < colors.size(); led++)
     {
@@ -106,7 +106,7 @@ void RGBController_BlinkController::DeviceUpdateLEDs()
 
 void RGBController_BlinkController::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_BlinkController::DeviceUpdateSingleLED(int led)
@@ -120,5 +120,5 @@ void RGBController_BlinkController::DeviceUpdateSingleLED(int led)
 
 void RGBController_BlinkController::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

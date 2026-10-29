@@ -90,7 +90,7 @@ RGBController_NVIDIAIlluminationV1::~RGBController_NVIDIAIlluminationV1()
 
 void RGBController_NVIDIAIlluminationV1::DeviceUpdateSingleLED(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_NVIDIAIlluminationV1::SetupZones()
@@ -123,7 +123,7 @@ void RGBController_NVIDIAIlluminationV1::SetupZones()
 
 }
 
-void RGBController_NVIDIAIlluminationV1::DeviceUpdateLEDs()
+void RGBController_NVIDIAIlluminationV1::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     NVIDIAIllumination_Config nv_zone_config;
     for(uint8_t zone_idx = 0; zone_idx < zoneIndexMap.size(); zone_idx++)
@@ -156,5 +156,5 @@ uint8_t RGBController_NVIDIAIlluminationV1::getModeIndex(uint8_t mode_value)
 
 void RGBController_NVIDIAIlluminationV1::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

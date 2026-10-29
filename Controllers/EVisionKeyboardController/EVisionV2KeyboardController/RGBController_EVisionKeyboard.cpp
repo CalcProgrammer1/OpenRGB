@@ -333,7 +333,7 @@ void RGBController_EVisionKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVisionKeyboard::DeviceUpdateLEDs()
+void RGBController_EVisionKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char color_data[7*0x36];
 
@@ -353,12 +353,12 @@ void RGBController_EVisionKeyboard::DeviceUpdateLEDs()
 
 void RGBController_EVisionKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVisionKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVisionKeyboard::DeviceUpdateMode()

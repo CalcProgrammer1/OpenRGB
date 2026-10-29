@@ -172,7 +172,7 @@ void RGBController_Luxafor::SetupZones()
     SetupColors();
 }
 
-void RGBController_Luxafor::DeviceUpdateLEDs()
+void RGBController_Luxafor::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -205,7 +205,7 @@ void RGBController_Luxafor::DeviceUpdateMode()
     switch(modes[active_mode].color_mode)
     {
         case MODE_COLORS_PER_LED:
-            DeviceUpdateLEDs();
+            DeviceUpdateLEDs(colors);
             break;
 
         case MODE_COLORS_MODE_SPECIFIC:

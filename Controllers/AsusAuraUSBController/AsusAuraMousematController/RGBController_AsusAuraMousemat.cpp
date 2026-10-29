@@ -211,26 +211,26 @@ void RGBController_AuraMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraMousemat::DeviceUpdateLEDs()
+void RGBController_AuraMousemat::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->UpdateLeds(std::vector<RGBColor>(colors));
 }
 
 void RGBController_AuraMousemat::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AuraMousemat::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AuraMousemat::DeviceUpdateMode()
 {
     if(modes[active_mode].value == AURA_MOUSEMAT_MODE_DIRECT)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

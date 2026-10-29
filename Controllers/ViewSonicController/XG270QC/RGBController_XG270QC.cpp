@@ -122,19 +122,19 @@ void RGBController_XG270QC::SetupZones()
     SetupColors();
 }
 
-void RGBController_XG270QC::DeviceUpdateLEDs()
+void RGBController_XG270QC::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }
 
 void RGBController_XG270QC::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_XG270QC::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_XG270QC::DeviceUpdateMode()

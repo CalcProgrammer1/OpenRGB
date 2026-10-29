@@ -116,7 +116,7 @@ void RGBController_SteelSeriesArctisNova3::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesArctisNova3::DeviceUpdateLEDs()
+void RGBController_SteelSeriesArctisNova3::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int i = 0; i < leds.size(); i++)
     {
@@ -126,7 +126,7 @@ void RGBController_SteelSeriesArctisNova3::DeviceUpdateLEDs()
 
 void RGBController_SteelSeriesArctisNova3::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesArctisNova3::DeviceUpdateSingleLED(int led)
@@ -164,7 +164,7 @@ void RGBController_SteelSeriesArctisNova3::DeviceUpdateSingleLED(int led)
 
 void RGBController_SteelSeriesArctisNova3::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesArctisNova3::DeviceSaveMode()

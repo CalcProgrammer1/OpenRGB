@@ -74,7 +74,7 @@ void RGBController_AuraMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraMonitor::DeviceUpdateLEDs()
+void RGBController_AuraMonitor::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->BeginUpdate();
 
@@ -92,7 +92,7 @@ void RGBController_AuraMonitor::DeviceUpdateLEDs()
 
 void RGBController_AuraMonitor::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AuraMonitor::DeviceUpdateSingleLED(int led)

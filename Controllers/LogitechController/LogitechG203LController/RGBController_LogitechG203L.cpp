@@ -140,7 +140,7 @@ void RGBController_LogitechG203L::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG203L::DeviceUpdateLEDs()
+void RGBController_LogitechG203L::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetDevice(colors);
     controller->SetDevice(colors); //dirty workaround for color lag
@@ -148,7 +148,7 @@ void RGBController_LogitechG203L::DeviceUpdateLEDs()
 
 void RGBController_LogitechG203L::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechG203L::DeviceUpdateSingleLED(int led)

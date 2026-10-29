@@ -1062,7 +1062,7 @@ void RGBController_CMARGBGen2A1Controller::ApplyDeviceSpecificConfiguration(bool
     if(direct_active)
     {
         RebuildDeviceSpecificConfiguration();
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
         return;
     }
 
@@ -1077,7 +1077,7 @@ void RGBController_CMARGBGen2A1Controller::ApplyDeviceSpecificConfiguration(bool
 
             if(restart_direct)
             {
-                DeviceUpdateLEDs();
+                DeviceUpdateLEDs(colors);
             }
             return;
         }
@@ -1100,7 +1100,7 @@ void RGBController_CMARGBGen2A1Controller::ApplyDeviceSpecificConfiguration(bool
 
             if(restart_direct)
             {
-                DeviceUpdateLEDs();
+                DeviceUpdateLEDs(colors);
             }
             return;
         }
@@ -1120,7 +1120,7 @@ void RGBController_CMARGBGen2A1Controller::ApplyDeviceSpecificConfiguration(bool
 
             if(restart_direct)
             {
-                DeviceUpdateLEDs();
+                DeviceUpdateLEDs(colors);
             }
             return;
         }
@@ -1135,7 +1135,7 @@ void RGBController_CMARGBGen2A1Controller::ApplyDeviceSpecificConfiguration(bool
 
     if(modes[active_mode].value == CM_ARGB_GEN2_A1_DIRECT_MODE)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
         return;
     }
 
@@ -1583,7 +1583,7 @@ void RGBController_CMARGBGen2A1Controller::DeviceConfigureZone(int zone_idx)
         if(IsValidIndex(active_mode, modes.size()) && (modes[active_mode].value == CM_ARGB_GEN2_A1_DIRECT_MODE
                                                    || modes[active_mode].value == CM_ARGB_GEN2_A1_CUSTOM_MODE))
         {
-            DeviceUpdateLEDs();
+            DeviceUpdateLEDs(colors);
         }
 
         return;
@@ -1649,7 +1649,7 @@ void RGBController_CMARGBGen2A1Controller::DeviceConfigureZone(int zone_idx)
     if(IsValidIndex(active_mode, modes.size()) && (modes[active_mode].value == CM_ARGB_GEN2_A1_DIRECT_MODE
                                                || modes[active_mode].value == CM_ARGB_GEN2_A1_CUSTOM_MODE))
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }
 
@@ -1713,7 +1713,7 @@ std::vector<CMARGBGen2A1RealtimeTarget> RGBController_CMARGBGen2A1Controller::Bu
     return(targets);
 }
 
-void RGBController_CMARGBGen2A1Controller::DeviceUpdateLEDs()
+void RGBController_CMARGBGen2A1Controller::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(!IsValidIndex(active_mode, modes.size()))
     {
@@ -1750,7 +1750,7 @@ void RGBController_CMARGBGen2A1Controller::DeviceUpdateZoneLEDs(int zone)
 
     if(global_mode.value == CM_ARGB_GEN2_A1_DIRECT_MODE)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
         return;
     }
 
@@ -1961,7 +1961,7 @@ void RGBController_CMARGBGen2A1Controller::DeviceUpdateMode()
 
     if(global_mode.value == CM_ARGB_GEN2_A1_DIRECT_MODE)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
         return;
     }
 

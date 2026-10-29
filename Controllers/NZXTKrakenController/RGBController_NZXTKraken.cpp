@@ -311,7 +311,7 @@ void RGBController_NZXTKraken::UpdateChannel(NZXTKrakenChannel_t channel, int zo
     }
 }
 
-void RGBController_NZXTKraken::DeviceUpdateLEDs()
+void RGBController_NZXTKraken::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(logo_modes.find(modes[active_mode].value) == logo_modes.end())
     {
@@ -351,5 +351,5 @@ void RGBController_NZXTKraken::DeviceUpdateSingleLED(int led)
 
 void RGBController_NZXTKraken::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

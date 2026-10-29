@@ -97,7 +97,7 @@ void RGBController_AMBX::SetupZones()
     SetupColors();
 }
 
-void RGBController_AMBX::DeviceUpdateLEDs()
+void RGBController_AMBX::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(!controller->IsInitialized())
     {
@@ -170,5 +170,5 @@ void RGBController_AMBX::DeviceUpdateMode()
         return;
     }
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

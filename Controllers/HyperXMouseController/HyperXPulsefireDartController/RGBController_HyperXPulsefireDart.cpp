@@ -124,7 +124,7 @@ void RGBController_HyperXPulsefireDart::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireDart::DeviceUpdateLEDs()
+void RGBController_HyperXPulsefireDart::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

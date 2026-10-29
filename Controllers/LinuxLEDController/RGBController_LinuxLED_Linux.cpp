@@ -76,7 +76,7 @@ void RGBController_LinuxLED::SetupZones()
     SetupColors();
 }
 
-void RGBController_LinuxLED::DeviceUpdateLEDs()
+void RGBController_LinuxLED::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -87,12 +87,12 @@ void RGBController_LinuxLED::DeviceUpdateLEDs()
 
 void RGBController_LinuxLED::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LinuxLED::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LinuxLED::DeviceUpdateMode()

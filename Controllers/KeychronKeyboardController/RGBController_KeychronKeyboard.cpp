@@ -650,7 +650,7 @@ void RGBController_KeychronKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_KeychronKeyboard::DeviceUpdateLEDs()
+void RGBController_KeychronKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }

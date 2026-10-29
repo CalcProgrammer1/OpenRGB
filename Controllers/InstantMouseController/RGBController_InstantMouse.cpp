@@ -183,19 +183,19 @@ void RGBController_InstantMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_InstantMouse::DeviceUpdateLEDs()
+void RGBController_InstantMouse::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SendColor(colors[0]);
 }
 
 void RGBController_InstantMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_InstantMouse::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_InstantMouse::DeviceUpdateMode()

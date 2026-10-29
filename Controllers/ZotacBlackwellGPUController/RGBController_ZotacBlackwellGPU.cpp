@@ -318,7 +318,7 @@ void RGBController_ZotacBlackwellGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_ZotacBlackwellGPU::DeviceUpdateLEDs()
+void RGBController_ZotacBlackwellGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

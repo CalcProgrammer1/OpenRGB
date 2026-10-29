@@ -54,22 +54,22 @@ void RGBController_GameSir::SetupZones()
     SetupColors();
 }
 
-void RGBController_GameSir::DeviceUpdateLEDs()
+void RGBController_GameSir::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetColor(RGBGetRValue(colors[0]), RGBGetGValue(colors[0]), RGBGetBValue(colors[0]));
 }
 
 void RGBController_GameSir::UpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GameSir::UpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GameSir::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

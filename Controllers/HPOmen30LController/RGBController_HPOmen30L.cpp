@@ -242,7 +242,7 @@ void RGBController_HPOmen30L::SetupZones()
     SetupColors();
 }
 
-void RGBController_HPOmen30L::DeviceUpdateLEDs()
+void RGBController_HPOmen30L::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int i = 0; i < zones.size(); i++)
     {
@@ -276,5 +276,5 @@ void RGBController_HPOmen30L::DeviceUpdateMode()
         controller->SetZoneMode(i, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness);
     }
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

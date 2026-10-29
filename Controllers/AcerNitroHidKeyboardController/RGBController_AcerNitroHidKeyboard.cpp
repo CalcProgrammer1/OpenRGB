@@ -196,7 +196,7 @@ void RGBController_AcerNitroHidKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AcerNitroHidKeyboard::DeviceUpdateLEDs()
+void RGBController_AcerNitroHidKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     mode& current_mode = modes[active_mode];
     if(current_mode.value == ACER_HID_MODE_DIRECT)
@@ -217,15 +217,15 @@ void RGBController_AcerNitroHidKeyboard::DeviceUpdateLEDs()
 
 void RGBController_AcerNitroHidKeyboard::DeviceUpdateZoneLEDs(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AcerNitroHidKeyboard::DeviceUpdateSingleLED(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AcerNitroHidKeyboard::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

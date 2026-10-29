@@ -285,7 +285,7 @@ void RGBController_ASRockPolychromeV2SMBus::DeviceConfigureZone(int /*zone_idx*/
     \*---------------------------------------------------------*/
 }
 
-void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateLEDs()
+void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int led = 0; led < colors.size(); led++)
     {
@@ -295,7 +295,7 @@ void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateLEDs()
 
 void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateSingleLED(int led)
@@ -321,5 +321,5 @@ void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateMode()
 
     controller->SetMode(0, modes[active_mode].value, modes[active_mode].speed);
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

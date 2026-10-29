@@ -176,7 +176,7 @@ void RGBController_SRGBmodsLEDControllerV1::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateLEDs()
+void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == SRGBMODS_LED_CONTROLLER_V1_MODE_DIRECT)
     {
@@ -196,12 +196,12 @@ void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateLEDs()
 
 void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateMode()
@@ -210,7 +210,7 @@ void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateMode()
     {
         controller->SetDirect();
 
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

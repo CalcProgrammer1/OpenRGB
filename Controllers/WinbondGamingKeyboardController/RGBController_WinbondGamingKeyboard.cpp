@@ -813,19 +813,19 @@ void RGBController_WinbondGamingKeyboard::SetupZones()
 
 #undef KV
 
-void RGBController_WinbondGamingKeyboard::DeviceUpdateLEDs()
+void RGBController_WinbondGamingKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDsData(colors, leds, modes[active_mode].brightness);
 }
 
 void RGBController_WinbondGamingKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_WinbondGamingKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_WinbondGamingKeyboard::DeviceUpdateMode()

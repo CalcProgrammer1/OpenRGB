@@ -165,7 +165,7 @@ void RGBController_CreativeSoundBlasterAE5::UpdateLEDRange(unsigned int start_le
     delete[] blue_values;
 }
 
-void RGBController_CreativeSoundBlasterAE5::DeviceUpdateLEDs()
+void RGBController_CreativeSoundBlasterAE5::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     UpdateLEDRange(0, controller->GetLEDCount());
 }
@@ -205,5 +205,5 @@ void RGBController_CreativeSoundBlasterAE5::DeviceUpdateSingleLED(int led)
 
 void RGBController_CreativeSoundBlasterAE5::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

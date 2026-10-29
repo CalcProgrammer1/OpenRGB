@@ -86,19 +86,19 @@ void RGBController_PatriotViperMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_PatriotViperMouse::DeviceUpdateLEDs()
+void RGBController_PatriotViperMouse::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }
 
 void RGBController_PatriotViperMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PatriotViperMouse::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PatriotViperMouse::DeviceUpdateMode()

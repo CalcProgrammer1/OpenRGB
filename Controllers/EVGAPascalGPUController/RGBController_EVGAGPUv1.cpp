@@ -117,7 +117,7 @@ void RGBController_EVGAGPUv1::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGPUv1::DeviceUpdateLEDs()
+void RGBController_EVGAGPUv1::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -129,12 +129,12 @@ void RGBController_EVGAGPUv1::DeviceUpdateLEDs()
 
 void RGBController_EVGAGPUv1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAGPUv1::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAGPUv1::DeviceUpdateMode()

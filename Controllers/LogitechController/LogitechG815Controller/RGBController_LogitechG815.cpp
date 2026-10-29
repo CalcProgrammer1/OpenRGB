@@ -286,7 +286,7 @@ void RGBController_LogitechG815::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG815::DeviceUpdateLEDs()
+void RGBController_LogitechG815::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     std::map<RGBColor, std::vector<char>> ledsByColors;
     std::vector<RGBColor>   new_colors;
@@ -469,12 +469,12 @@ void RGBController_LogitechG815::DeviceUpdateLEDs()
 
 void RGBController_LogitechG815::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechG815::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechG815::DeviceUpdateMode()

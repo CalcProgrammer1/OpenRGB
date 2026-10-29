@@ -1395,7 +1395,7 @@ void RGBController_LogitechHIDPP20::OnRepaintRequest()
             sent_colors[i] = HIDPP20_UNCOMMITTED;
         }
     }
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 RGBController_LogitechHIDPP20::~RGBController_LogitechHIDPP20()
@@ -2177,7 +2177,7 @@ void RGBController_LogitechHIDPP20::SetupZones8080()
     }
 }
 
-void RGBController_LogitechHIDPP20::DeviceUpdateLEDs()
+void RGBController_LogitechHIDPP20::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*-----------------------------------------------------*\
     | Don't paint while the controller is                   |
@@ -2998,14 +2998,14 @@ void RGBController_LogitechHIDPP20::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     std::lock_guard<std::recursive_mutex> frame_guard(controller->TransactionMutex());
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechHIDPP20::DeviceUpdateSingleLED(int /*led*/)
 {
     std::lock_guard<std::recursive_mutex> frame_guard(controller->TransactionMutex());
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechHIDPP20::DeviceUpdateMode()
@@ -3053,7 +3053,7 @@ void RGBController_LogitechHIDPP20::DeviceUpdateMode()
     if(current.name == "Direct")
     {
         sent_colors.clear();
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
 
         /*-------------------------------------------------*\
         | Start power manager (reader + power               |

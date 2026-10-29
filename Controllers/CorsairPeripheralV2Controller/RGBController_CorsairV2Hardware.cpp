@@ -213,7 +213,7 @@ void RGBController_CorsairV2HW::SetupZones()
     }
 }
 
-void RGBController_CorsairV2HW::DeviceUpdateLEDs()
+void RGBController_CorsairV2HW::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -244,7 +244,7 @@ void RGBController_CorsairV2HW::KeepaliveThread()
             if((std::chrono::steady_clock::now() - last_update_time) >
                 std::chrono::milliseconds(CORSAIR_V2_UPDATE_PERIOD))
             {
-                DeviceUpdateLEDs();
+                DeviceUpdateLEDs(colors);
             }
         }
         std::this_thread::sleep_for(CORSAIR_V2_SLEEP_PERIOD);

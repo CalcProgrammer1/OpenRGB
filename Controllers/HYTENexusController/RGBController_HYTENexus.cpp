@@ -163,7 +163,7 @@ void RGBController_HYTENexus::SetupZones()
     SetupColors();
 }
 
-void RGBController_HYTENexus::DeviceUpdateLEDs()
+void RGBController_HYTENexus::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -183,5 +183,5 @@ void RGBController_HYTENexus::DeviceUpdateSingleLED(int led)
 
 void RGBController_HYTENexus::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

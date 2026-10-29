@@ -195,7 +195,7 @@ void RGBController_DarkProjectKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DarkProjectKeyboard::DeviceUpdateLEDs()
+void RGBController_DarkProjectKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLedsDirect(colors);
 }

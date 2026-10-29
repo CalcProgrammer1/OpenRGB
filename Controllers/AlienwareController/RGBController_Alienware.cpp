@@ -167,14 +167,14 @@ void RGBController_Alienware::SetupZones()
     SetupColors();
 }
 
-void RGBController_Alienware::DeviceUpdateLEDs()
+void RGBController_Alienware::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }
 
 void RGBController_Alienware::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Alienware::DeviceUpdateSingleLED(int led)

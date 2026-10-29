@@ -432,7 +432,7 @@ void RGBController_GigabyteAorusLaptop::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteAorusLaptop::DeviceUpdateLEDs()
+void RGBController_GigabyteAorusLaptop::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*---------------------------------------------------------*\
     | This device supports direct mode per LED for main zone    |
@@ -463,12 +463,12 @@ void RGBController_GigabyteAorusLaptop::DeviceUpdateLEDs()
 
 void RGBController_GigabyteAorusLaptop::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GigabyteAorusLaptop::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GigabyteAorusLaptop::DeviceUpdateMode()
@@ -480,7 +480,7 @@ void RGBController_GigabyteAorusLaptop::DeviceUpdateMode()
     \*---------------------------------------------------------*/
     if(current_mode.value == GIGABYTE_AORUS_LAPTOP_DIRECT_MODE_VALUE || current_mode.value == GIGABYTE_AORUS_LAPTOP_CUSTOM_MODE_VALUE)
     {
-        return DeviceUpdateLEDs();
+        return DeviceUpdateLEDs(colors);
     }
 
     /*---------------------------------------------------------*\

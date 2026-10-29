@@ -466,7 +466,7 @@ void RGBController_EVGAKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAKeyboard::DeviceUpdateLEDs()
+void RGBController_EVGAKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLedsDirect(colors);
 }

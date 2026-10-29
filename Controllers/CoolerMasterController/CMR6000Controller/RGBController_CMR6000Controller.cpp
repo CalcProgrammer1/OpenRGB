@@ -176,7 +176,7 @@ void RGBController_CMR6000Controller::SetupZones()
 
 }
 
-void RGBController_CMR6000Controller::DeviceUpdateLEDs()
+void RGBController_CMR6000Controller::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     mode new_mode       = modes[active_mode];
     RGBColor color1     = (new_mode.colors.size() > 0) ? new_mode.colors[0] : colors[0];
@@ -208,15 +208,15 @@ void RGBController_CMR6000Controller::DeviceUpdateLEDs()
 
 void RGBController_CMR6000Controller::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMR6000Controller::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMR6000Controller::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

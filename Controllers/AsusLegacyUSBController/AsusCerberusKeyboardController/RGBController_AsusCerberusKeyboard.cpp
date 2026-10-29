@@ -313,7 +313,7 @@ void RGBController_AsusCerberusKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusCerberusKeyboard::DeviceUpdateLEDs()
+void RGBController_AsusCerberusKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int i = 0; i < colors.size(); i++)
     {
@@ -328,7 +328,7 @@ void RGBController_AsusCerberusKeyboard::DeviceUpdateLEDs()
 
 void RGBController_AsusCerberusKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AsusCerberusKeyboard::DeviceUpdateSingleLED(int led)

@@ -149,19 +149,19 @@ void RGBController_FrameworkDesktop::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_FrameworkDesktop::DeviceUpdateLEDs()
+void RGBController_FrameworkDesktop::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(colors);
 }
 
 void RGBController_FrameworkDesktop::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_FrameworkDesktop::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_FrameworkDesktop::DeviceUpdateMode()

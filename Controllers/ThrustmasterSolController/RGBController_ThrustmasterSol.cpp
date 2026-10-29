@@ -268,7 +268,7 @@ void RGBController_ThrustmasterSol::SetupZones()
     SetupColors();
 }
 
-void RGBController_ThrustmasterSol::DeviceUpdateLEDs()
+void RGBController_ThrustmasterSol::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned int    led_zones[THRUSTMASTER_SOL_R_ZONE_COUNT];
     RGBColor        led_colors[THRUSTMASTER_SOL_R_ZONE_COUNT];
@@ -318,7 +318,7 @@ void RGBController_ThrustmasterSol::DeviceUpdateSingleLED(int led)
 
 void RGBController_ThrustmasterSol::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ThrustmasterSol::DeviceSaveMode()

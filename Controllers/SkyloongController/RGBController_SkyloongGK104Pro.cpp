@@ -130,19 +130,19 @@ void RGBController_SkyloongGK104Pro::SetupZones()
     SetupColors();
 }
 
-void RGBController_SkyloongGK104Pro::DeviceUpdateLEDs()
+void RGBController_SkyloongGK104Pro::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SendColorPacket(colors, &leds, modes[active_mode].brightness);
 }
 
 void RGBController_SkyloongGK104Pro::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SkyloongGK104Pro::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SkyloongGK104Pro::DeviceUpdateMode()

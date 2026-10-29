@@ -137,7 +137,7 @@ void RGBController_HYTEKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_HYTEKeyboard::DeviceUpdateLEDs()
+void RGBController_HYTEKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -178,5 +178,5 @@ void RGBController_HYTEKeyboard::DeviceUpdateSingleLED(int led)
 
 void RGBController_HYTEKeyboard::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

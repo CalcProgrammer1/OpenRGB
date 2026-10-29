@@ -389,7 +389,7 @@ void RGBController_AsusAuraCoreLaptop::SetupZones()
     }
 }
 
-void RGBController_AsusAuraCoreLaptop::DeviceUpdateLEDs()
+void RGBController_AsusAuraCoreLaptop::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(size_t i = 85; i < leds.size(); i++)
     {

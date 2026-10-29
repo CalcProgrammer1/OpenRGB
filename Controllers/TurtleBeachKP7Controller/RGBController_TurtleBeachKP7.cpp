@@ -216,7 +216,7 @@ void RGBController_TurtleBeachKP7::SetupZones()
     SetupColors();
 }
 
-void RGBController_TurtleBeachKP7::DeviceUpdateLEDs()
+void RGBController_TurtleBeachKP7::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char led_data[TURTLE_BEACH_KP7_LED_COUNT * 3] = { 0 };
 
@@ -238,12 +238,12 @@ void RGBController_TurtleBeachKP7::DeviceUpdateLEDs()
 
 void RGBController_TurtleBeachKP7::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_TurtleBeachKP7::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_TurtleBeachKP7::DeviceUpdateMode()

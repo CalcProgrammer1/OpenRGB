@@ -458,7 +458,7 @@ void RGBController_ClevoKeyboard::BuildBufferMap()
     }
 }
 
-void RGBController_ClevoKeyboard::DeviceUpdateLEDs()
+void RGBController_ClevoKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     int  num_rows = controller->GetNumRows();
     int  num_cols = controller->GetNumCols();
@@ -484,12 +484,12 @@ void RGBController_ClevoKeyboard::DeviceUpdateLEDs()
 
 void RGBController_ClevoKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ClevoKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ClevoKeyboard::DeviceUpdateMode()
@@ -520,7 +520,7 @@ void RGBController_ClevoKeyboard::DeviceUpdateMode()
     \*---------------------------------------------------------*/
     if(mode_value == CLEVO_KEYBOARD_MODE_DIRECT)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
         return;
     }
 

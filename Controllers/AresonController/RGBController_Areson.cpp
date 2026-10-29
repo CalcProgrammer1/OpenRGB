@@ -151,7 +151,7 @@ void RGBController_Areson::SetupZones()
     SetupColors();
 }
 
-void RGBController_Areson::DeviceUpdateLEDs()
+void RGBController_Areson::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

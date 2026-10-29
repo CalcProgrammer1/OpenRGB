@@ -130,7 +130,7 @@ void RGBController_SayoDevice::SetupZones()
     SetupColors();
 }
 
-void RGBController_SayoDevice::DeviceUpdateLEDs()
+void RGBController_SayoDevice::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned int hw_mode = (modes[active_mode].value == SAYO_MODE_DIRECT) ? SAYO_MODE_STATIC : modes[active_mode].value;
     bool         random  = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
@@ -141,12 +141,12 @@ void RGBController_SayoDevice::DeviceUpdateLEDs()
 
 void RGBController_SayoDevice::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SayoDevice::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SayoDevice::DeviceUpdateMode()
@@ -154,7 +154,7 @@ void RGBController_SayoDevice::DeviceUpdateMode()
     /*-----------------------------------------------------*\
     | Mode and color are always set together.               |
     \*-----------------------------------------------------*/
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SayoDevice::DeviceSaveMode()

@@ -101,7 +101,7 @@ void RGBController_Faustus::SetupZones()
     SetupColors();
 }
 
-void RGBController_Faustus::DeviceUpdateLEDs()
+void RGBController_Faustus::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     int rv = uint8_t(RGBGetRValue(colors[0]));
     int gv = uint8_t(RGBGetGValue(colors[0]));
@@ -146,17 +146,17 @@ void RGBController_Faustus::DeviceUpdateLEDs()
 
 void RGBController_Faustus::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Faustus::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Faustus::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 DetectedControllers DetectFaustusControllers()

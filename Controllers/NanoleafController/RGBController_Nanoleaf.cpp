@@ -113,19 +113,19 @@ void RGBController_Nanoleaf::SetupZones()
     SetupColors();
 }
 
-void RGBController_Nanoleaf::DeviceUpdateLEDs()
+void RGBController_Nanoleaf::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller.UpdateLEDs(colors);
 }
 
 void RGBController_Nanoleaf::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Nanoleaf::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Nanoleaf::DeviceUpdateMode()

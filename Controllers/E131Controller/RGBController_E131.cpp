@@ -302,7 +302,7 @@ void RGBController_E131::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_E131::DeviceUpdateLEDs()
+void RGBController_E131::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     int color_idx = 0;
 
@@ -368,12 +368,12 @@ void RGBController_E131::DeviceUpdateLEDs()
 
 void RGBController_E131::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_E131::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_E131::DeviceUpdateMode()

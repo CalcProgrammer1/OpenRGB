@@ -76,7 +76,7 @@ void RGBController_HoltekA070::SetupZones()
     SetupColors();
 }
 
-void RGBController_HoltekA070::DeviceUpdateLEDs()
+void RGBController_HoltekA070::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red   = RGBGetRValue(colors[0]);
     unsigned char green = RGBGetGValue(colors[0]);
@@ -87,12 +87,12 @@ void RGBController_HoltekA070::DeviceUpdateLEDs()
 
 void RGBController_HoltekA070::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HoltekA070::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HoltekA070::DeviceUpdateMode()

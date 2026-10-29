@@ -235,19 +235,19 @@ void RGBController_CorsairDRAM::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairDRAM::DeviceUpdateLEDs()
+void RGBController_CorsairDRAM::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetColorsPerLED(colors.data());
 }
 
 void RGBController_CorsairDRAM::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairDRAM::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairDRAM::DeviceUpdateMode()

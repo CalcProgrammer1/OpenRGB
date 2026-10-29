@@ -157,7 +157,7 @@ void RGBController_GigabyteSuperIORGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteSuperIORGB::DeviceUpdateLEDs()
+void RGBController_GigabyteSuperIORGB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -169,12 +169,12 @@ void RGBController_GigabyteSuperIORGB::DeviceUpdateLEDs()
 
 void RGBController_GigabyteSuperIORGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GigabyteSuperIORGB::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GigabyteSuperIORGB::DeviceUpdateMode()

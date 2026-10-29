@@ -306,7 +306,7 @@ protected:
     virtual void            DeviceConfigureDevice();
     virtual void            DeviceConfigureZone(int zone_idx);
 
-    virtual void            DeviceUpdateLEDs();
+    virtual void            DeviceUpdateLEDs(std::vector<RGBColor>& update_colors);
     virtual void            DeviceUpdateZoneLEDs(int zone);
     virtual void            DeviceUpdateSingleLED(int led);
 

@@ -73,7 +73,7 @@ void RGBController_SteelSeriesQCKMat::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesQCKMat::DeviceUpdateLEDs()
+void RGBController_SteelSeriesQCKMat::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetColors(colors);
 }
@@ -83,7 +83,7 @@ void RGBController_SteelSeriesQCKMat::DeviceUpdateZoneLEDs(int /*zone*/)
     /*---------------------------------------------------------*\
     | Packet expects both LEDs                                  |
     \*---------------------------------------------------------*/
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesQCKMat::DeviceUpdateSingleLED(int /*led*/)
@@ -91,10 +91,10 @@ void RGBController_SteelSeriesQCKMat::DeviceUpdateSingleLED(int /*led*/)
     /*---------------------------------------------------------*\
     | Packet expects both LEDs                                  |
     \*---------------------------------------------------------*/
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesQCKMat::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

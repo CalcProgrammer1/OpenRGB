@@ -417,7 +417,7 @@ void RGBController_CougarKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_CougarKeyboard::DeviceUpdateLEDs()
+void RGBController_CougarKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLedsDirect(colors);
 }

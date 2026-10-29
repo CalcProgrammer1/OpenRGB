@@ -51,7 +51,7 @@ void RGBController_Dummy::SetupZones()
 
 }
 
-void RGBController_Dummy::DeviceUpdateLEDs()
+void RGBController_Dummy::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
 
 }

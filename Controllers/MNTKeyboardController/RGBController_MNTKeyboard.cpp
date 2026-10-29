@@ -22,7 +22,7 @@ void RGBController_MNTKeyboard::CommonInit()
     modes[0].color_mode = MODE_COLORS_PER_LED;
     SetupZones();
     SetAllColors(ToRGBColor(255, 255, 255));
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 RGBController_MNTKeyboard::~RGBController_MNTKeyboard()
@@ -48,7 +48,7 @@ void RGBController_MNTKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_MNTKeyboard::DeviceUpdateLEDs()
+void RGBController_MNTKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char *color_map = new unsigned char[zones[0].leds_count * KBD_COLOR_SIZE];
     for(unsigned int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
@@ -65,11 +65,11 @@ void RGBController_MNTKeyboard::DeviceUpdateLEDs()
 
 void RGBController_MNTKeyboard::DeviceUpdateZoneLEDs(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 void RGBController_MNTKeyboard::DeviceUpdateSingleLED(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 void RGBController_MNTKeyboard::DeviceUpdateMode()
 {

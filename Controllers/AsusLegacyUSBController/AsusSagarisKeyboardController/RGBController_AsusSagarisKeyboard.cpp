@@ -182,7 +182,7 @@ void RGBController_AsusSagarisKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusSagarisKeyboard::DeviceUpdateLEDs()
+void RGBController_AsusSagarisKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
 
 }

@@ -107,7 +107,7 @@ void RGBController_LogitechGLightsync1zone::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechGLightsync1zone::DeviceUpdateLEDs()
+void RGBController_LogitechGLightsync1zone::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }
@@ -139,5 +139,5 @@ void RGBController_LogitechGLightsync1zone::DeviceUpdateMode()
     | we change modes as to not spam the device.                |
     \*---------------------------------------------------------*/
     controller->SetDirectMode(modes[active_mode].value == 0xFF);
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

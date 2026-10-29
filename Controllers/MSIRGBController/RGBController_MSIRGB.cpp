@@ -66,7 +66,7 @@ void RGBController_MSIRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIRGB::DeviceUpdateLEDs()
+void RGBController_MSIRGB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -78,12 +78,12 @@ void RGBController_MSIRGB::DeviceUpdateLEDs()
 
 void RGBController_MSIRGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIRGB::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIRGB::DeviceUpdateMode()

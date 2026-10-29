@@ -97,26 +97,26 @@ void RGBController_SteelSeriesApex3::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesApex3::DeviceUpdateLEDs()
+void RGBController_SteelSeriesApex3::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetColor(colors, modes[active_mode].value, modes[active_mode].brightness);
 }
 
 void RGBController_SteelSeriesApex3::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesApex3::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesApex3::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_FLAG_HAS_PER_LED_COLOR)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

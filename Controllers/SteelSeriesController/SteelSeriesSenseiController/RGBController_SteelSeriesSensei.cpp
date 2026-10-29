@@ -100,7 +100,7 @@ void RGBController_SteelSeriesSensei::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesSensei::DeviceUpdateLEDs()
+void RGBController_SteelSeriesSensei::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
     DeviceUpdateZoneLEDs(1);
@@ -141,5 +141,5 @@ void RGBController_SteelSeriesSensei::DeviceUpdateMode()
     | Strictly, the device actually does support different modes|
     | for the different zones, but we don't support that.       |
     \*---------------------------------------------------------*/
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

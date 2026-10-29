@@ -384,7 +384,7 @@ bool RGBController_MSIGPU::TimeToSend()
     return (std::chrono::steady_clock::now() - last_commit_time) > std::chrono::milliseconds(wait_time);
 }
 
-void RGBController_MSIGPU::DeviceUpdateLEDs()
+void RGBController_MSIGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(TimeToSend())
     {
@@ -409,12 +409,12 @@ void RGBController_MSIGPU::DeviceUpdateLEDs()
 
 void RGBController_MSIGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIGPU::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIGPU::DeviceUpdateMode()

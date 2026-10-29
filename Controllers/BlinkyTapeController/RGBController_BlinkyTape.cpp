@@ -128,7 +128,7 @@ void RGBController_BlinkyTape::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_BlinkyTape::DeviceUpdateLEDs()
+void RGBController_BlinkyTape::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(colors);
 }

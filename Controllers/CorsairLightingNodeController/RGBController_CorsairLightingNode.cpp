@@ -380,7 +380,7 @@ void RGBController_CorsairLightingNode::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_CorsairLightingNode::DeviceUpdateLEDs()
+void RGBController_CorsairLightingNode::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned char zone_idx = 0; zone_idx < (unsigned char)zones.size(); zone_idx++)
     {
@@ -407,7 +407,7 @@ void RGBController_CorsairLightingNode::DeviceUpdateMode()
 {
     if(modes[active_mode].value == CORSAIR_LIGHTING_NODE_MODE_DIRECT)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

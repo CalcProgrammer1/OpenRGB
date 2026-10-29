@@ -146,7 +146,7 @@ void RGBController_RGBFusionGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusionGPU::DeviceUpdateLEDs()
+void RGBController_RGBFusionGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*-----------------------------------------------------*\
     | Modes without colors do not use the color register.   |
@@ -167,12 +167,12 @@ void RGBController_RGBFusionGPU::DeviceUpdateLEDs()
 
 void RGBController_RGBFusionGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusionGPU::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusionGPU::DeviceUpdateMode()

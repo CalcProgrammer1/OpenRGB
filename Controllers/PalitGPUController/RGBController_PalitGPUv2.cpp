@@ -135,7 +135,7 @@ void RGBController_PalitGPUv2::SetupZones()
     colors[0] =  ToRGBColor(red, grn, blu);
 }
 
-void RGBController_PalitGPUv2::DeviceUpdateLEDs()
+void RGBController_PalitGPUv2::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int color : colors)
     {
@@ -150,12 +150,12 @@ void RGBController_PalitGPUv2::DeviceUpdateLEDs()
 
 void RGBController_PalitGPUv2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PalitGPUv2::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PalitGPUv2::DeviceUpdateMode()

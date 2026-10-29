@@ -182,7 +182,7 @@ void RGBController_CMGD160Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMGD160Controller::DeviceUpdateLEDs()
+void RGBController_CMGD160Controller::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     switch(modes[active_mode].value)
     {
@@ -201,12 +201,12 @@ void RGBController_CMGD160Controller::DeviceUpdateLEDs()
 
 void RGBController_CMGD160Controller::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMGD160Controller::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMGD160Controller::DeviceUpdateMode()

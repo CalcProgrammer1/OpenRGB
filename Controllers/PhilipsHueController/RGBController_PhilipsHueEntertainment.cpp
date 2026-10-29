@@ -97,7 +97,7 @@ void RGBController_PhilipsHueEntertainment::SetupZones()
     SetupColors();
 }
 
-void RGBController_PhilipsHueEntertainment::DeviceUpdateLEDs()
+void RGBController_PhilipsHueEntertainment::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -109,12 +109,12 @@ void RGBController_PhilipsHueEntertainment::DeviceUpdateLEDs()
 
 void RGBController_PhilipsHueEntertainment::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PhilipsHueEntertainment::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PhilipsHueEntertainment::DeviceUpdateMode()

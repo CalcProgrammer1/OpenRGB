@@ -397,7 +397,7 @@ void RGBController_HIDLampArray::SetupZones()
     SetupColors();
 }
 
-void RGBController_HIDLampArray::DeviceUpdateLEDs()
+void RGBController_HIDLampArray::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned int leds_to_go = (unsigned int)leds.size();
 
@@ -436,12 +436,12 @@ void RGBController_HIDLampArray::DeviceUpdateLEDs()
 
 void RGBController_HIDLampArray::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HIDLampArray::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HIDLampArray::DeviceUpdateMode()

@@ -90,7 +90,7 @@ void RGBController_CorsairVengeance::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairVengeance::DeviceUpdateLEDs()
+void RGBController_CorsairVengeance::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -102,12 +102,12 @@ void RGBController_CorsairVengeance::DeviceUpdateLEDs()
 
 void RGBController_CorsairVengeance::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairVengeance::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairVengeance::DeviceUpdateMode()

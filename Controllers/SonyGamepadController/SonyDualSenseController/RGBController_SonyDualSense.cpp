@@ -114,19 +114,19 @@ void RGBController_SonyDualSense::SetupZones()
     SetupColors();
 }
 
-void RGBController_SonyDualSense::DeviceUpdateLEDs()
+void RGBController_SonyDualSense::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetColors(colors, modes[active_mode].brightness, modes[active_mode].value);
 }
 
 void RGBController_SonyDualSense::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SonyDualSense::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SonyDualSense::DeviceUpdateMode()

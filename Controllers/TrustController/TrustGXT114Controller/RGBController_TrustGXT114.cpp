@@ -106,7 +106,7 @@ void RGBController_TrustGXT114::SetupZones()
     SetupColors();
 }
 
-void RGBController_TrustGXT114::DeviceUpdateLEDs()
+void RGBController_TrustGXT114::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

@@ -204,7 +204,7 @@ void RGBController_AMDWraithPrism::SetupZones()
     SetupColors();
 }
 
-void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
+void RGBController_AMDWraithPrism::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
@@ -265,12 +265,12 @@ void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
 
 void RGBController_AMDWraithPrism::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AMDWraithPrism::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AMDWraithPrism::DeviceUpdateMode()
@@ -324,5 +324,5 @@ void RGBController_AMDWraithPrism::DeviceUpdateMode()
             break;
     }
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

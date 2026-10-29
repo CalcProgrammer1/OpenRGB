@@ -33,7 +33,7 @@ public:
 
     void            ConfigureDevice(controller_flags new_flags, std::string new_name);
 
-    void            DeviceUpdateLEDs();
+    void            DeviceUpdateLEDs(std::vector<RGBColor>& update_colors);
     void            DeviceUpdateZoneLEDs(int zone);
     void            DeviceUpdateSingleLED(int led);
 

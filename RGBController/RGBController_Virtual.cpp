@@ -105,7 +105,7 @@ void RGBController_Virtual::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_Virtual::DeviceUpdateLEDs()
+void RGBController_Virtual::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(DeviceUpdateLEDs_ptr)
     {

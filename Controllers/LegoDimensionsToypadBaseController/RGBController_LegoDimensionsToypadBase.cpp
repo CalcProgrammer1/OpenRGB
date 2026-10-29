@@ -106,7 +106,7 @@ void RGBController_LegoDimensionsToypadBase::SetupZones()
     SetupColors();
 }
 
-void RGBController_LegoDimensionsToypadBase::DeviceUpdateLEDs()
+void RGBController_LegoDimensionsToypadBase::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int zone = 0; zone < zones.size(); zone++)
     {

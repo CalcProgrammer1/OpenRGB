@@ -214,7 +214,7 @@ void RGBController_CorsairK65Mini::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairK65Mini::DeviceUpdateLEDs()
+void RGBController_CorsairK65Mini::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SetLEDs(colors, led_positions);
@@ -222,12 +222,12 @@ void RGBController_CorsairK65Mini::DeviceUpdateLEDs()
 
 void RGBController_CorsairK65Mini::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairK65Mini::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairK65Mini::DeviceUpdateMode()
@@ -241,7 +241,7 @@ void RGBController_CorsairK65Mini::KeepaliveThread()
     {
         if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50000))
         {
-            DeviceUpdateLEDs();
+            DeviceUpdateLEDs(colors);
         }
 
         std::this_thread::sleep_for(3000ms);

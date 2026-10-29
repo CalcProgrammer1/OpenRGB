@@ -113,7 +113,7 @@ void RGBController_HyperXMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXMousemat::DeviceUpdateLEDs()
+void RGBController_HyperXMousemat::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -122,17 +122,17 @@ void RGBController_HyperXMousemat::DeviceUpdateLEDs()
 
 void RGBController_HyperXMousemat::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXMousemat::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXMousemat::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXMousemat::KeepaliveThread()

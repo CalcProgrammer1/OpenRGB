@@ -319,7 +319,7 @@ void RGBController_AlienwareAW510K::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
+void RGBController_AlienwareAW510K::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     std::vector<SelectedKeys>   frame_buf_keys;
     std::vector<RGBColor>       new_colors;

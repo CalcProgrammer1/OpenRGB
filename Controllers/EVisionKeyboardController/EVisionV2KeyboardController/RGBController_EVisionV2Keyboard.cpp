@@ -902,7 +902,7 @@ void RGBController_EVisionV2Keyboard::LoadConfig()
     }
 }
 
-void RGBController_EVisionV2Keyboard::DeviceUpdateLEDs()
+void RGBController_EVisionV2Keyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(part != EVISION_V2_KEYBOARD_PART_KEYBOARD)
     {
@@ -916,7 +916,7 @@ void RGBController_EVisionV2Keyboard::DeviceUpdateLEDs()
 
 void RGBController_EVisionV2Keyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVisionV2Keyboard::DeviceUpdateSingleLED(int led)

@@ -75,22 +75,22 @@ void RGBController_LianLiUniversalScreen::SetupZones()
     SetupColors();
 }
 
-void RGBController_LianLiUniversalScreen::DeviceUpdateLEDs()
+void RGBController_LianLiUniversalScreen::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLedColors(colors.data(), colors.size());
 }
 
 void RGBController_LianLiUniversalScreen::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LianLiUniversalScreen::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LianLiUniversalScreen::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

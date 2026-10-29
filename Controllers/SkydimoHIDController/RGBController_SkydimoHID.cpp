@@ -98,19 +98,19 @@ void RGBController_SkydimoHID::SetupZones()
     SetupColors();
 }
 
-void RGBController_SkydimoHID::DeviceUpdateLEDs()
+void RGBController_SkydimoHID::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(colors);
 }
 
 void RGBController_SkydimoHID::DeviceUpdateZoneLEDs(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SkydimoHID::DeviceUpdateSingleLED(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SkydimoHID::DeviceUpdateMode()

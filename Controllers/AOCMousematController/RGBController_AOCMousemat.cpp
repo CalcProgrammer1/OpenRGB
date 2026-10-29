@@ -135,19 +135,19 @@ void RGBController_AOCMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_AOCMousemat::DeviceUpdateLEDs()
+void RGBController_AOCMousemat::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }
 
 void RGBController_AOCMousemat::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AOCMousemat::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AOCMousemat::DeviceUpdateMode()

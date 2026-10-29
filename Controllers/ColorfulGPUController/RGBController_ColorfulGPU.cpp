@@ -67,22 +67,22 @@ void RGBController_ColorfulGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_ColorfulGPU::DeviceUpdateLEDs()
+void RGBController_ColorfulGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetDirect(colors[0]);
 }
 
 void RGBController_ColorfulGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ColorfulGPU::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ColorfulGPU::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

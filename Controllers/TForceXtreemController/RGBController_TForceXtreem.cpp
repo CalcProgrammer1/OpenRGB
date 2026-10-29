@@ -365,7 +365,7 @@ int RGBController_TForceXtreem::GetDeviceMode()
     return(active_mode);
 }
 
-void RGBController_TForceXtreem::DeviceUpdateLEDs()
+void RGBController_TForceXtreem::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == 0xFFFF)
     {

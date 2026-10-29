@@ -295,7 +295,7 @@ void RGBController_AOCKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AOCKeyboard::DeviceUpdateLEDs()
+void RGBController_AOCKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == AOC_KEYBOARD_MODE_CUSTOM)
     {
@@ -316,12 +316,12 @@ void RGBController_AOCKeyboard::DeviceUpdateLEDs()
 
 void RGBController_AOCKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AOCKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AOCKeyboard::DeviceUpdateMode()

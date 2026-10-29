@@ -169,7 +169,7 @@ void RGBController_CMMonitorController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMonitorController::DeviceUpdateLEDs()
+void RGBController_CMMonitorController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == CM_MONITOR_DIRECT_MODE)
     {
@@ -183,12 +183,12 @@ void RGBController_CMMonitorController::DeviceUpdateLEDs()
 
 void RGBController_CMMonitorController::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMMonitorController::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMMonitorController::DeviceUpdateMode()
@@ -208,7 +208,7 @@ void RGBController_CMMonitorController::DeviceUpdateMode()
             break;
 
         case CM_MONITOR_CUSTOM_MODE:
-            DeviceUpdateLEDs();
+            DeviceUpdateLEDs(colors);
             break;
         default: break;
     }

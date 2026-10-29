@@ -174,7 +174,7 @@ void RGBController_AsusROGStrixLC::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGStrixLC::DeviceUpdateLEDs()
+void RGBController_AsusROGStrixLC::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {

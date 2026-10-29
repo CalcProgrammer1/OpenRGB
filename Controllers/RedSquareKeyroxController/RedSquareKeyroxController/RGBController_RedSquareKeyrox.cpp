@@ -347,19 +347,19 @@ void RGBController_RedSquareKeyrox::SetupZones()
     SetupColors();
 }
 
-void RGBController_RedSquareKeyrox::DeviceUpdateLEDs()
+void RGBController_RedSquareKeyrox::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDsData(modes, active_mode, colors);
 }
 
 void RGBController_RedSquareKeyrox::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RedSquareKeyrox::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RedSquareKeyrox::DeviceUpdateMode()

@@ -165,7 +165,7 @@ void RGBController_AsusROGAlly::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGAlly::DeviceUpdateLEDs()
+void RGBController_AsusROGAlly::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == ROG_ALLY_MODE_DIRECT)
     {
@@ -175,12 +175,12 @@ void RGBController_AsusROGAlly::DeviceUpdateLEDs()
 
 void RGBController_AsusROGAlly::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AsusROGAlly::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AsusROGAlly::DeviceUpdateMode()
@@ -189,7 +189,7 @@ void RGBController_AsusROGAlly::DeviceUpdateMode()
 
     if(modes[active_mode].value == ROG_ALLY_MODE_DIRECT)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

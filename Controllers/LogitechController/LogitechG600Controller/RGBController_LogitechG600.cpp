@@ -87,19 +87,19 @@ void RGBController_LogitechG600::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG600::DeviceUpdateLEDs()
+void RGBController_LogitechG600::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetMode(modes[active_mode].value, modes[active_mode].speed, colors[0]);
 }
 
 void RGBController_LogitechG600::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechG600::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechG600::DeviceUpdateMode()

@@ -191,7 +191,7 @@ void RGBController_RGBFusion2GPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2GPU::DeviceUpdateLEDs()
+void RGBController_RGBFusion2GPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     fusion2_config zone_config;
 
@@ -219,19 +219,19 @@ void RGBController_RGBFusion2GPU::DeviceUpdateLEDs()
 void RGBController_RGBFusion2GPU::DeviceUpdateZoneLEDs(int zone)
 {
     LOG_TRACE("[%s] Update zone #%d", name.c_str(), zone);
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusion2GPU::DeviceUpdateSingleLED(int led)
 {
     LOG_TRACE("[%s] Update single led : %d", name.c_str(), led);
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusion2GPU::DeviceUpdateMode()
 {
     LOG_TRACE("[%s] Switching to mode %s @ brightness %d and speed %d", name.c_str(), modes[active_mode].name.c_str(), modes[active_mode].brightness, modes[active_mode].speed);
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusion2GPU::DeviceSaveMode()

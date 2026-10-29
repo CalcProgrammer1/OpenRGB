@@ -67,7 +67,7 @@ void RGBController_SteelSeriesSiberia::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesSiberia::DeviceUpdateLEDs()
+void RGBController_SteelSeriesSiberia::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -93,5 +93,5 @@ void RGBController_SteelSeriesSiberia::DeviceUpdateSingleLED(int led)
 
 void RGBController_SteelSeriesSiberia::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

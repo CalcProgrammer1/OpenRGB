@@ -221,7 +221,7 @@ bool RGBController_LianLiStrimerLConnect::TimeToSend()
     return (std::chrono::steady_clock::now() - last_commit_time) > std::chrono::milliseconds(wait_time);
 }
 
-void RGBController_LianLiStrimerLConnect::DeviceUpdateLEDs()
+void RGBController_LianLiStrimerLConnect::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(TimeToSend())
     {

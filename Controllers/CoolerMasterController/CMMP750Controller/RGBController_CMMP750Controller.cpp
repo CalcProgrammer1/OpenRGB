@@ -145,7 +145,7 @@ void RGBController_CMMP750Controller::SetupZones()
     }
 }
 
-void RGBController_CMMP750Controller::DeviceUpdateLEDs()
+void RGBController_CMMP750Controller::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);

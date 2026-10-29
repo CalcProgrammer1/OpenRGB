@@ -279,19 +279,19 @@ void RGBController_WitmodKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_WitmodKeyboard::DeviceUpdateLEDs()
+void RGBController_WitmodKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDsData(colors, leds);
 }
 
 void RGBController_WitmodKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_WitmodKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_WitmodKeyboard::DeviceUpdateMode()

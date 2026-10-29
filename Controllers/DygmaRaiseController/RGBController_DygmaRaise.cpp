@@ -225,19 +225,19 @@ void RGBController_DygmaRaise::SetupZones()
     SetupColors();
 }
 
-void RGBController_DygmaRaise::DeviceUpdateLEDs()
+void RGBController_DygmaRaise::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SendDirect(colors,leds.size());
 }
 
 void RGBController_DygmaRaise::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DygmaRaise::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DygmaRaise::DeviceUpdateMode()

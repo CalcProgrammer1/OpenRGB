@@ -279,7 +279,7 @@ RGBController_EpomakerController::~RGBController_EpomakerController()
     delete controller;
 }
 
-void RGBController_EpomakerController::DeviceUpdateLEDs()
+void RGBController_EpomakerController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -397,10 +397,10 @@ void RGBController_EpomakerController::SetupZones()
 
 void RGBController_EpomakerController::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EpomakerController::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

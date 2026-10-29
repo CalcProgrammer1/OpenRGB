@@ -215,7 +215,7 @@ void RGBController_CryorigH7QuadLumi::SetupZones()
     SetupColors();
 }
 
-void RGBController_CryorigH7QuadLumi::DeviceUpdateLEDs()
+void RGBController_CryorigH7QuadLumi::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned char zone_idx = 0; zone_idx < (unsigned char)zones.size(); zone_idx++)
     {
@@ -242,7 +242,7 @@ void RGBController_CryorigH7QuadLumi::DeviceUpdateMode()
 {
     if(modes[active_mode].value == CRYORIG_H7_QUAD_LUMI_MODE_FIXED)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

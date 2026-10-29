@@ -158,7 +158,7 @@ void RGBController_SinowealthKeyboard10c::SetupZones()
     SetupColors();
 }
 
-void RGBController_SinowealthKeyboard10c::DeviceUpdateLEDs()
+void RGBController_SinowealthKeyboard10c::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SetLEDsDirect(colors);
@@ -166,12 +166,12 @@ void RGBController_SinowealthKeyboard10c::DeviceUpdateLEDs()
 
 void RGBController_SinowealthKeyboard10c::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SinowealthKeyboard10c::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SinowealthKeyboard10c::DeviceUpdateMode()

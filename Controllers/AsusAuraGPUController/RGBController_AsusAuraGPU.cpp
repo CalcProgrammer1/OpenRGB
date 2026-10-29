@@ -161,7 +161,7 @@ void RGBController_AuraGPU::SetupZones()
     colors[0] =  ToRGBColor(red, grn, blu);
 }
 
-void RGBController_AuraGPU::DeviceUpdateLEDs()
+void RGBController_AuraGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t led = 0; led < colors.size(); led++)
     {
@@ -180,12 +180,12 @@ void RGBController_AuraGPU::DeviceUpdateLEDs()
 
 void RGBController_AuraGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AuraGPU::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AuraGPU::DeviceUpdateMode()

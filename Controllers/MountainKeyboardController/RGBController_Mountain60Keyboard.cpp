@@ -380,7 +380,7 @@ void RGBController_Mountain60Keyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_Mountain60Keyboard::DeviceUpdateLEDs()
+void RGBController_Mountain60Keyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char* color_data = new unsigned char[(leds.size()*4)];
 
@@ -403,12 +403,12 @@ void RGBController_Mountain60Keyboard::DeviceUpdateLEDs()
 
 void RGBController_Mountain60Keyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Mountain60Keyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Mountain60Keyboard::DeviceUpdateMode()

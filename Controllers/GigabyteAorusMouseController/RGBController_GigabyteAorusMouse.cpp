@@ -144,19 +144,19 @@ void RGBController_GigabyteAorusMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteAorusMouse::DeviceUpdateLEDs()
+void RGBController_GigabyteAorusMouse::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SendDirect(colors[0]);
 }
 
 void RGBController_GigabyteAorusMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GigabyteAorusMouse::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GigabyteAorusMouse::DeviceUpdateMode()

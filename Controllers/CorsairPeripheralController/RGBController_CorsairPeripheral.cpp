@@ -1316,7 +1316,7 @@ void RGBController_CorsairPeripheral::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairPeripheral::DeviceUpdateLEDs()
+void RGBController_CorsairPeripheral::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(colors);
 }

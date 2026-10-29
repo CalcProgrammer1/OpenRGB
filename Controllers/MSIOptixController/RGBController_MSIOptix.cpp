@@ -361,7 +361,7 @@ void RGBController_MSIOptix::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIOptix::DeviceUpdateLEDs()
+void RGBController_MSIOptix::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }

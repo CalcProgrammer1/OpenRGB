@@ -168,7 +168,7 @@ void RGBController_ValveSteamMachine::SetupZones()
     SetupColors();
 }
 
-void RGBController_ValveSteamMachine::DeviceUpdateLEDs()
+void RGBController_ValveSteamMachine::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
     {
@@ -178,7 +178,7 @@ void RGBController_ValveSteamMachine::DeviceUpdateLEDs()
 
 void RGBController_ValveSteamMachine::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ValveSteamMachine::DeviceUpdateSingleLED(int led)

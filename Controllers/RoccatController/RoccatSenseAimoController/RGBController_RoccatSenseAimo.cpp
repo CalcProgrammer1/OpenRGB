@@ -159,7 +159,7 @@ void RGBController_RoccatSenseAimo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatSenseAimo::DeviceUpdateLEDs()
+void RGBController_RoccatSenseAimo::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == ROCCAT_SENSE_AIMO_MODE_DIRECT)
     {
@@ -173,12 +173,12 @@ void RGBController_RoccatSenseAimo::DeviceUpdateLEDs()
 
 void RGBController_RoccatSenseAimo::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RoccatSenseAimo::DeviceUpdateSingleLED(int /*led_idx*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RoccatSenseAimo::DeviceUpdateMode()

@@ -264,7 +264,7 @@ void RGBController_PNYARGBEpicXGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_PNYARGBEpicXGPU::DeviceUpdateLEDs()
+void RGBController_PNYARGBEpicXGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t i = 0; i < leds.size(); i++)
     {
@@ -317,6 +317,6 @@ void RGBController_PNYARGBEpicXGPU::DeviceUpdateMode()
             controller->SetZoneMode(PNY_GPU_REG_ZONE_LOGO,  modes[active_mode].value, 0, 0xFF, 0, 0);
         }
 
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }

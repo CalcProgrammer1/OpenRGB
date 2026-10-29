@@ -155,7 +155,7 @@ void RGBController_IntelArcA770LE::SetupZones()
     SetupColors();
 }
 
-void RGBController_IntelArcA770LE::DeviceUpdateLEDs()
+void RGBController_IntelArcA770LE::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char   led_ids[15];
     RGBColor        color_buf[15];

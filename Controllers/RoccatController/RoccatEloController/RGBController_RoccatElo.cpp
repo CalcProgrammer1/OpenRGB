@@ -68,19 +68,19 @@ void RGBController_RoccatElo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatElo::DeviceUpdateLEDs()
+void RGBController_RoccatElo::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SendDirect(colors[0]);
 }
 
 void RGBController_RoccatElo::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RoccatElo::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RoccatElo::DeviceUpdateMode()

@@ -153,7 +153,7 @@ void RGBController_Nollie::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_Nollie::DeviceUpdateLEDs()
+void RGBController_Nollie::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned int DevPid = controller->GetUSBPID();
     if(DevPid == NOLLIE32_PID || DevPid == NOLLIE16_PID
@@ -208,5 +208,5 @@ void RGBController_Nollie::DeviceUpdateSingleLED(int led)
 
 void RGBController_Nollie::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

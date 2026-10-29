@@ -262,10 +262,10 @@ void RGBController_EVGAGPUv3::DeviceConfigureZone(int zone_idx)
     controller->ResizeARGB(zones[zone_idx].leds_count);
 }
 
-void RGBController_EVGAGPUv3::DeviceUpdateLEDs()
+void RGBController_EVGAGPUv3::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*---------------------------------------------------------*\
-    | DeviceUpdateLEDs() is only used in MODE_COLORS_PER_LED    |
+    | DeviceUpdateLEDs(std::vector<RGBColor>& update_colors) is only used in MODE_COLORS_PER_LED    |
     | modes and as such colorB will always be black (0x000000)  |
     \*---------------------------------------------------------*/
     EVGAv3_config zone_config;
@@ -294,13 +294,13 @@ void RGBController_EVGAGPUv3::DeviceUpdateLEDs()
 void RGBController_EVGAGPUv3::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     //LOG_TRACE("[%s] Updating zone %1d", controller->evgaGPUName, zone);
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAGPUv3::DeviceUpdateSingleLED(int /*led*/)
 {
     //LOG_TRACE("[%s] Updating single LED %1d", controller->evgaGPUName, led);
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAGPUv3::DeviceUpdateMode()
@@ -312,7 +312,7 @@ void RGBController_EVGAGPUv3::DeviceUpdateMode()
     }
     */
     //LOG_TRACE("[%s] Updating to mode %1d", controller->evgaGPUName, modes[active_mode].value);
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
     controller->SetAllModes(modes[active_mode].value, modes[active_mode].value, modes[active_mode].value,modes[active_mode].value, true); //Set all zones to the same mode
 }
 

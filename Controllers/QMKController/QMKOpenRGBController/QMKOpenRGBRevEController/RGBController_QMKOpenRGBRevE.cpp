@@ -410,14 +410,14 @@ void RGBController_QMKOpenRGBRevE::SetupZones()
     }
 }
 
-void RGBController_QMKOpenRGBRevE::DeviceUpdateLEDs()
+void RGBController_QMKOpenRGBRevE::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->DirectModeSetLEDs(colors, controller->GetTotalNumberOfLEDs());
 }
 
 void RGBController_QMKOpenRGBRevE::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_QMKOpenRGBRevE::DeviceUpdateSingleLED(int led)

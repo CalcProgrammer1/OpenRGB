@@ -84,7 +84,7 @@ void RGBController_Arctic::SetupZones()
     SetupColors();
 }
 
-void RGBController_Arctic::DeviceUpdateLEDs()
+void RGBController_Arctic::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -93,12 +93,12 @@ void RGBController_Arctic::DeviceUpdateLEDs()
 
 void RGBController_Arctic::DeviceUpdateZoneLEDs(int /* zone */)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Arctic::DeviceUpdateSingleLED(int /* led */)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Arctic::DeviceUpdateMode()

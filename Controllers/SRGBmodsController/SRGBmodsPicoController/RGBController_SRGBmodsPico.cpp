@@ -135,7 +135,7 @@ void RGBController_SRGBmodsPico::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_SRGBmodsPico::DeviceUpdateLEDs()
+void RGBController_SRGBmodsPico::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -160,5 +160,5 @@ void RGBController_SRGBmodsPico::DeviceUpdateSingleLED(int led)
 
 void RGBController_SRGBmodsPico::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

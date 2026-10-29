@@ -308,7 +308,7 @@ void RGBController_AuraUSB::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_AuraUSB::DeviceUpdateLEDs()
+void RGBController_AuraUSB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(!initializedMode)
     {

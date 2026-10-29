@@ -264,10 +264,10 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
     | sends the init packet for the default mode (direct)       |
     \*---------------------------------------------------------*/
     DeviceUpdateMode();
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
-void RGBController_RoccatVulcanKeyboard::DeviceUpdateLEDs()
+void RGBController_RoccatVulcanKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == ROCCAT_VULCAN_MODE_DIRECT)
     {
@@ -288,12 +288,12 @@ void RGBController_RoccatVulcanKeyboard::DeviceUpdateLEDs()
 
 void RGBController_RoccatVulcanKeyboard::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RoccatVulcanKeyboard::DeviceUpdateSingleLED(int /*led_idx*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RoccatVulcanKeyboard::DeviceUpdateMode()

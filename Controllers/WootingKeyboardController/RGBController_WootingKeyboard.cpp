@@ -729,7 +729,7 @@ void RGBController_WootingKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_WootingKeyboard::DeviceUpdateLEDs()
+void RGBController_WootingKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     RGBColor framebuffer[WOOTING_RGB_ROWS * WOOTING_RGB_COLUMNS] = {0};
 
@@ -744,12 +744,12 @@ void RGBController_WootingKeyboard::DeviceUpdateLEDs()
 
 void RGBController_WootingKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_WootingKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_WootingKeyboard::DeviceUpdateMode()

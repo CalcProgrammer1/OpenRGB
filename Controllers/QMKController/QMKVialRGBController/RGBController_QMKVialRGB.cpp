@@ -238,19 +238,19 @@ void RGBController_QMKVialRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_QMKVialRGB::DeviceUpdateLEDs()
+void RGBController_QMKVialRGB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SendLEDs((unsigned short)colors.size(), colors.data());
 }
 
 void RGBController_QMKVialRGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_QMKVialRGB::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_QMKVialRGB::DeviceUpdateMode()

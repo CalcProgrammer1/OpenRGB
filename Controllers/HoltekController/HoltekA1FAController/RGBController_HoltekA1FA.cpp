@@ -104,7 +104,7 @@ void RGBController_HoltekA1FA::SetupZones()
     SetupColors();
 }
 
-void RGBController_HoltekA1FA::DeviceUpdateLEDs()
+void RGBController_HoltekA1FA::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char mode          = modes[active_mode].value;
     unsigned char brightness    = 0x20;  /*When brightness support is added, change this */
@@ -119,12 +119,12 @@ void RGBController_HoltekA1FA::DeviceUpdateLEDs()
 
 void RGBController_HoltekA1FA::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HoltekA1FA::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HoltekA1FA::DeviceUpdateMode()
@@ -140,5 +140,5 @@ void RGBController_HoltekA1FA::DeviceUpdateMode()
 
     previous_mode = active_mode;
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

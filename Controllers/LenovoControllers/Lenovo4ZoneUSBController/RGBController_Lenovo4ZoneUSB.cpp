@@ -122,7 +122,7 @@ void RGBController_Lenovo4ZoneUSB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 }
 
-void RGBController_Lenovo4ZoneUSB::DeviceUpdateLEDs()
+void RGBController_Lenovo4ZoneUSB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     state.SetColors(colors);
     controller->setMode(state);

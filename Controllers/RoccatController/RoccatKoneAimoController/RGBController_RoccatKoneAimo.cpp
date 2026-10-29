@@ -156,7 +156,7 @@ void RGBController_RoccatKoneAimo::SetupZones()
     }
 }
 
-void RGBController_RoccatKoneAimo::DeviceUpdateLEDs()
+void RGBController_RoccatKoneAimo::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*---------------------------------------------------------*\
     | Set colors for all channel/leds                           |

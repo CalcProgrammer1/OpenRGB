@@ -343,7 +343,7 @@ void RGBController_CherryKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_CherryKeyboard::DeviceUpdateLEDs()
+void RGBController_CherryKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char color_data[CUSTOM_COLOR_ARRAY_BYTE_COUNT];
 
@@ -363,12 +363,12 @@ void RGBController_CherryKeyboard::DeviceUpdateLEDs()
 
 void RGBController_CherryKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CherryKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CherryKeyboard::DeviceUpdateMode()

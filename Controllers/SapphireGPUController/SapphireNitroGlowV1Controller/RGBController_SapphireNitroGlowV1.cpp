@@ -169,7 +169,7 @@ void RGBController_SapphireNitroGlowV1::ReadConfiguration()
     modes[(unsigned int)active_mode].brightness = controller->GetBrightness();
 }
 
-void RGBController_SapphireNitroGlowV1::DeviceUpdateLEDs()
+void RGBController_SapphireNitroGlowV1::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -181,12 +181,12 @@ void RGBController_SapphireNitroGlowV1::DeviceUpdateLEDs()
 
 void RGBController_SapphireNitroGlowV1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SapphireNitroGlowV1::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SapphireNitroGlowV1::DeviceUpdateMode()

@@ -76,7 +76,7 @@ void RGBController_SonyDS4::SetupZones()
     SetupColors();
 }
 
-void RGBController_SonyDS4::DeviceUpdateLEDs()
+void RGBController_SonyDS4::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red =     char(RGBGetRValue(colors[0]));
     unsigned char green =   char(RGBGetGValue(colors[0]));
@@ -86,12 +86,12 @@ void RGBController_SonyDS4::DeviceUpdateLEDs()
 
 void RGBController_SonyDS4::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SonyDS4::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SonyDS4::DeviceUpdateMode()

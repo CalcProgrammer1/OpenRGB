@@ -133,7 +133,7 @@ void RGBController_DDP::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_DDP::DeviceUpdateLEDs()
+void RGBController_DDP::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     std::vector<unsigned int> brightness_adjusted_colors;
     brightness_adjusted_colors.reserve(colors.size());
@@ -157,12 +157,12 @@ void RGBController_DDP::DeviceUpdateLEDs()
 
 void RGBController_DDP::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DDP::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DDP::DeviceUpdateMode()

@@ -193,7 +193,7 @@ void RGBController_EVGAMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAMouse::DeviceUpdateLEDs()
+void RGBController_EVGAMouse::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int i = 0; i < colors.size(); i++)
     {

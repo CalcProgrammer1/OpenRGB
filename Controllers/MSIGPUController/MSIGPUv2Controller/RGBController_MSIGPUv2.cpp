@@ -579,7 +579,7 @@ void RGBController_MSIGPUv2::DeviceUpdateAll(const mode& current_mode)
 }
 
 
-void RGBController_MSIGPUv2::DeviceUpdateLEDs()
+void RGBController_MSIGPUv2::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateAll(modes[active_mode]);
 }

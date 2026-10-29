@@ -138,7 +138,7 @@ void RGBController_EdifierHaloPixelbarAmbient::SetupZones()
     SetupColors();
 }
 
-void RGBController_EdifierHaloPixelbarAmbient::DeviceUpdateLEDs()
+void RGBController_EdifierHaloPixelbarAmbient::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(!first_leds_update_ignored)
     {
@@ -161,12 +161,12 @@ void RGBController_EdifierHaloPixelbarAmbient::DeviceUpdateLEDs()
 
 void RGBController_EdifierHaloPixelbarAmbient::DeviceUpdateZoneLEDs(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EdifierHaloPixelbarAmbient::DeviceUpdateSingleLED(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EdifierHaloPixelbarAmbient::DeviceUpdateMode()
@@ -177,5 +177,5 @@ void RGBController_EdifierHaloPixelbarAmbient::DeviceUpdateMode()
         return;
     }
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

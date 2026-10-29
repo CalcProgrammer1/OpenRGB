@@ -236,7 +236,7 @@ void RGBController_HyperXAlloyFPS::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyFPS::DeviceUpdateLEDs()
+void RGBController_HyperXAlloyFPS::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -248,12 +248,12 @@ void RGBController_HyperXAlloyFPS::DeviceUpdateLEDs()
 
 void RGBController_HyperXAlloyFPS::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXAlloyFPS::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXAlloyFPS::DeviceUpdateMode()

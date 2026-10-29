@@ -72,7 +72,7 @@ void RGBController_MadCatzCyborg::SetupZones()
     SetupColors();
 }
 
-void RGBController_MadCatzCyborg::DeviceUpdateLEDs()
+void RGBController_MadCatzCyborg::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(colors.size() > 0)
     {
@@ -83,12 +83,12 @@ void RGBController_MadCatzCyborg::DeviceUpdateLEDs()
 
 void RGBController_MadCatzCyborg::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MadCatzCyborg::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MadCatzCyborg::DeviceUpdateMode()

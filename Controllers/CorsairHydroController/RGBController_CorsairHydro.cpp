@@ -109,19 +109,19 @@ void RGBController_CorsairHydro::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairHydro::DeviceUpdateLEDs()
+void RGBController_CorsairHydro::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }
 
 void RGBController_CorsairHydro::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairHydro::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairHydro::DeviceUpdateMode()

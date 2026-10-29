@@ -250,26 +250,26 @@ void RGBController_NZXTHue1::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTHue1::DeviceUpdateLEDs()
+void RGBController_NZXTHue1::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(zones[0].colors, zones[0].leds_count);
 }
 
 void RGBController_NZXTHue1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_NZXTHue1::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_NZXTHue1::DeviceUpdateMode()
 {
     if(modes[active_mode].value == HUE_1_MODE_FIXED)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

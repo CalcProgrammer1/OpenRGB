@@ -376,7 +376,7 @@ void RGBController_LenovoUSB::DeviceUpdateZoneLEDs(int zone)
     controller->setZoneLeds(zone_id, color_map);
 }
 
-void RGBController_LenovoUSB::DeviceUpdateLEDs()
+void RGBController_LenovoUSB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     uint8_t zone_id = 0;
     uint8_t prev_zone_id = 0;

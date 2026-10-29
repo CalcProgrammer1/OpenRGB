@@ -161,7 +161,7 @@ void RGBController_Crucial::SetupZones()
     SetupColors();
 }
 
-void RGBController_Crucial::DeviceUpdateLEDs()
+void RGBController_Crucial::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == 0xFFFF)
     {
@@ -180,12 +180,12 @@ void RGBController_Crucial::DeviceUpdateLEDs()
 
 void RGBController_Crucial::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Crucial::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Crucial::DeviceUpdateMode()

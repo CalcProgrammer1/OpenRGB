@@ -179,7 +179,7 @@ void RGBController_Ionico::SetupZones()
     SetupColors();
 }
 
-void RGBController_Ionico::DeviceUpdateLEDs()
+void RGBController_Ionico::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*---------------------------------------------------------*\
     |                   MODE_COLORS_PER_LED                     |
@@ -194,7 +194,7 @@ void RGBController_Ionico::DeviceSaveMode()
 
 void RGBController_Ionico::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Ionico::DeviceUpdateSingleLED(int /*led*/)

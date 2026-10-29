@@ -192,7 +192,7 @@ void RGBController_SteelSeriesRival::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesRival::DeviceUpdateLEDs()
+void RGBController_SteelSeriesRival::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int i = 0; i < leds.size(); i++)
     {
@@ -238,7 +238,7 @@ void RGBController_SteelSeriesRival::DeviceUpdateMode()
             break;
     }
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesRival::DeviceSaveMode()

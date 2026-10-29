@@ -121,7 +121,7 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesOldApex::DeviceUpdateLEDs()
+void RGBController_SteelSeriesOldApex::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     // Due to the inefficient packet design of the OG Apex
     // All colors must be blasted with each update
@@ -163,7 +163,7 @@ void RGBController_SteelSeriesOldApex::DeviceUpdateZoneLEDs(int /*zone*/)
     // updating for one zone is pointless,
     // all zones have to be blasted anyway
     // so just do a full update
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 
@@ -173,7 +173,7 @@ void RGBController_SteelSeriesOldApex::DeviceUpdateSingleLED(int /*led*/)
     // updating for one zone is pointless,
     // all zones have to be blasted anyway
     // so just do a full update
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesOldApex::DeviceUpdateMode()
@@ -186,5 +186,5 @@ void RGBController_SteelSeriesOldApex::DeviceUpdateMode()
     // We just let the new value set in and do a device LED update
     // and blast the brightness value along with the RGB values
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

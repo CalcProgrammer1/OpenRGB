@@ -202,19 +202,19 @@ void RGBController_QMKKeychron::SetupZones()
     SetupColors();
 }
 
-void RGBController_QMKKeychron::DeviceUpdateLEDs()
+void RGBController_QMKKeychron::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SendLEDs((unsigned char)colors.size(), colors.data());
 }
 
 void RGBController_QMKKeychron::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_QMKKeychron::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_QMKKeychron::DeviceUpdateMode()

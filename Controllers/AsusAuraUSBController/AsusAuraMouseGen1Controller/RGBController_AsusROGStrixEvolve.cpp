@@ -106,7 +106,7 @@ void RGBController_AsusROGStrixEvolve::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGStrixEvolve::DeviceUpdateLEDs()
+void RGBController_AsusROGStrixEvolve::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateSingleLED(0);
 }

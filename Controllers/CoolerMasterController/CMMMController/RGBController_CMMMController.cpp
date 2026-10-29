@@ -213,7 +213,7 @@ void RGBController_CMMMController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMMController::DeviceUpdateLEDs()
+void RGBController_CMMMController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     int value            = 0;
     uint16_t pid         = controller->GetProductID();
@@ -235,12 +235,12 @@ void RGBController_CMMMController::DeviceUpdateLEDs()
 
 void RGBController_CMMMController::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMMMController::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMMMController::DeviceUpdateMode()

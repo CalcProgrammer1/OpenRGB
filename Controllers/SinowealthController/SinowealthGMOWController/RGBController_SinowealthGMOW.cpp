@@ -168,7 +168,7 @@ void RGBController_GMOW::SetupZones()
 
 }
 
-void RGBController_GMOW::DeviceUpdateLEDs()
+void RGBController_GMOW::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
 
 }

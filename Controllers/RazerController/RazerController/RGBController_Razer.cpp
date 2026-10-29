@@ -339,7 +339,7 @@ void RGBController_Razer::SetupZones()
     SetupColors();
 }
 
-void RGBController_Razer::DeviceUpdateLEDs()
+void RGBController_Razer::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*---------------------------------------------------------*\
     | Writing LED colors switches the device to its custom      |
@@ -353,12 +353,12 @@ void RGBController_Razer::DeviceUpdateLEDs()
 
 void RGBController_Razer::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Razer::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Razer::DeviceUpdateMode()

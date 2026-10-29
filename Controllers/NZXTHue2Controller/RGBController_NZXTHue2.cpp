@@ -493,7 +493,7 @@ void RGBController_NZXTHue2::DeviceConfigureZone(int zone_idx)
 
 }
 
-void RGBController_NZXTHue2::DeviceUpdateLEDs()
+void RGBController_NZXTHue2::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -520,7 +520,7 @@ void RGBController_NZXTHue2::DeviceUpdateMode()
 {
     if(modes[active_mode].value == HUE_2_MODE_DIRECT)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

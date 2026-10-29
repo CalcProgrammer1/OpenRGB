@@ -467,12 +467,12 @@ void LenovoRGBController_Gen7_8::SetupZones()
 
 void LenovoRGBController_Gen7_8::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void LenovoRGBController_Gen7_8::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void LenovoRGBController_Gen7_8::DeviceUpdateMode()
@@ -524,11 +524,11 @@ void LenovoRGBController_Gen7_8::DeviceUpdateMode()
 
     if(modes[active_mode].value != LENOVO_LEGION_GEN7_8_MODE_DIRECT)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }
 
-void LenovoRGBController_Gen7_8::DeviceUpdateLEDs()
+void LenovoRGBController_Gen7_8::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_DIRECT)
     {

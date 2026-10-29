@@ -146,7 +146,7 @@ void RGBController_DMX::SetupZones()
     SetupColors();
 }
 
-void RGBController_DMX::DeviceUpdateLEDs()
+void RGBController_DMX::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -183,12 +183,12 @@ void RGBController_DMX::DeviceUpdateLEDs()
 
 void RGBController_DMX::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DMX::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DMX::DeviceUpdateMode()

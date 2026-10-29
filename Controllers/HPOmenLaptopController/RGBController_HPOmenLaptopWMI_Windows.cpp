@@ -92,7 +92,7 @@ void RGBController_HPOmenLaptopWMI_Windows::SetupZones()
     SetupColors();
 }
 
-void RGBController_HPOmenLaptopWMI_Windows::DeviceUpdateLEDs()
+void RGBController_HPOmenLaptopWMI_Windows::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*-----------------------------------------------------*\
     | Set new colors                                        |

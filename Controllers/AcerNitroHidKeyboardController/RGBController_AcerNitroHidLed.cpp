@@ -117,7 +117,7 @@ void RGBController_AcerNitroHidLed::SetupZones()
     SetupColors();
 }
 
-void RGBController_AcerNitroHidLed::DeviceUpdateLEDs()
+void RGBController_AcerNitroHidLed::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     mode& current_mode = modes[active_mode];
     if(current_mode.value == ACER_HID_MODE_DIRECT)
@@ -138,15 +138,15 @@ void RGBController_AcerNitroHidLed::DeviceUpdateLEDs()
 
 void RGBController_AcerNitroHidLed::DeviceUpdateZoneLEDs(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AcerNitroHidLed::DeviceUpdateSingleLED(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AcerNitroHidLed::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

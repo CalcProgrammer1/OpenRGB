@@ -111,7 +111,7 @@ void RGBController_SinowealthKeyboard90::SetupZones()
     SetupColors();
 }
 
-void RGBController_SinowealthKeyboard90::DeviceUpdateLEDs()
+void RGBController_SinowealthKeyboard90::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SendMode(modes[active_mode].value, modes[active_mode].brightness);
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
@@ -129,12 +129,12 @@ void RGBController_SinowealthKeyboard90::DeviceUpdateLEDs()
 
 void RGBController_SinowealthKeyboard90::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SinowealthKeyboard90::DeviceUpdateSingleLED(int /*key*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SinowealthKeyboard90::DeviceUpdateMode()

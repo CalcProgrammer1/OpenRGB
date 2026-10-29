@@ -95,7 +95,7 @@ void RGBController_KasaSmart::SetupZones()
     SetupColors();
 }
 
-void RGBController_KasaSmart::DeviceUpdateLEDs()
+void RGBController_KasaSmart::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value != KASA_SMART_MODE_DIRECT)
     {
@@ -111,12 +111,12 @@ void RGBController_KasaSmart::DeviceUpdateLEDs()
 
 void RGBController_KasaSmart::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_KasaSmart::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_KasaSmart::DeviceUpdateMode()

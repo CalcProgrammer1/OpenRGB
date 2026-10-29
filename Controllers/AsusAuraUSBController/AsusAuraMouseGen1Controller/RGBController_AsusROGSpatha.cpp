@@ -149,7 +149,7 @@ void RGBController_AsusROGSpatha::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGSpatha::DeviceUpdateLEDs()
+void RGBController_AsusROGSpatha::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == ASUS_ROG_SPATHA_MODE_DIRECT)
     {

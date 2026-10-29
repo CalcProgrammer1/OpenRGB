@@ -96,7 +96,7 @@ void RGBController_HyperXPulsefireFPSPro::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireFPSPro::DeviceUpdateLEDs()
+void RGBController_HyperXPulsefireFPSPro::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -112,17 +112,17 @@ void RGBController_HyperXPulsefireFPSPro::DeviceUpdateLEDs()
 
 void RGBController_HyperXPulsefireFPSPro::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXPulsefireFPSPro::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXPulsefireFPSPro::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXPulsefireFPSPro::KeepaliveThread()

@@ -691,7 +691,7 @@ void RGBController_GaiZhongGaiKeyboard::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_GaiZhongGaiKeyboard::DeviceUpdateLEDs()
+void RGBController_GaiZhongGaiKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char colordata[1024 * 3];
     unsigned int data_size = (unsigned int)colors.size();
@@ -710,12 +710,12 @@ void RGBController_GaiZhongGaiKeyboard::DeviceUpdateLEDs()
 
 void RGBController_GaiZhongGaiKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GaiZhongGaiKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GaiZhongGaiKeyboard::DeviceUpdateMode()

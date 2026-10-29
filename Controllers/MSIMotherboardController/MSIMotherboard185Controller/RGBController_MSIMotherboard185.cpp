@@ -265,7 +265,7 @@ void RGBController_MSIMotherboard185::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_MSIMotherboard185::DeviceUpdateLEDs()
+void RGBController_MSIMotherboard185::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if((modes[active_mode].value == MSI_MODE_DIRECT_DUMMY) && !controller->IsDirectModeActive())
     {
@@ -328,7 +328,7 @@ void RGBController_MSIMotherboard185::DeviceUpdateMode()
     else
     {
         controller->SetDirectMode(false);
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }
 

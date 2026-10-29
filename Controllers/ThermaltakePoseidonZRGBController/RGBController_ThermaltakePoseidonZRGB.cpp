@@ -247,7 +247,7 @@ void RGBController_PoseidonZRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_PoseidonZRGB::DeviceUpdateLEDs()
+void RGBController_PoseidonZRGB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(active_mode == 0)
     {
@@ -261,12 +261,12 @@ void RGBController_PoseidonZRGB::DeviceUpdateLEDs()
 
 void RGBController_PoseidonZRGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PoseidonZRGB::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PoseidonZRGB::DeviceUpdateMode()

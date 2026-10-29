@@ -302,7 +302,7 @@ void RGBController_LianLiUniHub::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_LianLiUniHub::DeviceUpdateLEDs()
+void RGBController_LianLiUniHub::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(!initializedMode)
     {

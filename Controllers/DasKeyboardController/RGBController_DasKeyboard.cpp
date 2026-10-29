@@ -293,7 +293,7 @@ void RGBController_DasKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DasKeyboard::DeviceUpdateLEDs()
+void RGBController_DasKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }

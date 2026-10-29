@@ -92,7 +92,7 @@ void RGBController_HyperXPulsefireRaid::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireRaid::DeviceUpdateLEDs()
+void RGBController_HyperXPulsefireRaid::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateSingleLED(0);
 }

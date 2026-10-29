@@ -76,7 +76,7 @@ void RGBController_SteelSeriesArctis5::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesArctis5::DeviceUpdateLEDs()
+void RGBController_SteelSeriesArctis5::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int i = 0; i < zones.size(); i++)
     {

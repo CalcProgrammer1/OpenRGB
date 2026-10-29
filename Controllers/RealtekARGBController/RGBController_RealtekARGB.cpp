@@ -479,7 +479,7 @@ void RGBController_RealtekARGB::ResizeZone(int zone, int new_size)
     }
 }
 
-void RGBController_RealtekARGB::DeviceUpdateLEDs()
+void RGBController_RealtekARGB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -565,6 +565,6 @@ void RGBController_RealtekARGB::DeviceUpdateMode()
 {
     if(modes[active_mode].value != REALTEK_ARGB_EFF_NULL)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }

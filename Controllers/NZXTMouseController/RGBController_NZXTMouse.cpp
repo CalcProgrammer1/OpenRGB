@@ -92,22 +92,22 @@ void RGBController_NZXTMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTMouse::DeviceUpdateLEDs()
+void RGBController_NZXTMouse::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
 controller->SetLEDs(&colors[0]);
 }
 
 void RGBController_NZXTMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-DeviceUpdateLEDs();
+DeviceUpdateLEDs(colors);
 }
 
 void RGBController_NZXTMouse::DeviceUpdateSingleLED(int /*led*/)
 {
-DeviceUpdateLEDs();
+DeviceUpdateLEDs(colors);
 }
 
 void RGBController_NZXTMouse::DeviceUpdateMode()
 {
-DeviceUpdateLEDs();
+DeviceUpdateLEDs(colors);
 }

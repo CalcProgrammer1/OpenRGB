@@ -68,7 +68,7 @@ void RGBController_CreativeSoundBlasterXG6::SetupZones()
     SetupColors();
 }
 
-void RGBController_CreativeSoundBlasterXG6::DeviceUpdateLEDs()
+void RGBController_CreativeSoundBlasterXG6::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -79,15 +79,15 @@ void RGBController_CreativeSoundBlasterXG6::DeviceUpdateLEDs()
 
 void RGBController_CreativeSoundBlasterXG6::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CreativeSoundBlasterXG6::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CreativeSoundBlasterXG6::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

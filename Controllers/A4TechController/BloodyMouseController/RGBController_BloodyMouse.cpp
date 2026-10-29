@@ -161,7 +161,7 @@ void RGBController_BloodyMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_BloodyMouse::DeviceUpdateLEDs()
+void RGBController_BloodyMouse::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     std::vector<RGBColor> colour;
     for(size_t i = 0; i < colors.size(); i++)
@@ -175,12 +175,12 @@ void RGBController_BloodyMouse::DeviceUpdateLEDs()
 
 void RGBController_BloodyMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_BloodyMouse::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_BloodyMouse::DeviceUpdateMode()

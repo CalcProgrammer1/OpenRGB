@@ -49,10 +49,10 @@ void RGBController_MSIKeyboard1565::SetupZones()
 
 void RGBController_MSIKeyboard1565::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
-void RGBController_MSIKeyboard1565::DeviceUpdateLEDs()
+void RGBController_MSIKeyboard1565::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     mode &Mode = modes[active_mode];
     MS_1565_MODE msi_mode = (MS_1565_MODE)Mode.value;

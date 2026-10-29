@@ -238,7 +238,7 @@ void RGBController_ASRockGPUSMBus::ResizeZone(int /*zone*/, int /*new_size*/)
     \*-----------------------------------------------------*/
 }
 
-void RGBController_ASRockGPUSMBus::DeviceUpdateLEDs()
+void RGBController_ASRockGPUSMBus::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == ASROCK_GPU_MODE_DIRECT)
     {

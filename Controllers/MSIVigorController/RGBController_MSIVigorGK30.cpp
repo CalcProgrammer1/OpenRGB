@@ -165,7 +165,7 @@ void RGBController_MSIVigorGK30::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIVigorGK30::DeviceUpdateLEDs()
+void RGBController_MSIVigorGK30::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateSingleLED(0);
 }
@@ -192,5 +192,5 @@ void RGBController_MSIVigorGK30::DeviceUpdateSingleLED(int /*led*/)
 
 void RGBController_MSIVigorGK30::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

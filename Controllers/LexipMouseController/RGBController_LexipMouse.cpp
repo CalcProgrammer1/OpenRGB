@@ -70,7 +70,7 @@ void RGBController_LexipMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_LexipMouse::DeviceUpdateLEDs()
+void RGBController_LexipMouse::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }

@@ -111,7 +111,7 @@ void RGBController_ColorfulTuringGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_ColorfulTuringGPU::DeviceUpdateLEDs()
+void RGBController_ColorfulTuringGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     switch(modes[active_mode].value)
     {
@@ -137,17 +137,17 @@ void RGBController_ColorfulTuringGPU::DeviceUpdateLEDs()
 
 void RGBController_ColorfulTuringGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ColorfulTuringGPU::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ColorfulTuringGPU::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ColorfulTuringGPU::DeviceSaveMode()
@@ -158,6 +158,6 @@ void RGBController_ColorfulTuringGPU::DeviceSaveMode()
             controller->SetDirect(colors[0], true);
             break;
         default:
-            DeviceUpdateLEDs();
+            DeviceUpdateLEDs(colors);
     }
 }

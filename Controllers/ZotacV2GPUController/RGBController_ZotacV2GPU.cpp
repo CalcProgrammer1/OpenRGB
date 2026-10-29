@@ -417,7 +417,7 @@ void RGBController_ZotacV2GPU::SetupInitialValues()
     modes[active_mode].direction = zoneConfig.direction;
 }
 
-void RGBController_ZotacV2GPU::DeviceUpdateLEDs()
+void RGBController_ZotacV2GPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

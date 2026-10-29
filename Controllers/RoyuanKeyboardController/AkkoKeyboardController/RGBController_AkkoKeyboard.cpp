@@ -378,7 +378,7 @@ void RGBController_AkkoKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 {
 }
 
-void RGBController_AkkoKeyboard::DeviceUpdateLEDs()
+void RGBController_AkkoKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -424,12 +424,12 @@ void RGBController_AkkoKeyboard::DeviceUpdateLEDs()
 
 void RGBController_AkkoKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AkkoKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AkkoKeyboard::DeviceUpdateMode()
@@ -440,5 +440,5 @@ void RGBController_AkkoKeyboard::DeviceUpdateMode()
         modes[active_mode].brightness
     );
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

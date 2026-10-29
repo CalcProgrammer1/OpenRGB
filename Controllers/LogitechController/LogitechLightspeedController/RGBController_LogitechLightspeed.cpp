@@ -208,7 +208,7 @@ void RGBController_LogitechLightspeed::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechLightspeed::DeviceUpdateLEDs()
+void RGBController_LogitechLightspeed::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::vector<led>::iterator led_index = leds.begin(); led_index != leds.end(); led_index++)
     {
@@ -238,5 +238,5 @@ void RGBController_LogitechLightspeed::DeviceUpdateMode()
     | we change modes as to not spam the device.                |
     \*---------------------------------------------------------*/
     controller->lightspeed->setDirectMode(modes[active_mode].name == "Direct");
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

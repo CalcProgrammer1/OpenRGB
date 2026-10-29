@@ -742,7 +742,7 @@ void RGBController_Debug::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_Debug::DeviceUpdateLEDs()
+void RGBController_Debug::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
 
 }

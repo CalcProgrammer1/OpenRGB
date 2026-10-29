@@ -122,7 +122,7 @@ void RGBController_LGMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_LGMonitor::DeviceUpdateLEDs()
+void RGBController_LGMonitor::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SetDirect(colors);
@@ -130,12 +130,12 @@ void RGBController_LGMonitor::DeviceUpdateLEDs()
 
 void RGBController_LGMonitor::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LGMonitor::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LGMonitor::DeviceUpdateMode()

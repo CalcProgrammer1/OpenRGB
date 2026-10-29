@@ -285,7 +285,7 @@ void RGBController_MintakaKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_MintakaKeyboard::DeviceUpdateLEDs()
+void RGBController_MintakaKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }

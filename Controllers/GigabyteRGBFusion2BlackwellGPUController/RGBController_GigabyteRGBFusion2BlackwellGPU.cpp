@@ -441,7 +441,7 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
+void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     fusion2_config zone_config;
     zone_config.brightness      = modes[active_mode].brightness;
@@ -561,17 +561,17 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
 
 void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusion2BlackwellGPU::DeviceSaveMode()

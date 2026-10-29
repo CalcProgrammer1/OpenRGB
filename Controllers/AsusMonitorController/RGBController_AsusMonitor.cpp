@@ -74,22 +74,22 @@ void RGBController_AsusMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusMonitor::DeviceUpdateLEDs()
+void RGBController_AsusMonitor::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetDirect(colors);
 }
 
 void RGBController_AsusMonitor::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AsusMonitor::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AsusMonitor::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

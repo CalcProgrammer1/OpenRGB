@@ -157,19 +157,19 @@ void RGBController_AuraHeadsetStand::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraHeadsetStand::DeviceUpdateLEDs()
+void RGBController_AuraHeadsetStand::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->UpdateLeds(std::vector<RGBColor>(colors));
 }
 
 void RGBController_AuraHeadsetStand::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AuraHeadsetStand::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AuraHeadsetStand::DeviceUpdateMode()

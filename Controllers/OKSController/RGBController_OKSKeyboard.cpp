@@ -220,7 +220,7 @@ void RGBController_OKSKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_OKSKeyboard::DeviceUpdateLEDs()
+void RGBController_OKSKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char colordata[155*3];
     unsigned int            width;
@@ -253,7 +253,7 @@ void RGBController_OKSKeyboard::DeviceUpdateLEDs()
 
 void RGBController_OKSKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_OKSKeyboard::DeviceUpdateSingleLED(int led)

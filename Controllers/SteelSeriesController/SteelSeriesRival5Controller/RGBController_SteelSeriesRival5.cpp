@@ -108,7 +108,7 @@ void RGBController_SteelSeriesRival5::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesRival5::DeviceUpdateLEDs()
+void RGBController_SteelSeriesRival5::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     SteelSeriesRival5Controller* ctrl = static_cast<SteelSeriesRival5Controller*>(controller);
     ctrl->SetBrightness((uint8_t)modes[active_mode].brightness);  // guarded, so ~free under effects
@@ -117,12 +117,12 @@ void RGBController_SteelSeriesRival5::DeviceUpdateLEDs()
 
 void RGBController_SteelSeriesRival5::DeviceUpdateZoneLEDs(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesRival5::DeviceUpdateSingleLED(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesRival5::DeviceUpdateMode()
@@ -145,7 +145,7 @@ void RGBController_SteelSeriesRival5::DeviceUpdateMode()
     else
     {
         ctrl->SetReactiveColor(false,0,0,0);   // leaving Reactive must disable it (it's persistent in HW)
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }
 

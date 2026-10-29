@@ -314,7 +314,7 @@ void RGBController_ZalmanZSync::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_ZalmanZSync::DeviceUpdateLEDs()
+void RGBController_ZalmanZSync::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned char zone_idx = 0; zone_idx < (unsigned char)zones.size(); zone_idx++)
     {
@@ -341,7 +341,7 @@ void RGBController_ZalmanZSync::DeviceUpdateMode()
 {
     if(modes[active_mode].value == ZALMAN_Z_SYNC_MODE_DIRECT)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

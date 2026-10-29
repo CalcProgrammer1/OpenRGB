@@ -368,7 +368,7 @@ void RGBController_ValkyrieKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_ValkyrieKeyboard::DeviceUpdateLEDs()
+void RGBController_ValkyrieKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char colordata[1024];
 
@@ -384,12 +384,12 @@ void RGBController_ValkyrieKeyboard::DeviceUpdateLEDs()
 
 void RGBController_ValkyrieKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ValkyrieKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ValkyrieKeyboard::DeviceUpdateMode()

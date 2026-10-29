@@ -95,7 +95,7 @@ void RGBController_RedragonMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_RedragonMouse::DeviceUpdateLEDs()
+void RGBController_RedragonMouse::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -107,12 +107,12 @@ void RGBController_RedragonMouse::DeviceUpdateLEDs()
 
 void RGBController_RedragonMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RedragonMouse::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RedragonMouse::DeviceUpdateMode()

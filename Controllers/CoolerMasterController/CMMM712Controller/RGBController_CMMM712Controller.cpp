@@ -148,7 +148,7 @@ void RGBController_CMMM712Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMM712Controller::DeviceUpdateLEDs()
+void RGBController_CMMM712Controller::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     modes[active_mode].brightness=255;
     RGBColor logo   = applyBrightness(colors[0], modes[active_mode].brightness);
@@ -158,12 +158,12 @@ void RGBController_CMMM712Controller::DeviceUpdateLEDs()
 
 void RGBController_CMMM712Controller::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMMM712Controller::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMMM712Controller::DeviceUpdateMode()

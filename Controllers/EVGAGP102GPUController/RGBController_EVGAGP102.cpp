@@ -113,7 +113,7 @@ void RGBController_EVGAGP102::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGP102::DeviceUpdateLEDs()
+void RGBController_EVGAGP102::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -132,7 +132,7 @@ void RGBController_EVGAGP102::DeviceUpdateZoneLEDs(int zone)
 
 void RGBController_EVGAGP102::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAGP102::DeviceUpdateMode()

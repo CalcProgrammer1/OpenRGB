@@ -101,7 +101,7 @@ void RGBController_LogitechGPowerPlay::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechGPowerPlay::DeviceUpdateLEDs()
+void RGBController_LogitechGPowerPlay::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }
@@ -133,5 +133,5 @@ void RGBController_LogitechGPowerPlay::DeviceUpdateMode()
     | we change modes as to not spam the device.                |
     \*---------------------------------------------------------*/
     controller->SetDirectMode(modes[active_mode].value == 0xFF);
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

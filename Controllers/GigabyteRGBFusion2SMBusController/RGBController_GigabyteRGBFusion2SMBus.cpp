@@ -242,7 +242,7 @@ void RGBController_RGBFusion2SMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2SMBus::DeviceUpdateLEDs()
+void RGBController_RGBFusion2SMBus::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int led = 0; led < (unsigned int)colors.size(); led++)
     {

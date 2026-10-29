@@ -111,7 +111,7 @@ void RGBController_HyperXMicrophone::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXMicrophone::DeviceUpdateLEDs()
+void RGBController_HyperXMicrophone::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SendDirect(colors);
@@ -119,17 +119,17 @@ void RGBController_HyperXMicrophone::DeviceUpdateLEDs()
 
 void RGBController_HyperXMicrophone::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXMicrophone::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXMicrophone::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXMicrophone::DeviceSaveMode()

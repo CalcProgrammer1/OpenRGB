@@ -145,7 +145,7 @@ void RGBController_RoccatKonePro::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatKonePro::DeviceUpdateLEDs()
+void RGBController_RoccatKonePro::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     const mode& active = modes[active_mode];
 
@@ -161,12 +161,12 @@ void RGBController_RoccatKonePro::DeviceUpdateLEDs()
 
 void RGBController_RoccatKonePro::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RoccatKonePro::DeviceUpdateSingleLED(int /*led_idx*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RoccatKonePro::DeviceUpdateMode()
@@ -177,6 +177,6 @@ void RGBController_RoccatKonePro::DeviceUpdateMode()
     }
     else
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }

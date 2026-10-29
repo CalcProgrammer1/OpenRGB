@@ -69,7 +69,7 @@ void RGBController_CorsairHydro2::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairHydro2::DeviceUpdateLEDs()
+void RGBController_CorsairHydro2::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLED(colors);
 }

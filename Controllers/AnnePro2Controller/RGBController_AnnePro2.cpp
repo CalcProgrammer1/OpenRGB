@@ -185,7 +185,7 @@ void RGBController_AnnePro2::SetupZones()
     SetupColors();
 }
 
-void RGBController_AnnePro2::DeviceUpdateLEDs()
+void RGBController_AnnePro2::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     const unsigned char frame_buf_length = LED_REAL_COUNT * 3;
     unsigned char frame_buf[frame_buf_length];
@@ -218,12 +218,12 @@ void RGBController_AnnePro2::DeviceUpdateLEDs()
 
 void RGBController_AnnePro2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AnnePro2::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AnnePro2::DeviceUpdateMode()

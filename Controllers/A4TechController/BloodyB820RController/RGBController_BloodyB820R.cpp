@@ -212,7 +212,7 @@ void RGBController_BloodyB820R::SetupZones()
     SetupColors();
 }
 
-void RGBController_BloodyB820R::DeviceUpdateLEDs()
+void RGBController_BloodyB820R::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDDirect(colors);
 }

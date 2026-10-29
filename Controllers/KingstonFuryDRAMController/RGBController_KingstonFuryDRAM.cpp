@@ -437,7 +437,7 @@ unsigned char RGBController_KingstonFuryDRAM::GetRealModeValue()
     return mode_value;
 }
 
-void RGBController_KingstonFuryDRAM::DeviceUpdateLEDs()
+void RGBController_KingstonFuryDRAM::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SendBegin();
     controller->SetMode(GetRealModeValue());
@@ -692,12 +692,12 @@ void RGBController_KingstonFuryDRAM::DeviceUpdateLEDs()
 
 void RGBController_KingstonFuryDRAM::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_KingstonFuryDRAM::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_KingstonFuryDRAM::DeviceUpdateMode()
@@ -711,5 +711,5 @@ void RGBController_KingstonFuryDRAM::DeviceUpdateMode()
                                  modes[active_mode].value != FURY_MODE_FIREWORK &&
                                  modes[active_mode].value != FURY_MODE_DIRECT);
     }
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

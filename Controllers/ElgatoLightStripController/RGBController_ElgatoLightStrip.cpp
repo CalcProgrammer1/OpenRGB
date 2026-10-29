@@ -62,7 +62,7 @@ void RGBController_ElgatoLightStrip::SetupZones()
     SetupColors();
 }
 
-void RGBController_ElgatoLightStrip::DeviceUpdateLEDs()
+void RGBController_ElgatoLightStrip::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     RGBColor rgb_color = colors[0];
     hsv_t hsv_color;
@@ -73,15 +73,15 @@ void RGBController_ElgatoLightStrip::DeviceUpdateLEDs()
 
 void RGBController_ElgatoLightStrip::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ElgatoLightStrip::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ElgatoLightStrip::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

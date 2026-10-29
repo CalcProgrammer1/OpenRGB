@@ -242,7 +242,7 @@ void RGBController_PowerColorRedDevilV2::SetupZones()
     SetupColors();
 }
 
-void RGBController_PowerColorRedDevilV2::DeviceUpdateLEDs()
+void RGBController_PowerColorRedDevilV2::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*---------------------------------------------------------*\
     | Check if all colors are identical. If they are do a       |
@@ -289,12 +289,12 @@ void RGBController_PowerColorRedDevilV2::DeviceUpdateLEDs()
 
 void RGBController_PowerColorRedDevilV2::DeviceUpdateZoneLEDs(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PowerColorRedDevilV2::DeviceUpdateSingleLED(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PowerColorRedDevilV2::DeviceUpdateMode()

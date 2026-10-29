@@ -96,7 +96,7 @@ void RGBController_HyperXPulsefireHaste::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireHaste::DeviceUpdateLEDs()
+void RGBController_HyperXPulsefireHaste::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -112,17 +112,17 @@ void RGBController_HyperXPulsefireHaste::DeviceUpdateLEDs()
 
 void RGBController_HyperXPulsefireHaste::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXPulsefireHaste::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXPulsefireHaste::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXPulsefireHaste::KeepaliveThread()

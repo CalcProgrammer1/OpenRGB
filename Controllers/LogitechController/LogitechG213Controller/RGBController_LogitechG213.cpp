@@ -135,7 +135,7 @@ void RGBController_LogitechG213::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG213::DeviceUpdateLEDs()
+void RGBController_LogitechG213::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {

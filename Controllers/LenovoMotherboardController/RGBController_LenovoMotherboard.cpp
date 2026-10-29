@@ -167,7 +167,7 @@ void RGBController_LenovoMotherboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_LenovoMotherboard::DeviceUpdateLEDs()
+void RGBController_LenovoMotherboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(uint8_t i = 0; i < leds.size(); i++)
     {
@@ -183,15 +183,15 @@ void RGBController_LenovoMotherboard::DeviceUpdateLEDs()
 
 void RGBController_LenovoMotherboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LenovoMotherboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LenovoMotherboard::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

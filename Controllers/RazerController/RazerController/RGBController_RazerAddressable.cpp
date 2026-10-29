@@ -247,7 +247,7 @@ void RGBController_RazerAddressable::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_RazerAddressable::DeviceUpdateLEDs()
+void RGBController_RazerAddressable::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     RGBColor    colors_buf[80 * 6];
 
@@ -261,12 +261,12 @@ void RGBController_RazerAddressable::DeviceUpdateLEDs()
 
 void RGBController_RazerAddressable::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RazerAddressable::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RazerAddressable::DeviceUpdateMode()
@@ -278,7 +278,7 @@ void RGBController_RazerAddressable::DeviceUpdateMode()
             | Controller does not preserve the LEDs for direct mode.    |
             | We have to restore them.                                  |
             \*---------------------------------------------------------*/
-            DeviceUpdateLEDs();
+            DeviceUpdateLEDs(colors);
             break;
         case RAZER_ADDRESSABLE_MODE_OFF:
             controller->SetModeOff();

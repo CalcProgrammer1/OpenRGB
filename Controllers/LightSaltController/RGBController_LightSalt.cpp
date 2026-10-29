@@ -402,19 +402,19 @@ void RGBController_LightSalt::DeviceUpdateColors(bool save)
     }
 }
 
-void RGBController_LightSalt::DeviceUpdateLEDs()
+void RGBController_LightSalt::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateColors(false);
 }
 
 void RGBController_LightSalt::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LightSalt::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LightSalt::DeviceUpdateMode()

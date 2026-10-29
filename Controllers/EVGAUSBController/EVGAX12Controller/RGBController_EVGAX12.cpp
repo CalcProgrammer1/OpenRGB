@@ -122,19 +122,19 @@ void RGBController_EVGAX12::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAX12::DeviceUpdateLEDs()
+void RGBController_EVGAX12::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetStatic(colors, modes[direct_mode_index].brightness);
 }
 
 void RGBController_EVGAX12::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAX12::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAX12::DeviceUpdateMode()

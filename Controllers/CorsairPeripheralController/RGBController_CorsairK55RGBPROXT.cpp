@@ -389,7 +389,7 @@ void RGBController_CorsairK55RGBPROXT::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairK55RGBPROXT::DeviceUpdateLEDs()
+void RGBController_CorsairK55RGBPROXT::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -429,7 +429,7 @@ void RGBController_CorsairK55RGBPROXT::KeepaliveThread()
         {
             if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50000))
             {
-                DeviceUpdateLEDs();
+                DeviceUpdateLEDs(colors);
             }
         }
         std::this_thread::sleep_for(3000ms);

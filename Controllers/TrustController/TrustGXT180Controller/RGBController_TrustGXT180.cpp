@@ -110,7 +110,7 @@ void RGBController_TrustGXT180::SetupZones()
     SetupColors();
 }
 
-void RGBController_TrustGXT180::DeviceUpdateLEDs()
+void RGBController_TrustGXT180::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

@@ -68,7 +68,7 @@ void RGBController_PhilipsHue::SetupZones()
     SetupColors();
 }
 
-void RGBController_PhilipsHue::DeviceUpdateLEDs()
+void RGBController_PhilipsHue::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -79,12 +79,12 @@ void RGBController_PhilipsHue::DeviceUpdateLEDs()
 
 void RGBController_PhilipsHue::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PhilipsHue::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PhilipsHue::DeviceUpdateMode()

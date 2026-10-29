@@ -399,7 +399,7 @@ void RGBController_LianLiUniHubSLInfinity::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_LianLiUniHubSLInfinity::DeviceUpdateLEDs()
+void RGBController_LianLiUniHubSLInfinity::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
 
     if(!initializedMode)
@@ -436,7 +436,7 @@ void RGBController_LianLiUniHubSLInfinity::DeviceUpdateMode()
 {
     if(!active_mode)
     {
-        return;                 // Do nothing, custom mode should go through DeviceUpdateLEDs() to avoid flooding controller
+        return;                 // Do nothing, custom mode should go through DeviceUpdateLEDs(std::vector<RGBColor>& update_colors) to avoid flooding controller
     }
 
     initializedMode   = true;

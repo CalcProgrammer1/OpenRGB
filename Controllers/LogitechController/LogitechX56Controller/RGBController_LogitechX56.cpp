@@ -72,7 +72,7 @@ void RGBController_LogitechX56::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechX56::DeviceUpdateLEDs()
+void RGBController_LogitechX56::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetColor(colors[0], modes[active_mode].brightness);
 }
@@ -82,7 +82,7 @@ void RGBController_LogitechX56::DeviceUpdateZoneLEDs(int /*zone*/)
     /*---------------------------------------------------------*\
     | Packet expects both LEDs                                  |
     \*---------------------------------------------------------*/
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechX56::DeviceUpdateSingleLED(int /*led*/)
@@ -90,12 +90,12 @@ void RGBController_LogitechX56::DeviceUpdateSingleLED(int /*led*/)
     /*---------------------------------------------------------*\
     | Packet expects both LEDs                                  |
     \*---------------------------------------------------------*/
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechX56::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechX56::DeviceSaveMode()

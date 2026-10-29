@@ -532,7 +532,7 @@ void RGBController_FnaticStreak::SetupZones()
     SetupColors();
 }
 
-void RGBController_FnaticStreak::DeviceUpdateLEDs()
+void RGBController_FnaticStreak::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SoftwareEffectStart();
@@ -547,12 +547,12 @@ void RGBController_FnaticStreak::DeviceUpdateLEDs()
 
 void RGBController_FnaticStreak::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_FnaticStreak::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_FnaticStreak::DeviceUpdateMode()

@@ -990,7 +990,7 @@ void RGBController_MountainKeyboard::DeviceUpdate(const mode& current_mode)
     }
 }
 
-void RGBController_MountainKeyboard::DeviceUpdateLEDs()
+void RGBController_MountainKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     mode current_mode = modes[active_mode];
     DeviceUpdate(current_mode);
@@ -998,12 +998,12 @@ void RGBController_MountainKeyboard::DeviceUpdateLEDs()
 
 void RGBController_MountainKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MountainKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MountainKeyboard::DeviceUpdateMode()

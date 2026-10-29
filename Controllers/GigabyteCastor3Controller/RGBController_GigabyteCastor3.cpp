@@ -334,19 +334,19 @@ void RGBController_GigabyteCastor3::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteCastor3::DeviceUpdateLEDs()
+void RGBController_GigabyteCastor3::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }
 
 void RGBController_GigabyteCastor3::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GigabyteCastor3::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GigabyteCastor3::DeviceUpdateMode()

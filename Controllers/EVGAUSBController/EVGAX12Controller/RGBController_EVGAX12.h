@@ -20,7 +20,7 @@ public:
     RGBController_EVGAX12(EVGAX12Controller* controller_ptr);
     ~RGBController_EVGAX12();
 
-    void DeviceUpdateLEDs();
+    void DeviceUpdateLEDs(std::vector<RGBColor>& update_colors);
     void DeviceUpdateZoneLEDs(int zone);
     void DeviceUpdateSingleLED(int led);
     void DeviceUpdateMode();

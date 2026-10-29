@@ -78,7 +78,7 @@ void RGBController_PatriotViperSteel::SetupZones()
     SetupColors();
 }
 
-void RGBController_PatriotViperSteel::DeviceUpdateLEDs()
+void RGBController_PatriotViperSteel::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(int led = 0; led < 5; led++)
     {
@@ -93,7 +93,7 @@ void RGBController_PatriotViperSteel::DeviceUpdateLEDs()
 
 void RGBController_PatriotViperSteel::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PatriotViperSteel::DeviceUpdateSingleLED(int led)

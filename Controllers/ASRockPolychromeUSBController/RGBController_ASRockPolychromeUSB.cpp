@@ -325,7 +325,7 @@ void RGBController_PolychromeUSB::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_PolychromeUSB::DeviceUpdateLEDs()
+void RGBController_PolychromeUSB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(POLYCHROME_USB_MODE_DIRECT == zones_info[0].mode )
     {

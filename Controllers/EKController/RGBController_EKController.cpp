@@ -147,7 +147,7 @@ void RGBController_EKController::SetupZones()
     SetupColors();
 }
 
-void RGBController_EKController::DeviceUpdateLEDs()
+void RGBController_EKController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);

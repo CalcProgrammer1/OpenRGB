@@ -156,7 +156,7 @@ void RGBController_RobobloqLightStrip::SetupZones()
     SetupColors();
 }
 
-void RGBController_RobobloqLightStrip::DeviceUpdateLEDs()
+void RGBController_RobobloqLightStrip::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == ROBOBLOQ_MODE_DIRECT)
     {
@@ -166,7 +166,7 @@ void RGBController_RobobloqLightStrip::DeviceUpdateLEDs()
 
 void RGBController_RobobloqLightStrip::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RobobloqLightStrip::DeviceUpdateSingleLED(int led)

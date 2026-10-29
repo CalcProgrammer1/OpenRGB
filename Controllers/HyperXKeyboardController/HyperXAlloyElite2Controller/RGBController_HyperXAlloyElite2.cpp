@@ -282,7 +282,7 @@ void RGBController_HyperXAlloyElite2::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyElite2::DeviceUpdateLEDs()
+void RGBController_HyperXAlloyElite2::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -294,12 +294,12 @@ void RGBController_HyperXAlloyElite2::DeviceUpdateLEDs()
 
 void RGBController_HyperXAlloyElite2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXAlloyElite2::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXAlloyElite2::DeviceUpdateMode()

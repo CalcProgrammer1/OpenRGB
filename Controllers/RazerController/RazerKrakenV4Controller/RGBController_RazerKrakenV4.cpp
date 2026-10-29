@@ -96,7 +96,7 @@ void RGBController_RazerKrakenV4::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerKrakenV4::DeviceUpdateLEDs()
+void RGBController_RazerKrakenV4::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == RAZER_KRAKEN_V4_MODE_DIRECT)
     {
@@ -106,12 +106,12 @@ void RGBController_RazerKrakenV4::DeviceUpdateLEDs()
 
 void RGBController_RazerKrakenV4::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RazerKrakenV4::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RazerKrakenV4::DeviceUpdateMode()

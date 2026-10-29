@@ -1402,7 +1402,7 @@ void RGBController_RGBFusion2USB::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
+void RGBController_RGBFusion2USB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     int         mode_value  = modes[active_mode].value;
     bool        random      = modes[active_mode].color_mode == MODE_COLORS_RANDOM;
@@ -1535,7 +1535,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
     \*---------------------------------------------------------*/
     if(modes[active_mode].flags & MODE_FLAG_REQUIRES_ENTIRE_DEVICE)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
         return;
     }
 
@@ -1645,7 +1645,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateSingleLED(int led)
     \*---------------------------------------------------------*/
     if(modes[active_mode].flags & MODE_FLAG_REQUIRES_ENTIRE_DEVICE)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
         return;
     }
 
@@ -1707,7 +1707,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateSingleLED(int led)
 
 void RGBController_RGBFusion2USB::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusion2USB::DeviceUpdateZoneMode(int zone)

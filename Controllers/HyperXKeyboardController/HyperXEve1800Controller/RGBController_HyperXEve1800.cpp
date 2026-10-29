@@ -85,7 +85,7 @@ void RGBController_HyperXEve1800::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXEve1800::DeviceUpdateLEDs()
+void RGBController_HyperXEve1800::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDsDirect(colors);
     last_update_time = std::chrono::steady_clock::now();
@@ -93,18 +93,18 @@ void RGBController_HyperXEve1800::DeviceUpdateLEDs()
 
 void RGBController_HyperXEve1800::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXEve1800::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXEve1800::DeviceUpdateMode()
 {
     controller->SetBrightness(modes[active_mode].brightness);
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXEve1800::KeepaliveThread()

@@ -122,7 +122,7 @@ void RGBController_EVGAACX30SMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAACX30SMBus::DeviceUpdateLEDs()
+void RGBController_EVGAACX30SMBus::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int led = 0; led < colors.size(); led++)
     {
@@ -132,7 +132,7 @@ void RGBController_EVGAACX30SMBus::DeviceUpdateLEDs()
 
 void RGBController_EVGAACX30SMBus::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAACX30SMBus::DeviceUpdateSingleLED(int led)
@@ -153,5 +153,5 @@ void RGBController_EVGAACX30SMBus::DeviceUpdateMode()
     controller->SetSpeed(modes[active_mode].speed);
     controller->Lock();
 
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

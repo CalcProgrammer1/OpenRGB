@@ -98,7 +98,7 @@ std::vector<unsigned char> RGBController_ElgatoStreamDeck::CreateButtonImage(con
     return jpegData;
 }
 
-void RGBController_ElgatoStreamDeck::DeviceUpdateLEDs()
+void RGBController_ElgatoStreamDeck::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     std::vector<std::vector<unsigned char>> buttonImages;
     for(unsigned int i = 0; i < leds.size(); i++)
@@ -110,12 +110,12 @@ void RGBController_ElgatoStreamDeck::DeviceUpdateLEDs()
 
 void RGBController_ElgatoStreamDeck::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ElgatoStreamDeck::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ElgatoStreamDeck::DeviceUpdateMode()

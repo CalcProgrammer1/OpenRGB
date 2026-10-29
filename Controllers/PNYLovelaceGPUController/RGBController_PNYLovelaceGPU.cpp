@@ -143,7 +143,7 @@ void RGBController_PNYLovelaceGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_PNYLovelaceGPU::DeviceUpdateLEDs()
+void RGBController_PNYLovelaceGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

@@ -21,7 +21,7 @@ public:
 
     void SetupZones();
 
-    void DeviceUpdateLEDs();
+    void DeviceUpdateLEDs(std::vector<RGBColor>& update_colors);
     void DeviceUpdateZoneLEDs(int zone);
     void DeviceUpdateSingleLED(int led);
 

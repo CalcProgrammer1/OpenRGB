@@ -425,7 +425,7 @@ void RGBController_LianLiUniHubAL::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_LianLiUniHubAL::DeviceUpdateLEDs()
+void RGBController_LianLiUniHubAL::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(!initializedMode)
     {
@@ -461,7 +461,7 @@ void RGBController_LianLiUniHubAL::DeviceUpdateMode()
 {
     if(!active_mode)
     {
-        return;                 // Do nothing, custom mode should go through DeviceUpdateLEDs() to avoid flooding controller
+        return;                 // Do nothing, custom mode should go through DeviceUpdateLEDs(std::vector<RGBColor>& update_colors) to avoid flooding controller
     }
 
     initializedMode   = true;

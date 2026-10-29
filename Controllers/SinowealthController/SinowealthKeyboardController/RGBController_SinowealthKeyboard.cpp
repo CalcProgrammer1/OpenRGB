@@ -446,19 +446,19 @@ void RGBController_SinowealthKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_SinowealthKeyboard::DeviceUpdateLEDs()
+void RGBController_SinowealthKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDsDirect(colors);
 }
 
 void RGBController_SinowealthKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SinowealthKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SinowealthKeyboard::DeviceUpdateMode()

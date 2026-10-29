@@ -160,7 +160,7 @@ void RGBController_ManliGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_ManliGPU::DeviceUpdateLEDs()
+void RGBController_ManliGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

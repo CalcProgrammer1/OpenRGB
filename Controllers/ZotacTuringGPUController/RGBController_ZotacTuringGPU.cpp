@@ -127,7 +127,7 @@ void RGBController_ZotacTuringGPU::SetupInitialValues()
     modes[active_mode].speed = speed;
 }
 
-void RGBController_ZotacTuringGPU::DeviceUpdateLEDs()
+void RGBController_ZotacTuringGPU::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

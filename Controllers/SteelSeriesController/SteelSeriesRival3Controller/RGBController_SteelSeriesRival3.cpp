@@ -140,7 +140,7 @@ void RGBController_SteelSeriesRival3::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesRival3::DeviceUpdateLEDs()
+void RGBController_SteelSeriesRival3::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int i = 0; i < zones.size(); i++)
     {

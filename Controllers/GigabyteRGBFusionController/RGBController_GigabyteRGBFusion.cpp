@@ -121,7 +121,7 @@ void RGBController_RGBFusion::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion::DeviceUpdateLEDs()
+void RGBController_RGBFusion::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int led = 0; led < (unsigned int)colors.size(); led++)
     {

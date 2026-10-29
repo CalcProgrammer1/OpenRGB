@@ -306,19 +306,19 @@ void RGBController_HyperXAlloyOrigins60and65::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyOrigins60and65::DeviceUpdateLEDs()
+void RGBController_HyperXAlloyOrigins60and65::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDsDirect(colors);
 }
 
 void RGBController_HyperXAlloyOrigins60and65::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXAlloyOrigins60and65::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXAlloyOrigins60and65::DeviceUpdateMode()

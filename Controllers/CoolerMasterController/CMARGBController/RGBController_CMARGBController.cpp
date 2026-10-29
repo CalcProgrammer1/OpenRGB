@@ -472,7 +472,7 @@ void RGBController_CMARGBController::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_CMARGBController::DeviceUpdateLEDs()
+void RGBController_CMARGBController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {

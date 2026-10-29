@@ -230,19 +230,19 @@ void RGBController_CorsairCommanderCore::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_CorsairCommanderCore::DeviceUpdateLEDs()
+void RGBController_CorsairCommanderCore::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }
 
 void RGBController_CorsairCommanderCore::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairCommanderCore::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairCommanderCore::DeviceUpdateMode()

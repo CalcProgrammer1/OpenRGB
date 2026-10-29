@@ -295,7 +295,7 @@ void RGBController_CMSmallARGBController::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_CMSmallARGBController::DeviceUpdateLEDs()
+void RGBController_CMSmallARGBController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {

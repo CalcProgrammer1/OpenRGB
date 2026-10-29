@@ -83,7 +83,7 @@ void RGBController_HYTEMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_HYTEMousemat::DeviceUpdateLEDs()
+void RGBController_HYTEMousemat::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->StreamingCommand(&colors[0]);
 }

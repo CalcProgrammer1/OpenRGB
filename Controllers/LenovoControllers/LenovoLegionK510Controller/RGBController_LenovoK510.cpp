@@ -325,7 +325,7 @@ void RGBController_LenovoK510::ReadAndUpdateCurrentDeviceState()
     }
 }
 
-void RGBController_LenovoK510::DeviceUpdateLEDs()
+void RGBController_LenovoK510::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     // Not Supported
 }

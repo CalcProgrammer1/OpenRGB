@@ -95,7 +95,7 @@ void RGBController_StrixClaw::SetupZones()
     SetupColors();
 }
 
-void RGBController_StrixClaw::DeviceUpdateLEDs()
+void RGBController_StrixClaw::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
 
 }

@@ -70,7 +70,7 @@ void RGBController_FanBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_FanBus::DeviceUpdateLEDs()
+void RGBController_FanBus::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(colors);
 }

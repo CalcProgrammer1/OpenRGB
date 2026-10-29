@@ -120,7 +120,7 @@ void RGBController_LEDStrip::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_LEDStrip::DeviceUpdateLEDs()
+void RGBController_LEDStrip::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(colors);
 }

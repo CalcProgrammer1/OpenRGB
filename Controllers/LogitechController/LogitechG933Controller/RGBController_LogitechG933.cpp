@@ -88,7 +88,7 @@ void RGBController_LogitechG933::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG933::DeviceUpdateLEDs()
+void RGBController_LogitechG933::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
@@ -102,12 +102,12 @@ void RGBController_LogitechG933::DeviceUpdateLEDs()
 
 void RGBController_LogitechG933::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechG933::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LogitechG933::DeviceUpdateMode()
@@ -128,5 +128,5 @@ void RGBController_LogitechG933::DeviceUpdateMode()
         }
 
     }
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

@@ -397,7 +397,7 @@ void RGBController_PhilipsWiz::SetupZones()
     SetupColors();
 }
 
-void RGBController_PhilipsWiz::DeviceUpdateLEDs()
+void RGBController_PhilipsWiz::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if (modes[active_mode].value == PHILLIPSWIZ_MODE_STATIC)
     {
@@ -411,12 +411,12 @@ void RGBController_PhilipsWiz::DeviceUpdateLEDs()
 
 void RGBController_PhilipsWiz::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PhilipsWiz::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PhilipsWiz::DeviceUpdateMode()

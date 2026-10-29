@@ -348,7 +348,7 @@ void RGBController_LenovoK500::ResizeZone(int /*zone*/, int /*new_size*/)
     /* This device does not support resizing zones */
 }
 
-void RGBController_LenovoK500::DeviceUpdateLEDs()
+void RGBController_LenovoK500::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if (modes[active_mode].value == K500_MODE_CUSTOMIZE)
     {
@@ -394,12 +394,12 @@ void RGBController_LenovoK500::DeviceUpdateLEDs()
 
 void RGBController_LenovoK500::UpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LenovoK500::UpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LenovoK500::DeviceUpdateMode()

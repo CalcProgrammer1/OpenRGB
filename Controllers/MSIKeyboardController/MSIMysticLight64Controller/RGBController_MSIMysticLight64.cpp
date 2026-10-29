@@ -62,10 +62,10 @@ void RGBController_MSIMysticLight64::SetupZones()
 
 void RGBController_MSIMysticLight64::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
-void RGBController_MSIMysticLight64::DeviceUpdateLEDs()
+void RGBController_MSIMysticLight64::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     mode&               Mode        = modes[active_mode];
     MSI_64_MODE         msi_mode    = (MSI_64_MODE)Mode.value;
@@ -91,12 +91,12 @@ void RGBController_MSIMysticLight64::DeviceUpdateLEDs()
 
 void RGBController_MSIMysticLight64::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIMysticLight64::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIMysticLight64::SetupModes()

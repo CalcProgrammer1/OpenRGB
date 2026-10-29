@@ -138,7 +138,7 @@ void RGBController_SteelSeriesApex::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesApex::DeviceUpdateLEDs()
+void RGBController_SteelSeriesApex::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SetLEDsDirect(colors);
@@ -146,12 +146,12 @@ void RGBController_SteelSeriesApex::DeviceUpdateLEDs()
 
 void RGBController_SteelSeriesApex::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesApex::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SteelSeriesApex::DeviceUpdateMode()

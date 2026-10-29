@@ -214,19 +214,19 @@ void RGBController_Sinowealth1007::SetupZones()
     SetupColors();
 }
 
-void RGBController_Sinowealth1007::DeviceUpdateLEDs()
+void RGBController_Sinowealth1007::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDColors(colors);
 }
 
 void RGBController_Sinowealth1007::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Sinowealth1007::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Sinowealth1007::DeviceUpdateMode()

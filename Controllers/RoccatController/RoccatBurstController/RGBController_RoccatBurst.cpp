@@ -143,7 +143,7 @@ void RGBController_RoccatBurst::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatBurst::DeviceUpdateLEDs()
+void RGBController_RoccatBurst::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }
@@ -176,6 +176,6 @@ void RGBController_RoccatBurst::DeviceUpdateMode()
     }
     else
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }

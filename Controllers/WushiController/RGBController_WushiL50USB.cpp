@@ -119,7 +119,7 @@ void RGBController_WushiL50USB::SetupZones()
     SetupColors();
 }
 
-void RGBController_WushiL50USB::DeviceUpdateLEDs()
+void RGBController_WushiL50USB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
@@ -138,12 +138,12 @@ void RGBController_WushiL50USB::DeviceUpdateLEDs()
 
 void RGBController_WushiL50USB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_WushiL50USB::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_WushiL50USB::DeviceUpdateMode()

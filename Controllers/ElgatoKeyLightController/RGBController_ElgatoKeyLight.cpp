@@ -59,7 +59,7 @@ void RGBController_ElgatoKeyLight::SetupZones()
     SetupColors();
 }
 
-void RGBController_ElgatoKeyLight::DeviceUpdateLEDs()
+void RGBController_ElgatoKeyLight::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     RGBColor rgb_color = colors[0];
     hsv_t hsv_color;
@@ -69,12 +69,12 @@ void RGBController_ElgatoKeyLight::DeviceUpdateLEDs()
 
 void RGBController_ElgatoKeyLight::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ElgatoKeyLight::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ElgatoKeyLight::DeviceUpdateMode()

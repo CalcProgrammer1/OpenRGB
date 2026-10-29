@@ -133,22 +133,22 @@ void RGBController_MSILaptop::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSILaptop::DeviceUpdateLEDs()
+void RGBController_MSILaptop::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(leds, colors);
 }
 
 void RGBController_MSILaptop::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSILaptop::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSILaptop::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

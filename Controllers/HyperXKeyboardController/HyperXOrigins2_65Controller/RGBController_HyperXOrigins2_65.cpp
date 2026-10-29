@@ -197,19 +197,19 @@ void RGBController_HyperXOrigins2_65::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXOrigins2_65::DeviceUpdateLEDs()
+void RGBController_HyperXOrigins2_65::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDsDirect(colors);
 }
 
 void RGBController_HyperXOrigins2_65::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXOrigins2_65::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_HyperXOrigins2_65::DeviceUpdateMode()

@@ -180,7 +180,7 @@ void RGBController_HyperXDRAM::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXDRAM::DeviceUpdateLEDs()
+void RGBController_HyperXDRAM::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(controller->GetMode() == HYPERX_MODE_DIRECT)
     {

@@ -88,7 +88,7 @@ void RGBController_Yeelight::SetupZones()
     SetupColors();
 }
 
-void RGBController_Yeelight::DeviceUpdateLEDs()
+void RGBController_Yeelight::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -99,12 +99,12 @@ void RGBController_Yeelight::DeviceUpdateLEDs()
 
 void RGBController_Yeelight::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Yeelight::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Yeelight::DeviceUpdateMode()

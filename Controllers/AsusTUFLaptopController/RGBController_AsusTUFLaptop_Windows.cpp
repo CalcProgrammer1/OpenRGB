@@ -137,7 +137,7 @@ void RGBController_AsusTUFLaptopWMI::ControllerSetMode(bool save)
     controller->setMode(red, green, blue, mode, speed, save);
 }
 
-void RGBController_AsusTUFLaptopWMI::DeviceUpdateLEDs()
+void RGBController_AsusTUFLaptopWMI::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     ControllerSetMode(false);
 }

@@ -173,7 +173,7 @@ void RGBController_AsusAuraRyuoAIO::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusAuraRyuoAIO::DeviceUpdateLEDs()
+void RGBController_AsusAuraRyuoAIO::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {

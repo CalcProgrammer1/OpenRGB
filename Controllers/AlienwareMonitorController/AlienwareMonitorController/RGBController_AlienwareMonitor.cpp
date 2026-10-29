@@ -95,7 +95,7 @@ void RGBController_AlienwareMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareMonitor::DeviceUpdateLEDs()
+void RGBController_AlienwareMonitor::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*-----------------------------------------------------*\
     | If all three colors are the same value, speed up the  |
@@ -120,7 +120,7 @@ void RGBController_AlienwareMonitor::DeviceUpdateLEDs()
 
 void RGBController_AlienwareMonitor::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AlienwareMonitor::DeviceUpdateSingleLED(int led)

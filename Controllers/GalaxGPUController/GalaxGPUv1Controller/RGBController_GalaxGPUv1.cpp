@@ -136,7 +136,7 @@ void RGBController_GalaxGPUv1::SetupZones()
     colors[0] = ToRGBColor(red, grn, blu);
 }
 
-void RGBController_GalaxGPUv1::DeviceUpdateLEDs()
+void RGBController_GalaxGPUv1::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t led = 0; led < colors.size(); led++)
     {
@@ -157,12 +157,12 @@ void RGBController_GalaxGPUv1::DeviceUpdateLEDs()
 
 void RGBController_GalaxGPUv1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GalaxGPUv1::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_GalaxGPUv1::DeviceUpdateMode()

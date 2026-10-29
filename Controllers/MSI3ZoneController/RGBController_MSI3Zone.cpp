@@ -93,7 +93,7 @@ void RGBController_MSI3Zone::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSI3Zone::DeviceUpdateLEDs()
+void RGBController_MSI3Zone::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(colors);
 }

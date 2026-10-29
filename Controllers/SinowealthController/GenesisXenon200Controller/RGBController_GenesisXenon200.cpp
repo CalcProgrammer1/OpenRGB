@@ -122,7 +122,7 @@ void RGBController_GenesisXenon200::DeviceUpdateMode()
     controller->SaveMode(modes[active_mode].value, value, color);
 }
 
-void RGBController_GenesisXenon200::DeviceUpdateLEDs()
+void RGBController_GenesisXenon200::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

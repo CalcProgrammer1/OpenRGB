@@ -276,7 +276,7 @@ void RGBController_DuckyKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DuckyKeyboard::DeviceUpdateLEDs()
+void RGBController_DuckyKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char colordata[155*3];
 
@@ -292,12 +292,12 @@ void RGBController_DuckyKeyboard::DeviceUpdateLEDs()
 
 void RGBController_DuckyKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DuckyKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DuckyKeyboard::DeviceUpdateMode()

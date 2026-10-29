@@ -131,7 +131,7 @@ void RGBController_DRGB::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_DRGB::DeviceUpdateLEDs()
+void RGBController_DRGB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     switch(controller->GetVersion())
     {
@@ -279,5 +279,5 @@ void RGBController_DRGB::DeviceUpdateSingleLED(int led)
 
 void RGBController_DRGB::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

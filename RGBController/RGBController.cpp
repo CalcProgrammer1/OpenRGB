@@ -2135,7 +2135,7 @@ void RGBController::DeviceCallThreadFunction()
                 AccessMutex.lock_shared();
                 CallFlag_UpdateLEDs = false;
                 DeviceMutex.lock();
-                DeviceUpdateLEDs();
+                DeviceUpdateLEDs(colors);
                 DeviceMutex.unlock();
                 AccessMutex.unlock_shared();
             }
@@ -2143,7 +2143,7 @@ void RGBController::DeviceCallThreadFunction()
             {
                 AccessMutex.lock_shared();
                 DeviceMutex.lock();
-                DeviceUpdateLEDs();
+                DeviceUpdateLEDs(colors);
                 DeviceMutex.unlock();
                 CallFlag_UpdateLEDs = false;
                 AccessMutex.unlock_shared();
@@ -2415,7 +2415,7 @@ void RGBController::DeviceConfigureZone(int /*zone_idx*/)
     \*-----------------------------------------------------*/
 }
 
-void RGBController::DeviceUpdateLEDs()
+void RGBController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*-----------------------------------------------------*\
     | If not implemented by controller, does nothing        |

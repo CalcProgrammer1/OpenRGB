@@ -83,7 +83,7 @@ void RGBController_NvidiaESA::SetupZones()
     SetupColors();
 }
 
-void RGBController_NvidiaESA::DeviceUpdateLEDs()
+void RGBController_NvidiaESA::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int zone = 0; zone < zones.size(); zone++)
     {
@@ -103,5 +103,5 @@ void RGBController_NvidiaESA::DeviceUpdateSingleLED(int /*led*/)
 
 void RGBController_NvidiaESA::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

@@ -279,7 +279,7 @@ void RGBController_JGINYUEInternalUSB::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_JGINYUEInternalUSB::DeviceUpdateLEDs()
+void RGBController_JGINYUEInternalUSB::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(int i = 0; i < JGINYUE_MAX_ZONES; i++)
     {
@@ -320,7 +320,7 @@ void RGBController_JGINYUEInternalUSB::DeviceUpdateMode()
 
     if(modes[active_mode].value == JGINYUE_USB_MODE_DIRECT)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
     else
     {

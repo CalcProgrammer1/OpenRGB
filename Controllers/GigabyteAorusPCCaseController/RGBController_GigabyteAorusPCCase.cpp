@@ -135,7 +135,7 @@ void RGBController_GigabyteAorusPCCase::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteAorusPCCase::DeviceUpdateLEDs()
+void RGBController_GigabyteAorusPCCase::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*---------------------------------------------------------*\
     | This device does not need update leds                     |

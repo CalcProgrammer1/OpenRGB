@@ -466,7 +466,7 @@ void RGBController_JGINYUEInternalUSBV2::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_JGINYUEInternalUSBV2::DeviceUpdateLEDs()
+void RGBController_JGINYUEInternalUSBV2::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char normal_zone_count = controller->GetZoneCount();
 
@@ -502,7 +502,7 @@ void RGBController_JGINYUEInternalUSBV2::DeviceUpdateMode()
 {
     if(modes[active_mode].value == JGINYUE_USB_V2_MODE_DIRECT)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
         return;
     }
 

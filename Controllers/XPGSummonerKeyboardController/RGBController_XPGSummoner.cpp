@@ -264,7 +264,7 @@ void RGBController_XPGSummoner::SetupZones()
 /*---------------------------------------------------------*\
 | DeviceUpdateLEDs: Updates LED colors                      |
 \*---------------------------------------------------------*/
-void RGBController_XPGSummoner::DeviceUpdateLEDs()
+void RGBController_XPGSummoner::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     const unsigned char brightness            = 0x64;
     const unsigned int frame_buf_length       = 126 * 4;
@@ -293,7 +293,7 @@ void RGBController_XPGSummoner::DeviceUpdateLEDs()
 \*---------------------------------------------------------*/
 void RGBController_XPGSummoner::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 /*---------------------------------------------------------*\
@@ -301,7 +301,7 @@ void RGBController_XPGSummoner::DeviceUpdateZoneLEDs(int /*zone*/)
 \*---------------------------------------------------------*/
 void RGBController_XPGSummoner::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 /*---------------------------------------------------------*\
@@ -309,5 +309,5 @@ void RGBController_XPGSummoner::DeviceUpdateSingleLED(int /*led*/)
 \*---------------------------------------------------------*/
 void RGBController_XPGSummoner::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

@@ -124,24 +124,24 @@ void RGBController_CorsairICueLink::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairICueLink::DeviceUpdateLEDs()
+void RGBController_CorsairICueLink::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->UpdateLights(&colors[0], colors.size());
 }
 
 void RGBController_CorsairICueLink::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairICueLink::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairICueLink::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CorsairICueLink::KeepaliveThread()
@@ -150,7 +150,7 @@ void RGBController_CorsairICueLink::KeepaliveThread()
     {
         if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(5))
         {
-            DeviceUpdateLEDs();
+            DeviceUpdateLEDs(colors);
         }
         std::this_thread::sleep_for(1s);
     }

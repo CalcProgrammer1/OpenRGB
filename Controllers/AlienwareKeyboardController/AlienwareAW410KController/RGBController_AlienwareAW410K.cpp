@@ -320,7 +320,7 @@ void RGBController_AlienwareAW410K::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareAW410K::DeviceUpdateLEDs()
+void RGBController_AlienwareAW410K::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     std::vector<SelectedButtons>   frame_buf_keys;
     std::vector<RGBColor>       new_colors;
@@ -387,7 +387,7 @@ void RGBController_AlienwareAW410K::DeviceUpdateMode()
             /*-------------------------------------------------------------*\
             | Load LEDs again in case of profile load etc.                  |
             \*-------------------------------------------------------------*/
-            DeviceUpdateLEDs();
+            DeviceUpdateLEDs(colors);
             break;
         case ALIENWARE_AW410K_MODE_MORPH:
             /*-------------------------------------------------------------*\

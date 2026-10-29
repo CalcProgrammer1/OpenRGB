@@ -213,14 +213,14 @@ void RGBController_PowerColorRedDevilV1::SetupZones()
     SetupColors();
 }
 
-void RGBController_PowerColorRedDevilV1::DeviceUpdateLEDs()
+void RGBController_PowerColorRedDevilV1::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDColorAll(colors[0]);
 }
 
 void RGBController_PowerColorRedDevilV1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PowerColorRedDevilV1::DeviceUpdateSingleLED(int led)

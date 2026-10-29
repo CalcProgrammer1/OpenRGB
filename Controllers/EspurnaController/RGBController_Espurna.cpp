@@ -66,7 +66,7 @@ void RGBController_Espurna::SetupZones()
     SetupColors();
 }
 
-void RGBController_Espurna::DeviceUpdateLEDs()
+void RGBController_Espurna::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetLEDs(colors);
 }

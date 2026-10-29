@@ -187,7 +187,7 @@ void RGBController_MSIClutchGM11::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIClutchGM11::DeviceUpdateLEDs()
+void RGBController_MSIClutchGM11::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     const mode& active = modes[active_mode];
 
@@ -215,15 +215,15 @@ void RGBController_MSIClutchGM11::DeviceUpdateLEDs()
 
 void RGBController_MSIClutchGM11::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIClutchGM11::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIClutchGM11::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

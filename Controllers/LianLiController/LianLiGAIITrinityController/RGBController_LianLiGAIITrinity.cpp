@@ -312,7 +312,7 @@ void RGBController_LianLiGAIITrinity::SetupZones()
     zones[0].colors[1] = ToRGBColor(0, 0, 255);
 }
 
-void RGBController_LianLiGAIITrinity::DeviceUpdateLEDs()
+void RGBController_LianLiGAIITrinity::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     switch(modes[active_mode].value)
     {
@@ -398,15 +398,15 @@ void RGBController_LianLiGAIITrinity::DeviceUpdateLEDs()
 
 void RGBController_LianLiGAIITrinity::DeviceUpdateZoneLEDs(int /* zone */)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LianLiGAIITrinity::DeviceUpdateSingleLED(int /* led */)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LianLiGAIITrinity::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

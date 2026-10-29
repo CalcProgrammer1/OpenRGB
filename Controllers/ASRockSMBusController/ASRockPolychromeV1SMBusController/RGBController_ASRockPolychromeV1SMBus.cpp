@@ -304,9 +304,9 @@ void RGBController_ASRockPolychromeV1SMBus::DeviceConfigureZone(int zone_idx)
     zones[POLYCHROME_V1_ZONE_ADDRESSABLE].leds_count = 1;
 }
 
-void RGBController_ASRockPolychromeV1SMBus::DeviceUpdateLEDs()
+void RGBController_ASRockPolychromeV1SMBus::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
-    LOG_TRACE("[%s] DeviceUpdateLEDs()", name.c_str());
+    LOG_TRACE("[%s] DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)", name.c_str());
     for (uint8_t zone_idx = 0; zone_idx < zoneIndexMap.size(); zone_idx++)
     {
         DeviceUpdateSingleLED(zone_idx);
@@ -316,7 +316,7 @@ void RGBController_ASRockPolychromeV1SMBus::DeviceUpdateLEDs()
 void RGBController_ASRockPolychromeV1SMBus::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     LOG_TRACE("[%s] DeviceUpdateZoneLEDs()", name.c_str());
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ASRockPolychromeV1SMBus::DeviceUpdateSingleLED(int zone)

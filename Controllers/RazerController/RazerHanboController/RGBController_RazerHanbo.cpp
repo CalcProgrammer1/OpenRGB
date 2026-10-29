@@ -132,7 +132,7 @@ void RGBController_RazerHanbo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerHanbo::DeviceUpdateLEDs()
+void RGBController_RazerHanbo::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(PUMP);
     DeviceUpdateZoneLEDs(FAN1);
@@ -152,7 +152,7 @@ void RGBController_RazerHanbo::DeviceUpdateZoneLEDs(int zoneid)
 
 void RGBController_RazerHanbo::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RazerHanbo::DeviceUpdateMode()

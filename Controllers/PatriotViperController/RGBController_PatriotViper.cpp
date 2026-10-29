@@ -160,7 +160,7 @@ void RGBController_PatriotViper::SetupZones()
     SetupColors();
 }
 
-void RGBController_PatriotViper::DeviceUpdateLEDs()
+void RGBController_PatriotViper::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(viper->direct == true)
     {
@@ -188,7 +188,7 @@ void RGBController_PatriotViper::DeviceUpdateLEDs()
 
 void RGBController_PatriotViper::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_PatriotViper::DeviceUpdateSingleLED(int led)

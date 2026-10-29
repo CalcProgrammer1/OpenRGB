@@ -139,7 +139,7 @@ void RGBController_SkydimoSerial::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_SkydimoSerial::DeviceUpdateLEDs()
+void RGBController_SkydimoSerial::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     last_update_time = std::chrono::steady_clock::now();
 
@@ -148,12 +148,12 @@ void RGBController_SkydimoSerial::DeviceUpdateLEDs()
 
 void RGBController_SkydimoSerial::DeviceUpdateZoneLEDs(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SkydimoSerial::DeviceUpdateSingleLED(int)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SkydimoSerial::DeviceUpdateMode()

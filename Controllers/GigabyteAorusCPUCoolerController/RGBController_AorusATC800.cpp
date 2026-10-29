@@ -228,7 +228,7 @@ void RGBController_AorusATC800::SetupZones()
     SetupColors();
 }
 
-void RGBController_AorusATC800::DeviceUpdateLEDs()
+void RGBController_AorusATC800::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
     DeviceUpdateZoneLEDs(1);
@@ -261,5 +261,5 @@ void RGBController_AorusATC800::DeviceUpdateSingleLED(int led)
 
 void RGBController_AorusATC800::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

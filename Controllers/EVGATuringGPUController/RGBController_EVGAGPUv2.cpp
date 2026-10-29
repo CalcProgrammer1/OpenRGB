@@ -173,10 +173,10 @@ void RGBController_EVGAGPUv2::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGPUv2::DeviceUpdateLEDs()
+void RGBController_EVGAGPUv2::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*---------------------------------------------------------*\
-    | DeviceUpdateLEDs() is only used in MODE_COLORS_PER_LED    |
+    | DeviceUpdateLEDs(std::vector<RGBColor>& update_colors) is only used in MODE_COLORS_PER_LED    |
     | modes and as such colorB will always be black (0x000000)  |
     \*---------------------------------------------------------*/
 
@@ -185,12 +185,12 @@ void RGBController_EVGAGPUv2::DeviceUpdateLEDs()
 
 void RGBController_EVGAGPUv2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAGPUv2::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_EVGAGPUv2::DeviceUpdateMode()

@@ -135,19 +135,19 @@ void RGBController_MSIMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIMonitor::DeviceUpdateLEDs()
+void RGBController_MSIMonitor::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->Set(modes[active_mode].value, colors, active_mode == 0 ? 0x00 : 0x01);
 }
 
 void RGBController_MSIMonitor::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIMonitor::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_MSIMonitor::DeviceUpdateMode()

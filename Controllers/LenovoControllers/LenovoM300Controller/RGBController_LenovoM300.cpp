@@ -94,7 +94,7 @@ void RGBController_LenovoM300::SetupZones()
     SetupColors();
 }
 
-void RGBController_LenovoM300::DeviceUpdateLEDs()
+void RGBController_LenovoM300::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     const mode& active = modes[active_mode];
     controller->SetMode(active.colors, active.value, active.brightness);
@@ -102,15 +102,15 @@ void RGBController_LenovoM300::DeviceUpdateLEDs()
 
 void RGBController_LenovoM300::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LenovoM300::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LenovoM300::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

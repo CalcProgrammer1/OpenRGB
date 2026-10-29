@@ -521,7 +521,7 @@ void RGBController_SkyloongGK68HEPro::SetupZones()
     SetupColors();
 }
 
-void RGBController_SkyloongGK68HEPro::DeviceUpdateLEDs()
+void RGBController_SkyloongGK68HEPro::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(modes[active_mode].value == ROYUAN_SKYLOONG_GK68HE_PRO_EFFECT_CUSTOM)
     {
@@ -551,12 +551,12 @@ void RGBController_SkyloongGK68HEPro::DeviceUpdateLEDs()
 
 void RGBController_SkyloongGK68HEPro::UpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SkyloongGK68HEPro::UpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_SkyloongGK68HEPro::DeviceUpdateMode()

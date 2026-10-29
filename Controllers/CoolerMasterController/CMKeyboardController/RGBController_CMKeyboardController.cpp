@@ -136,7 +136,7 @@ void RGBController_CMKeyboardController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMKeyboardController::DeviceUpdateLEDs()
+void RGBController_CMKeyboardController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     m_pController->SetLeds(leds, colors);
 }
@@ -148,7 +148,7 @@ void RGBController_CMKeyboardController::DeviceUpdateSingleLED(int led)
 
 void RGBController_CMKeyboardController::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_CMKeyboardController::DeviceUpdateMode()

@@ -91,7 +91,7 @@ void RGBController_Seagate::SetupZones()
     SetupColors();
 }
 
-void RGBController_Seagate::DeviceUpdateLEDs()
+void RGBController_Seagate::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
     {
@@ -101,7 +101,7 @@ void RGBController_Seagate::DeviceUpdateLEDs()
 
 void RGBController_Seagate::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Seagate::DeviceUpdateSingleLED(int led)
@@ -132,7 +132,7 @@ void RGBController_Seagate::DeviceUpdateSingleLED(int led)
 
 void RGBController_Seagate::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_Seagate::DeviceSaveMode()

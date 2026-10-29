@@ -215,7 +215,7 @@ void RGBController_AuraCore::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraCore::DeviceUpdateLEDs()
+void RGBController_AuraCore::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }
@@ -316,6 +316,6 @@ void RGBController_AuraCore::DeviceUpdateMode()
     }
     else
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }

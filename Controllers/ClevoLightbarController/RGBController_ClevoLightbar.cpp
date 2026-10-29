@@ -143,7 +143,7 @@ void RGBController_ClevoLightbar::SetupZones()
     SetupColors();
 }
 
-void RGBController_ClevoLightbar::DeviceUpdateLEDs()
+void RGBController_ClevoLightbar::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red   = RGBGetRValue(colors[0]);
     unsigned char green = RGBGetGValue(colors[0]);
@@ -163,12 +163,12 @@ void RGBController_ClevoLightbar::DeviceUpdateLEDs()
 
 void RGBController_ClevoLightbar::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ClevoLightbar::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_ClevoLightbar::DeviceUpdateMode()

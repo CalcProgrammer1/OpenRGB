@@ -89,7 +89,7 @@ void RGBController_Tecknet::SetupZones()
     SetupColors();
 }
 
-void RGBController_Tecknet::DeviceUpdateLEDs()
+void RGBController_Tecknet::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);

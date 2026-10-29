@@ -137,7 +137,7 @@ void RGBController_ThermaltakeRiingTrio::DeviceConfigureZone(int zone_idx)
     }
 }
 
-void RGBController_ThermaltakeRiingTrio::DeviceUpdateLEDs()
+void RGBController_ThermaltakeRiingTrio::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {

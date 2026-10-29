@@ -245,7 +245,7 @@ void RGBController_CMRGBController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMRGBController::DeviceUpdateLEDs()
+void RGBController_CMRGBController::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {

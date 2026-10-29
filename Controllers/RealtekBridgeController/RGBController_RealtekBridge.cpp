@@ -227,7 +227,7 @@ void RGBController_RealtekBridge::SetupZones()
     SetupColors();
 }
 
-void RGBController_RealtekBridge::DeviceUpdateLEDs()
+void RGBController_RealtekBridge::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }
@@ -284,6 +284,6 @@ void RGBController_RealtekBridge::DeviceUpdateMode()
 {
     if(modes[active_mode].value != REALTEK_BRIDGE_LED_EFF_NONE)
     {
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }

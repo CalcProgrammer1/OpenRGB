@@ -270,7 +270,7 @@ void RGBController_Network::ConfigureDevice(controller_flags new_flags, std::str
     client->WaitOnControllerData();
 }
 
-void RGBController_Network::DeviceUpdateLEDs()
+void RGBController_Network::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char * data = CreateUpdateLEDsPacket(client->GetProtocolVersion());
     unsigned int size;
@@ -414,7 +414,7 @@ void RGBController_Network::SetDeviceSpecificZoneConfiguration(int zone, nlohman
 void RGBController_Network::UpdateLEDs()
 {
     AccessMutex.lock_shared();
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
     AccessMutex.unlock_shared();
 
     /*-----------------------------------------------------*\

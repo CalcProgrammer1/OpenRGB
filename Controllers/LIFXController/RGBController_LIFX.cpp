@@ -104,19 +104,19 @@ void RGBController_LIFX::SetupZones()
     SetupColors();
 }
 
-void RGBController_LIFX::DeviceUpdateLEDs()
+void RGBController_LIFX::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     controller->SetColors(colors);
 }
 
 void RGBController_LIFX::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LIFX::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_LIFX::DeviceUpdateMode()

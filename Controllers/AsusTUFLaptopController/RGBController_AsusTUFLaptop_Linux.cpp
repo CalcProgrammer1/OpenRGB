@@ -120,7 +120,7 @@ void RGBController_AsusTUFLaptopLinux::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusTUFLaptopLinux::DeviceUpdateLEDs()
+void RGBController_AsusTUFLaptopLinux::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     uint8_t red   = RGBGetRValue(colors[0]);
     uint8_t green = RGBGetGValue(colors[0]);
@@ -144,15 +144,15 @@ void RGBController_AsusTUFLaptopLinux::DeviceUpdateLEDs()
 
 void RGBController_AsusTUFLaptopLinux::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AsusTUFLaptopLinux::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AsusTUFLaptopLinux::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }

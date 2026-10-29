@@ -112,7 +112,7 @@ void RGBController_N5312A::SetupZones()
     SetupColors();
 }
 
-void RGBController_N5312A::DeviceUpdateLEDs()
+void RGBController_N5312A::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }

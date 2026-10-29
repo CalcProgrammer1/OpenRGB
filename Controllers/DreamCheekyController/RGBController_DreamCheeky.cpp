@@ -56,7 +56,7 @@ void RGBController_DreamCheeky::SetupZones()
     SetupColors();
 }
 
-void RGBController_DreamCheeky::DeviceUpdateLEDs()
+void RGBController_DreamCheeky::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -67,17 +67,17 @@ void RGBController_DreamCheeky::DeviceUpdateLEDs()
 
 void RGBController_DreamCheeky::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DreamCheeky::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DreamCheeky::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_DreamCheeky::DeviceSaveMode()

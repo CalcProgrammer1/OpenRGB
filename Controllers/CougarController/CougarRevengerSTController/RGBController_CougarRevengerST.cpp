@@ -139,7 +139,7 @@ void RGBController_CougarRevengerST::SetupZones()
     SetupColors();
 }
 
-void RGBController_CougarRevengerST::DeviceUpdateLEDs()
+void RGBController_CougarRevengerST::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(unsigned int i = 0; i < colors.size(); i++)
     {

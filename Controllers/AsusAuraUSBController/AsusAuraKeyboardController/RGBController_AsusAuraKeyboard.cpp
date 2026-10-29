@@ -541,7 +541,7 @@ void RGBController_AuraKeyboard::SetupZones()
     DeviceUpdateMode();
 }
 
-void RGBController_AuraKeyboard::DeviceUpdateLEDs()
+void RGBController_AuraKeyboard::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     std::vector<led_color> led_color_list = {};
 
@@ -555,14 +555,14 @@ void RGBController_AuraKeyboard::DeviceUpdateLEDs()
 
 void RGBController_AuraKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_AuraKeyboard::DeviceUpdateSingleLED(int led)
 {
     if(!controller->is_per_led_keyboard)
     {
-        return DeviceUpdateLEDs();
+        return DeviceUpdateLEDs(colors);
     }
 
     unsigned char red   = RGBGetRValue(colors[led]);

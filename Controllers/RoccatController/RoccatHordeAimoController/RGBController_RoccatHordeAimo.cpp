@@ -70,7 +70,7 @@ void RGBController_RoccatHordeAimo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatHordeAimo::DeviceUpdateLEDs()
+void RGBController_RoccatHordeAimo::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }

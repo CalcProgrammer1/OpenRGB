@@ -162,7 +162,7 @@ void RGBController_MSIMotherboard112::SetupZones()
     }
 }
 
-void RGBController_MSIMotherboard112::DeviceUpdateLEDs()
+void RGBController_MSIMotherboard112::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); ++zone_idx)
     {
@@ -204,7 +204,7 @@ void RGBController_MSIMotherboard112::DeviceUpdateMode()
     else
     {
         controller->SetDirectMode(false);
-        DeviceUpdateLEDs();
+        DeviceUpdateLEDs(colors);
     }
 }
 

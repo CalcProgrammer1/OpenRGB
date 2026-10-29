@@ -120,7 +120,7 @@ void RGBController_RoccatBurstProAir::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatBurstProAir::DeviceUpdateLEDs()
+void RGBController_RoccatBurstProAir::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateZoneLEDs(0);
 }

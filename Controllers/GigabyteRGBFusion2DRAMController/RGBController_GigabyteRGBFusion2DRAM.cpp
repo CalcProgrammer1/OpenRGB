@@ -111,7 +111,7 @@ void RGBController_RGBFusion2DRAM::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs()
+void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     /*---------------------------------------------------------*\
     | Loop through all LEDs and set effect parameters. Must     |
@@ -152,16 +152,16 @@ void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs()
 
 void RGBController_RGBFusion2DRAM::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusion2DRAM::DeviceUpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 
 void RGBController_RGBFusion2DRAM::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    DeviceUpdateLEDs(colors);
 }
 

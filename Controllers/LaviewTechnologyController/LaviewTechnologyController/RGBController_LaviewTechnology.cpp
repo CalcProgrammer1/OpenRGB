@@ -178,7 +178,7 @@ void RGBController_LaviewTechnology::SetupZones()
     SetupColors();
 }
 
-void RGBController_LaviewTechnology::DeviceUpdateLEDs()
+void RGBController_LaviewTechnology::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }

@@ -289,7 +289,7 @@ int RGBController_ENESMBus::GetDeviceMode()
     return(active_mode);
 }
 
-void RGBController_ENESMBus::DeviceUpdateLEDs()
+void RGBController_ENESMBus::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     if(active_mode == 0)
     {

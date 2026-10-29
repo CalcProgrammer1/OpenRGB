@@ -111,7 +111,7 @@ void RGBController_RoccatKova::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatKova::DeviceUpdateLEDs()
+void RGBController_RoccatKova::DeviceUpdateLEDs(std::vector<RGBColor>& update_colors)
 {
     DeviceUpdateMode();
 }
