@@ -13,6 +13,7 @@
 #include "startup.h"
 
 #include <QApplication>
+#include <QSessionManager>
 
 #include "OpenRGBDialog.h"
 
@@ -89,6 +90,19 @@ int startup(int argc, char* argv[], unsigned int ret_flags)
         QApplication a(argc, argv);
         QGuiApplication::setDesktopFileName("org.openrgb.OpenRGB");
         LOG_TRACE("[startup] QApplication created");
+
+#ifndef QT_NO_SESSIONMANAGER
+        /*-------------------------------------------------*\
+        | OpenRGB has its own Start at Login setting.  A    |
+        | session manager restoring it on top of that       |
+        | starts a second instance that probes the same     |
+        | devices concurrently with the first one           |
+        \*-------------------------------------------------*/
+        QObject::connect(&a, &QGuiApplication::saveStateRequest, [](QSessionManager& manager)
+        {
+            manager.setRestartHint(QSessionManager::RestartNever);
+        });
+#endif
 
         /*-------------------------------------------------*\
         | Main UI widget                                    |
