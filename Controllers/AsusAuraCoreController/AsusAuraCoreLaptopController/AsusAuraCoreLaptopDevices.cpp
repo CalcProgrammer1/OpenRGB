@@ -730,6 +730,30 @@ keyboard_keymap_overlay_values g814jv_lightbar_layout
 };
 
 
+/*-------------------------------------------------------------*\
+|  ASUS ROG Zephyrus G16 (GU603VV)                              |
+|                                                               |
+|  GU603VV has a 1-zone RGB keyboard.                           |
+\*-------------------------------------------------------------*/
+keyboard_keymap_overlay_values gu603vv_keyboard_layout
+{
+    KEYBOARD_SIZE_EMPTY,
+    {
+        {   /* Values not set in empty keyboard */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Key,                        Alternate Name,             OpCode,                             |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,           0,        ZONE_EN_KEYBOARD,           KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    }
+};
+
+
 /*-------------------------------------------------------------------------*\
 |  AURA CORE LAPTOP DEVICES                                                 |
 \*-------------------------------------------------------------------------*/
@@ -959,6 +983,32 @@ static const aura_core_laptop_device g814jir_device =
     }
 };
 
+/*-------------------------------------------------------------*\
+|  ASUS ROG Zephyrus G16 (GU603VV)                              |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Single                                                  |
+|       1 Key                                                   |
+\*-------------------------------------------------------------*/
+static const aura_core_laptop_zone gu603vv_keyboard_zone =
+{
+    ZONE_EN_KEYBOARD,
+    &gu603vv_keyboard_layout
+};
+
+static const aura_core_laptop_device gu603vv_device =
+{
+    "GU603VV",
+    {
+        &gu603vv_keyboard_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    }
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -974,6 +1024,7 @@ const aura_core_laptop_device* aura_core_laptop_device_list_data[] =
     &g733qr_device,
     &g814jv_device,
     &g814jir_device,
+    &gu603vv_device,
 };
 
 const unsigned int AURA_CORE_LAPTOP_DEVICE_COUNT = (sizeof(aura_core_laptop_device_list_data) / sizeof(aura_core_laptop_device_list_data[ 0 ]));

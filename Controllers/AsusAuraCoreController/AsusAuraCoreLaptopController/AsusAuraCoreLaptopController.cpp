@@ -195,7 +195,16 @@ void AsusAuraCoreLaptopController::SendInitDirectMode()
     uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_DIRECT };
     memset(&buffer[2], 0, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE - 2);
 
-    LOG_DEBUG("[%s] Resetting device for direct control", aura_core_laptop_device_list[device_index]->dmi_name.c_str());
+    const aura_core_laptop_device* aura_dev                 = GetDeviceData();
+    bool is_single_zone                                     = (aura_dev->zones[0]->layout_new->base_size == KEYBOARD_SIZE_EMPTY &&
+                                                               aura_dev->zones[0]->layout_new->edit_keys.size() == 1);
+
+    if(is_single_zone)
+    {
+        buffer[ASUSAURACORELAPTOP_ZONE_BYTE] = 0x01;
+    }
+
+    LOG_DEBUG("[%s] Resetting device for direct control", aura_dev->dmi_name.c_str());
     hid_send_feature_report(dev, buffer, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE);
 }
 
@@ -208,6 +217,24 @@ void AsusAuraCoreLaptopController::SetLedsDirect(std::vector<RGBColor *> colors)
     \*---------------------------------------------------------*/
     const uint8_t   key_set                                 = 167;
     const uint8_t   led_count                               = (uint8_t)colors.size();
+
+    /*---------------------------------------------------------*\
+    | For single-zone keyboards (1 LED), send 0xBC direct frame |
+    |   with RGB values at offsets 9..11.                       |
+    \*---------------------------------------------------------*/
+    if(led_count == 1)
+    {
+        uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_DIRECT,
+                                                                    0x01, 0x01 };
+
+        buffer[ASUSAURACORELAPTOP_DATA_BYTE]                    = RGBGetRValue(*colors[0]);
+        buffer[ASUSAURACORELAPTOP_DATA_BYTE + 1]                = RGBGetGValue(*colors[0]);
+        buffer[ASUSAURACORELAPTOP_DATA_BYTE + 2]                = RGBGetBValue(*colors[0]);
+
+        hid_send_feature_report(dev, buffer, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE);
+        return;
+    }
+
     const uint16_t  map_size                                = 3 * led_count;
     const uint8_t   leds_per_packet                         = 16;
     uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_DIRECT,
