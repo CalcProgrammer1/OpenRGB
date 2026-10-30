@@ -225,6 +225,8 @@ enum
 
     CONTROLLER_FLAG_RESET_BEFORE_UPDATE                     = (1 << 8), /* Device resets update flag before                 */
                                                                         /* calling update function                          */
+    CONTROLLER_FLAG_SUPPORTS_PASSING_COLORS_REFERENCE       = (1 << 9), /* Device supports passing arbitrary colors data to */
+                                                                        /* DeviceUpdateLEDs()                               */
 
     CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_NAME              = (1 << 16),/* Device name is manually configurable             */
     CONTROLLER_FLAG_MANUALLY_CONFIGURABLE_DEVICE_SPECIFIC   = (1 << 17),/* Device dev-specific cfg manually configurable    */

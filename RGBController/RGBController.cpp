@@ -2132,12 +2132,18 @@ void RGBController::DeviceCallThreadFunction()
         {
             if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
             {
-                AccessMutex.lock_shared();
                 CallFlag_UpdateLEDs = false;
-                DeviceMutex.lock();
-                DeviceUpdateLEDs(colors);
-                DeviceMutex.unlock();
+            }
+
+            if(flags & CONTROLLER_FLAG_SUPPORTS_PASSING_COLORS_REFERENCE)
+            {
+                AccessMutex.lock_shared();
+                std::vector<RGBController> update_colors = colors;
                 AccessMutex.unlock_shared();
+
+                DeviceMutex.lock();
+                DeviceUpdateLEDs(update_colors);
+                DeviceMutex.unlock();
             }
             else
             {
@@ -2145,8 +2151,12 @@ void RGBController::DeviceCallThreadFunction()
                 DeviceMutex.lock();
                 DeviceUpdateLEDs(colors);
                 DeviceMutex.unlock();
-                CallFlag_UpdateLEDs = false;
                 AccessMutex.unlock_shared();
+            }
+
+            if(!(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)))
+            {
+                CallFlag_UpdateLEDs = false;
             }
         }
         else
