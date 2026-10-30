@@ -258,7 +258,7 @@ void HIDLampArrayController::GetLampArrayAttributesReport()
 
 void HIDLampArrayController::GetLampAttributesResponseReport()
 {
-    unsigned char   usb_buf[65];
+    unsigned char   usb_buf[sizeof(LampAttributes) + 1];
     LampAttributes  attributes;
 
     memset(usb_buf, 0, sizeof(usb_buf));
