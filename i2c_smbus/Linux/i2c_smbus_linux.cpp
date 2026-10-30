@@ -205,7 +205,7 @@ bool i2c_smbus_linux_detect()
 
                         if(path[0] == '\0')
                         {
-                            continue;
+                            LOG_INFO("[i2c_smbus_linux] No PCI ancestor for %s; registering without PCI IDs", ent->d_name);
                         }
                     }
                     else
@@ -213,11 +213,12 @@ bool i2c_smbus_linux_detect()
                         strncat(path, "/device", sizeof(path) - strlen(path) - 1);
                         path[sizeof(path) - 1] = '\0';
                     }
+                    const bool has_pci_ancestor = (path[0] != '\0');
                     ptr = path + strlen(path);
 
                     // Get PCI Vendor
                     strcpy(ptr, "/vendor");
-                    test_fd = open(path, O_RDONLY);
+                    test_fd = has_pci_ancestor ? open(path, O_RDONLY) : -1;
                     if (test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
@@ -237,7 +238,7 @@ bool i2c_smbus_linux_detect()
 
                     // Get PCI Device
                     strcpy(ptr, "/device");
-                    test_fd = open(path, O_RDONLY);
+                    test_fd = has_pci_ancestor ? open(path, O_RDONLY) : -1;
                     if (test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
@@ -257,7 +258,7 @@ bool i2c_smbus_linux_detect()
 
                     // Get PCI Subsystem Vendor
                     strcpy(ptr, "/subsystem_vendor");
-                    test_fd = open(path, O_RDONLY);
+                    test_fd = has_pci_ancestor ? open(path, O_RDONLY) : -1;
                     if (test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
@@ -277,7 +278,7 @@ bool i2c_smbus_linux_detect()
 
                     // Get PCI Subsystem Device
                     strcpy(ptr, "/subsystem_device");
-                    test_fd = open(path, O_RDONLY);
+                    test_fd = has_pci_ancestor ? open(path, O_RDONLY) : -1;
                     if(test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
