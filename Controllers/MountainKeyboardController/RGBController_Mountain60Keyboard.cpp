@@ -57,6 +57,7 @@ keyboard_keymap_overlay_values  mountain60_keyboard_overlay_no_numpad =
          {   0,      4,      14,         121,        KEY_EN_RIGHT_ARROW,     KEY_EN_UNUSED,          KEYBOARD_OPCODE_SWAP_ONLY,             },
          {   0,      4,      14,         121,        KEY_EN_RIGHT_ARROW,     KEY_EN_UNUSED,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT,    },
          {   0,      3,      13,          99,        KEY_EN_UP_ARROW,        KEY_EN_UNUSED,          KEYBOARD_OPCODE_SWAP_ONLY,             },
+         {   0,      3,      11,          94,        KEY_EN_FORWARD_SLASH,   KEY_EN_UNUSED,          KEYBOARD_OPCODE_SWAP_ONLY,             },
          {   0,      3,      12,          97,        KEY_EN_RIGHT_SHIFT,     KEY_EN_UNUSED,          KEYBOARD_OPCODE_SWAP_ONLY,             },
          {   0,      3,       2,          85,        KEY_EN_Z,               KEY_EN_UNUSED,          KEYBOARD_OPCODE_SWAP_ONLY,             },
          {   0,      3,       3,          86,        KEY_EN_X,               KEY_EN_UNUSED,          KEYBOARD_OPCODE_SWAP_ONLY,             },
