@@ -7,9 +7,13 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <chrono>
+#include <thread>
 #include "CorsairK65MiniController.h"
 #include "LogManager.h"
 #include "StringUtils.h"
+
+using namespace std::chrono_literals;
 
 CorsairK65MiniController::CorsairK65MiniController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
@@ -63,6 +67,7 @@ void CorsairK65MiniController::LightingControl()
     usb_buf[0x05] = 0x02;
 
     hid_write(dev, usb_buf, PACKET_LENGTH);
+    std::this_thread::sleep_for(10ms);
 
     memset(usb_buf, 0x00, PACKET_LENGTH);
 
@@ -71,6 +76,7 @@ void CorsairK65MiniController::LightingControl()
     usb_buf[0x03] = 0x6E;
 
     hid_write(dev, usb_buf, PACKET_LENGTH);
+    std::this_thread::sleep_for(10ms);
 
     memset(usb_buf, 0x00, PACKET_LENGTH);
 
@@ -80,6 +86,7 @@ void CorsairK65MiniController::LightingControl()
     usb_buf[0x04] = 0x22;
 
     hid_write(dev, usb_buf, PACKET_LENGTH);
+    std::this_thread::sleep_for(10ms);
 }
 
 void CorsairK65MiniController::SetLEDs(std::vector<RGBColor>colors, std::vector<unsigned int> positions)
