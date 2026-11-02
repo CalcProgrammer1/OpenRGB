@@ -55,6 +55,7 @@ static std::map<std::string, GoveeDeviceInfo> govee_device_info
     { "H619A",   { 20,  GOVEE_ZONE_LINEAR,     0,  0,  true } },    // Govee RGBIC Led Strip Lights
     { "H70B1",   { 20,  GOVEE_ZONE_LINEAR,     0,  0,  true } },    // Govee LED Curtain Lights
     { "H607C",   { 174, GOVEE_ZONE_LINEAR,     0,  0,  true } },    // Govee Floor Lamp 2
+    { "H6069",   { 20,  GOVEE_ZONE_LINEAR,     0,  0,  true } },    // Govee Mini Panel Lights (20-panel kit)
 };
 
 enum
