@@ -16,6 +16,7 @@
 #include "GoveeController.h"
 #include "RGBController.h"
 #include "RGBController_Govee.h"
+#include "LogManager.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
@@ -35,6 +36,7 @@ DetectedControllers DetectGoveeControllers()
     if(govee_settings.contains("devices"))
     {
         GoveeController::ReceiveThreadRun = false;
+        GoveeController::broadcast_initialized = false;
 
         if(govee_settings["devices"].size() > 0)
         {
@@ -42,14 +44,18 @@ DetectedControllers DetectGoveeControllers()
             | Open a UDP client bound to receive port 4002. |
             | Scan replies from all devices arrive here.    |
             \*---------------------------------------------*/
-            GoveeController::broadcast_port.udp_client("239.255.255.250", "4001", "4002");
+            GoveeController::broadcast_initialized =
+                GoveeController::broadcast_port.udp_client("239.255.255.250", "4001", "4002");
 
-            /*---------------------------------------------*\
-            | Start a thread to handle responses received   |
-            | from the Govee device                         |
-            \*---------------------------------------------*/
-            GoveeController::ReceiveThreadRun = true;
-            GoveeController::ReceiveThread = new std::thread(&GoveeController::ReceiveBroadcastThreadFunction);
+            if(GoveeController::broadcast_initialized)
+            {
+                GoveeController::ReceiveThreadRun = true;
+                GoveeController::ReceiveThread = new std::thread(&GoveeController::ReceiveBroadcastThreadFunction);
+            }
+            else
+            {
+                LOG_WARNING("[Govee] Cannot bind UDP port 4002; automatic capability detection unavailable");
+            }
         }
 
         for(unsigned int device_idx = 0; device_idx < govee_settings["devices"].size(); device_idx++)

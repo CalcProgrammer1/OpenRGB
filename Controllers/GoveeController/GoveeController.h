@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include <atomic>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <vector>
@@ -26,20 +28,27 @@ public:
     std::string GetLocation();
     std::string GetSku();
     std::string GetVersion();
+    bool SupportsRazerStatus() const;
+    bool RazerInitiallyArmed() const;
+    std::string GetDeviceId() const;
+    bool GetInitialState(bool& on, unsigned int& brightness, RGBColor& color) const;
 
-    void ReceiveBroadcast(char* recv_buf, int size);
+    void ReceiveBroadcast(char* recv_buf, int size, const std::string& source_ip);
 
-    void SendRazerData(RGBColor* colors, unsigned int size);
+    void SendRazerData(RGBColor* colors, unsigned int size, bool gradient);
     void SendRazerDisable();
     void SendRazerEnable();
 
     void SendScan();
+    void QueryStatus(const char* command);
 
     void SetBrightness(unsigned int brightness);
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
     void SetPower(bool enabled);
 
 private:
+    void SendCommand(const std::string& command);
+
     std::string         firmware_version;
     std::string         ip_address;
     std::string         module_name;
@@ -51,9 +60,18 @@ private:
     std::string         wifiVersionHard;
     std::string         wifiVersionSoft;
 
-    bool                broadcast_received;
+    std::atomic<bool>   broadcast_received;
+    std::atomic<bool>   razer_status_received;
+    std::atomic<bool>   razer_status_supported;
+    std::atomic<bool>   razer_initially_armed;
+    std::atomic<bool>   device_status_received;
+    bool                initial_power;
+    unsigned int        initial_brightness;
+    RGBColor            initial_color;
 
     net_port            port;
+    bool                port_initialized;
+    std::mutex          command_mutex;
 
 public:
     /*-----------------------------------------------------*\
@@ -63,6 +81,8 @@ public:
     | if any GoveeControllers are created.                  |
     \*-----------------------------------------------------*/
     static net_port                             broadcast_port;
+    static bool                                 broadcast_initialized;
+    static std::mutex                           callbacks_mutex;
     static std::vector<GoveeController*>        callbacks;
     static std::thread*                         ReceiveThread;
     static std::atomic<bool>                    ReceiveThreadRun;
