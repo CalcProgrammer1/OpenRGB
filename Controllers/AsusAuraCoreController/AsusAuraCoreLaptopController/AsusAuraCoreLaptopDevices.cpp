@@ -931,6 +931,19 @@ static const aura_core_laptop_device g733qr_device =
         }
 };
 
+static const aura_core_laptop_device g733pz_device =
+{
+    "G733PZ",
+    {
+        &g713rw_keyboard_zone,
+        &g733qr_lightbar_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    }
+};
+
 /*-------------------------------------------------------------*\
 |  ASUS ROG Strix G18 (G814JV)                                  |
 |                                                               |
@@ -1022,6 +1035,7 @@ const aura_core_laptop_device* aura_core_laptop_device_list_data[] =
     &g614jz_device,
     &g713rw_device,
     &g733qr_device,
+    &g733pz_device,
     &g814jv_device,
     &g814jir_device,
     &gu603vv_device,
