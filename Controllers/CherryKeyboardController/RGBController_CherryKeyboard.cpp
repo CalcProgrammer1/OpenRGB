@@ -354,11 +354,20 @@ void RGBController_CherryKeyboard::DeviceUpdateLEDs()
         color_data[(3 * led_idx) + 2] = RGBGetBValue(colors[led_idx]);
     }
 
+    /*---------------------------------------------------------*\
+    | Wrap the colour data in begin/end like the CHERRY Utility |
+    | does. Without it, a keyboard last configured by the       |
+    | Utility accepts only part of the colour packets.          |
+    \*---------------------------------------------------------*/
+    controller->SendKeyboardBegin();
+
     controller->SetKeyboardColors
                     (
                     color_data,
                     CUSTOM_COLOR_ARRAY_BYTE_COUNT
                     );
+
+    controller->SendKeyboardEnd();
 }
 
 void RGBController_CherryKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
