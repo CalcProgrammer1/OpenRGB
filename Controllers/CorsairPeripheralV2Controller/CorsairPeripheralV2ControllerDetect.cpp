@@ -37,7 +37,7 @@ DetectedControllers DetectCorsairV2HardwareControllers(hid_device_info* info, co
 
     if(dev)
     {
-        CorsairPeripheralV2HWController*    controller      = new CorsairPeripheralV2HWController(dev, info->path, name);
+        CorsairPeripheralV2HWController*    controller      = new CorsairPeripheralV2HWController(dev, info->path, name, info->vendor_id, info->product_id);
 
         /*---------------------------------------------------------*\
         | A device whose PID is not in the device list has no       |
@@ -69,7 +69,7 @@ DetectedControllers DetectCorsairV2SoftwareControllers(hid_device_info* info, co
 
     if(dev)
     {
-        CorsairPeripheralV2SWController*    controller      = new CorsairPeripheralV2SWController(dev, info->path, name);
+        CorsairPeripheralV2SWController*    controller      = new CorsairPeripheralV2SWController(dev, info->path, name, info->vendor_id, info->product_id);
 
         if(!controller->IsDeviceSupported())
         {
