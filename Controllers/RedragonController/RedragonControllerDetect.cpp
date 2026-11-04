@@ -30,6 +30,7 @@
 #define REDRAGON_M987_PID               0xFC69
 #define REDRAGON_M921_PID               0xFC40
 #define REDRAGON_M711_FPS1_PID          0xFC62
+#define REDRAGON_M901_K_2_PID           0xFC5E
 
 DetectedControllers DetectRedragonMice(hid_device_info* info, const std::string& name)
 {
@@ -63,3 +64,4 @@ REGISTER_HID_DETECTOR_IP("Redragon M810 Taipan",          DetectRedragonMice,   
 REGISTER_HID_DETECTOR_IP("Redragon M987 Reaping",         DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M987_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Redragon M921 Azzinoth",        DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M921_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Redragon M711-FPS-1 Cobra FPS", DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M711_FPS1_PID,    2, REDRAGON_MOUSE_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Redragon M901-K-2 Perdition",   DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M901_K_2_PID,     2, REDRAGON_MOUSE_USAGE_PAGE);
