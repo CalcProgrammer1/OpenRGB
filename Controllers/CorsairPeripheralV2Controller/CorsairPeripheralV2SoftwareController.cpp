@@ -12,10 +12,10 @@
 #include "LogManager.h"
 #include "CorsairPeripheralV2SoftwareController.h"
 
-CorsairPeripheralV2SWController::CorsairPeripheralV2SWController(hid_device* dev_handle, const char* path, std::string name) : CorsairPeripheralV2Controller(dev_handle, path, name)
+CorsairPeripheralV2SWController::CorsairPeripheralV2SWController(hid_device* dev_handle, const char* path, std::string name, uint16_t vid, uint16_t pid) : CorsairPeripheralV2Controller(dev_handle, path, name, vid, pid)
 {
     SetRenderMode(CORSAIR_V2_MODE_SW);
-    LightingControl(0x5F);
+    LightingControl(light_ctrl_reg);
 }
 
 CorsairPeripheralV2SWController::~CorsairPeripheralV2SWController()

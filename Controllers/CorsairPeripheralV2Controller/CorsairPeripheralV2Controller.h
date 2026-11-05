@@ -27,7 +27,7 @@
 #define CORSAIR_V2_WRITE_WIRED_ID       8
 #define CORSAIR_V2_WRITE_WIRELESS_ID    9
 #define CORSAIR_V2_WRITE_SIZE           65
-#define CORSAIR_V2_PACKET_SIZE          1024
+#define CORSAIR_V2_PACKET_SIZE          1025
 
 #define CORSAIR_V2_LIGHT_CTRL1          1
 #define CORSAIR_V2_LIGHT_CTRL2          34          /* 0x22                             */
@@ -89,7 +89,7 @@ enum corsair_v2_color
 class CorsairPeripheralV2Controller
 {
 public:
-    CorsairPeripheralV2Controller(hid_device* dev_handle, const char* path, std::string name);
+    CorsairPeripheralV2Controller(hid_device* dev_handle, const char* path, std::string name, uint16_t vid, uint16_t pid);
     virtual ~CorsairPeripheralV2Controller();
 
     std::string                     GetDeviceLocation();
@@ -113,6 +113,8 @@ protected:
     uint16_t                        device_index;
     std::string                     device_name;
     uint8_t                         light_ctrl          = CORSAIR_V2_LIGHT_CTRL2;
+    uint8_t                         light_ctrl_reg      = 0x5F;
+    uint16_t                        pkt_size            = CORSAIR_V2_PACKET_SIZE;
 
 private:
     void                            ClearPacketBuffer();

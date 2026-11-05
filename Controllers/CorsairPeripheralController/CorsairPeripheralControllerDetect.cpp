@@ -20,7 +20,6 @@
 \*---------------------------------------------------------*/
 #include "RGBController_CorsairPeripheral.h"
 #include "RGBController_CorsairK55RGBPROXT.h"
-#include "RGBController_CorsairK65Mini.h"
 
 #define CORSAIR_PERIPHERAL_CONTROLLER_NAME "Corsair peripheral"
 
@@ -101,12 +100,6 @@
 \*---------------------------------------------------------*/
 #define CORSAIR_K55_RGB_PRO_XT_PID      0x1BA1
 
-/*---------------------------------------------------------*\
-| Corsair K65 Mini Keyboard product ID                      |
-| This keyboard uses a separate driver                      |
-\*---------------------------------------------------------*/
-#define CORSAIR_K65_MINI_PID            0x1BAF
-
 DetectedControllers DetectCorsairK55RGBPROXTControllers(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
@@ -118,24 +111,6 @@ DetectedControllers DetectCorsairK55RGBPROXTControllers(hid_device_info* info, c
     {
         CorsairK55RGBPROXTController*     controller     = new CorsairK55RGBPROXTController(dev, info->path, name);
         RGBController_CorsairK55RGBPROXT* rgb_controller = new RGBController_CorsairK55RGBPROXT(controller);
-
-        detected_controllers.push_back(rgb_controller);
-    }
-
-    return(detected_controllers);
-}
-
-DetectedControllers DetectCorsairK65MiniControllers(hid_device_info* info, const std::string& name)
-{
-    DetectedControllers detected_controllers;
-    hid_device*         dev;
-
-    dev = hid_open_path(info->path);
-
-    if(dev)
-    {
-        CorsairK65MiniController*     controller        = new CorsairK65MiniController(dev, info->path, name);
-        RGBController_CorsairK65Mini* rgb_controller    = new RGBController_CorsairK65Mini(controller);
 
         detected_controllers.push_back(rgb_controller);
     }
@@ -227,11 +202,6 @@ REGISTER_HID_DETECTOR_P("Corsair MM800 RGB Polaris",        DetectCorsairPeriphe
 | Headset Stands                                            |
 \*---------------------------------------------------------*/
 REGISTER_HID_DETECTOR_P("Corsair ST100 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_ST100_PID,              0xFFC2);
-
-/*---------------------------------------------------------*\
-| Corsair K65 Mini Keyboard                                 |
-\*---------------------------------------------------------*/
-REGISTER_HID_DETECTOR_I("Corsair K65 Mini",                 DetectCorsairK65MiniControllers,    CORSAIR_VID, CORSAIR_K65_MINI_PID,           1);
 
 /*---------------------------------------------------------*\
 | Corsair K55 RGB PRO XT Keyboard                           |

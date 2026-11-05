@@ -37,7 +37,7 @@ DetectedControllers DetectCorsairV2HardwareControllers(hid_device_info* info, co
 
     if(dev)
     {
-        CorsairPeripheralV2HWController*    controller      = new CorsairPeripheralV2HWController(dev, info->path, name);
+        CorsairPeripheralV2HWController*    controller      = new CorsairPeripheralV2HWController(dev, info->path, name, info->vendor_id, info->product_id);
 
         /*---------------------------------------------------------*\
         | A device whose PID is not in the device list has no       |
@@ -69,7 +69,7 @@ DetectedControllers DetectCorsairV2SoftwareControllers(hid_device_info* info, co
 
     if(dev)
     {
-        CorsairPeripheralV2SWController*    controller      = new CorsairPeripheralV2SWController(dev, info->path, name);
+        CorsairPeripheralV2SWController*    controller      = new CorsairPeripheralV2SWController(dev, info->path, name, info->vendor_id, info->product_id);
 
         if(!controller->IsDeviceSupported())
         {
@@ -96,6 +96,7 @@ REGISTER_HID_DETECTOR_IP("Corsair K60 RGB PRO SE",                  DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair K60 RGB PRO Low Profile",         DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_K60_RGB_PRO_LP_PID,             1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K60 RGB PRO TKL Black",           DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K60_RGB_PRO_TKL_B_PID,          1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K60 RGB PRO TKL White",           DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K60_RGB_PRO_TKL_W_PID,          1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair K65 Mini",                        DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K65_MINI_PID,                   1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K70 Core RGB",                    DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K70_CORE_RGB_PID,               1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K70 Core RGB TKL",                DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K70_CORE_RGB_TKL_PID,           1,  0xFF42);
 
