@@ -93,6 +93,7 @@ NetworkClientInfo::NetworkClientInfo()
     client_string           = "Client";
     client_ip               = OPENRGB_SDK_HOST;
     client_sock             = INVALID_SOCKET;
+    client_flags            = 0;
     client_listen_thread    = nullptr;
     client_protocol_version = 0;
     client_is_local         = false;
@@ -356,7 +357,9 @@ void NetworkServer::SignalLogManagerLoggedEntry(LogMessage& logged_entry)
         \*-------------------------------------------------*/
         for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
         {
-            if(ServerClients[client_idx]->client_is_local_client)
+            if(ServerClients[client_idx]->client_is_local_client
+            && (ServerClients[client_idx]->client_protocol_version >= 6)
+            && (ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_LOGMANAGER))
             {
                 SendRequest_LoggedEntry(ServerClients[client_idx], data_size, data_buf);
             }
@@ -847,7 +850,7 @@ void NetworkServer::SignalActiveProfileChanged()
         \*-------------------------------------------------*/
         for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
         {
-            if(ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER)
+            if((ServerClients[client_idx]->client_protocol_version >= 6) && (ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER))
             {
                 SendRequest_ProfileManager_ActiveProfileChanged(ServerClients[client_idx], active_profile);
             }
@@ -930,7 +933,10 @@ void NetworkServer::SignalProfileListUpdated()
         \*-------------------------------------------------*/
         for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
         {
-            SendRequest_ProfileManager_ProfileListChanged(ServerClients[client_idx], profile_list_description);
+            if((ServerClients[client_idx]->client_protocol_version >= 6) && (ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER))
+            {
+                SendRequest_ProfileManager_ProfileListChanged(ServerClients[client_idx], profile_list_description);
+            }
         }
 
         delete[] profile_list_description;
@@ -3921,6 +3927,14 @@ void NetworkServer::SendReply_PluginSpecific(NetworkClientInfo* client_info, uns
 
 void NetworkServer::SendRequest_LoggedEntry(NetworkClientInfo* client_info, unsigned int data_size, unsigned char* data_ptr)
 {
+    /*-----------------------------------------------------*\
+    | Only send to SDK v6 clients that support LogManager   |
+    \*-----------------------------------------------------*/
+    if((client_info->client_protocol_version < 6) || !(client_info->client_flags & NET_CLIENT_FLAG_SUPPORTS_LOGMANAGER))
+    {
+        return;
+    }
+
     NetPacketHeader pkt_hdr;
 
     if(data_ptr != NULL)
@@ -3936,6 +3950,14 @@ void NetworkServer::SendRequest_LoggedEntry(NetworkClientInfo* client_info, unsi
 
 void NetworkServer::SendRequest_ProfileManager_ActiveProfileChanged(NetworkClientInfo* client_info, std::string active_profile)
 {
+    /*-----------------------------------------------------*\
+    | Only send to SDK v6 clients supporting ProfileManager |
+    \*-----------------------------------------------------*/
+    if((client_info->client_protocol_version < 6) || !(client_info->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER))
+    {
+        return;
+    }
+
     NetPacketHeader pkt_hdr;
 
     InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED, (unsigned int)strlen(active_profile.c_str()) + 1);
@@ -4078,7 +4100,7 @@ void NetworkServer::SendRequest_ProfileManager_ActiveProfileChanged(std::string 
 
     for(std::size_t client_idx = 0; client_idx < ServerClients.size(); client_idx++)
     {
-        if(ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER)
+        if((ServerClients[client_idx]->client_protocol_version >= 6) && (ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER))
         {
             SOCKET client_sock = ServerClients[client_idx]->client_sock;
 
@@ -4101,7 +4123,7 @@ void NetworkServer::SendRequest_ProfileManager_ProfileAboutToLoad()
 
     for(std::size_t client_idx = 0; client_idx < ServerClients.size(); client_idx++)
     {
-        if(ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER)
+        if((ServerClients[client_idx]->client_protocol_version >= 6) && (ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER))
         {
             profile_about_to_load_count++;
 
@@ -4116,6 +4138,14 @@ void NetworkServer::SendRequest_ProfileManager_ProfileAboutToLoad()
 
 void NetworkServer::SendRequest_ProfileManager_ProfileListChanged(NetworkClientInfo* client_info, unsigned char* profile_list_description)
 {
+    /*-----------------------------------------------------*\
+    | Only send to SDK v6 clients supporting ProfileManager |
+    \*-----------------------------------------------------*/
+    if((client_info->client_protocol_version < 6) || !(client_info->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER))
+    {
+        return;
+    }
+
     NetPacketHeader pkt_hdr;
     unsigned int    pkt_size;
 
@@ -4137,7 +4167,7 @@ void NetworkServer::SendRequest_ProfileManager_ProfileLoaded(std::string profile
 
     for(std::size_t client_idx = 0; client_idx < ServerClients.size(); client_idx++)
     {
-        if((ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER) && (ServerClients[client_idx]->client_is_local_client))
+        if((ServerClients[client_idx]->client_protocol_version >= 6) && (ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER) && (ServerClients[client_idx]->client_is_local_client))
         {
             SOCKET client_sock = ServerClients[client_idx]->client_sock;
 
@@ -4185,7 +4215,7 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
         {
             NetworkClientInfo* client_info = ServerClients[client_idx];
 
-            if(client_info->client_protocol_version >= 6)
+            if((client_info->client_protocol_version >= 6) && (client_info->client_flags & NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER))
             {
                 unsigned int    protocol_version    = client_info->client_protocol_version;
                 NetPacketHeader reply_hdr;
