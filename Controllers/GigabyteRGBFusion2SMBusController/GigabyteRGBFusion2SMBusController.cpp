@@ -15,6 +15,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "GigabyteRGBFusion2SMBusController.h"
+#include "LogManager.h"
+
+#define RGB_FUSION_2_SMBUS_LOG_NAME     "Gigabyte RGB Fusion 2 SMBus"
 
 RGBFusion2SMBusController::RGBFusion2SMBusController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string mb_name)
 {
@@ -22,9 +25,14 @@ RGBFusion2SMBusController::RGBFusion2SMBusController(i2c_smbus_interface* bus, r
     this->dev   = dev;
     this->name  = mb_name;
 
-    memset(led_data, 0, 10*16);
-
     led_count   = 10;	// Protocol supports 10 'slots'
+    memset(led_data, 0, sizeof(led_data)); // Vendor default prefill
+
+    for(unsigned int led = 0; led < led_count; led++)
+    {
+        led_data[led][RGB_FUSION_2_IDX_MODE]        = RGB_FUSION_2_MODE_STATIC;
+        led_data[led][RGB_FUSION_2_IDX_BRIGHTNESS]  = RGB_FUSION_2_BRIGHTNESS_MAX;
+    }
 }
 
 RGBFusion2SMBusController::~RGBFusion2SMBusController()
@@ -69,15 +77,25 @@ void RGBFusion2SMBusController::WriteLED(int led)
         led -= 1;
     }
 
-    bus->i2c_smbus_write_block_data(RGB_FUSION_2_SMBUS_ADDR, (u8)write_register, 32, led_data[led]);
+    s32 ret = bus->i2c_smbus_write_block_data(RGB_FUSION_2_SMBUS_ADDR, (u8)write_register, 32, led_data[led]);
+
+    if(ret < 0)
+    {
+        LOG_WARNING("[%s] Block write of slots %d-%d to register 0x%02X failed (%d)", RGB_FUSION_2_SMBUS_LOG_NAME, led, led + 1, write_register, ret);
+    }
 }
 
 void RGBFusion2SMBusController::Apply()
 {
     // Protocol expects terminating sequence 0x01ff written to register 0x17
-    bus->i2c_smbus_write_word_data(RGB_FUSION_2_SMBUS_ADDR,
+    s32 ret = bus->i2c_smbus_write_word_data(RGB_FUSION_2_SMBUS_ADDR,
                    RGB_FUSION_2_APPLY_ADDR,
                    RGB_FUSION_2_ACTION_APPLY);
+
+    if(ret < 0)
+    {
+        LOG_WARNING("[%s] Apply word write to register 0x%02X failed (%d)", RGB_FUSION_2_SMBUS_LOG_NAME, RGB_FUSION_2_APPLY_ADDR, ret);
+    }
 }
 
 void RGBFusion2SMBusController::SetLEDEffect
@@ -95,7 +113,11 @@ void RGBFusion2SMBusController::SetLEDEffect
     led_data[led][RGB_FUSION_2_IDX_RED]         = red;
     led_data[led][RGB_FUSION_2_IDX_GREEN]       = green;
     led_data[led][RGB_FUSION_2_IDX_BLUE]        = blue;
-    led_data[led][RGB_FUSION_2_IDX_BRIGHTNESS]  = 0x64;
+    if(brightness == 0)
+    {
+        brightness = RGB_FUSION_2_BRIGHTNESS_MAX;
+    }
+    led_data[led][RGB_FUSION_2_IDX_BRIGHTNESS]  = (unsigned char)brightness;
 
     switch (mode)
     {

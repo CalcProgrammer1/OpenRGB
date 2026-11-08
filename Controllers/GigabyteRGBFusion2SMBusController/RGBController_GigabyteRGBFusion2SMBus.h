@@ -30,7 +30,8 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    RGBFusion2SMBusController* controller;
+    RGBFusion2SMBusController*  controller;
+    std::vector<unsigned char>  zone_division;
 
     int         GetDeviceMode();
 };

@@ -11,34 +11,8 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController_GigabyteRGBFusion2SMBus.h"
-
-/* TODO - Validate all of these
- *	CPU
- *	???
- *	Mobo logo - Verified
- *	Case rear
- *	Case
- *	???
- *	???
- *	ARGB header 1
- *	ARGB header 2
- *
- *	Do ??? actually map to anything? Are they even supported?
- *	If not, what is an elegant way to display but not wreck existing logic?
- */
-static const char* rgb_fusion_zone_names[] =
-{
-    "CPU",
-    "???",
-    "Motherboard Logo",
-    "Case Rear",
-    "Case",
-    "???",
-    "???",
-    "ARGB Header 1",
-    "ARGB Header 2",
-    "???"
-};
+#include "GigabyteFusion2SMBus_Devices.h"
+#include "LogManager.h"
 
 /**------------------------------------------------------------------*\
     @name Gigabyte Fusion2 SMBus
@@ -48,7 +22,11 @@ static const char* rgb_fusion_zone_names[] =
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectGigabyteRGBFusion2SMBusControllers
-    @comment
+    @comment The ITE IT8295 SMBus controller found on Gigabyte
+        Z370 / B360 / X470 / B450 / X299 / X399 era boards.  Boards
+        listed in GigabyteFusion2SMBus_Devices.cpp expose only their
+        populated zones (onboard, 12V RGB and Digital LED headers);
+        other boards get the generic 10 slot layout.
 \*-------------------------------------------------------------------*/
 
 RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusController* controller_ptr)
@@ -63,10 +41,13 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     type = DEVICE_TYPE_MOTHERBOARD;
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = RGB_FUSION_2_MODE_STATIC;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name           = "Direct";
+    Direct.value          = RGB_FUSION_2_MODE_STATIC;
+    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode     = MODE_COLORS_PER_LED;
+    Direct.brightness_min = RGB_FUSION_2_BRIGHTNESS_MIN;
+    Direct.brightness_max = RGB_FUSION_2_BRIGHTNESS_MAX;
+    Direct.brightness     = RGB_FUSION_2_BRIGHTNESS_MAX;
     modes.push_back(Direct);
 
     mode Pulse;
@@ -116,7 +97,7 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     modes.push_back(DigitalWave);
 
     mode DigitalA;
-    DigitalA.name       = "Digital A";
+    DigitalA.name       = "Star Slide";
     DigitalA.value      = RGB_FUSION_2_MODE_DIGITAL_A;
     DigitalA.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     DigitalA.speed_min  = RGB_FUSION_2_DIGITAL_SPEED_MIN;
@@ -126,7 +107,7 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     modes.push_back(DigitalA);
 
     mode DigitalB;
-    DigitalB.name       = "Digital B";
+    DigitalB.name       = "Meteor";
     DigitalB.value      = RGB_FUSION_2_MODE_DIGITAL_B;
     DigitalB.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     DigitalB.speed_min  = 0xf0;
@@ -136,7 +117,7 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     modes.push_back(DigitalB);
 
     mode DigitalC;
-    DigitalC.name       = "Digital C";
+    DigitalC.name       = "Shaking";
     DigitalC.value      = RGB_FUSION_2_MODE_DIGITAL_C;
     DigitalC.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     DigitalC.speed_min  = RGB_FUSION_2_DIGITAL_SPEED_MIN;
@@ -146,7 +127,7 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     modes.push_back(DigitalC);
 
     mode DigitalD;
-    DigitalD.name           = "Digital D";
+    DigitalD.name           = "Recover";
     DigitalD.value          = RGB_FUSION_2_MODE_DIGITAL_D;
     DigitalD.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
     DigitalD.speed_min      = RGB_FUSION_2_DIGITAL_SPEED_MIN;
@@ -159,7 +140,7 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     modes.push_back(DigitalD);
 
     mode DigitalE;
-    DigitalE.name       = "Digital E";
+    DigitalE.name       = "Double Meteor";
     DigitalE.value      = RGB_FUSION_2_MODE_DIGITAL_E;
     DigitalE.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     DigitalE.speed_min  = 0x96;
@@ -169,9 +150,9 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     modes.push_back(DigitalE);
 
     mode DigitalF;
-    DigitalF.name           = "Digital F";
+    DigitalF.name           = "Color Stack";
     DigitalF.value          = RGB_FUSION_2_MODE_DIGITAL_F;
-    DigitalF.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS; // F technically needs brightness when in color cycle mode (no color selected)
+    DigitalF.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
     DigitalF.speed_min      = RGB_FUSION_2_DIGITAL_SPEED_MIN;
     DigitalF.speed_max      = RGB_FUSION_2_DIGITAL_SPEED_MAX;
     DigitalF.speed          = RGB_FUSION_2_DIGITAL_SPEED;
@@ -182,7 +163,7 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     modes.push_back(DigitalF);
 
     mode DigitalG;
-    DigitalG.name           = "Digital G";
+    DigitalG.name           = "Color Rain";
     DigitalG.value          = RGB_FUSION_2_MODE_DIGITAL_G;
     DigitalG.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
     DigitalG.speed_min      = 0x8c;
@@ -211,32 +192,52 @@ RGBController_RGBFusion2SMBus::~RGBController_RGBFusion2SMBus()
 void RGBController_RGBFusion2SMBus::SetupZones()
 {
     /*---------------------------------------------------------*\
-    | Search through all LEDs and create zones for each channel |
-    | type                                                      |
+    | Pick the board layout (generic when the board is unknown) |
     \*---------------------------------------------------------*/
-    for(unsigned int zone_idx = 0; zone_idx < controller->GetLEDCount(); zone_idx++)
+    const gb_fusion2_smbus_layout*  layout      = GetGigabyteFusion2SMBusLayout(name);
+    const gb_fusion2_smbus_zone*    zone_map    = layout->zones;
+    unsigned int                    zone_count  = layout->zone_count;
+
+    if(zone_count > controller->GetLEDCount())
     {
-        zone* new_zone = new zone();
+        zone_count = controller->GetLEDCount();
+    }
 
-        // Set zone name to channel name
-        new_zone->name          = rgb_fusion_zone_names[zone_idx];
-        new_zone->leds_min      = 1;
-        new_zone->leds_max      = 1;
-        new_zone->leds_count    = 1;
+    if(layout == &gb_fusion2_smbus_generic_layout)
+    {
+        LOG_INFO("[%s] No zone layout for '%s', using generic %u slot layout", "Gigabyte RGB Fusion 2 SMBus", name.c_str(), zone_count);
+    }
+    else
+    {
+        LOG_DEBUG("[%s] Using zone layout for '%s' (%u zones)", "Gigabyte RGB Fusion 2 SMBus", name.c_str(), zone_count);
+    }
 
-        // Push new zone to zones vector
-        zones.push_back(*new_zone);
+    zone_division.clear();
+
+    /*---------------------------------------------------------*\
+    | Create one single-LED zone per populated division         |
+    \*---------------------------------------------------------*/
+    for(unsigned int zone_idx = 0; zone_idx < zone_count; zone_idx++)
+    {
+        zone new_zone;
+
+        new_zone.name          = zone_map[zone_idx].name;
+        new_zone.type          = ZONE_TYPE_SINGLE;
+        new_zone.leds_min      = 1;
+        new_zone.leds_max      = 1;
+        new_zone.leds_count    = 1;
+
+        zones.push_back(new_zone);
+        zone_division.push_back(zone_map[zone_idx].division);
     }
 
     for(unsigned int led_idx = 0; led_idx < zones.size(); led_idx++)
     {
-        led* new_led            = new led();
+        led new_led;
 
-        // Set LED name to channel name
-        new_led->name           = rgb_fusion_zone_names[led_idx];
+        new_led.name           = zone_map[led_idx].name;
 
-        // Push new LED to LEDs vector
-        leds.push_back(*new_led);
+        leds.push_back(new_led);
     }
 
     SetupColors();
@@ -255,7 +256,7 @@ void RGBController_RGBFusion2SMBus::DeviceUpdateLEDs()
         unsigned int speed      = modes[active_mode].speed;
         unsigned int brightness = modes[active_mode].brightness;
 
-        controller->SetLEDEffect(led, mode, brightness, speed, red, grn, blu);
+        controller->SetLEDEffect(zone_division[led], mode, brightness, speed, red, grn, blu);
     }
 
     controller->Apply();
@@ -272,7 +273,7 @@ void RGBController_RGBFusion2SMBus::DeviceUpdateZoneLEDs(int zone)
     unsigned int speed      = modes[active_mode].speed;
     unsigned int brightness = modes[active_mode].brightness;
 
-    controller->SetLEDEffect(zone, mode, brightness, speed, red, grn, blu);
+    controller->SetLEDEffect(zone_division[zone], mode, brightness, speed, red, grn, blu);
     controller->Apply();
 }
 
