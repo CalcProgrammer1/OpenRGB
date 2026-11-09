@@ -13,6 +13,7 @@
 
 #include <string>
 #include <hidapi.h>
+#include "hidapi_wrapper.h"
 #include "RGBController.h"
 
 enum
@@ -49,7 +50,7 @@ enum
 class HoltekA1FAController
 {
 public:
-    HoltekA1FAController(hid_device *dev_handle, const char *path, std::string dev_name);
+    HoltekA1FAController(hidapi_wrapper hid_wrapper, hid_device *dev_handle, const char *path, std::string dev_name);
     ~HoltekA1FAController();
 
     std::string GetDeviceLocation();
@@ -59,6 +60,7 @@ public:
     void SendData(unsigned char mode, unsigned char brightness, unsigned char speed, unsigned char preset, unsigned char red, unsigned char green, unsigned char blue);
 
 private:
+    hidapi_wrapper wrapper;
     hid_device *dev;
     std::string location;
     std::string name;

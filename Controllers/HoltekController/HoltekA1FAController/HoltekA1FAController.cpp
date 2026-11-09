@@ -13,8 +13,9 @@
 #include "HoltekA1FAController.h"
 #include "StringUtils.h"
 
-HoltekA1FAController::HoltekA1FAController(hid_device *dev_handle, const char *path, std::string dev_name)
+HoltekA1FAController::HoltekA1FAController(hidapi_wrapper hid_wrapper, hid_device *dev_handle, const char *path, std::string dev_name)
 {
+    wrapper     = hid_wrapper;
     dev         = dev_handle;
     location    = path;
     name        = dev_name;
@@ -22,7 +23,7 @@ HoltekA1FAController::HoltekA1FAController(hid_device *dev_handle, const char *p
 
 HoltekA1FAController::~HoltekA1FAController()
 {
-    hid_close(dev);
+    wrapper.hid_close(dev);
 }
 
 std::string HoltekA1FAController::GetDeviceLocation()
@@ -38,7 +39,7 @@ std::string HoltekA1FAController::GetNameString()
 std::string HoltekA1FAController::GetSerialString()
 {
     wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+    int ret = wrapper.hid_get_serial_number_string(dev, serial_string, 128);
 
     if(ret != 0)
     {
@@ -71,5 +72,5 @@ void HoltekA1FAController::SendData(unsigned char mode, unsigned char brightness
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, (unsigned char *)usb_buf, sizeof(usb_buf));
+    wrapper.hid_send_feature_report(dev, (unsigned char *)usb_buf, sizeof(usb_buf));
 }

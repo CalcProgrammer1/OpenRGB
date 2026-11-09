@@ -7,8 +7,8 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include <hidapi.h>
 #include "DetectionManager.h"
+#include "hidapi_wrapper.h"
 #include "HoltekA1FAController.h"
 #include "RGBController_HoltekA1FA.h"
 
@@ -22,16 +22,16 @@
 \*---------------------------------------------------------*/
 #define HOLTEK_A1FA_PID                             0xA1FA
 
-DetectedControllers DetectHoltekA1FAControllers(hid_device_info *info, const std::string &name)
+DetectedControllers DetectHoltekA1FAControllers(hidapi_wrapper wrapper, hid_device_info *info, const std::string &name)
 {
     DetectedControllers detected_controllers;
     hid_device*         dev;
 
-    dev = hid_open_path(info->path);
+    dev = wrapper.hid_open_path(info->path);
 
     if(dev)
     {
-        HoltekA1FAController*     controller     = new HoltekA1FAController(dev, info->path, name);
+        HoltekA1FAController*     controller     = new HoltekA1FAController(wrapper, dev, info->path, name);
         RGBController_HoltekA1FA* rgb_controller = new RGBController_HoltekA1FA(controller);
 
         detected_controllers.push_back(rgb_controller);
@@ -40,4 +40,14 @@ DetectedControllers DetectHoltekA1FAControllers(hid_device_info *info, const std
     return(detected_controllers);
 }
 
-REGISTER_HID_DETECTOR_IPU("Holtek Mousemat", DetectHoltekA1FAControllers, HOLTEK_VID, HOLTEK_A1FA_PID, 2, 0xFF00, 0xFF00);
+/*---------------------------------------------------------*\
+| The lighting interface (2) has no endpoints, so on Linux  |
+| usbhid does not bind to it and there is no hidraw node.   |
+| The wrapped detector also tries the libusb hidapi, which  |
+| reports usage page 0 here, so only match the interface.   |
+\*---------------------------------------------------------*/
+#ifdef _WIN32
+REGISTER_HID_WRAPPED_DETECTOR_IPU("Holtek Mousemat", DetectHoltekA1FAControllers, HOLTEK_VID, HOLTEK_A1FA_PID, 2, 0xFF00, 0xFF00);
+#else
+REGISTER_HID_WRAPPED_DETECTOR_I("Holtek Mousemat", DetectHoltekA1FAControllers, HOLTEK_VID, HOLTEK_A1FA_PID, 2);
+#endif
