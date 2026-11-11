@@ -29,6 +29,7 @@ typedef uint32_t alienware_platform_id;
 \*---------------------------------------------------------*/
 static const std::map<alienware_platform_id, uint8_t> zone_quirks_table =
 {
+    { 0x0104,  12 },    // Alienware 15 R4
     { 0x0C01,   4 },    // Dell G5 SE 5505
     { 0x0A01,  16 },    // Dell G7 15 7500
     { 0x0E03,   4 },    // Dell G15   5511
@@ -43,6 +44,10 @@ static const std::map<alienware_platform_id, uint8_t> zone_quirks_table =
 \*---------------------------------------------------------*/
 static const std::map<alienware_platform_id, std::vector<const char*>> zone_names_table =
 {
+    { 0x0104,   { "Alien Head",     "Alienware Logo",           "Touchpad",
+                  "Keyboard Right", "Keyboard Center Right",    "Keyboard Center Left",
+                  "Keyboard Left",  "Base Left",                "Base Right",
+                  "Lid Left",       "Lid Right",                "Macro Keys"            } },
     { 0x0C01,   { "Left",           "Middle",       "Right",        "Numpad"    } },
     { 0x0A01,   { "Left",           "Center Left",  "Center Right", "Right",
                   "Light Bar 1",    "Light Bar 2",  "Light Bar 3",
@@ -59,6 +64,8 @@ static const std::map<alienware_platform_id, std::vector<const char*>> zone_name
 \*---------------------------------------------------------*/
 static const std::map<alienware_platform_id, std::vector<uint8_t>> zone_ids_table =
 {
+    { 0x0104,   { 0x00, 0x01, 0x02, 0x04, 0x05, 0x06,
+                  0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C } }, // Alienware 15 R4
     { 0x0C01,   { 0x00, 0x01, 0x02, 0x03 } }, // Dell G5 SE 5505
     { 0x0E03,   { 0x00, 0x01, 0x02, 0x03 } }, // Dell G15   5511
     { 0x0E07,   { 0x10, 0x11, 0x12, 0x13 } }, // Dell G15   5520
