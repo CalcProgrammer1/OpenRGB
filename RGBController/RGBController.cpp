@@ -4823,10 +4823,11 @@ bool RGBController::SetModeValuesFromMode(mode& destination, mode& source)
     | Validate source mode before updating destination      |
     \*-----------------------------------------------------*/
     if((destination.name == source.name)
-    && (destination.brightness_max == source.brightness_max)
-    && (destination.brightness_min == source.brightness_min)
-    && (((destination.brightness_max >= destination.brightness_min) && (source.brightness >= destination.brightness_min) && (source.brightness <= destination.brightness_max))
-     || ((destination.brightness_max <= destination.brightness_min) && (source.brightness <= destination.brightness_min) && (source.brightness >= destination.brightness_max)))
+    && (((destination.flags & MODE_FLAG_HAS_BRIGHTNESS) == 0)
+     || ((destination.brightness_max == source.brightness_max)
+      && (destination.brightness_min == source.brightness_min)
+      && (((destination.brightness_max >= destination.brightness_min) && (source.brightness >= destination.brightness_min) && (source.brightness <= destination.brightness_max))
+       || ((destination.brightness_max <= destination.brightness_min) && (source.brightness <= destination.brightness_min) && (source.brightness >= destination.brightness_max)))))
     && ((((destination.flags & (MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR)) == 0) && (source.color_mode == MODE_COLORS_NONE))
      || ((destination.flags & MODE_FLAG_HAS_PER_LED_COLOR)                                                                           && (source.color_mode == MODE_COLORS_PER_LED))
      || ((destination.flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)                                                                     && (source.color_mode == MODE_COLORS_MODE_SPECIFIC))
@@ -4840,16 +4841,29 @@ bool RGBController::SetModeValuesFromMode(mode& destination, mode& source)
      || ((destination.flags & MODE_FLAG_HAS_DIRECTION_HV)                                                                    && ((source.direction == MODE_DIRECTION_HORIZONTAL) || (source.direction == MODE_DIRECTION_VERTICAL)))
      || ((destination.flags & MODE_FLAG_HAS_DIRECTION_LR)                                                                    && ((source.direction == MODE_DIRECTION_LEFT)       || (source.direction == MODE_DIRECTION_RIGHT)))
      || ((destination.flags & MODE_FLAG_HAS_DIRECTION_UD)                                                                    && ((source.direction == MODE_DIRECTION_UP)         || (source.direction == MODE_DIRECTION_DOWN))))
-    && (destination.speed_max == source.speed_max)
-    && (destination.speed_min == source.speed_min)
-    && (((destination.speed_max >= destination.speed_min) && (source.speed >= destination.speed_min) && (source.speed <= destination.speed_max))
-     || ((destination.speed_max <= destination.speed_min) && (source.speed <= destination.speed_min) && (source.speed >= destination.speed_max))))
+    && (((destination.flags & MODE_FLAG_HAS_SPEED) == 0)
+     || ((destination.speed_max == source.speed_max)
+      && (destination.speed_min == source.speed_min)
+      && (((destination.speed_max >= destination.speed_min) && (source.speed >= destination.speed_min) && (source.speed <= destination.speed_max))
+       || ((destination.speed_max <= destination.speed_min) && (source.speed <= destination.speed_min) && (source.speed >= destination.speed_max))))))
     {
-        destination.brightness  = source.brightness;
-        destination.color_mode  = source.color_mode;
-        destination.colors      = source.colors;
-        destination.direction   = source.direction;
-        destination.speed       = source.speed;
+        destination.color_mode      = source.color_mode;
+        destination.colors          = source.colors;
+
+        if(destination.flags & (MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD))
+        {
+            destination.direction   = source.direction;
+        }
+
+        if(destination.flags & MODE_FLAG_HAS_BRIGHTNESS)
+        {
+            destination.brightness  = source.brightness;
+        }
+
+        if(destination.flags & MODE_FLAG_HAS_SPEED)
+        {
+            destination.speed       = source.speed;
+        }
 
         return(true);
     }
