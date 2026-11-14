@@ -475,17 +475,17 @@ before_script:
 #-----------------------------------------------------------#
 # Fedora amd64 44 test                                      #
 #-----------------------------------------------------------#
-"Fedora 64 44":
+"Fedora amd64 44":
   image: fedora:44
   stage: test
   script:
   - dnf install unzip wget -y
-  - 'wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+64+F43+rpm'
+  - 'wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+amd64+F43+rpm'
   - unzip hidapi-hotplug.zip
   - dnf install ./*.rpm -y
-  - dnf5 -y install ./openrgb*64.rpm
+  - dnf -y install ./openrgb*.rpm
   - openrgb --version
-  - dnf5 -y remove openrgb
+  - dnf -y remove openrgb
   dependencies:
   - "Linux amd64 .rpm (Fedora 44)"
   needs:
