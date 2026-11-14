@@ -311,7 +311,7 @@ before_script:
   stage: build
   script:
   - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt6-qtbase-devel git wget -y
-  - 'wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+64+F43+rpm'
+  - 'wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+amd64+F43+rpm'
   - unzip hidapi-hotplug.zip
   - dnf install ./*.rpm -y
   - rpmdev-setuptree
@@ -327,6 +327,40 @@ before_script:
 
   artifacts:
     name: "${CI_PROJECT_NAME}_Linux_amd64_rpm_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - openrgb*.rpm
+    expire_in: 30 days
+
+  rules:
+    - !reference [.upstream_rules, rules]
+
+#-----------------------------------------------------------#
+# Linux (.rpm) Fedora 44 arm64 Build Target                 #
+#-----------------------------------------------------------#
+"Linux arm64 .rpm (Fedora 44)":
+  image: fedora:44
+  tags:
+  - linux
+  - arm64
+  stage: build
+  script:
+  - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt6-qtbase-devel git wget -y
+  - 'wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+arm64+F43+rpm'
+  - unzip hidapi-hotplug.zip
+  - dnf install ./*.rpm -y
+  - rpmdev-setuptree
+  - ./scripts/build-package-files.sh fedora/OpenRGB.spec
+  - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
+  - cp -rp . /root/rpmbuild/SOURCES/OpenRGB
+  - cd /root/rpmbuild
+  - dnf builddep SPECS/OpenRGB.spec -y
+  - rpmbuild -ba SPECS/OpenRGB.spec
+  - cd RPMS/aarch64/
+  - mv openrgb*.rpm ${CI_PROJECT_DIR}/
+  - cd ${CI_PROJECT_DIR}
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Linux_arm64_rpm_${CI_COMMIT_SHORT_SHA}"
     paths:
     - openrgb*.rpm
     expire_in: 30 days
