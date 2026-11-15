@@ -18,7 +18,7 @@
     @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectNZXTFanController,DetectNZXTFanController6Channel,DetectNZXTHue2,DetectNZXTHue2Ambient,DetectNZXTHue2Motherboard,DetectNZXTKrakenX3,DetectNZXTRGBController,DetectNZXTSmartDeviceV2,DetectNZXTKrakenElite
+    @detectors DetectNZXTHue2Controllers
     @comment
 \*-------------------------------------------------------------------*/
 
@@ -270,7 +270,7 @@ void RGBController_NZXTHue2::SetupModes()
 
 void RGBController_NZXTHue2::SetupZones()
 {
-    unsigned short pid = controller->GetPID();
+    unsigned int device_index = controller->GetDeviceIndex();
 
     /*-------------------------------------------------*\
     | Set up zones                                      |
@@ -279,32 +279,14 @@ void RGBController_NZXTHue2::SetupZones()
     {
         zone* new_zone = new zone;
 
-        switch(pid)
+        if(nzxt_hue2_device_list[device_index]->zones[zone_idx] != NULL)
         {
-        case NZXT_KRAKEN_X3_SERIES_PID:
-        case NZXT_KRAKEN_X3_SERIES_RGB_PID:
-            if(zone_idx == 0)
-            {
-                new_zone->name = "RGB Header";
-            }
-            else if(zone_idx == 1)
-            {
-                new_zone->name = "Ring";
-            }
-            else if(zone_idx == 2)
-            {
-                new_zone->name = "Logo";
-            }
-            else
-            {
-                new_zone->name = "Channel " + std::to_string(zone_idx + 1);
-            }
-            break;
-
-        default:
-            new_zone->name          = "Hue 2 Channel ";
+            new_zone->name      = nzxt_hue2_device_list[device_index]->zones[zone_idx]->name;
+        }
+        else
+        {
+            new_zone->name      = "Hue 2 Channel ";
             new_zone->name.append(std::to_string(zone_idx + 1));
-            break;
         }
 
         new_zone->type          = ZONE_TYPE_LINEAR;
@@ -323,34 +305,22 @@ void RGBController_NZXTHue2::SetupZones()
         for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led new_led;
-            switch(pid)
-            {
-            case NZXT_KRAKEN_X3_SERIES_PID:
-            case NZXT_KRAKEN_X3_SERIES_RGB_PID:
-                if(zone_idx == 0)
-                {
-                    new_led.name = "RGB Header - LED " + std::to_string(led_idx + 1);
-                }
-                else if(zone_idx == 1)
-                {
-                    new_led.name = "Ring LED " + std::to_string(led_idx + 1);
-                }
-                else if(zone_idx == 2)
-                {
-                    new_led.name = "Logo LED";
-                }
-                else
-                {
-                    new_led.name = "Channel " + std::to_string(zone_idx + 1) + " - LED " + std::to_string(led_idx + 1);
-                }
-                break;
 
-            default:
+            if(nzxt_hue2_device_list[device_index]->zones[zone_idx] != NULL)
+            {
+                new_led.name = nzxt_hue2_device_list[device_index]->zones[zone_idx]->led_prefix;
+
+                if(nzxt_hue2_device_list[device_index]->zones[zone_idx]->led_numbered)
+                {
+                    new_led.name.append(std::to_string(led_idx + 1));
+                }
+            }
+            else
+            {
                 new_led.name = "Hue 2 Channel ";
                 new_led.name.append(std::to_string(zone_idx + 1));
                 new_led.name.append(", LED ");
                 new_led.name.append(std::to_string(led_idx + 1));
-                break;
             }
             new_led.value = zone_idx;
 

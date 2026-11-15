@@ -15,6 +15,7 @@
 #include <vector>
 #include <hidapi.h>
 #include "RGBController.h"
+#include "NZXTHue2Devices.h"
 
 enum
 {
@@ -44,14 +45,6 @@ enum
     HUE_2_SPEED_FAST            = 0x03,     /* Fast speed                   */
     HUE_2_SPEED_FASTEST         = 0x04,     /* Fastest speed                */
 };
-
-/*---------------------------------------------------------*\
-| PIDs that need naming distinct from a plain Hue 2         |
-| channel layout - shared with the detector so both         |
-| sides switch on the same values                           |
-\*---------------------------------------------------------*/
-#define NZXT_KRAKEN_X3_SERIES_PID                0x2007
-#define NZXT_KRAKEN_X3_SERIES_RGB_PID            0x2014
 
 /*---------------------------------------------------------*\
 | Bounds for the device-list read-until-response loop.      |
@@ -85,14 +78,16 @@ enum
 class NZXTHue2Controller
 {
 public:
-    NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name, unsigned short dev_pid, bool use_2023_effects = false);
+    NZXTHue2Controller(hid_device* dev_handle, const char* path, unsigned short dev_pid, std::string dev_name);
     ~NZXTHue2Controller();
 
+    unsigned int    GetDeviceIndex();
     std::string     GetFirmwareVersion();
     std::string     GetLocation();
     std::string     GetName();
     unsigned short  GetPID();
     std::string     GetSerialString();
+    bool            IsDeviceSupported();
 
     unsigned char   GetFanCommand
                         (
@@ -150,6 +145,8 @@ private:
     std::string     location;
     std::string     name;
     unsigned short  pid;
+    unsigned int    device_index;
+    unsigned int    packet_size;
     bool            use_2023_effects;
     unsigned int    num_fan_channels;
     unsigned int    num_rgb_channels;
@@ -188,4 +185,9 @@ private:
                         );
 
     void            SendFirmwareRequest();
+
+    void            SendPacket
+                        (
+                        unsigned char*  usb_buf
+                        );
 };

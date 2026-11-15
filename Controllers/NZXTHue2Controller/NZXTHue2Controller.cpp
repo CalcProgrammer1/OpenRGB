@@ -17,16 +17,39 @@
 #include "NZXTHue2Controller.h"
 #include "StringUtils.h"
 
-NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name, unsigned short dev_pid, bool use_2023_effects_val)
+NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, const char* path, unsigned short dev_pid, std::string dev_name)
 {
-    dev         = dev_handle;
-    location    = path;
-    name        = dev_name;
-    pid         = dev_pid;
+    dev          = dev_handle;
+    location     = path;
+    name         = dev_name;
+    pid          = dev_pid;
+    device_index = NZXT_HUE_2_NUM_DEVICES;
 
-    use_2023_effects = use_2023_effects_val;
-    num_fan_channels = fan_channels;
-    num_rgb_channels = rgb_channels;
+    /*-----------------------------------------------------*\
+    | Loop through all known devices to look for a PID      |
+    | match                                                 |
+    \*-----------------------------------------------------*/
+    for(unsigned int i = 0; i < NZXT_HUE_2_NUM_DEVICES; i++)
+    {
+        if(nzxt_hue2_device_list[i]->pid == dev_pid)
+        {
+            /*---------------------------------------------*\
+            | Set device index                              |
+            \*---------------------------------------------*/
+            device_index = i;
+            break;
+        }
+    }
+
+    if(!IsDeviceSupported())
+    {
+        return;
+    }
+
+    packet_size      = nzxt_hue2_device_list[device_index]->packet_size;
+    use_2023_effects = nzxt_hue2_device_list[device_index]->use_2023_effects;
+    num_fan_channels = nzxt_hue2_device_list[device_index]->num_fan_channels;
+    num_rgb_channels = nzxt_hue2_device_list[device_index]->num_rgb_channels;
 
     SendFirmwareRequest();
     UpdateDeviceList();
@@ -39,6 +62,16 @@ NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_
 NZXTHue2Controller::~NZXTHue2Controller()
 {
     hid_close(dev);
+}
+
+unsigned int NZXTHue2Controller::GetDeviceIndex()
+{
+    return(device_index);
+}
+
+bool NZXTHue2Controller::IsDeviceSupported()
+{
+    return(device_index < NZXT_HUE_2_NUM_DEVICES);
 }
 
 unsigned char NZXTHue2Controller::GetFanCommand
@@ -107,7 +140,7 @@ void NZXTHue2Controller::SendFan
         unsigned char       speed
     )
 {
-    unsigned char usb_buf[64];
+    unsigned char usb_buf[NZXT_HUE_2_MAX_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -125,13 +158,13 @@ void NZXTHue2Controller::SendFan
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, packet_size);
+    hid_read(dev, usb_buf, packet_size);
 }
 
 void NZXTHue2Controller::UpdateDeviceList()
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[NZXT_HUE_2_MAX_PACKET_SIZE];
     unsigned int    ret_val = 0;
 
     /*-----------------------------------------------------*\
@@ -148,7 +181,7 @@ void NZXTHue2Controller::UpdateDeviceList()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, packet_size);
 
     /*-----------------------------------------------------*\
     | Receive packets until 0x21 0x03 is received, bailing  |
@@ -163,9 +196,9 @@ void NZXTHue2Controller::UpdateDeviceList()
     int retries = 0;
     do
     {
-        ret_val = hid_read_timeout(dev, usb_buf, sizeof(usb_buf), NZXT_HUE_2_DEVICE_LIST_READ_TIMEOUT_MS);
+        ret_val = hid_read_timeout(dev, usb_buf, packet_size, NZXT_HUE_2_DEVICE_LIST_READ_TIMEOUT_MS);
         retries++;
-    } while( ((ret_val != 64) || (usb_buf[0] != 0x21) || (usb_buf[1] != 0x03)) && retries < NZXT_HUE_2_DEVICE_LIST_MAX_RETRIES );
+    } while( ((ret_val != packet_size) || (usb_buf[0] != 0x21) || (usb_buf[1] != 0x03)) && retries < NZXT_HUE_2_DEVICE_LIST_MAX_RETRIES );
 
     for(unsigned int chan = 0; chan < num_rgb_channels; chan++)
     {
@@ -288,7 +321,7 @@ void NZXTHue2Controller::UpdateDeviceList()
 
 void NZXTHue2Controller::UpdateStatus()
 {
-    unsigned char usb_buf[64];
+    unsigned char usb_buf[NZXT_HUE_2_MAX_PACKET_SIZE];
     unsigned int  ret_val = 0;
 
     if(false)//num_fan_channels > 0)
@@ -303,8 +336,8 @@ void NZXTHue2Controller::UpdateStatus()
         \*-----------------------------------------------------*/
         do
         {
-            ret_val = hid_read(dev, usb_buf, sizeof(usb_buf));
-        } while( (ret_val != 64) || (usb_buf[0] != 0x67) || (usb_buf[1] != 0x02) );
+            ret_val = hid_read(dev, usb_buf, packet_size);
+        } while( (ret_val != packet_size) || (usb_buf[0] != 0x67) || (usb_buf[1] != 0x02) );
 
         /*-----------------------------------------------------*\
         | Extract fan information                               |
@@ -410,7 +443,7 @@ void NZXTHue2Controller::SendApply
     unsigned char   channel
     )
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[NZXT_HUE_2_MAX_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -432,8 +465,7 @@ void NZXTHue2Controller::SendApply
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    //hid_read(dev, usb_buf, 64);
+    SendPacket(usb_buf);
 }
 
 void NZXTHue2Controller::SendDirect
@@ -444,7 +476,7 @@ void NZXTHue2Controller::SendDirect
     unsigned char*  color_data
     )
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[NZXT_HUE_2_MAX_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -467,8 +499,7 @@ void NZXTHue2Controller::SendDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    //hid_read(dev, usb_buf, 64);
+    SendPacket(usb_buf);
 }
 
 void NZXTHue2Controller::SendEffect
@@ -481,7 +512,7 @@ void NZXTHue2Controller::SendEffect
     unsigned char*  color_data
     )
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[NZXT_HUE_2_MAX_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -526,8 +557,7 @@ void NZXTHue2Controller::SendEffect
     \*-----------------------------------------------------*/
     memcpy(&usb_buf[0x0A], color_data, color_count * 3);
 
-    hid_write(dev, usb_buf, 64);
-    //hid_read(dev, usb_buf, 64);
+    SendPacket(usb_buf);
 }
 
 void NZXTHue2Controller::SendEffect2023
@@ -540,7 +570,7 @@ void NZXTHue2Controller::SendEffect2023
     unsigned char*  color_data
     )
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[NZXT_HUE_2_MAX_PACKET_SIZE];
     unsigned char   speed_data[2] = { 0x32, 0x00 };
     unsigned char   mode_modifier = 0x00;
 
@@ -620,12 +650,12 @@ void NZXTHue2Controller::SendEffect2023
     usb_buf[0x3A]   = 0x08;
     usb_buf[0x3B]   = 0x03;
 
-    hid_write(dev, usb_buf, 64);
+    SendPacket(usb_buf);
 }
 
 void NZXTHue2Controller::SendFirmwareRequest()
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[NZXT_HUE_2_MAX_PACKET_SIZE];
     unsigned int    ret_val = 0;
 
     /*-----------------------------------------------------*\
@@ -639,15 +669,45 @@ void NZXTHue2Controller::SendFirmwareRequest()
     usb_buf[0x00]   = 0x10;
     usb_buf[0x01]   = 0x01;
 
-    hid_write(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, packet_size);
 
     /*-----------------------------------------------------*\
     | Receive packets until 0x11 0x01 is received           |
     \*-----------------------------------------------------*/
     do
     {
-        ret_val = hid_read(dev, usb_buf, sizeof(usb_buf));
-    } while( (ret_val != 64) || (usb_buf[0] != 0x11) || (usb_buf[1] != 0x01) );
+        ret_val = hid_read(dev, usb_buf, packet_size);
+    } while( (ret_val != packet_size) || (usb_buf[0] != 0x11) || (usb_buf[1] != 0x01) );
 
     snprintf(firmware_version, 16, "%u.%u.%u", usb_buf[0x11], usb_buf[0x12], usb_buf[0x13]);
+}
+
+void NZXTHue2Controller::SendPacket
+    (
+    unsigned char*  usb_buf
+    )
+{
+    hid_write(dev, usb_buf, packet_size);
+
+    if(packet_size == NZXT_HUE_2_PACKET_SIZE_512)
+    {
+        unsigned char   cmd     = usb_buf[0x00];
+        unsigned char   subcmd  = usb_buf[0x01];
+        unsigned char   resp_buf[NZXT_HUE_2_MAX_PACKET_SIZE];
+
+        for(int retries = 0; retries < 5; retries++)
+        {
+            int ret_val = hid_read_timeout(dev, resp_buf, packet_size, 100);
+
+            if(ret_val <= 0)
+            {
+                break;
+            }
+
+            if((ret_val > 0x0F) && (resp_buf[0x00] == 0xFF) && (resp_buf[0x01] == 0x01) && (resp_buf[0x0E] == cmd) && (resp_buf[0x0F] == subcmd))
+            {
+                return;
+            }
+        }
+    }
 }
