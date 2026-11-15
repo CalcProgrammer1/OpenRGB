@@ -70,6 +70,9 @@ enum
     HUE_2_MODE_RAINBOW_FLOW     = 0x0B,     /* Rainbow Flow mode            */
     HUE_2_MODE_SUPER_RAINBOW    = 0x0C,     /* Super Rainbow mode           */
     HUE_2_MODE_RAINBOW_PULSE    = 0x0D,     /* Rainbow Pulse mode           */
+    HUE_2_MODE_TAI_CHI          = 0x0E,     /* Tai Chi mode                 */
+    HUE_2_MODE_WATER_COOLER     = 0x0F,     /* Water Cooler mode            */
+    HUE_2_MODE_LOADING          = 0x10,     /* Loading mode                 */
     HUE_2_NUM_MODES,                        /* Number of Hue 2 modes        */
 
     HUE_2_MODE_DIRECT           = 0xFFFF,   /* Dummy mode ID for direct mode*/
@@ -86,6 +89,7 @@ public:
     std::string     GetLocation();
     std::string     GetName();
     unsigned short  GetPID();
+    nzxt_hue2_protocol GetProtocol();
     std::string     GetSerialString();
     bool            IsDeviceSupported();
 
@@ -147,7 +151,7 @@ private:
     unsigned short  pid;
     unsigned int    device_index;
     unsigned int    packet_size;
-    bool            use_2023_effects;
+    nzxt_hue2_protocol protocol;
     unsigned int    num_fan_channels;
     unsigned int    num_rgb_channels;
 
@@ -180,6 +184,28 @@ private:
                         unsigned char   mode,
                         unsigned char   speed,
                         bool            direction,
+                        unsigned char   color_count,
+                        unsigned char*  color_data
+                        );
+
+    void            SendApply2024Plus
+                        (
+                        unsigned char   channel,
+                        unsigned char   animation,
+                        unsigned char   speed,
+                        bool            direction
+                        );
+
+    void            SendBuffer2024Plus
+                        (
+                        unsigned char   channel,
+                        unsigned char   color_count,
+                        unsigned char*  color_data
+                        );
+
+    void            SendDirect2024Plus
+                        (
+                        unsigned char   channel,
                         unsigned char   color_count,
                         unsigned char*  color_data
                         );

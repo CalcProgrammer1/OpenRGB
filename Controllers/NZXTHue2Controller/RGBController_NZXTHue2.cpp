@@ -47,6 +47,8 @@ RGBController_NZXTHue2::~RGBController_NZXTHue2()
 
 void RGBController_NZXTHue2::SetupModes()
 {
+    unsigned int save_flag      = (controller->GetProtocol() == NZXT_HUE_2_PROTOCOL_2024_PLUS) ? MODE_FLAG_AUTOMATIC_SAVE : 0;
+
     mode Direct;
     Direct.name                 = "Direct";
     Direct.value                = HUE_2_MODE_DIRECT;
@@ -57,7 +59,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode Static;
     Static.name                 = "Static";
     Static.value                = HUE_2_MODE_FIXED;
-    Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
     Static.colors_min           = 1;
     Static.colors_max           = 1;
     Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
@@ -71,7 +73,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode Fading;
     Fading.name                 = "Fading";
     Fading.value                = HUE_2_MODE_FADING;
-    Fading.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Fading.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
     Fading.speed_min            = HUE_2_SPEED_SLOWEST;
     Fading.speed_max            = HUE_2_SPEED_FASTEST;
     Fading.colors_min           = 1;
@@ -88,7 +90,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode RainbowWave;
     RainbowWave.name            = "Rainbow Wave";
     RainbowWave.value           = HUE_2_MODE_SPECTRUM;
-    RainbowWave.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    RainbowWave.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
     RainbowWave.speed_min       = HUE_2_SPEED_SLOWEST;
     RainbowWave.speed_max       = HUE_2_SPEED_FASTEST;
     RainbowWave.speed           = HUE_2_SPEED_NORMAL;
@@ -103,12 +105,19 @@ void RGBController_NZXTHue2::SetupModes()
     mode Marquee;
     Marquee.name                = "Marquee";
     Marquee.value               = HUE_2_MODE_MARQUEE;
-    Marquee.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Marquee.speed_min           = HUE_2_SPEED_SLOWEST;
-    Marquee.speed_max           = HUE_2_SPEED_FASTEST;
+    if(controller->GetProtocol() == NZXT_HUE_2_PROTOCOL_2024_PLUS)
+    {
+        Marquee.flags           = MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
+    }
+    else
+    {
+        Marquee.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+        Marquee.speed_min       = HUE_2_SPEED_SLOWEST;
+        Marquee.speed_max       = HUE_2_SPEED_FASTEST;
+        Marquee.speed           = HUE_2_SPEED_NORMAL;
+    }
     Marquee.colors_min          = 1;
     Marquee.colors_max          = 1;
-    Marquee.speed               = HUE_2_SPEED_NORMAL;
     Marquee.direction           = MODE_DIRECTION_RIGHT;
     Marquee.color_mode          = MODE_COLORS_MODE_SPECIFIC;
     Marquee.colors.resize(1);
@@ -121,7 +130,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode CoverMarquee;
     CoverMarquee.name           = "Cover Marquee";
     CoverMarquee.value          = HUE_2_MODE_COVER_MARQUEE;
-    CoverMarquee.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    CoverMarquee.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
     CoverMarquee.speed_min      = HUE_2_SPEED_SLOWEST;
     CoverMarquee.speed_max      = HUE_2_SPEED_FASTEST;
     CoverMarquee.colors_min     = 1;
@@ -139,15 +148,25 @@ void RGBController_NZXTHue2::SetupModes()
     mode Alternating;
     Alternating.name            = "Alternating";
     Alternating.value           = HUE_2_MODE_ALTERNATING;
-    Alternating.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
     Alternating.speed_min       = HUE_2_SPEED_SLOWEST;
     Alternating.speed_max       = HUE_2_SPEED_FASTEST;
-    Alternating.colors_min      = 1;
-    Alternating.colors_max      = 2;
     Alternating.speed           = HUE_2_SPEED_NORMAL;
-    Alternating.direction       = MODE_DIRECTION_RIGHT;
     Alternating.color_mode      = MODE_COLORS_MODE_SPECIFIC;
-    Alternating.colors.resize(1);
+    if(controller->GetProtocol() == NZXT_HUE_2_PROTOCOL_2024_PLUS)
+    {
+        Alternating.flags       = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
+        Alternating.colors_min  = 2;
+        Alternating.colors_max  = 2;
+        Alternating.colors.resize(2);
+    }
+    else
+    {
+        Alternating.flags       = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+        Alternating.colors_min  = 1;
+        Alternating.colors_max  = 2;
+        Alternating.direction   = MODE_DIRECTION_RIGHT;
+        Alternating.colors.resize(1);
+    }
     modes.push_back(Alternating);
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -157,7 +176,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode Pulsing;
     Pulsing.name                = "Pulsing";
     Pulsing.value               = HUE_2_MODE_PULSING;
-    Pulsing.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Pulsing.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
     Pulsing.speed_min           = HUE_2_SPEED_SLOWEST;
     Pulsing.speed_max           = HUE_2_SPEED_FASTEST;
     Pulsing.colors_min          = 1;
@@ -174,7 +193,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode Breathing;
     Breathing.name              = "Breathing";
     Breathing.value             = HUE_2_MODE_BREATHING;
-    Breathing.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | save_flag;
     Breathing.speed_min         = HUE_2_SPEED_SLOWEST;
     Breathing.speed_max         = HUE_2_SPEED_FASTEST;
     Breathing.colors_min        = 1;
@@ -191,11 +210,11 @@ void RGBController_NZXTHue2::SetupModes()
     mode Candle;
     Candle.name                 = "Candle";
     Candle.value                = HUE_2_MODE_CANDLE;
-    Candle.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Candle.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
     Candle.speed_min            = HUE_2_SPEED_SLOWEST;
     Candle.speed_max            = HUE_2_SPEED_FASTEST;
     Candle.colors_min           = 1;
-    Candle.colors_max           = 8;
+    Candle.colors_max           = (controller->GetProtocol() == NZXT_HUE_2_PROTOCOL_2024_PLUS) ? 1 : 8;
     Candle.speed                = HUE_2_SPEED_NORMAL;
     Candle.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Candle.colors.resize(1) ;
@@ -208,7 +227,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode StarryNight;
     StarryNight.name            = "Starry Night";
     StarryNight.value           = HUE_2_MODE_STARRY_NIGHT;
-    StarryNight.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    StarryNight.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
     StarryNight.speed_min       = HUE_2_SPEED_SLOWEST;
     StarryNight.speed_max       = HUE_2_SPEED_FASTEST;
     StarryNight.colors_min      = 1;
@@ -225,7 +244,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode SuperRainbow;
     SuperRainbow.name           = "Super Rainbow";
     SuperRainbow.value          = HUE_2_MODE_SUPER_RAINBOW;
-    SuperRainbow.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    SuperRainbow.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
     SuperRainbow.speed_min      = HUE_2_SPEED_SLOWEST;
     SuperRainbow.speed_max      = HUE_2_SPEED_FASTEST;
     SuperRainbow.speed          = HUE_2_SPEED_NORMAL;
@@ -240,7 +259,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode RainbowPulse;
     RainbowPulse.name           = "Rainbow Pulse";
     RainbowPulse.value          = HUE_2_MODE_RAINBOW_PULSE;
-    RainbowPulse.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    RainbowPulse.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
     RainbowPulse.speed_min      = HUE_2_SPEED_SLOWEST;
     RainbowPulse.speed_max      = HUE_2_SPEED_FASTEST;
     RainbowPulse.speed          = HUE_2_SPEED_NORMAL;
@@ -255,7 +274,7 @@ void RGBController_NZXTHue2::SetupModes()
     mode RainbowFlow;
     RainbowFlow.name            = "Rainbow Flow";
     RainbowFlow.value           = HUE_2_MODE_RAINBOW_FLOW;
-    RainbowFlow.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    RainbowFlow.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
     RainbowFlow.speed_min       = HUE_2_SPEED_SLOWEST;
     RainbowFlow.speed_max       = HUE_2_SPEED_FASTEST;
     RainbowFlow.speed           = HUE_2_SPEED_NORMAL;
@@ -265,6 +284,60 @@ void RGBController_NZXTHue2::SetupModes()
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         zones[zone_idx].modes.push_back(RainbowFlow);
+    }
+
+    if(controller->GetProtocol() == NZXT_HUE_2_PROTOCOL_2024_PLUS)
+    {
+        mode TaiChi;
+        TaiChi.name                 = "Tai Chi";
+        TaiChi.value                = HUE_2_MODE_TAI_CHI;
+        TaiChi.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
+        TaiChi.speed_min            = HUE_2_SPEED_SLOWEST;
+        TaiChi.speed_max            = HUE_2_SPEED_FASTEST;
+        TaiChi.colors_min           = 2;
+        TaiChi.colors_max           = 2;
+        TaiChi.speed                = HUE_2_SPEED_NORMAL;
+        TaiChi.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+        TaiChi.colors.resize(2);
+        modes.push_back(TaiChi);
+        for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+        {
+            zones[zone_idx].modes.push_back(TaiChi);
+        }
+
+        mode WaterCooler;
+        WaterCooler.name            = "Water Cooler";
+        WaterCooler.value           = HUE_2_MODE_WATER_COOLER;
+        WaterCooler.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
+        WaterCooler.speed_min       = HUE_2_SPEED_SLOWEST;
+        WaterCooler.speed_max       = HUE_2_SPEED_FASTEST;
+        WaterCooler.colors_min      = 2;
+        WaterCooler.colors_max      = 2;
+        WaterCooler.speed           = HUE_2_SPEED_NORMAL;
+        WaterCooler.color_mode      = MODE_COLORS_MODE_SPECIFIC;
+        WaterCooler.colors.resize(2);
+        modes.push_back(WaterCooler);
+        for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+        {
+            zones[zone_idx].modes.push_back(WaterCooler);
+        }
+
+        mode Loading;
+        Loading.name                = "Loading";
+        Loading.value               = HUE_2_MODE_LOADING;
+        Loading.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | save_flag;
+        Loading.speed_min           = HUE_2_SPEED_SLOWEST;
+        Loading.speed_max           = HUE_2_SPEED_FASTEST;
+        Loading.colors_min          = 1;
+        Loading.colors_max          = 1;
+        Loading.speed               = HUE_2_SPEED_NORMAL;
+        Loading.color_mode          = MODE_COLORS_MODE_SPECIFIC;
+        Loading.colors.resize(1);
+        modes.push_back(Loading);
+        for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+        {
+            zones[zone_idx].modes.push_back(Loading);
+        }
     }
 }
 
@@ -337,6 +410,25 @@ void RGBController_NZXTHue2::SetupZones()
 
         for(unsigned int dev_idx = 0; dev_idx < 6; dev_idx++)
         {
+            if(controller->channel_dev_ids[zone_idx][dev_idx] == 0x2A)
+            {
+                for(unsigned int fan_idx = 0; fan_idx < 3; fan_idx++)
+                {
+                    segment new_segment;
+                    new_segment.name        = "Fan ";
+                    new_segment.name.append(std::to_string(fan_idx + 1));
+                    new_segment.type        = ZONE_TYPE_LINEAR;
+                    new_segment.start_idx   = start_idx;
+                    new_segment.leds_count  = 8;
+
+                    zones[zone_idx].segments.push_back(new_segment);
+
+                    start_idx += new_segment.leds_count;
+                }
+
+                continue;
+            }
+
             std::string device_name = "";
             switch(controller->channel_dev_ids[zone_idx][dev_idx])
             {

@@ -29,6 +29,7 @@
 #define NZXT_KRAKEN_X3_SERIES_PID               0x2007
 #define NZXT_KRAKEN_X3_SERIES_RGB_PID           0x2014
 #define NZXT_KRAKEN_2024_ELITE_SERIES_RGB_PID   0x3012
+#define NZXT_KRAKEN_2024_PLUS_PID               0x3014
 #define NZXT_RGB_FAN_CONTROLLER_PID             0x2009
 #define NZXT_RGB_FAN_CONTROLLER2_PID            0x2010
 #define NZXT_RGB_FAN_CONTROLLER3_PID            0x200E
@@ -51,6 +52,16 @@
 #define NZXT_HUE_2_PACKET_SIZE_512              512
 #define NZXT_HUE_2_MAX_PACKET_SIZE              512
 
+/*---------------------------------------------------------*\
+| NZXT Hue 2 protocol variants                              |
+\*---------------------------------------------------------*/
+typedef enum
+{
+    NZXT_HUE_2_PROTOCOL_LEGACY,
+    NZXT_HUE_2_PROTOCOL_2023,
+    NZXT_HUE_2_PROTOCOL_2024_PLUS,
+} nzxt_hue2_protocol;
+
 typedef struct
 {
     std::string                         name;
@@ -64,7 +75,7 @@ typedef struct
     unsigned int                        num_rgb_channels;
     unsigned int                        num_fan_channels;
     unsigned int                        packet_size;
-    bool                                use_2023_effects;
+    nzxt_hue2_protocol                  protocol;
     const nzxt_hue2_zone*               zones[NZXT_HUE_2_MAX_CHANNELS];
 } nzxt_hue2_device;
 
