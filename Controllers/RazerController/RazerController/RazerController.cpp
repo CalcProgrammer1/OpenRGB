@@ -1121,10 +1121,11 @@ std::string RazerController::razer_get_firmware()
     struct razer_report report                  = razer_create_report(0x00, RAZER_COMMAND_ID_GET_FIRMWARE_VERSION, 0x02);
     struct razer_report response_report         = razer_create_response();
 
-    std::this_thread::sleep_for(2ms);
-    razer_usb_send(&report);
-    std::this_thread::sleep_for(5ms);
-    razer_usb_receive(&response_report);
+    /*-----------------------------------------------------------------*\
+    | Devices behind a receiver answer busy first, so wait for the      |
+    | final response. On failure, the last response is used as before.  |
+    \*-----------------------------------------------------------------*/
+    razer_usb_query(&report, &response_report);
 
     firmware_string = "v" + std::to_string(response_report.arguments[0]) + "." + std::to_string(response_report.arguments[1]);
 
@@ -1142,10 +1143,11 @@ std::string RazerController::razer_get_serial()
     struct razer_report report              = razer_create_report(0x00, RAZER_COMMAND_ID_GET_SERIAL_STRING, 0x16);
     struct razer_report response_report     = razer_create_response();
 
-    std::this_thread::sleep_for(2ms);
-    razer_usb_send(&report);
-    std::this_thread::sleep_for(5ms);
-    razer_usb_receive(&response_report);
+    /*-----------------------------------------------------------------*\
+    | Devices behind a receiver answer busy first, so wait for the      |
+    | final response. On failure, the last response is used as before.  |
+    \*-----------------------------------------------------------------*/
+    razer_usb_query(&report, &response_report);
 
     memcpy(&serial_string[0], &response_report.arguments[0], 22);
     serial_string[22] = '\0';
