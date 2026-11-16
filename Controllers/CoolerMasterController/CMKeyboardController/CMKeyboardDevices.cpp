@@ -265,6 +265,23 @@ const std::vector<unsigned int> ck552_keymap =
     5,    11,   17,               41,                     65,   71,   77,         95,    101, 107,  113,        125,  131,
 };
 
+/*-------------------------------------------------------------*\
+| CoolerMaster CK721 / MK721 (65%)                              |
+\*-------------------------------------------------------------*/
+const std::vector<unsigned int> ck721_keymap =
+{
+/*  ESC   1     2     3     4     5     6     7     8     9     0     -     =     BPSC  */
+    0,    1,    2,    3,    4,    5,    6,    7,    8,    9,    10,   11,   12,   13,
+/*  TAB   Q     W     E     R     T     Y     U     I     O     P     [     ]     \     */
+    15,   16,   17,   18,   19,   20,   21,   22,   23,   24,   25,   26,   27,   28,
+/*  CPLK  A     S     D     F     G     H     J     K     L     ;     "     #     ENTR  */
+    30,   31,   32,   33,   34,   35,   36,   37,   38,   39,   40,   41,   28,   42,
+/*  LSFT  ISO\  Z     X     C     V     B     N     M     ,     .     /     RSFT        */
+    44,   45,   46,   47,   48,   49,   50,   51,   52,   53,   54,   55,   57,
+/*  LCTL  LWIN  LALT              SPC               RALT  RFNC  RMNU  RCTL              */
+    59,   60,   61,               63,               66,   68,   0,    69,
+};
+
 /*-------------------------------------------------------------------------*\
 |  KEYMAPS                                                                  |
 \*-------------------------------------------------------------------------*/
@@ -701,6 +718,36 @@ keyboard_keymap_overlay_values ck552_layout
     },
 };
 
+/*-------------------------------------------------------------*\
+| CoolerMaster CK721 / MK721 Keyboard (65%)                     |
+\*-------------------------------------------------------------*/
+keyboard_keymap_overlay_values ck721_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY,
+    {
+        ck721_keymap,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Name,               Alternate Name,     OpCode,                 |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      1,      0,          0,          KEY_EN_ESCAPE,      KEY_EN_UNUSED,      KEYBOARD_OPCODE_SWAP_ONLY, },
+        {   0,      1,      15,         14,         "Light: Wheel",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_SWAP_ONLY, },
+        {   0,      2,      15,         29,         KEY_EN_DELETE,      KEY_EN_UNUSED,      KEYBOARD_OPCODE_SWAP_ONLY, },
+        {   0,      3,      15,         43,         KEY_EN_PAGE_UP,     KEY_EN_UNUSED,      KEYBOARD_OPCODE_SWAP_ONLY, },
+        {   0,      4,      14,         56,         KEY_EN_UP_ARROW,    KEY_EN_UNUSED,      KEYBOARD_OPCODE_SWAP_ONLY, },
+        {   0,      4,      15,         58,         KEY_EN_PAGE_DOWN,   KEY_EN_UNUSED,      KEYBOARD_OPCODE_SWAP_ONLY, },
+        {   0,      5,      12,         69,         KEY_EN_RIGHT_CONTROL, KEY_EN_UNUSED,    KEYBOARD_OPCODE_SWAP_ONLY, },
+        {   0,      5,      13,         70,         KEY_EN_LEFT_ARROW,  KEY_EN_UNUSED,      KEYBOARD_OPCODE_SWAP_ONLY, },
+        {   0,      5,      14,         64,         KEY_EN_DOWN_ARROW,  KEY_EN_UNUSED,      KEYBOARD_OPCODE_SWAP_ONLY, },
+        {   0,      5,      15,         67,         KEY_EN_RIGHT_ARROW, KEY_EN_UNUSED,      KEYBOARD_OPCODE_SWAP_ONLY, },
+    },
+};
+
 static const cm_kb_zone cm_generic_zone =
 {
     ZONE_EN_KEYBOARD,
@@ -864,6 +911,60 @@ cm_kb_device ck552_v2_device
     &ck552_layout,
 };
 
+cm_kb_device ck721_device
+{
+    COOLERMASTER_KEYBOARD_CK721_PID,
+    {
+        &cm_generic_zone,
+    },
+    &ck721_layout,
+};
+
+cm_kb_device ck721_dongle_device
+{
+    COOLERMASTER_KEYBOARD_CK721_DONGLE_PID,
+    {
+        &cm_generic_zone,
+    },
+    &ck721_layout,
+};
+
+cm_kb_device ck721line_device
+{
+    COOLERMASTER_KEYBOARD_CK721LINE_PID,
+    {
+        &cm_generic_zone,
+    },
+    &ck721_layout,
+};
+
+cm_kb_device ck721line_dongle_device
+{
+    COOLERMASTER_KEYBOARD_CK721LINE_DONGLE_PID,
+    {
+        &cm_generic_zone,
+    },
+    &ck721_layout,
+};
+
+cm_kb_device mk721_device
+{
+    COOLERMASTER_KEYBOARD_MK721_PID,
+    {
+        &cm_generic_zone,
+    },
+    &ck721_layout,
+};
+
+cm_kb_device mk721_dongle_device
+{
+    COOLERMASTER_KEYBOARD_MK721_DONGLE_PID,
+    {
+        &cm_generic_zone,
+    },
+    &ck721_layout,
+};
+
 cm_kb_device mk_pro_l_white_device
 {
     COOLERMASTER_KEYBOARD_PRO_L_WHITE_PID,
@@ -895,6 +996,12 @@ const cm_kb_device* cm_kb_devices[] =
     &ck530_v2_device,
     &ck550_v2_device,
     &ck552_v2_device,
+    &ck721_device,
+    &ck721_dongle_device,
+    &ck721line_device,
+    &ck721line_dongle_device,
+    &mk721_device,
+    &mk721_dongle_device,
     &mk_pro_l_white_device,
 };
 

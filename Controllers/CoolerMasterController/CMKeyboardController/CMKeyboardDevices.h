@@ -95,13 +95,16 @@ typedef struct
 #define COOLERMASTER_KEYBOARD_CK552_V2_PID        0x007F // [ck550-macos, signal]
 #define COOLERMASTER_KEYBOARD_CK570_V2_PID        0x01E8 // unsupported
 #define COOLERMASTER_KEYBOARD_CK720_PID           0x016B // unsupported
-#define COOLERMASTER_KEYBOARD_CK721_PID           0x016D // unsupported
-#define COOLERMASTER_KEYBOARD_CK721LINE_PID       0x01EE // unsupported
+#define COOLERMASTER_KEYBOARD_CK721_PID           0x016D // [reversed]
+#define COOLERMASTER_KEYBOARD_CK721_DONGLE_PID    0x0183 // [reversed]
+#define COOLERMASTER_KEYBOARD_CK721LINE_PID       0x01EE // [reversed]
+#define COOLERMASTER_KEYBOARD_CK721LINE_DONGLE_PID 0x01F2 // [reversed]
 #define COOLERMASTER_KEYBOARD_PRO_L_PID           0x003B // [libcmmk !16]
 #define COOLERMASTER_KEYBOARD_PRO_L_WHITE_PID     0x0047 // [libcmmk]
 #define COOLERMASTER_KEYBOARD_PRO_S_PID           0x003C // [libcmmk #30 !31 !36, !37, !7, #5(closed), #3(closed)]
 // MASTERKEYS PRO M [libcmmk #17]
-#define COOLERMASTER_KEYBOARD_MK721_PID           0x016F // unsupported
+#define COOLERMASTER_KEYBOARD_MK721_PID           0x016F // [reversed]
+#define COOLERMASTER_KEYBOARD_MK721_DONGLE_PID    0x01C3 // [reversed]
 #define COOLERMASTER_KEYBOARD_MK730_PID           0x008F // [openrgb #1630, libcmmk]
 #define COOLERMASTER_KEYBOARD_MK750_PID           0x0067 // fw1.2 [libcmmk #25 !9, !14, signal]
 #define COOLERMASTER_KEYBOARD_MK770_PID           0x01D5 // unsupported

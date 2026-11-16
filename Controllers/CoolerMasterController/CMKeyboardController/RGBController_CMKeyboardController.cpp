@@ -19,11 +19,12 @@
     @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectCoolerMasterV1Keyboards,DetectCoolerMasterV2Keyboards
+    @detectors DetectCoolerMasterV1Keyboards,DetectCoolerMasterV2Keyboards,DetectCoolerMasterV3Keyboards
     @comment
     In CMKeyboardV1Controller brightness control not supported.
-    Supported effects differ between CMKeyboardV1Controller and
-    CMKeyboardV2Controller.
+    Supported effects differ between CMKeyboardV1Controller,
+    CMKeyboardV2Controller and CMKeyboardV3Controller.
+    CMKeyboardV3Controller Direct is not supported, uses Custom instead.
 \*-------------------------------------------------------------------*/
 RGBController_CMKeyboardController::RGBController_CMKeyboardController(CMKeyboardAbstractController* pController)
 {

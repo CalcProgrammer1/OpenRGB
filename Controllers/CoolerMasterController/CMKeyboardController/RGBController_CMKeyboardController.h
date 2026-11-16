@@ -15,6 +15,7 @@
 #include "CMKeyboardAbstractController.h"
 #include "CMKeyboardV1Controller.h"
 #include "CMKeyboardV2Controller.h"
+#include "CMKeyboardV3Controller.h"
 #include "CMKeyboardDevices.h"
 
 class RGBController_CMKeyboardController : public RGBController

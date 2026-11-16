@@ -228,6 +228,40 @@ DetectedControllers DetectCoolerMasterV2Keyboards(hid_device_info* info, const s
     return(detected_controllers);
 }
 
+DetectedControllers DetectCoolerMasterV3Keyboards(hid_device_info* info, const std::string& name)
+{
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        switch(info->product_id)
+        {
+            case COOLERMASTER_KEYBOARD_CK721_PID:
+            case COOLERMASTER_KEYBOARD_CK721_DONGLE_PID:
+            case COOLERMASTER_KEYBOARD_CK721LINE_PID:
+            case COOLERMASTER_KEYBOARD_CK721LINE_DONGLE_PID:
+            case COOLERMASTER_KEYBOARD_MK721_PID:
+            case COOLERMASTER_KEYBOARD_MK721_DONGLE_PID:
+                {
+                    CMKeyboardV3Controller*             controller     = new CMKeyboardV3Controller(dev, info, name);
+                    RGBController_CMKeyboardController* rgb_controller = new RGBController_CMKeyboardController(controller);
+
+                    detected_controllers.push_back(rgb_controller);
+                }
+                break;
+
+            default:
+                LOG_DEBUG("[%s] Controller not created as the product ID %04X is missing from detector switch", name.c_str(), info->product_id);
+                break;
+        }
+    }
+
+    return(detected_controllers);
+}
+
 DetectedControllers DetectCoolerMasterMouse(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
@@ -398,12 +432,18 @@ REGISTER_HID_DETECTOR_IPU("Cooler Master SK630",                    DetectCooler
 REGISTER_HID_DETECTOR_IPU("Cooler Master SK650",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_SK650_PID,          1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master SK652",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_SK652_PID,          1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master SK653",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_SK653_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MK721",                    DetectCoolerMasterV3Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_MK721_PID,          3,      0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MK721",                    DetectCoolerMasterV3Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_MK721_DONGLE_PID,   3,      0xFF0A, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MK730",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_MK730_PID,          1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MK750",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_MK750_PID,          1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master CK530",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK530_PID,          1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master CK530 V2",                 DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK530_V2_PID,       1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master CK550 V2",                 DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK550_V2_PID,       1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master CK550 V1 / CK552",         DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK552_V2_PID,       1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master CK721",                    DetectCoolerMasterV3Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK721_PID,          3,      0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Cooler Master CK721",                    DetectCoolerMasterV3Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK721_DONGLE_PID,   3,      0xFF0A, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master CK721 LINE",               DetectCoolerMasterV3Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK721LINE_PID,      3,      0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Cooler Master CK721 LINE",               DetectCoolerMasterV3Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK721LINE_DONGLE_PID, 3,    0xFF0A, 1);
 
 /*---------------------------------------------------------*\
 | Coolermaster LEDstrip controllers                         |
