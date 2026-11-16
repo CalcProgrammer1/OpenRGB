@@ -1374,7 +1374,7 @@ void DeviceView::InitDeviceView()
                         for(unsigned int led_y = 0; led_y < controller->GetZoneSegmentMatrixMapHeight(zone_idx, segment_idx); led_y++)
                         {
                             unsigned int map_idx    = led_y * controller->GetZoneSegmentMatrixMapWidth(zone_idx, segment_idx) + led_x;
-                            unsigned int color_idx  = controller->GetZoneSegmentMatrixMapData(zone_idx, segment_idx)[map_idx] + controller->GetZoneSegmentStartIndex(zone_idx, segment_idx);
+                            unsigned int color_idx  = controller->GetZoneSegmentMatrixMapData(zone_idx, segment_idx)[map_idx] + controller->GetZoneStartIndex(zone_idx) + controller->GetZoneSegmentStartIndex(zone_idx, segment_idx);
 
                             if(controller->GetZoneSegmentMatrixMapData(zone_idx, segment_idx)[map_idx] != 0xFFFFFFFF && color_idx < led_pos.size())
                             {
