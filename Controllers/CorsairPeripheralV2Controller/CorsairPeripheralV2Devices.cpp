@@ -45,7 +45,7 @@ std::vector<unsigned int> corsair_full_size_values =
        105,  108,  107,               44,              111,  122,  101,  109,               80,   81,   79,   98,         99,
 };
 
-std::vector<unsigned int> corsair_K65_mini_values =
+std::vector<unsigned int> corsair_sixty_values =
 {
     /* ESC     1     2     3     4     5     6     7     8     9     0     -     =   BSPC   */
        41,     30,  31,   32,   33,   34,   35,   36,   37,   38,   39,   45,   46,    42,
@@ -125,7 +125,7 @@ keyboard_keymap_overlay_values corsair_K65_mini_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY,
     {
-        corsair_K65_mini_values,
+        corsair_sixty_values,
         {
             /* Add more regional layout fixes here */
         }
@@ -183,6 +183,26 @@ keyboard_keymap_overlay_values corsair_k70_pro_layout
         {   0,      1,      20,         125,        KEY_EN_MEDIA_NEXT,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Next Tack Key
         {   0,      6,       5,         140,        KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert spacebar L
         {   0,      6,       7,         141,        KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert spacebar R
+    }
+};
+
+keyboard_keymap_overlay_values corsair_k70_pro_mini_wireless_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY,
+    {
+        corsair_sixty_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode                              |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         41,         KEY_EN_ESCAPE,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Escape LED value; the base layout resets it to 0
+        {   0,      4,       5,         0,          KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Spacebar Left LED
+        {   0,      4,       7,         1,          KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Spacebar Right LED
     }
 };
 
@@ -1200,6 +1220,50 @@ static const corsair_v2_device k70_rgb_tkl_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair K70 PRO MINI WIRELESS 1B1C:1BB6 (Black)              |
+|  Corsair K70 PRO MINI WIRELESS 1B1C:1BD3 (White)              |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       5 Rows, 14 Columns                                      |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone k70_pro_mini_wireless_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    5,
+    14
+};
+
+static const corsair_v2_device k70_pro_mini_wireless_black_device =
+{
+    CORSAIR_K70_PRO_MINI_WIRELESS_B_PID,
+    DEVICE_TYPE_KEYBOARD,
+    5,
+    14,
+    {
+        &k70_pro_mini_wireless_zone,
+    },
+    &corsair_k70_pro_mini_wireless_layout,
+    0x5F,
+    1025
+};
+
+static const corsair_v2_device k70_pro_mini_wireless_white_device =
+{
+    CORSAIR_K70_PRO_MINI_WIRELESS_W_PID,
+    DEVICE_TYPE_KEYBOARD,
+    5,
+    14,
+    {
+        &k70_pro_mini_wireless_zone,
+    },
+    &corsair_k70_pro_mini_wireless_layout,
+    0x5F,
+    1025
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair K70 Core RGB TKL 1B1C:2B01                           |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -1866,6 +1930,8 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k65_mini_device,
     &k70_core_rgb_device,
     &k70_core_rgb_tkl_device,
+    &k70_pro_mini_wireless_black_device,
+    &k70_pro_mini_wireless_white_device,
     &k70_rgb_pro_device,
     &k70_rgb_pro_v2_device,
     &k70_rgb_tkl_device,

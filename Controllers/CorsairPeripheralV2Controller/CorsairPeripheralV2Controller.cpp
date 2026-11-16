@@ -118,6 +118,8 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
             case CORSAIR_K100_OPTICAL_V1_PID:
             case CORSAIR_K100_OPTICAL_V2_PID:
             case CORSAIR_K100_MXRED_PID:
+            case CORSAIR_K70_PRO_MINI_WIRELESS_B_PID:
+            case CORSAIR_K70_PRO_MINI_WIRELESS_W_PID:
             case CORSAIR_K65_MINI_PID:
                 LOG_DEBUG("[%s] Lighting Endpoint pinned to %02X for K100", device_name.c_str(), light_ctrl);
                 break;

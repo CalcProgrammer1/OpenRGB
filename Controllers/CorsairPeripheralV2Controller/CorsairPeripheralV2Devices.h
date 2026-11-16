@@ -81,6 +81,8 @@ typedef struct
 #define CORSAIR_K65_MINI_PID                        0x1BAF
 #define CORSAIR_K70_CORE_RGB_PID                    0x1BFD
 #define CORSAIR_K70_CORE_RGB_TKL_PID                0x2B01
+#define CORSAIR_K70_PRO_MINI_WIRELESS_B_PID         0x1BB6
+#define CORSAIR_K70_PRO_MINI_WIRELESS_W_PID         0x1BD3
 #define CORSAIR_K70_RGB_PRO_PID                     0x1BC4
 #define CORSAIR_K70_RGB_PRO_V2_PID                  0x1BB3
 #define CORSAIR_K70_RGB_TKL_PID                     0x1B73
