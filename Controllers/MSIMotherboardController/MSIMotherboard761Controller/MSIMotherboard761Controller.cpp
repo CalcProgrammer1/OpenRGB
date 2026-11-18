@@ -94,7 +94,8 @@ static const std::string board_names[] =
     "MSI B850M GAMING WIFI (MS-7E82)",
     "MSI PRO B850-S EVO WIFI (MS-7E97)",
     "MSI B850M GAMING WIFI6E (MS-7E87)",
-    "MSI PRO B840-P WIFI (MS-7E57)"
+    "MSI PRO B840-P WIFI (MS-7E57)",
+    "MSI MEG X870E ACE MAX (MS-7E85)",
 };
 
 static const mystic_light_761_config board_configs[] =
@@ -138,6 +139,7 @@ static const mystic_light_761_config board_configs[] =
     { &(board_names[36]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850-S EVO WIFI (MS-7E97)
     { &(board_names[37]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI B850M GAMING WIFI6E (MS-7E87)
     { &(board_names[38]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B840-P WIFI (MS-7E57)
+    { &(board_names[39]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MEG X870E ACE MAX (MS-7E85)
 };
 
 enum MSI_ZONE setup_map [] =
