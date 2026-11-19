@@ -1363,7 +1363,7 @@ static const corsair_v2_device k70_rgb_pro_device =
     },
     &corsair_k70_pro_layout,
     0x5F,
-    65
+    129
 };
 
 /*-------------------------------------------------------------*\
