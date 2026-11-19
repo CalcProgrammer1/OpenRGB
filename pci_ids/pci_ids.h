@@ -372,6 +372,7 @@
 #define ASUS_TUF_RTX_5070TI_O16G_GAMING_BTF_WHITE               0x8A37
 #define ASUS_TUF_RTX_5070TI_O16G_GAMING_WHITE                   0x8A0C
 #define ASUS_ROG_STRIX_RTX_5070TI_O16G_GAMING_OC                0x8A0D
+#define ASUS_PROART_RTX_5070TI_O16G                             0x8A53
 #define ASUS_TUF_RTX_5080_O16G_GAMING                           0x89D7
 #define ASUS_ROG_ASTRAL_RTX_5080_O16G_GAMING                    0x89DE
 #define ASUS_ROG_ASTRAL_RTX_5080_O16G_GAMING_WHITE              0x8A2B
