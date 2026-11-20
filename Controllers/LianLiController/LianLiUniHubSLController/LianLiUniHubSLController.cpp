@@ -328,17 +328,18 @@ void LianLiUniHubSLController::SendMerge()
 
 void LianLiUniHubSLController::SendColor(size_t channel, const unsigned char *colors, size_t num_colors)
 {
-    unsigned char* buf = new unsigned char[2 + num_colors];
-    memset(buf, 0x00, (2 + num_colors));
+    const size_t buf_size = 2 + num_colors;
+    unsigned char* buf = new unsigned char[buf_size];
+    memset(buf, 0x00, buf_size);
 
     buf[0x00] = UNIHUB_SL_REPORT_ID;
     buf[0x01] = 0x30 + (unsigned char)channel; // Channel 1: 0x30, Channel 2: 0x31, etc.
 
     memcpy(&buf[0x02], colors, num_colors);
 
-    this->LogBuffer("SendColor", buf, sizeof(buf));
+    this->LogBuffer("SendColor", buf, buf_size);
 
-    hid_write(this->device, buf, sizeof(buf));
+    hid_write(this->device, buf, buf_size);
     std::this_thread::sleep_for(5ms);
 
     delete[] buf;

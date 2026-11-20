@@ -304,6 +304,21 @@ void RGBController_LianLiUniHubSL::SetupZones()
     }
 
     /*-------------------------------------------------*\
+    | Save colors by channel before rebuilding LEDs.    |
+    | The edited zone already contains its new size.    |
+    \*-------------------------------------------------*/
+    std::vector<std::vector<RGBColor>> previous_colors(UNIHUB_SL_MAX_CHANNEL);
+
+    for(size_t led_idx = 0; led_idx < leds.size() && led_idx < colors.size(); led_idx++)
+    {
+        size_t channel_idx = leds[led_idx].value;
+        if(channel_idx < previous_colors.size())
+        {
+            previous_colors[channel_idx].push_back(colors[led_idx]);
+        }
+    }
+
+    /*-------------------------------------------------*\
     | Clear any existing color/LED configuration        |
     \*-------------------------------------------------*/
     leds.clear();
@@ -361,6 +376,19 @@ void RGBController_LianLiUniHubSL::SetupZones()
     }
 
     SetupColors();
+
+    /*-------------------------------------------------*\
+    | Restore existing fan colors in their channels.    |
+    | Newly added fans keep the default black color.    |
+    \*-------------------------------------------------*/
+    for(size_t channel_idx = 0; channel_idx < zones.size(); channel_idx++)
+    {
+        for(size_t fan_idx = 0; fan_idx < previous_colors[channel_idx].size()
+                            && fan_idx < zones[channel_idx].leds_count; fan_idx++)
+        {
+            zones[channel_idx].colors[fan_idx] = previous_colors[channel_idx][fan_idx];
+        }
+    }
 }
 
 void RGBController_LianLiUniHubSL::DeviceConfigureZone(int zone_idx)
@@ -368,6 +396,11 @@ void RGBController_LianLiUniHubSL::DeviceConfigureZone(int zone_idx)
     if((size_t)zone_idx < zones.size())
     {
         SetupZones();
+
+        /*---------------------------------------------*\
+        | Reapply fan counts before the next LED update |
+        \*---------------------------------------------*/
+        initialized = false;
     }
 }
 
@@ -392,16 +425,6 @@ void RGBController_LianLiUniHubSL::DeviceUpdateSingleLED(int /* led */)
 
 void RGBController_LianLiUniHubSL::DeviceUpdateMode()
 {
-    if(active_mode == 0)
-    {
-        return;
-    }
-
     controller->UpdateMode(zones, modes[active_mode]);
     initialized = true;
-}
-
-void RGBController_LianLiUniHubSL::SetCustomMode()
-{
-    active_mode = 0;
 }
