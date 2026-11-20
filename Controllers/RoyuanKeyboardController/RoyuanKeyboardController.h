@@ -51,8 +51,8 @@
 #define ROYUAN_AKKO_EFFECT_TRAIN                                  0x17
 #define ROYUAN_AKKO_EFFECT_FIREWORKS                              0x18
 
-#define ROYUAN_AKKO_COLOR_RANDOM                                  0x07
-#define ROYUAN_AKKO_COLOR_SINGLE                                  0x08
+#define ROYUAN_AKKO_COLOR_RANDOM                                  0x08
+#define ROYUAN_AKKO_COLOR_SINGLE                                  0x07
 
 #define ROYUAN_AKKO_DIRECTION_LEFT                                0x01
 #define ROYUAN_AKKO_DIRECTION_DOWN                                0x02
@@ -137,6 +137,7 @@ struct RoyuanKeyboardProfile
     static RoyuanKeyboardProfile EpomakerLegacy();
     static RoyuanKeyboardProfile AkkoBSeries();
     static RoyuanKeyboardProfile GK68HEPro();
+    static RoyuanKeyboardProfile DukharoVN66();
 };
 
 class RoyuanKeyboardController

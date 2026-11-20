@@ -10,7 +10,7 @@
 #include "RGBController_AkkoKeyboard.h"
 
 /**------------------------------------------------------------------*\
-    @name Akko 3068B Plus / PC75B Plus
+    @name Akko 3068B Plus / PC75B Plus / Dukharo VN66
     @category Keyboard
     @type USB
     @save :white_check_mark:
@@ -20,18 +20,27 @@
     @comment
         Global-color hardware lighting support for Akko/RongYuan keyboards
         using USB ID 3151:4003 in wired mode, including the Akko PC75B
-        Plus. The PC75B Plus can lock up when written to too quickly, so
-        writes for this ID are rate limited.
+        Plus and ROYUAN Dukharo VN66. The microcontroller can lock up when
+        written to too quickly, so writes for this ID are rate limited.
 \*-------------------------------------------------------------------*/
 
 RGBController_AkkoKeyboard::RGBController_AkkoKeyboard(RoyuanKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;
 
-    name        = "Akko 3068B Plus / PC75B Plus";
-    vendor      = "Akko";
+    name        = controller->GetDeviceName();
+    if(name.find("Dukharo") != std::string::npos || name.find("VN66") != std::string::npos)
+    {
+        vendor      = "Dukharo";
+        description = "Dukharo VN66 lighting controller";
+    }
+    else
+    {
+        name        = "Akko 3068B Plus / PC75B Plus";
+        vendor      = "Akko";
+        description = "Akko 3068B Plus / PC75B Plus lighting controller";
+    }
     type        = DEVICE_TYPE_KEYBOARD;
-    description = "Akko 3068B Plus / PC75B Plus lighting controller";
     serial      = controller->GetSerial();
     location    = controller->GetLocation();
 

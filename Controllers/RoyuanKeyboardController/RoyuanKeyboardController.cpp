@@ -57,15 +57,15 @@ RoyuanKeyboardProfile RoyuanKeyboardProfile::AkkoBSeries()
     profile.speed_default                      = ROYUAN_AKKO_SPEED_DEFAULT;
     profile.brightness_max                     = ROYUAN_AKKO_BRIGHTNESS_MAX;
     profile.brightness_default                 = ROYUAN_AKKO_BRIGHTNESS_DEFAULT;
-    profile.option_default                     = 0x08;
+    profile.option_default                     = ROYUAN_AKKO_COLOR_SINGLE;
     profile.dazzle_default                     = 0x00;
     profile.direct_mode_id                     = 0x00;
     profile.reverse_speed                      = true;
     profile.supports_readback                  = true;
     profile.supports_direct_mode               = false;
     profile.paced_writes                       = true;
-    profile.solid_option_default               = 0x00;
-    profile.solid_option_overrides_static      = false;
+    profile.solid_option_default               = ROYUAN_AKKO_COLOR_SINGLE;
+    profile.solid_option_overrides_static      = true;
     profile.fallback_name                      = "Akko 3068B Plus / PC75B Plus";
 
     return(profile);
@@ -91,6 +91,15 @@ RoyuanKeyboardProfile RoyuanKeyboardProfile::GK68HEPro()
     profile.solid_option_default               = 0x07;
     profile.solid_option_overrides_static      = true;
     profile.fallback_name                      = "Skyloong GK68HE Pro";
+
+    return(profile);
+}
+
+RoyuanKeyboardProfile RoyuanKeyboardProfile::DukharoVN66()
+{
+    RoyuanKeyboardProfile profile              = RoyuanKeyboardProfile::AkkoBSeries();
+
+    profile.fallback_name                      = "ROYUAN Dukharo VN66 Wired";
 
     return(profile);
 }
@@ -295,7 +304,14 @@ bool RoyuanKeyboardController::ReadState()
         if(result > 8 && response[1] == ROYUAN_COMMAND_GET_LED_PARAMS)
         {
             current_mode        = response[2];
-            current_speed       = response[3] <= profile.speed_max ? profile.speed_max - response[3] : profile.speed_default;
+            if(profile.reverse_speed)
+            {
+                current_speed   = response[3] <= profile.speed_max ? profile.speed_max - response[3] : profile.speed_default;
+            }
+            else
+            {
+                current_speed   = std::min<unsigned char>(response[3], profile.speed_max);
+            }
             current_brightness  = std::min<unsigned char>(response[4], profile.brightness_max);
             current_option      = response[5];
             current_red         = response[6];
