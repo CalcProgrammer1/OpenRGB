@@ -17,6 +17,7 @@
 | Nollie vendor IDs                                         |
 \*---------------------------------------------------------*/
 #define NOLLIERGBOS_2_VID          0x16D5
+#define NOLLIE8_PLUS_VID           0x3A59
 #define NOLLIE32_VID               0x3061
 #define NOLLIE16_VID               0x3061
 #define NOLLIE8_VID                0x16D2
@@ -40,6 +41,7 @@
 #define PRISM8_OS2_1_PID           0x2C08
 #define NOLLIE16_OS2_1_PID         0x2A16
 #define NOLLIE32_OS2_1_PID         0x2A32
+#define NOLLIE8_PLUS_PID           0x92A8
 
 /*---------------------------------------------------------*\
 | Common Nollie LED counts                                  |

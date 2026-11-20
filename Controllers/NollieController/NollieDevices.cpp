@@ -166,6 +166,15 @@ static const nollie_device nollie1_os2_1 =
     dflt
 };
 
+static const nollie_device nollie8_plus =
+{
+    NOLLIE8_PLUS_VID,
+    NOLLIE8_PLUS_PID,
+    8,
+    126,
+    dflt
+};
+
 /*---------------------------------------------------------*\
 | Nollie Device List                                        |
 \*---------------------------------------------------------*/
@@ -187,6 +196,7 @@ static const nollie_device* device_list[] =
     &nollie8_os2_1,
     &prism8_os2_1,
     &nollie1_os2_1,
+    &nollie8_plus,
 };
 
 const unsigned int      NOLLIE_NUM_DEVICES = (sizeof(device_list) / sizeof(device_list[ 0 ]));

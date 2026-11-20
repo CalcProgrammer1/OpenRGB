@@ -219,6 +219,7 @@ void NollieController::SendPacketFS(unsigned char channel,unsigned char packet_i
         case NOLLIE8_PID:
         case NOLLIE8_OS2_1_PID:
         case PRISM8_OS2_1_PID:
+        case NOLLIE8_PLUS_PID:
             packet_interval = 6;
             break;
         case NOLLIE1_PID:
@@ -238,7 +239,8 @@ void NollieController::SendPacketFS(unsigned char channel,unsigned char packet_i
         usb_buf[0x03 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
         usb_buf[0x04 + (color_idx * 3)] = RGBGetBValue(colors[color_idx]);
         if(dev_pid == NOLLIE8_PID || dev_pid == NOLLIE1_PID
-        || dev_pid == NOLLIE8_OS2_1_PID || dev_pid == NOLLIE1_OS2_1_PID || dev_pid == PRISM8_OS2_1_PID)
+        || dev_pid == NOLLIE8_OS2_1_PID || dev_pid == NOLLIE1_OS2_1_PID || dev_pid == PRISM8_OS2_1_PID
+        || dev_pid == NOLLIE8_PLUS_PID)
         {
             usb_buf[0x02 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
             usb_buf[0x03 + (color_idx * 3)] = RGBGetRValue(colors[color_idx]);
