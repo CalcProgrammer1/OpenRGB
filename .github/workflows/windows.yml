@@ -1,0 +1,125 @@
+#-----------------------------------------------------------#
+# .github/workflows/windows.yml                             #
+#                                                           #
+#   OpenRGB GitHub Actions - Windows Builds                 #
+#   This file is part of the OpenRGB project                #
+#   SPDX-License-Identifier: GPL-2.0-or-later               #
+#-----------------------------------------------------------#
+
+name: Windows
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    tags:
+      - '*'
+  pull_request:
+
+env:
+  CI_PROJECT_DIR: ${{ github.workspace }}
+  CI_COMMIT_SHORT_SHA: ${{ github.sha }}
+
+jobs:
+  #-----------------------------------------------------------#
+  # Windows 64-bit builds                                     #
+  #-----------------------------------------------------------#
+  windows-64:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build OpenRGB
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "SilentlyContinue"
+          Set-MpPreference -DisableRealtimeMonitoring $true
+          $ErrorActionPreference = "Stop"
+          scripts\build-windows.bat 6.8.3 2022 64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Windows_64_${{ github.sha }}
+          path: 'OpenRGB Windows 64-bit'
+          retention-days: 30
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')
+
+  #-----------------------------------------------------------#
+  # Windows Qt5 builds (manual trigger only)                  #
+  #-----------------------------------------------------------#
+  windows-qt5:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build OpenRGB Qt5
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "SilentlyContinue"
+          Set-MpPreference -DisableRealtimeMonitoring $true
+          $ErrorActionPreference = "Stop"
+          scripts\build-windows.bat 5.15.0 2019 64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Windows_64_Qt5_${{ github.sha }}
+          path: 'OpenRGB Windows 64-bit'
+          retention-days: 30
+          optional: true
+
+    if: github.event_name == 'workflow_dispatch'
+
+  #-----------------------------------------------------------#
+  # Windows MSI build                                         #
+  #-----------------------------------------------------------#
+  windows-msi:
+    runs-on: windows-latest
+
+    needs: [windows-64]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Windows artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: windows.yml
+          name: OpenRGB_Windows_64_${{ github.sha }}
+          path: .
+          workflow_dispatch: true
+
+      - name: Build MSI
+        shell: pwsh
+        run: ./scripts/build-msi.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Windows_64_msi_${{ github.sha }}
+          path: OpenRGB_Windows_64.msi
+          retention-days: 30
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')

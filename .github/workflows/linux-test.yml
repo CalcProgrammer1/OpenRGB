@@ -1,0 +1,140 @@
+#-----------------------------------------------------------#
+# .github/workflows/linux-test.yml                          #
+#                                                           #
+#   OpenRGB GitHub Actions - Linux Test Jobs                #
+#   This file is part of the OpenRGB project                #
+#   SPDX-License-Identifier: GPL-2.0-or-later               #
+#-----------------------------------------------------------#
+
+name: Linux Test
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    tags:
+      - '*'
+  pull_request:
+
+env:
+  CI_PROJECT_DIR: ${{ github.workspace }}
+  CI_COMMIT_SHORT_SHA: ${{ github.sha }}
+
+jobs:
+  #-----------------------------------------------------------#
+  # Debian test jobs                                          #
+  #-----------------------------------------------------------#
+  test-debian:
+    runs-on: [linux, amd64]
+
+    strategy:
+      matrix:
+        include:
+          - name: Debian Bookworm amd64
+            distro: bookworm
+            arch: amd64
+            image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
+          - name: Debian Bookworm i386
+            distro: bookworm
+            arch: i386
+            image: i386/debian:bookworm
+          - name: Ubuntu 24.04 LTS
+            distro: noble
+            arch: amd64
+            image: ubuntu:noble
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Debian package artifact
+        if: matrix.distro == 'bookworm'
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: linux-debian.yml
+          name: OpenRGB_Linux_${{ matrix.arch }}_deb_bookworm_${{ github.sha }}
+          path: .
+          workflow_dispatch: true
+
+      - name: Install dependencies
+        if: matrix.distro == 'noble'
+        run: |
+          apt-get update
+          apt-get install -y unzip curl
+
+      - name: Install dependencies (Debian)
+        if: matrix.distro == 'bookworm'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt update
+          DEBIAN_FRONTEND=noninteractive apt install -y unzip curl
+
+      - name: Download and install hidapi-hotplug (Ubuntu)
+        if: matrix.distro == 'noble'
+        run: |
+          curl -o hidapi-hotplug.zip -L https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+${{ matrix.arch }}+.deb+%28Debian+Bookworm%29
+          unzip hidapi-hotplug.zip
+          apt install -yq --no-install-recommends ./libhidapi-hotplug*.deb
+          apt install -yq --no-install-recommends ./openrgb*${{ matrix.arch }}.deb
+
+      - name: Download and install hidapi-hotplug (Debian)
+        if: matrix.distro == 'bookworm'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./libhidapi-hotplug*.deb
+          DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*${{ matrix.arch }}.deb
+
+      - name: Test OpenRGB (Ubuntu)
+        if: matrix.distro == 'noble'
+        run: |
+          openrgb --version
+          apt-get remove -y openrgb
+
+      - name: Test OpenRGB (Debian)
+        if: matrix.distro == 'bookworm'
+        run: |
+          openrgb --version
+          DEBIAN_FRONTEND=noninteractive apt remove -y openrgb
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')
+
+  #-----------------------------------------------------------#
+  # Fedora test job                                           #
+  #-----------------------------------------------------------#
+  test-fedora:
+    runs-on: [linux, amd64]
+    container: fedora:44
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: dnf install unzip wget -y
+
+      - name: Download RPM artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: linux-rpm.yml
+          name: OpenRGB_Linux_amd64_rpm_${{ github.sha }}
+          path: .
+          workflow_dispatch: true
+
+      - name: Install and test
+        run: |
+          dnf install ./openrgb*.rpm -y
+          openrgb --version
+          dnf -y remove openrgb
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')

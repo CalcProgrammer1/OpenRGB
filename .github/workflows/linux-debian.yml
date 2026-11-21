@@ -1,0 +1,82 @@
+#-----------------------------------------------------------#
+# .github/workflows/linux-debian.yml                        #
+#                                                           #
+#   OpenRGB GitHub Actions - Linux Debian Package Builds    #
+#   This file is part of the OpenRGB project                #
+#   SPDX-License-Identifier: GPL-2.0-or-later               #
+#-----------------------------------------------------------#
+
+name: Linux Debian
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    tags:
+      - '*'
+  pull_request:
+
+env:
+  CI_PROJECT_DIR: ${{ github.workspace }}
+  CI_COMMIT_SHORT_SHA: ${{ github.sha }}
+
+jobs:
+  #-----------------------------------------------------------#
+  # Linux .deb package builds                                 #
+  #-----------------------------------------------------------#
+  linux-deb:
+    runs-on: ${{ matrix.runner }}
+
+    container:
+      image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:${{ matrix.distro }}-${{ matrix.arch }}
+
+    strategy:
+      matrix:
+        include:
+          - name: Debian Bookworm amd64
+            arch: amd64
+            distro: bookworm
+            runner: [linux, amd64]
+          - name: Debian Trixie amd64
+            arch: amd64
+            distro: trixie
+            runner: [linux, amd64]
+          - name: Debian Bookworm i386
+            arch: i386
+            distro: bookworm
+            runner: [linux, i386]
+          - name: Debian Trixie i386
+            arch: i386
+            distro: trixie
+            runner: [linux, i386]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build Debian package
+        run: |
+          export TGT_ARCH="${{ matrix.arch }}"
+          export TGT_DEB="${{ matrix.distro }}"
+          ./scripts/build-package-files.sh debian/changelog
+          dpkg-architecture -l
+          dpkg-buildpackage -us -B
+          rm -v ../openrgb-dbgsym*.deb
+          mv -v ../openrgb*.deb ./
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Linux_${{ matrix.arch }}_deb_${{ matrix.distro }}_${{ github.sha }}
+          path: openrgb*.deb
+          retention-days: 30
+          optional: true
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/')) || github.event_name == 'pull_request') ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')

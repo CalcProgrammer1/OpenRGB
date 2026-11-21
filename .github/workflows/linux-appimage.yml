@@ -1,0 +1,148 @@
+#-----------------------------------------------------------#
+# .github/workflows/linux-appimage.yml                      #
+#                                                           #
+#   OpenRGB GitHub Actions - Linux AppImage Builds          #
+#   This file is part of the OpenRGB project                #
+#   SPDX-License-Identifier: GPL-2.0-or-later               #
+#-----------------------------------------------------------#
+
+name: Linux AppImage
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    tags:
+      - '*'
+  pull_request:
+
+env:
+  CI_PROJECT_DIR: ${{ github.workspace }}
+  CI_COMMIT_SHORT_SHA: ${{ github.sha }}
+
+jobs:
+  #-----------------------------------------------------------#
+  # Linux AppImage builds                                     #
+  #-----------------------------------------------------------#
+  linux-appimage:
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      matrix:
+        include:
+          - name: i386
+            arch: i386
+            runner: [linux, i386]
+            qt_version: qt6
+            image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:trixie-i386
+            target_name: i386
+            target_path: i386
+          - name: amd64
+            arch: amd64
+            runner: [linux, amd64]
+            qt_version: qt6
+            image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:trixie-amd64
+            target_name: amd64
+            target_path: x86_64
+          - name: arm64
+            arch: arm64
+            runner: [linux, arm64]
+            qt_version: qt6
+            image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:trixie-arm64
+            target_name: arm64
+            target_path: arm64
+
+    container: ${{ matrix.image }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set architecture variables
+        run: echo "TGT_ARCH=${{ matrix.arch }}" >> $GITHUB_ENV
+
+      - name: Build AppImage
+        run: |
+          export TGT_ARCH="${{ matrix.arch }}"
+          export TGT_QT="${{ matrix.qt_version }}"
+          ./scripts/build-appimage.sh ${{ matrix.qt_version }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Linux_${{ matrix.arch }}_AppImage_${{ github.sha }}
+          path: OpenRGB-${{ matrix.arch }}.AppImage
+          retention-days: 30
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')
+
+  #-----------------------------------------------------------#
+  # Qt5 AppImage builds (manual trigger only)                 #
+  #-----------------------------------------------------------#
+  linux-appimage-qt5:
+    runs-on: [linux, amd64]
+    container: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:trixie-amd64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build AppImage Qt5
+        run: |
+          export TGT_ARCH="amd64"
+          export TGT_QT=""
+          ./scripts/build-appimage.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Linux_amd64_Qt5_AppImage_${{ github.sha }}
+          path: OpenRGB-x86_64.AppImage
+          retention-days: 30
+          optional: true
+
+    if: github.event_name == 'workflow_dispatch'
+
+  #-----------------------------------------------------------#
+  # Supported devices README build                            #
+  #-----------------------------------------------------------#
+  supported-devices:
+    runs-on: [linux, amd64]
+    container: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:trixie-amd64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure and build
+        run: |
+          qmake
+          make -j$(nproc)
+
+      - name: Build supported devices
+        run: |
+          ./scripts/build-supported-devices-md.sh ${{ github.workspace }} ${{ github.sha }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Supported_Devices_${{ github.sha }}
+          path: 'Supported Devices.csv'
+          retention-days: 30
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')
