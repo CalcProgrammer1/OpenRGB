@@ -1,0 +1,194 @@
+#-----------------------------------------------------------#
+# .github/workflows/linux-rpm.yml                           #
+#                                                           #
+#   OpenRGB GitHub Actions - Linux RPM Package Builds       #
+#   This file is part of the OpenRGB project                #
+#   SPDX-License-Identifier: GPL-2.0-or-later               #
+#-----------------------------------------------------------#
+
+name: Linux RPM
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    tags:
+      - '*'
+  pull_request:
+
+env:
+  CI_PROJECT_DIR: ${{ github.workspace }}
+  CI_COMMIT_SHORT_SHA: ${{ github.sha }}
+
+jobs:
+  #-----------------------------------------------------------#
+  # Linux .rpm package builds (amd64)                         #
+  #-----------------------------------------------------------#
+  linux-rpm-amd64:
+    runs-on: [self-hosted, linux, amd64]
+    container: fedora:44
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          dnf install rpmdevtools dnf-plugins-core libcurl-devel qt6-qtbase-devel git wget -y
+
+      - name: Download hidapi-hotplug
+        run: wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+amd64+F43+rpm
+
+      - name: Install hidapi-hotplug
+        run: |
+          unzip hidapi-hotplug.zip
+          dnf install ./*.rpm -y
+
+      - name: Setup RPM build environment
+        run: |
+          rpmdev-setuptree
+          ./scripts/build-package-files.sh fedora/OpenRGB.spec
+          cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
+          cp -rp . /root/rpmbuild/SOURCES/OpenRGB
+
+      - name: Build RPM
+        run: |
+          cd /root/rpmbuild
+          dnf builddep SPECS/OpenRGB.spec -y
+          rpmbuild -ba SPECS/OpenRGB.spec
+          cd RPMS/x86_64/
+          mv openrgb*.rpm ${{ github.workspace }}/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Linux_amd64_rpm_${{ github.sha }}
+          path: openrgb*.rpm
+          retention-days: 30
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')
+
+  #-----------------------------------------------------------#
+  # Linux .rpm package builds (arm64)                         #
+  #-----------------------------------------------------------#
+  linux-rpm-arm64:
+    runs-on: [self-hosted, linux, arm64]
+    container: fedora:44
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          dnf install rpmdevtools dnf-plugins-core libcurl-devel qt6-qtbase-devel git wget -y
+
+      - name: Download hidapi-hotplug
+        run: wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+arm64+F43+rpm
+
+      - name: Install hidapi-hotplug
+        run: |
+          unzip hidapi-hotplug.zip
+          dnf install ./*.rpm -y
+
+      - name: Setup RPM build environment
+        run: |
+          rpmdev-setuptree
+          ./scripts/build-package-files.sh fedora/OpenRGB.spec
+          cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
+          cp -rp . /root/rpmbuild/SOURCES/OpenRGB
+
+      - name: Build RPM
+        run: |
+          cd /root/rpmbuild
+          dnf builddep SPECS/OpenRGB.spec -y
+          rpmbuild -ba SPECS/OpenRGB.spec
+          cd RPMS/aarch64/
+          mv openrgb*.rpm ${{ github.workspace }}/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Linux_arm64_rpm_${{ github.sha }}
+          path: openrgb*.rpm
+          retention-days: 30
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')
+
+  #-----------------------------------------------------------#
+  # Linux RPM tests                                           #
+  #-----------------------------------------------------------#
+  test-rpm-amd64:
+    runs-on: [self-hosted, linux, amd64]
+    container: fedora:44
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download RPM artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: linux-rpm.yml
+          name: OpenRGB_Linux_amd64_rpm_${{ github.sha }}
+          path: .
+          workflow_dispatch: true
+
+      - name: Install and test
+        run: |
+          dnf install ./openrgb*.rpm -y
+          openrgb --version
+          dnf -y remove openrgb
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')
+
+  test-rpm-arm64:
+    runs-on: [self-hosted, linux, arm64]
+    container: fedora:44
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download RPM artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: linux-rpm.yml
+          name: OpenRGB_Linux_arm64_rpm_${{ github.sha }}
+          path: .
+          workflow_dispatch: true
+
+      - name: Install and test
+        run: |
+          dnf install ./openrgb*.rpm -y
+          openrgb --version
+          dnf -y remove openrgb
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')

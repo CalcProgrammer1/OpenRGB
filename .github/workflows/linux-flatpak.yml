@@ -1,0 +1,54 @@
+#-----------------------------------------------------------#
+# .github/workflows/linux-flatpak.yml                       #
+#                                                           #
+#   OpenRGB GitHub Actions - Linux Flatpak Builds           #
+#   This file is part of the OpenRGB project                #
+#   SPDX-License-Identifier: GPL-2.0-or-later               #
+#-----------------------------------------------------------#
+
+name: Linux Flatpak
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    tags:
+      - '*'
+  pull_request:
+
+env:
+  CI_PROJECT_DIR: ${{ github.workspace }}
+  CI_COMMIT_SHORT_SHA: ${{ github.sha }}
+
+jobs:
+  #-----------------------------------------------------------#
+  # Linux Flatpak builds                                      #
+  #-----------------------------------------------------------#
+  linux-flatpak:
+    runs-on: [self-hosted, linux, amd64]
+    container: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build Flatpak
+        run: |
+          flatpak-builder --user --disable-rofiles-fuse --repo=build/repo build/flatpak-build flatpak/org.openrgb.OpenRGB.yaml
+          flatpak build-bundle build/repo org.openrgb.OpenRGB.flatpak org.openrgb.OpenRGB
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenRGB_Linux_amd64_Flatpak_${{ github.sha }}
+          path: org.openrgb.OpenRGB.flatpak
+          retention-days: 30
+
+    if: |
+      (github.repository == 'CalcProgrammer1/OpenRGB' &&
+       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ||
+        startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request')) ||
+      (github.repository != 'CalcProgrammer1/OpenRGB' && github.event_name == 'push')
