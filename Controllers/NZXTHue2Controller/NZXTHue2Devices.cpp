@@ -212,7 +212,7 @@ static const nzxt_hue2_device nzxt_kraken_x3_series_device =
     3,
     0,
     NZXT_HUE_2_PACKET_SIZE_64,
-    NZXT_HUE_2_PROTOCOL_LEGACY,
+    NZXT_HUE_2_PROTOCOL_2023,
     {
         &kraken_x3_rgb_header_zone,
         &kraken_x3_ring_zone,
@@ -229,7 +229,7 @@ static const nzxt_hue2_device nzxt_kraken_x3_series_rgb_device =
     3,
     0,
     NZXT_HUE_2_PACKET_SIZE_64,
-    NZXT_HUE_2_PROTOCOL_LEGACY,
+    NZXT_HUE_2_PROTOCOL_2023,
     {
         &kraken_x3_rgb_header_zone,
         &kraken_x3_ring_zone,
