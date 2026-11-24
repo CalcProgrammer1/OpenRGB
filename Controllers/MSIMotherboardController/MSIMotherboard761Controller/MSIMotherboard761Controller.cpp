@@ -122,7 +122,7 @@ static const mystic_light_761_config board_configs[] =
     { &(board_names[18]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG B850 TOMAHAWK MAX WIFI
     { &(board_names[19]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-P WIFI (MS-7E71)
     { &(board_names[20]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG Z890 TOMAHAWK WIFI (MS-7E32)
-    { &(board_names[21]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MPG B850 EDGE TI WIFI (MS-7E62)
+    { &(board_names[21]), 0,  10, 0, 1, &zone_set2,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MPG B850 EDGE TI WIFI (MS-7E62)
     { &(board_names[22]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI PRO B850M-VC WIFI6E (MS-7E71)
     { &(board_names[23]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MAG B850 TOMAHAWK WIFI (MS-7E53)
     { &(board_names[24]), 0,  0,  0, 1, &zone_set1,  MSIMotherboard761Controller::DIRECT_MODE_ZONE_BASED },     // MSI MEG Z890 UNIFY-X (MS-7E20)
