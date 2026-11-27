@@ -350,6 +350,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x0076, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // MAG X670E TOMAHAWK WIFI (Common PID)
     { 0x7E16, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // X670E GAMING PLUS WIFI
     { 0x7E24, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // B650M GAMING PLUS WIFI
+    { 0x7E25, 1,  0,  0, 1, &zones_set10, MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // MAG Z790 TOMAHAWK MAX WIFI
     { 0x7E26, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // B650 GAMING PLUS WIFI
     { 0x7E27, 0,  0,  0, 2, &zones_set13, MSIMotherboard185Controller::DIRECT_MODE_PER_LED,     0 },    // PRO B650M-P
     { 0x7E28, 6,  0,  0, 2, &zones_set21, MSIMotherboard185Controller::DIRECT_MODE_ZONE_BASED,  0 },    // MSI PRO A620M-B (MS-7E28)
