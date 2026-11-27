@@ -227,6 +227,7 @@ DeviceView::DeviceView(QWidget *parent) :
     \*-----------------------------------------------------*/
     changed             = false;
     controller          = NULL;
+    disable_expansion   = false;
     mouse_down          = false;
     numerical_labels    = false;
     per_led             = true;
